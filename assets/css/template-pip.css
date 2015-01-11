@@ -1,0 +1,320 @@
+body {
+    padding-top: 10px;
+    background-color: #ffffff
+}
+
+.theme-dropdown .dropdown-menu {
+    display: block;
+    position: static;
+    margin-bottom: 20px;
+}
+
+.theme-showcase > p > .btn {
+    margin: 5px 0;
+}
+
+.multiselect-container{position:absolute;list-style-type:none;margin:0;padding:0} 
+.multiselect-container .input-group{margin:5px}
+.multiselect-container>li{padding:0}
+.multiselect-container>li>a
+.multiselect-all label{font-weight:bold}
+.multiselect-container>li>label
+.multiselect-group{margin:0;padding:3px 20px 3px 20px;height:100%;font-weight:bold}
+.multiselect-container>li>a>label{margin:0;height:100%;cursor:pointer;font-weight:normal}
+.multiselect-container>li>a>label
+.radio,
+.multiselect-container>li>a>label
+.checkbox{margin:0}
+.multiselect-container>li>a>label>input[type="checkbox"]{margin-bottom:5px}
+.btn-group>
+.btn-group:nth-child(2)>
+.multiselect
+.btn{border-top-left-radius:4px;border-bottom-left-radius:4px}
+
+
+
+.popin {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 0 0 20px #999999;
+}
+
+#map, #panorama {
+    background: none repeat scroll 0 0 #6699CC;
+    height: 300px;
+}
+
+
+.wizard {
+    background-color: #f9f9f9;
+    border: 1px solid #d4d4d4;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    *zoom: 1;
+    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+    -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+}
+
+.wizard:before,
+.wizard:after {
+    display: table;
+    line-height: 0;
+    content: "";
+}
+
+.wizard:after {
+    clear: both;
+}
+
+.wizard ul {
+    padding: 0;
+    margin: 0;
+    list-style: none outside none;
+}
+
+.wizard ul li {
+    position: relative;
+    float: left;
+    height: 46px;
+    padding: 0 20px 0 30px;
+    margin: 0;
+    font-size: 16px;
+    line-height: 46px;
+    color: #999999;
+    cursor: default;
+    background: #ededed;
+}
+
+.wizard ul li .chevron {
+    position: absolute;
+    top: 0;
+    right: -14px;
+    display: block;
+    border: 24px solid transparent;
+    border-right: 0;
+    border-left: 14px solid #d4d4d4;
+}
+
+.wizard ul li .chevron:before {
+    position: absolute;
+    top: -24px;
+    right: 1px;
+    display: block;
+    border: 24px solid transparent;
+    border-right: 0;
+    border-left: 14px solid #ededed;
+    content: "";
+}
+
+.wizard ul li.complete {
+    color: #468847;
+    background: #f3f4f5;
+}
+
+.wizard ul li.complete:hover {
+    cursor: pointer;
+    background: #e7eff8;
+}
+
+.wizard ul li.complete:hover .chevron:before {
+    border-left: 14px solid #e7eff8;
+}
+
+.wizard ul li.complete .chevron:before {
+    border-left: 14px solid #f3f4f5;
+}
+
+.wizard ul li.active {
+    color: #3a87ad;
+    background: #f1f6fc;
+}
+
+.wizard ul li.active .chevron:before {
+    border-left: 14px solid #f1f6fc;
+}
+
+.wizard ul li .badge {
+    margin-right: 8px;
+}
+
+.wizard ul li:nth-child(1) {
+    z-index: 10;
+    padding-left: 20px;
+    border-radius: 4px 0 0 4px;
+}
+
+.wizard ul li:nth-child(2) {
+    z-index: 9;
+}
+
+.wizard ul li:nth-child(3) {
+    z-index: 8;
+}
+
+.wizard ul li:nth-child(4) {
+    z-index: 7;
+}
+
+.wizard ul li:nth-child(5) {
+    z-index: 6;
+}
+
+.wizard ul li:nth-child(6) {
+    z-index: 5;
+}
+
+.wizard ul li:nth-child(7) {
+    z-index: 4;
+}
+
+.wizard ul li:nth-child(8) {
+    z-index: 3;
+}
+
+.wizard ul li:nth-child(9) {
+    z-index: 2;
+}
+
+
+.wizard ul li:nth-child(10) {
+    z-index: 1;
+}
+
+.wizard .actions {
+    float: right;
+    padding-right: 15px;
+    line-height: 44px;
+    vertical-align: middle;
+}
+
+.wizard .actions a {
+    margin-right: 8px;
+    font-size: 12px;
+    line-height: 45px;
+}
+
+.wizard .actions .btn-prev i {
+    margin-right: 5px;
+}
+
+.wizard .actions .btn-next i {
+    margin-left: 5px;
+}
+
+.step-content .step-pane {
+    display: none;
+}
+
+.step-content .active {
+    display: block;
+    margin-top: 1%;
+}
+
+.step-content .active .btn-group .active {
+    display: inline-block;
+}
+
+
+.well {
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.fileinput-button {
+    position: relative;
+    overflow: hidden;
+}
+.fileinput-button input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    opacity: 0;
+    -ms-filter: 'alpha(opacity=0)';
+    font-size: 200px;
+    direction: ltr;
+    cursor: pointer;
+}
+
+/* Fixes for IE < 8 */
+@media screen\9 {
+    .fileinput-button input {
+        filter: alpha(opacity=0);
+        font-size: 100%;
+        height: 100%;
+    }
+}
+
+.fileupload-buttonbar .btn,
+.fileupload-buttonbar .toggle {
+    margin-bottom: 5px;
+}
+.progress-animated .progress-bar,
+.progress-animated .bar {
+    background: url("../imagens/progressbar.gif") !important;
+    filter: none;
+}
+.fileupload-process {
+    float: right;
+    display: none;
+}
+.fileupload-processing .fileupload-process,
+.files .processing .preview {
+    display: block;
+    width: 32px;
+    height: 32px;
+    background: url("../imagens/loading.gif") center no-repeat;
+    background-size: contain;
+}
+.files audio,
+.files video {
+    max-width: 300px;
+}
+
+@media (max-width: 767px) {
+    .fileupload-buttonbar .toggle,
+    .files .toggle,
+    .files .btn span {
+        display: none;
+    }
+    .files .name {
+        width: 80px;
+        word-wrap: break-word;
+    }
+    .files audio,
+    .files video {
+        max-width: 80px;
+    }
+    .files img,
+    .files canvas {
+        max-width: 100%;
+    }
+}
+
+hr {
+    background-color: orange;  
+}
+
+.cabecalho {
+    border-bottom: solid 2px orange;
+    text-align: center;
+}
+
+footer {
+    border-top: solid 1px brown;
+    text-align: center;
+}
+
+.divBusca{
+    background-color: #fcf8e3;
+}
+
+div#step3.step-pane div.has-switch{
+	min-width: 245px
+}

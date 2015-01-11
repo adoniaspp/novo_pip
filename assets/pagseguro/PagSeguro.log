@@ -1,0 +1,87 @@
+{2014/04/17 18:56:33} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '#050',
+  'SenderEmail' => 'dell@dell.com',
+)) - begin 
+{2014/04/17 18:56:52} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '#050',
+  'SenderEmail' => 'dell@dell.com',
+)) - end {1}47C4A3451C1C3D7DD41F2FB76F72D4A2 
+{2014/04/17 19:00:47} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '#051_052',
+  'SenderEmail' => 'dell@dell.com',
+)) - begin 
+{2014/04/17 19:00:50} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '#051_052',
+  'SenderEmail' => 'dell@dell.com',
+)) - end {1}E961DE824444983554047F9A53E2C8A3 
+{2014/04/18 14:58:25} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '#053_054_055',
+  'SenderEmail' => 'simondelarocha@yahoo.com.br',
+)) - begin 
+{2014/04/18 14:58:37} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '#053_054_055',
+  'SenderEmail' => 'simondelarocha@yahoo.com.br',
+)) - end {1}75F8054AAAAABE7BB4D99FAD30BAFCE3 
+{2014/09/26 23:41:30} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '#056',
+  'SenderEmail' => 'georgegilson@gmail.com',
+)) - begin 
+{2014/09/26 23:43:51} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '#057',
+  'SenderEmail' => 'georgegilson@gmail.com',
+)) - begin 
+{2014/09/26 23:44:54} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '#058',
+  'SenderEmail' => 'georgegilson@gmail.com',
+)) - begin 
+{2014/09/26 23:46:30} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '#059',
+  'SenderEmail' => 'georgegilson@gmail.com',
+)) - begin 
+{2014/09/26 23:46:32} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '#059',
+  'SenderEmail' => 'georgegilson@gmail.com',
+)) - end {1}33E55F6FFDFD25388427DF89B378E416 
+{2014/10/03 21:58:47} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '#060',
+  'SenderEmail' => 'georgegilson@gmail.com',
+)) - begin 
+{2014/10/03 21:58:48} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '#060',
+  'SenderEmail' => 'georgegilson@gmail.com',
+)) - end {1}9D5268833131A4FDD4D89F88F78096B9 
+{2014/10/03 23:42:34} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '#061',
+  'SenderEmail' => 'georgegilson@gmail.com',
+)) - begin 
+{2014/10/03 23:42:36} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '#061',
+  'SenderEmail' => 'georgegilson@gmail.com',
+)) - end {1}A3714F046464E29EE41CFFAB0CCA73EB 
+{2014/10/23 19:55:41} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '#065',
+  'SenderEmail' => 'georgegilson@gmail.com',
+)) - begin 
+{2014/10/23 19:55:53} [Error] Exception: CURL can't connect: Could not resolve host: ws.pagseguro.uol.com.br 
+{2014/10/23 20:27:33} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '#066',
+  'SenderEmail' => 'georgegilson@gmail.com',
+)) - begin 
+{2014/10/23 20:27:45} [Error] Exception: CURL can't connect: Could not resolve host: ws.pagseguro.uol.com.br 
+{2014/12/21 13:24:00} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '#067',
+  'SenderEmail' => 'teste@teste.com',
+)) - begin 
+{2014/12/21 13:24:00} [Error] Exception: PagSeguroLibrary: cURL library is required. 
+{2015/01/06 12:42:24} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '#070',
+  'SenderEmail' => 'teste@teste.com',
+)) - begin 
+{2015/01/06 15:04:56} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '#071',
+  'SenderEmail' => 'teste@teste.com',
+)) - begin 
+{2015/01/06 19:26:48} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '#072',
+  'SenderEmail' => 'georgegilson2@gmail.com',
+)) - begin 
