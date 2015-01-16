@@ -6,6 +6,7 @@ class Plano {
     private $titulo;
     private $descricao;
     private $preco;
+    private $tipo; //PF ou PJ
     private $status;
     private $validadeativacao;
     private $validadepublicacao;
@@ -24,6 +25,14 @@ class Plano {
 
     public function getPreco() {
         return $this->preco;
+    }
+    
+    function getTipo() {
+        return $this->tipo;
+    }
+
+    function setTipo($tipo) {
+        $this->tipo = $tipo;
     }
 
     public function getStatus() {
