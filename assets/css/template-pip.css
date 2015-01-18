@@ -1,8 +1,11 @@
+
+
 body {
-    padding-top: 10px;
+    padding-top: 5px;
+    padding-bottom: 10px;
     background-color: #ffffff
 }
-
+/*
 .theme-dropdown .dropdown-menu {
     display: block;
     position: static;
@@ -242,7 +245,6 @@ body {
     cursor: pointer;
 }
 
-/* Fixes for IE < 8 */
 @media screen\9 {
     .fileinput-button input {
         filter: alpha(opacity=0);
@@ -318,3 +320,5 @@ footer {
 div#step3.step-pane div.has-switch{
 	min-width: 245px
 }
+
+*/
