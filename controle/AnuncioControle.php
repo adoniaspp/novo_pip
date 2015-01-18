@@ -23,8 +23,12 @@ include_once 'modelo/EmailAnuncio.php';
 
 class AnuncioControle {
     function buscar($parametros) {
-        $anuncio = new Anuncio();
+//        $anuncio = new Anuncio();
         $consultasAdHoc = new ConsultasAdHoc();
+        $parametros["atributos"] = "id, finalidade, logradouro";
+        $parametros["tabela"] = "casa";
+        $parametros["predicados"] = array("finalidade" => array("aluguel"), "estado" => array('Pará', 'Ananindeua')); 
+        //No caso dos multiplos o alguel seria o array da visão.
         $listarAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
         $visao = new Template();
         $visao->setItem($listarAnuncio);
