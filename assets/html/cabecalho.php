@@ -1,3 +1,4 @@
+
 <!DOCTYPE HTML>
 <html lang="pt-br">
     <head>
@@ -8,120 +9,84 @@
         <!-- SEMANTIC UI --> 
         <link href="<?php echo PIPURL; ?>/assets/libs/semantic-ui/semantic.min.css" rel="stylesheet" type="text/css" /> 
         <script src="<?php echo PIPURL; ?>/assets/libs/semantic-ui/semantic.min.js"></script> 
+
+        <script src="<?php echo PIPURL; ?>/assets/js/cabecalho.js"></script> 
         <!-- Template PIP -->
         <link href="<?php echo PIPURL; ?>/assets/css/template-pip.css" rel="stylesheet" type="text/css" /> 		
     </head>
-    <body>   
-        <div class="container">  
-            <nav class="ui menu inverted navbar page grid" style="margin-bottom: 0px">
-                <a href="" class="brand item">Project Name</a>
-                <div id="divForm" class="right menu hide">
-                    <div class="item">
-                        <div class="ui input">
-                            <input type="text" id="txtLoginIndex" name="txtLoginIndex" placeholder="Login">
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="ui input">
-                            <input type="password" id="txtSenhaIndex" name="txtSenhaIndex" placeholder="Senha">
-                        </div>
-                    </div>
-                    <div class="item"><button  type="button" id="btnAcessar" class="ui green button">Acessar</button></div>
-                </div>
 
-                <div id="divUsuario" class="right menu hide">
-                    <form>
-                        <div class="item">
-                            <div id="divNome">
-                            </div>
-                        </div>
-                        <div id="divBotoes"  class="item">  
-                            <a href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=meuPIP" class="ui primary button"> <i class="block layout icon"></i> Meu PIP </a>
-                            <a id="btnLogout" href="#" class="ui red button"><i class="power icon"></i> Sair</a>
-                        </div>
-                    </form>            
-                </div>
-            </nav>
-        </div>
-        <script>
-            $(document).ready(function() {
-                $(document).keypress(function(e) {
-                    if (e.which == 13) {
-                        if ($('#txtLoginIndex').val().length > 0 && $('#txtSenhaIndex').val().length > 0) {
-                            autenticarUsuario();
-                        }
-                    }
-                });
+<script>
+        esconderMeuPIP();
+
+        $(document).ready(function () {
+            digitarLoginSenha();
 <?php
 if (Sessao::verificarSessaoUsuario()) {
     ?>
-                    $("#divForm").hide();
-                    $("#divUsuario").show();
-                    $("#divUsuario").attr('class', 'text');
-                    $("#divNome").html("<h4>Seja bem vindo, <?php echo ucfirst(strtolower(explode(" ", $_SESSION['nome'])[0])); ?>  <h4>");
+                exibirMeuPIP();
+                $("#divNome").html("<font color='black'><h4>Seja bem vindo, <?php echo ucfirst(strtolower(explode(" ", $_SESSION['nome'])[0])); ?>  <h4></font>");
     <?php
 } else {
     Sessao::gerarToken();
 };
 ?>
-                $("#btnAcessar").click(function() {
-                    autenticarUsuario();
-                });
-                $("#btnLogout").click(function() {
-                    logoutUsuario();
-                });
-                function autenticarUsuario() {
-                    if ($('#txtLoginIndex').val().length < 2 | $('#txtSenhaIndex').val().length < 8) {
-                        alert('Atenção: Você deve informar o usuário e a senha');
-                    } else {
-
-                        $.ajax({
-                            url: "index.php",
-                            dataType: "json",
-                            type: "POST",
-                            data: {
-                                txtLogin: $('#txtLoginIndex').val(),
-                                txtSenha: $('#txtSenhaIndex').val(),
-                                hdnEntidade: "Usuario",
-                                hdnAcao: "autenticar"
-                            },
-                            success: function(resposta) {
-                                if (resposta.resultado == 1) {
-                                    var nome = resposta.nome;
-                                    $('#divForm').hide();
-                                    $("#divUsuario").fadeIn('slow');
-                                    $("#divUsuario").attr('class', 'text');
-                                    $("#divNome").html("<h4>Seja bem vindo " + resposta.nome + "  <h4>");
-                                    location.href = resposta.redirecionamento;
-                                }
-                                if (resposta.resultado == 2) {
-                                    $("#divTitulo").attr('class', 'text text-danger').html("Usuário e/ou Senha Inválidos");
-                                }
-                                if (resposta.resultado == 3) {
-                                    $("#divTitulo").attr('class', 'text text-danger').html("Ops... lamentamos o ocorrido..").fadeIn('slow');
-                                }
-                            }
-                        })
-                    }
-                }
-
-                function logoutUsuario() {
-                    $.ajax({
-                        url: "index.php",
-                        dataType: "json",
-                        type: "POST",
-                        data: {
-                            hdnEntidade: "Usuario",
-                            hdnAcao: "logout"
-                        },
-                        success: function(resposta) {
-                            if (resposta.resultado == 1) {
-                                $("#divUsuario").hide();
-                                $('#divForm').show();
-                                location.href = 'index.php'
-                            }
-                        }
-                    })
-                }
+            $("#btnAcessar").click(function () {
+                autenticarUsuario();
             });
-        </script>
+            $("#btnLogout").click(function () {
+                logoutUsuario();
+            });
+        });
+
+</script>
+
+    <body>   
+        <div class="container">  
+            <nav  class="ui menu inverted navbar page grid" style="background-color: #ffffff" style="margin-bottom:300px">
+                <a href="<?php echo PIPURL; ?>/index.php"> <img src="<?php echo PIPURL; ?>/assets/imagens/logo.png" width="120px"/></a>
+             
+                <div id="divForm" class="right menu hide" style="margin-top: -30px; margin-bottom: 50px">
+                    
+                    <div class="column padding-reset">                     
+                        <h5 id="divTitulo" style=" margin-left: 0px; margin-bottom: 10px;"> Acesse o Meu PIP </h5>
+                        <div class="ui left icon input">
+                            <input type="text" id="txtLoginIndex" name="txtLoginIndex" placeholder="Login">
+                            <i class="user icon"></i>
+                        </div>
+                        
+                        <div class="ui left icon input">
+                            
+                            <input type="password" id="txtSenhaIndex" name="txtSenhaIndex" placeholder="Senha">
+                            <i class="lock icon"></i>
+                        </div>
+
+                    
+                    
+                    <div class="item column padding-reset"><button  type="button" id="btnAcessar" class="ui green button">Acessar</button></div>
+                   </div>
+                <div class="fields" >
+                    <div class="four wide field">
+                       <a href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=form&tipo=esquecisenha" class="ui green label">Ainda não é cadastrado?</a>                      
+                       <a href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=form&tipo=esquecisenha" class="ui red label">Não lembra a senha?</a>
+                   </div>                
+                </div>
+              </div>
+
+                <div id="divUsuario" class="right menu hide" style="margin-left:800px; margin-top: -80px">
+                    <form>
+                           
+                        <div class="ui center aligned compact segment" style="margin-bottom: 10px">
+                            <div id="divNome" style="margin-bottom: -10px"> </div>
+                            <div>
+                            <a href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=meuPIP" class="ui primary button"> <i class="block layout icon"></i> Meu PIP </a>
+                            <a id="btnLogout" href="#" class="ui red button"><i class="power icon"></i> Sair</a>  
+                            </div>
+                        </div>
+                        
+                        
+                    </form>            
+                </div>
+
+
+            </nav>
+        </div>
