@@ -66,7 +66,7 @@ if (Sessao::verificarSessaoUsuario()) {
                    </div>
                 <div class="fields" >
                     <div class="four wide field">
-                       <a href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=form&tipo=esquecisenha" class="ui green label">Ainda não é cadastrado?</a>                      
+                       <a href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=form&tipo=cadastro" class="ui green label">Ainda não é cadastrado?</a>                      
                        <a href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=form&tipo=esquecisenha" class="ui red label">Não lembra a senha?</a>
                    </div>                
                 </div>
