@@ -45,7 +45,7 @@ if (Sessao::verificarSessaoUsuario()) {
             <nav  class="ui menu inverted navbar page grid" style="background-color: #ffffff" style="margin-bottom:300px">
                 <a href="<?php echo PIPURL; ?>/index.php"> <img src="<?php echo PIPURL; ?>/assets/imagens/logo.png" width="120px"/></a>
              
-                <div id="divForm" class="right menu hide" style="margin-top: -30px; margin-bottom: 50px">
+                <div id="divForm" class="right menu hide" style="margin-top: -30px; margin-bottom: 10px">
                     
                     <div class="column padding-reset">                     
                         <h5 id="divTitulo" style=" margin-left: 0px; margin-bottom: 10px;"> Acesse o Meu PIP </h5>
