@@ -1,10 +1,19 @@
+<!-- LIBS -->
+<script src="assets/libs/jquery/jquery.maskedinput.min.js"></script>
+<script src="assets/libs/jquery/jquery.pwstrength.min.js"></script>
+<!-- JS -->
+<script src="assets/js/util.validate.js"></script>
 <script src="assets/js/usuario.js"></script>
 <script>
     cadastrarUsuario();
+    mascarasFormUsuario();
+    acoesCEP();
+    cancelar();
 </script>
 <?php
 Sessao::gerarToken();
 ?>
+<!-- HTML -->
 <div class="container">
     <div class="ui hidden divider"></div>
     <div class="ui page grid main">
@@ -19,7 +28,11 @@ Sessao::gerarToken();
     <div class="ui hidden divider"></div>
     <div class="ui page grid main">
         <div class="column">
-            <form class="ui form">
+            <form id="form" class="ui form" action="index.php" method="post">
+                <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
+                <input type="hidden" id="hdnAcao" name="hdnAcao" value="cadastrar" />
+                <input type="hidden" id="hdnCEP" name="hdnCEP" />
+                <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
                 <h3 class="ui dividing header">Informações Básicas</h3>
                 <div class="fields">
                     <div class="four wide required field">
@@ -46,7 +59,7 @@ Sessao::gerarToken();
                     </div>
                     <div class="required field">
                         <label>CPF</label>
-                        <input type="text" name="txtCpf" placeholder="Informe o seu CPF">
+                        <input type="text" name="txtCPF" placeholder="Informe o seu CPF">
                     </div>                    
                 </div>
                 <div id="linhaPJ1" class="two fields">
@@ -56,7 +69,7 @@ Sessao::gerarToken();
                     </div>
                     <div class="required field">
                         <label>CNPJ</label>
-                        <input type="text" name="txtCnpj" placeholder="Informe o CNPJ da empresa">
+                        <input type="text" name="txtCNPJ" placeholder="Informe o CNPJ da empresa">
                     </div>                    
                 </div>
                 <div id="linhaPJ2" class="three fields">
@@ -227,11 +240,56 @@ Sessao::gerarToken();
                         <label>Estou de acordo com a <a href="#">política de privacidade</a> e os <a href="#">termos de uso</a> do PIP.</label>
                     </div>
                 </div>
-                <button class="ui blue submit button" type="submit">Registrar Agora!</button>
-                <button class="ui grey button" type="reset">Limpar</button>
-                <button class="ui orange button" type="reset">Cancelar</button>
+                <button class="ui blue submit button" type="submit" id="btnRegistrar">Registrar Agora!</button>
+                <button class="ui orange button" type="reset" id="btnCancelar">Cancelar</button>
             </form>
         </div>
     </div>
     <div class="ui hidden divider"></div>
+</div>
+<!-- MODAIS -->
+<div class="ui small modal" id="modalCancelar">
+    <i class="close icon"></i>
+    <div class="header">
+        Cancelar
+    </div>
+    <div class="content">
+        <div class="description">
+            <div class="ui header">Deseja realmente cancelar e perder as informações não gravadas?</div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui red button">
+            Não
+        </div>
+        <div class="ui positive right labeled icon button">
+            Sim
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
+<div class="ui standart modal" id="modalConfirmar">
+    <i class="close icon"></i>
+    <div class="header">
+        Confirmar
+    </div>
+    <div class="content">
+        <div class="description">
+            <div class="ui piled segment">
+                <h4 class="ui header">A header</h4>
+                <p>Te eum doming eirmod, nominati pertinacia argumentum ad his. Ex eam alia facete scriptorem, est autem aliquip detraxit at. Usu ocurreret referrentur at, cu epicurei appellantur vix. Cum ea laoreet recteque electram, eos choro alterum definiebas in. Vim dolorum definiebas an. Mei ex natum rebum iisque.</p>
+                <p>Audiam quaerendum eu sea, pro omittam definiebas ex. Te est latine definitiones. Quot wisi nulla ex duo. Vis sint solet expetenda ne, his te phaedrum referrentur consectetuer. Id vix fabulas oporteat, ei quo vide phaedrum, vim vivendum maiestatis in.</p>
+                <p>Eu quo homero blandit intellegebat. Incorrupte consequuntur mei id. Mei ut facer dolores adolescens, no illum aperiri quo, usu odio brute at. Qui te porro electram, ea dico facete utroque quo. Populo quodsi te eam, wisi everti eos ex, eum elitr altera utamur at. Quodsi convenire mnesarchum eu per, quas minimum postulant per id.</p>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui red button">
+            Não
+        </div>
+        <div class="ui positive right labeled icon button">
+            Sim
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
 </div>
