@@ -1,14 +1,16 @@
 <!-- LIBS -->
+<script src="assets/libs/jquery/jquery.validate.min.js"></script>
 <script src="assets/libs/jquery/jquery.maskedinput.min.js"></script>
-<script src="assets/libs/jquery/jquery.pwstrength.min.js"></script>
+<script src="assets/libs/jquery/jquery.pwstrength.js"></script>
 <!-- JS -->
-<script src="assets/js/util.validate.js"></script>
+<!--<script src="assets/js/util.validate.js"></script>-->
 <script src="assets/js/usuario.js"></script>
 <script>
     cadastrarUsuario();
     mascarasFormUsuario();
     acoesCEP();
     cancelar();
+    confirmar();
 </script>
 <?php
 Sessao::gerarToken();
@@ -92,20 +94,23 @@ Sessao::gerarToken();
                         <label>Login</label>
                         <div class="ui left icon input">
                             <i class="user icon"></i>                            
-                            <input type="text" name="txtLogin" placeholder="Informe um login">
+                            <input type="text" name="txtLogin"  id="txtLogin" placeholder="Informe um login">
                         </div>
                     </div>
-                    <div class="required field">
+                    <div class="required field" id="pwd-container">
                         <label>Senha</label>
                         <div class="ui left icon input">
-                            <input type="password" name="txtSenha" placeholder="Informe uma senha">
+                            <input type="password" name="txtSenha" id="txtSenha" placeholder="Informe uma senha">
                             <i class="lock icon"></i>
                         </div>
+                        <div id="txtSenha-error" class="errorField ui red pointing above label error" style="display: none;"></div>
+                        <span class="pwstrength_viewport_verdict"></span>
+                        <span class="pwstrength_viewport_errors"></span>
                     </div>
                     <div class="required field">
                         <label>Confirmação da senha</label>
                         <div class="ui left icon input">
-                            <input type="password" name="txtConfirmSenha" placeholder="Repita a senha">
+                            <input type="password" name="txtConfirmarSenha" id="txtConfirmarSenha" placeholder="Repita a senha">
                             <i class="lock icon"></i>
                         </div>
                     </div>
@@ -240,7 +245,7 @@ Sessao::gerarToken();
                         <label>Estou de acordo com a <a href="#">política de privacidade</a> e os <a href="#">termos de uso</a> do PIP.</label>
                     </div>
                 </div>
-                <button class="ui blue submit button" type="submit" id="btnRegistrar">Registrar Agora!</button>
+                <button class="ui blue button" type="button" id="btnRegistrar">Registrar Agora!</button>
                 <button class="ui orange button" type="reset" id="btnCancelar">Cancelar</button>
             </form>
         </div>
@@ -277,9 +282,7 @@ Sessao::gerarToken();
         <div class="description">
             <div class="ui piled segment">
                 <h4 class="ui header">A header</h4>
-                <p>Te eum doming eirmod, nominati pertinacia argumentum ad his. Ex eam alia facete scriptorem, est autem aliquip detraxit at. Usu ocurreret referrentur at, cu epicurei appellantur vix. Cum ea laoreet recteque electram, eos choro alterum definiebas in. Vim dolorum definiebas an. Mei ex natum rebum iisque.</p>
-                <p>Audiam quaerendum eu sea, pro omittam definiebas ex. Te est latine definitiones. Quot wisi nulla ex duo. Vis sint solet expetenda ne, his te phaedrum referrentur consectetuer. Id vix fabulas oporteat, ei quo vide phaedrum, vim vivendum maiestatis in.</p>
-                <p>Eu quo homero blandit intellegebat. Incorrupte consequuntur mei id. Mei ut facer dolores adolescens, no illum aperiri quo, usu odio brute at. Qui te porro electram, ea dico facete utroque quo. Populo quodsi te eam, wisi everti eos ex, eum elitr altera utamur at. Quodsi convenire mnesarchum eu per, quas minimum postulant per id.</p>
+                <p id="textoConfirmacao"></p>
             </div>
         </div>
     </div>
