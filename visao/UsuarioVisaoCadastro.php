@@ -1,6 +1,6 @@
 <!-- LIBS -->
 <script src="assets/libs/jquery/jquery.validate.min.js"></script>
-<script src="assets/libs/jquery/jquery.maskedinput.min.js"></script>
+<!--<script src="assets/libs/jquery/jquery.maskedinput.min.js"></script>-->
 <script src="assets/libs/jquery/jquery.pwstrength.js"></script>
 <!-- JS -->
 <!--<script src="assets/js/util.validate.js"></script>-->
@@ -120,12 +120,12 @@ Sessao::gerarToken();
                     <div class="five wide field">
                         <div class="ui action left icon input">
                             <i class="search icon"></i>
-                            <input type="text" placeholder="Informe o seu CEP...">
-                            <div class="ui teal button">Buscar CEP</div>
+                            <input type="text" name="txtCEP" id="txtCEP" placeholder="Informe o seu CEP...">
+                            <div class="ui teal button" id="btnCEP">Buscar CEP</div>
                         </div>              
                     </div>
                     <div class="three wide field"><label>Não sabe o CEP? <a href="#">clique aqui</a></label></div>
-                    <div class="five wide field"><div id="alertCEP"></div> </div>
+                    <div class="five wide field"><div id="msgCEP"></div> </div>
                 </div>
                 <div id="divCEP" class="six fields">
                     <div class="field">

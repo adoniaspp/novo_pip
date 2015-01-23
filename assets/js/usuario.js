@@ -5,11 +5,18 @@ function cadastrarUsuario() {
         $("#linhaPJ1").hide();
         $("#linhaPJ2").hide();
         $("#divCEP").hide();
+        $("#btnCEP").click(function() {
+            buscarCep()
+        });
+        $("#txtCEP").blur(function() {
+            buscarCep()
+        });
         $('.ui.dropdown')
                 .dropdown({
                     on: 'hover'
                 });
         $('.ui.checkbox').checkbox();
+
         /*eventos e acoes*/
         $("#sltTipoUsuario").change(function() {
             if ($(this).val() == "pj") {
@@ -39,27 +46,31 @@ function cadastrarUsuario() {
                 }
             }
         });
-        var optSenha = {};
-        optSenha.ui = {
-            container: "#pwd-container",
-            showProgressBar: false,
-            errorMessages: {
-                wordLength: "<font color='red'>A senha é muito pequena</font>",
-                wordSimilarToUsername: "<font color='red'>Sua senha não pode ser igual ao seu login</font>"
-            },
-            verdicts: ["Fraca", "Normal", "Média", "Forte", "Muito Forte"],
-            viewports: {
-                verdict: ".pwstrength_viewport_verdict",
-                errors: ".pwstrength_viewport_errors"
-            },
-            showErrors: true,
-            showVerdictsInsideProgressBar: true
-        };
-        optSenha.common = {
-            minChar: 8,
-            usernameField: "#txtLogin"
-        };
-        $('#txtSenha').pwstrength(optSenha);
+
+//        var optSenha = {};
+//        optSenha.ui = {
+//            container: "#pwd-container",
+//            showProgressBar: false,
+//            errorMessages: {
+//                wordLength: "<font color='red'>A senha é muito pequena</font>",
+//                wordSimilarToUsername: "<font color='red'>Sua senha não pode ser igual ao seu login</font>"
+//            },
+//            verdicts: ["Fraca", "Normal", "Média", "Forte", "Muito Forte"],
+//            viewports: {
+//                verdict: ".pwstrength_viewport_verdict",
+//                errors: ".pwstrength_viewport_errors"
+//            },
+//            showErrors: true,
+//            showVerdictsInsideProgressBar: true
+//        };
+//        optSenha.common = {
+//            minChar: 8,
+//            usernameField: "#txtLogin"
+//        };
+//        $('#txtSenha').pwstrength(optSenha);
+
+
+
         /*validações*/
         $.validator.setDefaults({
             errorClass: 'errorField',
@@ -322,4 +333,55 @@ function carregaDadosModal($div) {
         $div.append("Estado: " + $("#txtEstado").val() + "<br />");
         $div.append("CEP: " + $("#txtCEP").val() + "<br />");
     }
+}
+
+function buscarCep() {
+    var validator = $("#form").validate();
+    if (validator.element("#txtCEP")) {
+        $.ajax({
+            url: "index.php",
+            dataType: "json",
+            type: "POST",
+            data: {
+                cep: $('#txtCEP').val(),
+                hdnEntidade: "Endereco",
+                hdnAcao: "buscarCEP"
+            },
+            beforeSend: function() {
+                $("#msgCEP").html('');
+                $("#divCEP").hide(); //oculta campos do DIVCEP
+                $("#msgCEP").append(criarAlerta("warning", "...aguarde buscando CEP..."));
+                $('#txtCEP').attr('disabled', 'disabled');
+                $('#btnCEP').attr('disabled', 'disabled');
+                $('#txtEstado').val('');
+                $('#txtCidade').val('');
+                $('#txtBairro').val('');
+                $('#txtLogradouro').val('');
+                $('#hdnCEP').val('');
+            },
+            success: function(resposta) {
+                $("#msgCEP").html('');
+                if (resposta.resultado == 0) {
+                    $("#msgCEP").append(criarAlerta("error", "N&atilde;o localizamos o CEP informado"));
+                } else {
+                    $("#divCEP").show(); //mostra campos do DIVCEP
+                    $('#txtEstado').val(resposta.uf);
+                    $('#txtCidade').val(resposta.cidade);
+                    $('#txtBairro').val(resposta.bairro);
+                    $('#txtLogradouro').val(resposta.logradouro);
+                    $('#hdnCEP').val($('#txtCEP').val());
+
+                    var endereco = 'Brazil, ' + resposta.uf + ', ' + resposta.cidade + ', ' + resposta.bairro + ', ' + resposta.logradouro;
+
+                }
+                $('#txtCEP').removeAttr('disabled');
+                $('#btnCEP').removeAttr('disabled');
+            }
+        })
+    }
+}
+function criarAlerta(tipo, mensagem) {
+    var divAlerta = $("<div>", {class: "ui " + tipo + " message"});
+    divAlerta.append($("<div>", {class: "content"}).html('<div class="header">' + mensagem + '</div>'));
+    return divAlerta;
 }
