@@ -1,10 +1,21 @@
+<!-- LIBS -->
+<script src="assets/libs/jquery/jquery.validate.min.js"></script>
+<!--<script src="assets/libs/jquery/jquery.maskedinput.min.js"></script>-->
+<script src="assets/libs/jquery/jquery.pwstrength.js"></script>
+<!-- JS -->
+<!--<script src="assets/js/util.validate.js"></script>-->
 <script src="assets/js/usuario.js"></script>
 <script>
     cadastrarUsuario();
+    mascarasFormUsuario();
+    acoesCEP();
+    cancelar();
+    confirmar();
 </script>
 <?php
 Sessao::gerarToken();
 ?>
+<!-- HTML -->
 <div class="container">
     <div class="ui hidden divider"></div>
     <div class="ui page grid main">
@@ -19,7 +30,11 @@ Sessao::gerarToken();
     <div class="ui hidden divider"></div>
     <div class="ui page grid main">
         <div class="column">
-            <form class="ui form">
+            <form id="form" class="ui form" action="index.php" method="post">
+                <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
+                <input type="hidden" id="hdnAcao" name="hdnAcao" value="cadastrar" />
+                <input type="hidden" id="hdnCEP" name="hdnCEP" />
+                <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
                 <h3 class="ui dividing header">Informações Básicas</h3>
                 <div class="fields">
                     <div class="four wide required field">
@@ -46,7 +61,7 @@ Sessao::gerarToken();
                     </div>
                     <div class="required field">
                         <label>CPF</label>
-                        <input type="text" name="txtCpf" placeholder="Informe o seu CPF">
+                        <input type="text" name="txtCPF" placeholder="Informe o seu CPF">
                     </div>                    
                 </div>
                 <div id="linhaPJ1" class="two fields">
@@ -56,7 +71,7 @@ Sessao::gerarToken();
                     </div>
                     <div class="required field">
                         <label>CNPJ</label>
-                        <input type="text" name="txtCnpj" placeholder="Informe o CNPJ da empresa">
+                        <input type="text" name="txtCNPJ" placeholder="Informe o CNPJ da empresa">
                     </div>                    
                 </div>
                 <div id="linhaPJ2" class="three fields">
@@ -79,20 +94,23 @@ Sessao::gerarToken();
                         <label>Login</label>
                         <div class="ui left icon input">
                             <i class="user icon"></i>                            
-                            <input type="text" name="txtLogin" placeholder="Informe um login">
+                            <input type="text" name="txtLogin"  id="txtLogin" placeholder="Informe um login">
                         </div>
                     </div>
-                    <div class="required field">
+                    <div class="required field" id="pwd-container">
                         <label>Senha</label>
                         <div class="ui left icon input">
-                            <input type="password" name="txtSenha" placeholder="Informe uma senha">
+                            <input type="password" name="txtSenha" id="txtSenha" placeholder="Informe uma senha">
                             <i class="lock icon"></i>
                         </div>
+                        <div id="txtSenha-error" class="errorField ui red pointing above label error" style="display: none;"></div>
+                        <span class="pwstrength_viewport_verdict"></span>
+                        <span class="pwstrength_viewport_errors"></span>
                     </div>
                     <div class="required field">
                         <label>Confirmação da senha</label>
                         <div class="ui left icon input">
-                            <input type="password" name="txtConfirmSenha" placeholder="Repita a senha">
+                            <input type="password" name="txtConfirmarSenha" id="txtConfirmarSenha" placeholder="Repita a senha">
                             <i class="lock icon"></i>
                         </div>
                     </div>
@@ -102,12 +120,12 @@ Sessao::gerarToken();
                     <div class="five wide field">
                         <div class="ui action left icon input">
                             <i class="search icon"></i>
-                            <input type="text" placeholder="Informe o seu CEP...">
-                            <div class="ui teal button">Buscar CEP</div>
+                            <input type="text" name="txtCEP" id="txtCEP" placeholder="Informe o seu CEP...">
+                            <div class="ui teal button" id="btnCEP">Buscar CEP</div>
                         </div>              
                     </div>
                     <div class="three wide field"><label>Não sabe o CEP? <a href="#">clique aqui</a></label></div>
-                    <div class="five wide field"><div id="alertCEP"></div> </div>
+                    <div class="five wide field"><div id="msgCEP"></div> </div>
                 </div>
                 <div id="divCEP" class="six fields">
                     <div class="field">
@@ -227,11 +245,54 @@ Sessao::gerarToken();
                         <label>Estou de acordo com a <a href="#">política de privacidade</a> e os <a href="#">termos de uso</a> do PIP.</label>
                     </div>
                 </div>
-                <button class="ui blue submit button" type="submit">Registrar Agora!</button>
-                <button class="ui grey button" type="reset">Limpar</button>
-                <button class="ui orange button" type="reset">Cancelar</button>
+                <button class="ui blue button" type="button" id="btnRegistrar">Registrar Agora!</button>
+                <button class="ui orange button" type="reset" id="btnCancelar">Cancelar</button>
             </form>
         </div>
     </div>
     <div class="ui hidden divider"></div>
+</div>
+<!-- MODAIS -->
+<div class="ui small modal" id="modalCancelar">
+    <i class="close icon"></i>
+    <div class="header">
+        Cancelar
+    </div>
+    <div class="content">
+        <div class="description">
+            <div class="ui header">Deseja realmente cancelar e perder as informações não gravadas?</div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui red button">
+            Não
+        </div>
+        <div class="ui positive right labeled icon button">
+            Sim
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
+<div class="ui standart modal" id="modalConfirmar">
+    <i class="close icon"></i>
+    <div class="header">
+        Confirmar
+    </div>
+    <div class="content">
+        <div class="description">
+            <div class="ui piled segment">
+                <h4 class="ui header">A header</h4>
+                <p id="textoConfirmacao"></p>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui red button">
+            Não
+        </div>
+        <div class="ui positive right labeled icon button">
+            Sim
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
 </div>
