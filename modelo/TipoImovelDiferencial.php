@@ -6,6 +6,8 @@ class TipoImovelDiferencial {
     private $idtipoimovel;
     private $iddiferencial;
     
+    protected $diferencial;
+    
     function getIdtipoimovel() {
         return $this->idtipoimovel;
     }
@@ -21,5 +23,12 @@ class TipoImovelDiferencial {
     function setIddiferencial($iddiferencial) {
         $this->iddiferencial = $iddiferencial;
     }
+    
+    function getDiferencial() {
+        return $this->diferencial;
+    }
 
+    function setDiferencial($diferencial) {
+        $this->diferencial = $diferencial;
+    }   
 }
