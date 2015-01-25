@@ -1,33 +1,11 @@
 <!-- INICIO DO MAPA --> 
 <script src="assets/js/imovel.js"></script>
 <script>
-        
+    
+    carregaB();      
     esconderCamposInicio();
-           
-        $(document).ready(function() {
-                $("#sltTipo").change(function () {
-
-        $.ajax({
-                    url: "index.php",
-                    //dataType: "json",
-                    type: "POST",
-                    data: {
-                        hdnEntidade: "TipoImovelDiferencial",
-                        hdnAcao: "buscarDiferencialChk",
-                        sltTipo: $('#sltTipo').val()
-                    },
-                    
-                    success: function (resposta) {
-                       $('#chkDiferencial').html(resposta);
-                       $('.ui.checkbox')
-                        .checkbox();
-                    }
-                })
-
-
-
-                });
-            });
+         
+        
             //});
     
 </script>
@@ -312,8 +290,3 @@ Sessao::gerarToken();
     </div>
     <div class="ui hidden divider"></div>
 </div>
-
-$("div[ id^='sltNumeroPlanta']").each(){
-alert("TESTE");
-
-}

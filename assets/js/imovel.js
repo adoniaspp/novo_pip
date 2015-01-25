@@ -19,11 +19,8 @@ function esconderCamposInicio() {
         $("#divCondominio").hide();
    
         $("#sltTipo").change(function() {
-            
-            //$("#sltNumeroPlantas2").attr("disable", "disable");
-            //$("#sltNumeroPlantas").val("");
-            
-            //$("div[ id^'=sltNumeroPlantas']");
+           
+           $('#sltNumeroPlantas').parent().dropdown('restore defaults');
            
             mostrarArea();
                         
@@ -40,7 +37,7 @@ function esconderCamposInicio() {
                 
                 
             } else if ($(this).val() == "2"){  //apartamento na planta / novo
-                
+
                 $("#divCondicao").show();  
                 $("#divNumeroPlantas").show();
                 mostrarPlantas(); 
@@ -58,7 +55,7 @@ function esconderCamposInicio() {
                 $("#divAndar").show();
                 $("#divDiferencial").show();
                 $("#divCondominio").show();
-                
+
              
             } else if ($(this).val() == "4") { //sala comercial
                 $("#divPlantaUm").hide();
@@ -70,7 +67,7 @@ function esconderCamposInicio() {
                 $("#divApartamento").hide();
                 $("#divDescricao").show();               
                 $("#divEndereco").show(); 
-                
+
             } else if ($(this).val() == "5") { //terreno
                 $("#divPlantaUm").hide();
                 $("#divInserePlanta").hide();
@@ -81,6 +78,7 @@ function esconderCamposInicio() {
                 $("#divApartamento").hide();
                 $("#divDescricao").show();               
                 $("#divEndereco").show();
+
             }   
             
             
@@ -94,9 +92,10 @@ function esconderCamposInicio() {
     
     function mostrarPlantas(){
       
-        $("#sltNumeroPlantas").change(function() {
+        $("#sltNumeroPlantas").change(function() {         
             
         if ($(this).val() >= "1") {
+                $("#divInserePlanta").show();
                 $("#divInfoBasicas").show();
                 $("#divInfoApeCasa").show();
                 $("#divDescricao").show();
@@ -114,7 +113,7 @@ function esconderCamposInicio() {
                 
                 $("#divInserePlanta").empty();
                 $("#divPlantaUm").empty();
-           
+
         }
         
         if(valores >=2){ //só mostrar mais opções de planta se for maior que 2
@@ -129,11 +128,6 @@ function esconderCamposInicio() {
                  $('#divInserePlanta').append(label);
                  $('#divInserePlanta').append($clone);
               }
-            
-            $('.ui.dropdown')
-            .dropdown({
-            on: 'hover'
-            });
         
          }        
        
@@ -141,4 +135,31 @@ function esconderCamposInicio() {
     
     }
     
+}
+
+function carregaB(){
+    $(document).ready(function() {
+                $("#sltTipo").change(function () {
+
+        $.ajax({
+                    url: "index.php",
+                    //dataType: "json",
+                    type: "POST",
+                    data: {
+                        hdnEntidade: "TipoImovelDiferencial",
+                        hdnAcao: "buscarDiferencialChk",
+                        sltTipo: $('#sltTipo').val()
+                    },
+                    
+                    success: function (resposta) {
+                       $('#chkDiferencial').html(resposta);
+                       $('.ui.checkbox')
+                        .checkbox();
+                    }
+                })
+
+
+
+                });
+            });
 }
