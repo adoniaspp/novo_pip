@@ -224,6 +224,14 @@ function cadastrarUsuario() {
             $("#sltOperadora").rules("remove");
             $("#sltTipotelefone").rules("remove");
         });
+        $("#sltTipotelefone").change(function() {
+            $("#txtTel").unmask();
+            if($(this).val() == "Fixo"){
+                $("#txtTel").mask('(00) 0000-0000');
+            } else {
+                $("#txtTel").mask('(00) 00000-0000');
+            }
+        })
     });
 }
 
@@ -320,15 +328,12 @@ function confirmar() {
 function carregaDadosModal($div) {
     $(document).ready(function() {
         $div.html("");
-        console.log('1');
         if ($("#sltTipoUsuario").val() === "pf")
         {
-            console.log('2');
             $div.append("Tipo de Pessoa: " + "Física" + "<br />");
             $div.append("Nome: " + $("#txtNome").val() + "<br />");
             $div.append("CPF: " + $("#txtCPF").val() + "<br />");
         } else {
-            console.log('3');
             $div.append("Tipo de Pessoa: " + "Jurídica" + "<br />");
             $div.append("Empresa: " + $("#txtNomeEmpresa").val() + "<br />");
             $div.append("CNPJ: " + $("#txtCNPJ").val() + "<br />");
@@ -337,7 +342,7 @@ function carregaDadosModal($div) {
             $div.append("Razão Social: " + $("#txtRazaoSocial").val() + "<br />");
         }
         $div.append("Login: " + $("#txtLogin").val() + "<br />");
-        $div.append("-Email: " + $("#txtEmail").val() + "<br />");
+        $div.append("Email: " + $("#txtEmail").val() + "<br />");
         $div.append("Logradouro: " + $("#txtLogradouro").val() + "<br />");
         $div.append("Número: " + $("#txtNumero").val() + "<br />");
         $div.append("Complemento: " + $("#txtComplemento").val() + "<br />");
@@ -345,7 +350,6 @@ function carregaDadosModal($div) {
         $div.append("Cidade: " + $("#txtCidade").val() + "<br />");
         $div.append("Estado: " + $("#txtEstado").val() + "<br />");
         $div.append("CEP: " + $("#txtCEP").val() + "<br />");
-        console.log('4')
     })
 }
 
@@ -419,10 +423,6 @@ $(document).ready(function() {
     $('.btn-file :file').on('fileselect', function(event, numFiles, label, size) {
         $('#attachmentName').attr('name', 'attachmentName'); // allow upload.
         var postfix = label.substr(label.lastIndexOf('.'));
-        console.log(label);
-        console.log(postfix);
-        console.log(postfix.toLowerCase());
-        console.log(fileExtentionRange);
         if (fileExtentionRange.indexOf(postfix.toLowerCase()) > -1) {
             if (size > 1024 * 1024 * MAX_SIZE) {
                 alert('max size：<strong>' + MAX_SIZE + '</strong> MB.');
