@@ -161,9 +161,9 @@ class Usuario {
         $usuario->setSenha($this->criptografarSenha($parametros['txtSenha']));
 
         if ($usuario->getTipousuario() == "pf") {
-            $usuario->setCpfcnpj($parametros['txtCpf']);
+            $usuario->setCpfcnpj($parametros['txtCPF']);
         } else {
-            $usuario->setCpfcnpj($parametros['txtCnpj']);
+            $usuario->setCpfcnpj($parametros['txtCNPJ']);
         }
         $usuario->setEmail($parametros['txtEmail']);
         $usuario->setStatus("ativo");

@@ -1,9 +1,8 @@
 <!-- LIBS -->
 <script src="assets/libs/jquery/jquery.validate.min.js"></script>
-<!--<script src="assets/libs/jquery/jquery.maskedinput.min.js"></script>-->
-<script src="assets/libs/jquery/jquery.pwstrength.js"></script>
+<script src="assets/libs/jquery/jquery.mask.min.js"></script>
 <!-- JS -->
-<!--<script src="assets/js/util.validate.js"></script>-->
+<script src="assets/js/util.validate.js"></script>
 <script src="assets/js/usuario.js"></script>
 <script>
     cadastrarUsuario();
@@ -41,7 +40,7 @@ Sessao::gerarToken();
                         <label>Tipo de Pessoa</label>
                         <div class="ui selection dropdown">
                             <input type="hidden" name="sltTipoUsuario" id="sltTipoUsuario">
-                            <div class="default text">Física ou Jurídica</div>
+                            <div class="text">Física ou Jurídica</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
                                 <div class="item" data-value="pf">Pessoa Física</div>
@@ -51,41 +50,41 @@ Sessao::gerarToken();
                     </div>
                     <div class="twelve wide required field">
                         <label>E-mail</label>
-                        <input type="text" name="txtEmail" placeholder="Informe seu e-mail">
+                        <input type="text" name="txtEmail" id="txtEmail" placeholder="Informe seu e-mail">
                     </div>
                 </div>
                 <div id="linhaPF" class="two fields">
                     <div class="required field">
                         <label>Nome Completo</label>
-                        <input type="text" name="txtNome" placeholder="Informe o seu nome">
+                        <input type="text" name="txtNome" id="txtNome" placeholder="Informe o seu nome">
                     </div>
                     <div class="required field">
                         <label>CPF</label>
-                        <input type="text" name="txtCPF" placeholder="Informe o seu CPF">
+                        <input type="text" name="txtCPF" id="txtCPF" placeholder="Informe o seu CPF">
                     </div>                    
                 </div>
                 <div id="linhaPJ1" class="two fields">
                     <div class="required field">
                         <label>Nome da Empresa</label>
-                        <input type="text" name="txtNomeEmpresa" placeholder="Informe o Nome da Empresa">
+                        <input type="text" name="txtNomeEmpresa" id="txtNomeEmpresa" placeholder="Informe o Nome da Empresa">
                     </div>
                     <div class="required field">
                         <label>CNPJ</label>
-                        <input type="text" name="txtCNPJ" placeholder="Informe o CNPJ da empresa">
+                        <input type="text" name="txtCNPJ" id="txtCNPJ" placeholder="Informe o CNPJ da empresa">
                     </div>                    
                 </div>
                 <div id="linhaPJ2" class="three fields">
                     <div class="required field">
                         <label>Razão Social</label>
-                        <input type="text" name="txtRazaoSocial" placeholder="Informe a Razão Social da Empresa">
+                        <input type="text" name="txtRazaoSocial" id="txtRazaoSocial" placeholder="Informe a Razão Social da Empresa">
                     </div>
                     <div class="required field">
                         <label>Responsável</label>
-                        <input type="text" name="txtResponsavel" placeholder="Informe o Responsável da Empresa">
+                        <input type="text" name="txtResponsavel" id="txtResponsavel" placeholder="Informe o Responsável da Empresa">
                     </div>                    
                     <div class="required field">
                         <label>CPF do Responsável</label>
-                        <input type="text" name="txtCPFResponsavel" placeholder="Informe o CPF do Responsável">
+                        <input type="text" name="txtCPFResponsavel" id="txtCPFResponsavel" placeholder="Informe o CPF do Responsável">
                     </div>                    
                 </div>
                 <h3 class="ui dividing header">Informações de Acesso</h3>
@@ -94,7 +93,7 @@ Sessao::gerarToken();
                         <label>Login</label>
                         <div class="ui left icon input">
                             <i class="user icon"></i>                            
-                            <input type="text" name="txtLogin"  id="txtLogin" placeholder="Informe um login">
+                            <input type="text" name="txtLogin" id="txtLogin" placeholder="Informe um login">
                         </div>
                     </div>
                     <div class="required field" id="pwd-container">
@@ -103,9 +102,6 @@ Sessao::gerarToken();
                             <input type="password" name="txtSenha" id="txtSenha" placeholder="Informe uma senha">
                             <i class="lock icon"></i>
                         </div>
-                        <div id="txtSenha-error" class="errorField ui red pointing above label error" style="display: none;"></div>
-                        <span class="pwstrength_viewport_verdict"></span>
-                        <span class="pwstrength_viewport_errors"></span>
                     </div>
                     <div class="required field">
                         <label>Confirmação da senha</label>
@@ -130,30 +126,30 @@ Sessao::gerarToken();
                 <div id="divCEP" class="six fields">
                     <div class="field">
                         <label>Cidade</label>
-                        <input type="text" name="txtCidade" readonly="readonly">
+                        <input type="text" name="txtCidade" id="txtCidade" readonly="readonly">
                     </div>
                     <div class="one wide field">
                         <label>Estado</label>
-                        <input type="text" name="txtEstado" readonly="readonly">
+                        <input type="text" name="txtEstado" id="txtEstado" readonly="readonly">
                     </div>
                     <div class=" field">
                         <label>Bairro</label>
-                        <input type="text" name="txtBairro" readonly="readonly">
+                        <input type="text" name="txtBairro" id="txtBairro" readonly="readonly">
                     </div>
-                    <div class="five wide field">
+                    <div class="seven wide field">
                         <label>Logradouro</label>
-                        <input type="text" name="txtLogradouro" readonly="readonly">
+                        <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly">
                     </div>
                     <div class="two wide field">
                         <label>Número</label>
-                        <input type="text" name="txtNumero" placeholder="Informe o nº">
+                        <input type="text" name="txtNumero" id="txtNumero" placeholder="Informe o nº">
                     </div>
-                    <div class="two wide field">
+                    <div class="seven wide field">
                         <label>Complemento</label>
-                        <input type="text" name="txtComplemento" placeholder="Complemento">
+                        <input type="text" name="txtComplemento" id="txtComplemento" placeholder="Complemento">
                     </div>
                 </div>
-                <h3 class="ui dividing header">Telefones</h3>
+                <h3 class="ui dividing header">Telefones</h3> 
                 <div class="fields">
                     <div class="four wide required field">
                         <label>Tipo</label>
@@ -184,17 +180,17 @@ Sessao::gerarToken();
                     </div>
                     <div class="four wide required field">
                         <label>Número</label>
-                        <input type="text" name="txtTel" placeholder="Informe o Número">
+                        <input type="text" name="txtTel" id="txtTel" placeholder="Informe o Número">
                     </div>
                     <div class="center aligned column">
                         <br>
-                        <div class="teal ui labeled icon button ">
+                        <div class="teal ui labeled icon button" id="btnAdicionarTelefone">
                             <i class="add icon"></i>
                             Adicionar Telefone
                         </div>
                     </div>
                 </div>
-                <table class="ui compact celled blue table">
+                <table class="ui compact celled blue table" id="tabelaTelefone">
                     <thead>
                         <tr>
                             <th>Tipo</th>
@@ -203,45 +199,21 @@ Sessao::gerarToken();
                             <th>Opção</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>FIxo</td>
-                            <td>Oi</td>
-                            <td>00000000</td>
-                            <td class="collapsing">
-                                <div class="red ui icon button ">
-                                    <i class="trash icon"></i>
-                                    Excluir
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
+                    <tbody id="dadosTelefone"></tbody>
                 </table>
                 <h3 class="ui dividing header" >Foto / Logomarca</h3>
-                <div class="ui two column middle aligned relaxed fitted stackable grid" style="position: relative">
-                    <div class="column">
-                        <div class="ui card">
-                            <div class="image">
-                                <img src="..//fotos/usuarios/5a5235761b74c97e4fad660f5dde0fa0.jpg">
-                            </div>
-                            <div class="content">
-                                <a class="header">George</a>
-                            </div>
-                        </div>
-
+                <div class="twelve wide field">
+                    <div class="ui action input">
+                        <input type="text" id="_attachmentName">
+                        <label for="attachmentName" class="ui teal icon labeled button btn-file">
+                            <i class="large file image outline icon"></i>
+                            <input type="file" id="attachmentName" name="attachmentName" style="display: none">Selecione a imagem</label>
                     </div>
-                    <div class="ui vertical divider"> </div>
-                    <div class="center aligned column">
-                        <div class="teal ui labeled icon button">
-                            <i class="add icon"></i>
-                            Selecionar uma imagem
-                        </div>
-                    </div>
-                </div>
+                </div> 
                 <h3 class="ui dividing header">Confirmação de Cadastro</h3>
                 <div class="field">
                     <div class="ui checkbox">
-                        <input type="checkbox" name="confirmacao">
+                        <input type="checkbox"  name="chkConfirmacao" id="chkConfirmacao">
                         <label>Estou de acordo com a <a href="#">política de privacidade</a> e os <a href="#">termos de uso</a> do PIP.</label>
                     </div>
                 </div>
@@ -273,15 +245,31 @@ Sessao::gerarToken();
         </div>
     </div>
 </div>
+<div class="ui small modal" id="modalTelefone">
+    <i class="close icon"></i>
+    <div class="header">
+        Nenhum Telefone
+    </div>
+    <div class="content">
+        <div class="description">
+            <div class="ui header">Você deve informar pelo menos um telefone para contato</div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui positive right labeled icon button">
+            Ok
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
 <div class="ui standart modal" id="modalConfirmar">
     <i class="close icon"></i>
     <div class="header">
-        Confirmar
+        Confirmar Dados
     </div>
     <div class="content">
         <div class="description">
             <div class="ui piled segment">
-                <h4 class="ui header">A header</h4>
                 <p id="textoConfirmacao"></p>
             </div>
         </div>

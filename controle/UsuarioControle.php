@@ -62,6 +62,9 @@ class UsuarioControle {
     function cadastrar($parametros) {
         //Endereço
         $visao = new Template();
+        /*echo "<pre>";
+        print_r($parametros);
+        die();*/
         if (Sessao::verificarToken($parametros)) {
             $genericoDAO = new GenericoDAO();
             $genericoDAO->iniciarTransacao();

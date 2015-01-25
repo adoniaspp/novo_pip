@@ -53,7 +53,7 @@ class Empresa {
         $empresa->setIdusuario($idUsuario);
         $empresa->setRazaosocial($parametros['txtRazaoSocial']);
         $empresa->setResponsavel($parametros['txtResponsavel']);
-        $empresa->setCpfresponsavel($parametros['txtCpfResponsavel']);
+        $empresa->setCpfresponsavel($parametros['txtCPFResponsavel']);
         return $empresa;
     }
 
