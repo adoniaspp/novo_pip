@@ -7,7 +7,7 @@
 <script src="assets/js/util.validate.js"></script>
 <script>
     
-    carregaB();      
+    carregaDiferencial();      
     esconderCamposInicio();
     mascarasFormUsuario();
     acoesCEP();
@@ -56,18 +56,18 @@ Sessao::gerarToken();
                         </div>
                     </div>
                     
-                       <!-- <div class="four wide required field" id="divCondicao">
+                    <div class="four wide required field" id="divCondicao">
                             <label>Condição</label>
                             <div class="ui selection dropdown">
                                 <input type="hidden" name="sltCondicao" id="sltCondicao">
                                 <div class="default text">Condição do Apartamento</div>
                                 <i class="dropdown icon"></i>
                                 <div class="menu">
-                                    <div class="item" data-value="plantaconstrucao">Na Planta/Em Construçao</div>
                                     <div class="item" data-value="novo">Novo</div>
+                                    <div class="item" data-value="usado">Usado</div>
                                 </div>
                             </div>
-                        </div>    -->
+                        </div>   
                     
                         <div class="three wide required field" id="divNumeroPlantas">
                             <label>Número de Plantas</label>
@@ -77,7 +77,7 @@ Sessao::gerarToken();
                                 <i class="dropdown icon"></i>
                                 <div class="menu">
                                     <?php 
-                                    for($plantas = 1; $plantas <=4; $plantas++){
+                                    for($plantas = 1; $plantas <=6; $plantas++){
                                     echo "<div class='item' data-value='$plantas'>".$plantas."</div>";
                                     }
                                     ?>
@@ -89,14 +89,14 @@ Sessao::gerarToken();
                         <div id="divArea" class="one field">
                                     <div class="required field">
                                         <label>Área(m2)</label>
-                                        <input type="text" name="txtArea" placeholder="Informe a Área">
+                                        <input type="text" name="txtArea" id="txtArea" placeholder="Informe a Área">
                                     </div>                                     
                         </div>
                     
                 </div>
-                <div id="divPlantaUm"></div>
+                <div class="fields" id="divPlantaUm"></div>
                 <div class="fields" id="divInfoApeCasa">
-                                     
+                
                     <div class="three wide required field">
                         <label>Quarto(s)</label>
                         <div class="ui selection dropdown">
@@ -159,7 +159,15 @@ Sessao::gerarToken();
                                 <div class="item" data-value="5">Mais de 5</div>
                             </div>
                         </div>
-                    </div>                   
+                    </div> 
+                    
+                    <div id="divAreaApeNovo" class="one field">
+                        <div class="required field">
+                            <label>Área(m2)</label>
+                            <input type="text" name="txtAreaApeNovo" id="txtAreaApeNovo" placeholder="Informe a Área">
+                        </div>                                     
+                    </div>
+                    
                 </div>
                 
                 <div class="fields">                
@@ -184,7 +192,7 @@ Sessao::gerarToken();
                         <label>Número de Andares do Prédio</label>
                         <div class="ui selection dropdown">
                             <input type="hidden" name="sltAndares" id="sltAndares">
-                            <div class="default text">Andares do Prédio</div>
+                            <div class="default text">Andares</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
                                 <?php 
@@ -195,20 +203,44 @@ Sessao::gerarToken();
                             </div>
                         </div>
                     </div> 
+                    
                                         
-                    <div class="three wide required field" id="divAndar">
-                        <label>Andar do Apartamento</label>
+                    <div class="three wide required field" id="divUnidadesAndar">
+                        <label>Unidades por Andar</label>
                         <div class="ui selection dropdown">
-                            <input type="hidden" name="sltAndar" id="sltAndar">
-                            <div class="default text">Escolha o Andar</div>
+                            <input type="hidden" name="sltUnidadesAndar" id="sltUnidadesAndar">
+                            <div class="default text">Numero de Aptos</div>
                             <i class="dropdown icon"></i>
-                            <div class="menu" id="sltAndar">
+                            <div class="menu" id="sltUnidadesAndar">
                                 <?php 
-                                for($andar = 1; $andar <=40; $andar++){
-                                echo "<div class='item' data-value='".$andar."'>".$andar."</div>";
+                                for($unidadesAndar = 1; $unidadesAndar <=10; $unidadesAndar++){
+                                echo "<div class='item' data-value='".$unidadesAndar."'>".$unidadesAndar."</div>";
                                 }
                                 ?>
                             </div>
+                        </div>
+                    </div>                    
+                    
+                    <div class="three wide required field" id="divNumeroTorres">
+                        <label>Número de Torres</label>
+                        <div class="ui selection dropdown">
+                            <input type="hidden" name="sltNumeroTorres" id="sltNumeroTorres">
+                            <div class="default text">Torres</div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu" id="sltNumeroTorres">
+                                <?php 
+                                for($torres = 1; $torres <=10; $torres++){
+                                echo "<div class='item' data-value='".$torres."'>".$torres."</div>";
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    </div>               
+                    
+                    <div class="one field" id="divUnidadesTotal">
+                    <div class="field">
+                        <label>Total de Unidades</label>                       
+                        <input type="text" name="txtTotalUnidades" id="txtTotalUnidades" placeholder="Total de Apartamentos">
                         </div>
                     </div>
                     
@@ -254,7 +286,7 @@ Sessao::gerarToken();
                             </div>              
                         </div>
                     <div class="three wide field"><label>Não sabe o CEP? <a href="#">clique aqui</a></label></div>
-                    <div class="five wide field"><div id="alertCEP"></div> </div>
+                    <div class="five wide field"><div id="msgCEP"></div> </div>
                 
                     <div id="divCEP" class="six fields">
                         <div class="field">

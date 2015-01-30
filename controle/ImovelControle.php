@@ -5,7 +5,9 @@ include_once 'modelo/Endereco.php';
 include_once 'modelo/Imovel.php';
 include_once 'modelo/ImovelDiferencial.php';
 include_once 'modelo/Casa.php';
-include_once 'modelo/ApartamentoUsado.php';
+include_once 'modelo/Apartamento.php';
+include_once 'modelo/ApartamentoPlanta.php';
+include_once 'modelo/Planta.php';
 include_once 'modelo/TipoImovelDiferencial.php';
 include_once 'modelo/Plano.php';
 include_once 'modelo/Imagem.php';
@@ -90,15 +92,16 @@ class ImovelControle {
                 $idCasa = $genericoDAO->cadastrar($entidadeCasa);
                 $idCadastroImovel = $idCasa;
                 if($idCasa){$idDiferencial = true;}
+                
             } elseif ($entidadeImovel->getIdTipoImovel() == "3") {
-            //Apartamento Usado  
+            //Apartamento  
                 $idDiferencial = false;
-                $apeusado = new ApartamentoUsado();
-                $entidadeApeUsado = $apeusado->cadastrar($parametros, $idImovel);
-                $idApeUsado = $genericoDAO->cadastrar($entidadeApeUsado);
+                $apartamento = new Apartamento();
+                $entidadeApartamento = $apartamento->cadastrar($parametros, $idImovel);
+                $idApartamento = $genericoDAO->cadastrar($entidadeApartamento);
                 $quantidadeDiferencial = count($parametros['chkDiferencial']);
                 $resultadoDiferencial = true;
-                for ($indiceDiferencial = 0; $indiceDiferencial < $quantidadeDiferencial; $indiceDiferencial++) {
+                    for ($indiceDiferencial = 0; $indiceDiferencial < $quantidadeDiferencial; $indiceDiferencial++) {
                         $ImovelDiferencial = new ImovelDiferencial();
                         $entidadeDiferencial = $ImovelDiferencial->cadastrar($parametros, $idImovel, $indiceDiferencial);
                         $idDiferencial = $genericoDAO->cadastrar($entidadeDiferencial);
@@ -108,9 +111,44 @@ class ImovelControle {
                         }
                     }
                  
-                $idCadastroImovel = $idApeUsado;
-                if($idApeUsado){$idDiferencial = true;}
-                }
+                $idCadastroImovel = $idApartamento;
+                if($idApartamento){$idDiferencial = true;}
+                
+              } elseif ($entidadeImovel->getIdTipoImovel() == "2") { //Apartamento na Planta
+                echo "Passou 1";
+                $idDiferencial = false;
+                $apartamentoPlanta = new ApartamentoPlanta();
+                $entidadeApartamentoPlanta = $apartamentoPlanta->cadastrar($parametros, $idImovel);
+                $idApartamentoPlanta = $genericoDAO->cadastrar($entidadeApartamentoPlanta);
+                $quantidadeDiferencial = count($parametros['chkDiferencial']);
+                echo "Passou 2";
+                $resultadoDiferencial = true;
+                    for ($indiceDiferencial = 0; $indiceDiferencial < $quantidadeDiferencial; $indiceDiferencial++) {
+                        $ImovelDiferencial = new ImovelDiferencial();
+                        $entidadeDiferencial = $ImovelDiferencial->cadastrar($parametros, $idImovel, $indiceDiferencial);
+                        $idDiferencial = $genericoDAO->cadastrar($entidadeDiferencial);
+                        if (!($idDiferencial)) {
+                            $resultadoDiferencial = false;
+                            break;
+                        }
+                    }
+                echo "Passou 3";
+                $quantidadePlanta = count($parametros['sltNumeroPlantas']); 
+                $resultadoPlanta = true;
+                    for ($indicePlanta = 0; $indicePlanta < $quantidadePlanta; $indicePlanta++) {
+                        $planta = new Planta();
+                        $entidadePlanta = $planta->cadastrar($parametros, $idApartamentoPlanta, $indicePlanta);
+                        $idPlanta = $genericoDAO->cadastrar($entidadePlanta);
+                        if (!($idPlanta)) {
+                            $resultadoPlanta = false;
+                            break;
+                        }
+                    }
+                
+                $idCadastroImovel = $idPlanta;
+                if($idPlanta){$idDiferencial = true;}
+                    
+            }
 
 
             if ($idEndereco && $idImovel && $idCadastroImovel && $idDiferencial) {                
