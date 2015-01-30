@@ -29,13 +29,18 @@ class AnuncioControle {
         unset($parametros["tipoImovel"]);
         unset($parametros["hdnEntidade"]);
         unset($parametros["hdnAcao"]);
-        unset($parametros["garagem"]);
-        unset($parametros["valor"]);
         $parametros["predicados"] = $parametros; 
         $listarAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
         $visao = new Template();
         $visao->setItem($listarAnuncio);
         $visao->exibir('AnuncioVisaoBusca.php');
+        /*Pendências
+        1 - Função que verifica as variaveis no array com valores nulos e exclui do array;
+        2 - Função que verifica se não foram informados predicados e realiza a consulta full. 
+         * Se garagem for falso elimina ela também;
+         * 3 - 
+         * 
+         */ 
     }    
 }
 

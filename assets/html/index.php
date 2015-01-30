@@ -56,8 +56,16 @@
                             <div class="default text"></div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
-                                <div class="item" data-value=1000>1000</div>
-                                <div class="item" data-value=2000>2000</div>
+                                <div class='item' data-value=100000>Menos de R$100.000</div>
+                                <?php
+                                $i = 100000; 
+                                while ($i < 1000000){                                    
+                                    print "<div class='item' data-value=" . 
+                                            $i . ">Entre R$" . number_format($i, 2, ',', '.') . " e R$" . number_format($i+100000, 2, ',', '.') . "</div>";
+                                    $i = $i+100000;
+                                }    
+                                    ?>
+                                <div class='item' data-value=1000000>Mais de R$1.000.000</div>
                             </div>
                         </div>
                     </div>
@@ -102,7 +110,7 @@
                                 <div class="item" data-value="2">2</div>
                                 <div class="item" data-value="3">3</div>
                                 <div class="item" data-value="4">4</div>
-                                <div class="item" data-value="5">+5</div>
+                                <div class="item" data-value="5">Mais de 5</div>
                             </div>
                         </div>
                     </div>

@@ -19,7 +19,7 @@ function buscarAnuncio() {
                         cidade: $('#sltCidade').val(),
                         bairro: $('#sltBairro').val(),
                         quarto: $('#sltQuartos').val(),
-                        garagem: $('#checkgaragem').val(),
+                        garagem: $('#checkgaragem').parent().checkbox('is checked'),
                         hdnEntidade: "Anuncio",
                         hdnAcao: "buscarAnuncio"
                     },
