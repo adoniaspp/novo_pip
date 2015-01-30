@@ -76,5 +76,16 @@ class Casa {
     function setImovel($imovel) {
         $this->imovel = $imovel;
     }
-
+    
+    function cadastrar($parametros, $idimovel) {
+        $casa = new Casa();
+        $casa->setIdimovel($idimovel);
+        $casa->setQuarto($parametros["sltQuarto"]);
+        $casa->setBanheiro($parametros["sltBanheiro"]);
+        $casa->setSuite($parametros["sltSuite"]);          
+        $casa->setGaragem($parametros["sltGaragem"]);
+        $casa->setArea($parametros["txtArea"]);
+        return $casa;
+    }
+    
 }

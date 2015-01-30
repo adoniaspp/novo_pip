@@ -1,12 +1,17 @@
 <!-- INICIO DO MAPA --> 
 <script src="assets/js/imovel.js"></script>
+<script src="assets/js/usuario.js"></script>
+<script src="assets/libs/jquery/jquery.validate.min.js"></script>
+<script src="assets/libs/jquery/jquery.mask.min.js"></script>
+<!-- JS -->
+<script src="assets/js/util.validate.js"></script>
 <script>
     
     carregaB();      
     esconderCamposInicio();
-         
-        
-            //});
+    mascarasFormUsuario();
+    acoesCEP();
+    buscarCep();
     
 </script>
 
@@ -17,7 +22,7 @@ Sessao::gerarToken();
 <div class="container">
     <div class="ui hidden divider"></div>
     <div class="ui page grid main">
-        <div class="column">
+        <div class="column">          
             <div class="ui large breadcrumb">
                 <a class="section" href="index.php">Início</a>
                 <i class="right chevron icon divider"></i>
@@ -28,7 +33,11 @@ Sessao::gerarToken();
     <div class="ui hidden divider"></div>
     <div class="ui page grid main">
         <div class="column">
-            <form class="ui form">
+                <form id="form" class="ui form" action="index.php" method="post">
+                <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Imovel"  />
+                <input type="hidden" id="hdnAcao" name="hdnAcao" value="cadastrar" />
+                <input type="hidden" id="hdnCEP" name="hdnCEP" />
+                <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
                 <h3 class="ui dividing header">Informações do Imóvel</h3>
                 <div class="fields">
                     <div class="four wide required field">
@@ -47,7 +56,7 @@ Sessao::gerarToken();
                         </div>
                     </div>
                     
-                        <div class="four wide required field" id="divCondicao">
+                       <!-- <div class="four wide required field" id="divCondicao">
                             <label>Condição</label>
                             <div class="ui selection dropdown">
                                 <input type="hidden" name="sltCondicao" id="sltCondicao">
@@ -58,7 +67,7 @@ Sessao::gerarToken();
                                     <div class="item" data-value="novo">Novo</div>
                                 </div>
                             </div>
-                        </div>    
+                        </div>    -->
                     
                         <div class="three wide required field" id="divNumeroPlantas">
                             <label>Número de Plantas</label>
@@ -163,7 +172,7 @@ Sessao::gerarToken();
                 <div class="one field" id="divDescricao">
                     <div class="field">
                         <label>Identificar Este Imóvel Como:</label>
-                        <textarea maxlength="100" id="txtDescricao" name="txtDescricao" class="form-control" rows="2" cols="8"></textarea>
+                        <textarea maxlength="100" id="txtDescricao" name="txtIdentificacao" class="form-control" rows="2" cols="8"></textarea>
                     </div>                    
                 </div>
                 
@@ -211,12 +220,12 @@ Sessao::gerarToken();
                     </div>
                     
                     <div class="ui checkbox" id="chkCobertura">
-                        <input type="checkbox" name="chkCobertura" value="cobertura">
+                        <input type="checkbox" name="chkCobertura" value="chkCobertura">
                             <label>Está na Cobertura</label>
                     </div>
                     
                     <div class="ui checkbox" id="chkSacada">
-                        <input type="checkbox" name="chkSacada" value="sacada">
+                        <input type="checkbox" name="chkSacada" value="chkSacada">
                             <label>Possui Sacada</label>
                     </div>
                     
@@ -240,8 +249,8 @@ Sessao::gerarToken();
                         <div class="five wide field">
                             <div class="ui action left icon input">
                                 <i class="search icon"></i>
-                                <input type="text" placeholder="Informe o seu CEP...">
-                                <div class="ui teal button">Buscar CEP</div>
+                                <input type="text" name="txtCEP" id="txtCEP" placeholder="Informe o seu CEP...">
+                                <div class="ui teal button" id="btnCEP">Buscar CEP</div>
                             </div>              
                         </div>
                     <div class="three wide field"><label>Não sabe o CEP? <a href="#">clique aqui</a></label></div>
@@ -249,29 +258,29 @@ Sessao::gerarToken();
                 
                     <div id="divCEP" class="six fields">
                         <div class="field">
-                            <label>Cidade</label>
-                            <input type="text" name="txtCidade" readonly="readonly">
-                        </div>
-                        <div class="one wide field">
-                            <label>Estado</label>
-                            <input type="text" name="txtEstado" readonly="readonly">
-                        </div>
-                        <div class=" field">
-                            <label>Bairro</label>
-                            <input type="text" name="txtBairro" readonly="readonly">
-                        </div>
-                        <div class="five wide field">
-                            <label>Logradouro</label>
-                            <input type="text" name="txtLogradouro" readonly="readonly">
-                        </div>
-                        <div class="two wide field">
-                            <label>Número</label>
-                            <input type="text" name="txtNumero" placeholder="Informe o nº">
-                        </div>
-                        <div class="two wide field">
-                            <label>Complemento</label>
-                            <input type="text" name="txtComplemento" placeholder="Complemento">
-                        </div>
+                        <label>Cidade</label>
+                        <input type="text" name="txtCidade" id="txtCidade" readonly="readonly">
+                    </div>
+                    <div class="one wide field">
+                        <label>Estado</label>
+                        <input type="text" name="txtEstado" id="txtEstado" readonly="readonly">
+                    </div>
+                    <div class=" field">
+                        <label>Bairro</label>
+                        <input type="text" name="txtBairro" id="txtBairro" readonly="readonly">
+                    </div>
+                    <div class="seven wide field">
+                        <label>Logradouro</label>
+                        <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly">
+                    </div>
+                    <div class="two wide field">
+                        <label>Número</label>
+                        <input type="text" name="txtNumero" id="txtNumero" placeholder="Informe o nº">
+                    </div>
+                    <div class="seven wide field">
+                        <label>Complemento</label>
+                        <input type="text" name="txtComplemento" id="txtComplemento" placeholder="Complemento">
+                    </div>
                     </div>
                 
                 </div>    

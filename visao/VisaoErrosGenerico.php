@@ -20,7 +20,8 @@ switch ($item) {
     case "sucessoalterarsenha":
     case "sucessocadastrousuario":
     case "sucessocadastroimovel":
-    case "sucessoedicaousuario":
+    case "sucessocadastroimovel":
+    case "sucessoedicaousuario":    
     case "sucessoenvioemail":
         ?>
                 $('#diverro').attr('class', 'row text-success');

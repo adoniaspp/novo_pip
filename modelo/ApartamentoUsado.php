@@ -10,8 +10,8 @@ class ApartamentoUsado {
     private $banheiro;
     private $garagem;
     private $area;
-    private $identificacao;
     private $sacada;
+    private $andares;
     private $andar;
     private $cobertura;
     
@@ -43,10 +43,6 @@ class ApartamentoUsado {
 
     function getArea() {
         return $this->area;
-    }
-
-    function getIdentificacao() {
-        return $this->identificacao;
     }
 
     function getSacada() {
@@ -89,16 +85,19 @@ class ApartamentoUsado {
         $this->area = $area;
     }
 
-    function setIdentificacao($identificacao) {
-        $this->identificacao = $identificacao;
-    }
-
     function setSacada($sacada) {
         $this->sacada = $sacada;
     }
 
     function setAndar($andar) {
         $this->andar = $andar;
+    }
+    function getAndares() {
+        return $this->andares;
+    }
+
+    function setAndares($andares) {
+        $this->andares = $andares;
     }
 
     function setCobertura($cobertura) {
@@ -111,6 +110,31 @@ class ApartamentoUsado {
 
     function setImovel($imovel) {
         $this->imovel = $imovel;
+    }
+    
+    function cadastrar($parametros, $idImovel) {
+        /*echo "<pre>";
+        print_r($parametros);
+        die();*/
+        $apeusado = new ApartamentoUsado();
+        $apeusado->setIdimovel($idImovel);
+        $apeusado->setQuarto($parametros["sltQuarto"]);
+        $apeusado->setBanheiro($parametros["sltBanheiro"]);
+        $apeusado->setSuite($parametros["sltSuite"]);          
+        $apeusado->setGaragem($parametros["sltGaragem"]);
+        $apeusado->setArea($parametros["txtArea"]);
+        $apeusado->setAndares($parametros["sltAndares"]);
+        $apeusado->setAndar($parametros["sltAndar"]);
+        
+        if(!isset($parametros["chkCobertura"])){
+            $apeusado->setCobertura($parametros["chkCobertura"]="");
+        }else $apeusado->setCobertura($parametros["chkCobertura"]="SIM");
+        
+        if(!isset($parametros["chkSacada"])){
+            $apeusado->setSacada($parametros["chkSacada"]="");
+        }else $apeusado->setSacada($parametros["chkSacada"]="SIM");
+        
+        return $apeusado;
     }
 
 }

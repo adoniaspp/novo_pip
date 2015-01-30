@@ -15,9 +15,10 @@ class TipoImovelDiferencialControle {
        $diferenciais = $genericoDAO->consultar($tipoImovelDiferencial, true, array("idtipoimovel" => $parametros["sltTipo"]));      
        
        foreach ($diferenciais as $diferencial){          
-           echo "<div class='ui checkbox'>"
+          echo "<div class='ui checkbox'>"
               . "<input type='checkbox' name='chkDiferencial[]' value='".$diferencial->getDiferencial()->getId()."'>"
-              . "".$diferencial->getDiferencial()->getDescricao()."</div>\n";            
+              . "<label>".$diferencial->getDiferencial()->getDescricao()." </label>\n
+              </div>" ;             
        }
     }
     

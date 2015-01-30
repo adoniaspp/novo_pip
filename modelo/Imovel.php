@@ -89,22 +89,15 @@ class Imovel {
     }
 
     function cadastrar($parametros, $idendereco) {
-        $this->setDatahoraalteracao(NULL);
-        $this->setDatahoracadastro(date("Y/m/d H:i:s"));
-        $this->setIdendereco($idendereco);
-        $this->setIdentificacao($parametros['txtIdentificacao']);
-        $this->setIdtipoimovel($parametros['sltTipoImovel']);
-        $this->setIdusuario($_SESSION["idusuario"]);
-        switch ($parametros['sltTipoImovel']) {
-            case 1:
-            case 2:
-            case 3:
-                $this->setCondicao($parametros['sltTipoImovel']);
-                break;
-            default:
-                $this->setCondicao(NULL);
-                break;
-        }
+        $imovel = new Imovel();
+        $imovel->setIdtipoimovel($parametros['sltTipo']);  
+        $imovel->setDatahoraalteracao("");
+        $imovel->setDatahoracadastro(date("Y/m/d H:i:s"));
+        $imovel->setIdendereco($idendereco);          
+        $imovel->setIdusuario($_SESSION["idusuario"]);       
+        $imovel->setCondicao("novo");
+        $imovel->setIdentificacao($parametros['txtIdentificacao']);
+        return $imovel;
     }
 
     function editar($parametros) {

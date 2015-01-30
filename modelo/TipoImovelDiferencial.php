@@ -31,4 +31,5 @@ class TipoImovelDiferencial {
     function setDiferencial($diferencial) {
         $this->diferencial = $diferencial;
     }   
+    
 }
