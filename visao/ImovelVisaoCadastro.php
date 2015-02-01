@@ -27,7 +27,7 @@ Sessao::gerarToken();
             <div class="ui large breadcrumb">
                 <a class="section" href="index.php">Início</a>
                 <i class="right chevron icon divider"></i>
-                <a class="active section">Cadastrar Imovel</a>
+                <a class="active section">Cadastrar Imóvel</a>
             </div>
         </div>
     </div>
@@ -87,8 +87,8 @@ Sessao::gerarToken();
                             
                         </div>
                     
-                        <div id="divArea" class="one field">
-                                    <div class="required field">
+                       <div id="divArea" class="one field">
+                                    <div class="field">
                                         <label>Área(m2)</label>
                                         <input type="text" name="txtArea" id="txtArea" placeholder="Informe a Área">
                                     </div>                                     
@@ -162,7 +162,7 @@ Sessao::gerarToken();
                         </div>
                     </div> 
                     
-                    <div id="divArea" class="one field">
+                    <div id="divAreaPlanta" class="one field">
                         <div class="required field">
                             <label>Área(m2)</label>
                             <input type="text" name="txtArea[]" id="txtArea1" placeholder="Informe a Área">
@@ -319,12 +319,7 @@ Sessao::gerarToken();
                 </div>    
                 
                 <h3 class="ui dividing header">Confirmação de Cadastro</h3>
-                <div class="field">
-                    <div class="ui checkbox">
-                        <input type="checkbox" name="confirmacao">
-                        <label>Estou de acordo com a <a href="#">política de privacidade</a> e os <a href="#">termos de uso</a> do PIP.</label>
-                    </div>
-                </div>
+
                 <button class="ui blue submit button" type="submit">Cadastrar</button>
                 <button class="ui orange button" type="reset">Cancelar</button>
             </form>
