@@ -3,15 +3,16 @@
 <script src="assets/js/usuario.js"></script>
 <script src="assets/libs/jquery/jquery.validate.min.js"></script>
 <script src="assets/libs/jquery/jquery.mask.min.js"></script>
-<!-- JS -->
 <script src="assets/js/util.validate.js"></script>
 <script>
     
-    carregaDiferencial();      
+    cadastrarImovel();
+    //carregaDiferencial();      
     esconderCamposInicio();
     mascarasFormUsuario();
     acoesCEP();
     buscarCep();
+    
     
 </script>
 
@@ -48,8 +49,8 @@ Sessao::gerarToken();
                             <i class="dropdown icon"></i>
                             <div class="menu">
                                 <div class="item" data-value="1">Casa</div>
-                                <div class="item" data-value="2">Apartamento na Planta/Novo</div>
-                                <div class="item" data-value="3">Apartamento Usado</div>
+                                <div class="item" data-value="2">Apartamento na Planta</div>
+                                <div class="item" data-value="3">Apartamento</div>
                                 <div class="item" data-value="4">Sala Comercial</div>
                                 <div class="item" data-value="5">Terreno</div>
                             </div>
@@ -60,7 +61,7 @@ Sessao::gerarToken();
                             <label>Condição</label>
                             <div class="ui selection dropdown">
                                 <input type="hidden" name="sltCondicao" id="sltCondicao">
-                                <div class="default text">Condição do Apartamento</div>
+                                <div class="default text">Condição</div>
                                 <i class="dropdown icon"></i>
                                 <div class="menu">
                                     <div class="item" data-value="novo">Novo</div>
@@ -100,7 +101,7 @@ Sessao::gerarToken();
                     <div class="three wide required field">
                         <label>Quarto(s)</label>
                         <div class="ui selection dropdown">
-                            <input type="hidden" name="sltQuarto" id="sltQuarto">
+                            <input type="hidden" name="sltQuarto[]" id="sltQuarto1">
                             <div class="default text">Quarto(s)</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
@@ -116,7 +117,7 @@ Sessao::gerarToken();
                     <div class="three wide required field">
                         <label>Banheiro(s)</label>
                         <div class="ui selection dropdown">
-                            <input type="hidden" name="sltBanheiro" id="sltBanheiro">
+                            <input type="hidden" name="sltBanheiro[]" id="sltBanheiro1">
                             <div class="default text">Banheiro(s)</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
@@ -131,7 +132,7 @@ Sessao::gerarToken();
                     <div class="three wide required field">
                         <label>Suite(s)</label>
                         <div class="ui selection dropdown">
-                            <input type="hidden" name="sltSuite" id="sltSuite">
+                            <input type="hidden" name="sltSuite[]" id="sltSuite1">
                             <div class="default text">Suite(s)</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
@@ -147,7 +148,7 @@ Sessao::gerarToken();
                     <div class="three wide required field">
                         <label>Vagas de Garagem</label>
                         <div class="ui selection dropdown">
-                            <input type="hidden" name="sltGaragem" id="sltGaragem">
+                            <input type="hidden" name="sltGaragem[]" id="sltGaragem1">
                             <div class="default text">Vaga(s) de Garagem</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
@@ -161,10 +162,10 @@ Sessao::gerarToken();
                         </div>
                     </div> 
                     
-                    <div id="divAreaApeNovo" class="one field">
+                    <div id="divArea" class="one field">
                         <div class="required field">
                             <label>Área(m2)</label>
-                            <input type="text" name="txtAreaApeNovo" id="txtAreaApeNovo" placeholder="Informe a Área">
+                            <input type="text" name="txtArea[]" id="txtArea1" placeholder="Informe a Área">
                         </div>                                     
                     </div>
                     
@@ -188,7 +189,7 @@ Sessao::gerarToken();
                 
                 <div class="fields" id="divApartamento">
                     
-                    <div class="three required field">
+                    <div class="three field">
                         <label>Número de Andares do Prédio</label>
                         <div class="ui selection dropdown">
                             <input type="hidden" name="sltAndares" id="sltAndares">
@@ -205,7 +206,7 @@ Sessao::gerarToken();
                     </div> 
                     
                                         
-                    <div class="three wide required field" id="divUnidadesAndar">
+                    <div class="three wide field" id="divUnidadesAndar">
                         <label>Unidades por Andar</label>
                         <div class="ui selection dropdown">
                             <input type="hidden" name="sltUnidadesAndar" id="sltUnidadesAndar">
@@ -221,7 +222,7 @@ Sessao::gerarToken();
                         </div>
                     </div>                    
                     
-                    <div class="three wide required field" id="divNumeroTorres">
+                    <div class="three wide field" id="divNumeroTorres">
                         <label>Número de Torres</label>
                         <div class="ui selection dropdown">
                             <input type="hidden" name="sltNumeroTorres" id="sltNumeroTorres">
@@ -245,7 +246,7 @@ Sessao::gerarToken();
                     </div>
                     
                     <div id="divCondominio" class="one field">
-                    <div class="required field">
+                    <div class=" field">
                         <label>Valor do Condominio</label>
                         <input type="text" name="txtCondominio" placeholder="Valor do Condominio">
                     </div>                                     
