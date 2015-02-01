@@ -57,9 +57,9 @@ $item = $this->getItem();
                 <div class="column">
                     <a href="index.php?entidade=Imovel&acao=form">
                         <button type="button"  class="ui green button">
-
                             <i class="add icon"></i> Cadastrar Imóvel
-                        </button></a>         
+                        </button>
+                    </a>         
                     <?php
                     if ($item) {
                         if ($item['imovel']) {

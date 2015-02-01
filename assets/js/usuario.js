@@ -167,7 +167,8 @@ function cadastrarUsuario() {
                     remote: "CNPJ já utilizado"
                 },
                 txtEmail: {
-                    remote: "Email já utilizado"
+                    remote: "Email já utilizado",
+                    email: "Informe um email válido"
                 },
                 txtLogin: {
                     minlength: "Login deve possuir no mínimo 2 caracteres",
@@ -177,7 +178,7 @@ function cadastrarUsuario() {
                     minlength: "Senha deve possuir no mínimo 8 caracteres"
                 },
                 txtConfirmarSenha: {
-                    equalTo: "Por Favor digite o mesmo valor novamente"
+                    equalTo: "Por Favor digite a senha novamente"
                 },
                 chkConfirmacao: {
                     required: "A confirmação é obrigatória"
@@ -226,7 +227,7 @@ function cadastrarUsuario() {
         });
         $("#sltTipotelefone").change(function() {
             $("#txtTel").unmask();
-            if($(this).val() == "Fixo"){
+            if ($(this).val() == "Fixo") {
                 $("#txtTel").mask('(00) 0000-0000');
             } else {
                 $("#txtTel").mask('(00) 00000-0000');
@@ -271,7 +272,7 @@ function acoesCEP() {
     })
 }
 
-function cancelar() {
+function cancelar(URL) {
     $(document).ready(function() {
         $('#btnCancelar').click(function() {
             $('#modalCancelar').modal({
@@ -281,7 +282,10 @@ function cancelar() {
                     return false;
                 },
                 onApprove: function() {
-                    location.href = "index.php";
+                    if (URL === "inicio")
+                        location.href = "index.php";
+                    if (URL === "meuPIP")
+                        location.href = "index.php?entidade=Usuario&acao=meuPIP";
                 }
             }).modal('show');
         })
@@ -421,18 +425,177 @@ $(document).ready(function() {
     });
 
     $('.btn-file :file').on('fileselect', function(event, numFiles, label, size) {
-        $('#attachmentName').attr('name', 'attachmentName'); // allow upload.
+        $('#arquivo').attr('name', 'arquivo'); // allow upload.
         var postfix = label.substr(label.lastIndexOf('.'));
         if (fileExtentionRange.indexOf(postfix.toLowerCase()) > -1) {
             if (size > 1024 * 1024 * MAX_SIZE) {
-                alert('max size：<strong>' + MAX_SIZE + '</strong> MB.');
-                $('#attachmentName').removeAttr('name'); // cancel upload file.
+                alert('Tamanho máximo da imagem：<strong>' + MAX_SIZE + '</strong> MB.');
+                $('#arquivo').removeAttr('name'); // cancel upload file.
             } else {
-                $('#_attachmentName').val(label);
+                $('#arquivolabel').val(label);
             }
         } else {
-            alert('file type：<br/> <strong>' + fileExtentionRange + '</strong>');
-            $('#attachmentName').removeAttr('name'); // cancel upload file.
+            alert('Tipo de arquivo inválido：<br/> <strong>' + fileExtentionRange + '</strong>');
+            $('#arquivo').removeAttr('name'); // cancel upload file.
         }
     });
 });
+
+function alterarSenha() {
+    $(document).ready(function() {
+        $("#btnAlterarSenha").click(function() {
+            if ($("#form").valid()) {
+                if (($("input[name^=txtSenhaAtual]").val()) === ($("input[name^=txtSenhaNova]").val())) {
+                    $('#modalSenha').modal({
+                        transition: "fade up",
+                    }).modal('show');
+                } else {
+                    $("#form").submit();
+                }
+            }
+        });
+        $.validator.setDefaults({
+            ignore: [],
+            errorClass: 'errorField',
+            errorElement: 'div',
+            errorPlacement: function(error, element) {
+                error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
+            },
+            highlight: function(element, errorClass, validClass) {
+                $(element).closest("div.field").addClass("error").removeClass("success");
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).closest(".error").removeClass("error").addClass("success");
+            }
+        });
+        $.validator.messages.required = 'Campo obrigatório';
+        $.validator.messages.minlength = "Senha deve possuir no mínimo 8 caracteres";
+        $('#form').validate({
+            rules: {
+                txtSenhaAtual: {
+                    required: true,
+                    minlength: 8
+                },
+                txtSenhaNova: {
+                    required: true,
+                    minlength: 8
+                },
+                txtSenhaConfirmacao: {
+                    required: true,
+                    minlength: 8,
+                    equalTo: "#txtSenhaNova"
+                }
+            },
+            messages: {
+                txtSenhaConfirmacao: {
+                    equalTo: "Por Favor digite a nova senha novamente"
+                }
+            },
+            submitHandler: function(form) {
+                form.submit();
+            }
+        });
+    });
+}
+
+function trocarImagem() {
+    $(document).ready(function() {
+        $("#btnAlterarImagem").click(function() {
+            if ($("#form").valid()) {
+                $("#form").submit();
+            }
+        });
+        $("#btnExcluirImagem").click(function() {
+            $('#modalExcluir').modal({
+                closable: false,
+                transition: "fade up",
+                onDeny: function() {
+                    return false;
+                },
+                onApprove: function() {
+                    $("#hdnExcluir").val(1);
+                    $("#arquivolabel").rules("remove");
+                    $("#form").submit();
+                }
+            }).modal('show');
+        });
+        $.validator.addMethod('filesize', function(value, element, param) {
+            // param = size (en bytes) 
+            // element = element to validate (<input>)
+            // value = value of the element (file name)
+            return this.optional(element) || (element.files[0].size <= param)
+        });
+        $.validator.setDefaults({
+            ignore: [],
+            errorClass: 'errorField',
+            errorElement: 'div',
+            errorPlacement: function(error, element) {
+                error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
+            },
+            highlight: function(element, errorClass, validClass) {
+                $(element).closest("div.field").addClass("error").removeClass("success");
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).closest(".error").removeClass("error").addClass("success");
+            }
+        });
+        $.validator.messages.required = 'Campo obrigatório';
+        $('#form').validate({
+            onkeyup: false,
+            focusInvalid: true,
+            rules: {
+                arquivolabel: {
+                    required: true
+                }
+            },
+            submitHandler: function(form) {
+                form.submit();
+            }
+        });
+    });
+}
+
+function esqueciSenha() {
+    $(document).ready(function() {
+        $("#btnEnviar").click(function() {
+            if ($("#form").valid()) {
+                $("#form").submit();
+            }
+        });
+        $.validator.setDefaults({
+            ignore: [],
+            errorClass: 'errorField',
+            errorElement: 'div',
+            errorPlacement: function(error, element) {
+                error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
+            },
+            highlight: function(element, errorClass, validClass) {
+                $(element).closest("div.field").addClass("error").removeClass("success");
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).closest(".error").removeClass("error").addClass("success");
+            }
+        });
+        $.validator.messages.required = 'Campo obrigatório';
+        $('#form').validate({
+            onkeyup: false,
+            focusInvalid: true,
+            rules: {
+                txtEmail: {
+                    email: true,
+                    required: true
+                }
+            },
+            messages: {
+                txtEmail: {
+                    email: "Informe um email válido"
+                }
+            },
+            submitHandler: function(form) {
+                form.submit();
+            }
+        });
+
+
+    });
+}

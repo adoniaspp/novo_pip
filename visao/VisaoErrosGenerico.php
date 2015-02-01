@@ -121,23 +121,18 @@ switch ($item) {
                         break;
                     case "sucessocadastroimovel":
                         ?>
-                        <h2 class="text-center">O imóvel foi cadastrado com sucesso!</h2>
-                        <p class="text-center">O que deseja fazer? </p> 
-                        <p class="text-center">
-                            <a href="index.php?entidade=Anuncio&acao=listarCadastrar">
-                                <button type="button" class="btn btn-info">
-                                    <span class="glyphicon glyphicon-bullhorn"></span> 
-                                    <span class="glyphicon glyphicon-plus"></span> Cadastrar Anúncios
-                                </button>
-                            </a> 
-
-                            <a href="index.php?entidade=Imovel&acao=form">
-                                <button type="button" class="btn btn-success">
-                                    <span class="glyphicon glyphicon-home"></span>
-                                    <span class="glyphicon glyphicon-plus"></span> Cadastrar Outro Imóvel
-                                </button></a>                    
-                        </p>
-
+                        <h2>O imóvel foi cadastrado com sucesso!</h2>
+                        <h3>O que deseja fazer? </h3> 
+                        <a href="index.php?entidade=Anuncio&acao=listarCadastrar">
+                            <button type="button"  class="ui purple button">
+                                <i class="announcement icon"></i><i class="add icon"></i> Publicar Anúncios
+                            </button>
+                        </a> 
+                        <a href="index.php?entidade=Imovel&acao=form">
+                            <button type="button"  class="ui inverted button">
+                                <i class="home icon"></i><i class="add icon"></i> Cadastrar Outro Imóvel
+                            </button>
+                        </a>         
                         <?php
                         break;
                 }
