@@ -635,7 +635,6 @@ class UsuarioControle {
                     $usuario->setFoto($novoNome);
                 }
             }
-            
             $resultado = $genericoDAO->editar($usuario);
             if ($deletar & $resultado) {
                 $genericoDAO->commit();

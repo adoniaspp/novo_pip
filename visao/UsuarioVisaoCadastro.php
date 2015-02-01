@@ -8,7 +8,7 @@
     cadastrarUsuario();
     mascarasFormUsuario();
     acoesCEP();
-    cancelar();
+    cancelar("inicio");
     confirmar();
 </script>
 <?php
@@ -29,7 +29,7 @@ Sessao::gerarToken();
     <div class="ui hidden divider"></div>
     <div class="ui page grid main">
         <div class="column">
-            <form id="form" class="ui form" action="index.php" method="post">
+            <form id="form" class="ui form" action="index.php" method="post" enctype="multipart/form-data">
                 <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
                 <input type="hidden" id="hdnAcao" name="hdnAcao" value="cadastrar" />
                 <input type="hidden" id="hdnCEP" name="hdnCEP" />

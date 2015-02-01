@@ -10,6 +10,7 @@ function esconderCamposInicio() {
         
         $("#divCondicao").hide();
         $("#divArea").hide();
+        $("#divAreaPlanta").hide();
         $("#divInfoApeCasa").hide();
         $("#divDescricao").hide();
         $("#divApartamento").hide();
@@ -21,9 +22,36 @@ function esconderCamposInicio() {
         $("#divAreaApeNovo").hide();
         $("#chkCobertura").hide();
         $("#chkSacada").hide();
-   
+        
+        $("#sltTipo").rules("add", {
+                    required: true
+        });
+        
         $("#sltTipo").change(function() {
-           
+            
+             $.ajax({
+                    url: "index.php",
+                    //dataType: "json",
+                    type: "POST",
+                    data: {
+                        hdnEntidade: "TipoImovelDiferencial",
+                        hdnAcao: "buscarDiferencialChk",
+                        sltTipo: $('#sltTipo').val()
+                    },
+                    
+                    success: function (resposta) {
+                       $('#chkDiferencial').html(resposta);
+                       $('.ui.checkbox')
+                        .checkbox();
+                    }
+                })
+            
+            
+            $("input[id^='slt']").each(function () {
+                $(this).rules("remove");
+                
+            })
+
            $('#sltNumeroPlantas').parent().dropdown('restore defaults');
            $('#sltQuarto').parent().dropdown('restore defaults');
            $('#sltSuite').parent().dropdown('restore defaults');
@@ -35,8 +63,8 @@ function esconderCamposInicio() {
             mostrarArea();
                         
             if ($(this).val() == "1") { //casa
-                $("#divApartamento").hide();
-                $("#divCondicao").hide(); 
+                $("#divApartamento").hide();  
+                //$("#divArea").hide(); 
                 $("#divNumeroPlantas").hide();
                 $("#divAndar").hide();
                 $("#divInserePlanta").hide();
@@ -45,13 +73,31 @@ function esconderCamposInicio() {
                 $("#divInfoApeCasa").show();
                 $("#divDescricao").show();
                 $("#divEndereco").show();
+                $("#divCondicao").show(); 
+                $("#sltCondicao").rules("add", {
+                    required: true
+                });
+                $("#sltQuarto1").rules("add", {
+                    required: true
+                });
+                $("#sltSuite1").rules("add", {
+                    required: true
+                });
+                $("#sltBanheiro1").rules("add", {
+                    required: true
+                });
+                $("#sltGaragem1").rules("add", {
+                    required: true
+                });
+                $("#txtCEP").rules("add", {
+                    required: true
+                });
                 
-                
-            } else if ($(this).val() == "2"){  //apartamento na planta / novo
+            } else if ($(this).val() == "2"){  //apartamento na planta
                 mostrarPlantas();
                  
-                $("#divNumeroPlantas").show();                
-                $("#divArea").hide();
+                $("#divNumeroPlantas").show();   
+                $("#divAreaPlanta").show();
                 $("#divInserePlanta").hide();
                 $("#divPlantaUm").hide();
                 $("#divInfoBasicas").hide();
@@ -63,11 +109,13 @@ function esconderCamposInicio() {
                 $("#chkCobertura").hide();
                 $("#chkSacada").hide();
                 $("#divCondicao").hide(); 
+                $("#divArea").hide(); 
             
-            } else if ($(this).val() == "3") { //apartamento usado 
+            } else if ($(this).val() == "3") { //apartamento novo ou usado 
                 $("#divPlantaUm").hide();               
                 $("#divNumeroPlantas").hide();
                 $("#divInserePlanta").hide();
+                $("#divAreaPlanta").hide();
                 $("#divCondicao").show();
                 $("#divInfoApeCasa").show();
                 $("#divDescricao").show();
@@ -84,6 +132,7 @@ function esconderCamposInicio() {
                 $("#divAndar").hide();
                 $("#divNumeroPlantas").hide();
                 $("#divCondicao").hide();
+                $("#divAreaPlanta").hide();
                 $("#divInserePlanta").hide();
                 $("#divInfoApeCasa").hide();
                 $("#divApartamento").hide();
@@ -98,6 +147,7 @@ function esconderCamposInicio() {
                 $("#divCondicao").hide();
                 $("#divInfoApeCasa").hide();
                 $("#divApartamento").hide();
+                $("#divAreaPlanta").hide();
                 $("#divDescricao").show();               
                 $("#divEndereco").show();
 
@@ -113,11 +163,9 @@ function esconderCamposInicio() {
     }
     
     function mostrarPlantas(){
-        
-       
-        
+    $(document).ready(function () {    
         $("#sltNumeroPlantas").change(function() {         
-            
+        $(this).valid();    
         if ($(this).val() >= "1") {
             
                        
@@ -139,11 +187,11 @@ function esconderCamposInicio() {
         var valores = parseInt($("#sltNumeroPlantas").val());
         
         if(valores == 1){
-            $("#sltQuarto").attr("name", "sltQuarto").attr("id", "sltQuarto1");
-            $("#sltBanheiro").attr("name", "sltBanheiro").attr("id", "sltQuarto1");
-            $("#sltSuite").attr("name", "sltSuite").attr("id", "sltQuarto1");
-            $("#sltGaragem").attr("name", "sltGaragem").attr("id", "sltQuarto1");
-            $("#txtAreaApeNovo").attr("name", "txtAreaApeNovo").attr("id", "txtAreaApeNovo1");
+            $("#sltQuarto1").attr("name", "sltQuarto").attr("id", "sltQuarto");
+            $("#sltBanheiro1").attr("name", "sltBanheiro").attr("id", "sltQuarto");
+            $("#sltSuite1").attr("name", "sltSuite").attr("id", "sltQuarto");
+            $("#sltGaragem1").attr("name", "sltGaragem").attr("id", "sltQuarto");
+            $("#txtArea1").attr("name", "txtArea").attr("id", "txtArea");
         }
         
         if(valores >= 1){ //verifica se já existem divs na tela e as remove 
@@ -165,27 +213,27 @@ function esconderCamposInicio() {
                     $("#sltBanheiro").attr("name", "sltBanheiro[]").attr("id", "sltBanheiro"+valor);
                     $("#sltSuite").attr("name", "sltSuite[]").attr("id", "sltSuite[]"+valor);
                     $("#sltGaragem").attr("name", "sltGaragem[]").attr("id", "sltGaragem"+valor);
-                    $("#txtAreaApeNovo").attr("name", "txtAreaApeNovo[]").attr("id", "txtAreaApeNovo"+valor);
+                    $("#txtArea").attr("name", "txtArea[]").attr("id", "txtArea"+valor);
 
                  var label = "<h4>Planta "+(valor)+": </h4><div id='divNomePlantas' class='nine wide field'><input type='text' name='txtPlanta[]' id='txtPlanta"+valor+"' placeholder='Titulo da Planta. Ex: 3 Quartos + 2 Suites + Opções (Ex: Gabinete, Living Ampliado, etc)'></div>";
                  $('#divInserePlanta').append(label);
                  $('#divInserePlanta').append($clone);
               }
               
-            $('.ui.dropdown')
-                .dropdown({
-            on: 'hover'
-            });
+            
+                $("input[name^='slt']:not('#sltTipo'):not('#sltNumeroPlantas')").parent().dropdown({
+                    on: 'hover'
+                })
               
          }        
        
        })
     
     }
-    
+    )}
 }
 
-function carregaDiferencial(){
+/*function carregaDiferencial(){
     $(document).ready(function() {
                 $("#sltTipo").change(function () {
 
@@ -210,10 +258,16 @@ function carregaDiferencial(){
 
                 });
             });
-}
+}*/
 
 function cadastrarImovel(){
-    $.validator.setDefaults({
+     $(document).ready(function() {
+
+        /*validações*/
+        $.validator.addMethod('filesize', function(value, element, param) {
+            return this.optional(element) || (element.files[0].size <= param)
+        });
+        $.validator.setDefaults({
             ignore: [],
             errorClass: 'errorField',
             errorElement: 'div',
@@ -232,59 +286,30 @@ function cadastrarImovel(){
             onkeyup: false,
             focusInvalid: true,
             rules: {
-                txtSenha: {
-                    required: true,
-                    minlength: 8
-                },
-                txtConfirmarSenha: {
-                    required: true,
-                    equalTo: "#txtSenha"
-                },
-                txtCEP: {
-                    required: true
-                },
-                txtNumero: {
-                    required: true
-                },
-                chkConfirmacao: {
-                    required: true
-                },
-                arquivo: {
-                    filesize: 2097152,
-                    accept: "jpeg|png|gif"
+
+                txtArea: {
+                    minlength: 2
                 },
             },
             messages: {
-                txtCpf: {
-                    remote: "CPF já utilizado"
+                txtArea: {
+                    minlength: "Digite ao menos 2 numeros"
                 },
-                txtCnpj: {
-                    remote: "CNPJ já utilizado"
-                },
-                txtEmail: {
-                    remote: "Email já utilizado"
-                },
-                txtLogin: {
-                    minlength: "Login deve possuir no mínimo 2 caracteres",
-                    remote: "Login já utilizado"
-                },
-                txtSenha: {
-                    minlength: "Senha deve possuir no mínimo 8 caracteres"
-                },
-                txtConfirmarSenha: {
-                    equalTo: "Por Favor digite o mesmo valor novamente"
-                },
-                chkConfirmacao: {
-                    required: "A confirmação é obrigatória"
-                },
-                arquivo: {
-                    //required: "Campo obrigatório"
-                    filesize: "A imagem deve ser menor que 2MB",
-                    accept: "Extensão de Arquivo Inválida"
-                }
             },
             submitHandler: function(form) {
                 form.submit();
             }
         });
+
+    });
 }
+
+/*function sltTiraRegrasValidação(){
+    $(document).ready(function() {
+        $("#sltTipo").change(function () {
+            $("input[id^='slt']").each(function () {
+                $(this).rules("remove");
+            }) 
+        })
+    })
+}*/

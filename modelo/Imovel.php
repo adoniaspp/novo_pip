@@ -95,7 +95,11 @@ class Imovel {
         $imovel->setDatahoracadastro(date("Y/m/d H:i:s"));
         $imovel->setIdendereco($idendereco);          
         $imovel->setIdusuario($_SESSION["idusuario"]);       
-        $imovel->setCondicao("novo");
+        
+        if($parametros['sltTipo']=="2" || $parametros['sltTipo']=="5"){ //apartamento na planta ou terreno não possuem condição
+            $imovel->setCondicao("nenhuma");}
+            else $imovel->setCondicao($parametros['sltCondicao']);
+       
         $imovel->setIdentificacao($parametros['txtIdentificacao']);
         return $imovel;
     }

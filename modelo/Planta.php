@@ -87,9 +87,7 @@ class Planta {
 
         
     function cadastrar($parametros, $idApartamentoPlanta, $indiceControle) {
-        echo "<pre>";
-        print_r($parametros);
-        die();
+
         $planta = new Planta();
         $planta->setIdapartamentoplanta($idApartamentoPlanta);
         $planta->setOrdemplantas($indiceControle);
