@@ -4,139 +4,160 @@
     buscarAnuncio();
 </script>
 
-<!--<div class="ui grid">
-    <div class="row">
-        <div class="column padding-reset">-->
-
-<div class="ui page menu grid">
-    <div class="center aligned one column row"> 
-        <div class="column">
-            <div class="field">
-                <div class="ten wide required field">
-                    <label>Tipo:</label>
+<br>
+<div class="container"> 
+    <div class="ui center aligned page grid main">
+        <div class="one column">
+<!--            <div class="six wide column">-->
+                <div class="required field">
+                        <label>Tipo</label>
+                        <br>
+                        <div class="ui selection dropdown">
+                            <input type="hidden" name="sltTipoImovel" id="sltTipoImovel">
+                            <div class="default text"></div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <div class="item" data-value="casa">Casa</div>
+                                <div class="item" data-value="apnovo">Apartamento na Planta/Novo</div>
+                                <div class="item" data-value="apusado">Apartamento Usado</div>
+                                <div class="item" data-value="slcomercia">Sala Cormecial</div>
+                                <div class="item" data-value="terreno">Terreno</div>
+                            </div>
+                        </div>
+                </div>
+<!--            </div>-->
+        </div>
+    </div>
+    <div class="ui center aligned page grid main" id="divcasa">
+        <div class="four column row">
+            <div class="three wide column">
+                <div class="field">
+                    <label>Finalidade</label>
                     <br>
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="sltTipoImovel" id="sltTipoImovel">
+                    <div class="ui fluid selection dropdown">
+                        <input type="hidden" name="sltFinalidade" id="sltFinalidade">
                         <div class="default text"></div>
                         <i class="dropdown icon"></i>
                         <div class="menu">
-                            <div class="item" data-value="casa">Casa</div>
-                            <div class="item" data-value="apnovo">Apartamento na Planta/Novo</div>
-                            <div class="item" data-value="apusado">Apartamento Usado</div>
-                            <div class="item" data-value="slcomercia">Sala Cormecial</div>
-                            <div class="item" data-value="terreno">Terreno</div>
+                            <div class="item" data-value="venda">Venda</div>
+                            <div class="item" data-value="aluguel">Aluguel</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="five wide column">
+                <div class="field">
+                    <label>Valor</label>
+                    <br>
+                    <div class="ui fluid selection dropdown">
+                        <input type="hidden" name="sltValor" id="sltValor">
+                        <div class="default text"></div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class='item' data-value=0>Menos de R$100.000</div>
+                            <?php
+                            $i = 100000;
+                            while ($i < 1000000) {
+                                print "<div class='item' data-value=" .
+                                        $i . ">Entre R$" . number_format($i, 2, ',', '.') . " e R$" . number_format($i + 100000, 2, ',', '.') . "</div>";
+                                $i = $i + 100000;
+                            }
+                            ?>
+                            <div class='item' data-value=1000000>Mais de R$1.000.000</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="three wide column">
+                <div class="field">
+                    <label>Condição</label>
+                    <br>
+                    <div class="ui fluid selection dropdown">
+                        <input type="hidden" name="sltCidade" id="sltCidade">
+                        <div class="default text"></div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item" data-value="novo">Novo</div>
+                            <div class="item" data-value="usado">Usado</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="three wide column">
+                <div class="field">
+                    <label>Quartos</label>
+                    <br>
+                    <div class="ui selection dropdown">
+                        <input type="hidden" name="sltQuartos" id="sltQuartos">
+                        <div class="default text"></div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item" data-value="1">1</div>
+                            <div class="item" data-value="2">2</div>
+                            <div class="item" data-value="3">3</div>
+                            <div class="item" data-value="4">4</div>
+                            <div class="item" data-value="5">Mais de 5</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="center aligned one column row">
-        <div class="column">
-            <form class="ui form">
-                <div class="fields">
-
-                    <div class="three wide field">
-                        <label>Finalidade</label>
-                        <div class="ui selection dropdown">
-                            <input type="hidden" name="sltFinalidade" id="sltFinalidade">
-                            <div class="default text"></div>
-                            <i class="dropdown icon"></i>
-                            <div class="menu">
-                                <div class="item" data-value="venda">Venda</div>
-                                <div class="item" data-value="aluguel">Aluguel</div>
-                            </div>
+        <div class="three column middle aligned row">
+            <div class="four wide column">
+                <div class="field">
+                    <label>Cidade</label>
+                    <br>
+                    <div class="ui fluid selection dropdown">
+                        <input type="hidden" name="sltCidade" id="sltCidade">
+                        <div class="default text"></div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item" data-value="Belem">Belém</div>
+                            <div class="item" data-value="Ananindeua">Ananindeua</div>
+                            <div class="item" data-value="Marituba">Marituba</div>
                         </div>
                     </div>
-
-                    <div class="three wide field">
-                        <label>Valor</label>
-                        <div class="ui selection dropdown">
-                            <input type="hidden" name="sltValor" id="sltValor">
-                            <div class="default text"></div>
-                            <i class="dropdown icon"></i>
-                            <div class="menu">
-                                <div class='item' data-value=100000>Menos de R$100.000</div>
-                                <?php
-                                $i = 100000; 
-                                while ($i < 1000000){                                    
-                                    print "<div class='item' data-value=" . 
-                                            $i . ">Entre R$" . number_format($i, 2, ',', '.') . " e R$" . number_format($i+100000, 2, ',', '.') . "</div>";
-                                    $i = $i+100000;
-                                }    
-                                    ?>
-                                <div class='item' data-value=1000000>Mais de R$1.000.000</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="three wide field">
-                        <label>Cidade</label>
-                        <div class="ui selection dropdown">
-                            <input type="hidden" name="sltCidade" id="sltCidade">
-                            <div class="default text"></div>
-                            <i class="dropdown icon"></i>
-                            <div class="menu">
-                                <div class="item" data-value="Belem">Belém</div>
-                                <div class="item" data-value="Ananindeua">Ananindeua</div>
-                                <div class="item" data-value="Marituba">Marituba</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="three wide field">
-                        <label>Bairro</label>
-                        <div class="ui selection dropdown">
-                            <input type="hidden" name="sltBairro" id="sltBairro">
-                            <div class="default text"></div>
-                            <i class="dropdown icon"></i>
-                            <div class="menu">
-                                <div class="item" data-value="jurunas">Jurunas</div>
-                                <div class="item" data-value="marco">Marco</div>
-                                <div class="item" data-value="pratinha">Pratinha</div>
-                                <div class="item" data-value="Água Boa">Água Boa</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="three wide field">
-                        <label>Quartos</label>
-                        <div class="ui selection dropdown">
-                            <input type="hidden" name="sltQuartos" id="sltQuartos">
-                            <div class="default text"></div>
-                            <i class="dropdown icon"></i>
-                            <div class="menu">
-                                <div class="item" data-value="1">1</div>
-                                <div class="item" data-value="2">2</div>
-                                <div class="item" data-value="3">3</div>
-                                <div class="item" data-value="4">4</div>
-                                <div class="item" data-value="5">Mais de 5</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="ui toggle checkbox">
-                        <input type="checkbox" name="checkgaragem" id="checkgaragem">
-                        <label>Garagem</label>
-                    </div>
-
                 </div>
-
-            </form> 
-        </div>
-    </div>
-    <div class="center aligned one column row">
-        <div class="column">
-            <div class="green ui icon button" id="btnBuscarAnuncio">
-                <i class="search icon"></i> 
-                PIP
+            </div>
+            <div class="four wide column">
+                <div class="field">
+                    <label>Bairro</label>
+                    <br>
+                    <div class="ui fluid selection dropdown">
+                        <input type="hidden" name="sltBairro" id="sltBairro">
+                        <div class="default text"></div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item" data-value="jurunas">Jurunas</div>
+                            <div class="item" data-value="marco">Marco</div>
+                            <div class="item" data-value="pratinha">Pratinha</div>
+                            <div class="item" data-value="Água Boa">Água Boa</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="three wide column">
+                <div class="field">
+                <div class="ui toggle checkbox">
+                    <input type="checkbox" name="checkgaragem" id="checkgaragem">
+                    <label>Garagem</label>
+                </div>
+                </div>
             </div>
         </div>
     </div>
-
+    <div class="ui center aligned page grid main">
+        <div class="one column row">
+            <div class="five wide column">
+                <div class="green ui icon button disabled" id="btnBuscarAnuncio">
+                    <i class="search icon"></i> 
+                    PIP
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-
 
 <div class="ui hidden divider"></div>
 

@@ -45,14 +45,16 @@ class ConsultasAdHoc extends GenericoDAO {
         }
         if ($crtlPred) {
             $sql = $sql . ' WHERE ' . implode(' AND ', $predicados);
-            if ($parametros['predicados']['valor']) {
-                $sql = $sql . ' AND valormin BETWEEN ' . $preco . ' AND ' . ($preco + 100000);
+            if ($preco && $preco>1000000) {
+                $sql = $sql . 'valormin BETWEEN ' . $preco . ' AND ' . ($preco + 100000);
+            }else{
+                $sql = $sql . 'valormin >' . $preco;
             }
             if ($garagem == 'true') {
-                $sql = $sql . ' AND garagem>0';
+                $sql = $sql . 'garagem>0';
             }
             if ($quartos == 5) {
-                $sql = $sql . ' AND quarto>=5';
+                $sql = $sql . 'quarto>=5';
             }
         }
 //        var_dump($sql);;
@@ -88,5 +90,16 @@ class ConsultasAdHoc extends GenericoDAO {
     public function consultarAnunciosPorUsuario() {
         
     }
-
+    
+    public function ConsultarRegistroAtivoDeRecuperarSenha($idUsuario) {
+        $sql = "SELECT r.* "
+                . " FROM recuperasenha r"
+                . " WHERE r.status = 'ativo'"
+                . " AND r.idusuario = :idUsuario ";
+        $statement = $this->conexao->prepare($sql);
+        $statement->bindParam(':idUsuario', $idUsuario);
+        $statement->execute();
+        $resultado = $statement->fetchAll(PDO::FETCH_CLASS, "RecuperaSenha");
+        return $resultado;
+    }
 }

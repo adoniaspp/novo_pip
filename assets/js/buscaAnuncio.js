@@ -1,12 +1,17 @@
 function buscarAnuncio() {
     $(document).ready(function() {
+        
+        $("#divcasa").hide();
+        
+        
+        
         $('.ui.dropdown')
                 .dropdown({
                     on: 'hover'
                 });
         $('.ui.checkbox')
-                .checkbox()
-                ;
+                .checkbox();
+        
         $("#btnBuscarAnuncio").click(function () {
             $.ajax({
                     url: "index.php",
