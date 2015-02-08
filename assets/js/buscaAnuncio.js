@@ -1,10 +1,38 @@
 function buscarAnuncio() {
     $(document).ready(function() {
         
-        $("#divcasa").hide();
+        $("#divCaracteristicas").hide();
+        $("#divValor").hide();
         
+        $("#sltTipoImovel").change(function() {
+            if ($(this).val() == "casa") {
+                $("#divCaracteristicas").show();
+            }
+            if ($(this).val() == "apnovo") {
+                $("#divCaracteristicas").hide();
+            }
+            if ($(this).val() == "apusado") {
+                $("#divCaracteristicas").hide();
+            }
+            if ($(this).val() == "slcomercial") {
+                $("#divCaracteristicas").hide();
+            }
+            if ($(this).val() == "terreno") {
+                $("#divCaracteristicas").hide();
+            }
+        })
         
-        
+        $("#sltFinalidade").change(function() {
+            if ($(this).val() == "venda") {
+                $("#divPreenchimento2").hide();
+                $("#divValor").show();
+            }
+            if ($(this).val() == "aluguel") {
+                $("#divPreenchimento2").hide();
+                $("#divValor").show();
+            }
+         })
+ 
         $('.ui.dropdown')
                 .dropdown({
                     on: 'hover'

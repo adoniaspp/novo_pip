@@ -5,35 +5,27 @@
 </script>
 
 <br>
-<div class="container"> 
-    <div class="ui center aligned page grid main">
-        <div class="one column">
-<!--            <div class="six wide column">-->
-                <div class="required field">
-                        <label>Tipo</label>
-                        <br>
-                        <div class="ui selection dropdown">
-                            <input type="hidden" name="sltTipoImovel" id="sltTipoImovel">
-                            <div class="default text"></div>
-                            <i class="dropdown icon"></i>
-                            <div class="menu">
-                                <div class="item" data-value="casa">Casa</div>
-                                <div class="item" data-value="apnovo">Apartamento na Planta/Novo</div>
-                                <div class="item" data-value="apusado">Apartamento Usado</div>
-                                <div class="item" data-value="slcomercia">Sala Cormecial</div>
-                                <div class="item" data-value="terreno">Terreno</div>
-                            </div>
+<div class="ui form segment">
+    <div class="ui center aligned column page grid">
+        <div class="column">
+            <div class="four fields">
+                <div class="ui field">
+                    <label>Tipo</label>
+                    <div class="ui selection dropdown">
+                        <input type="hidden" name="sltTipoImovel" id="sltTipoImovel">
+                        <div class="default text"></div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item" data-value="casa">Casa</div>
+                            <div class="item" data-value="apnovo">Apartamento na Planta/Novo</div>
+                            <div class="item" data-value="apusado">Apartamento Usado</div>
+                            <div class="item" data-value="slcomercial">Sala Cormecial</div>
+                            <div class="item" data-value="terreno">Terreno</div>
                         </div>
+                    </div>
                 </div>
-<!--            </div>-->
-        </div>
-    </div>
-    <div class="ui center aligned page grid main" id="divcasa">
-        <div class="four column row">
-            <div class="three wide column">
                 <div class="field">
                     <label>Finalidade</label>
-                    <br>
                     <div class="ui fluid selection dropdown">
                         <input type="hidden" name="sltFinalidade" id="sltFinalidade">
                         <div class="default text"></div>
@@ -44,11 +36,104 @@
                         </div>
                     </div>
                 </div>
+                <div class="ui field">
+                    <label>Cidade</label>
+                    <div class="ui fluid selection dropdown">
+                        <input type="hidden" name="sltCidade" id="sltCidade">
+                        <div class="default text"></div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item" data-value="Belem">Belém</div>
+                            <div class="item" data-value="Ananindeua">Ananindeua</div>
+                            <div class="item" data-value="Marituba">Marituba</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui field">
+                    <label>Bairro</label>
+                    <div class="ui fluid selection dropdown">
+                        <input type="hidden" name="sltBairro" id="sltBairro">
+                        <div class="default text"></div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item" data-value="jurunas">Jurunas</div>
+                            <div class="item" data-value="marco">Marco</div>
+                            <div class="item" data-value="pratinha">Pratinha</div>
+                            <div class="item" data-value="Água Boa">Água Boa</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="five wide column">
+        </div>
+    </div>
+    <div class="ui center aligned column page grid padding-reset" id="divCaracteristicas">
+        <div class="column">
+            <div class="four fields">
+<!--                <div class="field" id="divPreenchimento1"></div>-->
+                <div class="field">
+                    <label>Condição</label>
+                    <div class="ui fluid selection dropdown">
+                        <input type="hidden" name="sltCidade" id="sltCidade">
+                        <div class="default text"></div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item" data-value="novo">Novo</div>
+                            <div class="item" data-value="usado">Usado</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Quartos</label>
+                    <div class="ui selection dropdown">
+                        <input type="hidden" name="sltQuartos" id="sltQuartos">
+                        <div class="default text"></div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item" data-value="1">1</div>
+                            <div class="item" data-value="2">2</div>
+                            <div class="item" data-value="3">3</div>
+                            <div class="item" data-value="4">4</div>
+                            <div class="item" data-value="5">Mais de 5</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="three wide field">
+                    <br><br>
+                    <div class="ui toggle checkbox">
+                        <input type="checkbox" name="checkgaragem" id="checkgaragem">
+                        <label>Garagem</label>
+                    </div>
+                </div>
+                <div class="field" id="divPreenchimento2"></div>
+                <div class="five wide field" id="divValor">
+                    <label>Valor</label>
+                    <div class="ui selection dropdown">
+                        <input type="hidden" name="sltValor" id="sltValor">
+                        <div class="default text"></div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class='item' data-value=0>Menos de R$100.000</div>
+                            <?php
+                            $i = 100000;
+                            while ($i < 1000000) {
+                                print "<div class='item' data-value=" .
+                                        $i . ">Entre R$" . number_format($i, 2, ',', '.') . " e R$" . number_format($i + 100000, 2, ',', '.') . "</div>";
+                                $i = $i + 100000;
+                            }
+                            ?>
+                            <div class='item' data-value=1000000>Mais de R$1.000.000</div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+<!--    <div class="ui center aligned column page grid padding-reset" id="divValor">
+        <div class="column">
+            <div class="three fields">
+                <div class="field"></div>
                 <div class="field">
                     <label>Valor</label>
-                    <br>
                     <div class="ui fluid selection dropdown">
                         <input type="hidden" name="sltValor" id="sltValor">
                         <div class="default text"></div>
@@ -66,91 +151,16 @@
                             <div class='item' data-value=1000000>Mais de R$1.000.000</div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="three wide column">
-                <div class="field">
-                    <label>Condição</label>
-                    <br>
-                    <div class="ui fluid selection dropdown">
-                        <input type="hidden" name="sltCidade" id="sltCidade">
-                        <div class="default text"></div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <div class="item" data-value="novo">Novo</div>
-                            <div class="item" data-value="usado">Usado</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="three wide column">
-                <div class="field">
-                    <label>Quartos</label>
-                    <br>
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="sltQuartos" id="sltQuartos">
-                        <div class="default text"></div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <div class="item" data-value="1">1</div>
-                            <div class="item" data-value="2">2</div>
-                            <div class="item" data-value="3">3</div>
-                            <div class="item" data-value="4">4</div>
-                            <div class="item" data-value="5">Mais de 5</div>
-                        </div>
-                    </div>
-                </div>
+                </div> 
+                <div class="field"></div>
             </div>
         </div>
-        <div class="three column middle aligned row">
-            <div class="four wide column">
-                <div class="field">
-                    <label>Cidade</label>
-                    <br>
-                    <div class="ui fluid selection dropdown">
-                        <input type="hidden" name="sltCidade" id="sltCidade">
-                        <div class="default text"></div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <div class="item" data-value="Belem">Belém</div>
-                            <div class="item" data-value="Ananindeua">Ananindeua</div>
-                            <div class="item" data-value="Marituba">Marituba</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="four wide column">
-                <div class="field">
-                    <label>Bairro</label>
-                    <br>
-                    <div class="ui fluid selection dropdown">
-                        <input type="hidden" name="sltBairro" id="sltBairro">
-                        <div class="default text"></div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <div class="item" data-value="jurunas">Jurunas</div>
-                            <div class="item" data-value="marco">Marco</div>
-                            <div class="item" data-value="pratinha">Pratinha</div>
-                            <div class="item" data-value="Água Boa">Água Boa</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="three wide column">
-                <div class="field">
-                <div class="ui toggle checkbox">
-                    <input type="checkbox" name="checkgaragem" id="checkgaragem">
-                    <label>Garagem</label>
-                </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="ui center aligned page grid main">
-        <div class="one column row">
-            <div class="five wide column">
-                <div class="green ui icon button disabled" id="btnBuscarAnuncio">
+    </div>-->
+    <div class="ui center aligned column page grid padding-reset">
+        <div class="column">
+            <div class="field">
+                <br>
+                <div class="green ui icon button" id="btnBuscarAnuncio">
                     <i class="search icon"></i> 
                     PIP
                 </div>
@@ -164,32 +174,6 @@
 
 <div class="ui hidden divider"></div>
 
-
-<div class="ui page grid">
-    <div class="three column row">
-        <div class="column">
-            <h2 class="ui header">Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
-            <button class="ui tiny button m-top-10">View details »</button>
-        </div>
-        <div class="column">
-            <h2 class="ui header">Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
-            <button class="ui tiny button m-top-10">View details »</button>
-        </div>
-        <div class="column">
-            <h2 class="ui header">Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
-            <button class="ui tiny button m-top-10">View details »</button>
-        </div>
-    </div>
-    <div class="row">
-        <div class="column">
-            <div class="ui divider"></div>  
-            <span>© Company 2014</span>
-        </div>
-    </div>
-</div>
 
 <div class="container"> 
     <div class="ui page grid main">
