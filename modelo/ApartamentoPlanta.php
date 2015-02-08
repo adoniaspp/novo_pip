@@ -4,7 +4,6 @@ class ApartamentoPlanta {
    
     private $id;
     private $idimovel;
-    private $identificacao;
     private $andares;
     private $unidadesandar;
     private $totalunidades;
@@ -18,10 +17,6 @@ class ApartamentoPlanta {
 
     function getIdimovel() {
         return $this->idimovel;
-    }
-
-    function getIdentificacao() {
-        return $this->identificacao;
     }
 
     function getAndares() {
@@ -52,10 +47,6 @@ class ApartamentoPlanta {
         $this->idimovel = $idimovel;
     }
 
-    function setIdentificacao($identificacao) {
-        $this->identificacao = $identificacao;
-    }
-
     function setAndares($andares) {
         $this->andares = $andares;
     }
@@ -79,7 +70,6 @@ class ApartamentoPlanta {
     function cadastrar($parametros, $idimovel) {
         $apartamentoPlanta = new ApartamentoPlanta();
         $apartamentoPlanta->setIdimovel($idimovel);
-        $apartamentoPlanta->setIdentificacao($parametros["txtIdentificacao"]);
         $apartamentoPlanta->setAndares($parametros["sltAndares"]);
         $apartamentoPlanta->setNumerotorres($parametros["sltNumeroTorres"]);          
         $apartamentoPlanta->setTotalunidades($parametros["txtTotalUnidades"]);

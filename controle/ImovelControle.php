@@ -121,8 +121,8 @@ class ImovelControle {
                 $entidadeApartamentoPlanta = $apartamentoPlanta->cadastrar($parametros, $idImovel);
                 $idApartamentoPlanta = $genericoDAO->cadastrar($entidadeApartamentoPlanta);
                 $quantidadeDiferencial = count($parametros['chkDiferencial']);
-
-                if ($quantidadeDiferencial = 0){} 
+                
+                $resultadoDiferencial = true;
                     for ($indiceDiferencial = 0; $indiceDiferencial < $quantidadeDiferencial; $indiceDiferencial++) {
                         $ImovelDiferencial = new ImovelDiferencial();
                         $entidadeDiferencial = $ImovelDiferencial->cadastrar($parametros, $idImovel, $indiceDiferencial);
@@ -131,10 +131,13 @@ class ImovelControle {
                             $resultadoDiferencial = false;
                             break;
                         }
-                    }
-
+                }
+                
                 $quantidadePlanta = $parametros['sltNumeroPlantas']; 
                 $resultadoPlanta = true;
+
+                if($quantidadePlanta > 1){ //veririfcar se existe mais de uma planta
+
                     for ($indicePlanta = 0; $indicePlanta < $quantidadePlanta; $indicePlanta++) {
                         $planta = new Planta();
                         $entidadePlanta = $planta->cadastrar($parametros, $idApartamentoPlanta, $indicePlanta);
@@ -144,12 +147,18 @@ class ImovelControle {
                             break;
                         }
                     }
-
                 $idCadastroImovel = $idPlanta;
                 if($idPlanta){$idDiferencial = true;}
+                }
+                
+                else{
+                    
+                $idCadastroImovel = true; //true setado, pois não existe plantas, apenas 1
+                $idDiferencial = true;
+                
+                }    
                     
             }
-
 
             if ($idEndereco && $idImovel && $idCadastroImovel && $idDiferencial) {                
                 $genericoDAO->commit();

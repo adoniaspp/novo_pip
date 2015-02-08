@@ -12,8 +12,9 @@ class Apartamento {
     private $garagem;
     private $area;
     private $sacada;
-    private $andares;
+    private $unidadesandar;
     private $andar;
+    private $condominio;
     private $cobertura;
     
     protected $imovel;
@@ -54,12 +55,16 @@ class Apartamento {
         return $this->sacada;
     }
 
-    function getAndares() {
-        return $this->andares;
+    function getUnidadesandar() {
+        return $this->unidadesandar;
     }
 
     function getAndar() {
         return $this->andar;
+    }
+
+    function getCondominio() {
+        return $this->condominio;
     }
 
     function getCobertura() {
@@ -106,12 +111,16 @@ class Apartamento {
         $this->sacada = $sacada;
     }
 
-    function setAndares($andares) {
-        $this->andares = $andares;
+    function setUnidadesandar($unidadesandar) {
+        $this->unidadesandar = $unidadesandar;
     }
 
     function setAndar($andar) {
         $this->andar = $andar;
+    }
+
+    function setCondominio($condominio) {
+        $this->condominio = $condominio;
     }
 
     function setCobertura($cobertura) {
@@ -121,8 +130,7 @@ class Apartamento {
     function setImovel($imovel) {
         $this->imovel = $imovel;
     }
-
-        
+     
     function cadastrar($parametros, $idImovel) {
 
         $apartamento = new Apartamento();
@@ -137,8 +145,9 @@ class Apartamento {
         $apartamento->setSuite($parametros["sltSuite"]);          
         $apartamento->setGaragem($parametros["sltGaragem"]);
         $apartamento->setArea($parametros["txtArea"]);
-        $apartamento->setAndares($parametros["sltAndares"]);
+        $apartamento->setUnidadesandar($parametros["sltUnidadesAndar"]);
         $apartamento->setAndar($parametros["sltAndar"]);
+        $apartamento->setCondominio($parametros["txtCondominio"]);
         
         if(!isset($parametros["chkCobertura"])){
             $apartamento->setCobertura($parametros["chkCobertura"]="");

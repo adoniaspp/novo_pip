@@ -85,7 +85,7 @@ Sessao::gerarToken();
                             
                         </div>
                     
-                       <div id="divArea" class="one field">
+                       <div id="divArea" class="three wide field">
                                     <div class="field">
                                         <label>Área(m2)</label>
                                         <input type="text" name="txtArea" id="txtArea" placeholder="Informe a Área">
@@ -187,8 +187,8 @@ Sessao::gerarToken();
                 
                 <div class="fields" id="divApartamento">
                     
-                    <div class="three field">
-                        <label>Número de Andares do Prédio</label>
+                    <div class="two field" id="divAndares">
+                        <label>Nº de Andares do Prédio</label>
                         <div class="ui selection dropdown">
                             <input type="hidden" name="sltAndares" id="sltAndares">
                             <div class="default text">Andares</div>
@@ -204,7 +204,7 @@ Sessao::gerarToken();
                     </div> 
                     
                                         
-                    <div class="three wide field" id="divUnidadesAndar">
+                    <div class="two field" id="divUnidadesAndar">
                         <label>Unidades por Andar</label>
                         <div class="ui selection dropdown">
                             <input type="hidden" name="sltUnidadesAndar" id="sltUnidadesAndar">
@@ -220,8 +220,8 @@ Sessao::gerarToken();
                         </div>
                     </div>                    
                     
-                    <div class="three wide field" id="divNumeroTorres">
-                        <label>Número de Torres</label>
+                    <div class="two field" id="divNumeroTorres">
+                        <label>Nº de Torres</label>
                         <div class="ui selection dropdown">
                             <input type="hidden" name="sltNumeroTorres" id="sltNumeroTorres">
                             <div class="default text">Torres</div>
@@ -234,9 +234,25 @@ Sessao::gerarToken();
                                 ?>
                             </div>
                         </div>
-                    </div>               
+                    </div>   
                     
-                    <div class="one field" id="divUnidadesTotal">
+                    <div class="two field" id="divAndar">
+                        <label>Andar do Apartamento</label>
+                        <div class="ui selection dropdown">
+                            <input type="hidden" name="sltAndar" id="sltAndar">
+                            <div class="default text">Andar</div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu" id="sltAndar">
+                                <?php 
+                                for($andar = 1; $andar <=40; $andar++){
+                                echo "<div class='item' data-value='".$andar."'>".$andar."</div>";
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    </div> 
+                    
+                    <div class="two field" id="divUnidadesTotal">
                     <div class="field">
                         <label>Total de Unidades</label>                       
                         <input type="text" name="txtTotalUnidades" id="txtTotalUnidades" placeholder="Total de Apartamentos">
@@ -245,7 +261,7 @@ Sessao::gerarToken();
                     
                     <div id="divCondominio" class="one field">
                     <div class=" field">
-                        <label>Valor do Condominio</label>
+                        <label>Condominio(R$)</label>
                         <input type="text" name="txtCondominio" placeholder="Valor do Condominio">
                     </div>                                     
                     </div>
