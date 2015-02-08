@@ -62,9 +62,9 @@ class UsuarioControle {
     function cadastrar($parametros) {
         //Endereço
         $visao = new Template();
-        /*echo "<pre>";
-        print_r($parametros);
-        die();*/
+        /* echo "<pre>";
+          print_r($parametros);
+          die(); */
         if (Sessao::verificarToken($parametros)) {
             $genericoDAO = new GenericoDAO();
             $genericoDAO->iniciarTransacao();
@@ -264,7 +264,7 @@ class UsuarioControle {
     }
 
     function buscarLogin($parametros) {
-
+        $visao = new Template();
         if (Sessao::verificarToken($parametros)) {
             $usuario = new Usuario();
             $genericoDAO = new GenericoDAO();
@@ -281,17 +281,20 @@ class UsuarioControle {
     }
 
     function buscarEmail($parametros) {
-
+        $visao = new Template();
         if (Sessao::verificarToken($parametros)) {
             $usuario = new Usuario();
             $genericoDAO = new GenericoDAO();
             $selecionarUsuario = $genericoDAO->consultar($usuario, false, array("email" => $parametros['txtEmail']));
 
-            if (count($selecionarUsuario) > 0)
+            if (count($selecionarUsuario) > 0) {
                 echo "false";
-            else
+            } else {
                 echo "true";
-        }else {
+            }
+            var_dump($selecionarUsuario);
+            //$_SESSION["idusuario"]
+        } else {
             $visao->setItem("errotoken");
             $visao->exibir('VisaoErrosGenerico.php');
         }

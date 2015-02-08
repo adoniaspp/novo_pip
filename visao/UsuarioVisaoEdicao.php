@@ -1,611 +1,280 @@
-<script src="assets/js/gmaps.js"></script>
-<script src="assets/js/jquery.mask.min.js"></script>
+<!-- LIBS -->
+<script src="assets/libs/jquery/jquery.validate.min.js"></script>
+<script src="assets/libs/jquery/jquery.mask.min.js"></script>
+<!-- JS -->
 <script src="assets/js/util.validate.js"></script>
-<script src="assets/js/pwstrength.js"></script>
+<script src="assets/js/usuario.js"></script>
 <script>
-
-//Inicio CEP
-    $(document).ready(function() {
-        $("#txtCEP").mask("99.999-999"); //mascara
-        //$("#divCEP").hide(); //oculta campos do DIVCEP
-        $("#btnCEP").click(function() {
-            buscarCep()
-        });
-        $("#txtCEP").blur(function() {
-            buscarCep()
-        });
-
-        $("#btnCancelar").click(function() {
-            if (confirm("Deseja cancelar o cadastro do usuário?")) {
-                location.href = "index.php?entidade=Usuario&acao=meuPIP";
-            }
-        });
-
-        $("#btnAlterar").click(function() {
-            if ($("#form").valid()) {
-                if (typeof ($("input[name^=hdnTipoTelefone]").val()) == "undefined") {
-                    alert("Você deve cadastrar pelo menos um telefone para contato.");
-                } else
-                if ($("#hdnCEP").val() != "") {
-                    $("#form").submit();
-                } else {
-                    $("#msgCEP").remove();
-                    var msgCEP = $("<div>", {id: "msgCEP"});
-                    msgCEP.attr('class', 'alert alert-danger').html("Primeiro faça a busca do CEP").append('<button data-dismiss="alert" class="close" type="button">×</button>');
-                    $("#alertCEP").append(msgCEP);
-                }
-            }
-        });
-
-        function buscarCep() {
-            var validator = $("#form").validate();
-            if (validator.element("#txtCEP")) {
-                $.ajax({
-                    url: "index.php",
-                    dataType: "json",
-                    type: "POST",
-                    data: {
-                        cep: $('#txtCEP').val(),
-                        hdnEntidade: "Endereco",
-                        hdnAcao: "buscarCEP"
-                    },
-                    beforeSend: function() {
-                        $("#msgCEP").remove();
-                        var msgCEP = $("<div>", {id: "msgCEP", class: "alert alert-warning"}).html("...aguarde buscando CEP...");
-                        $("#divCEP").fadeOut('slow'); //oculta campos do DIVCEP
-                        $("#alertCEP").append(msgCEP);
-                        $('#txtCEP').attr('disabled', 'disabled');
-                        $('#btnCEP').attr('disabled', 'disabled');
-                        $('#txtEstado').val('');
-                        $('#txtCidade').val('');
-                        $('#txtBairro').val('');
-                        $('#txtLogradouro').val('');
-                        $('#hdnCEP').val('');
-                        $('#txtNumero').val('');
-                        $('#txtComplemento').val('');
-                    },
-                    success: function(resposta) {
-                        $("#msgCEP").remove();
-                        var msgCEP = $("<div>", {id: "msgCEP"});
-                        if (resposta.resultado == 0) {
-                            msgCEP.attr('class', 'alert alert-danger').html("N&atilde;o localizamos o CEP informado").append('<button data-dismiss="alert" class="close" type="button">×</button>');
-                        } else {
-                            $("#divCEP").fadeIn('slow'); //mostra campos do DIVCEP
-                            $('#txtEstado').val(resposta.uf);
-                            $('#txtCidade').val(resposta.cidade);
-                            $('#txtBairro').val(resposta.bairro);
-                            $('#txtLogradouro').val(resposta.logradouro);
-                            $('#hdnCEP').val($('#txtCEP').val());
-
-                            var endereco = 'Brazil, ' + resposta.uf + ', ' + resposta.cidade + ', ' + resposta.bairro + ', ' + resposta.logradouro;
-
-                        }
-                        $("#alertCEP").append(msgCEP); //mostra resultado de busca cep
-                        $('#txtCEP').removeAttr('disabled');
-                        $('#btnCEP').removeAttr('disabled');
-                    }
-                })
-            }
-        }
-
-        //######### FIM DO CEP ########
-
-//       Inicio Informações Básicas
-
-//        $("#divEmpresa").hide(); //oculta campos do DIVEMPRESA 
-////        $("#divnome").hide();
-////        $("#divCpf").hide();
-////        $("#divCnpj").hide();
-        $("#txtCpf").mask("999.999.999-99");
-        $("#txtCnpj").mask("99.999.999/9999-99");
-        $("#txtCpfResponsavel").mask("999.999.999-99");
-//        $("#sltTipoUsuario").change(function() {
-//            if ($(this).val() == "fisica") {
-//                $("#divnome").fadeIn('slow');
-//                $("#divEmpresa").fadeOut('slow'); //oculta campos do DIVEMPRESA 
-//                $("#divCnpj").hide();
-//                $("#divCpf").show();
-//                $("#lblNome").html("Nome da Completo");
-//            } else if ($(this).val() == "juridica") {
-//                $("#divnome").fadeIn('slow');
-//                $("#divEmpresa").fadeIn('slow'); //mostra campos do DIVEMPRESA
-//                $("#divCnpj").show();
-//                $("#divCpf").hide();
-//                $("#lblNome").html("Nome da Empresa");
-//                $("#txtNome").attr("placeholder", "Informe o nome da empresa");
-//                
-//            } else {
-//                $("#divnome").fadeOut('slow');
-//                $("#divEmpresa").fadeOut('slow'); //mostra campos do DIVEMPRESA
-//                $("#divCnpj").fadeOut('slow');
-//                $("#divCpf").fadeOut('slow');
-//            }
-//        });
-
-        "use strict";
-        var options = {
-            bootstrap3: true,
-            minChar: 8,
-            errorMessages: {
-                password_too_short: "<font color='red'>A senha é muito pequena</font>",
-                same_as_username: "<font color='red'>Sua senha não pode ser igual ao seu login</font>"
-            },
-            verdicts: ["Fraca", "Normal", "Média", "Forte", "Muito Forte"],
-            usernameField: "#txtLogin",
-            onLoad: function() {
-                $('#messages').text('Start typing password');
-            },
-            onKeyUp: function(evt) {
-                $(evt.target).pwstrength("outputErrorList");
-            }
-        };
-        $('#txtSenha').pwstrength(options);
-
-//        Fim Informações Básicas
-
-//        Inicio Telefone
-        $("#btnTelefone").click(function() {
-            $("#txtTel").rules("add", {
-                required: true,
-                messages: {
-                    required: "Campo obrigatório",
-                }
-            });
-            $("#sltOperadora").rules("add", {
-                required: true,
-                messages: {
-                    required: "Campo obrigatório",
-                }
-            });
-            $("#sltTipotelefone").rules("add", {
-                required: true,
-                messages: {
-                    required: "Campo obrigatório",
-                }
-            });
-            var telefone = $("#txtTel");
-            var tipoTelefone = $("#sltOperadora");
-            var tipoOperadora = $("#sltTipotelefone");
-            if (telefone.valid() && tipoTelefone.valid() && tipoOperadora.valid()) {
-                $("#dadosTelefone").append(
-                        "<tr><td> <input type=hidden id=hdnTipoTelefone[] name=hdnTipoTelefone[] value=" + $("#sltTipotelefone").val() + ">" + $("#sltTipotelefone").val() + "</td>" +
-                        "<td> <input type=hidden id=hdnOperadora[] name=hdnOperadora[] value=" + $("#sltOperadora").val() + ">" + $("#sltOperadora").val() + "</td>" +
-                        "<td> <input type=hidden id=hdnTelefone[] name=hdnTelefone[] value=" + $("#txtTel").val() + ">" + $("#txtTel").val() + "</td>" +
-                        "<td> <button type=button class=btn btn-default btn-lg onclick=$(this).parent().parent().remove()> <span class=glyphicon glyphicon-trash></span> Excluir</button> </td></tr>");
-            }
-            $("#txtTel").rules("remove");
-            $("#sltOperadora").rules("remove");
-            $("#sltTipotelefone").rules("remove");
-            $("#txtTel").val("");
-            $("#sltOperadora").val("");
-            $("#sltTipotelefone").val("");
-        });
-
-        $("#txtTel").mask("(00) 0000-00009");
-
-//        Fim do Telefone
-
-        //######### VALIDACAO DO FORMULARIO ########
-        $('#form').validate({
-            onkeyup: false,
-            rules: {
-                sltTipoUsuario: {
-                    required: true
-                },
-                txtNome: {
-                    required: true
-                },
-                txtCpf: {
-                    required: true,
-                    cpf: 'both'
-                },
-                txtCnpj: {
-                    required: true,
-                    cnpj: 'both'
-                },
-                txtCpfResponsavel: {
-                    required: true,
-                    cpf: 'both'
-                },
-                txtLogin: {
-                    required: true,
-                    minlength: 2,
-                    remote:
-                            {
-                                url: "index.php",
-                                dataType: "json",
-                                type: "POST",
-                                data: {
-                                    hdnEntidade: "Usuario",
-                                    hdnAcao: "buscarLogin"
-                                }
-                            }
-                    //locate: true
-                },
-                txtResponsavel: {
-                    required: true
-                },
-                txtEmail: {
-                    email: true,
-                },
-                txtRazaoSocial: {
-                    required: true
-                },
-                txtSenha: {
-                    required: true,
-                    minlength: 4
-                },
-                txtConfirmSenha: {
-                    required: true,
-                    equalTo: "#txtSenha"
-                },
-                txtCEP: {
-                    required: true
-                },
-                txtNumero: {
-                    required: true
-                }
-
-            },
-            messages: {
-                txtCpf: {
-                    required: "Campo obrigatório"
-                },
-                txtCnpj: {
-                    required: "Campo obrigatório"
-                },
-                sltTipoUsuario: {
-                    required: "Campo obrigatório"
-                },
-                txtNome: {
-                    required: "Campo obrigatório"
-                },
-                txtLogin: {
-                    required: "Campo obrigatório",
-                    minlength: "Login deve possuir no mínimo 2 caracteres",
-                    remote: "Login já utilizado"
-                },
-                txtSenha: {
-                    required: "Campo obrigatório",
-                    minlength: "Senha deve possuir no mínimo 4 caracteres"
-                },
-                txtConfirmSenha: {
-                    required: "Campo obrigatório",
-                    equalTo: "Por Favor digite o mesmo valor novamente"
-                },
-                txtRazaoSocial: {
-                    required: "Campo obrigatório"
-                },
-                txtResponsavel: {
-                    required: "Campo obrigatório"
-                },
-                txtCEP: {
-                    required: "Campo obrigatório"
-                },
-                txtCpfResponsavel: {
-                    required: "Campo obrigatório"
-                }
-            },
-            highlight: function(element) {
-                $(element).closest('.form-group').addClass('has-error');
-            },
-            unhighlight: function(element) {
-                $(element).closest('.form-group').removeClass('has-error');
-            },
-            errorElement: 'span',
-            errorClass: 'help-block',
-            errorPlacement: function(error, element) {
-                if (element.parent('.input-group').length) {
-                    error.insertAfter(element.parent());
-                } else {
-                    error.insertAfter(element);
-                }
-            },
-            submitHandler: function() {
-                form.submit();
-
-            }
-        });
-    })
-
-</script> 
-
+    alterarUsuario();
+    mascarasFormUsuario();
+    acoesCEP();
+    cancelar("meuPIP");
+    confirmar();
+    telefone();
+</script>
 <?php
 Sessao::gerarToken();
-?>
-
-<div class="container"> <!-- CLASSE QUE DEFINE O CONTAINER COMO FLUIDO (100%) --> 
-
-    <?php
-    $item = $this->getItem();
-    if ($item) {
-        foreach ($item as $usuario) {
-            ?>
-            <!-- Alertas -->
-            <ol class="breadcrumb">
-                <li><a href="index.php">Início</a></li>
-                <li><a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a></li>
-                <li class="active">Atualizar Cadastro</li>
-            </ol>
-
-            <!-- form -->
-            <form id="form" class="form-horizontal" action="index.php" method="post">
-                <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
-                <input type="hidden" id="hdnAcao" name="hdnAcao" value="alterar" />
-                <input type="hidden" id="hdnCEP" name="hdnCEP" value="<?php echo $usuario->getEndereco()->getCep() ?>"/>
-                <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
-                <!-- Primeira Linha -->    
-                <div class="row" id="divlinha1">
-
-                    <!--            <div id="alertsucesso" class="col-lg-12"></div>-->
-                    <div class="col-lg-6" id="divinformacoesbasicas">
-                        <div id="forms" class="panel panel-default">
-                            <div class="panel-heading">Informações Básicas </div>
-                            <br>
-                            <!--                            <div class="form-group">
-                                                            <label class="col-lg-3 control-label" for="sltTipoUsuario">Tipo de Pessoa</label>
-                                                            <div class="col-lg-8">
-                                                                <select class="form-control" id="sltTipoUsuario" name="sltTipoUsuario">
-                                                                    <option value="">Informe o Tipo de Pessoa</option>
-                                                                    <option <?php
-                            if ($usuario->getTipousuario() == "pf") {
-                                print "selected='true'";
-                            }
-                            ?> value="fisica">Física</option>
-                                                                    <option <?php
-                            if ($usuario->getTipousuario() == "pj") {
-                                print "selected='true'";
-                            }
-                            ?> value="juridica">Jurídica</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>-->
-                            <div class="form-group" id="divnome" <?php
-                            if ($usuario->getTipousuario() == "pj") {
-                                print "hidden";
-                            }
-                            ?>>
-                                <label class="col-lg-3 control-label" for="txtNome" id="lblNome">Nome Completo</label>
-                                <div class="col-lg-8">
-                                    <input type="text" id="txtNome" name="txtNome" class="form-control" placeholder="Informe o seu nome" value="<?php echo $usuario->getNome() ?>">
-                                </div>
-                            </div>
-                            <div class="form-group" id="divnomeempresa" <?php
-                            if ($usuario->getTipousuario() == "pf") {
-                                print "hidden";
-                            }
-                            ?>>
-                                <label class="col-lg-3 control-label" for="txtNomeempresa" id="lblNome">Nome da Empresa</label>
-                                <div class="col-lg-8">
-                                    <input type="text" id="txtNomeempresa" name="txtNomeempresa" class="form-control" placeholder="Informe o nome da empresa" value="<?php echo $usuario->getNome() ?>">
-                                </div>
-                            </div>
-                            <div class="form-group" id="divCpf" <?php
-                            if ($usuario->getTipousuario() == "pj") {
-                                print "hidden";
-                            }
-                            ?>>
-                                <label class="col-lg-3 control-label" for="txtCpf" id="lblCpf">CPF</label>
-                                <div class="col-lg-8">
-                                    <input type="text" id="txtCpf" name="txtCpf" class="form-control" readonly="true" placeholder="Informe o seu CPF" value="<?php echo $usuario->getCpfcnpj() ?>">
-                                </div>
-                            </div>
-                            <div class="form-group" id="divCnpj" <?php
-                            if ($usuario->getTipousuario() == "pf") {
-                                print "hidden";
-                            }
-                            ?>>
-                                <label class="col-lg-3 control-label" for="txtCnpj" id="lblCpfCnpj">CNPJ</label>
-                                <div class="col-lg-8">
-                                    <input type="text" id="txtCnpj" name="txtCnpj" class="form-control" placeholder="Informe o seu CNPJ" value="<?php echo $usuario->getCpfcnpj() ?>">
-                                </div>
-                            </div>
-                            <!--                    <div class="form-group">
-                                                    <label class="col-lg-3 control-label" for="txtLogin">Login</label>
-                                                    <div class="col-lg-8">
-                                                        <input type="text" id="txtLogin" name="txtLogin" class="form-control" placeholder="Informe um login">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-lg-3 control-label" for="txtSenha">Senha</label>
-                                                    <div class="col-lg-8">
-                                                        <input type="password" id="txtSenha" name="txtSenha" class="form-control" placeholder="Informe uma senha">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-lg-3 control-label" for="txtConfirmSenha">Confirma Senha</label>
-                                                    <div class="col-lg-8">
-                                                        <input type="password" id="txtSenha" name="txtConfirmSenha" class="form-control" placeholder="Informe a senha novamente">
-                                                    </div>
-                                                </div>-->
-                            <div class="form-group" >
-                                <label class="col-lg-3 control-label" for="txtEmail">Email</label>
-                                <div class="col-lg-8">
-                                    <input type="text" id="txtEmail" name="txtEmail" class="form-control" placeholder="Informe o seu email" value="<?php echo $usuario->getEmail() ?>">
-                                </div>
-                            </div>
-                            <div id="divEmpresa" <?php
-                            if ($usuario->getTipousuario() == "pf") {
-                                print "hidden";
-                            }
-                            ?>>
-                                <div class="form-group" id="divresp">
-                                    <label class="col-lg-3 control-label" for="txtResponsavel">Responsável</label>
-                                    <div class="col-lg-8">
-                                        <input type="text" id="txtResponsavel" name="txtResponsavel" class="form-control" placeholder="Informe o nome do responsável da empresa" value="<?php
-                                        if ($usuario->getTipousuario() == "pj") {
-                                            echo $usuario->getEmpresa()->getResponsavel();
-                                        }
-                                        ?>">
-                                    </div>
-                                </div>
-                                <div class="form-group" id="divCpfResp">
-                                    <label class="col-lg-3 control-label" for="txtCpfResponsavel">CPF do Responsável</label>
-                                    <div class="col-lg-8">
-                                        <input type="text" id="txtCpfResponsavel" name="txtCpfResponsavel" class="form-control" placeholder="Informe o CPF do responsável da empresa" value="<?php
-                                        if ($usuario->getTipousuario() == "pj") {
-                                            echo $usuario->getEmpresa()->getCpfresponsavel();
-                                        }
-                                        ?>">
-                                    </div>
-                                </div>
-                                <div class="form-group" id="divsocial">
-                                    <label class="col-lg-3 control-label" for="txtRazaoSocial">Razão Social</label>
-                                    <div class="col-lg-8">
-                                        <input type="text" id="txtRazaoSocial" name="txtRazaoSocial" class="form-control" placeholder="Informe a razão social da empresa" value="<?php
-                                        if ($usuario->getTipousuario() == "pj") {
-                                            echo $usuario->getEmpresa()->getRazaosocial();
-                                        }
-                                        ?>">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6" id=divendereco">
-                        <div id="forms" class="panel panel-default">
-                            <div class="panel-heading"> Endereço </div>
-                            <br>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label" for="txtCEP">CEP</label>
-                                <div class="col-lg-6">
-                                    <input type="text" class="form-control" id="txtCEP" name="txtCEP" placeholder="Informe o seu CEP" value="<?php echo $usuario->getEndereco()->getCep() ?>">                            
-                                </div>
-                                <div class="col-lg-2">
-                                    <button id="btnCEP" type="button" class="btn btn-info">Buscar CEP</button>
-                                </div> 
-                            </div>
-                            <div class="form-group">
-                                <div id="alertCEP" class="col-lg-12"></div>
-                            </div>
-                            <div id="divCEP">
-                                <div class="form-group">
-                                    <label class="col-lg-3 control-label" for="txtCidade">Cidade</label>
-                                    <div class="col-lg-8">
-                                        <input type="text" class="form-control" id="txtCidade" name="txtCidade" readonly="true" value="<?php echo $usuario->getEndereco()->getCidade()->getNome(); ?>"> 
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-lg-3 control-label" for="txtEstado">Estado</label>
-                                    <div class="col-lg-8">
-                                        <input type="text" class="form-control" id="txtEstado" name="txtEstado" readonly="true" value="<?php echo $usuario->getEndereco()->getEstado()->getUf() ?>"> 
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-lg-3 control-label" for="txtBairro">Bairro</label>
-                                    <div class="col-lg-8">
-                                        <input type="text" class="form-control" id="txtBairro" name="txtBairro" readonly="true" value="<?php echo $usuario->getEndereco()->getBairro()->getNome() ?>"> 
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-lg-3 control-label" for="txtLogradouro">Logradouro</label>
-                                    <div class="col-lg-8">
-                                        <input type="text" class="form-control" id="txtLogradouro" name="txtLogradouro" readonly="true" value="<?php echo $usuario->getEndereco()->getLogradouro() ?>"> 
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-lg-3 control-label" for="txtNumero">N&uacute;mero</label>
-                                    <div class="col-lg-8">
-                                        <input type="text" class="form-control" id="txtNumero" name="txtNumero" placeholder="Informe o n&ordm;" value="<?php echo $usuario->getEndereco()->getNumero() ?>"> 
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-lg-3 control-label" for="txtComplemento">Complemento</label>
-                                    <div class="col-lg-8">
-                                        <input type="text" class="form-control" id="txtComplemento" name="txtComplemento" placeholder="Informe o Complemento" value="<?php echo $usuario->getEndereco()->getComplemento() ?>"> 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <!-- Segunda Linha -->    
-                <div class="row" id="divlinha2">
-                    <div class="col-lg-12" id="divtelefone">
-                        <div id="forms" class="panel panel-default">
-                            <div class="panel-heading"> Telefones </div>
-                            <br>
-                            <div class="form-group">
-                                <label class="col-lg-1 control-label" for="sltTipotelefone">Tipo</label>
-                                <div class="col-lg-2">
-                                    <select class="form-control" id="sltTipotelefone" name="sltTipotelefone">     
-                                        <option value="">Tipo do Telefone</option>
-                                        <option value="Fixo">Fixo</option>
-                                        <option value="Celular">Celular</option>
-                                    </select>
-                                </div>
-                                <label class="col-lg-1 control-label" for="sltOperadora">Operadora</label>
-                                <div class="col-lg-2">
-                                    <select class="form-control" id="sltOperadora" name="sltOperadora">  
-                                        <option value="">Operadora</option>
-                                        <option value="Oi">Oi</option>
-                                        <option value="Tim">Tim</option>
-                                        <option value="Vivo">Vivo</option>
-                                        <option value="Claro">Claro</option>
-                                        <option value="Embratel">Embratel</option>
-                                    </select>
-                                </div>
-                                <label class="col-lg-1 control-label" for="txtTel">Numero</label>
-                                <div class="col-lg-2">
-                            <input type="tel" class="form-control" id="txtTel" name="txtTel" placeholder="Informe o Telefone" pattern="\([0-9]{2}\)[\s][0-9]{4}-[0-9]{4,5}" />
-                                </div>
-                                <div class="col-lg-2">
-                                    <button id="btnTelefone" type="button" class="btn btn-info">Adicionar</button>
-                                </div>
-                            </div>
-                            <!--                </div>-->
-                            <!--          </div>-->
-                            <div class="form-group">
-                                <div class="col-lg-8">
-
-                                    <table class="table table-hover table-condensed">
-                    <!--                    <thead>
-                                            <tr>
-                                                <th>Tipo de Telefone</th>
-                                                <th>Operadora</th>
-                                                <th>Numero</th>
-                                            </tr>
-                                        </thead>-->
-                                        <tbody id="dadosTelefone">
-                                            <?php
-                                            $quantidade = count($usuario->getTelefone());
-                                            if ($quantidade == 1) {
-                                                $array = array($usuario->getTelefone());
-                                            } else {
-                                                $array = $usuario->getTelefone();
-                                            }
-                                            foreach ($array as $telefone) {
-                                                ?> 
-                                                <tr>
-                                                    <td> <input type=hidden id=hdnTipoTelefone[] name=hdnTipoTelefone[] value="<?php echo $telefone->getTipotelefone() ?>"> <?php echo $telefone->getTipotelefone() ?> </td>
-                                                    <td> <input type=hidden id=hdnOperadora[] name=hdnOperadora[] value="<?php echo $telefone->getOperadora() ?>"> <?php echo $telefone->getOperadora() ?> </td>
-                                                    <td> <input type=hidden id=hdnTelefone[] name=hdnTelefone[] value="<?php echo $telefone->getNumero() ?>"> <?php echo $telefone->getNumero() ?> </td>
-                                                    <td> <button type=button class=btn btn-default btn-lg onclick=$(this).parent().parent().remove()> <span class=glyphicon glyphicon-trash></span> Excluir</button> </td>
-                                                </tr>
-                                            <?php } ?>     
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+$item = $this->getItem();
+if ($item) {
+    foreach ($item as $usuario) {
+        ?>
+        <!-- HTML -->
+        <div class="container">
+            <div class="ui hidden divider"></div>
+            <div class="ui page grid main">
+                <div class="column">
+                    <div class="ui large breadcrumb">
+                        <a class="section" href="index.php">Início</a>
+                        <i class="right chevron icon divider"></i>
+                        <a class="active section">Novo Usuário</a>
                     </div>
                 </div>
-                <!-- Terceira Linha -->    
-                <div class="row" id="divlinha3">
-                    <div class="col-lg-12" id="divbotoes">
-                        <div class="form-group">
-                            <div class="col-lg-offset-2 col-lg-10">
-                                <button id="btnAlterar"  type="submit" class="btn btn-primary">Alterar</button>
-                                <button id="btnCancelar" type="button" class="btn btn-warning">Cancelar</button>
+            </div>
+            <div class="ui hidden divider"></div>
+            <div class="ui page grid main">
+                <div class="column">
+                    <form id="form" class="ui form" action="index.php" method="post" enctype="multipart/form-data">
+                        <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
+                        <input type="hidden" id="hdnAcao" name="hdnAcao" value="alterar" />
+                        <input type="hidden" id="hdnCEP" name="hdnCEP" value="<?php echo $usuario->getEndereco()->getCep() ?>"/>
+                        <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
+                        <h3 class="ui dividing header">Informações Básicas</h3>
+                        <div class="fields">
+                            <div class="four wide field">
+                                <label>Tipo de Pessoa</label>
+                                <?php if ($usuario->getTipoUsuario() == "pf") {
+                                    echo "Pessoa Física";
+                                } else {
+                                    echo "Pessoa Jurídica";
+                                } ?>
+                                <input type="hidden" name="sltTipoUsuario" id="sltTipoUsuario" value="<?php echo $usuario->getTipoUsuario(); ?>">
+                            </div>
+                            <div class="twelve wide required field">
+                                <label>E-mail</label>
+                                <input type="text" name="txtEmail" id="txtEmail" placeholder="Informe seu e-mail" value="<?php echo $usuario->getEmail() ?>">
                             </div>
                         </div>
-                    </div>
+                        <div id="linhaPF" class="two fields">
+                            <div class="required field">
+                                <label>Nome Completo</label>
+                                <input type="text" name="txtNome" id="txtNome" placeholder="Informe o seu nome" value="<?php echo $usuario->getNome() ?>">
+                            </div>
+                            <div class="field">
+                                <label>CPF</label>
+                                <?php echo $usuario->getCpfcnpj() ?>
+                            </div>                    
+                        </div>
+                        <div id="linhaPJ1" class="two fields">
+                            <div class="required field">
+                                <label>Nome da Empresa</label>
+                                <input type="text" name="txtNomeEmpresa" id="txtNomeEmpresa" placeholder="Informe o Nome da Empresa" value="<?php echo $usuario->getNome() ?>">
+                            </div>
+                            <div class="field">
+                                <label>CNPJ</label>
+                                <?php echo $usuario->getCpfcnpj() ?>
+                            </div>                    
+                        </div>
+                        <div id="linhaPJ2" class="three fields">
+                            <div class="required field">
+                                <label>Razão Social</label>
+                                <input type="text" name="txtRazaoSocial" id="txtRazaoSocial" placeholder="Informe a Razão Social da Empresa" value="<?php
+                                if ($usuario->getTipousuario() == "pj") {
+                                    echo $usuario->getEmpresa()->getRazaosocial();
+                                }
+                                ?>">
+                            </div>
+                            <div class="required field">
+                                <label>Responsável</label>
+                                <input type="text" name="txtResponsavel" id="txtResponsavel" placeholder="Informe o Responsável da Empresa" value="<?php
+                                if ($usuario->getTipousuario() == "pj") {
+                                    echo $usuario->getEmpresa()->getResponsavel();
+                                }
+                                ?>">
+                            </div>                    
+                            <div class="required field">
+                                <label>CPF do Responsável</label>
+                                <input type="text" name="txtCPFResponsavel" id="txtCPFResponsavel" placeholder="Informe o CPF do Responsável" value="<?php
+                                if ($usuario->getTipousuario() == "pj") {
+                                    echo $usuario->getEmpresa()->getCpfresponsavel();
+                                }
+                                ?>">
+                            </div>                    
+                        </div>
+                        <h3 class="ui dividing header">Endereço</h3>
+                        <div class="fields">
+                            <div class="five wide field">
+                                <div class="ui action left icon input">
+                                    <i class="search icon"></i>
+                                    <input type="text" name="txtCEP" id="txtCEP" placeholder="Informe o seu CEP..." value="<?php echo $usuario->getEndereco()->getCep() ?>">
+                                    <div class="ui teal button" id="btnCEP">Buscar CEP</div>
+                                </div>              
+                            </div>
+                            <div class="three wide field"><label>Não sabe o CEP? <a href="#">clique aqui</a></label></div>
+                            <div class="five wide field"><div id="msgCEP"></div> </div>
+                        </div>
+                        <div id="divCEP" class="six fields">
+                            <div class="field">
+                                <label>Cidade</label>
+                                <input type="text" name="txtCidade" id="txtCidade" readonly="readonly" value="<?php echo $usuario->getEndereco()->getCidade()->getNome(); ?>">
+                            </div>
+                            <div class="one wide field">
+                                <label>Estado</label>
+                                <input type="text" name="txtEstado" id="txtEstado" readonly="readonly" value="<?php echo $usuario->getEndereco()->getEstado()->getUf() ?>">
+                            </div>
+                            <div class=" field">
+                                <label>Bairro</label>
+                                <input type="text" name="txtBairro" id="txtBairro" readonly="readonly" value="<?php echo $usuario->getEndereco()->getBairro()->getNome() ?>">
+                            </div>
+                            <div class="seven wide field">
+                                <label>Logradouro</label>
+                                <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly" value="<?php echo $usuario->getEndereco()->getLogradouro() ?>">
+                            </div>
+                            <div class="two wide field">
+                                <label>Número</label>
+                                <input type="text" name="txtNumero" id="txtNumero" placeholder="Informe o nº" value="<?php echo $usuario->getEndereco()->getNumero() ?>">
+                            </div>
+                            <div class="seven wide field">
+                                <label>Complemento</label>
+                                <input type="text" name="txtComplemento" id="txtComplemento" placeholder="Complemento" value="<?php echo $usuario->getEndereco()->getComplemento() ?>">
+                            </div>
+                        </div>
+                        <h3 class="ui dividing header">Telefones</h3> 
+                        <div class="fields">
+                            <div class="four wide required field">
+                                <label>Tipo</label>
+                                <div class="ui selection dropdown">
+                                    <input type="hidden" name="sltTipotelefone" id="sltTipotelefone">
+                                    <div class="default text">Tipo do telefone</div>
+                                    <i class="dropdown icon"></i>
+                                    <div class="menu">
+                                        <div class="item" data-value="Fixo">Fixo</div>
+                                        <div class="item" data-value="Celular">Celular</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="four wide required field">
+                                <label>Operadora</label>
+                                <div class="ui selection dropdown">
+                                    <input type="hidden" name="sltOperadora" id="sltOperadora">
+                                    <div class="default text">Operadora</div>
+                                    <i class="dropdown icon"></i>
+                                    <div class="menu">
+                                        <div class="item" data-value="Oi">Oi</div>
+                                        <div class="item" data-value="Tim">Tim</div>
+                                        <div class="item" data-value="Vivo">Vivo</div>
+                                        <div class="item" data-value="Claro">Claro</div>
+                                        <div class="item" data-value="Embratel">Embratel</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="four wide required field">
+                                <label>Número</label>
+                                <input type="text" name="txtTel" id="txtTel" placeholder="Informe o Número">
+                            </div>
+                            <div class="center aligned column">
+                                <br>
+                                <div class="teal ui labeled icon button" id="btnAdicionarTelefone">
+                                    <i class="add icon"></i>
+                                    Adicionar Telefone
+                                </div>
+                            </div>
+                        </div>
+                        <table class="ui compact celled blue table" id="tabelaTelefone">
+                            <thead>
+                                <tr>
+                                    <th>Tipo</th>
+                                    <th>Operadora</th>
+                                    <th>Número</th>
+                                    <th>Opção</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dadosTelefone">
+                                <?php
+                                $quantidade = count($usuario->getTelefone());
+                                if ($quantidade == 1) {
+                                    $array = array($usuario->getTelefone());
+                                } else {
+                                    $array = $usuario->getTelefone();
+                                }
+                                foreach ($array as $telefone) {
+                                    ?> 
+                                    <tr>
+                                        <td> <input type=hidden id=hdnTipoTelefone[] name=hdnTipoTelefone[] value="<?php echo $telefone->getTipotelefone() ?>"> <?php echo $telefone->getTipotelefone() ?> </td>
+                                        <td> <input type=hidden id=hdnOperadora[] name=hdnOperadora[] value="<?php echo $telefone->getOperadora() ?>"> <?php echo $telefone->getOperadora() ?> </td>
+                                        <td> <input type=hidden id=hdnTelefone[] name=hdnTelefone[] value="<?php echo $telefone->getNumero() ?>"> <?php echo $telefone->getNumero() ?> </td>
+                                        <td class='collapsing'> <div class='red ui icon button' onclick='excluirTelefone($(this))'><i class='trash icon'></i>Excluir</div></td>
+                                    </tr>
+        <?php } ?>     
+                            </tbody>
+                        </table>
+                        <button class="ui blue button" type="button" id="btnRegistrar">Atualizar Agora!</button>
+                        <button class="ui orange button" type="reset" id="btnCancelar">Cancelar</button>
+                    </form>
                 </div>
-            </form>
-        </div> 
-
+            </div>
+            <div class="ui hidden divider"></div>
+        </div>
         <?php
     }
 }
 ?>
+<!-- MODAIS -->
+<div class="ui small modal" id="modalCancelar">
+    <i class="close icon"></i>
+    <div class="header">
+        Cancelar
+    </div>
+    <div class="content">
+        <div class="description">
+            <div class="ui header">Deseja realmente cancelar e perder as informações não gravadas?</div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui red button">
+            Não
+        </div>
+        <div class="ui positive right labeled icon button">
+            Sim
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
+<div class="ui small modal" id="modalTelefone">
+    <i class="close icon"></i>
+    <div class="header">
+        Nenhum Telefone
+    </div>
+    <div class="content">
+        <div class="description">
+            <div class="ui header">Você deve informar pelo menos um telefone para contato</div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui positive right labeled icon button">
+            Ok
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
+<div class="ui standart modal" id="modalConfirmar">
+    <i class="close icon"></i>
+    <div class="header">
+        Confirmar Dados
+    </div>
+    <div class="content">
+        <div class="description">
+            <div class="ui piled segment">
+                <p id="textoConfirmacao"></p>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui red button">
+            Não
+        </div>
+        <div class="ui positive right labeled icon button">
+            Sim
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>

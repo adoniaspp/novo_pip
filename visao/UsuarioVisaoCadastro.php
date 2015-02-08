@@ -10,6 +10,7 @@
     acoesCEP();
     cancelar("inicio");
     confirmar();
+    telefone();
 </script>
 <?php
 Sessao::gerarToken();

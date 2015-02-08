@@ -193,46 +193,6 @@ function cadastrarUsuario() {
                 form.submit();
             }
         });
-        $("#btnAdicionarTelefone").click(function() {
-            $("#txtTel").rules("add", {
-                required: true,
-                messages: {
-                    required: "Campo obrigatório",
-                }
-            });
-            $("#sltOperadora").rules("add", {
-                required: true,
-                messages: {
-                    required: "Campo obrigatório",
-                }
-            });
-            $("#sltTipotelefone").rules("add", {
-                required: true,
-                messages: {
-                    required: "Campo obrigatório",
-                }
-            });
-            if (validarTelefone()) {
-                $("#dadosTelefone").append(
-                        "<tr><td> <input type=hidden id=hdnTipoTelefone[] name=hdnTipoTelefone[] value=" + $("#sltTipotelefone").val() + ">" + $("#sltTipotelefone").val() + "</td>" +
-                        "<td> <input type=hidden id=hdnOperadora[] name=hdnOperadora[] value=" + $("#sltOperadora").val() + ">" + $("#sltOperadora").val() + "</td>" +
-                        "<td> <input type=hidden id=hdnTelefone[] name=hdnTelefone[] value=" + $("#txtTel").val() + ">" + $("#txtTel").val() + "</td>" +
-                        "<td class='collapsing'><div class='red ui icon button' onclick='excluirTelefone($(this))'><i class='trash icon'></i>Excluir</div></td></tr>");
-                $("#txtTel").val("");
-                $("#tabelaTelefone").show();
-            }
-            $("#txtTel").rules("remove");
-            $("#sltOperadora").rules("remove");
-            $("#sltTipotelefone").rules("remove");
-        });
-        $("#sltTipotelefone").change(function() {
-            $("#txtTel").unmask();
-            if ($(this).val() == "Fixo") {
-                $("#txtTel").mask('(00) 0000-0000');
-            } else {
-                $("#txtTel").mask('(00) 00000-0000');
-            }
-        })
     });
 }
 
@@ -304,7 +264,6 @@ function confirmar() {
                     }).modal('show');
                 } else
                 if ($("#hdnCEP").val() != "") {
-//chama modal de confirmacao    
                     carregaDadosModal($("#textoConfirmacao"));
                     $('#modalConfirmar').modal({
                         closable: false,
@@ -336,16 +295,22 @@ function carregaDadosModal($div) {
         {
             $div.append("Tipo de Pessoa: " + "Física" + "<br />");
             $div.append("Nome: " + $("#txtNome").val() + "<br />");
-            $div.append("CPF: " + $("#txtCPF").val() + "<br />");
+            if (jQuery.type($("#txtCPF").val()) !== "undefined") {
+                $div.append("CPF: " + $("#txtCPF").val() + "<br />");
+            }
         } else {
             $div.append("Tipo de Pessoa: " + "Jurídica" + "<br />");
             $div.append("Empresa: " + $("#txtNomeEmpresa").val() + "<br />");
-            $div.append("CNPJ: " + $("#txtCNPJ").val() + "<br />");
+            if (jQuery.type($("#txtCNPJ").val()) !== "undefined") {
+                $div.append("CNPJ: " + $("#txtCNPJ").val() + "<br />");
+            }
             $div.append("Responsável: " + $("#txtResponsavel").val() + "<br />");
             $div.append("CPF do Responsável: " + $("#txtCPFResponsavel").val() + "<br />");
             $div.append("Razão Social: " + $("#txtRazaoSocial").val() + "<br />");
         }
-        $div.append("Login: " + $("#txtLogin").val() + "<br />");
+        if (jQuery.type($("#txtLogin").val()) !== "undefined") {
+            $div.append("Login: " + $("#txtLogin").val() + "<br />");
+        }
         $div.append("Email: " + $("#txtEmail").val() + "<br />");
         $div.append("Logradouro: " + $("#txtLogradouro").val() + "<br />");
         $div.append("Número: " + $("#txtNumero").val() + "<br />");
@@ -598,4 +563,138 @@ function esqueciSenha() {
 
 
     });
+}
+
+function alterarUsuario() {
+    $(document).ready(function() {
+        /*validações*/
+        $.validator.setDefaults({
+            ignore: [],
+            errorClass: 'errorField',
+            errorElement: 'div',
+            errorPlacement: function(error, element) {
+                error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
+            },
+            highlight: function(element, errorClass, validClass) {
+                $(element).closest("div.field").addClass("error").removeClass("success");
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).closest(".error").removeClass("error").addClass("success");
+            }
+        });
+        $.validator.messages.required = 'Campo obrigatório';
+        $('#form').validate({
+            onkeyup: false,
+            focusInvalid: true,
+            rules: {
+                txtEmail: {
+                    required: true,
+                    email: true,
+                    remote:
+                            {
+                                url: "index.php",
+                                dataType: "json",
+                                type: "POST",
+                                data: {
+                                    hdnEntidade: "Usuario",
+                                    hdnAcao: "buscarEmail",
+                                    hdnToken: $("#hdnToken").val()
+                                }
+                            }
+                },
+                txtCEP: {
+                    required: true
+                },
+                txtNumero: {
+                    required: true
+                }
+            },
+            messages: {
+                txtEmail: {
+                    remote: "Email já utilizado",
+                    email: "Informe um email válido"
+                }
+            },
+            submitHandler: function(form) {
+                form.submit();
+            }
+        });
+        /*inicialização da página*/
+        $('.ui.dropdown')
+                .dropdown({
+            on: 'hover'
+        });
+        if ($('#sltTipoUsuario').val() === "pf") {
+            $("#linhaPJ1").hide();
+            $("#linhaPJ2").hide();
+            $("#txtNome").rules("add", {
+                required: true,
+            });
+            $("#txtNomeEmpresa").rules("remove");
+            $("#txtRazaoSocial").rules("remove");
+            $("#txtResponsavel").rules("remove");
+            $("#txtCPFResponsavel").rules("remove");
+        } else {
+            $("#linhaPF").hide();
+            $("#txtNome").rules("remove");
+            $("#txtNomeEmpresa").rules("add", {
+                required: true,
+            });
+            $("#txtRazaoSocial").rules("add", {
+                required: true,
+            });
+            $("#txtResponsavel").rules("add", {
+                required: true,
+            });
+            $("#txtCPFResponsavel").rules("add", {
+                required: true,
+                cpf: 'both'
+            });
+        }
+    });
+}
+
+function telefone() {
+    $(document).ready(function() {
+        $("#btnAdicionarTelefone").click(function() {
+            $("#txtTel").rules("add", {
+                required: true,
+                messages: {
+                    required: "Campo obrigatório",
+                }
+            });
+            $("#sltOperadora").rules("add", {
+                required: true,
+                messages: {
+                    required: "Campo obrigatório",
+                }
+            });
+            $("#sltTipotelefone").rules("add", {
+                required: true,
+                messages: {
+                    required: "Campo obrigatório",
+                }
+            });
+            if (validarTelefone()) {
+                $("#dadosTelefone").append(
+                        "<tr><td> <input type=hidden id=hdnTipoTelefone[] name=hdnTipoTelefone[] value=" + $("#sltTipotelefone").val() + ">" + $("#sltTipotelefone").val() + "</td>" +
+                        "<td> <input type=hidden id=hdnOperadora[] name=hdnOperadora[] value=" + $("#sltOperadora").val() + ">" + $("#sltOperadora").val() + "</td>" +
+                        "<td> <input type=hidden id=hdnTelefone[] name=hdnTelefone[] value=" + $("#txtTel").val() + ">" + $("#txtTel").val() + "</td>" +
+                        "<td class='collapsing'><div class='red ui icon button' onclick='excluirTelefone($(this))'><i class='trash icon'></i>Excluir</div></td></tr>");
+                $("#txtTel").val("");
+                $("#tabelaTelefone").show();
+            }
+            $("#txtTel").rules("remove");
+            $("#sltOperadora").rules("remove");
+            $("#sltTipotelefone").rules("remove");
+        });
+        $("#sltTipotelefone").change(function() {
+            $("#txtTel").unmask();
+            if ($(this).val() == "Fixo") {
+                $("#txtTel").mask('(00) 0000-0000');
+            } else {
+                $("#txtTel").mask('(00) 00000-0000');
+            }
+        })
+    })
 }
