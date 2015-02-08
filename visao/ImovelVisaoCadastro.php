@@ -6,14 +6,12 @@
 <script src="assets/js/util.validate.js"></script>
 <script>
     
-    cadastrarImovel();
-    //carregaDiferencial();      
+    cadastrarImovel();  
     esconderCamposInicio();
     mascarasFormUsuario();
     acoesCEP();
     buscarCep();
-    
-    
+
 </script>
 
 <?php
@@ -98,10 +96,10 @@ Sessao::gerarToken();
                 <div class="fields" id="divPlantaUm"></div>
                 <div class="fields" id="divInfoApeCasa">
                 
-                    <div class="three wide required field">
+                    <!--<div class="three wide required field">
                         <label>Quarto(s)</label>
                         <div class="ui selection dropdown">
-                            <input type="hidden" name="sltQuarto[]" id="sltQuarto1">
+                            <input type="hidden" name="sltQuarto[]" id="sltQuarto">
                             <div class="default text">Quarto(s)</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
@@ -113,11 +111,11 @@ Sessao::gerarToken();
                                 <div class="item" data-value="6">Mais de 5</div>
                             </div>
                         </div>
-                    </div>
-                    <div class="three wide required field">
+                    </div>-->
+                    <!--<div class="three wide required field">
                         <label>Banheiro(s)</label>
                         <div class="ui selection dropdown">
-                            <input type="hidden" name="sltBanheiro[]" id="sltBanheiro1">
+                            <input type="hidden" name="sltBanheiro[]" id="sltBanheiro">
                             <div class="default text">Banheiro(s)</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
@@ -128,11 +126,11 @@ Sessao::gerarToken();
                                 <div class="item" data-value="5">Mais de 5</div>
                             </div>
                         </div>
-                    </div>
-                    <div class="three wide required field">
+                    </div>-->
+                    <!--<div class="three wide required field">
                         <label>Suite(s)</label>
                         <div class="ui selection dropdown">
-                            <input type="hidden" name="sltSuite[]" id="sltSuite1">
+                            <input type="hidden" name="sltSuite[]" id="sltSuite">
                             <div class="default text">Suite(s)</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
@@ -144,11 +142,11 @@ Sessao::gerarToken();
                                 <div class="item" data-value="5">Mais de 5</div>
                             </div>
                         </div>
-                    </div>
-                    <div class="three wide required field">
+                    </div>-->
+                    <!--<div class="three wide required field">
                         <label>Vagas de Garagem</label>
                         <div class="ui selection dropdown">
-                            <input type="hidden" name="sltGaragem[]" id="sltGaragem1">
+                            <input type="hidden" name="sltGaragem[]" id="sltGaragem">
                             <div class="default text">Vaga(s) de Garagem</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
@@ -160,14 +158,14 @@ Sessao::gerarToken();
                                 <div class="item" data-value="5">Mais de 5</div>
                             </div>
                         </div>
-                    </div> 
+                    </div>-->
                     
-                    <div id="divAreaPlanta" class="one field">
-                        <div class="required field">
+                    <!--<div id="divAreaPlanta" class="one field">
+                        <div class="field">
                             <label>Área(m2)</label>
-                            <input type="text" name="txtArea[]" id="txtArea1" placeholder="Informe a Área">
+                            <input type="text" name="txtArea[]" id="txtArea" placeholder="Informe a Área">
                         </div>                                     
-                    </div>
+                    </div>-->
                     
                 </div>
                 
