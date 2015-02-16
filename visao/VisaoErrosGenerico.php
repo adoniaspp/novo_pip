@@ -22,17 +22,12 @@ switch ($item) {
     case "sucessocadastroimovel":
     case "sucessocadastroimovel":
     case "sucessoedicaousuario":
+    case "sucessoedicaoimovel":
     case "sucessoenvioemail":
         ?>
                 $('#divColuna').attr('class', 'ten wide column');
                 var img = $("<i>", {class: "huge checkmark icon"}, "</i>");
                 $('#divimg').append(img).parent().attr('class', 'green row');
-        <?php
-        break;
-    case "sucessoedicaoimovel":
-        ?>
-                alert("Imóvel Atualizado com Sucesso");
-                location.href = "index.php?entidade=Imovel&acao=listarEditar";
         <?php
         break;
 }
@@ -131,6 +126,22 @@ switch ($item) {
                         <a href="index.php?entidade=Imovel&acao=form">
                             <button type="button"  class="ui inverted button">
                                 <i class="home icon"></i><i class="add icon"></i> Cadastrar Outro Imóvel
+                            </button>
+                        </a>         
+                        <?php
+                        break;
+                    case "sucessoedicaoimovel":
+                        ?>
+                        <h2>O imóvel foi atualizado com sucesso!</h2>
+                        <h3>O que deseja fazer? </h3> 
+                        <a href="index.php?entidade=Usuario&acao=meuPIP">
+                            <button type="button"  class="ui purple button">
+                                <i class="announcement icon"></i><i class="add icon"></i> Voltar ao Meu PIP
+                            </button>
+                        </a> 
+                        <a href="index.php?entidade=Imovel&acao=listarEditar">
+                            <button type="button"  class="ui inverted button">
+                                <i class="home icon"></i><i class="add icon"></i> Editar Outro Imóvel
                             </button>
                         </a>         
                         <?php

@@ -9,7 +9,7 @@ class ApartamentoPlanta {
     private $totalunidades;
     private $numerotorres;
     
-    protected $imovel;
+    protected $planta;
     
     function getId() {
         return $this->id;
@@ -35,8 +35,8 @@ class ApartamentoPlanta {
         return $this->numerotorres;
     }
 
-    function getImovel() {
-        return $this->imovel;
+    function getPlanta() {
+        return $this->planta;
     }
 
     function setId($id) {
@@ -63,10 +63,10 @@ class ApartamentoPlanta {
         $this->numerotorres = $numerotorres;
     }
 
-    function setImovel($imovel) {
-        $this->imovel = $imovel;
+    function setPlanta($planta) {
+        $this->planta = $planta;
     }
-    
+     
     function cadastrar($parametros, $idimovel) {
         $apartamentoPlanta = new ApartamentoPlanta();
         $apartamentoPlanta->setIdimovel($idimovel);

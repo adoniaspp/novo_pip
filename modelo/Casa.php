@@ -10,9 +10,6 @@ class Casa {
     private $garagem;
     private $area;
     
-    
-    protected $imovel;
-    
     function getId() {
         return $this->id;
     }
@@ -39,10 +36,6 @@ class Casa {
 
     function getArea() {
         return $this->area;
-    }
-
-    function getImovel() {
-        return $this->imovel;
     }
 
     function setId($id) {
@@ -72,14 +65,28 @@ class Casa {
     function setArea($area) {
         $this->area = $area;
     }
-
-    function setImovel($imovel) {
-        $this->imovel = $imovel;
-    }
     
     function cadastrar($parametros, $idimovel) {
         $casa = new Casa();
         $casa->setIdimovel($idimovel);
+        $casa->setQuarto($parametros["sltQuarto"]);
+        $casa->setBanheiro($parametros["sltBanheiro"]);
+        $casa->setSuite($parametros["sltSuite"]);          
+        $casa->setGaragem($parametros["sltGaragem"]);
+        $casa->setArea($parametros["txtArea"]);
+        return $casa;
+    }
+    
+    function editar($parametros, $teste) {
+        
+        
+      /*  echo "<pre>";
+        var_dump($parametros);
+        echo "</pre>";*/
+        
+        $casa = new Casa();
+        $casa->setId($teste);
+        $casa->setIdimovel($_SESSION["imovel"]["id"]);
         $casa->setQuarto($parametros["sltQuarto"]);
         $casa->setBanheiro($parametros["sltBanheiro"]);
         $casa->setSuite($parametros["sltSuite"]);          

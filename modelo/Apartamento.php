@@ -5,7 +5,6 @@ class Apartamento {
     
     private $id;
     private $idimovel;
-    private $condicao;
     private $quarto;
     private $suite;
     private $banheiro;
@@ -25,10 +24,6 @@ class Apartamento {
 
     function getIdimovel() {
         return $this->idimovel;
-    }
-
-    function getCondicao() {
-        return $this->condicao;
     }
 
     function getQuarto() {
@@ -83,10 +78,6 @@ class Apartamento {
         $this->idimovel = $idimovel;
     }
 
-    function setCondicao($condicao) {
-        $this->condicao = $condicao;
-    }
-
     function setQuarto($quarto) {
         $this->quarto = $quarto;
     }
@@ -134,12 +125,7 @@ class Apartamento {
     function cadastrar($parametros, $idImovel) {
 
         $apartamento = new Apartamento();
-        $apartamento->setIdimovel($idImovel);
-        
-        if($parametros["chkCobertura"] == "novo"){
-            $apartamento->setCondicao($parametros["sltCondicao"]="NOVO");
-        }else $apartamento->setCondicao($parametros["sltCondicao"]="USADO");
-        
+        $apartamento->setIdimovel($idImovel);       
         $apartamento->setQuarto($parametros["sltQuarto"]);
         $apartamento->setBanheiro($parametros["sltBanheiro"]);
         $apartamento->setSuite($parametros["sltSuite"]);          
@@ -150,11 +136,11 @@ class Apartamento {
         $apartamento->setCondominio($parametros["txtCondominio"]);
         
         if(!isset($parametros["chkCobertura"])){
-            $apartamento->setCobertura($parametros["chkCobertura"]="");
+            $apartamento->setCobertura($parametros["chkCobertura"]="NAO");
         }else $apartamento->setCobertura($parametros["chkCobertura"]="SIM");
         
         if(!isset($parametros["chkSacada"])){
-            $apartamento->setSacada($parametros["chkSacada"]="");
+            $apartamento->setSacada($parametros["chkSacada"]="NAO");
         }else $apartamento->setSacada($parametros["chkSacada"]="SIM");
         
         return $apartamento;

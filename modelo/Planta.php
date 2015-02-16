@@ -49,6 +49,10 @@ class Planta {
         return $this->area;
     }
 
+    function getApartamentoplanta() {
+        return $this->apartamentoplanta;
+    }
+
     function setId($id) {
         $this->id = $id;
     }
@@ -85,7 +89,11 @@ class Planta {
         $this->area = $area;
     }
 
-        
+    function setApartamentoplanta($apartamentoplanta) {
+        $this->apartamentoplanta = $apartamentoplanta;
+    }
+
+            
     function cadastrar($parametros, $idApartamentoPlanta, $indiceControle) {
 
         $planta = new Planta();

@@ -4,6 +4,7 @@ class PredioComercial {
     
     private $id;
     private $idimovel;
+    private $area;
     
     protected $imovel;
     
@@ -13,6 +14,10 @@ class PredioComercial {
 
     function getIdimovel() {
         return $this->idimovel;
+    }
+
+    function getArea() {
+        return $this->area;
     }
 
     function getImovel() {
@@ -27,8 +32,20 @@ class PredioComercial {
         $this->idimovel = $idimovel;
     }
 
+    function setArea($area) {
+        $this->area = $area;
+    }
+
     function setImovel($imovel) {
         $this->imovel = $imovel;
     }
 
+    function cadastrar($parametros, $idImovel) {
+
+        $predioComercial = new PredioComercial();
+        $predioComercial->setIdimovel($idImovel);       
+        $predioComercial->setArea($parametros["txtArea"]);
+        
+        return $predioComercial;
+    }
 }

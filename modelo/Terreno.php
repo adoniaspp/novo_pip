@@ -40,5 +40,14 @@ class Terreno {
     function setImovel($imovel) {
         $this->imovel = $imovel;
     }
+    
+    function cadastrar($parametros, $idImovel) {
 
+        $terreno = new Terreno();
+        $terreno->setIdimovel($idImovel);       
+        $terreno->setArea($parametros["txtArea"]);
+        
+        return $terreno;
+    }
+    
 }

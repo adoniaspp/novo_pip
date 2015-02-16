@@ -8,18 +8,32 @@
 <script>
     
     cadastrarImovel();  
-    esconderCamposInicio();
     mascarasFormUsuario();
     acoesCEP();
     buscarCep();
     preco();
-    
+        
 </script>
 
 <?php
 Sessao::gerarToken();
-?>
+$item = $this->getItem();
 
+if ($item) {
+    foreach ($item as $imovel) {
+        
+        ?>
+<script> 
+
+mostrarCamposEdicao(<?php echo $imovel->getIdTipoImovel();?>,  
+                   "<?php echo $imovel->getCondicao();?>", 
+                    <?php echo $imovel->getCasa()->getArea();?>,
+                    <?php echo $imovel->getCasa()->getQuarto();?>,
+                    <?php echo $imovel->getCasa()->getBanheiro();?>,            
+                    <?php echo $imovel->getCasa()->getSuite();?>,            
+                    <?php echo $imovel->getCasa()->getGaragem();?>)
+
+</script>
 <div class="container">
     <div class="ui hidden divider"></div>
     <div class="ui page grid main">
@@ -38,42 +52,18 @@ Sessao::gerarToken();
         <div class="column">
                 <form id="form" class="ui form" action="index.php" method="post">
                 <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Imovel"  />
-                <input type="hidden" id="hdnAcao" name="hdnAcao" value="cadastrar" />
-                <input type="hidden" id="hdnCEP" name="hdnCEP" />
+                <input type="hidden" id="hdnAcao" name="hdnAcao" value="editar" />
+                <input type="hidden" id="hdnCEP" name="hdnCEP" value="<?php echo $imovel->getEndereco()->getCep() ?>"/>
                 <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
                 <h3 class="ui dividing header">Informações do Imóvel</h3>
-                <div class="fields">
-                    <div class="four wide required field">
+                <div class="fields" id="divInfoBasicas">
+                    <div class="four wide field">
                         <label>Tipo de Imóvel</label>
-                        <div class="ui selection dropdown">
-                            <input type="hidden" name="sltTipo" id="sltTipo">
-                            <div class="default text">Escolha o Imóvel</div>
-                            <i class="dropdown icon"></i>
-                            <div class="menu">
-                                <div class="item" data-value="1">Casa</div>
-                                <div class="item" data-value="2">Apartamento na Planta</div>
-                                <div class="item" data-value="3">Apartamento</div>
-                                <div class="item" data-value="4">Sala Comercial</div>
-                                <div class="item" data-value="5">Prédio Comercial</div>
-                                <div class="item" data-value="6">Terreno</div>
-                            </div>
-                        </div>
+                            <input type="hidden" name="sltTipo" id="sltTipo" value="<?php echo $imovel->getIdTipoImovel()?>">
+                            <?php echo $imovel->buscarTipoImovel($imovel->getIdTipoImovel())?>
                     </div>
                     
-                    <div class="four wide required field" id="divCondicao">
-                            <label>Condição</label>
-                            <div class="ui selection dropdown">
-                                <input type="hidden" name="sltCondicao" id="sltCondicao">
-                                <div class="default text">Condição</div>
-                                <i class="dropdown icon"></i>
-                                <div class="menu">
-                                    <div class="item" data-value="novo">Novo</div>
-                                    <div class="item" data-value="usado">Usado</div>
-                                </div>
-                            </div>
-                        </div>   
-                    
-                        <div class="three wide required field" id="divNumeroPlantas">
+                    <!--    <div class="three wide required field" id="divNumeroPlantas">
                             <label>Número de Plantas</label>
                             <div class="ui selection dropdown">
                                 <input type="hidden" name="sltNumeroPlantas" id="sltNumeroPlantas">
@@ -81,9 +71,9 @@ Sessao::gerarToken();
                                 <i class="dropdown icon"></i>
                                 <div class="menu">
                                     <?php 
-                                    for($plantas = 1; $plantas <=6; $plantas++){
+                                    /*for($plantas = 1; $plantas <=6; $plantas++){
                                     echo "<div class='item' data-value='$plantas'>".$plantas."</div>";
-                                    }
+                                    }*/
                                     ?>
                                 </div>
                             </div>
@@ -96,7 +86,7 @@ Sessao::gerarToken();
                                         <input type="text" name="txtArea" id="txtArea" placeholder="Informe a Área" maxlength="7">
                                     </div>                                     
                         </div>
-                    
+                 -->   
                 </div>
                 <div class="fields" id="divPlantaUm"></div>
                 <div class="fields" id="divInfoApeCasa">
@@ -176,22 +166,22 @@ Sessao::gerarToken();
                 
                 <div class="fields">                
                 <div id="divInserePlanta">
-                    <span id="a"></span>
-                    <div class="exemplo"></div>
                 </div>
                 </div>
                 
                 <div class="one field" id="divDescricao">
                     <div class="field">
                         <label>Identificar Este Imóvel Como:</label>
-                        <textarea maxlength="200" id="txtDescricao" name="txtIdentificacao" class="form-control" rows="2" cols="8"></textarea>
+                        <textarea maxlength="200" id="txtDescricao" name="txtIdentificacao" class="form-control" rows="2" cols="8" >
+                        <?php echo $imovel->getIdentificacao();?>   
+                        </textarea>
                     </div>                    
                 </div>
                 
                 
                 
                 <div class="fields" id="divApartamento">
-                    
+                <!--    
                     <div class="two field" id="divAndares">
                         <label>Nº de Andares do Prédio</label>
                         <div class="ui selection dropdown">
@@ -200,9 +190,9 @@ Sessao::gerarToken();
                             <i class="dropdown icon"></i>
                             <div class="menu">
                                 <?php 
-                                for($andares = 1; $andares <=40; $andares++){
+                                /*for($andares = 1; $andares <=40; $andares++){
                                 echo "<div class='item' data-value='".$andares."'>".$andares."</div>";
-                                }
+                                }*/
                                 ?>
                             </div>
                         </div>
@@ -216,10 +206,10 @@ Sessao::gerarToken();
                             <div class="default text">Numero de Aptos</div>
                             <i class="dropdown icon"></i>
                             <div class="menu" id="sltUnidadesAndar">
-                                <?php 
+                                <?php /*
                                 for($unidadesAndar = 1; $unidadesAndar <=10; $unidadesAndar++){
                                 echo "<div class='item' data-value='".$unidadesAndar."'>".$unidadesAndar."</div>";
-                                }
+                                }*/
                                 ?>
                             </div>
                         </div>
@@ -232,10 +222,10 @@ Sessao::gerarToken();
                             <div class="default text">Torres</div>
                             <i class="dropdown icon"></i>
                             <div class="menu" id="sltNumeroTorres">
-                                <?php 
+                                <?php /*
                                 for($torres = 1; $torres <=10; $torres++){
                                 echo "<div class='item' data-value='".$torres."'>".$torres."</div>";
-                                }
+                                }*/
                                 ?>
                             </div>
                         </div>
@@ -248,10 +238,10 @@ Sessao::gerarToken();
                             <div class="default text">Andar</div>
                             <i class="dropdown icon"></i>
                             <div class="menu" id="sltAndar">
-                                <?php 
+                                <?php /*
                                 for($andar = 1; $andar <=40; $andar++){
                                 echo "<div class='item' data-value='".$andar."'>".$andar."</div>";
-                                }
+                                }*/
                                 ?>
                             </div>
                         </div>
@@ -281,7 +271,7 @@ Sessao::gerarToken();
                             <label>Possui Sacada</label>
                     </div>
                     
-                    
+                -->    
                 </div>
 
                 <div class="ui hidden divider"></div>
@@ -301,7 +291,7 @@ Sessao::gerarToken();
                         <div class="five wide field">
                             <div class="ui action left icon input">
                                 <i class="search icon"></i>
-                                <input type="text" name="txtCEP" id="txtCEP" placeholder="Informe o seu CEP...">
+                                <input type="text" name="txtCEP" id="txtCEP" placeholder="Informe o seu CEP..." value="<?php echo $imovel->getEndereco()->getCep()?>">
                                 <div class="ui teal button" id="btnCEP">Buscar CEP</div>
                             </div>              
                         </div>
@@ -311,38 +301,39 @@ Sessao::gerarToken();
                     <div id="divCEP" class="six fields">
                         <div class="field">
                         <label>Cidade</label>
-                        <input type="text" name="txtCidade" id="txtCidade" readonly="readonly">
+                        <input type="text" name="txtCidade" id="txtCidade" readonly="readonly" value="<?php echo $imovel->getEndereco()->getCidade()->getNome()?>">
                     </div>
                     <div class="one wide field">
                         <label>Estado</label>
-                        <input type="text" name="txtEstado" id="txtEstado" readonly="readonly">
+                        <input type="text" name="txtEstado" id="txtEstado" readonly="readonly" value="<?php echo $imovel->getEndereco()->getEstado()->getUf()?>">
                     </div>
                     <div class=" field">
                         <label>Bairro</label>
-                        <input type="text" name="txtBairro" id="txtBairro" readonly="readonly">
+                        <input type="text" name="txtBairro" id="txtBairro" readonly="readonly" value="<?php echo $imovel->getEndereco()->getBairro()->getNome()?>">
                     </div>
                     <div class="seven wide field">
                         <label>Logradouro</label>
-                        <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly">
+                        <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly" value="<?php echo $imovel->getEndereco()->getLogradouro()?>">
                     </div>
                     <div class="two wide field">
                         <label>Número</label>
-                        <input type="text" name="txtNumero" id="txtNumero"  maxlength="5" placeholder="Informe o nº">
+                        <input type="text" name="txtNumero" id="txtNumero"  maxlength="5" placeholder="Informe o nº" value="<?php echo $imovel->getEndereco()->getNumero()?>">
                     </div>
                     <div class="seven wide field">
                         <label>Complemento</label>
-                        <input type="text" name="txtComplemento" id="txtComplemento" maxlength="50" placeholder="Complemento">
+                        <input type="text" name="txtComplemento" id="txtComplemento" maxlength="50" placeholder="Complemento" value="<?php echo $imovel->getEndereco()->getComplemento()?>">
                     </div>
                     </div>
                 
                 </div>    
-                
+<?php }} ?> 
                 <h3 class="ui dividing header">Confirmação de Cadastro</h3>
 
-                <button class="ui blue submit button" type="submit" id="btnCadastrar">Cadastrar</button>
+                <button class="ui blue submit button" type="submit" id="btnCadastrar">Alterar</button>
                 <button class="ui orange button" type="reset" id="btnCancelar">Cancelar</button>
             </form>
         </div>
     </div>
     <div class="ui hidden divider"></div>
 </div>
+    
