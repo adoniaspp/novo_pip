@@ -121,7 +121,7 @@ Sessao::gerarToken();
                             <div class="ui teal button" id="btnCEP">Buscar CEP</div>
                         </div>              
                     </div>
-                    <div class="three wide field"><label>Não sabe o CEP? <a href="#">clique aqui</a></label></div>
+                    <div class="three wide field"><label>Não sabe o CEP? <a href="http://www.buscacep.correios.com.br/servicos/dnec/menuAction.do?Metodo=menuLogradouro" target="_blank">clique aqui</a></label></div>
                     <div class="five wide field"><div id="msgCEP"></div> </div>
                 </div>
                 <div id="divCEP" class="six fields">
@@ -175,7 +175,6 @@ Sessao::gerarToken();
                                 <div class="item" data-value="Tim">Tim</div>
                                 <div class="item" data-value="Vivo">Vivo</div>
                                 <div class="item" data-value="Claro">Claro</div>
-                                <div class="item" data-value="Embratel">Embratel</div>
                             </div>
                         </div>
                     </div>

@@ -26,14 +26,16 @@ if ($item) {
                     <div class="ui large breadcrumb">
                         <a class="section" href="index.php">Início</a>
                         <i class="right chevron icon divider"></i>
-                        <a class="active section">Novo Usuário</a>
+                        <a class="section" href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
+                        <i class="right chevron icon divider"></i>
+                        <a class="active section">Atualizar Cadastro</a>
                     </div>
                 </div>
             </div>
             <div class="ui hidden divider"></div>
             <div class="ui page grid main">
                 <div class="column">
-                    <form id="form" class="ui form" action="index.php" method="post" enctype="multipart/form-data">
+                    <form id="form" class="ui form" action="index.php" method="post">
                         <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
                         <input type="hidden" id="hdnAcao" name="hdnAcao" value="alterar" />
                         <input type="hidden" id="hdnCEP" name="hdnCEP" value="<?php echo $usuario->getEndereco()->getCep() ?>"/>
@@ -109,7 +111,7 @@ if ($item) {
                                     <div class="ui teal button" id="btnCEP">Buscar CEP</div>
                                 </div>              
                             </div>
-                            <div class="three wide field"><label>Não sabe o CEP? <a href="#">clique aqui</a></label></div>
+                            <div class="three wide field"><label>Não sabe o CEP? <a href="http://www.buscacep.correios.com.br/servicos/dnec/menuAction.do?Metodo=menuLogradouro" target="_blank">clique aqui</a></label></div>
                             <div class="five wide field"><div id="msgCEP"></div> </div>
                         </div>
                         <div id="divCEP" class="six fields">
@@ -163,7 +165,6 @@ if ($item) {
                                         <div class="item" data-value="Tim">Tim</div>
                                         <div class="item" data-value="Vivo">Vivo</div>
                                         <div class="item" data-value="Claro">Claro</div>
-                                        <div class="item" data-value="Embratel">Embratel</div>
                                     </div>
                                 </div>
                             </div>

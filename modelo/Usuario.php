@@ -156,14 +156,15 @@ class Usuario {
     function cadastrar($parametros, $idendereco) {
         $usuario = new Usuario();
         $usuario->setTipousuario($parametros['sltTipoUsuario']);
-        $usuario->setNome($parametros['txtNome']);
         $usuario->setLogin($parametros['txtLogin']);
         $usuario->setSenha($this->criptografarSenha($parametros['txtSenha']));
 
         if ($usuario->getTipousuario() == "pf") {
             $usuario->setCpfcnpj($parametros['txtCPF']);
+            $usuario->setNome($parametros['txtNome']);
         } else {
             $usuario->setCpfcnpj($parametros['txtCNPJ']);
+            $usuario->setNome($parametros['txtNomeEmpresa']);
         }
         $usuario->setEmail($parametros['txtEmail']);
         $usuario->setStatus("ativo");
@@ -171,7 +172,7 @@ class Usuario {
         $usuario->setDatahoraalteracao("");
         $usuario->setIdendereco($idendereco);
         $usuario->setFoto("");
-        
+
         $arquivo_tmp = $_FILES['arquivo']['tmp_name'];
         $nome = $_FILES['arquivo']['name'];
         $extensao = strrchr($nome, '.');
@@ -187,7 +188,11 @@ class Usuario {
     function editar($parametros) {
         $usuario = new Usuario();
         $usuario->setId($_SESSION["idusuario"]);
-        $usuario->setNome($parametros['txtNome']);
+        if ($_SESSION["tipopessoa"] == "pf") {
+            $usuario->setNome($parametros['txtNome']);
+        } else {
+            $usuario->setNome($parametros['txtNomeEmpresa']);
+        }
         $usuario->setEmail($parametros['txtEmail']);
         $usuario->setDatahoraalteracao(date('d/m/Y H:i:s'));
         return $usuario;

@@ -53,10 +53,11 @@ class UsuarioPlanoControle {
                     }
                 }
                 $total = number_format($total, 2, '.', '');
-                if ($total <> $parametros["txtTotal"]) {
+                if ($total <> $parametros["txtTotalPreco"]) {
                     die("erro no total informado");
                 } else {
                     $confirmacao["total"] = $total;
+                    $confirmacao["totalQtd"] = $parametros["txtTotalQtd"];
                     $confirmacao["tokenPlano"] = $parametros["hdnToken"];
                     Sessao::configurarSessaoUsuarioPlanoConfirmacao($confirmacao);
 

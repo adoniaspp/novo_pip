@@ -38,7 +38,6 @@ $item = $this->getItem();
 
                     <a href="index.php?entidade=Usuario&acao=form&tipo=trocarimagem"> 
                         <button type="button" class="ui blue button">
-
                             <i class="file image outline icon"></i>  Alterar <?php echo ($_SESSION["tipopessoa"] == "pf" ? "Imagem" : "Logomarca"); ?>
                         </button></a> 
                 </div>
@@ -127,7 +126,7 @@ $item = $this->getItem();
                             <?php } ?>
                             <?php
                         } else {
-                            echo '<span class="text-info"><strong>Cadastre primeiro um imóvel.</strong></span>';
+                            echo '<h4 class="ui red header">Cadastre primeiro um imóvel.</h4>';
                         }
                     }
                     ?>
@@ -153,13 +152,12 @@ $item = $this->getItem();
                     if ($item) {
                         if (!$item["usuarioPlano"]) {
                             ?>
-                            <span class="text-danger"><strong>Poxa, infelizmente você ainda não tem plano. Não perca tempo e Compre Agora! </strong> 
-                                <br/> <img class="ui centered image" src="http://www.prospeccao-de-clientes.com/images/gudrum-pagseguro.gif" /> 
-                            </span>
+                            <h4 class="ui orange header">  Poxa, infelizmente você ainda não tem plano. Não perca tempo e Compre Agora! </h4>
+                            <br/> <img class="ui centered image" src="http://www.prospeccao-de-clientes.com/images/gudrum-pagseguro.gif" /> 
                             <?php
                         } else {
                             ?>
-                            <table class="table table-bordered table-condensed table-hover table-responsive">
+                            <table class="ui compact celled blue table">
                                 <thead>
                                     <tr>
                                         <th>Plano</th>
@@ -209,6 +207,5 @@ $item = $this->getItem();
             </div> 
         </div>
     </div>
-    <div class="ui dividing header"></div>
     <div class="ui dividing header"></div>
 </div>

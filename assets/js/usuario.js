@@ -337,7 +337,7 @@ function buscarCep() {
             beforeSend: function() {
                 $("#msgCEP").html('');
                 $("#divCEP").hide(); //oculta campos do DIVCEP
-                $("#msgCEP").append(criarAlerta("orange", "...aguarde buscando CEP..."));
+                $("#msgCEP").append(criarAlerta("orange", "<i class=\"spinner loading icon\"></i>...aguarde buscando CEP..."));
                 $('#txtCEP').attr('disabled', 'disabled');
                 $('#btnCEP').attr('disabled', 'disabled');
                 $('#txtEstado').val('');
@@ -349,7 +349,7 @@ function buscarCep() {
             success: function(resposta) {
                 $("#msgCEP").html('');
                 if (resposta.resultado == 0) {
-                    $("#msgCEP").append(criarAlerta("red", "N&atilde;o localizamos o CEP informado"));
+                    $("#msgCEP").append(criarAlerta("red", "<i class=\"red warning sign icon\"></i> N&atilde;o localizamos o CEP informado."));
                 } else {
                     $("#divCEP").show(); //mostra campos do DIVCEP
                     $('#txtEstado').val(resposta.uf);
@@ -677,9 +677,9 @@ function telefone() {
             });
             if (validarTelefone()) {
                 $("#dadosTelefone").append(
-                        "<tr><td> <input type=hidden id=hdnTipoTelefone[] name=hdnTipoTelefone[] value=" + $("#sltTipotelefone").val() + ">" + $("#sltTipotelefone").val() + "</td>" +
-                        "<td> <input type=hidden id=hdnOperadora[] name=hdnOperadora[] value=" + $("#sltOperadora").val() + ">" + $("#sltOperadora").val() + "</td>" +
-                        "<td> <input type=hidden id=hdnTelefone[] name=hdnTelefone[] value=" + $("#txtTel").val() + ">" + $("#txtTel").val() + "</td>" +
+                        "<tr><td> <input type='hidden' id='hdnTipoTelefone[]' name='hdnTipoTelefone[]' value='" + $("#sltTipotelefone").val() + "'>" + $("#sltTipotelefone").val() + "</td>" +
+                        "<td> <input type='hidden' id='hdnOperadora[]' name='hdnOperadora[]' value='" + $("#sltOperadora").val() + "'>" + $("#sltOperadora").val() + "</td>" +
+                        "<td> <input type='hidden' id='hdnTelefone[]' name='hdnTelefone[]' value='" + $("#txtTel").val() + "'>" + $("#txtTel").val() + "</td>" +
                         "<td class='collapsing'><div class='red ui icon button' onclick='excluirTelefone($(this))'><i class='trash icon'></i>Excluir</div></td></tr>");
                 $("#txtTel").val("");
                 $("#tabelaTelefone").show();

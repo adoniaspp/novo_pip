@@ -19,6 +19,12 @@ include_once 'modelo/Imovel.php';
 include_once 'modelo/Imagem.php';
 include_once 'modelo/RespostaMensagem.php';
 include_once 'modelo/HistoricoAluguelVenda.php';
+include_once 'modelo/Casa.php';
+include_once 'modelo/Apartamento.php';
+include_once 'modelo/ApartamentoPlanta.php';
+include_once 'modelo/SalaComercial.php';
+include_once 'modelo/PredioComercial.php';
+include_once 'modelo/Terreno.php';
 
 class UsuarioControle {
 
@@ -238,13 +244,12 @@ class UsuarioControle {
                 }
             }
 
-
             $usuario = new Usuario();
             $entidadeUsuario = $usuario->editar($parametros);
-            $resultado = $genericoDAO->editar($entidadeUsuario);
+            $editarUsuario = $genericoDAO->editar($entidadeUsuario);
 
             //visao
-            if ($resultado & $editarEndereco & $resultadoTelefoneFinalExcluir & $resultadoTelefone) {
+            if ($editarUsuario & $editarEndereco & $resultadoTelefoneFinalExcluir & $resultadoTelefone) {
                 $genericoDAO->commit();
                 $genericoDAO->fecharConexao();
                 Sessao::desconfigurarVariavelSessao("usuario");
@@ -286,14 +291,15 @@ class UsuarioControle {
             $usuario = new Usuario();
             $genericoDAO = new GenericoDAO();
             $selecionarUsuario = $genericoDAO->consultar($usuario, false, array("email" => $parametros['txtEmail']));
-
             if (count($selecionarUsuario) > 0) {
-                echo "false";
+                if ($selecionarUsuario[0]->getId() == $_SESSION["idusuario"]) {
+                    echo "true";
+                } else {
+                    echo "false";
+                }
             } else {
                 echo "true";
             }
-            var_dump($selecionarUsuario);
-            //$_SESSION["idusuario"]
         } else {
             $visao->setItem("errotoken");
             $visao->exibir('VisaoErrosGenerico.php');
