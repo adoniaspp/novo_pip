@@ -31,9 +31,11 @@ class AnuncioControle {
         unset($parametros["hdnAcao"]);
         $parametros["predicados"] = $parametros; 
         $listarAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
-        $visao = new Template();
-        $visao->setItem($listarAnuncio);
-        $visao->exibir('AnuncioVisaoBusca.php');
+        if($listarAnuncio){
+            echo json_encode($listarAnuncio);
+        }else{
+            echo json_encode("false");
+        }
         
     }    
 }

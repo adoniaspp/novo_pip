@@ -15,7 +15,7 @@ class ConsultasAdHoc extends GenericoDAO {
         }
         if (count($parametros['predicados']) == 1)
             $crtlPred = FALSE;
-        if ($parametros['predicados']['valor']) {
+        if ($parametros['predicados']['valor'] >= 0) {
             $preco = $parametros['predicados']['valor'];
             unset($parametros['predicados']['valor']);
         }
@@ -45,16 +45,17 @@ class ConsultasAdHoc extends GenericoDAO {
         }
         if ($crtlPred) {
             $sql = $sql . ' WHERE ' . implode(' AND ', $predicados);
-            if ($preco && $preco>1000000) {
-                $sql = $sql . 'valormin BETWEEN ' . $preco . ' AND ' . ($preco + 100000);
+            
+            if ($preco >= 0 && $preco < 1000000) {
+                $sql = $sql . ' AND valormin BETWEEN ' . $preco . ' AND ' . ($preco + 100000);
             }else{
-                $sql = $sql . 'valormin >' . $preco;
+                $sql = $sql . ' AND valormin > ' . $preco;
             }
             if ($garagem == 'true') {
-                $sql = $sql . 'garagem>0';
+                $sql = $sql . ' AND garagem > 0 ';
             }
             if ($quartos == 5) {
-                $sql = $sql . 'quarto>=5';
+                $sql = $sql . ' AND quarto >= 5 ';
             }
         }
 //        var_dump($sql);;
@@ -81,9 +82,9 @@ class ConsultasAdHoc extends GenericoDAO {
             $sth->execute($ids);
             $resultado['imagens'] = $sth->fetchAll(PDO::FETCH_ASSOC);
         }
-        echo '<pre>';
-        print_r($resultado['anuncio']);
-        die();
+//        echo '<pre>';
+//        print_r($resultado['anuncio']);
+//        die();
         return $resultado;
     }
 
@@ -102,4 +103,26 @@ class ConsultasAdHoc extends GenericoDAO {
         $resultado = $statement->fetchAll(PDO::FETCH_CLASS, "RecuperaSenha");
         return $resultado;
     }
+    
+      public function ConsultarPlanosComprados($ids) {
+       $allow = $ids;
+       $sql = sprintf(
+               "SELECT * FROM plano WHERE id in( %s )", implode(
+                       ',', array_map(
+                               function($v) {
+                           static $x = 0;
+                           return ':allow_' . $x++;
+                       }, $allow
+                       )
+               )
+       );
+       $sql = $sql . " ORDER BY ID DESC";
+       $statement = $this->conexao->prepare($sql);
+       foreach ($allow as $k => $v) {
+           $statement->bindValue('allow_' . $k, $v);
+       }
+       $statement->execute();
+       $resultado = $statement->fetchAll(PDO::FETCH_ASSOC);
+       return $resultado;
+   }
 }

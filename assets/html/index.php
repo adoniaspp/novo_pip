@@ -58,7 +58,7 @@
                         <div class="menu">
                             <div class="item" data-value="jurunas">Jurunas</div>
                             <div class="item" data-value="marco">Marco</div>
-                            <div class="item" data-value="pratinha">Pratinha</div>
+                            <div class="item" data-value="Batista Campos">Batista Campos</div>
                             <div class="item" data-value="Água Boa">Água Boa</div>
                         </div>
                     </div>
@@ -69,11 +69,11 @@
     <div class="ui center aligned column page grid padding-reset" id="divCaracteristicas">
         <div class="column">
             <div class="four fields">
-<!--                <div class="field" id="divPreenchimento1"></div>-->
+                <!--                <div class="field" id="divPreenchimento1"></div>-->
                 <div class="field">
                     <label>Condição</label>
                     <div class="ui fluid selection dropdown">
-                        <input type="hidden" name="sltCidade" id="sltCidade">
+                        <input type="hidden" name="sltCondicao" id="sltCondicao">
                         <div class="default text"></div>
                         <i class="dropdown icon"></i>
                         <div class="menu">
@@ -97,14 +97,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="three wide field">
-                    <br><br>
-                    <div class="ui toggle checkbox">
-                        <input type="checkbox" name="checkgaragem" id="checkgaragem">
-                        <label>Garagem</label>
-                    </div>
-                </div>
-                <div class="field" id="divPreenchimento2"></div>
+
                 <div class="five wide field" id="divValor">
                     <label>Valor</label>
                     <div class="ui selection dropdown">
@@ -125,37 +118,16 @@
                         </div>
                     </div>
                 </div> 
+                <div class="three wide field">
+                    <br><br>
+                    <div class="ui toggle checkbox">
+                        <input type="checkbox" name="checkgaragem" id="checkgaragem">
+                        <label>Garagem</label>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-<!--    <div class="ui center aligned column page grid padding-reset" id="divValor">
-        <div class="column">
-            <div class="three fields">
-                <div class="field"></div>
-                <div class="field">
-                    <label>Valor</label>
-                    <div class="ui fluid selection dropdown">
-                        <input type="hidden" name="sltValor" id="sltValor">
-                        <div class="default text"></div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <div class='item' data-value=0>Menos de R$100.000</div>
-                            <?php
-                            $i = 100000;
-                            while ($i < 1000000) {
-                                print "<div class='item' data-value=" .
-                                        $i . ">Entre R$" . number_format($i, 2, ',', '.') . " e R$" . number_format($i + 100000, 2, ',', '.') . "</div>";
-                                $i = $i + 100000;
-                            }
-                            ?>
-                            <div class='item' data-value=1000000>Mais de R$1.000.000</div>
-                        </div>
-                    </div>
-                </div> 
-                <div class="field"></div>
-            </div>
-        </div>
-    </div>-->
     <div class="ui center aligned column page grid padding-reset">
         <div class="column">
             <div class="field">
@@ -169,25 +141,55 @@
     </div>
 </div>
 
-<div class="ui hidden divider"></div>
+<div class="ui container">
+    <div class="ui center aligned column page grid">
+        <div class="column">
+            <div class="ui four cards" id="resultados">
 
-
-<div class="ui hidden divider"></div>
-
-
-<div class="container"> 
-    <div class="ui page grid main">
-        <div class="row">
-            <div class="column padding-reset">
-                <div class="ui large message">
-                    <h1 class="ui huge header">Navbar example</h1>
-                    <p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
-                    <p>To see the difference between static and fixed top navbars, just scroll.</p>
-                    <a href="" class="ui blue button">View navbar docs &raquo;</a>
+                <div class="card">
+                    <div class="dimmable image">
+                        <div class="ui dimmer">
+                            <div class="content">
+                                <div class="center">
+                                    <div class="ui inverted button">Add Friend</div>
+                                </div>
+                            </div>
+                        </div>
+                        <img src="/imagens/foto_padrao.png">
+                    </div>
+                    <div class="content">
+                        <div class="header">Casa muito boa</div>
+                        <!--      <div class="meta">
+                                <a class="group">Friends</a>
+                              </div>-->
+                        <div class="description">
+                            Elliot Fu is a film-maker from New York.
+                        </div>
+                    </div>
+                    <div class="extra content">      
+                        <a>
+                            <i class="big facebook square icon"></i>
+                        </a>
+                        <a>
+                            <i class="big flickr icon"></i>
+                        </a>
+                        </a>
+                        <a>
+                            <i class="big google plus icon"></i>
+                        </a>
+                        <a>
+                            <i class="big instagram icon"></i>
+                        </a>
+                        <a>
+                            <i class="big twitter square icon"></i>
+                        </a>
+                    </div>
                 </div>
+
+                
             </div>
         </div>
-    </div> 
+    </div>
 </div>
 
 
