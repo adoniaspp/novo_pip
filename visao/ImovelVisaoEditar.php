@@ -30,7 +30,7 @@ if ($item) {
 switch(<?php echo $imovel->getIdTipoImovel()?>){
     
     case 1:
-    mostrarCamposEdicaoSalaComercial(1,  
+    mostrarCamposEdicaoCasa(1,  
                    "<?php echo $imovel->getCondicao();?>", 
                     <?php echo $imovel->getCasa()->getArea();?>,
                     <?php echo $imovel->getCasa()->getQuarto();?>,
@@ -61,13 +61,12 @@ switch(<?php echo $imovel->getIdTipoImovel()?>){
 	
 		
     case 5:
-    mostrarCamposEdicaoSalaComercial(5,  
-                   "<?php echo $imovel->getCondicao();?>", 
-                    <?php echo $imovel->getSalaComercial()->getArea();?>);
+    mostrarCamposEdicaoPredioComercial(5,
+                    <?php echo $imovel->getPredioComercial()->getArea();?>);
     break;
 	
     case 6:
-    mostrarCamposEdicaoPredioComercial(6, 
+    mostrarCamposEdicaoTerreno(6, 
                     <?php echo $imovel->getTerreno()->getArea();?>);
     break;
 
