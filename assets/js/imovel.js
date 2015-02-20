@@ -1,6 +1,6 @@
 function esconderCamposInicio() {
     $(document).ready(function () {
-        
+        preco();
         $('.ui.dropdown')
                 .dropdown({
             on: 'hover'
@@ -594,32 +594,18 @@ function cadastrarImovel(){
   
 }
 
-function preco(){
-        $('#txtCondominio').priceFormat({
-        prefix: ' ',
-        centsSeparator: '.',
-        thousandsSeparator: '.',
-        limit: 7
-        });
-        
-        $('#txtArea').priceFormat({
-        prefix: ' ',
-        centsSeparator: '.',
-        thousandsSeparator: '.',
-        limit: 7
-        });
-    }
-
-function mostrarCamposEdicao(tipoImovel, 
-                             parametroCondicao, 
-                             parametroArea, 
-                             parametroQuarto, 
-                             parametroBanheiro, 
-                             parametroSuite, 
-                             parametroGaragem){
+function mostrarCamposEdicaoCasa(tipoImovel, 
+                                parametroCondicao, 
+                                parametroArea, 
+                                parametroQuarto, 
+                                parametroBanheiro, 
+                                parametroSuite, 
+                                parametroGaragem){
     $(document).ready(function () {
+            preco();
+            $("#divAndar").hide();
+            $("#divUnidadesAndar").hide();           
         
-        if(tipoImovel === 1){  
             var condicao = "<div class='four wide required field' id='divCondicao'>\n\
                              <label>Condição</label><div class='ui selection dropdown'>\n\
                              <input type='hidden' name='sltCondicao' id='sltCondicao' value='"+parametroCondicao+"'> \n\
@@ -636,6 +622,149 @@ function mostrarCamposEdicao(tipoImovel,
                              <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='7' value='"+parametroArea+"'>\n\
                         </div></div>";
             
+            $("#divInfoBasicas").append(condicao);   
+            $("#divInfoBasicas").append(area); 
+     
+            campos(parametroQuarto, 
+                   parametroBanheiro, 
+                   parametroSuite, 
+                   parametroGaragem);
+             
+            $('.ui.dropdown')
+                .dropdown({
+                    on: 'hover'
+             });
+            
+    })
+}
+
+    function mostrarCamposEdicaoApartamento(tipoImovel, 
+                                parametroCondicao, 
+                                parametroArea, 
+                                parametroQuarto, 
+                                parametroBanheiro, 
+                                parametroSuite, 
+                                parametroGaragem,
+                                parametroCondominio){
+    
+    $(document).ready(function () {
+            preco();
+            $("#divAndar").show();
+            $("#divUnidadesAndar").show();
+             
+            var condicao = "<div class='four wide required field' id='divCondicao'>\n\
+                             <label>Condição</label><div class='ui selection dropdown'>\n\
+                             <input type='hidden' name='sltCondicao' id='sltCondicao' value='"+parametroCondicao+"'> \n\
+                             <div class='default text'>Condição</div> \n\
+                             <i class='dropdown icon'></i>\n\
+                             <div class='menu'>\n\
+                             <div class='item' data-value='novo'>Novo</div>\n\
+                             <div class='item' data-value='usado'>Usado</div>\n\
+                             </div> \n\
+                             </div> </div>";
+            
+            var area = "<div id='divArea' class='three wide field'>\n\
+                             <div class='field'><label>Área(m2)</label>\n\
+                             <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='7' value='"+parametroArea+"'>\n\
+                        </div></div>";
+             
+             campos(parametroQuarto, 
+                    parametroBanheiro, 
+                    parametroSuite, 
+                    parametroGaragem);
+
+        
+            var condominio = "<div class='three wide field'>\n\
+                                <div class='field'><label>Condominio</label>\n\
+                                <input type='text' name='txtCondominio' id='txtCondominio' value='"+parametroCondominio+"'>\n\
+                            </div></div>";
+        
+            $("#divInfoBasicas").append(condicao);   
+            $("#divInfoBasicas").append(area);  
+            $("#divApartamento").append(condominio); 
+            
+             $('.ui.dropdown')
+                .dropdown({
+                    on: 'hover'
+             });
+        
+        })
+    }
+    
+    function mostrarCamposEdicaoSalaComercial(tipoImovel, 
+                                parametroCondicao, 
+                                parametroArea, 
+                                parametroBanheiro, 
+                                parametroGaragem,
+                                parametroCondominio){
+    $(document).ready(function () { 
+            preco();
+            $("#divAndar").hide();
+            $("#divUnidadesAndar").hide();   
+            
+            var condicao = "<div class='four wide required field' id='divCondicao'>\n\
+                             <label>Condição</label><div class='ui selection dropdown'>\n\
+                             <input type='hidden' name='sltCondicao' id='sltCondicao' value='"+parametroCondicao+"'> \n\
+                             <div class='default text'>Condição</div> \n\
+                             <i class='dropdown icon'></i>\n\
+                             <div class='menu'>\n\
+                             <div class='item' data-value='novo'>Novo</div>\n\
+                             <div class='item' data-value='usado'>Usado</div>\n\
+                             </div> \n\
+                             </div> </div>";
+            
+            var area = "<div id='divArea' class='three wide field'>\n\
+                             <div class='field'><label>Área(m2)</label>\n\
+                             <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='7' value='"+parametroArea+"'>\n\
+                        </div></div>";
+             
+             campos(null,
+                    parametroBanheiro, 
+                    null,
+                    parametroGaragem);
+
+        
+            var condominio = "<div class='three wide field'>\n\
+                                <div class='field'><label>Condominio (R$)</label>\n\
+                                <input type='text' name='txtCondominio' id='txtCondominio' value='"+parametroCondominio+"'>\n\
+                            </div></div>";
+        
+            $("#divInfoBasicas").append(condicao);   
+            $("#divInfoBasicas").append(area);  
+            $("#divApartamento").append(condominio); 
+            
+             $('.ui.dropdown')
+                .dropdown({
+                    on: 'hover'
+             });
+         })  
+    }
+ 
+    function mostrarCamposEdicaoPredioComercial(tipoImovel, 
+                                parametroArea){
+    $(document).ready(function () { 
+            preco();
+            $("#divAndar").hide();
+            $("#divUnidadesAndar").hide();   
+            
+            var area = "<div id='divArea' class='three wide field'>\n\
+                             <div class='field'><label>Área(m2)</label>\n\
+                             <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='7' value='"+parametroArea+"'>\n\
+                        </div></div>";
+        
+            $("#divInfoBasicas").append(area);  
+            
+             $('.ui.dropdown')
+                .dropdown({
+                    on: 'hover'
+             });
+         })  
+    }
+    
+    function campos(parametroQuarto, 
+                   parametroBanheiro, 
+                   parametroSuite, 
+                   parametroGaragem){
             var quarto = "<div class='three wide required field'><label>Quarto(s)</label>\n\
                             <div class='ui selection dropdown'>\n\
                             <input type='hidden' name='sltQuarto' id='sltQuarto' value='"+parametroQuarto+"'>\n\
@@ -648,23 +777,73 @@ function mostrarCamposEdicao(tipoImovel,
                                 <div class='item' data-value='4'>4</div>\n\
                                 <div class='item' data-value='5'>Mais de 5</div>\n\
                             </div></div></div>";
-            var banheiro = "<div class='three wide required field'><label>Banheiro(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltBanheiro' id='sltBanheiro' value='"+parametroBanheiro+"'><div class='default text'>Banheiro(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>Mais de 5</div></div></div></div>";
-            var suite = "<div class='three wide required field'><label>Suite(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltSuite' id='sltSuite' value='"+parametroSuite+"'><div class='default text'>Suite(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>Mais de 5</div></div></div></div>";
-            var garagem = "<div class='three wide required field'><label>Vagas de Garagem</label><div class='ui selection dropdown'><input type='hidden' name='sltGaragem' id='sltGaragem' value='"+parametroGaragem+"'><div class='default text'>Vaga(s) de Garagem</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>Mais de 5</div></div></div></div>";
-        $("#divInfoBasicas").append(condicao);   
-        $("#divInfoBasicas").append(area); 
-        $("#divInfoApeCasa").append(quarto); 
-        $("#divInfoApeCasa").append(banheiro); 
-        $("#divInfoApeCasa").append(suite); 
-        $("#divInfoApeCasa").append(garagem); 
-        $('.ui.dropdown')
-                .dropdown({
-            on: 'hover'
-        });
+            var banheiro = "<div class='three wide required field'>\n\
+                                <label>Banheiro(s)</label><div class='ui selection dropdown'>\n\
+                                <input type='hidden' name='sltBanheiro' id='sltBanheiro' value='"+parametroBanheiro+"'>\n\
+                                <div class='default text'>Banheiro(s)</div><i class='dropdown icon'></i>\n\
+                                <div class='menu'>\n\
+                                <div class='item' data-value='0'>nenhuma</div>\n\
+                                <div class='item' data-value='1'>1</div>\n\
+                                <div class='item' data-value='2'>2</div>\n\
+                                <div class='item' data-value='3'>3</div>\n\
+                                <div class='item' data-value='4'>4</div>\n\
+                                <div class='item' data-value='5'>Mais de 5</div>\n\
+                            </div></div></div>";
+            var suite = "<div class='three wide required field'>\n\
+                            <label>Suite(s)</label><div class='ui selection dropdown'>\n\
+                            <input type='hidden' name='sltSuite' id='sltSuite' value='"+parametroSuite+"'>\n\
+                            <div class='default text'>Suite(s)</div><i class='dropdown icon'></i>\n\
+                            <div class='menu'><div class='item' data-value='0'>nenhuma</div>\n\
+                            <div class='item' data-value='1'>1</div>\n\
+                            <div class='item' data-value='2'>2</div>\n\
+                            <div class='item' data-value='3'>3</div>\n\
+                            <div class='item' data-value='4'>4</div>\n\
+                            <div class='item' data-value='5'>Mais de 5</div>\n\
+                            </div></div></div>";
+            var garagem = "<div class='three wide required field'><label>Vagas de Garagem</label>\n\
+                            <div class='ui selection dropdown'>\n\
+                            <input type='hidden' name='sltGaragem' id='sltGaragem' value='"+parametroGaragem+"'>\n\
+                            <div class='default text'>Vaga(s) de Garagem</div>\n\
+                            <i class='dropdown icon'></i><div class='menu'>\n\
+                            <div class='item' data-value='0'>nenhuma</div>\n\
+                            <div class='item' data-value='1'>1</div>\n\
+                            <div class='item' data-value='2'>2</div>\n\
+                            <div class='item' data-value='3'>3</div>\n\
+                            <div class='item' data-value='4'>4</div>\n\
+                            <div class='item' data-value='5'>Mais de 5</div>\n\
+                           </div></div></div>";
+        
+        if(parametroQuarto !== null){
+            $("#divInfoApeCasa").append(quarto); 
         }
         
+        $("#divInfoApeCasa").append(banheiro); 
+        
+        if(parametroSuite !== null){
+            $("#divInfoApeCasa").append(suite); 
+        }
+        
+        $("#divInfoApeCasa").append(garagem);     
+    }
+    
+function preco(){
+    
+    $(document).ready(function () {
+        $('#txtCondominio').priceFormat({
+        prefix: ' ',
+        centsSeparator: '',
+        thousandsSeparator: '',
+        limit: 6
+        });
+        
+        $('#txtArea').priceFormat({
+        prefix: ' ',
+        centsSeparator: '.',
+        thousandsSeparator: '.',
+        limit: 7
+        });
     })
-}
+    }
 
 /*function sltTiraRegrasValidação(){
     $(document).ready(function() {

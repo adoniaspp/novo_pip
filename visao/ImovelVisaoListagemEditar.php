@@ -106,7 +106,6 @@ foreach($this->getItem() as $modal){?>
                             break;
 
                         case "2":
-                            //echo "meeeeeerda";
                             echo "Número de Andares: " . $modal->getApartamentoPlanta()->getAndares() . "<br />";
                             echo "Unidades por Andar: " . $modal->getApartamentoPlanta()->getUnidadesAndar() . "<br />";
                             echo "Número de Torres: " . $modal->getApartamentoPlanta()->getNumeroTorres() . "<br />";
@@ -137,7 +136,27 @@ foreach($this->getItem() as $modal){?>
                             echo "Area: " . $modal->getTerreno()->getArea() . "<br />";
                             break;
                     }
-      ?>
+                    echo "<div class='ui hidden divider'></div>";
+                    if($modal->getEndereco()->getNumero() != "" && $modal->getEndereco()->getComplemento() != ""){
+                    echo "Endereço: ".$modal->getEndereco()->getLogradouro().", ".$modal->getEndereco()->getNumero().", ".$modal->getEndereco()->getComplemento()."<br />";
+                    echo $modal->getEndereco()->getBairro()->getNome().", ".$modal->getEndereco()->getCidade()->getNome()." - ".$imovel->getEndereco()->getEstado()->getUf();
+                    }
+                    
+                    elseif($modal->getEndereco()->getNumero() != "" && $modal->getEndereco()->getComplemento() == ""){
+                    echo "Endereço: ".$modal->getEndereco()->getLogradouro().", ".$modal->getEndereco()->getNumero()."<br />";
+                    echo $modal->getEndereco()->getBairro()->getNome().", ".$modal->getEndereco()->getCidade()->getNome()." - ".$imovel->getEndereco()->getEstado()->getUf();
+                    }
+                    
+                    elseif($modal->getEndereco()->getNumero() == "" && $modal->getEndereco()->getComplemento() == ""){
+                    echo "Endereço: ".$modal->getEndereco()->getLogradouro()."<br />";
+                    echo $modal->getEndereco()->getBairro()->getNome().", ".$modal->getEndereco()->getCidade()->getNome()." - ".$imovel->getEndereco()->getEstado()->getUf();
+                    }
+                    
+                    elseif($modal->getEndereco()->getNumero() == "" && $modal->getEndereco()->getComplemento() != ""){
+                    echo "Endereço: ".$modal->getEndereco()->getLogradouro().", ".$modal->getEndereco()->getComplemento()."<br />";;
+                    echo $modal->getEndereco()->getBairro()->getNome().", ".$modal->getEndereco()->getCidade()->getNome()." - ".$imovel->getEndereco()->getEstado()->getUf();
+                    }
+                    ?>
     </div>
   </div>
   <div class="actions">

@@ -48,4 +48,18 @@ class PredioComercial {
         
         return $predioComercial;
     }
+    
+     function editar($parametros, $idPredioComercial) {
+        
+        
+      /*  echo "<pre>";
+        var_dump($parametros);
+        echo "</pre>";*/
+        
+        $predioComercial = new PredioComercial();
+        $predioComercial->setId($idPredioComercial);
+        $predioComercial->setIdimovel($_SESSION["imovel"]["id"]);
+        $predioComercial->setArea($parametros["txtArea"]);
+        return $predioComercial;
+    }
 }

@@ -20,20 +20,61 @@ Sessao::gerarToken();
 $item = $this->getItem();
 
 if ($item) {
+    
     foreach ($item as $imovel) {
-        
-        ?>
-<script> 
+     
+?>
 
-mostrarCamposEdicao(<?php echo $imovel->getIdTipoImovel();?>,  
+<script>
+
+switch(<?php echo $imovel->getIdTipoImovel()?>){
+    
+    case 1:
+    mostrarCamposEdicaoSalaComercial(1,  
                    "<?php echo $imovel->getCondicao();?>", 
                     <?php echo $imovel->getCasa()->getArea();?>,
                     <?php echo $imovel->getCasa()->getQuarto();?>,
-                    <?php echo $imovel->getCasa()->getBanheiro();?>,            
-                    <?php echo $imovel->getCasa()->getSuite();?>,            
-                    <?php echo $imovel->getCasa()->getGaragem();?>)
+                    <?php echo $imovel->getCasa()->getBanheiro();?>, 
+                    <?php echo $imovel->getCasa()->getSuite();?>,
+                    <?php echo $imovel->getCasa()->getGaragem();?>);
+    break;
+    
+    case 3:
+    mostrarCamposEdicaoApartamento(3,  
+                   "<?php echo $imovel->getCondicao();?>", 
+                    <?php echo $imovel->getApartamento()->getArea();?>,
+                    <?php echo $imovel->getApartamento()->getQuarto();?>,
+                    <?php echo $imovel->getApartamento()->getBanheiro();?>, 
+                    <?php echo $imovel->getApartamento()->getSuite();?>,
+                    <?php echo $imovel->getApartamento()->getGaragem();?>,
+                    <?php echo $imovel->getApartamento()->getCondominio();?>);
+    break;
+	
+    case 4:
+    mostrarCamposEdicaoSalaComercial(4,  
+                   "<?php echo $imovel->getCondicao();?>", 
+                    <?php echo $imovel->getSalaComercial()->getArea();?>,
+                    <?php echo $imovel->getSalaComercial()->getBanheiro();?>,                      
+                    <?php echo $imovel->getSalaComercial()->getGaragem();?>,
+                    <?php echo $imovel->getSalaComercial()->getCondominio();?>);
+    break;
+	
+		
+    case 5:
+    mostrarCamposEdicaoSalaComercial(5,  
+                   "<?php echo $imovel->getCondicao();?>", 
+                    <?php echo $imovel->getSalaComercial()->getArea();?>);
+    break;
+	
+    case 6:
+    mostrarCamposEdicaoPredioComercial(6, 
+                    <?php echo $imovel->getTerreno()->getArea();?>);
+    break;
 
+}
 </script>
+
+
 <div class="container">
     <div class="ui hidden divider"></div>
     <div class="ui page grid main">
@@ -42,6 +83,8 @@ mostrarCamposEdicao(<?php echo $imovel->getIdTipoImovel();?>,
                 <a class="section" href="index.php">Início</a>
                 <i class="right chevron icon divider"></i>
                 <a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
+                <i class="right chevron icon divider"></i>
+                <a href="index.php?entidade=Imovel&acao=listarEditar">Listar Imóveis</a>
                 <i class="right chevron icon divider"></i>
                 <a class="active section">Editar Imovel</a>
             </div>
@@ -198,7 +241,7 @@ mostrarCamposEdicao(<?php echo $imovel->getIdTipoImovel();?>,
                         </div>
                     </div> 
                     
-                                        
+                     -->                   
                     <div class="two field" id="divUnidadesAndar">
                         <label>Unidades por Andar</label>
                         <div class="ui selection dropdown">
@@ -206,15 +249,15 @@ mostrarCamposEdicao(<?php echo $imovel->getIdTipoImovel();?>,
                             <div class="default text">Numero de Aptos</div>
                             <i class="dropdown icon"></i>
                             <div class="menu" id="sltUnidadesAndar">
-                                <?php /*
+                                <?php 
                                 for($unidadesAndar = 1; $unidadesAndar <=10; $unidadesAndar++){
                                 echo "<div class='item' data-value='".$unidadesAndar."'>".$unidadesAndar."</div>";
-                                }*/
+                                }
                                 ?>
                             </div>
                         </div>
                     </div>                    
-                    
+                    <!--
                     <div class="two field" id="divNumeroTorres">
                         <label>Nº de Torres</label>
                         <div class="ui selection dropdown">
@@ -230,7 +273,7 @@ mostrarCamposEdicao(<?php echo $imovel->getIdTipoImovel();?>,
                             </div>
                         </div>
                     </div>   
-                    
+                    -->
                     <div class="two field" id="divAndar">
                         <label>Andar do Apartamento</label>
                         <div class="ui selection dropdown">
@@ -238,15 +281,15 @@ mostrarCamposEdicao(<?php echo $imovel->getIdTipoImovel();?>,
                             <div class="default text">Andar</div>
                             <i class="dropdown icon"></i>
                             <div class="menu" id="sltAndar">
-                                <?php /*
+                                <?php 
                                 for($andar = 1; $andar <=40; $andar++){
                                 echo "<div class='item' data-value='".$andar."'>".$andar."</div>";
-                                }*/
+                                }
                                 ?>
                             </div>
                         </div>
                     </div> 
-                    
+                    <!--
                     <div class="three wide field" id="divUnidadesTotal">
                     <div class="field">
                         <label>Total de Unidades</label>                       
@@ -327,7 +370,7 @@ mostrarCamposEdicao(<?php echo $imovel->getIdTipoImovel();?>,
                 
                 </div>    
 <?php }} ?> 
-                <h3 class="ui dividing header">Confirmação de Cadastro</h3>
+                <h3 class="ui dividing header">Confirmação de Alteração</h3>
 
                 <button class="ui blue submit button" type="submit" id="btnCadastrar">Alterar</button>
                 <button class="ui orange button" type="reset" id="btnCancelar">Cancelar</button>

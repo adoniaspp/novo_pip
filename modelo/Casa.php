@@ -77,7 +77,7 @@ class Casa {
         return $casa;
     }
     
-    function editar($parametros, $teste) {
+    function editar($parametros, $idCasa) {
         
         
       /*  echo "<pre>";
@@ -85,7 +85,7 @@ class Casa {
         echo "</pre>";*/
         
         $casa = new Casa();
-        $casa->setId($teste);
+        $casa->setId($idCasa);
         $casa->setIdimovel($_SESSION["imovel"]["id"]);
         $casa->setQuarto($parametros["sltQuarto"]);
         $casa->setBanheiro($parametros["sltBanheiro"]);

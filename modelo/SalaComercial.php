@@ -5,7 +5,6 @@ class SalaComercial {
     
     private $id;
     private $idimovel;
-    private $condicao;
     private $banheiro;
     private $garagem;
     private $area;
@@ -21,11 +20,7 @@ class SalaComercial {
     function getIdimovel() {
         return $this->idimovel;
     }
-
-    function getCondicao() {
-        return $this->condicao;
-    }
-
+    
     function getBanheiro() {
         return $this->banheiro;
     }
@@ -54,10 +49,6 @@ class SalaComercial {
         $this->idimovel = $idimovel;
     }
 
-    function setCondicao($condicao) {
-        $this->condicao = $condicao;
-    }
-
     function setBanheiro($banheiro) {
         $this->banheiro = $banheiro;
     }
@@ -83,11 +74,30 @@ class SalaComercial {
         $salaComercial = new SalaComercial();
         $salaComercial->setIdimovel($idImovel);       
         $salaComercial->setBanheiro($parametros["sltBanheiro"]);   
-        $salaComercial->setCondicao($parametros["sltCondicao"]);
         $salaComercial->setGaragem($parametros["sltGaragem"]);
         $salaComercial->setArea($parametros["txtArea"]);
         $salaComercial->setCondominio($parametros["txtCondominio"]);
         
+        return $salaComercial;
+    }
+    
+    function editar($parametros, $idSalaComercial) {
+        
+        
+        /*echo "<pre>";
+        var_dump($parametros);
+        echo "</pre>";
+        echo "ID:".$idSalaComercial;
+        die();*/
+        
+        $salaComercial = new SalaComercial();
+        $salaComercial->setId($idSalaComercial);
+        $salaComercial->setIdimovel($_SESSION["imovel"]["id"]);
+        $salaComercial->setBanheiro($parametros["sltBanheiro"]);        
+        $salaComercial->setGaragem($parametros["sltGaragem"]);
+        $salaComercial->setArea($parametros["txtArea"]);
+        $novoCondominio = str_replace(",", "",$parametros["txtCondominio"]); 
+        $salaComercial->setCondominio($novoCondominio);
         return $salaComercial;
     }
     

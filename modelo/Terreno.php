@@ -50,4 +50,18 @@ class Terreno {
         return $terreno;
     }
     
+    function editar($parametros, $idTerreno) {
+        
+        
+      /*  echo "<pre>";
+        var_dump($parametros);
+        echo "</pre>";*/
+        
+        $terreno = new Terreno();
+        $terreno->setId($idTerreno);
+        $terreno->setIdimovel($_SESSION["imovel"]["id"]);
+        $terreno->setArea($parametros["txtArea"]);
+        return $terreno;
+    }
+    
 }
