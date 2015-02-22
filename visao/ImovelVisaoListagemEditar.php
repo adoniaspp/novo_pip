@@ -123,7 +123,7 @@ foreach($this->getItem() as $modal){?>
                             echo "Apartamentos p/ Andar: " . $modal->getApartamento()->getUnidadesAndar() . "<br />";
                             break;                       
                         case "4":                    
-                            echo "Condição: " . $modal->getSalaComercial()->getCondicao() . "<br />";
+                            echo "Condição: " . $modal->getCondicao() . "<br />";
                             echo "Banheiro: " . $modal->getSalaComercial()->getBanheiro() . "<br />";
                             echo "Vagas de Garagem: " . $modal->getSalaComercial()->getGaragem() . "<br />";
                             echo "Condomínio: " . $modal->getSalaComercial()->getCondominio() . "<br />";

@@ -18,7 +18,8 @@ class Imovel {
     protected $salacomercial;
     protected $prediocomercial;
     protected $terreno;
-    
+    protected $planta;
+            
     function getId() {
         return $this->id;
     }
@@ -83,6 +84,10 @@ class Imovel {
         return $this->terreno;
     }
 
+    function getPlanta() {
+        return $this->planta;
+    }
+
     function setId($id) {
         $this->id = $id;
     }
@@ -145,6 +150,10 @@ class Imovel {
 
     function setTerreno($terreno) {
         $this->terreno = $terreno;
+    }
+
+    function setPlanta($planta) {
+        $this->planta = $planta;
     }
 
     public function Referencia() {

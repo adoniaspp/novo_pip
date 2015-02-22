@@ -103,24 +103,17 @@ class ImovelControle {
                 $entidadeApartamentoPlanta = $apartamentoPlanta->cadastrar($parametros, $idImovel);
                 $idApartamentoPlanta = $genericoDAO->cadastrar($entidadeApartamentoPlanta);
                 $quantidadeDiferencial = count($parametros['chkDiferencial']);
-                
                 $resultadoDiferencial = true;
-                    for ($indiceDiferencial = 0; $indiceDiferencial < $quantidadeDiferencial; $indiceDiferencial++) {
-                        $ImovelDiferencial = new ImovelDiferencial();
-                        $entidadeDiferencial = $ImovelDiferencial->cadastrar($parametros, $idImovel, $indiceDiferencial);
-                        $idDiferencial = $genericoDAO->cadastrar($entidadeDiferencial);
-                        if (!($idDiferencial)) {
-                            $resultadoDiferencial = false;
-                            break;
-                        }
-                }
+                 
+                $idCadastroImovel = $idApartamentoPlanta;
+                if($idApartamentoPlanta){$idDiferencial = true;}
                 
                 $quantidadePlanta = $parametros['sltNumeroPlantas']; 
                 $resultadoPlanta = true;
 
-                if($quantidadePlanta > 1){ //veririfcar se existe mais de uma planta
+                //cadastro das planta
 
-                    for ($indicePlanta = 0; $indicePlanta < $quantidadePlanta; $indicePlanta++) {
+                for ($indicePlanta = 0; $indicePlanta < $quantidadePlanta; $indicePlanta++) {
                         $planta = new Planta();
                         $entidadePlanta = $planta->cadastrar($parametros, $idApartamentoPlanta, $indicePlanta);
                         $idPlanta = $genericoDAO->cadastrar($entidadePlanta);
@@ -128,10 +121,10 @@ class ImovelControle {
                             $resultadoPlanta = false;
                             break;
                         }
-                    }
+                } //fim do cadastro das plantas
                 $idCadastroImovel = $idPlanta;
                 if($idPlanta){$idDiferencial = true;}
-                }
+                
                 
                 else{
                     
@@ -254,11 +247,13 @@ function listar() {
                 $selecionarEndereco = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarImovel->getIdEndereco()));
                 $selecionarImovel->setEndereco($selecionarEndereco[0]);
                 
+                
 
                 $listarImovel[] = $selecionarImovel;
                 
             }
-
+            
+            
             //visao
             $visao = new Template();
             $visao->setItem($listarImovel);
@@ -270,19 +265,21 @@ function listar() {
         if (Sessao::verificarSessaoUsuario()) {
             $imovel = new Imovel();
             $genericoDAO = new GenericoDAO();
+            $consultarAD = new ConsultasAdHoc();
             $listaImoveis = $genericoDAO->consultar($imovel, true, array("idusuario" => $_SESSION['idusuario']));
             
             #verificar a melhor forma de tratar o blindado recursivo
             foreach ($listaImoveis as $selecionarImovel) {
-                $selecionarEndereco = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarImovel->getIdEndereco()));                    
+                $selecionarEndereco = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarImovel->getIdEndereco()));   
+                
                 $selecionarImovel->setEndereco($selecionarEndereco[0]);  
-                $listarImovel[] = $selecionarImovel;
+                
+                $selecionarPlanta = $genericoDAO->consultar(new ApartamentoPlanta(), true, array("idimovel" => $selecionarImovel->getId()));
+                $selecionarImovel->setPlanta($selecionarPlanta[0]); 
+                
+                $listarImovel[] = $selecionarImovel;   
                 
             }
-           /*
-               echo "<pre>";
-                var_dump($listarImovel); 
-                echo "</pre>";die();*/
 
             $visao = new Template();
             $visao->setItem($listarImovel);
@@ -497,8 +494,12 @@ function editar($parametros){
 
             $genericoDAO = new GenericoDAO();
             $selecionarImovel = $genericoDAO->consultar($imovel, true, array("id" => $parametro['id']));
-            
-            
+            echo "Passou 1";
+            $idsImovel = $genericoDAO->consultar(new ApartamentoPlanta(), false, array("idimovel" => $parametro['id'])); 
+            echo "<pre>";
+            var_dump($idsImovel); 
+            echo "</pre>";
+            die();
             #verificar a melhor forma de tratar o blindado recursivo
             $selecionarEndereco = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarImovel[0]->getIdEndereco()));
             $selecionarImovel[0]->setEndereco($selecionarEndereco[0]);

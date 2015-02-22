@@ -96,7 +96,7 @@ Sessao::gerarToken();
                                         <input type="text" name="txtArea" id="txtArea" placeholder="Informe a Área" maxlength="7">
                                     </div>                                     
                         </div>
-                    
+                   
                 </div>
                 <div class="fields" id="divPlantaUm"></div>
                 <div class="fields" id="divInfoApeCasa">

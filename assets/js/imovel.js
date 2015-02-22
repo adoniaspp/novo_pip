@@ -331,13 +331,20 @@ function esconderCamposInicio() {
         var valores = parseInt($("#sltNumeroPlantas").val());
             
            
-        if(valores == 1){
+     /*   if(valores == 1){
             
+        $("#divInfoApeCasa").empty();
+        
+        var plantaUm = "<div id='divNomePlantas' class='nine wide required field'> <label>Planta: </label> <input type='text' id='txtPlanta1' name='txtPlanta[]' placeholder='Titulo da Planta. Ex: 3 Quartos + 2 Suites + Opções (Ex: Gabinete, Living Ampliado, etc)'>  <div class='ui hidden divider'></div> </div>";                 
+        
         var quarto = "<div class='three wide required field' id='divQuarto'><label>Quarto(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltQuarto' id='sltQuarto'><div class='default text'>Quarto(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>Mais de 5</div></div></div></div>";
         var banheiro = "<div class='three wide required field'><label>Banheiro(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltBanheiro' id='sltBanheiro'><div class='default text'>Banheiro(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>Mais de 5</div></div></div></div>";
         var suite = "<div class='three wide required field' id='divSuite'><label>Suite(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltSuite' id='sltSuite'><div class='default text'>Suite(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>Mais de 5</div></div></div></div>";
         var garagem = "<div class='three wide required field'><label>Vagas de Garagem</label><div class='ui selection dropdown'><input type='hidden' name='sltGaragem' id='sltGaragem'><div class='default text'>Vaga(s) de Garagem</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>Mais de 5</div></div></div></div>";
         var area = "<div id='divAreaPlanta' class='three wide field'><div class='field'><label>Área(m2)</label><input type='text' name='txtArea' id='txtArea' maxlength='7' placeholder='Informe a Área'></div></div>";
+
+        $("#divPlantaUm").append(plantaUm);
+
         $("#divInfoApeCasa").append(quarto);
         $("#divInfoApeCasa").append(banheiro);
         $("#divInfoApeCasa").append(suite);
@@ -345,6 +352,9 @@ function esconderCamposInicio() {
         $("#divInfoApeCasa").append(area);
         
                 
+                $("#txtPlanta").rules("add", {
+                    required: true
+                });
                 $("#sltQuarto").rules("add", {
                     required: true
                 });
@@ -358,6 +368,7 @@ function esconderCamposInicio() {
                     required: true
                 });               
                 
+
                 $("#sltQuarto").change(function() {
                     $(this).valid();
                 })
@@ -373,12 +384,19 @@ function esconderCamposInicio() {
                 $("#sltGaragem").change(function() {
                     $(this).valid();
                 })
+                
+                $('#txtArea').priceFormat({
+                prefix: ' ',
+                centsSeparator: '.',
+                thousandsSeparator: '.',
+                limit: 6
+                });
         
         $("input[name^='slt']:not('#sltTipo'):not('#sltNumeroPlantas')").parent().dropdown({
                     on: 'hover'
                 })
 
-        }
+        }*/
         
         if(valores >= 1){ //verifica se já existem divs na tela e as remove 
                 
@@ -387,7 +405,7 @@ function esconderCamposInicio() {
 
         }
         
-        if(valores >=2){ //só mostrar mais opções de planta se for maior que 2
+       // if(valores >=2){ //só mostrar mais opções de planta se for maior que 2
              //$("#divPlantaUm").append("<h4>Planta 1: </h4><div id='divNomePlantas' class='nine wide field'><input type='text' name='txtPlanta[]' id='txtPlanta' placeholder='Titulo da Planta. Ex: 3 Quartos + 2 Suites + Opções (Ex: Gabinete, Living Ampliado, etc)'></div>");
             
                  for (var valor = 1 ; valor <=valores ; valor++){ //clona as divs das plantas e as adiciona
@@ -444,7 +462,7 @@ function esconderCamposInicio() {
                     on: 'hover'
                 })
               
-         }        
+        // }     
        
        })
     
@@ -539,7 +557,11 @@ function cadastrarImovel(){
             onkeyup: false,
             focusInvalid: true,
             rules: {
-
+                
+                txtPlanta: {
+                    required: true,
+                    minlength: 5
+                },
                 txtArea: {
                     minlength: 2,
                 },
@@ -572,6 +594,10 @@ function cadastrarImovel(){
                 
             },
             messages: {
+                txtPlanta: {
+                    required: "Campo Obrigatorio",
+                    minlength: "Digite ao menos 2 numeros"
+                },
                 txtArea: {
                     minlength: "Digite ao menos 2 numeros"
                 },
@@ -740,7 +766,25 @@ function mostrarCamposEdicaoCasa(tipoImovel,
          })  
     }
  
-    function mostrarCamposEdicaoPredioComercial(tipoImovel, 
+    function mostrarCamposEdicaoPredioComercial(tipoImovel, parametroArea){
+    $(document).ready(function () { 
+            preco();
+            $("#divAndar").hide();
+            $("#divUnidadesAndar").hide();   
+            $("#divCondicao").hide();
+            campos(null, null, null, null);
+            
+            var area = "<div id='divArea' class='three wide field'>\n\
+                             <div class='field'><label>Área(m2)</label>\n\
+                             <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='7' value='"+parametroArea+"'>\n\
+                        </div></div>";
+        
+            $("#divInfoBasicas").append(area);  
+
+         })  
+    }
+    
+    function mostrarCamposEdicaoTerreno(tipoImovel, 
                                 parametroArea){
     $(document).ready(function () { 
             preco();
@@ -765,7 +809,7 @@ function mostrarCamposEdicaoCasa(tipoImovel,
                    parametroBanheiro, 
                    parametroSuite, 
                    parametroGaragem){
-            var quarto = "<div class='three wide required field'><label>Quarto(s)</label>\n\
+            var quarto = "<div class='three wide required field' id='divQuarto'><label>Quarto(s)</label>\n\
                             <div class='ui selection dropdown'>\n\
                             <input type='hidden' name='sltQuarto' id='sltQuarto' value='"+parametroQuarto+"'>\n\
                             <div class='default text'>Quarto(s)</div><i class='dropdown icon'></i>\n\
@@ -777,7 +821,7 @@ function mostrarCamposEdicaoCasa(tipoImovel,
                                 <div class='item' data-value='4'>4</div>\n\
                                 <div class='item' data-value='5'>Mais de 5</div>\n\
                             </div></div></div>";
-            var banheiro = "<div class='three wide required field'>\n\
+            var banheiro = "<div class='three wide required field' id='divBanheiro'>\n\
                                 <label>Banheiro(s)</label><div class='ui selection dropdown'>\n\
                                 <input type='hidden' name='sltBanheiro' id='sltBanheiro' value='"+parametroBanheiro+"'>\n\
                                 <div class='default text'>Banheiro(s)</div><i class='dropdown icon'></i>\n\
@@ -789,7 +833,7 @@ function mostrarCamposEdicaoCasa(tipoImovel,
                                 <div class='item' data-value='4'>4</div>\n\
                                 <div class='item' data-value='5'>Mais de 5</div>\n\
                             </div></div></div>";
-            var suite = "<div class='three wide required field'>\n\
+            var suite = "<div class='three wide required field' id='divSuite'>\n\
                             <label>Suite(s)</label><div class='ui selection dropdown'>\n\
                             <input type='hidden' name='sltSuite' id='sltSuite' value='"+parametroSuite+"'>\n\
                             <div class='default text'>Suite(s)</div><i class='dropdown icon'></i>\n\
@@ -800,7 +844,7 @@ function mostrarCamposEdicaoCasa(tipoImovel,
                             <div class='item' data-value='4'>4</div>\n\
                             <div class='item' data-value='5'>Mais de 5</div>\n\
                             </div></div></div>";
-            var garagem = "<div class='three wide required field'><label>Vagas de Garagem</label>\n\
+            var garagem = "<div class='three wide required field' id='divGaragem'><label>Vagas de Garagem</label>\n\
                             <div class='ui selection dropdown'>\n\
                             <input type='hidden' name='sltGaragem' id='sltGaragem' value='"+parametroGaragem+"'>\n\
                             <div class='default text'>Vaga(s) de Garagem</div>\n\
@@ -815,15 +859,19 @@ function mostrarCamposEdicaoCasa(tipoImovel,
         
         if(parametroQuarto !== null){
             $("#divInfoApeCasa").append(quarto); 
-        }
+        } else if($("#divQuarto")){$("#divQuarto").remove();}
         
+        if(parametroBanheiro !== null){
         $("#divInfoApeCasa").append(banheiro); 
+        } else if($("#divBanheiro")){$("#divBanheiro").remove();}
         
         if(parametroSuite !== null){
             $("#divInfoApeCasa").append(suite); 
-        }
+        } else if($("#divSuite")){$("#divSuite").remove();}
         
-        $("#divInfoApeCasa").append(garagem);     
+        if(parametroGaragem !== null){
+        $("#divInfoApeCasa").append(garagem);   
+        } else if($("#divGaragem")){$("#divGaragem").remove();}
     }
     
 function preco(){

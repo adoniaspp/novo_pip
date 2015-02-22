@@ -5,6 +5,7 @@ class Planta {
    
     private $id;
     private $idapartamentoplanta;
+    private $idimovel;
     private $ordemplantas;
     private $tituloplanta;
     private $quarto;
@@ -19,6 +20,10 @@ class Planta {
 
     function getIdapartamentoplanta() {
         return $this->idapartamentoplanta;
+    }
+
+    function getIdimovel() {
+        return $this->idimovel;
     }
 
     function getOrdemplantas() {
@@ -49,16 +54,16 @@ class Planta {
         return $this->area;
     }
 
-    function getApartamentoplanta() {
-        return $this->apartamentoplanta;
-    }
-
     function setId($id) {
         $this->id = $id;
     }
 
     function setIdapartamentoplanta($idapartamentoplanta) {
         $this->idapartamentoplanta = $idapartamentoplanta;
+    }
+
+    function setIdimovel($idimovel) {
+        $this->idimovel = $idimovel;
     }
 
     function setOrdemplantas($ordemplantas) {
@@ -89,15 +94,12 @@ class Planta {
         $this->area = $area;
     }
 
-    function setApartamentoplanta($apartamentoplanta) {
-        $this->apartamentoplanta = $apartamentoplanta;
-    }
-
-            
-    function cadastrar($parametros, $idApartamentoPlanta, $indiceControle) {
+                
+    function cadastrar($parametros, $idApartamentoPlanta, $idimovel, $indiceControle) {
 
         $planta = new Planta();
         $planta->setIdapartamentoplanta($idApartamentoPlanta);
+        $planta->setIdimovel($idimovel);
         $planta->setOrdemplantas($indiceControle);
         $planta->setTituloplanta($parametros["txtPlanta"][$indiceControle]);
         $planta->setQuarto($parametros["sltQuarto"][$indiceControle]);

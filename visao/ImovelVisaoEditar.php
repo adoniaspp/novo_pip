@@ -22,14 +22,15 @@ $item = $this->getItem();
 if ($item) {
     
     foreach ($item as $imovel) {
-     
+    
 ?>
 
-<script>
+<?php 
 
-switch(<?php echo $imovel->getIdTipoImovel()?>){
-    
-    case 1:
+    switch ($imovel->getIdTipoImovel()) {
+    case "1":
+    ?> 
+    <script>
     mostrarCamposEdicaoCasa(1,  
                    "<?php echo $imovel->getCondicao();?>", 
                     <?php echo $imovel->getCasa()->getArea();?>,
@@ -37,9 +38,12 @@ switch(<?php echo $imovel->getIdTipoImovel()?>){
                     <?php echo $imovel->getCasa()->getBanheiro();?>, 
                     <?php echo $imovel->getCasa()->getSuite();?>,
                     <?php echo $imovel->getCasa()->getGaragem();?>);
+    </script>
+    <?php
     break;
-    
-    case 3:
+    case "3":
+    ?> 
+    <script>
     mostrarCamposEdicaoApartamento(3,  
                    "<?php echo $imovel->getCondicao();?>", 
                     <?php echo $imovel->getApartamento()->getArea();?>,
@@ -48,31 +52,42 @@ switch(<?php echo $imovel->getIdTipoImovel()?>){
                     <?php echo $imovel->getApartamento()->getSuite();?>,
                     <?php echo $imovel->getApartamento()->getGaragem();?>,
                     <?php echo $imovel->getApartamento()->getCondominio();?>);
+    </script>
+    <?php
     break;
-	
-    case 4:
+    case "4":
+    ?> 
+    <script>
     mostrarCamposEdicaoSalaComercial(4,  
                    "<?php echo $imovel->getCondicao();?>", 
                     <?php echo $imovel->getSalaComercial()->getArea();?>,
                     <?php echo $imovel->getSalaComercial()->getBanheiro();?>,                      
                     <?php echo $imovel->getSalaComercial()->getGaragem();?>,
                     <?php echo $imovel->getSalaComercial()->getCondominio();?>);
+    </script>
+    <?php
     break;
-	
-		
-    case 5:
-    mostrarCamposEdicaoPredioComercial(5,
+    case "5":
+    ?> 
+    <script>
+    mostrarCamposEdicaoPredioComercial(5,  
+                   "<?php echo $imovel->getCondicao();?>", 
                     <?php echo $imovel->getPredioComercial()->getArea();?>);
+    </script>
+    <?php
     break;
-	
-    case 6:
+    case "6":
+    ?> 
+    <script>
     mostrarCamposEdicaoTerreno(6, 
                     <?php echo $imovel->getTerreno()->getArea();?>);
+    </script>
+    <?php
     break;
-
-}
-</script>
-
+    ?>
+    <?php
+    }
+    ?>
 
 <div class="container">
     <div class="ui hidden divider"></div>
