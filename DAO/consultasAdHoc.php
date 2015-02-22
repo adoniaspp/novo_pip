@@ -45,11 +45,12 @@ class ConsultasAdHoc extends GenericoDAO {
         }
         if ($crtlPred) {
             $sql = $sql . ' WHERE ' . implode(' AND ', $predicados);
-            
-            if ($preco >= 0 && $preco < 1000000) {
-                $sql = $sql . ' AND valormin BETWEEN ' . $preco . ' AND ' . ($preco + 100000);
-            }else{
-                $sql = $sql . ' AND valormin > ' . $preco;
+            if ($preco != NULL) {
+                if ($preco >= 0 && $preco < 1000000) {
+                    $sql = $sql . ' AND valormin BETWEEN ' . $preco . ' AND ' . ($preco + 100000);
+                } else {
+                    $sql = $sql . ' AND valormin > ' . $preco;
+                }
             }
             if ($garagem == 'true') {
                 $sql = $sql . ' AND garagem > 0 ';
@@ -91,7 +92,7 @@ class ConsultasAdHoc extends GenericoDAO {
     public function consultarAnunciosPorUsuario() {
         
     }
-    
+
     public function ConsultarRegistroAtivoDeRecuperarSenha($idUsuario) {
         $sql = "SELECT r.* "
                 . " FROM recuperasenha r"
@@ -103,26 +104,27 @@ class ConsultasAdHoc extends GenericoDAO {
         $resultado = $statement->fetchAll(PDO::FETCH_CLASS, "RecuperaSenha");
         return $resultado;
     }
-    
-      public function ConsultarPlanosComprados($ids) {
-       $allow = $ids;
-       $sql = sprintf(
-               "SELECT * FROM plano WHERE id in( %s )", implode(
-                       ',', array_map(
-                               function($v) {
-                           static $x = 0;
-                           return ':allow_' . $x++;
-                       }, $allow
-                       )
-               )
-       );
-       $sql = $sql . " ORDER BY ID DESC";
-       $statement = $this->conexao->prepare($sql);
-       foreach ($allow as $k => $v) {
-           $statement->bindValue('allow_' . $k, $v);
-       }
-       $statement->execute();
-       $resultado = $statement->fetchAll(PDO::FETCH_ASSOC);
-       return $resultado;
-   }
+
+    public function ConsultarPlanosComprados($ids) {
+        $allow = $ids;
+        $sql = sprintf(
+                "SELECT * FROM plano WHERE id in( %s )", implode(
+                        ',', array_map(
+                                function($v) {
+                            static $x = 0;
+                            return ':allow_' . $x++;
+                        }, $allow
+                        )
+                )
+        );
+        $sql = $sql . " ORDER BY ID DESC";
+        $statement = $this->conexao->prepare($sql);
+        foreach ($allow as $k => $v) {
+            $statement->bindValue('allow_' . $k, $v);
+        }
+        $statement->execute();
+        $resultado = $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $resultado;
+    }
+
 }

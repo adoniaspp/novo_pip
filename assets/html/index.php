@@ -5,7 +5,7 @@
 </script>
 
 <br>
-<div class="ui form segment">
+<div class="ui form segment" id="divBusca">
     <div class="ui center aligned column page grid">
         <div class="column">
             <div class="four fields">
@@ -141,55 +141,7 @@
     </div>
 </div>
 
-<div class="ui container">
-    <div class="ui center aligned column page grid">
-        <div class="column">
-            <div class="ui four cards" id="resultados">
-
-                <div class="card">
-                    <div class="dimmable image">
-                        <div class="ui dimmer">
-                            <div class="content">
-                                <div class="center">
-                                    <div class="ui inverted button">Add Friend</div>
-                                </div>
-                            </div>
-                        </div>
-                        <img src="/imagens/foto_padrao.png">
-                    </div>
-                    <div class="content">
-                        <div class="header">Casa muito boa</div>
-                        <!--      <div class="meta">
-                                <a class="group">Friends</a>
-                              </div>-->
-                        <div class="description">
-                            Elliot Fu is a film-maker from New York.
-                        </div>
-                    </div>
-                    <div class="extra content">      
-                        <a>
-                            <i class="big facebook square icon"></i>
-                        </a>
-                        <a>
-                            <i class="big flickr icon"></i>
-                        </a>
-                        </a>
-                        <a>
-                            <i class="big google plus icon"></i>
-                        </a>
-                        <a>
-                            <i class="big instagram icon"></i>
-                        </a>
-                        <a>
-                            <i class="big twitter square icon"></i>
-                        </a>
-                    </div>
-                </div>
-
-                
-            </div>
-        </div>
-    </div>
+<div class="ui segment" id="divAnuncios">  
 </div>
 
 

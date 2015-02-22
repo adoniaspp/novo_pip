@@ -44,34 +44,41 @@ function buscarAnuncio() {
             on: 'hover'
         });
 
-        $("#btnBuscarAnuncio").click(function() {
-            $.ajax({
-                url: "index.php",
-                dataType: "json",
-                type: "POST",
-                data: {
-                    tipoImovel: $('#sltTipoImovel').val(),
-                    valor: $('#sltValor').val(),
-                    finalidade: $('#sltFinalidade').val(),
-                    cidade: $('#sltCidade').val(),
-                    bairro: $('#sltBairro').val(),
-                    quarto: $('#sltQuartos').val(),
-                    condicao: $('#sltCondicao').val(),
-                    garagem: $('#checkgaragem').parent().checkbox('is checked'),
-                    hdnEntidade: "Anuncio",
-                    hdnAcao: "buscarAnuncio"
-                },
-                beforeSend: function() {
+//        $("#spanValor").priceFormat({
+//                prefix: 'R$ ',
+//                centsSeparator: ',',
+//                centsLimit: 0,
+//                limit: 8,
+//                thousandsSeparator: '.'
+//            })
 
-                },
-                success: function(resposta) {
-                    
-                    document.write(resposta.anuncio);
-//                    for (var valor = 1 ; valor <=valores ; valor++){
-//                        
-//                    }
-                }
-            })
+        $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
+            tipoImovel: 'casa',
+            valor: '',
+            finalidade: '',
+            cidade: '',
+            bairro: '',
+            quarto: '',
+            condicao: '',
+            garagem: 'false'});
+
+
+        $("#btnBuscarAnuncio").on('click', function() {
+            $("#load").addClass('ui active inverted dimmer');
+            $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
+                tipoImovel: $('#sltTipoImovel').val(),
+                valor: $('#sltValor').val(),
+                finalidade: $('#sltFinalidade').val(),
+                cidade: $('#sltCidade').val(),
+                bairro: $('#sltBairro').val(),
+                quarto: $('#sltQuartos').val(),
+                condicao: $('#sltCondicao').val(),
+                garagem: $('#checkgaragem').parent().checkbox('is checked')}, function() {
+   $("#load").addClass('ui active inverted dimmer');
+});
+                setTimeout(function() {
+                    $('#load').removeClass("ui active inverted dimmer");
+            }, 10000);
         });
     });
 }

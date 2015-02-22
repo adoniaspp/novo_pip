@@ -23,6 +23,7 @@ include_once 'modelo/EmailAnuncio.php';
 
 class AnuncioControle {
     function buscarAnuncio($parametros) {
+        $visao = new Template('ajax');
         $consultasAdHoc = new ConsultasAdHoc();
         $parametros["atributos"] = "*";
         $parametros["tabela"] = $parametros["tipoImovel"];
@@ -31,11 +32,13 @@ class AnuncioControle {
         unset($parametros["hdnAcao"]);
         $parametros["predicados"] = $parametros; 
         $listarAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
-        if($listarAnuncio){
-            echo json_encode($listarAnuncio);
-        }else{
-            echo json_encode("false");
-        }
+        $visao->setItem($listarAnuncio);
+        $visao->exibir('AnuncioVisaoBusca.php');
+//        if($listarAnuncio){
+//            echo json_encode($listarAnuncio);
+//        }else{
+//            echo json_encode("false");
+//        }
         
     }    
 }
