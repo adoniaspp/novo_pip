@@ -25,6 +25,7 @@ include_once 'modelo/ApartamentoPlanta.php';
 include_once 'modelo/SalaComercial.php';
 include_once 'modelo/PredioComercial.php';
 include_once 'modelo/Terreno.php';
+include_once 'modelo/Planta.php';
 
 class UsuarioControle {
 

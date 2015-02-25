@@ -115,7 +115,7 @@ class ImovelControle {
 
                 for ($indicePlanta = 0; $indicePlanta < $quantidadePlanta; $indicePlanta++) {
                         $planta = new Planta();
-                        $entidadePlanta = $planta->cadastrar($parametros, $idApartamentoPlanta, $indicePlanta);
+                        $entidadePlanta = $planta->cadastrar($parametros, $idApartamentoPlanta, $idImovel, $indicePlanta);
                         $idPlanta = $genericoDAO->cadastrar($entidadePlanta);
                         if (!($idPlanta)) {
                             $resultadoPlanta = false;
@@ -274,8 +274,8 @@ function listar() {
                 
                 $selecionarImovel->setEndereco($selecionarEndereco[0]);  
                 
-                $selecionarPlanta = $genericoDAO->consultar(new ApartamentoPlanta(), true, array("idimovel" => $selecionarImovel->getId()));
-                $selecionarImovel->setPlanta($selecionarPlanta[0]); 
+                $selecionarPlanta = $genericoDAO->consultar(new Planta(), true, array("idimovel" => $selecionarImovel->getId()));
+                $selecionarImovel->setPlanta($selecionarPlanta); 
                 
                 $listarImovel[] = $selecionarImovel;   
                 
@@ -494,12 +494,7 @@ function editar($parametros){
 
             $genericoDAO = new GenericoDAO();
             $selecionarImovel = $genericoDAO->consultar($imovel, true, array("id" => $parametro['id']));
-            echo "Passou 1";
             $idsImovel = $genericoDAO->consultar(new ApartamentoPlanta(), false, array("idimovel" => $parametro['id'])); 
-            echo "<pre>";
-            var_dump($idsImovel); 
-            echo "</pre>";
-            die();
             #verificar a melhor forma de tratar o blindado recursivo
             $selecionarEndereco = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarImovel[0]->getIdEndereco()));
             $selecionarImovel[0]->setEndereco($selecionarEndereco[0]);

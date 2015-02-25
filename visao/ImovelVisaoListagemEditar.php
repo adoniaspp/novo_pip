@@ -49,8 +49,11 @@
     /*echo "<pre>";
     var_dump($this->getItem());
     echo "</pre>";*/
-    foreach($data as $imovel){?>
-        <tr>        
+    foreach($data as $imovel){ /*echo "<pre>"; var_dump($imovel);echo "</pre>";*/?>
+                
+               
+                
+               <tr>        
         <?php
                         
         echo $imovel->buscarTipoImovel($imovel->getIdTipoImovel());
@@ -106,12 +109,76 @@ foreach($this->getItem() as $modal){?>
                             break;
 
                         case "2":
-                            echo "Número de Andares: " . $modal->getApartamentoPlanta()->getAndares() . "<br />";
-                            echo "Unidades por Andar: " . $modal->getApartamentoPlanta()->getUnidadesAndar() . "<br />";
+                            
+                            echo "<div class='fields'><div class='four wide field'>
+                                                      <label>Número de Andares: </label>" . $modal->getApartamentoPlanta()->getAndares() . "</div>
+                                                      <div class='four wide field'>
+                                                      <label>Unidades por Andar: </label>" . $modal->getApartamentoPlanta()->getUnidadesAndar() . "</div>
+                                  </div>";                           
                             echo "Número de Torres: " . $modal->getApartamentoPlanta()->getNumeroTorres() . "<br />";
-                            echo "Total de Unidades: " . $modal->getApartamentoPlanta()->getTotalUnidades() . "<br />";/*
-                            echo "Possui Sacada: " . $modal->getApartamentoPlanta()->getSacada() . "<br />";
-                            echo "Apartamentos p/ Andar: " . $modal->getApartamentoPlanta()->getUnidadesAndar() . "<br />";*/
+                            echo "Total de Unidades: " . $modal->getApartamentoPlanta()->getTotalUnidades() . "<br />";
+                            echo "<div class='ui dividing header'></div>";
+                            
+                            $numeroPlantas = count($modal->getPlanta());
+                            
+                            if($numeroPlantas == 1){                           
+                                echo "Planta:" ;
+                            
+                                echo "<table class='ui table'>
+                                <thead>
+                                    <tr>
+                                        <th>Titulo da Planta</th>
+                                        <th>Quarto(s)</th>
+                                        <th>Banheiro(s)</th>
+                                        <th>Suite(s)</th>
+                                        <th>Vaga(s) de Garagem</th>
+                                        <th>Área</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tr>";
+
+                                      
+                                foreach($modal->getPlanta() as $valoresPlanta){
+                                    echo "<td>". $valoresPlanta->getTituloPlanta()."</td>";
+                                    echo "<td>". $valoresPlanta->getQuarto()."</td>";
+                                    echo "<td>". $valoresPlanta->getBanheiro()."</td>";
+                                    echo "<td>". $valoresPlanta->getSuite()."</td>";
+                                    echo "<td>". $valoresPlanta->getGaragem()."</td>";
+                                    echo "<td>". $valoresPlanta->getArea()."</td>";
+                                }   
+                                
+                                echo "</tr></tbody></table>";
+                                
+                             } else{
+                                echo "Plantas: <br />" ;
+                                
+                                echo "<table class='ui table'>
+                                <thead>
+                                    <tr>
+                                        <th>Titulo da Planta</th>
+                                        <th>Quarto(s)</th>
+                                        <th>Banheiro(s)</th>
+                                        <th>Suite(s)</th>
+                                        <th>Vaga(s) de Garagem</th>
+                                        <th>Área</th>
+                                    </tr>
+                                </thead>
+                                <tbody>";
+                                
+                                foreach($modal->getPlanta() as $valoresPlanta){ 
+                                    echo "<tr>";
+                                    echo "<td>". $valoresPlanta->getTituloPlanta()."</td>";
+                                    echo "<td>". $valoresPlanta->getQuarto()."</td>";
+                                    echo "<td>". $valoresPlanta->getBanheiro()."</td>";
+                                    echo "<td>". $valoresPlanta->getSuite()."</td>";
+                                    echo "<td>". $valoresPlanta->getGaragem()."</td>";
+                                    echo "<td>". $valoresPlanta->getArea()."</td>";
+                                    
+                                }   
+                                echo "</tr></tbody></table>";
+                             }
+                            
                             break;
                         case "3":
                            echo "Quarto: " . $modal->getApartamento()->getQuarto() . "<br />";
@@ -136,7 +203,7 @@ foreach($this->getItem() as $modal){?>
                             echo "Area: " . $modal->getTerreno()->getArea() . "<br />";
                             break;
                     }
-                    echo "<div class='ui hidden divider'></div>";
+                    echo "<div class='ui dividing header'></div>";
                     if($modal->getEndereco()->getNumero() != "" && $modal->getEndereco()->getComplemento() != ""){
                     echo "Endereço: ".$modal->getEndereco()->getLogradouro().", ".$modal->getEndereco()->getNumero().", ".$modal->getEndereco()->getComplemento()."<br />";
                     echo $modal->getEndereco()->getBairro()->getNome().", ".$modal->getEndereco()->getCidade()->getNome()." - ".$imovel->getEndereco()->getEstado()->getUf();

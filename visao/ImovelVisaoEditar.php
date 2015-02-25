@@ -19,10 +19,11 @@
 Sessao::gerarToken();
 $item = $this->getItem();
 
+
 if ($item) {
     
     foreach ($item as $imovel) {
-    
+
 ?>
 
 <?php 
@@ -39,6 +40,56 @@ if ($item) {
                     <?php echo $imovel->getCasa()->getSuite();?>,
                     <?php echo $imovel->getCasa()->getGaragem();?>);
     </script>
+    <?php
+    break;
+    case "2":
+    ?> 
+    <script>
+    mostrarCamposEdicaoApartamentoPlanta(2, 
+                    <?php echo $imovel->getApartamentoPlanta()->getAndares();?>,
+                    <?php echo $imovel->getApartamentoPlanta()->getUnidadesAndar();?>,
+                    <?php echo $imovel->getApartamentoPlanta()->getTotalUnidades();?>, 
+                    <?php echo $imovel->getApartamentoPlanta()->getNumeroTorres();?>);
+    </script>  
+    <?php
+            $totalPlantas = count($imovel->getPlanta());
+            
+            if($totalPlantas == 1){
+            
+            for($variavel = 1 ; $variavel <= $totalPlantas ; $variavel++){
+
+            ?>
+            <script>
+            mostrarPlantas(<?php echo $imovel->getPlanta()->getOrdemPlantas();?>,
+                           "<?php echo $imovel->getPlanta()->getTituloPlanta();?>",
+                           <?php echo $imovel->getPlanta()->getQuarto();?>,
+                           <?php echo $imovel->getPlanta()->getBanheiro();?>,
+                           <?php echo $imovel->getPlanta()->getSuite();?>,
+                           <?php echo $imovel->getPlanta()->getGaragem();?>,
+                           <?php echo $imovel->getPlanta()->getArea();?>);    
+            </script>
+            
+            <?php } ?>
+          
+            <?php
+
+            } else {
+                
+                 foreach($imovel->getPlanta() as $valoresPlanta){
+
+            ?>
+            <script>
+            mostrarPlantas(<?php echo $valoresPlanta->getOrdemPlantas();?>,
+                           "<?php echo $valoresPlanta->getTituloPlanta();?>",
+                           <?php echo $valoresPlanta->getQuarto();?>,
+                           <?php echo $valoresPlanta->getBanheiro();?>,
+                           <?php echo $valoresPlanta->getSuite();?>,
+                           <?php echo $valoresPlanta->getGaragem();?>,
+                           <?php echo $valoresPlanta->getArea();?>);    
+            </script>
+            
+            <?php } } ?>
+            
     <?php
     break;
     case "3":
@@ -120,23 +171,30 @@ if ($item) {
                             <?php echo $imovel->buscarTipoImovel($imovel->getIdTipoImovel())?>
                     </div>
                     
-                    <!--    <div class="three wide required field" id="divNumeroPlantas">
+                       <div class="three wide required field" id="divNumeroPlantas">
                             <label>Número de Plantas</label>
                             <div class="ui selection dropdown">
-                                <input type="hidden" name="sltNumeroPlantas" id="sltNumeroPlantas">
+                                <input type="hidden" name="sltNumeroPlantas" id="sltNumeroPlantas" 
+                                    <?php if($imovel->getApartamentoPlanta()){
+                                       $numeroPlantas = count($imovel->getPlanta());
+                                       echo "value='".$numeroPlantas."'";
+                                   }
+                                   ?>
+                                   
+                                   >
                                 <div class="default text">Número de Plantas</div>
                                 <i class="dropdown icon"></i>
                                 <div class="menu">
                                     <?php 
-                                    /*for($plantas = 1; $plantas <=6; $plantas++){
+                                    for($plantas = 1; $plantas <=6; $plantas++){
                                     echo "<div class='item' data-value='$plantas'>".$plantas."</div>";
-                                    }*/
+                                    }
                                     ?>
                                 </div>
                             </div>
                             
-                        </div>
-                    
+                      </div>
+                    <!-- 
                        <div id="divArea" class="three wide field">
                                     <div class="field">
                                         <label>Área(m2)</label>
@@ -146,6 +204,10 @@ if ($item) {
                  -->   
                 </div>
                 <div class="fields" id="divPlantaUm"></div>
+                <div class="fields">                
+                <div id="divInserePlanta">
+                </div>
+                </div>
                 <div class="fields" id="divInfoApeCasa">
                 
                     <!--<div class="three wide required field">
@@ -220,12 +282,7 @@ if ($item) {
                     </div>-->
                     
                 </div>
-                
-                <div class="fields">                
-                <div id="divInserePlanta">
-                </div>
-                </div>
-                
+            
                 <div class="one field" id="divDescricao">
                     <div class="field">
                         <label>Identificar Este Imóvel Como:</label>
@@ -238,28 +295,42 @@ if ($item) {
                 
                 
                 <div class="fields" id="divApartamento">
-                <!--    
+                    
                     <div class="two field" id="divAndares">
                         <label>Nº de Andares do Prédio</label>
                         <div class="ui selection dropdown">
-                            <input type="hidden" name="sltAndares" id="sltAndares">
+                            <input type="hidden" name="sltAndares" id="sltAndares"
+                                <?php if($imovel->getApartamentoPlanta()){
+                                       echo "value='".$imovel->getApartamentoPlanta()->getAndares()."'";
+                                   }
+                                   ?>
+                                   
+                                   >
                             <div class="default text">Andares</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
                                 <?php 
-                                /*for($andares = 1; $andares <=40; $andares++){
+                                for($andares = 1; $andares <=40; $andares++){
                                 echo "<div class='item' data-value='".$andares."'>".$andares."</div>";
-                                }*/
+                                }
                                 ?>
                             </div>
                         </div>
                     </div> 
-                    
-                     -->                   
+                             
                     <div class="two field" id="divUnidadesAndar">
                         <label>Unidades por Andar</label>
                         <div class="ui selection dropdown">
-                            <input type="hidden" name="sltUnidadesAndar" id="sltUnidadesAndar">
+                            <input type="hidden" name="sltUnidadesAndar" id="sltUnidadesAndar"
+                                   
+                                   <?php if($imovel->getApartamento()){
+                                       echo "value='".$imovel->getApartamento()->getUnidadesAndar()."'";
+                                   } else if($imovel->getApartamentoPlanta()){
+                                       echo "value='".$imovel->getApartamentoPlanta()->getUnidadesAndar()."'";
+                                   }
+                                   ?>
+                                   
+                                   >
                             <div class="default text">Numero de Aptos</div>
                             <i class="dropdown icon"></i>
                             <div class="menu" id="sltUnidadesAndar">
@@ -271,27 +342,38 @@ if ($item) {
                             </div>
                         </div>
                     </div>                    
-                    <!--
+                    
                     <div class="two field" id="divNumeroTorres">
                         <label>Nº de Torres</label>
                         <div class="ui selection dropdown">
-                            <input type="hidden" name="sltNumeroTorres" id="sltNumeroTorres">
+                            <input type="hidden" name="sltNumeroTorres" id="sltNumeroTorres"
+                                   <?php if($imovel->getApartamentoPlanta()){
+                                       echo "value='".$imovel->getApartamentoPlanta()->getNumeroTorres()."'";
+                                   }
+                                   ?>
+                                   
+                                   >
                             <div class="default text">Torres</div>
                             <i class="dropdown icon"></i>
                             <div class="menu" id="sltNumeroTorres">
-                                <?php /*
+                                <?php 
                                 for($torres = 1; $torres <=10; $torres++){
                                 echo "<div class='item' data-value='".$torres."'>".$torres."</div>";
-                                }*/
+                                }
                                 ?>
                             </div>
                         </div>
                     </div>   
-                    -->
+                   
                     <div class="two field" id="divAndar">
                         <label>Andar do Apartamento</label>
                         <div class="ui selection dropdown">
-                            <input type="hidden" name="sltAndar" id="sltAndar">
+                            <input type="hidden" name="sltAndar" id="sltAndar"
+                            <?php if($imovel->getApartamento()){
+                                       echo "value='".$imovel->getApartamento()->getAndar()."'";
+                                   }
+                                   ?>                                  
+                                   >       
                             <div class="default text">Andar</div>
                             <i class="dropdown icon"></i>
                             <div class="menu" id="sltAndar">
@@ -303,13 +385,14 @@ if ($item) {
                             </div>
                         </div>
                     </div> 
-                    <!--
+                  <!-- 
                     <div class="three wide field" id="divUnidadesTotal">
                     <div class="field">
                         <label>Total de Unidades</label>                       
                         <input type="text" name="txtTotalUnidades" id="txtTotalUnidades" placeholder="Total de Apartamentos" maxlength="3">
                         </div>
                     </div>
+                    
                     
                     <div id="divCondominio" class="one field">
                     <div class=" field">
