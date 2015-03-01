@@ -29,7 +29,7 @@ Sessao::gerarToken();
                 <i class="right chevron icon divider"></i>
                 <a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
                 <i class="right chevron icon divider"></i>
-                <a class="active section">Editar Imovel</a>
+                <a class="active section">Cadastrar Imovel</a>
             </div>
         </div>
     </div>

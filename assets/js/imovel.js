@@ -58,6 +58,8 @@ function esconderCamposInicio() {
               
             });
             
+            
+            
             $("#txtCEP").rules("remove");
             
            $('#sltNumeroPlantas').parent().dropdown('restore defaults');

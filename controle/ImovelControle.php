@@ -102,18 +102,6 @@ class ImovelControle {
                 $entidadeApartamentoPlanta = $apartamentoPlanta->cadastrar($parametros, $idImovel);
                 $idApartamentoPlanta = $genericoDAO->cadastrar($entidadeApartamentoPlanta);
 
-                $quantidadeDiferencial = count($parametros['chkDiferencial']);
-                $resultadoDiferencial = true;
-                for ($indiceDiferencial = 0; $indiceDiferencial < $quantidadeDiferencial; $indiceDiferencial++) {
-                    $ImovelDiferencial = new ImovelDiferencial();
-                    $entidadeDiferencial = $ImovelDiferencial->cadastrar($parametros, $idImovel, $indiceDiferencial);
-                    $idDiferencial = $genericoDAO->cadastrar($entidadeDiferencial);
-                    if (!($idDiferencial)) {
-                        $resultadoDiferencial = false;
-                        break;
-                    }
-                }
-
                 $idCadastroImovel = $idApartamentoPlanta;
                 if ($idApartamentoPlanta) {
                     $idDiferencial = true;
@@ -145,19 +133,8 @@ class ImovelControle {
                 $idDiferencial = false;
                 $apartamento = new Apartamento();
                 $entidadeApartamento = $apartamento->cadastrar($parametros, $idImovel);
-                $idApartamento = $genericoDAO->cadastrar($entidadeApartamento);
-                $quantidadeDiferencial = count($parametros['chkDiferencial']);
-                $resultadoDiferencial = true;
-                for ($indiceDiferencial = 0; $indiceDiferencial < $quantidadeDiferencial; $indiceDiferencial++) {
-                    $ImovelDiferencial = new ImovelDiferencial();
-                    $entidadeDiferencial = $ImovelDiferencial->cadastrar($parametros, $idImovel, $indiceDiferencial);
-                    $idDiferencial = $genericoDAO->cadastrar($entidadeDiferencial);
-                    if (!($idDiferencial)) {
-                        $resultadoDiferencial = false;
-                        break;
-                    }
-                }
-
+                $idApartamento = $genericoDAO->cadastrar($entidadeApartamento);               
+                
                 $idCadastroImovel = $idApartamento;
                 if ($idApartamento) {
                     $idDiferencial = true;
@@ -167,17 +144,6 @@ class ImovelControle {
                 $salaComercial = new SalaComercial();
                 $entidadeSalaComercial = $salaComercial->cadastrar($parametros, $idImovel);
                 $idSalaComercial = $genericoDAO->cadastrar($entidadeSalaComercial);
-                $quantidadeDiferencial = count($parametros['chkDiferencial']);
-                $resultadoDiferencial = true;
-                for ($indiceDiferencial = 0; $indiceDiferencial < $quantidadeDiferencial; $indiceDiferencial++) {
-                    $ImovelDiferencial = new ImovelDiferencial();
-                    $entidadeDiferencial = $ImovelDiferencial->cadastrar($parametros, $idImovel, $indiceDiferencial);
-                    $idDiferencial = $genericoDAO->cadastrar($entidadeDiferencial);
-                    if (!($idDiferencial)) {
-                        $resultadoDiferencial = false;
-                        break;
-                    }
-                }
 
                 $idCadastroImovel = $idSalaComercial;
                 if ($idSalaComercial) {
@@ -189,17 +155,7 @@ class ImovelControle {
 
                 $entidadePredioComercial = $predioComercial->cadastrar($parametros, $idImovel);
                 $idPredioComercial = $genericoDAO->cadastrar($entidadePredioComercial);
-                $quantidadeDiferencial = count($parametros['chkDiferencial']);
-                $resultadoDiferencial = true;
-                for ($indiceDiferencial = 0; $indiceDiferencial < $quantidadeDiferencial; $indiceDiferencial++) {
-                    $ImovelDiferencial = new ImovelDiferencial();
-                    $entidadeDiferencial = $ImovelDiferencial->cadastrar($parametros, $idImovel, $indiceDiferencial);
-                    $idDiferencial = $genericoDAO->cadastrar($entidadeDiferencial);
-                    if (!($idDiferencial)) {
-                        $resultadoDiferencial = false;
-                        break;
-                    }
-                }
+                
                 $idCadastroImovel = $idPredioComercial;
                 if ($idPredioComercial) {
                     $idDiferencial = true;
@@ -210,24 +166,30 @@ class ImovelControle {
 
                 $entidadeTerreno = $terreno->cadastrar($parametros, $idImovel);
                 $idTerreno = $genericoDAO->cadastrar($entidadeTerreno);
-                $quantidadeDiferencial = count($parametros['chkDiferencial']);
-                $resultadoDiferencial = true;
-                for ($indiceDiferencial = 0; $indiceDiferencial < $quantidadeDiferencial; $indiceDiferencial++) {
-                    $ImovelDiferencial = new ImovelDiferencial();
-                    $entidadeDiferencial = $ImovelDiferencial->cadastrar($parametros, $idImovel, $indiceDiferencial);
-                    $idDiferencial = $genericoDAO->cadastrar($entidadeDiferencial);
-                    if (!($idDiferencial)) {
-                        $resultadoDiferencial = false;
-                        break;
-                    }
-                }
 
                 $idCadastroImovel = $idTerreno;
                 if ($idTerreno) {
                     $idDiferencial = true;
                 }
             }
-
+            //cadastro dos diferenciais
+            $quantidadeDiferencial = count($parametros['chkDiferencial']);
+            $resultadoDiferencial = true;
+                
+                if($quantidadeDiferencial > 0){
+                
+                    for ($indiceDiferencial = 0; $indiceDiferencial < $quantidadeDiferencial; $indiceDiferencial++) {
+                        $ImovelDiferencial = new ImovelDiferencial();
+                        $entidadeDiferencial = $ImovelDiferencial->cadastrar($parametros, $idImovel, $indiceDiferencial);
+                        $idDiferencial = $genericoDAO->cadastrar($entidadeDiferencial);
+                        if (!($idDiferencial)) {
+                            $resultadoDiferencial = false;
+                            break;
+                        }
+                    }
+                }
+            //fim dos diferenciais
+            
             if ($idEndereco && $idImovel && $idCadastroImovel && $idDiferencial) {
                 $genericoDAO->commit();
                 $genericoDAO->fecharConexao();
@@ -373,17 +335,6 @@ class ImovelControle {
                 $idApartamentoPlanta = $genericoDAO->editar($entidadeApartamentoPlanta);
 
                 $quantidadeDiferencial = count($parametros['chkDiferencial']);
-                /*
-                  $resultadoDiferencial = true;
-                  for ($indiceDiferencial = 0; $indiceDiferencial < $quantidadeDiferencial; $indiceDiferencial++) {
-                  $ImovelDiferencial = new ImovelDiferencial();
-                  $entidadeDiferencial = $ImovelDiferencial->cadastrar($parametros, $idImovel, $indiceDiferencial);
-                  $idDiferencial = $genericoDAO->cadastrar($entidadeDiferencial);
-                  if (!($idDiferencial)) {
-                  $resultadoDiferencial = false;
-                  break;
-                  }
-                  } */
 
                 $quantidadePlanta = $parametros['sltNumeroPlantas'];
                 $resultadoPlanta = true;
@@ -474,6 +425,49 @@ class ImovelControle {
                     $idDiferencial = true;
                 }
             }
+            
+            //edicao dos diferenciais
+            $quantidadeDiferencial = count($parametros['chkDiferencial']);
+            $resultadoDiferencial = true;
+         
+            $difs = $genericoDAO->consultar(new ImovelDiferencial(), false, array("idimovel" => $entidadeImovel->getId()));
+           
+            foreach ($difs as $dif) {
+            $IDs[] = $dif->getId();
+            $listaIDs[] = $dif->getIdDiferencial();
+            }
+            
+            //inicio do cadastro do diferencial
+            $ImovelDiferencial = new ImovelDiferencial();
+            
+                if($quantidadeDiferencial > 0){
+                
+                    for ($indiceDiferencial = 0; $indiceDiferencial < $quantidadeDiferencial; $indiceDiferencial++) {
+                        
+                        
+                        if(!in_array($parametros['chkDiferencial'][$indiceDiferencial], $listaIDs)){
+                        
+                            $entidadeDiferencial = $ImovelDiferencial->cadastrar($parametros, $_SESSION["imovel"]["id"], $indiceDiferencial);
+                            $idDiferencial = $genericoDAO->cadastrar($entidadeDiferencial);
+                             
+                        }
+
+                      }
+                    
+                    }
+                     for ($indiceDiferencial = 0; $indiceDiferencial < count($difs); $indiceDiferencial++) {
+                            if(!in_array($listaIDs[$indiceDiferencial], $parametros['chkDiferencial'])){
+                            $entidadeDiferencial = $ImovelDiferencial->excluir($IDs[$indiceDiferencial]);
+                            $idDiferencial = $genericoDAO->excluir($ImovelDiferencial, $entidadeDiferencial->getId());
+                            }
+                        }
+                    
+                    if (!($idDiferencial)) {
+                            $resultadoDiferencial = false;
+                            //break;
+                        }
+                
+            //fim dos diferenciais
 
             if ($idEndereco && $idImovel && $idEdicaoImovel && $idDiferencial) {
                 $genericoDAO->commit();

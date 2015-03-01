@@ -39,4 +39,15 @@ class ImovelDiferencial {
         return $ImovelDiferencial;
     }
     
+    function excluir($id) {
+        
+        //echo "ID: ".$id;
+        $ImovelDiferencial = new ImovelDiferencial();
+        $ImovelDiferencial->setId($id);
+        //$ImovelDiferencial->setIdimovel($idImovel);
+        //$ImovelDiferencial->setIddiferencial($parametros["chkDiferencial"][$indiceControle]);
+        return $ImovelDiferencial;
+
+    }
+    
 }
