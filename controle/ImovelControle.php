@@ -356,10 +356,19 @@ function editar($parametros){
 
                 $idDiferencial = false;
                 $apartamentoPlanta = new ApartamentoPlanta();
-                $entidadeApartamentoPlanta = $apartamentoPlanta->cadastrar($parametros, $idImovel);
-                $idApartamentoPlanta = $genericoDAO->editar($entidadeApartamentoPlanta);
-                $quantidadeDiferencial = count($parametros['chkDiferencial']);
                 
+                $id = $genericoDAO->consultar($apartamentoPlanta, false, array("idimovel" => $entidadeImovel->getId()));
+
+                foreach($id as $idAPL){ //buscar o ID
+                    
+                    $APLId = $idAPL->getId();
+                }
+                
+                $entidadeApartamentoPlanta = $apartamentoPlanta->editar($parametros, $APLId);
+                $idApartamentoPlanta = $genericoDAO->editar($entidadeApartamentoPlanta);
+                
+                $quantidadeDiferencial = count($parametros['chkDiferencial']);
+                /*
                 $resultadoDiferencial = true;
                     for ($indiceDiferencial = 0; $indiceDiferencial < $quantidadeDiferencial; $indiceDiferencial++) {
                         $ImovelDiferencial = new ImovelDiferencial();
@@ -369,52 +378,49 @@ function editar($parametros){
                             $resultadoDiferencial = false;
                             break;
                         }
-                }
+                }*/
                 
                 $quantidadePlanta = $parametros['sltNumeroPlantas']; 
                 $resultadoPlanta = true;
-
-                if($quantidadePlanta > 1){ //veririfcar se existe mais de uma planta
-
-                    for ($indicePlanta = 0; $indicePlanta < $quantidadePlanta; $indicePlanta++) {
+                
+                for ($indicePlanta = 0; $indicePlanta <= $quantidadePlanta; $indicePlanta++) {
+                    
                         $planta = new Planta();
-                        $entidadePlanta = $planta->cadastrar($parametros, $idApartamentoPlanta, $indicePlanta);
-                        $idPlanta = $genericoDAO->cadastrar($entidadePlanta);
+                        $id = $genericoDAO->consultar($planta, false, array("idimovel" => $entidadeImovel->getId(), "ordemplantas" => $indicePlanta));
+                        
+                        foreach($id as $idPL){ //buscar o ID
+                    
+                            $PLId = $idPL->getId();
+                            
+                        }
+                        
+                        $entidadePlanta = $planta->editar($parametros, $entidadeApartamentoPlanta->getId(), $PLId, $indicePlanta);
+         
+                        $idPlanta = $genericoDAO->editar($entidadePlanta);
                         if (!($idPlanta)) {
                             $resultadoPlanta = false;
                             break;
                         }
-                    }
-                $idCadastroImovel = $idPlanta;
-                if($idPlanta){$idDiferencial = true;}
                 }
                 
-                else{
-                    
-                $idCadastroImovel = true; //true setado, pois não existem plantas, apenas 1
-                $idDiferencial = true;
-                
-                }    
-                    
-            } elseif ($entidadeImovel->getIdTipoImovel() == "3") {//Apartamento  
-                $idDiferencial = false;
-                $apartamento = new Apartamento();
-                $entidadeApartamento = $apartamento->cadastrar($parametros, $idImovel);
-                $idApartamento = $genericoDAO->cadastrar($entidadeApartamento);
-                $quantidadeDiferencial = count($parametros['chkDiferencial']);
-                $resultadoDiferencial = true;
-                    for ($indiceDiferencial = 0; $indiceDiferencial < $quantidadeDiferencial; $indiceDiferencial++) {
-                        $ImovelDiferencial = new ImovelDiferencial();
-                        $entidadeDiferencial = $ImovelDiferencial->cadastrar($parametros, $idImovel, $indiceDiferencial);
-                        $idDiferencial = $genericoDAO->cadastrar($entidadeDiferencial);
-                        if (!($idDiferencial)) {
-                            $resultadoDiferencial = false;
-                            break;
-                        }
-                    }
+                $idEdicaoImovel = $idPlanta;
+                if($idPlanta){$idDiferencial = true;}
+   
                  
-                $idCadastroImovel = $idApartamento;
-                if($idApartamento){$idDiferencial = true;}
+            } elseif ($entidadeImovel->getIdTipoImovel() == "3") {//Apartamento  
+                $apartamento = new Apartamento();
+                $id = $genericoDAO->consultar($apartamento, false, array("idimovel" => $entidadeImovel->getId()));
+                
+                foreach($id as $idA){ //buscar o ID
+                    
+                    $aId = $idA->getId();
+                }
+                
+                $entidadeApartamento = $apartamento->editar($parametros, $aId);
+
+                $idCasa = $genericoDAO->editar($entidadeApartamento);
+                $idEdicaoImovel = $idA;
+                if($idA){$idDiferencial = true;}
                 
               } elseif ($entidadeImovel->getIdTipoImovel() == "4") {//Sala Comercial  
                 $salaComercial = new SalaComercial();

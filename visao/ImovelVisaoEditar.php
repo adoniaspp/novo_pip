@@ -43,20 +43,17 @@ if ($item) {
     <?php
     break;
     case "2":
+    $totalPlantas = count($imovel->getPlanta());
     ?> 
     <script>
-    mostrarCamposEdicaoApartamentoPlanta(2, 
-                    <?php echo $imovel->getApartamentoPlanta()->getAndares();?>,
-                    <?php echo $imovel->getApartamentoPlanta()->getUnidadesAndar();?>,
-                    <?php echo $imovel->getApartamentoPlanta()->getTotalUnidades();?>, 
-                    <?php echo $imovel->getApartamentoPlanta()->getNumeroTorres();?>);
+    mostrarCamposEdicaoApartamentoPlanta(2,
+                    <?php echo $imovel->getApartamentoPlanta()->getTotalUnidades();?>,
+                    <?php echo $totalPlantas;?>);
     </script>  
     <?php
-            $totalPlantas = count($imovel->getPlanta());
+            
             
             if($totalPlantas == 1){
-            
-            for($variavel = 1 ; $variavel <= $totalPlantas ; $variavel++){
 
             ?>
             <script>
@@ -68,8 +65,6 @@ if ($item) {
                            <?php echo $imovel->getPlanta()->getGaragem();?>,
                            <?php echo $imovel->getPlanta()->getArea();?>);    
             </script>
-            
-            <?php } ?>
           
             <?php
 
@@ -171,14 +166,14 @@ if ($item) {
                             <?php echo $imovel->buscarTipoImovel($imovel->getIdTipoImovel())?>
                     </div>
                     
-                       <div class="three wide required field" id="divNumeroPlantas">
-                            <label>Número de Plantas</label>
-                            <div class="ui selection dropdown">
+                       <div class="three wide field" id="divNumeroPlantas">
+                        <!--   <label>Número de Plantas</label>
+                             <div class="ui selection dropdown">
                                 <input type="hidden" name="sltNumeroPlantas" id="sltNumeroPlantas" 
-                                    <?php if($imovel->getApartamentoPlanta()){
+                                    <?php /*if($imovel->getApartamentoPlanta()){
                                        $numeroPlantas = count($imovel->getPlanta());
                                        echo "value='".$numeroPlantas."'";
-                                   }
+                                   }*/
                                    ?>
                                    
                                    >
@@ -186,12 +181,12 @@ if ($item) {
                                 <i class="dropdown icon"></i>
                                 <div class="menu">
                                     <?php 
-                                    for($plantas = 1; $plantas <=6; $plantas++){
+                                    /*for($plantas = 1; $plantas <=6; $plantas++){
                                     echo "<div class='item' data-value='$plantas'>".$plantas."</div>";
-                                    }
+                                    }*/
                                     ?>
                                 </div>
-                            </div>
+                            </div> -->
                             
                       </div>
                     <!-- 
@@ -203,12 +198,11 @@ if ($item) {
                         </div>
                  -->   
                 </div>
-                <div class="fields" id="divPlantaUm"></div>
-                <div class="fields">                
-                <div id="divInserePlanta">
-                </div>
-                </div>
+                
                 <div class="fields" id="divInfoApeCasa">
+                <div class="sixteen wide field">                
+                <div id="divInserePlanta"></div>
+                </div>
                 
                     <!--<div class="three wide required field">
                         <label>Quarto(s)</label>
@@ -418,7 +412,8 @@ if ($item) {
                 <div id="divDiferencial">
 
                     <h3 class="ui dividing header">Diferencial do Imóvel</h3>
-                    <div id="chkDiferencial">                        
+                    <div id="chkDiferencial">              
+                        
                     </div>
 
                 </div>       

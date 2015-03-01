@@ -111,4 +111,22 @@ class Planta {
         
     }
     
+    function editar($parametros, $idPartamentoPlanta, $PLId, $indiceControle) {
+       
+        
+        $planta = new Planta();
+        $planta->setId($PLId);
+        $planta->setIdapartamentoplanta($idPartamentoPlanta);
+        $planta->setIdimovel($_SESSION["imovel"]["id"]);
+        $planta->setOrdemplantas($indiceControle);
+        $planta->setTituloplanta($parametros["txtPlanta"][$indiceControle]);
+        $planta->setQuarto($parametros["sltQuarto"][$indiceControle]);
+        $planta->setBanheiro($parametros["sltBanheiro"][$indiceControle]);
+        $planta->setSuite($parametros["sltSuite"][$indiceControle]);          
+        $planta->setGaragem($parametros["sltGaragem"][$indiceControle]);
+        $planta->setArea($parametros["txtArea"][$indiceControle]);
+        return $planta;
+        
+    }
+    
 }

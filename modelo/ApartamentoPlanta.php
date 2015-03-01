@@ -67,4 +67,16 @@ class ApartamentoPlanta {
         return $apartamentoPlanta;
         
     }
+    
+    function editar($parametros, $idApePlanta) {
+        $apartamentoPlanta = new ApartamentoPlanta();
+        $apartamentoPlanta->setId($idApePlanta);
+        $apartamentoPlanta->setIdimovel($_SESSION["imovel"]["id"]);
+        $apartamentoPlanta->setAndares($parametros["sltAndares"]);
+        $apartamentoPlanta->setNumerotorres($parametros["sltNumeroTorres"]);          
+        $apartamentoPlanta->setTotalunidades($parametros["txtTotalUnidades"]);
+        $apartamentoPlanta->setUnidadesandar($parametros["sltUnidadesAndar"]);
+        return $apartamentoPlanta;
+        
+    }
 }

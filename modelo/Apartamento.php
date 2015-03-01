@@ -145,5 +145,26 @@ class Apartamento {
         
         return $apartamento;
     }
+    
+     function editar($parametros, $idA) {
+        
+        
+      /*  echo "<pre>";
+        var_dump($parametros);
+        echo "</pre>";*/
+        
+        $apartamento = new Apartamento();
+        $apartamento->setId($idA);
+        $apartamento->setIdimovel($_SESSION["imovel"]["id"]);
+        $apartamento->setQuarto($parametros["sltQuarto"]);
+        $apartamento->setBanheiro($parametros["sltBanheiro"]);
+        $apartamento->setSuite($parametros["sltSuite"]);          
+        $apartamento->setGaragem($parametros["sltGaragem"]);
+        $apartamento->setArea($parametros["txtArea"]);
+        $apartamento->setUnidadesandar($parametros["sltUnidadesAndar"]);
+        $apartamento->setAndar($parametros["sltAndar"]);
+        $apartamento->setCondominio($parametros["txtCondominio"]);
+        return $apartamento;
+    }
 
 }

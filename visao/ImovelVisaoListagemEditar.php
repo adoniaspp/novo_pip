@@ -95,11 +95,24 @@ foreach($this->getItem() as $modal){?>
   <div class="content">
     <div class="description">
         <?php
-                    echo "Tipo: " . $modal->buscarTipoImovel($modal->getIdTipoImovel()) . "<br />";	 
-                    echo "Descrição: " . $modal->getIdentificacao() . "<br />";
-                    
+
+                     echo "<div class='ui items'>
+                                    <div class='item'>
+                                      <div class='content'>
+                                        <div class='header'>Tipo</div>
+                                        <div class='meta'>
+                                            <span class='price'>".$modal->buscarTipoImovel($modal->getIdTipoImovel())."</span>
+                                        </div>
+                                        <div class='header'>Descrição</div>
+                                        <div class='meta'>
+                                            <span class='price'>".$modal->getIdentificacao()."</span>
+                                        </div>
+                                        </div>
+                                    </div>
+                           </div>";
                     switch ($modal->getIdTipoImovel()) {
                         case "1":
+
                             echo "Condição: " . $modal->getCondicao() . "<br />";
                             echo "Quarto(s): " . $modal->getCasa()->getQuarto() . "<br />";
                             echo "Vagas de Garagem: " . $modal->getCasa()->getGaragem() . "<br />";
