@@ -1,3 +1,9 @@
+<script src="assets/js/jquery.price_format.min.js"></script>
+
+<script>
+    carregarAnuncio();
+</script>
+
 <?php
 $item = $this->getItem();
 //print_r(count($item['anuncio'][0]['finalidade']));
@@ -11,8 +17,6 @@ if($resto == 0){
     $ultimaLinha = $resto;
 }
 ?>
-
-<script src="assets/js/jquery.price_format.min.js"></script>
 
 
 <div class="ui center aligned column page grid" id="resultadoBusca">
@@ -39,21 +43,21 @@ if($resto == 0){
                             <img src="/imagens/foto_padrao.png">
                         </div>
                         <div class="content">
-                            <div class="header"><?php echo $item['anuncio'][$j]['tituloanuncio'] ?></div>
-                            <!--      <div class="meta">
-                                    <a class="group">Friends</a>
-                                  </div>-->
+                            <div class="description"><b><?php echo mb_substr($item['anuncio'][$j]['tituloanuncio'], 0, 32) . "..." ?></b></div>
+                            
                             <div class="description">
-                                Elliot Fu is a film-maker from New York.
+                                <?php echo ucfirst($item['anuncio'][$j]['descricao']) ?>
+                                <br />
+                                <span id="spanValor"> <?php echo $item['anuncio'][$j]['valormin'] ?> </span>
                             </div>
                         </div>
+<!--                        Integração com redes sociais-->
                         <div class="extra content">      
                             <a>
                                 <i class="big facebook square icon"></i>
                             </a>
                             <a>
                                 <i class="big flickr icon"></i>
-                            </a>
                             </a>
                             <a>
                                 <i class="big google plus icon"></i>
