@@ -13,7 +13,7 @@ $item = $this->getItem();
             </div>
         </div>
     </div>
-    <div class="ui page grid">
+    <div class="ui page grid main">
         <div class="ui basic segment">
             <h2 class="ui header">
                 <i class="user icon"></i>
@@ -102,9 +102,9 @@ $item = $this->getItem();
                                     <i class="add icon"></i> Publicar Anúncio
                                 </button></a>         
 
-                            <button type="button"  class="ui purple button">
+<!--                            <button type="button"  class="ui purple button">
                                 <i class="edit icon"></i> Editar Anúncio
-                            </button>
+                            </button>-->
                             <?php if ($item['anuncio']) { ?>
                                 <a href="index.php?entidade=Anuncio&acao=listarReativar">
                                     <button type="button" class="ui purple button">
@@ -156,29 +156,41 @@ $item = $this->getItem();
                             <br/> <img class="ui centered image" src="http://www.prospeccao-de-clientes.com/images/gudrum-pagseguro.gif" /> 
                             <?php
                         } else {
-                            ?>
-                            <table class="ui compact celled blue table">
-                                <thead>
-                                    <tr>
-                                        <th>Plano</th>
-                                        <th>Descrição</th>
-                                        <th>Data de Compra</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    foreach ($item["usuarioPlano"] as $usuarioPlano) {
-                                        echo "<tr>";
-                                        echo "<td>" . $usuarioPlano->getPlano()->getTitulo() . " (" . $usuarioPlano->getPlano()->getValidadepublicacao() . " dias)</td>";
-                                        echo "<td>" . $usuarioPlano->getPlano()->getDescricao() . "</td>";
-                                        echo "<td>" . $usuarioPlano->getDataCompra() . "</td>";
-                                        echo "<td>" . $usuarioPlano->getStatus() . "</td>";
-                                        echo "</tr>";
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
+                            ?> 
+                            <div class="ui dividing orange header"></div>
+                            <div class="ui grid">
+                                <div class="column">
+                                    <table class="ui compact celled table">
+                                        <thead>
+                                            <tr>
+                                                <th>Plano</th>
+                                                <th>Descrição</th>
+                                                <th>Data de Compra</th>
+                                                <th>Prazo para ativação</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            foreach ($item["usuarioPlano"] as $usuarioPlano) {
+                                                echo "<tr>";
+                                                echo "<td>" . $usuarioPlano->getPlano()->getTitulo() . " (" . $usuarioPlano->getPlano()->getValidadepublicacao() . " dias)</td>";
+                                                echo "<td>" . $usuarioPlano->getPlano()->getDescricao() . "</td>";
+                                                echo "<td>" . $usuarioPlano->getDataCompra() . "</td>";
+                                                if ($usuarioPlano->getStatus() != "ativo") {
+                                                    echo "<td>" . $usuarioPlano->DataExpiracao($usuarioPlano->getPlano()->getValidadeativacao()) . "</td>";
+                                                } else {
+                                                    echo "<td> - </td>";
+                                                }
+                                                echo "<td>" . $usuarioPlano->getStatus() . "</td>";
+                                                echo "</tr>";
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
                             <?php
                         }
                     }

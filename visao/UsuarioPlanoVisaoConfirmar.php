@@ -52,9 +52,9 @@ Sessao::gerarToken();
                     <tfoot>
                         <tr>
                             <th colspan="2" class="text-right"><h4 class="ui header aligned right">Total:</h4></th>
-                            <th><?php echo $item["confirmacao"]["totalQtd"]; ?></th>
-                            <th><?php echo "R$ " . $item["confirmacao"]["total"]; ?></th>
-                        </tr>
+                    <th><?php echo $item["confirmacao"]["totalQtd"]; ?></th>
+                    <th><?php echo "R$ " . $item["confirmacao"]["total"]; ?></th>
+                    </tr>
                     </tfoot>                    
                     <tbody>                        
 
@@ -73,9 +73,10 @@ Sessao::gerarToken();
 
                     </tbody>
                 </table>
-                <button class="ui green button" type="button" >Confirmar</button>
+                <button class="ui green button" type="submit" >Confirmar</button>
                 <button class="ui red button" type="reset" id="btnCancelar">Cancelar</button>
             </form>
             <div class="ui hidden divider"></div>
         </div>
     </div>
+</div>

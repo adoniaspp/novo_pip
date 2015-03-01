@@ -127,4 +127,24 @@ class ConsultasAdHoc extends GenericoDAO {
         return $resultado;
     }
 
+        public function ConsultarImoveisNaoAnunciadosPorUsuario($idUsuario) {
+        $sql = "SELECT i.id "
+                . " FROM imovel i"
+                . " WHERE i.idusuario = :idUsuario "
+                . " AND NOT EXISTS ( "
+                . " SELECT 1 FROM anuncio a"
+                . " JOIN usuarioplano up ON up.id = a.idusuarioplano"
+                . " JOIN usuario u ON up.idusuario = u.id"
+                . " WHERE u.status = 'ativo'"
+                //. " AND a.status = 'cadastrado'"
+                . " AND a.idimovel = i.id"
+                . " AND u.id = :idUsuario "
+                . " ) ";
+        $sql = $sql . " ORDER BY i.ID DESC";
+        $statement = $this->conexao->prepare($sql);
+        $statement->bindParam(':idUsuario', $idUsuario);
+        $statement->execute();
+        $resultado = $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $resultado;
+    }
 }
