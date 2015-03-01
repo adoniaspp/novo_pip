@@ -200,9 +200,7 @@ if ($item) {
                 </div>
                 
                 <div class="fields" id="divInfoApeCasa">
-                <div class="sixteen wide field">                
-                <div id="divInserePlanta"></div>
-                </div>
+               
                 
                     <!--<div class="three wide required field">
                         <label>Quarto(s)</label>

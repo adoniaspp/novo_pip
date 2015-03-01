@@ -23,11 +23,7 @@ function PrecoTotal() {
     var somaP = 0;
     $("input[name^='txtPreco']").each(function () {
         var plano = 'spn' + $(this).attr('id');
-        console.log(plano);
-        console.log("$$$$$");
-        console.log($(this).val());
         somaP += parseFloat($(this).val()) * parseFloat($("input[name='" + plano + "']").val());
-        console.log(somaP);
     })
     return somaP.toFixed(2);
 }

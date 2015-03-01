@@ -58,6 +58,8 @@ function esconderCamposInicio() {
               
             });
             
+            
+            
             $("#txtCEP").rules("remove");
             
            $('#sltNumeroPlantas').parent().dropdown('restore defaults');
@@ -876,9 +878,11 @@ function mostrarCamposEdicaoCasa(tipoImovel,
                             parametroArea){
     $(document).ready(function () {  
             
-            var tituloPlanta = "<div id='divNomePlantas' class='nine wide required field'><label>Planta "+(parametroOrdem+1)+": </label><input type='text' name='txtPlanta[]' id='txtPlanta"+parametroOrdem+"' value = '"+parametroTituloPlanta+"' placeholder='Titulo da Planta. Ex: 3 Quartos + 2 Suites + Opções (Ex: Gabinete, Living Ampliado, etc)'></div>";                                     
-            $('#divInserePlanta').append(tituloPlanta);
-
+            var tituloPlanta = "<div class='sixteen wide field'>   <div id='divNomePlantas' class='nine wide required field'><label>Planta "+(parametroOrdem+1)+": </label><input type='text' name='txtPlanta[]' id='txtPlanta"+parametroOrdem+"' value = '"+parametroTituloPlanta+"' placeholder='Titulo da Planta. Ex: 3 Quartos + 2 Suites + Opções (Ex: Gabinete, Living Ampliado, etc)'></div></div>";                                     
+            $('#divInfoApeCasa').append(tituloPlanta);
+/* <div class="sixteen wide field">                
+                <div id="divInserePlanta"></div>
+                </div> */
             camposPlantas(parametroQuarto, parametroBanheiro, parametroSuite, parametroGaragem, parametroArea, parametroOrdem);
            
              $('.ui.dropdown')
