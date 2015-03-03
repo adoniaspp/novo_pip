@@ -318,9 +318,7 @@ class ImovelControle {
 
                 $idCasa = $genericoDAO->editar($entidadeCasa);
                 $idEdicaoImovel = $idCasa;
-                if ($idCasa) {
-                    $idDiferencial = true;
-                }
+
             } elseif ($entidadeImovel->getIdTipoImovel() == "2") { //Apartamento na Planta
                 $idDiferencial = false;
                 $apartamentoPlanta = new ApartamentoPlanta();
@@ -333,8 +331,6 @@ class ImovelControle {
 
                 $entidadeApartamentoPlanta = $apartamentoPlanta->editar($parametros, $APLId);
                 $idApartamentoPlanta = $genericoDAO->editar($entidadeApartamentoPlanta);
-
-                $quantidadeDiferencial = count($parametros['chkDiferencial']);
 
                 $quantidadePlanta = $parametros['sltNumeroPlantas'];
                 $resultadoPlanta = true;
@@ -358,9 +354,7 @@ class ImovelControle {
                 }
 
                 $idEdicaoImovel = $idPlanta;
-                if ($idPlanta) {
-                    $idDiferencial = true;
-                }
+
             } elseif ($entidadeImovel->getIdTipoImovel() == "3") {//Apartamento  
                 $apartamento = new Apartamento();
                 $id = $genericoDAO->consultar($apartamento, false, array("idimovel" => $entidadeImovel->getId()));
@@ -373,9 +367,7 @@ class ImovelControle {
 
                 $idCasa = $genericoDAO->editar($entidadeApartamento);
                 $idEdicaoImovel = $idA;
-                if ($idA) {
-                    $idDiferencial = true;
-                }
+
             } elseif ($entidadeImovel->getIdTipoImovel() == "4") {//Sala Comercial  
                 $salaComercial = new SalaComercial();
                 $id = $genericoDAO->consultar($salaComercial, false, array("idimovel" => $entidadeImovel->getId()));
@@ -389,9 +381,7 @@ class ImovelControle {
                 $idSalaComercial = $genericoDAO->editar($entidadeSalaComercial);
 
                 $idEdicaoImovel = $idSalaComercial;
-                if ($idSalaComercial) {
-                    $idDiferencial = true;
-                }
+
             } elseif ($entidadeImovel->getIdTipoImovel() == "5") {//Prédio Comercial  
                 $predioComercial = new PredioComercial();
                 $id = $genericoDAO->consultar($predioComercial, false, array("idimovel" => $entidadeImovel->getId()));
@@ -405,9 +395,7 @@ class ImovelControle {
                 $idPredioComercial = $genericoDAO->editar($entidadePredioComercial);
 
                 $idEdicaoImovel = $idPredioComercial;
-                if ($idPredioComercial) {
-                    $idDiferencial = true;
-                }
+
             } elseif ($entidadeImovel->getIdTipoImovel() == "6") {//Terreno
                 $terreno = new Terreno();
                 $id = $genericoDAO->consultar($terreno, false, array("idimovel" => $entidadeImovel->getId()));
@@ -421,9 +409,7 @@ class ImovelControle {
                 $idTerreno = $genericoDAO->editar($entidadeTerreno);
 
                 $idEdicaoImovel = $idTerreno;
-                if ($idTerreno) {
-                    $idDiferencial = true;
-                }
+
             }
             
             //edicao dos diferenciais
@@ -462,10 +448,9 @@ class ImovelControle {
                             }
                         }
                     
-                    if (!($idDiferencial)) {
-                            $resultadoDiferencial = false;
-                            //break;
-                        }
+                    if (!$idDiferencial) {
+                            $idDiferencial = false;
+                        } else $idDiferencial = true;
                 
             //fim dos diferenciais
 

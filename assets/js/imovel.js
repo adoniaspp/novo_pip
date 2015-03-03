@@ -654,13 +654,13 @@ function mostrarCamposEdicaoCasa(tipoImovel,
                         </div></div>";
             
             $("#divInfoBasicas").append(condicao);   
-            $("#divInfoBasicas").append(area); 
-     
+            $("#divInfoBasicas").append(area);           
+            
             campos(parametroQuarto, 
-                   parametroBanheiro, 
-                   parametroSuite, 
-                   parametroGaragem,
-                   null);
+                    parametroBanheiro, 
+                    parametroSuite, 
+                    parametroGaragem,
+                    null);
              
             $('.ui.dropdown')
                 .dropdown({
@@ -712,7 +712,7 @@ function mostrarCamposEdicaoCasa(tipoImovel,
 
         
             var condominio = "<div class='three wide field'>\n\
-                                <div class='field'><label>Condominio</label>\n\
+                                <div class='field'><label>Condominio(R$)</label>\n\
                                 <input type='text' name='txtCondominio' id='txtCondominio' value='"+parametroCondominio+"'>\n\
                             </div></div>";
         
@@ -832,7 +832,12 @@ function mostrarCamposEdicaoCasa(tipoImovel,
             $("#divCondicao").hide();
             $("#divNumeroTorres").hide();  
             
-            campos(null, null, null, null, parametroArea);
+            var area = "<div id='divArea' class='three wide field'>\n\
+                             <div class='field'><label>Área(m2)</label>\n\
+                             <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='7' value='"+parametroArea+"'>\n\
+                        </div></div>";
+        
+            $("#divInfoBasicas").append(area);
             
             /*var area = "<div id='divArea' class='three wide field'>\n\
                              <div class='field'><label>Área(m2)</label>\n\
@@ -976,7 +981,7 @@ function mostrarCamposEdicaoCasa(tipoImovel,
         
         if(parametroArea !== null){
             $("#divInfoApeCasa").append(area); 
-        } else if($("#divArea")){$("#divArea").remove();}
+        } 
     }
     
 
@@ -1059,7 +1064,6 @@ function camposPlantas(parametroQuarto,
             $("#divInfoApeCasa").append(area); 
         } else if($("#divArea")){$("#divArea").remove();}
     }
-
     
 function preco(){
     
@@ -1098,6 +1102,8 @@ function preco(){
                     }
         })
     }
+    
+ 
 /*function sltTiraRegrasValidação(){
     $(document).ready(function() {
         $("#sltTipo").change(function () {
