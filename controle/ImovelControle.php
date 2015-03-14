@@ -425,6 +425,7 @@ class ImovelControle {
             
             //inicio do cadastro do diferencial
             $ImovelDiferencial = new ImovelDiferencial();
+            $idDiferencial = true;
             
                 if($quantidadeDiferencial > 0){
                 
@@ -453,7 +454,7 @@ class ImovelControle {
                         } else $idDiferencial = true;
                 
             //fim dos diferenciais
-
+     
             if ($idEndereco && $idImovel && $idEdicaoImovel && $idDiferencial) {
                 $genericoDAO->commit();
                 $genericoDAO->fecharConexao();
