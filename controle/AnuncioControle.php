@@ -105,6 +105,25 @@ class AnuncioControle {
 //            echo json_encode("false");
 //        }
     }
+    
+    function detalhar($parametros){
+//        var_dump($parametros);
+        $parametros["id"] = $parametros["hdnCodAnuncio"];
+        unset($parametros["hdnCodAnuncio"]);
+        $parametros["tabela"] = $parametros["hdnTipoImovel"];
+        unset($parametros["hdnTipoImovel"]);
+        $visao = new Template();
+        $consultasAdHoc = new ConsultasAdHoc();
+        $parametros["atributos"] = "*";
+        unset($parametros["hdnEntidade"]);
+        unset($parametros["hdnAcao"]);
+        $parametros["predicados"] = $parametros;
+        $listarAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
+//        print_r($listarAnuncio);
+//        die();
+        $visao->setItem($listarAnuncio);
+        $visao->exibir('AnuncioVisaoDetalhe.php');
+    }
 
     function listarCadastrar() {
         if (Sessao::verificarSessaoUsuario()) {
