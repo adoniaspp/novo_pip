@@ -1,11 +1,14 @@
 <script src="assets/js/buscaAnuncio.js"></script>
+<script src="assets/js/jquery.price_format.min.js"></script>
 
 <script>
     buscarAnuncio();
 </script>
 
 <br>
-<div class="ui form segment" id="divBusca">
+<div class="ui center aligned column page grid">
+<!--<div class="column"></div>-->
+<div class="ui form inverted blue segment" id="divBusca">
     <div class="ui center aligned column page grid">
         <div class="column">
             <div class="four fields">
@@ -17,9 +20,9 @@
                         <i class="dropdown icon"></i>
                         <div class="menu">
                             <div class="item" data-value="casa">Casa</div>
-                            <div class="item" data-value="applanta">Apartamento na Planta/Novo</div>
-                            <div class="item" data-value="ap">Apartamento</div>
-                            <div class="item" data-value="sala">Sala Cormecial</div>
+                            <div class="item" data-value="apartamentoplanta">Apartamento na Planta/Novo</div>
+                            <div class="item" data-value="apartamento">Apartamento</div>
+                            <div class="item" data-value="salacomercial">Sala Cormecial</div>
                             <div class="item" data-value="terreno">Terreno</div>
                         </div>
                     </div>
@@ -158,10 +161,12 @@
         </div>
     </div>
 </div>
-
-<div class="ui segment" id="divAnuncios">  
 </div>
+<div class="ui center aligned column page grid">
 
+    </div>
+<div class="ui red segment" id="divAnuncios">  
+</div>
 
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
 

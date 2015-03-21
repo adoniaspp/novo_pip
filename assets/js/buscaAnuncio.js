@@ -50,7 +50,13 @@ function buscarAnuncio() {
             );
         });
         
-        
+        $("#spanValor").priceFormat({
+            prefix: 'R$ ',
+            centsSeparator: ',',
+            centsLimit: 0,
+            limit: 8,
+            thousandsSeparator: '.'
+        })
 
         $('.ui.dropdown')
                 .dropdown({
@@ -96,12 +102,23 @@ function buscarAnuncio() {
 }
 
 function carregarAnuncio() {
+    
+    $('.special.cards .image').dimmer({
+            on: 'hover'
+        });
+        
     $("#spanValor").priceFormat({
         prefix: 'R$ ',
         centsSeparator: ',',
         centsLimit: 0,
         limit: 8,
         thousandsSeparator: '.'
+    })
+    
+    $('.special.cards .image .button').on('click', function(){
+         $("#hdnCodAnuncio").val($(this).siblings().val());
+         $("#hdnTipoImovel").val($(this).siblings().next().val());
+        $('#form').submit();
     })
 }
 
