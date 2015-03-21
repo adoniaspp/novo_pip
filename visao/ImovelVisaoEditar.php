@@ -4,7 +4,7 @@
 <script src="assets/libs/jquery/jquery.validate.min.js"></script>
 <script src="assets/libs/jquery/jquery.mask.min.js"></script>
 <script src="assets/js/util.validate.js"></script>
-<script src="assets/js/jquery.price_format.min.js"></script>
+<script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 <script>
     
     cadastrarImovel();  
@@ -149,7 +149,7 @@ if ($item) {
                 <i class="right chevron icon divider"></i>
                 <a href="index.php?entidade=Imovel&acao=listarEditar">Listar Imóveis</a>
                 <i class="right chevron icon divider"></i>
-                <a class="active section">Editar Imovel</a>
+                <a class="active section">Editar Imóvel</a>
             </div>
         </div>
     </div>

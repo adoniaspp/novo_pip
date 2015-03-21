@@ -28,6 +28,7 @@ include_once 'assets/pager/Pager.php';
 include_once 'modelo/Mensagem.php';
 include_once 'modelo/AnuncioClique.php';
 include_once 'modelo/EmailAnuncio.php';
+include_once 'modelo/TipoImovel.php';
 
 class ImovelControle {
 

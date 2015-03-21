@@ -1,6 +1,24 @@
+<?php
+//Sessao::gerarToken();
+$item = $this->getItem();
+//echo "<pre>";
+//print_r($item);die();
+if ($item) {
+            foreach ($item["imovel"] as $objImovel) {
+                $idImovel = $objImovel->getId();
+                $tipoImovel = $objImovel->getTipoImovel()->getDescricao();
+            }
+        }
+?>
+<script src="assets/libs/jquery/jquery.validate.min.js"></script>
+<script src="assets/libs/jquery/jquery.mask.min.js"></script>
+<script src="assets/js/util.validate.js"></script>
+<script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
+<script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 <script src="assets/js/anuncio.js"></script>
 <script>
     cadastrarAnuncio();
+    cancelarAnuncio();
 </script>
 <div class="container">
     <div class="ui hidden divider"></div>
@@ -13,87 +31,160 @@
                 <i class="right chevron icon divider"></i>
                 <a class="section" href="index.php?entidade=Anuncio&acao=listarCadastrar">Anúncios</a>
                 <i class="right chevron icon divider"></i>
-                <a class="active section">Publicar Anúncio</a>
+                <?php if ($item["anuncio"]->getId() != "") { ?>
+                    <a class="active section" href="index.php?entidade=Anuncio&acao=listarReativar">Reativar Anúncios</a>
+                <?php } else { ?>
+                    <a class="active section" href="index.php?entidade=Anuncio&acao=listarCadastrar">Publicar Anúncio</a>
+                <?php } ?>
+
             </div>
         </div>
     </div>
     <div class="ui hidden divider"></div>
-    <form id="form" class="ui form" action="index.php" method="post" enctype="multipart/form-data">
+    <div class="ui page grid main">
+        <div class="row">
+            <div class="ui fluid small ordered steps">
+                <div id="menuStep1" class="active step">
+                    <div class="content">
+                        <div class="title">Plano</div>
+                    </div>
+                </div>
+                <div id="menuStep2" class="step">
+                    <div class="content">
+                        <div class="title">Anúncio</div>
+                    </div>
+                </div>
+                <div id="menuStep3" class="step">
+                    <div class="content">
+                        <div class="title">Adicionais</div>
+                    </div>
+                </div>
+                <div id="menuStep4" class="step">
+                    <div class="content">
+                        <div class="title">Confirmação</div>
+
+                    </div>
+                </div>
+                <div id="menuStep5" class="step">
+                    <div class="content">
+                        <div class="title">Publicação</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    <div class="ui hidden divider"></div>
+        <!--NAVEGAÇÃO-->
+    <div class="ui page grid main">
+        <div class="ui basic right aligned segment">
+            <div class="ui green button" id="btnDetalhesImovel"><i class="home icon"></i> <?php echo ucfirst($tipoImovel)?></div>
+            <div class="ui orange button" id="btnAnterior1"><i class="arrow left icon"></i> </div>
+            <div class="ui blue button" id="btnProximo1"> <i class="arrow right icon"></i></div>
+        </div>
+    </div>
+            <div class="ui hidden divider"></div>
+    <form id="fileupload" class="form-horizontal" enctype="multipart/form-data">
         <input type="hidden" id="hdnId" name="hdnId" value=""/>
         <input type="hidden" id="hdnIdImovel" name="hdnIdImovel" value="<?php echo $idImovel; ?>" />
         <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio" />
         <input type="hidden" id="hdnAcao" name="hdnAcao" value="Cadastrar" />
+        <input type="hidden" id="hdnStep" name="hdnStep" value="1" />
         <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
-        <div class="ui page grid main">
-            <div class="row">
-                <div class="ui small ordered steps">
-                    <div class="active step">
-                        <div class="content">
-                            <div class="title">Selecione o Plano</div>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="content">
-                            <div class="title">Informações Básicas</div>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="content">
-                            <div class="title">Informações Adicionais</div>
-                        </div>
-                    </div>
-                    <div class="disabled step">
-                        <div class="content">
-                            <div class="title">Confirmação</div>
-                        </div>
-                    </div>
-                    <div class="disabled step">
-                        <div class="content">
-                            <div class="title">Publicação</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="row" id="step1" class="">            
+        <!--SELECIONE O PLANO-->
+        <div class="ui page grid main">
+            <div class="column" id="step1" class="">            
                 <h3 class="ui dividing header">Escolha o plano a ser utilizado no seu anúncio</h3>
-                
-                
-                
-                <div class="fields">
-                    <div class="four wide required field">
-                        <label>Plano</label>
-                        <div class="ui selection dropdown">
-                            <input type="hidden" name="sltPlano" id="sltPlano">
-                            <div class="text">Física ou Jurídica</div>
-                            <i class="dropdown icon"></i>
-                            <div class="menu">                            
-                                 <?php
-                                        if ($item && count($item["usuarioPlano"]) > 0) {
-                                            foreach ($item["usuarioPlano"] as $usuarioPlano) {
-                                                ?>
-                                                <div class="item" data-value="<?php echo $usuarioPlano->getId() ?>"><?php echo $usuarioPlano->getPlano()->getTitulo() . " (" . $usuarioPlano->getPlano()->getValidadepublicacao() . " dias) - Expira em: " . $usuarioPlano->DataExpiracao($usuarioPlano->getPlano()->getValidadeativacao()); ?></div>
-                                                <?php
-                                            }
-                                        } else {
+                <div class="ui form segment">
+                    <div class="fields">
+                        <div class="eight wide required field">
+                            <label>Plano</label>
+                            <div class="ui selection dropdown">
+                                <input type="hidden" name="sltPlano" id="sltPlano">
+                                <div class="text">Escolha um plano</div>
+                                <i class="dropdown icon"></i>
+                                <div class="menu">                            
+                                    <?php
+                                    if ($item && count($item["usuarioPlano"]) > 0) {
+                                        foreach ($item["usuarioPlano"] as $usuarioPlano) {
                                             ?>
-                                            <div class="item">Você ainda não possui planos ativos.</div>
+                                            <div class="item" data-value="<?php echo $usuarioPlano->getId() ?>"><?php echo $usuarioPlano->getPlano()->getTitulo() . " (" . $usuarioPlano->getPlano()->getValidadepublicacao() . " dias) - Expira em: " . $usuarioPlano->DataExpiracao($usuarioPlano->getPlano()->getValidadeativacao()); ?></div>
                                             <?php
                                         }
+                                    } else {
                                         ?>
+                                        <div class="item">Você ainda não possui planos ativos.</div>
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="eight wide required field">
+                            <div class="ui orange dividing header">
+                                <i class="add to cart icon"></i>
+                                <div class="content">
+                                    Comprar planos!
+                                    <div class="sub header">  <a href="index.php?entidade=Plano&acao=listar"> Para anunciar você precisa ter planos ativos compre agora! </a></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                
-                <div class="fields">
-                        <a href="index.php?entidade=Plano&acao=listar"> Comprar planos! </a>
-                    </div>
-                <h3 class="ui dividing header">Informações Básicas</h3>
             </div>
-
-            <div class="row" id="step2" class="">
+        </div>
+        <!--INFORMAÇÕES BÁSICAS-->
+        <div class="ui page grid main">        
+            <div class="column" id="step2">
+                <h3 class="ui dividing header">Informações Básicas</h3>
+                <div class="ui form segment">
+                    <div class="fields">
+                        <div class="four wide required field">
+                            <label>Finalidade</label>
+                            <div class="ui selection dropdown">
+                                <div class="default text">Aluguel ou Venda</div>
+                                <i class="dropdown icon"></i>
+                                <input name="sltFinalidade" id="sltFinalidade" type="hidden">
+                                <div class="menu">
+                                    <div class="item" data-value="1">Aluguel</div>
+                                    <div class="item" data-value="2">Venda</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="twelve wide required field">
+                            <label>Título do Anúncio</label>
+                            <input name="txtTitulo" id="txtTitulo" type="text" placeholder="Informe o Título" maxlength="50">
+                        </div>
+                    </div>
+                    <div class="required field">
+                        <label>Descrição</label>
+                        <textarea name="txtDescricao" id="txtDescricao" placeholder="Informe uma Descrição do Imóvel" maxlength="150"></textarea>
+                    </div>
+                    <div class="fields">
+                        <div class="four wide required field">
+                            <label>Valor (não informar os centavos)</label>
+                            <input name="txtValor" id="txtValor" placeholder="Valor do Imóvel" >
+                        </div>
+                        <h5>&nbsp;</h5>
+                        <div class="six wide field">
+                            <div class="ui toggle checkbox">
+                                <input name="chkMapa" id="chkMapa" type="radio" value="SIM">
+                                <label>Exibir o mapa do endereço</label>
+                            </div>
+                        </div>
+                        <div class="six wide field">
+                            <div class="ui toggle checkbox">
+                                <input name="chkContato" id="chkContato" type="radio" value="SIM">
+                                <label>Exibir suas informações de contato</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--INFORMAÇÕES ADICIONAIS-->
+        <div class="ui page grid main">        
+            <div class="column" id="step3">
+                <h3 class="ui dividing header">Informações Adicionais</h3>
                 <!-- Redirect browsers with JavaScript disabled to the origin page -->
                 <noscript><input type="hidden" name="redirect" value="index.php"></noscript>
                 <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
@@ -116,12 +207,9 @@
                         <button type="button" class="btn btn-danger delete">
                             <i class="glyphicon glyphicon-trash"></i>
                             <span>Excluir fotos selecionadas</span>
-                        </button>                                
-
-
+                        </button>  
                         <!-- The global file processing state -->
                         <span class="fileupload-process"></span>
-
                     </div>
                     <!-- The global progress state -->
                     <div class="col-lg-5 fileupload-progress fade">
@@ -143,11 +231,61 @@
                     </div>
                 </div>
             </div>
+        </div> 
+        <!--CONFIRMAÇÃO-->
+        <div class="ui page grid main">        
+            <div class="column" id="step4">
+                <h3 class="ui dividing header">Confirmação</h3>
+
+            </div>
+        </div>
+        <!--PUBLICAÇÃO-->
+        <div class="ui page grid main">        
+            <div class="column" id="step5">
+                <h3 class="ui dividing header">Publicação</h3>
+                <div class="ui segment" id="divRetorno">
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--NAVEGAÇÃO-->
+    <div class="ui page grid main">
+        <div class="ui basic center aligned segment">
+            <div class="ui orange button" id="btnAnterior2"><i class="arrow left icon"></i> Anterior</div>
+            <div class="ui button" id="btnCancelar">Cancelar</div>
+            <div class="ui blue button" id="btnProximo2">Próximo <i class="arrow right icon"></i></div>
+        </div>
+    </div>
 
 
-        </div> </form>
+</div>
+<!-- MODAIS -->
+<div class="ui small modal" id="modalCancelar">
+    <i class="close icon"></i>
+    <div class="header">
+        Cancelar
+    </div>
+    <div class="content">
+        <div class="description">
+            <div class="ui header">Deseja realmente cancelar e perder as informações não gravadas?</div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui red button">
+            Não
+        </div>
+        <div class="ui positive right labeled icon button">
+            Sim
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
 </div>
 
+
+<?php
+die();
+?>
 <!--<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
 <script src="assets/js/gmaps.js"></script>
 <script src="assets/js/wizard.js"></script>
@@ -182,109 +320,14 @@
             }
         }
         ?>
-        <ol class="breadcrumb">
-            <li><a href="index.php">Início</a></li>
-            <li><a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a></li>
-            <?php if ($item["anuncio"]->getId() != "") { ?>
-                <li><a href="index.php?entidade=Anuncio&acao=listarReativar">Reativar Anúncios</a></li>
-            <?php } else { ?>
-                <li><a href="index.php?entidade=Anuncio&acao=listarCadastrar">Publicar Anúncio</a></li>
-            <?php } ?>
-            <li class="active">Seu anúncio</li>
-        </ol>
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabel">Imóvel #<?php echo $referencia ?></h4>
-                    </div>
-                    <div class="modal-body">
-                        <?php
-                        //if ($tipoImovel != "terreno") {
-                        echo "Tipo: " . $tipoImovel . "<br />";
-                        //echo "Condição: " . $imovel->getCasa()->getCondicao() . "<br />";
-                        //echo "<pre>";print_r($imovel);die();
 
-                        echo "Descrição: " . $imovel->getIdentificacao() . "<br />";
-                        echo "Quartos: " . $imovel->getCasa()->getQuarto() . "<br />";
-                        echo "Garagen(s): " . $imovel->getCasa()->getGaragem() . "<br />";
-                        echo "Banheiro(s): " . $imovel->getCasa()->getBanheiro() . "<br />";
-                        echo "Área: " . $imovel->getCasa()->getArea() . " m<sup>2</sup><br />";
-                        echo "Suite(s): " . (($imovel->getCasa()->getSuite() != "nenhuma") ? '<span class="text-primary">' . $imovel->getCasa()->getSuite() . '</span>' : '<span class="text-danger">NÃO</span>') . '<br />';
-                        /* echo "Academia: " . (($imovel->getAcademia() == "SIM") ? '<span class="text-primary">' . $imovel->getAcademia() . '</span>' : '<span class="text-danger">NÃO</span>') . '<br />';
-                          echo "Área Serviço: " . (($imovel->getAreaServico() == "SIM") ? '<span class="text-primary">' . $imovel->getAreaServico() . '</span>' : '<span class="text-danger">NÃO</span>') . '<br />';
-                          echo "Dependencia de Empregada: " . (($imovel->getDependenciaEmpregada() == "SIM") ? '<span class="text-primary">' . $imovel->getDependenciaEmpregada() . '</span>' : '<span class="text-danger">NÃO</span>') . '<br />';
-                          echo "Piscina: " . (($imovel->getPiscina() == "SIM") ? '<span class="text-primary">' . $imovel->getPiscina() . '</span>' : '<span class="text-danger">NÃO</span>') . '<br />';
-                          echo "Quadra: " . (($imovel->getQuadra() == "SIM") ? '<span class="text-primary">' . $imovel->getQuadra() . '</span>' : '<span class="text-danger">NÃO</span>') . '<br />';
-                          if ($tipoImovel == "apartamento") {
-                          echo "Elevador: " . (($imovel->getElevador() == "SIM") ? '<span class="text-primary">' . $imovel->getElevador() . '</span>' : '<span class="text-danger">NÃO</span>') . '<br />';
-                          echo "Sacada: " . (($imovel->getSacada() == "SIM") ? '<span class="text-primary">' . $imovel->getSacada() . '</span>' : '<span class="text-danger">NÃO</span>') . '<br />';
-                          echo "Cobertura: " . (($imovel->getCobertura() == "SIM") ? '<span class="text-primary">' . $imovel->getCobertura() . '</span>' : '<span class="text-danger">NÃO</span>') . '<br />';
-                          echo "Condomínio: " . (($imovel->getCondominio() != "") ? '<span class="text-primary">' . $imovel->getCondominio() . '</span>' : '<span class="text-danger">Não Informado</span>') . '<br />';
-                          echo "Andar: " . (($imovel->getAndar() != "") ? '<span class="text-primary">' . $imovel->getAndar() . '</span>' : '<span class="text-danger">Não Informado</span>') . '<br />';
-                          }
-                          }
-                         */
-                        ?>
 
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
         <div class="row">
             <div class="alert alert-warning">Aguarde Processando...</div>
             <div class="well wizard-example">
-                <div id="MyWizard" class="wizard">
-                    <ul class="steps">
-                        <li data-target="#step1" class="active"><span class="badge badge-info">1</span>Início<span class="chevron"></span></li>
-                        <li data-target="#step2"><span class="badge">2</span>Seu Anúncio<span class="chevron"></span></li>
-                        <li data-target="#step3"><span class="badge">3</span>Fotos<span class="chevron"></span></li>
-                        <li data-target="#step4"><span class="badge">4</span>Confirmação<span class="chevron"></span></li>
-                        <li data-target="#step5"><span class="badge">5</span>Publicado!<span class="chevron"></span></li>
-                    </ul>
-                    <div class="actions">
-                        <span id="btnModalImovel" data-toggle="modal" data-target="#myModal" class="btn btn-success btn-sm"> <span class="glyphicon glyphicon-home"> </span> Imóvel #<?php echo $referencia ?></span>
-                        <button type="button" class="btn btn-warning btn-xs btn-prev"> <span class="glyphicon glyphicon-chevron-left"></span> Anterior </button>
-                        <button type="button" class="btn btn-primary btn-xs btn-next" data-last="Fim"> Próximo <span class="glyphicon glyphicon-chevron-right"></span></button>
-                    </div>
-                </div>
 
                 <div class="step-content">
-                    <div class="step-pane active" id="step1">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <p> Aqui ficará alguma forma de introdução. Não sou bom com textos acho que o Departamento de Marketing pode dar uma força no sentido de produzir um texto legal. </p>
-                                <p> Escolha o plano a ser utilizado no seu anúncio.</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label" for="sltPlano">Plano</label>
-                                <div class="col-lg-4">
-                                    <select class="form-control" id="sltPlano" name="sltPlano">
-                                        <?php
-                                        if ($item && count($item["usuarioPlano"]) > 0) {
-                                            foreach ($item["usuarioPlano"] as $usuarioPlano) {
-                                                ?>
-                                                <option value="<?php echo $usuarioPlano->getId() ?>"><?php echo $usuarioPlano->getPlano()->getTitulo() . " (" . $usuarioPlano->getPlano()->getValidadepublicacao() . " dias) - Expira em: " . $usuarioPlano->DataExpiracao($usuarioPlano->getPlano()->getValidadeativacao()); ?></option>
-                                                <?php
-                                            }
-                                        } else {
-                                            ?>
-                                            <option value>Você ainda não possui planos ativos.</option>
-                                            <?php
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="col-lg-4">
-                                    <a href="index.php?entidade=Plano&acao=listar"> Comprar planos! </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
 
                     <div class="step-pane" id="step2">
                         <input type="hidden" id="hdnId" name="hdnId" value=""/>
@@ -319,7 +362,7 @@
                                     <div class="form-group">
                                         <label class="col-lg-3 control-label" for="txtValor">Valor</label>
                                         <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="txtValor" name="txtValor" placeholder="Valor do Imóvel"  value="<?php //echo $item["anuncio"]->getValor();     ?>"> 
+                                            <input type="text" class="form-control" id="txtValor" name="txtValor" placeholder="Valor do Imóvel"  value="<?php //echo $item["anuncio"]->getValor();                        ?>"> 
                                         </div>
                                         <span class="col-lg-4 ">(Não informar os centavos)</span>
                                     </div>
@@ -474,6 +517,8 @@
                         </div>
 
                     </div>
+
+
                     <div class="step-pane" id="step3">
                         <!-- Redirect browsers with JavaScript disabled to the origin page -->
                         <noscript><input type="hidden" name="redirect" value="index.php"></noscript>
@@ -574,313 +619,271 @@
 </form>
 
 <script>
-//    $(document).ready(function() {
-//
-//        $('.alert').hide();
-//        $('#btnWizardPrev').hide();
-//
-//        // Associa o evento do popover ao clicar no link.
-//        $("#popover").popover({
-//            trigger: 'hover',
-//            html: true,
-//            placement: 'auto',
-//            content: $('#div-popover').html()
-//        }).click(function(e) {
-//            e.preventDefault();
-//            // Exibe o popover.
-//            $(this).popover('show');
-//        });
-//
-//        $("#btnCancelar").click(function() {
-//            if (confirm("Deseja cancelar o cadastro do anúncio?")) {
-//<?php if ($item["anuncio"]->getId() != "") { ?>
+    //    $(document).ready(function() {
+    //
+    //        $('.alert').hide();
+    //        $('#btnWizardPrev').hide();
+    //
+    //        // Associa o evento do popover ao clicar no link.
+    //        $("#popover").popover({
+    //            trigger: 'hover',
+    //            html: true,
+    //            placement: 'auto',
+    //            content: $('#div-popover').html()
+    //        }).click(function(e) {
+    //            e.preventDefault();
+    //            // Exibe o popover.
+    //            $(this).popover('show');
+    //        });
+    //
+    //        $("#btnCancelar").click(function() {
+    //            if (confirm("Deseja cancelar o cadastro do anúncio?")) {
+    //<?php if ($item["anuncio"]->getId() != "") { ?>
         //                    location.href = "index.php?entidade=Anuncio&acao=listarReativar";
         //<?php } else { ?>
         //                    location.href = "index.php?entidade=Anuncio&acao=listarCadastrar";
         //<?php } ?>
-//            }
-//        });
-//
-//        $('#MyWizard').on('change', function(e, data) {
-//            if (data.direction === 'next') {
-//                if (data.step === 1) {
-//                    if (!$("#sltPlano").valid())
-//                        return e.preventDefault();
-//                }
-//                if (data.step === 2) {
-//                    if (!($("#sltFinalidade").valid() & $("#txtTitulo").valid() & $("#txtDescricao").valid() & $("#txtValor").valid()))
-//                        return e.preventDefault();
-//                }
-//                if (data.step === 3) {
-//                    if (typeof ($("input[name^=txtLegenda]").val()) !== "undefined") {
-//                        alert("Você ainda não enviou todas as fotos. \n Clique no botão Enviar");
-//                        return e.preventDefault();
-//                    }
-//                    if (typeof ($("input[name=delete]").val()) !== "undefined") {
-//
-//                        if (typeof ($("input[name=rdbDestaque]:checked").val()) === "undefined") {
-//                            alert("Informe uma Foto para ser Destaque do seu anúncio");
-//                            return e.preventDefault();
-//                        }
-//                    }
-//                }
-//                if (data.step === 4) {
-//                    if (($("#sltPlano").valid() & $("#txtTitulo").valid() & $("#txtDescricao").valid() & $("#txtValor").valid()))
-//                        $("#fileupload").submit();
-//                }
-//            }
-//        });
-//        $('#MyWizard').on('changed', function(e, data) {
-//            var item = $('#MyWizard').wizard('selectedItem');
-//
-//            if (item.step === 1) {
-//                $('#btnWizardPrev').hide();
-//            } else {
-//                $('#btnWizardPrev').show();
-//            }
-//
-//            if (item.step === 2) {
-//                var endereco = "<?php echo $endereco; ?>";
-//                //######### INICIO DO CEP ########
-//                map = new GMaps({
-//                    div: '#map',
-//                    lat: 0,
-//                    lng: 0
-//                });
-//                GMaps.geocode({
-//                    address: endereco.trim(),
-//                    callback: function(results, status) {
-//                        console.log(map);
-//                        if (status == 'OK') {
-//                            var latlng = results[0].geometry.location;
-//                            map.setCenter(latlng.lat(), latlng.lng());
-//                            map.addMarker({
-//                                lat: latlng.lat(),
-//                                lng: latlng.lng()
-//                            });
-//                        }
-//                    }
-//                });
-//            }
-//            if (item.step === 3) {
-//                $("#colReferencia").click(function() {
-//                    $('#myModal').modal('show');
-//                })
-//                $("#colImovelFinalidade").html('<span class="label label-primary">' + $("#sltFinalidade :selected").text() + '</span>');
-//                $("#colPlano").html($("#sltPlano :selected").text());
-//                $("#colTitulo").html($("#txtTitulo").val());
-//                $("#colDescricao").html($("#txtDescricao").val());
-//                $("#colValor").html($("#txtValor").val());
-//                $("#colMapa").html((typeof ($("input[name=chkMapa]:checked").val()) === "undefined" ? "Não" : "Sim"));
-//                $("#colContato").html((typeof ($("input[name=chkContato]:checked").val()) === "undefined" ? "Não" : "Sim"));
-//                var varCampos = new Array();
-//                $("input[name='sltCamposVisiveis[]']:checked").each(function() {
-//                    //if ($(this).val() != "Todas")
-//                    //  varCampos.push($(this).text());
-//                    varCampos.push($(this).parent().text().trim());
-//                })
-//                if (varCampos.length > 0)
-//                    $("#colCampos").html("&bullet; " + varCampos.join("<br /> &bullet; "));
-//                else
-//                    $("#colCampos").html("Nenhum campo escolhido");
-//
-//            }
-//        });
-//        //$('#MyWizard').on('finished', function(e, data) {
-//        //    console.log('finished');
-//        //});
-//        $('#btnWizardPrev').on('click', function() {
-//            $('#MyWizard').wizard('previous');
-//        });
-//        $('#btnWizardNext').on('click', function() {
-//            $('#MyWizard').wizard('next');
-//        });
-//        //$('#btnWizardStep').on('click', function() {
-//        //  var item = $('#MyWizard').wizard('selectedItem');
-//        //console.log(item.step);
-//        //});
-//        //$('#MyWizard').on('stepclick', function(e, data) {
-//        //    console.log('step' + data.step + ' clicked');
-//        //    if (data.step === 1) {
-//        //        // return e.preventDefault();
-//        //    }
-//        //});
-//        // optionally navigate back to 2nd step
-//        //$('#btnStep2').on('click', function(e, data) {
-//        //    $('[data-target=#step2]').trigger("click");
-//        //});
-//
-//        $('#fileupload').validate({
-//            rules: {
-//                sltPlano: {
-//                    required: true
-//                },
-//                sltFinalidade: {
-//                    required: true
-//                },
-//                txtTitulo: {
-//                    required: true,
-//                    minlength: 5
-//                },
-//                txtDescricao: {
-//                    //required: true,
-//                    minlength: 10
-//                },
-//                txtValor: {
-//                    required: true
-//                },
-//                chkAceite: {
-//                    required: true
-//                }
-//            },
-//            messages: {
-//                chkAceite: {
-//                    required: "Obrigatório"
-//                }
-//            },
-//            highlight: function(element) {
-//                $(element).closest('.form-group').addClass('has-error');
-//            },
-//            unhighlight: function(element) {
-//                $(element).closest('.form-group').removeClass('has-error');
-//            },
-//            errorElement: 'span',
-//            errorClass: 'help-block',
-//            errorPlacement: function(error, element) {
-//                if (element.parent('.input-group').length) {
-//                    error.insertAfter(element.parent());
-//                } else {
-//                    error.insertAfter(element);
-//                }
-//            },
-//            submitHandler: function() {
-//                $.ajax({
-//                    url: "index.php",
-//                    dataType: "json",
-//                    type: "POST",
-//                    data: $('#fileupload').serialize(),
-//                    beforeSend: function() {
-//                        $('.alert').show();
-//                        $('button').attr('disabled', 'disabled');
-//                    },
-//                    success: function(resposta) {
-//                        $(".alert").hide();
-//                        if (resposta.resultado == 1) {
-//                            $("#step5").html('<div class="row text-success">\n\
-//<h2 class="text-center">Obrigado!</h2>\n\
-//<p class="text-center">O cadastro de seu anúncio foi concluído com sucesso. </p>\n\
-//<p class="text-center">Em breve você receberá um e-mail confirmando a publicação do mesmo. </p>\n\n\
-//<p class="text-center"><a href="index.php?entidade=Anuncio&acao=listarCadastrar">Cadastrar outro Anúncio?</a> </p>\n\n\
-//<p class="text-center">Não perca tempo <a href="index.php?entidade=UsuarioPlano&acao=listar">clique aqui</a> e compre mais anúncios! </p>\n\
-//<p class="text-center">Divulgue esse anuncio no Facebook <img src="assets/imagens/facebook.png"></p>\n\
-//</div>');
-//                            $('#btnModalImovel').attr('disabled', 'disabled');
-//                            $('button').attr('disabled', 'disabled');
-//                        } else {
-//                            $("#step5").html('<div class="row text-danger">\n\
-//<h2 class="text-center">Tente novamente mais tarde!</h2>\n\
-//<p class="text-center">Houve um erro no processamento de cadastro. </p>\n\
-//</div>');
-//                            $('button').removeAttr('disabled');
-//                        }
-//                    }
-//                })
-//                return false;
-//            }
-//        })
-//
-//        $('#txtDescricao').maxlength({
-//            alwaysShow: true,
-//            threshold: 150,
-//            warningClass: "label label-success",
-//            limitReachedClass: "label label-danger",
-//            separator: ' de ',
-//            preText: 'Voc&ecirc; digitou ',
-//            postText: ' caracteres permitidos.',
-//            validate: true
-//        });
-//
-//        $('#txtTitulo').maxlength({
-//            alwaysShow: true,
-//            threshold: 50,
-//            warningClass: "label label-success",
-//            limitReachedClass: "label label-danger",
-//            separator: ' de ',
-//            preText: 'Voc&ecirc; digitou ',
-//            postText: ' caracteres permitidos.',
-//            validate: true
-//        });
-//
-////        $('#sltCamposVisiveis').multiselect({
-////            buttonClass: 'btn btn-default btn-sm',
-////            includeSelectAllOption: true
-////        });
-//
-//        // Initialize the jQuery File Upload widget:
-//        $('#fileupload').fileupload({
-//            dropZone: null,
-//            pasteZone: null,
-//            autoUpload: false,
-//            url: 'index.php?upload=1',
-//            maxNumberOfFiles: 5,
-//            disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator && navigator.userAgent),
-//            imageMaxWidth: 800,
-//            imageMaxHeight: 800,
-//            imageCrop: true,
-//            loadImageFileTypes: /^image\/(gif|jpeg|png)$/,
-//            imageType: 'image/jpg',
-//            imageForceResize: true,
-//            loadImageMaxFileSize: 2
-//        }).on('fileuploadsubmit', function(e, data) {
-//            //data.formData = data.context.find(':input').serializeArray();
-//            data.formData = $("#fileupload").serializeArray();
-//        }).on('fileuploadcompleted', function(e, data) {
-//            $('input[type="radio"]').bootstrapSwitch('destroy');
-//            $('input[type="radio"]').bootstrapSwitch();
-//            $('input[type="radio"]').bootstrapSwitch('setOnLabel', 'Sim');
-//            $('input[type="radio"]').bootstrapSwitch('setOffLabel', 'Não');
-//            $('input[type="radio"]').bootstrapSwitch('setOffClass', 'danger');
-//            $('input[type="radio"]').on('switch-change', function() {
-//                $('input[type="radio"]').bootstrapSwitch('toggleRadioState');
-//            });
-//            console.log(data);
-//        })
-//
-//        // Load existing files:
-//        $('#fileupload').addClass('fileupload-processing');
-//        $.ajax({
-//            url: "index.php",
-//            dataType: 'json',
-//            context: $('#fileupload')[0],
-//            data: {"anuncio": <?php echo ($item["anuncio"]->getId() != "" ? $item["anuncio"]->getId() : "0" ); ?>, "entidade": "Anuncio", "acao": "reativarAnuncioImagem"}
-//        }).always(function() {
-//            $(this).removeClass('fileupload-processing');
-//        }).done(function(result) {
-//            console.log(result);
-//            $(this).fileupload('option', 'done').call(this, $.Event('done'), {result: result});
-//        });
-//
-//        //SWITCH MAPA
-//        $('input[name="chkMapa"]').bootstrapSwitch();
-//        $('input[name="chkMapa"]').bootstrapSwitch('setOnLabel', 'Sim');
-//        $('input[name="chkMapa"]').bootstrapSwitch('setOffLabel', 'Não');
-//        $('input[name="chkMapa"]').bootstrapSwitch('setOffClass', 'danger');
-//
-//        //SWITCH TELEFONE
-//        $('input[name="chkContato"]').bootstrapSwitch();
-//        $('input[name="chkContato"]').bootstrapSwitch('setOnLabel', 'Sim');
-//        $('input[name="chkContato"]').bootstrapSwitch('setOffLabel', 'Não');
-//        $('input[name="chkContato"]').bootstrapSwitch('setOffClass', 'danger');
-//
-//        //MOEDA
-//        $('#txtValor').priceFormat({
-//            prefix: 'R$ ',
-//            centsSeparator: ',',
-//            centsLimit: 0,
-//            limit: 8,
-//            thousandsSeparator: '.'
-//        });
-//    });
+    //            }
+    //        });
+    //
+    //        $('#MyWizard').on('change', function(e, data) {
+    //            if (data.direction === 'next') {
+    //                if (data.step === 1) {
+    //                    if (!$("#sltPlano").valid())
+    //                        return e.preventDefault();
+    //                }
+    //                if (data.step === 2) {
+    //                    if (!($("#sltFinalidade").valid() & $("#txtTitulo").valid() & $("#txtDescricao").valid() & $("#txtValor").valid()))
+    //                        return e.preventDefault();
+    //                }
+    //                if (data.step === 3) {
+    //                    if (typeof ($("input[name^=txtLegenda]").val()) !== "undefined") {
+    //                        alert("Você ainda não enviou todas as fotos. \n Clique no botão Enviar");
+    //                        return e.preventDefault();
+    //                    }
+    //                    if (typeof ($("input[name=delete]").val()) !== "undefined") {
+    //
+    //                        if (typeof ($("input[name=rdbDestaque]:checked").val()) === "undefined") {
+    //                            alert("Informe uma Foto para ser Destaque do seu anúncio");
+    //                            return e.preventDefault();
+    //                        }
+    //                    }
+    //                }
+    //                if (data.step === 4) {
+    //                    if (($("#sltPlano").valid() & $("#txtTitulo").valid() & $("#txtDescricao").valid() & $("#txtValor").valid()))
+    //                        $("#fileupload").submit();
+    //                }
+    //            }
+    //        });
+    //        $('#MyWizard').on('changed', function(e, data) {
+    //            var item = $('#MyWizard').wizard('selectedItem');
+    //
+    //            if (item.step === 1) {
+    //                $('#btnWizardPrev').hide();
+    //            } else {
+    //                $('#btnWizardPrev').show();
+    //            }
+    //
+    //            if (item.step === 2) {
+    //                var endereco = "<?php echo $endereco; ?>";
+    //                //######### INICIO DO CEP ########
+    //                map = new GMaps({
+    //                    div: '#map',
+    //                    lat: 0,
+    //                    lng: 0
+    //                });
+    //                GMaps.geocode({
+    //                    address: endereco.trim(),
+    //                    callback: function(results, status) {
+    //                        console.log(map);
+    //                        if (status == 'OK') {
+    //                            var latlng = results[0].geometry.location;
+    //                            map.setCenter(latlng.lat(), latlng.lng());
+    //                            map.addMarker({
+    //                                lat: latlng.lat(),
+    //                                lng: latlng.lng()
+    //                            });
+    //                        }
+    //                    }
+    //                });
+    //            }
+    //            if (item.step === 3) {
+    //                $("#colReferencia").click(function() {
+    //                    $('#myModal').modal('show');
+    //                })
+    //                $("#colImovelFinalidade").html('<span class="label label-primary">' + $("#sltFinalidade :selected").text() + '</span>');
+    //                $("#colPlano").html($("#sltPlano :selected").text());
+    //                $("#colTitulo").html($("#txtTitulo").val());
+    //                $("#colDescricao").html($("#txtDescricao").val());
+    //                $("#colValor").html($("#txtValor").val());
+    //                $("#colMapa").html((typeof ($("input[name=chkMapa]:checked").val()) === "undefined" ? "Não" : "Sim"));
+    //                $("#colContato").html((typeof ($("input[name=chkContato]:checked").val()) === "undefined" ? "Não" : "Sim"));
+    //                var varCampos = new Array();
+    //                $("input[name='sltCamposVisiveis[]']:checked").each(function() {
+    //                    //if ($(this).val() != "Todas")
+    //                    //  varCampos.push($(this).text());
+    //                    varCampos.push($(this).parent().text().trim());
+    //                })
+    //                if (varCampos.length > 0)
+    //                    $("#colCampos").html("&bullet; " + varCampos.join("<br /> &bullet; "));
+    //                else
+    //                    $("#colCampos").html("Nenhum campo escolhido");
+    //
+    //            }
+    //        });
+    //        //$('#MyWizard').on('finished', function(e, data) {
+    //        //    console.log('finished');
+    //        //});
+    //        $('#btnWizardPrev').on('click', function() {
+    //            $('#MyWizard').wizard('previous');
+    //        });
+    //        $('#btnWizardNext').on('click', function() {
+    //            $('#MyWizard').wizard('next');
+    //        });
+    //        //$('#btnWizardStep').on('click', function() {
+    //        //  var item = $('#MyWizard').wizard('selectedItem');
+    //        //console.log(item.step);
+    //        //});
+    //        //$('#MyWizard').on('stepclick', function(e, data) {
+    //        //    console.log('step' + data.step + ' clicked');
+    //        //    if (data.step === 1) {
+    //        //        // return e.preventDefault();
+    //        //    }
+    //        //});
+    //        // optionally navigate back to 2nd step
+    //        //$('#btnStep2').on('click', function(e, data) {
+    //        //    $('[data-target=#step2]').trigger("click");
+    //        //});
+    //
+    //        $('#fileupload').validate({
+    //            rules: {
+    //                sltPlano: {
+    //                    required: true
+    //                },
+    //                sltFinalidade: {
+    //                    required: true
+    //                },
+    //                txtTitulo: {
+    //                    required: true,
+    //                    minlength: 5
+    //                },
+    //                txtDescricao: {
+    //                    //required: true,
+    //                    minlength: 10
+    //                },
+    //                txtValor: {
+    //                    required: true
+    //                },
+    //                chkAceite: {
+    //                    required: true
+    //                }
+    //            },
+    //            messages: {
+    //                chkAceite: {
+    //                    required: "Obrigatório"
+    //                }
+    //            },
+    //            highlight: function(element) {
+    //                $(element).closest('.form-group').addClass('has-error');
+    //            },
+    //            unhighlight: function(element) {
+    //                $(element).closest('.form-group').removeClass('has-error');
+    //            },
+    //            errorElement: 'span',
+    //            errorClass: 'help-block',
+    //            errorPlacement: function(error, element) {
+    //                if (element.parent('.input-group').length) {
+    //                    error.insertAfter(element.parent());
+    //                } else {
+    //                    error.insertAfter(element);
+    //                }
+    //            },
+    //            submitHandler: function() {
+    //                $.ajax({
+    //                    url: "index.php",
+    //                    dataType: "json",
+    //                    type: "POST",
+    //                    data: $('#fileupload').serialize(),
+    //                    beforeSend: function() {
+    //                        $('.alert').show();
+    //                        $('button').attr('disabled', 'disabled');
+    //                    },
+    //                    success: function(resposta) {
+    //                        $(".alert").hide();
+    //                        if (resposta.resultado == 1) {
+    //                            $("#step5").html('<div class="row text-success">\n\
+    //<h2 class="text-center">Obrigado!</h2>\n\
+    //<p class="text-center">O cadastro de seu anúncio foi concluído com sucesso. </p>\n\
+    //<p class="text-center">Em breve você receberá um e-mail confirmando a publicação do mesmo. </p>\n\n\
+    //<p class="text-center"><a href="index.php?entidade=Anuncio&acao=listarCadastrar">Cadastrar outro Anúncio?</a> </p>\n\n\
+    //<p class="text-center">Não perca tempo <a href="index.php?entidade=UsuarioPlano&acao=listar">clique aqui</a> e compre mais anúncios! </p>\n\
+    //<p class="text-center">Divulgue esse anuncio no Facebook <img src="assets/imagens/facebook.png"></p>\n\
+    //</div>');
+    //                            $('#btnModalImovel').attr('disabled', 'disabled');
+    //                            $('button').attr('disabled', 'disabled');
+    //                        } else {
+    //                            $("#step5").html('<div class="row text-danger">\n\
+    //<h2 class="text-center">Tente novamente mais tarde!</h2>\n\
+    //<p class="text-center">Houve um erro no processamento de cadastro. </p>\n\
+    //</div>');
+    //                            $('button').removeAttr('disabled');
+    //                        }
+    //                    }
+    //                })
+    //                return false;
+    //            }
+    //        })
+    //
+    ////        $('#sltCamposVisiveis').multiselect({
+    ////            buttonClass: 'btn btn-default btn-sm',
+    ////            includeSelectAllOption: true
+    ////        });
+    //
+    //        // Initialize the jQuery File Upload widget:
+    //        $('#fileupload').fileupload({
+    //            dropZone: null,
+    //            pasteZone: null,
+    //            autoUpload: false,
+    //            url: 'index.php?upload=1',
+    //            maxNumberOfFiles: 5,
+    //            disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator && navigator.userAgent),
+    //            imageMaxWidth: 800,
+    //            imageMaxHeight: 800,
+    //            imageCrop: true,
+    //            loadImageFileTypes: /^image\/(gif|jpeg|png)$/,
+    //            imageType: 'image/jpg',
+    //            imageForceResize: true,
+    //            loadImageMaxFileSize: 2
+    //        }).on('fileuploadsubmit', function(e, data) {
+    //            //data.formData = data.context.find(':input').serializeArray();
+    //            data.formData = $("#fileupload").serializeArray();
+    //        }).on('fileuploadcompleted', function(e, data) {
+    //            $('input[type="radio"]').bootstrapSwitch('destroy');
+    //            $('input[type="radio"]').bootstrapSwitch();
+    //            $('input[type="radio"]').bootstrapSwitch('setOnLabel', 'Sim');
+    //            $('input[type="radio"]').bootstrapSwitch('setOffLabel', 'Não');
+    //            $('input[type="radio"]').bootstrapSwitch('setOffClass', 'danger');
+    //            $('input[type="radio"]').on('switch-change', function() {
+    //                $('input[type="radio"]').bootstrapSwitch('toggleRadioState');
+    //            });
+    //            console.log(data);
+    //        })
+    //
+    //        // Load existing files:
+    //        $('#fileupload').addClass('fileupload-processing');
+    //        $.ajax({
+    //            url: "index.php",
+    //            dataType: 'json',
+    //            context: $('#fileupload')[0],
+    //            data: {"anuncio": <?php echo ($item["anuncio"]->getId() != "" ? $item["anuncio"]->getId() : "0" ); ?>, "entidade": "Anuncio", "acao": "reativarAnuncioImagem"}
+    //        }).always(function() {
+    //            $(this).removeClass('fileupload-processing');
+    //        }).done(function(result) {
+    //            console.log(result);
+    //            $(this).fileupload('option', 'done').call(this, $.Event('done'), {result: result});
+    //        });
+    //
+    //    });
 </script>
 <!-- The template to display files available for upload -->
 <script id="template-upload" type="text/x-tmpl">

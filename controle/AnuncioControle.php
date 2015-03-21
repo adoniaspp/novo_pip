@@ -26,6 +26,7 @@ include_once 'modelo/EmailAnuncio.php';
 include_once 'modelo/SalaComercial.php';
 include_once 'modelo/PredioComercial.php';
 include_once 'modelo/Terreno.php';
+include_once 'modelo/TipoImovel.php';
 
 class AnuncioControle {
 
@@ -61,7 +62,8 @@ class AnuncioControle {
                 $condicoes["idusuario"] = $_SESSION["idusuario"];
                 $condicoes["status"] = 'ativo';
                 $listarUsuarioPlano = $genericoDAO->consultar($usuarioPlano, true, $condicoes);
-                $sessao["idimovel"] = $parametros['idImovel'];
+                $sessao["idimovel"] = $selecionarImovel[0]->getId();
+                $sessao["tipoimovel"] = $selecionarImovel[0]->getIdtipoImovel();
                 Sessao::configurarSessaoAnuncio($sessao);
                 $formAnuncio = array();
                 $formAnuncio["usuarioPlano"] = $listarUsuarioPlano;
@@ -106,6 +108,25 @@ class AnuncioControle {
 //        }
     }
 
+    function detalhar($parametros){
+//        var_dump($parametros);
+        $parametros["id"] = $parametros["hdnCodAnuncio"];
+        unset($parametros["hdnCodAnuncio"]);
+        $parametros["tabela"] = $parametros["hdnTipoImovel"];
+        unset($parametros["hdnTipoImovel"]);
+        $visao = new Template();
+        $consultasAdHoc = new ConsultasAdHoc();
+        $parametros["atributos"] = "*";
+        unset($parametros["hdnEntidade"]);
+        unset($parametros["hdnAcao"]);
+        $parametros["predicados"] = $parametros;
+        $listarAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
+//        print_r($listarAnuncio);
+//        die();
+        $visao->setItem($listarAnuncio);
+        $visao->exibir('AnuncioVisaoDetalhe.php');
+    }
+
     function listarCadastrar() {
         if (Sessao::verificarSessaoUsuario()) {
             $consultasAdHoc = new ConsultasAdHoc();
@@ -130,4 +151,65 @@ class AnuncioControle {
         }
     }
 
+    function cadastrar($parametros) {
+        if (Sessao::verificarSessaoUsuario()) {
+            if (isset($parametros['upload']) & $parametros['upload'] === "1") {
+                include_once 'controle/ImagemControle.php';
+                $imagem = new ImagemControle($parametros);
+            } else {
+                if (Sessao::verificarToken($parametros)) {
+
+                    $genericoDAO = new GenericoDAO();
+                    $genericoDAO->iniciarTransacao();
+
+                    $anuncio = new Anuncio();
+                    $entidadeAnuncio = $anuncio->cadastrar($parametros);
+                    $this->verificaValorMinimo($entidadeAnuncio,$parametros);
+                    $idAnuncio = $genericoDAO->cadastrar($entidadeAnuncio);
+
+                    $entidadeUsuarioPlano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $parametros["sltPlano"]));
+                    $entidadeUsuarioPlano = $entidadeUsuarioPlano[0];
+                    if (($entidadeUsuarioPlano->getPlano()->getTitulo() != "infinity" && $_SESSION["tipopessoa"] == "pj") || $_SESSION["tipopessoa"] == "pf") {
+                        //se o plano nao eh infinity e nem eh uma empresa, entao atualiza o status do usuarioplano
+                        $entidadeUsuarioPlano->setStatus("utilizado");
+                        $genericoDAO->editar($entidadeUsuarioPlano);
+                    }
+
+                    if (isset($_SESSION["imagem"])) {
+                        foreach ($_SESSION["imagem"] as $file) {
+                            $imagem = new Imagem();
+                            $entidadeImagem = $imagem->cadastrar($file, $idAnuncio, $parametros["rdbDestaque"]);
+                            $idImagem = $genericoDAO->cadastrar($entidadeImagem);
+                        }
+                    } else {
+                        $imagem = new Imagem();
+                        $file->url = PIPURL . "/assets/imagens/foto_padrao.png";
+                        $file->legenda = "";
+                        $file->name = "padrao";
+                        $entidadeImagem = $imagem->cadastrar($file, $idAnuncio, "padrao");
+                        $idImagem = $genericoDAO->cadastrar($entidadeImagem);
+                    }
+
+                    //visao
+                    if ($idAnuncio) {
+                        $genericoDAO->commit();
+                        Sessao::desconfigurarVariavelSessao("anuncio");
+                        Sessao::desconfigurarVariavelSessao("imagem");
+                        echo json_encode(array("resultado" => 1));
+                    } else {
+                        $genericoDAO->rollback();
+                        echo json_encode(array("resultado" => 0));
+                    }
+                }
+            }
+        }
+    }
+    
+    private function verificaValorMinimo($anuncio,$parametros){
+        switch ($_SESSION["anuncio"]["tipoimovel"]){
+            case 1://casa
+                $anuncio->setValormin($parametros["txtValor"]);
+                break;
+        } 
+    }
 }

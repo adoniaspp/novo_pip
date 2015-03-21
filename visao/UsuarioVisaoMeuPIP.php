@@ -76,9 +76,9 @@ $item = $this->getItem();
                         }
                     }
                     ?>    
-                    <button type="button" class="ui green button">
+<!--                    <button type="button" class="ui green button">
                         <i class="star icon"></i> Imóveis Favoritos
-                    </button>
+                    </button>-->
                 </div>
             </div> 
         </div>

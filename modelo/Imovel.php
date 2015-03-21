@@ -19,7 +19,8 @@ class Imovel {
     protected $prediocomercial;
     protected $terreno;
     protected $planta;
-            
+    protected $tipoimovel;
+                
     function getId() {
         return $this->id;
     }
@@ -156,6 +157,15 @@ class Imovel {
         $this->planta = $planta;
     }
 
+    public function getTipoimovel() {
+        return $this->tipoimovel;
+    }
+
+    public function setTipoimovel($tipoimovel) {
+        $this->tipoimovel = $tipoimovel;
+    }
+
+        
     public function Referencia() {
         return substr($this->getDatahoracadastro(), 6, -9) . substr($this->getDatahoracadastro(), 3, -14) . str_pad($this->getId(), 5, "0", STR_PAD_LEFT);
     }

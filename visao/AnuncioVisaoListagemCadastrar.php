@@ -4,7 +4,7 @@
 <script src="assets/libs/jquery/jquery.validate.min.js"></script>
 <script src="assets/libs/jquery/jquery.mask.min.js"></script>
 <script src="assets/js/util.validate.js"></script>
-<script src="assets/js/jquery.price_format.min.js"></script>
+<script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 
 <div class="container">
     <div class="ui hidden divider"></div>
@@ -52,7 +52,7 @@
                     echo $imovel->buscarTipoImovel($imovel->getIdTipoImovel());
                     echo "<td>" . $imovel->getIdentificacao() . "</td>";
                     echo "<td>" . $imovel->getDatahoracadastro() . "</td>";
-                    echo "<td><a href='#' class='ui teal button' id='detalhes" . $imovel->getId() . "' >Detalhes</div></td>";
+                    echo "<td><a href='#' class='ui green button' id='detalhes" . $imovel->getId() . "' ><i class='ui home icon'></i>Detalhes</div></td>";
                     if (count($imovel->getAnuncio()) > 0 && verificaAnuncioAtivo($imovel->getAnuncio())) {
                         echo"<td><div class='ui compact message'>Imóvel com Anúncio Ativo</div></td>";
                     } else {

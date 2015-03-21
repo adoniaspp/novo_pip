@@ -67,6 +67,7 @@ class Sessao {
 
     public static function configurarSessaoAnuncio($anuncio) {
         $_SESSION["anuncio"]["idimovel"] = $anuncio["idimovel"];
+        $_SESSION["anuncio"]["tipoimovel"] = $anuncio["tipoimovel"];
         $_SESSION["imagem"] = NULL;
     }
 
