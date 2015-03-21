@@ -11,8 +11,10 @@
     esconderCamposInicio();
     mascarasFormUsuario();
     acoesCEP();
+    confirmarCadastroImovel();
     buscarCep();
     preco();
+    
     
 </script>
 
@@ -325,7 +327,7 @@ Sessao::gerarToken();
                         <label>Logradouro</label>
                         <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly">
                     </div>
-                    <div class="two wide field">
+                    <div class="two wide required field">
                         <label>Número</label>
                         <input type="text" name="txtNumero" id="txtNumero"  maxlength="5" placeholder="Informe o nº">
                     </div>
@@ -339,10 +341,41 @@ Sessao::gerarToken();
                 
                 <h3 class="ui dividing header">Confirmação de Cadastro</h3>
 
-                <button class="ui blue submit button" type="submit" id="btnCadastrar">Cadastrar</button>
+                <a href='#' <button class="ui blue submit button" type="submit" id="btnCadastrar">Cadastrar</button> </a>
                 <button class="ui orange button" type="reset" id="btnCancelar">Cancelar</button>
             </form>
         </div>
     </div>
     <div class="ui hidden divider"></div>
 </div>
+
+<?php include_once "/modal/ImovelModal.php"; ?>
+
+<div class="ui standart modal" id="modalConfirmar">
+    <i class="close icon"></i>
+    <div class="header">
+        Confirmar Dados
+    </div>
+    <div class="content">
+        <div class="description">
+            <div class="ui piled segment">
+                <p id="textoConfirmacao"></p>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui red button">
+            Não
+        </div>
+        <div class="ui positive right labeled icon button">
+            Sim
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+    
+</script>

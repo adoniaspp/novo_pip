@@ -63,7 +63,13 @@ if ($item) {
                             </div>
                             <div class="field">
                                 <label>CPF</label>
+                                
                                 <?php echo $usuario->getCpfcnpj() ?>
+                                
+                                <?php if ($usuario->getTipoUsuario() == "pf") {
+                                    echo "<input type='hidden' id='txtCPF' value='".$usuario->getCpfcnpj()."'>";
+                                } ?>
+                                
                             </div>                    
                         </div>
                         <div id="linhaPJ1" class="two fields">
@@ -74,6 +80,9 @@ if ($item) {
                             <div class="field">
                                 <label>CNPJ</label>
                                 <?php echo $usuario->getCpfcnpj() ?>
+                                <?php if ($usuario->getTipoUsuario() == "pj") {
+                                    echo "<input type='hidden' id='txtCNPJ' value='".$usuario->getCpfcnpj()."'>";
+                                } ?>
                             </div>                    
                         </div>
                         <div id="linhaPJ2" class="three fields">
@@ -131,7 +140,7 @@ if ($item) {
                                 <label>Logradouro</label>
                                 <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly" value="<?php echo $usuario->getEndereco()->getLogradouro() ?>">
                             </div>
-                            <div class="two wide field">
+                            <div class="two wide required field">
                                 <label>Número</label>
                                 <input type="text" name="txtNumero" id="txtNumero" placeholder="Informe o nº" value="<?php echo $usuario->getEndereco()->getNumero() ?>">
                             </div>
@@ -200,9 +209,9 @@ if ($item) {
                                 foreach ($array as $telefone) {
                                     ?> 
                                     <tr>
-                                        <td> <input type=hidden id=hdnTipoTelefone[] name=hdnTipoTelefone[] value="<?php echo $telefone->getTipotelefone() ?>"> <?php echo $telefone->getTipotelefone() ?> </td>
-                                        <td> <input type=hidden id=hdnOperadora[] name=hdnOperadora[] value="<?php echo $telefone->getOperadora() ?>"> <?php echo $telefone->getOperadora() ?> </td>
-                                        <td> <input type=hidden id=hdnTelefone[] name=hdnTelefone[] value="<?php echo $telefone->getNumero() ?>"> <?php echo $telefone->getNumero() ?> </td>
+                                        <td> <input type=hidden id="hdnTipoTelefone[]" name="hdnTipoTelefone[]" value="<?php echo $telefone->getTipotelefone() ?>"> <?php echo $telefone->getTipotelefone() ?> </td>
+                                        <td> <input type=hidden id="hdnOperadora[]" name="hdnOperadora[]" value="<?php echo $telefone->getOperadora() ?>"> <?php echo $telefone->getOperadora() ?> </td>
+                                        <td> <input type=hidden id="hdnTelefone[]" name="hdnTelefone[]" value="<?php echo $telefone->getNumero() ?>"> <?php echo $telefone->getNumero() ?> </td>
                                         <td class='collapsing'> <div class='red ui icon button' onclick='excluirTelefone($(this))'><i class='trash icon'></i>Excluir</div></td>
                                     </tr>
         <?php } ?>     

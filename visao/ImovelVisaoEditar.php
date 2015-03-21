@@ -12,8 +12,11 @@
     acoesCEP();
     buscarCep();
     preco();
-        
+    confirmarAlteracao();
+    
 </script>
+
+
 
 <?php
 Sessao::gerarToken();
@@ -462,11 +465,78 @@ if ($item) {
 <?php }} ?> 
                 <h3 class="ui dividing header">Confirmação de Alteração</h3>
 
-                <button class="ui blue submit button" type="submit" id="btnCadastrar">Alterar</button>
+                 <a href='#' id="btnAlterar" <button class="ui blue submit button" type="submit" id="btnCadastrar" >Alterar</button></a>
                 <button class="ui orange button" type="reset" id="btnCancelar">Cancelar</button>
             </form>
         </div>
     </div>
     <div class="ui hidden divider"></div>
 </div>
+
+<div class="ui modal" id='modal'>
+  <i class="close icon"></i>
+  <div class="header">
     
+  </div>
+  <div class="content">
+
+  </div>  
+  <div class="actions">
+        <div class="ui red button">
+            Cancelar
+        </div>
+        <div class="ui positive right labeled icon button">
+            Confirmar Alteração
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div> 
+    
+<script>
+    $(("#btnAlterar")).click(function () {
+        if ($("#form").valid()) {
+        $("#modal").modal({
+            closable: true,
+                        transition: "fade up",
+                        onDeny: function() {
+                            return false;
+                        },
+                        onApprove: function() {
+                            $("#form").submit();
+                        }
+        }).modal('show');
+        } 
+    })
+   </script> 
+   
+   <script>
+        /*
+    $(document).ready(function () {
+   
+    var vetor1 = new Array();
+
+    $("input[id^='slt']").each(function(i){ 
+        vetor1.push($(this).val());
+    }); 
+    
+  
+    $(("#btnAlterar")).click(function () {
+        
+        
+        for (var x = 0; x < vetor1.length-1; x++){
+        $("#modalCondicao").empty();
+        var $clone = $('#modalCondicao').clone();
+        $clone.attr("id","modalCondicao"+x);
+       
+        $("#modalCondicao"+x).append(vetor1[x]);
+        
+        
+  //if(vetor1[x] !== vetor1[x]){console.log(vetor1[x]);}
+
+        }
+        
+        
+        
+    })
+})*/
+</script>

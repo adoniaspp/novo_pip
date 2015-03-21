@@ -259,14 +259,14 @@ function confirmar() {
             if ($("#form").valid()) {
                 if (typeof ($("input[name^=hdnTipoTelefone]").val()) == "undefined") {
                     $('#modalTelefone').modal({
-                        closable: false,
+                        closable: true,
                         transition: "fade up",
                     }).modal('show');
                 } else
                 if ($("#hdnCEP").val() != "") {
                     carregaDadosModal($("#textoConfirmacao"));
                     $('#modalConfirmar').modal({
-                        closable: false,
+                        closable: true,
                         transition: "fade up",
                         onDeny: function() {
                             return false;
@@ -293,32 +293,172 @@ function carregaDadosModal($div) {
         $div.html("");
         if ($("#sltTipoUsuario").val() === "pf")
         {
-            $div.append("Tipo de Pessoa: " + "Física" + "<br />");
-            $div.append("Nome: " + $("#txtNome").val() + "<br />");
-            if (jQuery.type($("#txtCPF").val()) !== "undefined") {
-                $div.append("CPF: " + $("#txtCPF").val() + "<br />");
-            }
+            $div.append("<div class='ui horizontal list'>\n\
+                                <div class='item'>\n\
+                                  <div class='content'>\n\
+                                    <div class='header'>Tipo de Pessoa</div>\n\
+                                    Física\n\
+                                </div></div>\n\
+                                <div class='item'>\n\
+                                  <div class='content'>\n\
+                                    <div class='header'>Nome</div>" + $("#txtNome").val() + "</div>\n\
+                                </div>\n\
+                                <div class='item'>\n\
+                                  <div class='content'>\n\
+                                    <div class='header'>CPF</div>" + $("#txtCPF").val() +"</div>\n\
+                                </div>");
+            /*if (jQuery.type($("#txtCPF").val()) !== "undefined") {
+                $div.append("<div class='item'>\n\
+                                      <div class='content'>\n\
+                                        <div class='header'>CPF</div>" 
+                                        + $("#txtCPF").val() + "</div>\n\
+                                 </div>");
+            }*/
+            $div.append("</div>");
         } else {
-            $div.append("Tipo de Pessoa: " + "Jurídica" + "<br />");
+            $div.append("<div class='ui horizontal list'>\n\
+                                <div class='item'>\n\
+                                  <div class='content'>\n\
+                                    <div class='header'>Tipo de Pessoa</div>\n\
+                                    Jurídica\n\
+                                </div></div>\n\
+                                <div class='item'>\n\
+                                  <div class='content'>\n\
+                                    <div class='header'>Empresa</div>" + $("#txtNomeEmpresa").val() + "</div>\n\
+                                </div>\n\
+                                <div class='item'>\n\
+                                  <div class='content'>\n\
+                                    <div class='header'>CNPJ</div>" + $("#txtCNPJ").val() + "</div>\n\
+                                </div>\n\
+                                <div class='item'>\n\
+                                  <div class='content'>\n\
+                                    <div class='header'>Responsavel</div>\n\
+                                    "+ $('#txtResponsavel').val() +"\n\
+                                </div></div>\n\
+                                <div class='item'>\n\
+                                  <div class='content'>\n\
+                                    <div class='header'>CPF do Responsável</div>\n\
+                                    "+ $("#txtCPFResponsavel").val() + "</div>\n\
+                                </div>\n\
+                                <div class='item'>\n\
+                                  <div class='content'>\n\
+                                    <div class='header'>Razão Social</div>\n\
+                                    "+ $("#txtRazaoSocial").val() + "</div>\n\
+                                </div>\n\
+                        </div>");
+            /*if (jQuery.type($("#txtCNPJ").val()) !== "undefined") {
+                $div.append("<div class='item'>\n\
+                                  <div class='content'>\n\
+                                    <div class='header'>CNPJ</div>" + $("#txtCNPJ").val() + "</div>\n\
+                             </div>");
+                $div.append("</div>");
+            //}
+            $div.append("<div class='ui horizontal list'>\n\
+                                <div class='item'>\n\
+                                  <div class='content'>\n\
+                                    <div class='header'>Responsavel</div>\n\
+                                    "+ $('#txtResponsavel').val() +"\n\
+                                </div></div>\n\
+                                <div class='item'>\n\
+                                  <div class='content'>\n\
+                                    <div class='header'>CPF do Responsável</div>\n\
+                                    "+ $("#txtCPFResponsavel").val() + "</div>\n\
+                                </div>\n\
+                                <div class='item'>\n\
+                                  <div class='content'>\n\
+                                    <div class='header'>Razão Social</div>\n\
+                                    "+ $("#txtRazaoSocial").val() + "</div>\n\
+                                </div>\n\
+                         </div>");*/
+           /* $div.append("Tipo de Pessoa: " + "Jurídica" + "<br />");
             $div.append("Empresa: " + $("#txtNomeEmpresa").val() + "<br />");
             if (jQuery.type($("#txtCNPJ").val()) !== "undefined") {
                 $div.append("CNPJ: " + $("#txtCNPJ").val() + "<br />");
             }
             $div.append("Responsável: " + $("#txtResponsavel").val() + "<br />");
             $div.append("CPF do Responsável: " + $("#txtCPFResponsavel").val() + "<br />");
-            $div.append("Razão Social: " + $("#txtRazaoSocial").val() + "<br />");
+            $div.append("Razão Social: " + $("#txtRazaoSocial").val() + "<br />");*/
         }
         if (jQuery.type($("#txtLogin").val()) !== "undefined") {
-            $div.append("Login: " + $("#txtLogin").val() + "<br />");
+            $div.append("<div class='ui horizontal list'>\n\
+                                <div class='item'>\n\
+                                  <div class='content'>\n\
+                                    <div class='header'>Login</div>\n\
+                                    "+ $('#txtLogin').val() +"\n\
+                                </div></div>\n\
+                        </div>");
         }
-        $div.append("Email: " + $("#txtEmail").val() + "<br />");
-        $div.append("Logradouro: " + $("#txtLogradouro").val() + "<br />");
+        
+        $div.append("<div class='ui dividing header'></div>\n\
+                     <div class='ui horizontal list'>\n\
+                                <div class='item'>\n\
+                                  <div class='content'>\n\
+                                    <div class='header'>Email</div>" + $("#txtEmail").val() + "</div>\n\
+                                </div>\n\
+                     </div></div>");            
+                
+        
+        
+        
+        
+        $div.append("<div class='ui hidden divider'></div>\n\
+                        <div class='ui horizontal list'>\n\
+                            <div class='item'><div class='content'>\n\
+                            <div class='header'>Telefone(s)</div></div>\n\
+                            </div></div>");
+
+        
+
+        var linhas = "";                        
+        for(var valor = 0; valor < $("input[name^='hdnTipoTelefone']").length; valor++){
+            
+        var tipo = $($("input[name^='hdnTipoTelefone']")[valor]).val();
+        var operadora = $($("input[name^='hdnOperadora']")[valor]).val();
+        var numero = $($("input[name^='hdnTelefone']")[valor]).val();
+        
+        linhas = linhas + "<tr><td>"+tipo+"</td><td>"+operadora+"</td><td>"+numero+"</td></tr>";
+        }
+        $div.append("<table class='ui table'>\n\
+                        <thead><tr>\n\
+                        <th>Tipo Telefone</th>\n\
+                        <th>Operadora</th>\n\
+                        <th>Número</th> \n\
+                        </tr>\n\
+                        </thead> \n\
+                    <tbody>" + linhas + "</tbody></table>");
+
+                    var endereco;
+                    if($("#txtNumero").val() !== "" && $("#txtComplemento").val() !== ""){
+                    endereco = $("#txtLogradouro").val() + ", "+$("#txtNumero").val()+", "+$("#txtComplemento").val();
+                    }
+                    
+                    else if($("#txtNumero").val() !== "" && $("#txtComplemento").val() === ""){
+                    endereco = $("#txtLogradouro").val() + ", "+$("#txtNumero").val();
+                    }
+                    
+                    else if($("#txtNumero").val() === "" && $("#txtComplemento").val() === ""){
+                     endereco = $("#txtLogradouro").val();                 
+                    }
+                    
+                    else if($("#txtNumero").val() === "" && $("#txtComplemento").val() !== ""){
+                    endereco = $("#txtLogradouro").val() + ", "+$("#txtComplemento").val();
+                    }
+        
+        $div.append("<div class='ui dividing header'></div>\n\
+                     <div class='ui horizontal list'>\n\
+                                <div class='item'>\n\
+                                  <div class='content'>\n\
+                                    <div class='header'>Endereço</div>" + endereco + "</div>\n\
+                     </div></div>");
+        
+      /*  $div.append("Logradouro: " + $("#txtLogradouro").val() + "<br />");
         $div.append("Número: " + $("#txtNumero").val() + "<br />");
         $div.append("Complemento: " + $("#txtComplemento").val() + "<br />");
         $div.append("Bairro: " + $("#txtBairro").val() + "<br />");
         $div.append("Cidade: " + $("#txtCidade").val() + "<br />");
         $div.append("Estado: " + $("#txtEstado").val() + "<br />");
-        $div.append("CEP: " + $("#txtCEP").val() + "<br />");
+        $div.append("CEP: " + $("#txtCEP").val() + "<br />");*/
+        
     })
 }
 

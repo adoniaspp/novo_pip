@@ -99,15 +99,6 @@ foreach($this->getItem() as $modal){?>
                                 </div>                              
                             </div>";
                             
-                         /*   echo "<div class='fields'><div class='four wide field'>
-                                                      <label>Número de Andares: </label>" . $modal->getApartamentoPlanta()->getAndares() . "</div>
-                                                      <div class='four wide field'>
-                                                      <label>Unidades por Andar: </label>" . $modal->getApartamentoPlanta()->getUnidadesAndar() . "</div>
-                                  </div>";                           
-                            echo "Número de Torres: " . $modal->getApartamentoPlanta()->getNumeroTorres() . "<br />";
-                            echo "Total de Unidades: " . $modal->getApartamentoPlanta()->getTotalUnidades() . "<br />";
-                            echo "<div class='ui dividing header'></div>";*/
-                            
                             $numeroPlantas = count($modal->getPlanta());
                             
                             if($numeroPlantas == 1){                           

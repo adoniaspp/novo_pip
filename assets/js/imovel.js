@@ -1064,7 +1064,174 @@ function camposPlantas(parametroQuarto,
             $("#divInfoApeCasa").append(area); 
         } else if($("#divArea")){$("#divArea").remove();}
     }
-    
+ 
+function confirmarCadastroImovel(){
+        $(document).ready(function() {
+        $('#btnCadastrar').click(function() {
+            if ($("#form").valid()) {           
+                carregaDadosModalImovel($("#textoConfirmacao"));
+                    $('#modalConfirmar').modal({
+                        closable: true,
+                        transition: "fade up",
+                        onDeny: function() {
+                            return false;
+                        },
+                        onApprove: function() {
+                            $("#form").submit();
+                        }
+                    }).modal('show');
+                }else                
+                $("#form").submit();           
+        })
+    })
+}
+
+function carregaDadosModalImovel($div) {
+    $(document).ready(function() {
+        $div.html("");
+        
+        $div.append("<div class='ui horizontal list'>\n\
+                            <div class='item'>\n\
+                            <div class='content'>\n\
+                            <div class='header'>Tipo</div>"+$("#sltTipo").val()+"</div>\n\
+                            </div><div class='item'>\n\
+                            <div class='content'><div class='header'>Descrição</div>"+$("#txtDescricao").val()+"\
+                            </div></div>\n\
+                    </div>\n\
+                    <div class='ui hidden divider'></div>");
+        
+        switch ($("#sltTipo").val()) {
+        case "1":
+        $div.append("<div class='ui horizontal list'>\n\
+                            <div class='item'>\n\
+                            <div class='content'>\n\
+                            <div class='header'>Condição</div>"+$("#sltCondicao").val()+"</div>\n\
+                            </div>\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Quarto</div>"+$("#sltQuarto").val()+"\
+                            </div></div>\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Vaga(s) de Garagem</div>"+$("#sltGaragem").val()+"\
+                            </div></div>\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Banheiro(s)</div>"+$("#sltBanheiro").val()+"\
+                            </div></div>\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Suite(s)</div>"+$("#sltSuite").val()+"\
+                            </div></div>\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Área</div>"+$("#txtArea").val()+"\
+                            </div></div>\n\
+                    </div>\n\
+                    <div class='ui hidden divider'></div>");
+
+       break;
+       case "3":
+           
+                    $div.append("<div class='ui horizontal list'>\n\
+                            <div class='item'>\n\
+                            <div class='content'>\n\
+                            <div class='header'>Condição</div>"+$("#sltCondicao").val()+"</div>\n\
+                            </div>\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Quarto</div>"+$("#sltQuarto").val()+"\
+                            </div></div>\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Vaga(s) de Garagem</div>"+$("#sltGaragem").val()+"\
+                            </div></div>\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Banheiro(s)</div>"+$("#sltBanheiro").val()+"\
+                            </div></div>\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Suite(s)</div>"+$("#sltSuite").val()+"\
+                            </div></div>\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Andar do Apartamento</div>"+$("#sltAndar").val()+"\
+                            </div></div>\n\\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Apartamentos por Andar</div>"+$("#sltUnidadesAndar").val()+"\
+                            </div></div>\n\\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Áream<SUP>2</SUP></div>"+$("#txtArea").val()+"\
+                            </div></div>\n\
+                    </div>\n\
+                    <div class='ui hidden divider'></div>");
+    break;  
+    case "4":     
+                    $div.append("<div class='ui horizontal list'>\n\
+                            <div class='item'>\n\
+                            <div class='content'>\n\
+                            <div class='header'>Condição</div>"+$("#sltCondicao").val()+"</div>\n\
+                            </div>\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Quarto</div>"+$("#sltQuarto").val()+"\
+                            </div></div>\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Vaga(s) de Garagem</div>"+$("#sltGaragem").val()+"\
+                            </div></div>\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Banheiro(s)</div>"+$("#sltBanheiro").val()+"\
+                            </div></div>\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Suite(s)</div>"+$("#sltSuite").val()+"\
+                            </div></div>\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Condominio</div>"+$("#txtCondominio").val()+"\
+                            </div></div>\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Áream<SUP>2</SUP></div>"+$("#txtArea").val()+"\
+                            </div></div>\n\
+                    </div>\n\
+                    <div class='ui hidden divider'></div>");        
+    break;
+    case "5":       
+        
+                    $div.append("<div class='ui horizontal list'>\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Áream<SUP>2</SUP></div>"+$("#txtArea").val()+"\
+                            </div></div>\n\
+                            </div>\n\
+                    <div class='ui hidden divider'></div>");                      
+    break;
+    case "6":       
+        
+                    $div.append("<div class='ui horizontal list'>\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Áream<SUP>2</SUP></div>"+$("#txtArea").val()+"\
+                            </div></div>\n\
+                            </div>\n\
+                    <div class='ui hidden divider'></div>");                      
+    break;
+
+                    }
+        
+                  var endereco;
+                    if($("#txtNumero").val() !== "" && $("#txtComplemento").val() !== ""){
+                    endereco = $("#txtLogradouro").val() + ", "+$("#txtNumero").val()+", "+$("#txtComplemento").val();
+                    }
+                    
+                    else if($("#txtNumero").val() !== "" && $("#txtComplemento").val() === ""){
+                    endereco = $("#txtLogradouro").val() + ", "+$("#txtNumero").val();
+                    }
+                    
+                    else if($("#txtNumero").val() === "" && $("#txtComplemento").val() === ""){
+                     endereco = $("#txtLogradouro").val();                 
+                    }
+                    
+                    else if($("#txtNumero").val() === "" && $("#txtComplemento").val() !== ""){
+                    endereco = $("#txtLogradouro").val() + ", "+$("#txtComplemento").val();
+                    }
+        
+        $div.append("<div class='ui dividing header'></div>\n\
+                     <div class='ui horizontal list'>\n\
+                                <div class='item'>\n\
+                                  <div class='content'>\n\
+                                    <div class='header'>Endereço</div>" + endereco + "</div>\n\
+                     </div></div>");
+        
+    })
+}
+
 function preco(){
     
     $(document).ready(function () {
@@ -1102,14 +1269,4 @@ function preco(){
                     }
         })
     }
-    
- 
-/*function sltTiraRegrasValidação(){
-    $(document).ready(function() {
-        $("#sltTipo").change(function () {
-            $("input[id^='slt']").each(function () {
-                $(this).rules("remove");
-            }) 
-        })
-    })
-}*/
+

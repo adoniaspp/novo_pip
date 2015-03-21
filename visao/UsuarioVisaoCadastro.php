@@ -141,7 +141,7 @@ Sessao::gerarToken();
                         <label>Logradouro</label>
                         <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly">
                     </div>
-                    <div class="two wide field">
+                    <div class="two wide required field">
                         <label>Número</label>
                         <input type="text" name="txtNumero" id="txtNumero" placeholder="Informe o nº">
                     </div>
