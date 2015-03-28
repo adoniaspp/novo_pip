@@ -124,7 +124,7 @@ if ($item) {
                                 <i class="add to cart icon"></i>
                                 <div class="content">
                                     Comprar planos!
-                                    <div class="sub header">  <a href="index.php?entidade=Plano&acao=listar"> Para anunciar você precisa ter planos ativos compre agora! </a></div>
+                                    <div class="sub header">  <a href="index.php?entidade=Plano&acao=listar"> Para anunciar é preciso ter planos ativos! </a></div>
                                 </div>
                             </div>
                         </div>
@@ -145,8 +145,8 @@ if ($item) {
                                 <i class="dropdown icon"></i>
                                 <input name="sltFinalidade" id="sltFinalidade" type="hidden">
                                 <div class="menu">
-                                    <div class="item" data-value="1">Aluguel</div>
-                                    <div class="item" data-value="2">Venda</div>
+                                    <div class="item" data-value="Aluguel">Aluguel</div>
+                                    <div class="item" data-value="Venda">Venda</div>
                                 </div>
                             </div>
                         </div>
@@ -159,23 +159,30 @@ if ($item) {
                         <label>Descrição</label>
                         <textarea name="txtDescricao" id="txtDescricao" placeholder="Informe uma Descrição do Imóvel" maxlength="150"></textarea>
                     </div>
-                    <div class="fields">
-                        <div class="four wide required field">
-                            <label>Valor (não informar os centavos)</label>
-                            <input name="txtValor" id="txtValor" placeholder="Valor do Imóvel" >
+                    <div class="three fields">
+                        <div class="field">
+                            <div class="ui toggle checkbox">
+                                <input name="chkValor" id="chkValor" type="radio" value="SIM">
+                                <label>Deseja informar um valor para o imóvel?</label>
+                            </div>
                         </div>
-                        <h5>&nbsp;</h5>
-                        <div class="six wide field">
+                        <div class="field">
                             <div class="ui toggle checkbox">
                                 <input name="chkMapa" id="chkMapa" type="radio" value="SIM">
-                                <label>Exibir o mapa do endereço</label>
+                                <label>Exibir o mapa do endereço?</label>
                             </div>
                         </div>
-                        <div class="six wide field">
+                        <div class="field">
                             <div class="ui toggle checkbox">
                                 <input name="chkContato" id="chkContato" type="radio" value="SIM">
-                                <label>Exibir suas informações de contato</label>
+                                <label>Exibir suas informações de contato?</label>
                             </div>
+                        </div>
+                    </div>
+                    <div class="one fields" id="divInformarValor">
+                        <div class="field">
+                            <label>Valor (não informar os centavos)</label>
+                            <input name="txtValor" id="txtValor" placeholder="Valor do Imóvel" >
                         </div>
                     </div>
                 </div>
