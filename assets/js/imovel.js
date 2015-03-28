@@ -70,6 +70,7 @@ function esconderCamposInicio() {
            $('#sltGaragem').parent().dropdown('restore defaults');
            $('#sltAndares').parent().dropdown('restore defaults');
            $("#txtArea").val("");
+           $("#txtDescricao").val("");
            
             mostrarArea();
             
@@ -1090,12 +1091,18 @@ function carregaDadosModalImovel($div) {
     $(document).ready(function() {
         $div.html("");
         
+        var descricao;
+        var area;
+        
+        if($("#txtDescricao").val() == ""){descricao = "<h4 class='ui red header'>Não Informado</h4>";} else descricao = $("#txtDescricao").val();
+        if($("#txtArea").val() == ""){area = "<h4 class='ui red header'>Não Informado</h4>";} else area = $("#txtArea").val();
+        
         $div.append("<div class='ui horizontal list'>\n\
                             <div class='item'>\n\
                             <div class='content'>\n\
                             <div class='header'>Tipo</div>"+$("#sltTipo").val()+"</div>\n\
                             </div><div class='item'>\n\
-                            <div class='content'><div class='header'>Descrição</div>"+$("#txtDescricao").val()+"\
+                            <div class='content'><div class='header'>Descrição</div>"+descricao+"\
                             </div></div>\n\
                     </div>\n\
                     <div class='ui hidden divider'></div>");
@@ -1120,12 +1127,37 @@ function carregaDadosModalImovel($div) {
                             <div class='content'><div class='header'>Suite(s)</div>"+$("#sltSuite").val()+"\
                             </div></div>\n\
                             <div class='item'>\n\
-                            <div class='content'><div class='header'>Área</div>"+$("#txtArea").val()+"\
+                            <div class='content'><div class='header'>Área m<SUP>2</SUP></div>"+area+"\
                             </div></div>\n\
                     </div>\n\
                     <div class='ui hidden divider'></div>");
 
        break;
+       
+       case "2":
+           
+        $div.append("<div class='ui horizontal list'>\n\
+                            <div class='item'>\n\
+                            <div class='content'>\n\
+                            <div class='header'>Nº de Plantas</div>"+$("#sltNumeroPlantas").val()+"</div>\n\
+                            </div>\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Andares do Prédio</div>"+$("#sltAndares").val()+"</div>\n\
+                            </div>\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Unidades por Andar</div>"+$("#sltUnidadesAndar").val()+"</div>\n\
+                            </div>\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Número de Torres</div>"+$("#sltNumeroTorres").val()+"</div>\n\
+                            </div>\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Total de Unidades</div>"+$("#txtTotalUnidades").val()+"</div>\n\
+                            </div>\n\
+                    </div>\n\
+                    <div class='ui hidden divider'></div>");   
+
+       break;
+             
        case "3":
            
                     $div.append("<div class='ui horizontal list'>\n\
@@ -1152,7 +1184,7 @@ function carregaDadosModalImovel($div) {
                             <div class='content'><div class='header'>Apartamentos por Andar</div>"+$("#sltUnidadesAndar").val()+"\
                             </div></div>\n\\n\
                             <div class='item'>\n\
-                            <div class='content'><div class='header'>Áream<SUP>2</SUP></div>"+$("#txtArea").val()+"\
+                            <div class='content'><div class='header'>Área m<SUP>2</SUP></div>"+area+"\
                             </div></div>\n\
                     </div>\n\
                     <div class='ui hidden divider'></div>");
@@ -1179,28 +1211,20 @@ function carregaDadosModalImovel($div) {
                             <div class='content'><div class='header'>Condominio</div>"+$("#txtCondominio").val()+"\
                             </div></div>\n\
                             <div class='item'>\n\
-                            <div class='content'><div class='header'>Áream<SUP>2</SUP></div>"+$("#txtArea").val()+"\
+                            <div class='content'><div class='header'>Área m<SUP>2</SUP></div>"+area+"\
                             </div></div>\n\
                     </div>\n\
                     <div class='ui hidden divider'></div>");        
     break;
-    case "5":       
+    case "5":  case "6":       
         
                     $div.append("<div class='ui horizontal list'>\n\
                             <div class='item'>\n\
-                            <div class='content'><div class='header'>Áream<SUP>2</SUP></div>"+$("#txtArea").val()+"\
+                            <div class='content'><div class='header'>Área m<SUP>2</SUP></div>"+area+"\
                             </div></div>\n\
                             </div>\n\
                     <div class='ui hidden divider'></div>");                      
-    break;
-    case "6":       
-        
-                    $div.append("<div class='ui horizontal list'>\n\
-                            <div class='item'>\n\
-                            <div class='content'><div class='header'>Áream<SUP>2</SUP></div>"+$("#txtArea").val()+"\
-                            </div></div>\n\
-                            </div>\n\
-                    <div class='ui hidden divider'></div>");                      
+                    
     break;
 
                     }

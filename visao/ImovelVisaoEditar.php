@@ -10,9 +10,10 @@
     cadastrarImovel();  
     mascarasFormUsuario();
     acoesCEP();
+    confirmarCadastroImovel(); //chama o mesmo modal da confirmação do Cadastro
     buscarCep();
     preco();
-    confirmarAlteracao();
+    
     
 </script>
 
@@ -169,7 +170,7 @@ if ($item) {
                             <?php echo $imovel->buscarTipoImovel($imovel->getIdTipoImovel())?>
                     </div>
                     
-                       <div class="three wide field" id="divNumeroPlantas">
+                       <div class="three wide field" id="divNumeroPlantas">                     
                         <!--   <label>Número de Plantas</label>
                              <div class="ui selection dropdown">
                                 <input type="hidden" name="sltNumeroPlantas" id="sltNumeroPlantas" 
@@ -465,7 +466,7 @@ if ($item) {
 <?php }} ?> 
                 <h3 class="ui dividing header">Confirmação de Alteração</h3>
 
-                 <a href='#' id="btnAlterar" <button class="ui blue submit button" type="submit" id="btnCadastrar" >Alterar</button></a>
+                 <a href='#' <button class="ui blue submit button" type="submit" id="btnCadastrar" >Alterar</button></a>
                 <button class="ui orange button" type="reset" id="btnCancelar">Cancelar</button>
             </form>
         </div>
@@ -473,29 +474,34 @@ if ($item) {
     <div class="ui hidden divider"></div>
 </div>
 
-<div class="ui modal" id='modal'>
-  <i class="close icon"></i>
-  <div class="header">
-    
-  </div>
-  <div class="content">
-
-  </div>  
-  <div class="actions">
+<div class="ui standart modal" id="modalConfirmar">
+    <i class="close icon"></i>
+    <div class="header">
+        Confirmar Dados
+    </div>
+    <div class="content">
+        <div class="description">
+            <div class="ui piled segment">
+                <p id="textoConfirmacao"></p>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
         <div class="ui red button">
-            Cancelar
+            Não
         </div>
         <div class="ui positive right labeled icon button">
-            Confirmar Alteração
+            Sim
             <i class="checkmark icon"></i>
         </div>
     </div>
-</div> 
+</div>
     
 <script>
-    $(("#btnAlterar")).click(function () {
+  /*  
+    $(("#btnCadastrar")).click(function () {
         if ($("#form").valid()) {
-        $("#modal").modal({
+        $("#modalConfirmar").modal({
             closable: true,
                         transition: "fade up",
                         onDeny: function() {
@@ -506,7 +512,7 @@ if ($item) {
                         }
         }).modal('show');
         } 
-    })
+    })*/
    </script> 
    
    <script>

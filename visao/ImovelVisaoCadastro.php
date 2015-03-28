@@ -349,8 +349,6 @@ Sessao::gerarToken();
     <div class="ui hidden divider"></div>
 </div>
 
-<?php include_once "/modal/ImovelModal.php"; ?>
-
 <div class="ui standart modal" id="modalConfirmar">
     <i class="close icon"></i>
     <div class="header">
