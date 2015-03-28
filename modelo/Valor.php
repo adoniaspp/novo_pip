@@ -57,5 +57,13 @@ class Valor {
     function setValor($valor) {
         $this->valor = $valor;
     }
+    
+    public function cadastrar($idanuncio,$idapartamentoplanta,$parametros){
+        $this->setIdanuncio($idanuncio);
+        $this->setIdplantaapartamentonovo($idapartamentoplanta);
+        $this->setAndarinicial($andarinicial);
+        $this->getAndarinicial();
+        $this->setValor($valor);                
+    }
 
 }

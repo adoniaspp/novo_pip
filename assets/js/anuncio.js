@@ -12,7 +12,23 @@ function cadastrarAnuncio() {
         $("#step3").hide();
         $("#step4").hide();
         $("#step5").hide();
+        $("#divInformarValor").hide();
         $("div[id^='btnAnterior']").hide();
+        $("#sltPlano").change(function () {
+            $(this).valid();
+        })
+
+        $("#sltFinalidade").change(function () {
+            $(this).valid();
+        })
+
+        $("#chkValor").change(function () {
+            if ($(this).parent().checkbox('is checked')) {
+                $("#divInformarValor").show();
+            } else {
+                $("#divInformarValor").hide();
+            }
+        })
 
         $("div[id^='btnProximo']").click(function () {
             if (validarStep()) {
@@ -28,7 +44,7 @@ function cadastrarAnuncio() {
                     $("div[id^='btnAnterior']").show();
                 else
                     $("div[id^='btnAnterior']").hide();
-                if (proximo > 4){
+                if (proximo > 4) {
                     $("div[id^='btnProximo']").hide();
                     $("div[id^='btnAnterior']").hide();
                     $("#btnCancelar").hide();
@@ -65,7 +81,6 @@ function cadastrarAnuncio() {
             postText: ' caracteres permitidos.',
             validate: true
         });
-
         $('#txtTitulo').maxlength({
             alwaysShow: true,
             threshold: 50,
@@ -76,7 +91,6 @@ function cadastrarAnuncio() {
             postText: ' caracteres permitidos.',
             validate: true
         });
-
         $('#txtValor').priceFormat({
             prefix: 'R$ ',
             centsSeparator: ',',
@@ -84,7 +98,6 @@ function cadastrarAnuncio() {
             limit: 8,
             thousandsSeparator: '.'
         });
-
         function validarStep() {
             var validacao = false;
             var step = parseInt($("#hdnStep").val());
@@ -101,14 +114,14 @@ function cadastrarAnuncio() {
                     break;
                 case 4:
                     validacao = ($("#sltPlano").valid() & $("#sltFinalidade").valid() & $("#txtTitulo").valid() & $("#txtDescricao").valid() & $("#txtValor").valid());
-                    if (validacao){
+                    if (validacao) {
                         $("#fileupload").submit();
                     }
                     break;
             }
             return validacao;
         }
-        
+
         $.validator.setDefaults({
             ignore: [],
             errorClass: 'errorField',
@@ -123,6 +136,31 @@ function cadastrarAnuncio() {
                 $(element).closest(".error").removeClass("error").addClass("success");
             }
         });
+        $.validator.addMethod("verificaValor", function (value, element) {
+            var validacao = false;
+            if ($("#chkValor").parent().checkbox('is checked')) {
+                var valor = parseInt($("#txtValor").unmask());
+                switch ($('#sltFinalidade').parent().dropdown('get value')) {
+                    case "Aluguel":
+                        if (!isNaN(valor)) {
+                            if (valor > 100) {
+                                validacao = true;
+                            }
+                        }
+                        break;
+                    case "Venda":
+                        if (!isNaN(valor)) {
+                            if (valor > 1000) {
+                                validacao = true;
+                            }
+                        }
+                        break;
+                }
+            } else {
+                validacao = true;
+            }
+            return this.optional(element) || validacao;
+        }, 'Informe um valor mínimo.');
         $.validator.messages.required = 'Campo obrigatório';
         $('#fileupload').validate({
             onkeyup: false,
@@ -141,7 +179,10 @@ function cadastrarAnuncio() {
                     required: true
                 },
                 txtValor: {
-                    required: true
+                    verificaValor: true,
+                    required: function (element) {
+                        return $("#chkValor").parent().checkbox('is checked');
+                    }
                 },
                 chkAceite: {
                     required: true
@@ -170,7 +211,7 @@ function cadastrarAnuncio() {
     <p>O cadastro de seu anúncio foi concluído com sucesso. </p>\n\
     <p>Em breve você receberá um e-mail confirmando a publicação do mesmo. </p>\n\n\
     <p><a href="index.php?entidade=Anuncio&acao=listarCadastrar" class="ui purple button"><i class="ui add icon"></i>Cadastrar outro anúncio?</a> </p>\n\n\
-    <p><a href="index.php?entidade=UsuarioPlano&amp;acao=listar" class="ui orange button"><i class="ui add icon"></i>Comprar mais anuncios!</a></p>\n\
+    <p><a href="index.php?entidade=UsuarioPlano&amp;acao=listar" class="ui orange button"><i class="ui add icon"></i>Comprar mais planos!</a></p>\n\
     <p>Divulgue esse anuncio no <span class="ui facebook button"> <i class="facebook square icon"></i> Facebook </span></p>\n\
     </div>');
                             $('button').attr('disabled', 'disabled');

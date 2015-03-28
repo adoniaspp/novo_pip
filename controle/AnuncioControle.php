@@ -27,10 +27,11 @@ include_once 'modelo/SalaComercial.php';
 include_once 'modelo/PredioComercial.php';
 include_once 'modelo/Terreno.php';
 include_once 'modelo/TipoImovel.php';
+include_once 'modelo/Valor.php';
 
 class AnuncioControle {
 
-     function form($parametros) {
+    function form($parametros) {
         if (Sessao::verificarSessaoUsuario() & Sessao::verificarToken(array("hdnToken" => $parametros["token"]))) {
             //modelo
             $imovel = new Imovel();
@@ -88,7 +89,6 @@ class AnuncioControle {
         }
     }
 
-    
     function buscarAnuncio($parametros) {
         $visao = new Template('ajax');
         $consultasAdHoc = new ConsultasAdHoc();
@@ -107,8 +107,8 @@ class AnuncioControle {
 //            echo json_encode("false");
 //        }
     }
-    
-    function detalhar($parametros){
+
+    function detalhar($parametros) {
 //        var_dump($parametros);
         $parametros["id"] = $parametros["hdnCodAnuncio"];
         unset($parametros["hdnCodAnuncio"]);
@@ -132,10 +132,10 @@ class AnuncioControle {
             $consultasAdHoc = new ConsultasAdHoc();
             $listaIdsImoveis = $consultasAdHoc->ConsultarImoveisNaoAnunciadosPorUsuario($_SESSION['idusuario']);
             #verificar a melhor forma de tratar o blindado recursivo
-            foreach ($listaIdsImoveis as $id) {                
+            foreach ($listaIdsImoveis as $id) {
                 $imovel = $consultasAdHoc->consultar(new Imovel(), true, array("id" => $id["id"]));
                 $selecionarImovel = $imovel[0];
-                
+
                 $selecionarEndereco = $consultasAdHoc->consultar(new Endereco(), true, array("id" => $selecionarImovel->getIdEndereco()));
                 $selecionarImovel->setEndereco($selecionarEndereco[0]);
 
@@ -164,9 +164,14 @@ class AnuncioControle {
 
                     $anuncio = new Anuncio();
                     $entidadeAnuncio = $anuncio->cadastrar($parametros);
-                    $this->verificaValorMinimo($entidadeAnuncio,$parametros);
+                    $this->verificaValorMinimo($entidadeAnuncio, $parametros);
                     $idAnuncio = $genericoDAO->cadastrar($entidadeAnuncio);
 
+                    if($_SESSION["anuncio"]["tipoimovel"]==2) {
+                        $valor = new Valor();
+                    }
+                    
+                    
                     $entidadeUsuarioPlano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $parametros["sltPlano"]));
                     $entidadeUsuarioPlano = $entidadeUsuarioPlano[0];
                     if (($entidadeUsuarioPlano->getPlano()->getTitulo() != "infinity" && $_SESSION["tipopessoa"] == "pj") || $_SESSION["tipopessoa"] == "pf") {
@@ -204,12 +209,17 @@ class AnuncioControle {
             }
         }
     }
-    
-    private function verificaValorMinimo($anuncio,$parametros){
-        switch ($_SESSION["anuncio"]["tipoimovel"]){
+
+    private function verificaValorMinimo($anuncio, $parametros) {
+        switch ($_SESSION["anuncio"]["tipoimovel"]) {
             case 1://casa
+            case 3://apartamento
+            case 4://sala comercial
+            case 5://predio comercial
+            case 6://terreno
                 $anuncio->setValormin($parametros["txtValor"]);
                 break;
-        } 
+        }
     }
+
 }
