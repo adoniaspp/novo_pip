@@ -167,6 +167,7 @@ if ($item) {
                     <div class="four wide field">
                         <label>Tipo de Imóvel</label>
                             <input type="hidden" name="sltTipo" id="sltTipo" value="<?php echo $imovel->getIdTipoImovel()?>">
+                             <input type="hidden" name="sltNumeroPlantas" id="sltNumeroPlantas" value="<?php echo $totalPlantas?>">
                             <?php echo $imovel->buscarTipoImovel($imovel->getIdTipoImovel())?>
                     </div>
                     

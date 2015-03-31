@@ -1107,6 +1107,27 @@ function carregaDadosModalImovel($div) {
                     </div>\n\
                     <div class='ui hidden divider'></div>");
         
+        //diferencial
+        /*var diferencial;
+        var totalDiferencial = $("input[checked^='checked']").length;
+        
+        if(totalDiferencial <=0 ){ 
+        
+                $div.append("<div class='ui horizontal list'>\n\
+                                        <div class='item'>\n\
+                                        <div class='content'>\n\
+                                        <div class='header'>Diferenciais</div><h4 class='ui red header'>Não Informado</h4></div>\n\
+                                        </div>\n\
+                                </div>\n\
+                <div class='ui hidden divider'></div>");
+        } else {
+        
+            for(var dif = 0; dif < totalDiferencial; dif++){
+                $div.append($("input[name^='sltGaragem']")[dif]).val();
+            }
+        }*/
+        
+        
         switch ($("#sltTipo").val()) {
         case "1":
         $div.append("<div class='ui horizontal list'>\n\
@@ -1155,7 +1176,37 @@ function carregaDadosModalImovel($div) {
                             </div>\n\
                     </div>\n\
                     <div class='ui hidden divider'></div>");   
+                    
+        $div.append("<div class='ui hidden divider'></div>\n\
+                        <div class='ui horizontal list'>\n\
+                            <div class='item'><div class='content'>\n\
+                            <div class='header'>Planta(s)</div></div>\n\
+                            </div></div>");
 
+        var linhas = "";  
+        var areaPlanta;
+        
+        for(var valor = 0; valor < $("#sltNumeroPlantas").val(); valor++){
+            
+        var quarto = $($("input[name^='sltQuarto']")[valor]).val();
+        var banheiro = $($("input[name^='sltBanheiro']")[valor]).val();
+        var suite = $($("input[name^='sltSuite']")[valor]).val();
+        var garagem = $($("input[name^='sltGaragem']")[valor]).val();
+        if ($($("input[name^='txtArea']")[valor]).val() == ""){areaPlanta = "<h4 class='ui red header'>Não Informado</h4>";} else areaPlanta = $($("input[name^='txtArea']")[valor]).val();
+        
+        linhas = linhas + "<tr><td>"+quarto+"</td><td>"+banheiro+"</td><td>"+suite+"</td><td>"+garagem+"</td><td>"+areaPlanta+"</td></tr>";
+        }
+        $div.append("<table class='ui table'>\n\
+                        <thead><tr>\n\
+                        <th>Quarto(s)</th>\n\
+                        <th>Banheiro(s)</th>\n\
+                        <th>Suite(s)</th> \n\
+                        <th>Vaga(s) de Garagem</th> \n\
+                        <th>Area m<SUP>2</SUP></th> \n\
+                        </tr>\n\
+                        </thead> \n\
+                    <tbody>" + linhas + "</tbody></table>");
+   
        break;
              
        case "3":
