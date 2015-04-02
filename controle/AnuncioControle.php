@@ -28,6 +28,8 @@ include_once 'modelo/PredioComercial.php';
 include_once 'modelo/Terreno.php';
 include_once 'modelo/TipoImovel.php';
 include_once 'modelo/Valor.php';
+include_once 'modelo/ImovelDiferencial.php';
+include_once 'modelo/Diferencial.php';
 
 class AnuncioControle {
 
@@ -167,11 +169,6 @@ class AnuncioControle {
                     $this->verificaValorMinimo($entidadeAnuncio, $parametros);
                     $idAnuncio = $genericoDAO->cadastrar($entidadeAnuncio);
 
-                    if($_SESSION["anuncio"]["tipoimovel"]==2) {
-                        $valor = new Valor();
-                    }
-                    
-                    
                     $entidadeUsuarioPlano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $parametros["sltPlano"]));
                     $entidadeUsuarioPlano = $entidadeUsuarioPlano[0];
                     if (($entidadeUsuarioPlano->getPlano()->getTitulo() != "infinity" && $_SESSION["tipopessoa"] == "pj") || $_SESSION["tipopessoa"] == "pf") {

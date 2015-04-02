@@ -200,17 +200,16 @@
                 echo "<div class='ui dividing header'></div>";
                 if ($modal->getEndereco()->getNumero() != "" && $modal->getEndereco()->getComplemento() != "") {
                     echo "Endereço: " . $modal->getEndereco()->getLogradouro() . ", " . $modal->getEndereco()->getNumero() . ", " . $modal->getEndereco()->getComplemento() . "<br />";
-                    echo $modal->getEndereco()->getBairro()->getNome() . ", " . $modal->getEndereco()->getCidade()->getNome() . " - " . $imovel->getEndereco()->getEstado()->getUf();
+                    echo $modal->getEndereco()->getBairro()->getNome() . ", " . $modal->getEndereco()->getCidade()->getNome() . " - " . $modal->getEndereco()->getEstado()->getUf();
                 } elseif ($modal->getEndereco()->getNumero() != "" && $modal->getEndereco()->getComplemento() == "") {
                     echo "Endereço: " . $modal->getEndereco()->getLogradouro() . ", " . $modal->getEndereco()->getNumero() . "<br />";
-                    echo $modal->getEndereco()->getBairro()->getNome() . ", " . $modal->getEndereco()->getCidade()->getNome() . " - " . $imovel->getEndereco()->getEstado()->getUf();
+                    echo $modal->getEndereco()->getBairro()->getNome() . ", " . $modal->getEndereco()->getCidade()->getNome() . " - " . $modal->getEndereco()->getEstado()->getUf();
                 } elseif ($modal->getEndereco()->getNumero() == "" && $modal->getEndereco()->getComplemento() == "") {
                     echo "Endereço: " . $modal->getEndereco()->getLogradouro() . "<br />";
-                    echo $modal->getEndereco()->getBairro()->getNome() . ", " . $modal->getEndereco()->getCidade()->getNome() . " - " . $imovel->getEndereco()->getEstado()->getUf();
+                    echo $modal->getEndereco()->getBairro()->getNome() . ", " . $modal->getEndereco()->getCidade()->getNome() . " - " . $modal->getEndereco()->getEstado()->getUf();
                 } elseif ($modal->getEndereco()->getNumero() == "" && $modal->getEndereco()->getComplemento() != "") {
                     echo "Endereço: " . $modal->getEndereco()->getLogradouro() . ", " . $modal->getEndereco()->getComplemento() . "<br />";
-                    ;
-                    echo $modal->getEndereco()->getBairro()->getNome() . ", " . $modal->getEndereco()->getCidade()->getNome() . " - " . $imovel->getEndereco()->getEstado()->getUf();
+                    echo $modal->getEndereco()->getBairro()->getNome() . ", " . $modal->getEndereco()->getCidade()->getNome() . " - " . $modal->getEndereco()->getEstado()->getUf();
                 }
                 ?>
             </div>

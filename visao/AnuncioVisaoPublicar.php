@@ -4,18 +4,98 @@ $item = $this->getItem();
 //echo "<pre>";
 //print_r($item);die();
 if ($item) {
-            foreach ($item["imovel"] as $objImovel) {
-                $idImovel = $objImovel->getId();
-                $tipoImovel = $objImovel->getTipoImovel()->getDescricao();
-            }
-        }
+    foreach ($item["imovel"] as $objImovel) {
+        $idImovel = $objImovel->getId();
+        $tipoImovel = $objImovel->getTipoImovel()->getDescricao();
+    }
+}
 ?>
 <script src="assets/libs/jquery/jquery.validate.min.js"></script>
 <script src="assets/libs/jquery/jquery.mask.min.js"></script>
-<script src="assets/js/util.validate.js"></script>
 <script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 <script src="assets/js/anuncio.js"></script>
+
+
+<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+<script src="assets/libs/fileupload/vendor/jquery.ui.widget.js"></script>
+<!-- The Templates plugin is included to render the upload/download listings -->
+<script src="assets/libs/fileupload/tmpl.min.js"></script>
+<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
+<script src="assets/libs/fileupload/load-image.all.min.js"></script>
+<!-- The Canvas to Blob plugin is included for image resizing functionality -->
+<script src="assets/libs/fileupload/canvas-to-blob.min.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="assets/libs/fileupload/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="assets/libs/fileupload/jquery.fileupload.js"></script>
+<!-- The File Upload processing plugin -->
+<script src="assets/libs/fileupload/jquery.fileupload-process.js"></script>
+<!-- The File Upload image preview & resize plugin -->
+<script src="assets/libs/fileupload/jquery.fileupload-image.js"></script>
+<!-- The File Upload validation plugin -->
+<script src="assets/libs/fileupload/jquery.fileupload-validate.js"></script>
+<!-- The File Upload user interface plugin -->
+<script src="assets/libs/fileupload/jquery.fileupload-ui.js"></script>
+<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
+<!--[if (gte IE 8)&(lt IE 10)]>
+<script src="js/cors/jquery.xdr-transport.js"></script>
+<![endif]-->
+<script>
+    /*jslint unparam: true, regexp: true */
+    /*global window, $ */
+    $(function () {
+        $('#fileupload').fileupload({
+            dropZone: null,
+            pasteZone: null,
+            autoUpload: false,
+            url: 'index.php?upload=1',
+            maxNumberOfFiles: 5,
+             maxFileSize: 3000000,
+            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+            disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator && navigator.userAgent),
+            imageMaxWidth: 800,
+            imageMaxHeight: 800,
+            imageCrop: true,
+            loadImageFileTypes: /^image\/(gif|jpeg|png)$/,
+            imageType: 'image/jpg',
+            imageForceResize: true,
+            loadImageMaxFileSize: 2
+        }).on('fileuploadsubmit', function (e, data) {
+            
+            data.formData = $("#fileupload").serializeArray();
+        }).on('fileuploadcompleted', function (e, data) {
+            /*$('input[type="radio"]').bootstrapSwitch('destroy');
+             $('input[type="radio"]').bootstrapSwitch();
+             $('input[type="radio"]').bootstrapSwitch('setOnLabel', 'Sim');
+             $('input[type="radio"]').bootstrapSwitch('setOffLabel', 'Não');
+             $('input[type="radio"]').bootstrapSwitch('setOffClass', 'danger');
+             $('input[type="radio"]').on('switch-change', function() {
+             $('input[type="radio"]').bootstrapSwitch('toggleRadioState');
+             });*/
+            //console.log(data);
+            $('.ui.checkbox').checkbox();
+        })
+        /*
+         // Load existing files:
+         $('#fileupload').addClass('fileupload-processing');
+         $.ajax({
+         url: "index.php",
+         dataType: 'json',
+         context: $('#fileupload')[0],
+         data: {"anuncio": <?php echo ($item["anuncio"]->getId() != "" ? $item["anuncio"]->getId() : "0" ); ?>, "entidade": "Anuncio", "acao": "reativarAnuncioImagem"}
+         }).always(function() {
+         $(this).removeClass('fileupload-processing');
+         }).done(function(result) {
+         console.log(result);
+         $(this).fileupload('option', 'done').call(this, $.Event('done'), {result: result});
+         });*/
+
+    });
+</script>
+
+
+
 <script>
     cadastrarAnuncio();
     cancelarAnuncio();
@@ -73,15 +153,31 @@ if ($item) {
             </div>
         </div>
     </div>    <div class="ui hidden divider"></div>
-        <!--NAVEGAÇÃO-->
+    <!--NAVEGAÇÃO-->
     <div class="ui page grid main">
         <div class="ui basic right aligned segment">
-            <div class="ui green button" id="btnDetalhesImovel"><i class="home icon"></i> <?php echo ucfirst($tipoImovel)?></div>
-            <div class="ui orange button" id="btnAnterior1"><i class="arrow left icon"></i> </div>
-            <div class="ui blue button" id="btnProximo1"> <i class="arrow right icon"></i></div>
+
+            <div class="ui animated fade green button" id="btnDetalhesImovel">
+                <div class="visible content"><i class="home icon"></i> <?php echo ucfirst($tipoImovel) ?></div>
+                <div class="hidden content">
+                    Ver detalhes
+                </div>
+            </div>
+            <div class="ui animated fade orange button" id="btnAnterior1">
+                <div class="visible content"><i class="arrow left icon"></i></div>
+                <div class="hidden content">
+                    Anterior
+                </div>
+            </div>
+            <div class="ui animated fade blue button" id="btnProximo1">
+                <div class="visible content"><i class="arrow right icon"></i></div>
+                <div class="hidden content">
+                    Próximo
+                </div>
+            </div>
         </div>
     </div>
-            <div class="ui hidden divider"></div>
+    <div class="ui hidden divider"></div>
     <form id="fileupload" class="form-horizontal" enctype="multipart/form-data">
         <input type="hidden" id="hdnId" name="hdnId" value=""/>
         <input type="hidden" id="hdnIdImovel" name="hdnIdImovel" value="<?php echo $idImovel; ?>" />
@@ -194,32 +290,30 @@ if ($item) {
                 <h3 class="ui dividing header">Informações Adicionais</h3>
                 <!-- Redirect browsers with JavaScript disabled to the origin page -->
                 <noscript><input type="hidden" name="redirect" value="index.php"></noscript>
+                <h4 class="ui header"> Adicione nessa etapa as fotos para o anúncio</h4>
                 <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-                <div class="row fileupload-buttonbar">
-                    <div class="col-lg-7">
-                        <!-- The fileinput-button span is used to style the file input field as button -->
-                        <span class="btn btn-success fileinput-button">
-                            <i class="glyphicon glyphicon-plus"></i>
-                            <span>Adicionar fotos...</span>
-                            <input type="file" name="files[]" multiple accept="image/png,image/jpeg,image/gif">
-                        </span>
-                        <!-- <button type="submit" class="btn btn-primary start">
-                        <i class="glyphicon glyphicon-upload"></i>
-                        <span>Start upload</span>
-                        </button> -->
-                        <button type="reset" class="btn btn-warning cancel">
-                            <i class="glyphicon glyphicon-ban-circle"></i>
-                            <span>Cancelar o envio de todas</span>
-                        </button>
-                        <button type="button" class="btn btn-danger delete">
-                            <i class="glyphicon glyphicon-trash"></i>
-                            <span>Excluir fotos selecionadas</span>
-                        </button>  
-                        <!-- The global file processing state -->
-                        <span class="fileupload-process"></span>
+                <div class="fileupload-buttonbar">
+                    <!-- The fileinput-button span is used to style the file input field as button -->
+                    <div class="ui action input">
+                        <label class="ui green icon labeled button fileinput-button">
+                            <i class="ui large add icon"></i>
+                            <input type="file" id="arquivo" name="files[]" multiple style="display: none">Adicionar fotos</label>
                     </div>
+                    <button type="submit" class="ui blue button start">
+                        <i class="ui upload icon"></i>Enviar fotos
+                    </button>
+                    <button type="reset" class="ui yellow button cancel">
+                        <i class="ui ban icon"></i>Cancelar o envio de todas
+                    </button>
+                    <button type="button" class="ui red button delete">
+                        <i class="ui trash outline icon"></i>Excluir fotos selecionadas
+                    </button>
+                    <input type="checkbox" class="ui toggle checkbox">
+                    <!-- The global file processing state -->
+                    <span class="fileupload-process"></span>
+
                     <!-- The global progress state -->
-                    <div class="col-lg-5 fileupload-progress fade">
+                    <div class="column fileupload-progress fade">
                         <!-- The global progress bar -->
                         <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
                             <div class="progress-bar progress-bar-success" style="width:0%;"></div>
@@ -228,15 +322,103 @@ if ($item) {
                         <div class="progress-extended">&nbsp;</div>
                     </div>
                 </div>
-                Adicione nessa etapa as fotos para o anúncio
                 <!-- The table listing the files available for upload/download -->
-                <div class="row">
-                    <div class="col-lg-9">
-                        <table role="presentation" class="table table-striped table-condensed table-responsive">
-                            <tbody class="files"></tbody>
-                        </table>
+                <table role="presentation" class="ui form table"><tbody class="files"></tbody></table>
+                <!-- The template to display files available for upload -->
+                <script id="template-upload" type="text/x-tmpl">
+                    {% for (var i=0, file; file=o.files[i]; i++) { %}
+                    <tr class="template-upload fade">
+                    <td>
+                    <span class="preview"></span>
+                    </td>
+                    <td>
+                    <p class="name">{%=file.name%}</p>
+                    
+                    <p class="error"></p>
+                    
+                   
+                    </td>
+                    <td>
+                    <input type="text" id="txtLegenda[{%=file.name%}]" name="txtLegenda[{%=file.name%}]" placeholder="Informe a Legenda" class="ui input" />
+                    </td>    
+                    <td>
+                    <p class="size">Processing...</p>
+                    <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                    <div class="progress-bar progress-bar-success" style="width:0%;"></div>
                     </div>
-                </div>
+                    </td>
+                    <td>
+                    {% if (!i && !o.options.autoUpload) { %}
+                    <button class="ui blue button start" disabled>
+                    <i class="ui upload icon"></i>Enviar
+                    </button>
+                    {% } %}
+                    {% if (!i) { %}
+                    <button class="ui yellow button cancel">
+                    <i class="ui ban icon"></i>Cancelar
+                    </button>
+                    {% } %}
+                    </td>
+                    </tr>
+                    {% } %}
+                </script>
+                <!-- The template to display files available for download -->
+                <script id="template-download" type="text/x-tmpl">
+                    {% for (var i=0, file; file=o.files[i]; i++) { %}
+                    <tr class="template-download fade">
+                    <td style="vertical-align: middle;">
+                    <input type="checkbox" name="delete" value="1" class="ui toggle checkbox">
+                    </td>
+                    <td style="vertical-align: middle;">
+                    <span class="preview">
+                    {% if (file.thumbnailUrl) { %}
+                    <a href="#" title="{%=file.name%}" download="{%=file.name%}"><img src="{%=file.thumbnailUrl%}"></a>
+                    {% } %}
+                    </span>
+                    </td>
+                    <td style="vertical-align: middle;">
+                    <p class="name">
+                    {% if (file.url) { %}
+                    {%=file.name%}
+                    {% } else { %}
+                    <span>{%=file.name%}</span>
+                    {% } %}
+                    </p>
+                    {% if (file.error) { %}
+                    <div class="ui negative message"><div class="ui header">Ocorreu um erro</div> {%=file.error%}</div>
+                    {% } %}
+                    </td>
+                    <td style="vertical-align: middle;">
+                    <span class="legenda">{%=file.legenda%}</span>
+                    </td>
+                    <td style="vertical-align: middle;">
+                    <span class="size">{%=o.formatFileSize(file.size)%}</span>
+                    </td>
+                    <td style="vertical-align: middle;">
+                    {% if (file.deleteUrl) { %}
+                    <button type="button" class="ui red button delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+                    <i class="ui trash outline icon"></i>
+                    <span>Excluir</span>
+                    </button>
+                    {% } else { %}
+                    <button type="reset" class="ui yellow button cancel">
+                    <i class="ui ban icon"></i>
+                    <span>Cancelar</span>
+                    </button>
+                    {% } %}
+                    </td>
+                    {% if (file.url) { %}
+                    <td style="vertical-align: middle;">
+                    <div class="ui toggle checkbox">
+                    <input type="checkbox" name="rdbDestaque" value="{%=file.name%}">
+                    <label>Foto Destaque?</label>
+                    </div>
+                    </td>
+                    {% } %}
+                    </tr>
+                    {% } %}
+                </script>
+
             </div>
         </div> 
         <!--CONFIRMAÇÃO-->
@@ -291,25 +473,177 @@ if ($item) {
 
 
 <?php
+$modal = $item["imovel"][0];
+?>
+<div class="ui modal" id='modal<?php echo $modal->getId() ?>'>
+    <i class="close icon"></i>
+    <div class="header">
+        Detalhes do Imóvel
+    </div>
+    <div class="content">
+        <div class="description">
+            <?php
+            echo "<div class='ui items'>
+                                    <div class='item'>
+                                      <div class='content'>
+                                        <div class='header'>Tipo</div>
+                                        <div class='meta'>
+                                            <span class='price'>" . $modal->buscarTipoImovel($modal->getIdTipoImovel()) . "</span>
+                                        </div>
+                                        <div class='header'>Descrição</div>
+                                        <div class='meta'>
+                                            <span class='price'>" . $modal->getIdentificacao() . "</span>
+                                        </div>
+                                        </div>
+                                    </div>
+                           </div>";
+            switch ($modal->getIdTipoImovel()) {
+                case "1":
+
+                    echo "Condição: " . $modal->getCondicao() . "<br />";
+                    echo "Quarto(s): " . $modal->getCasa()->getQuarto() . "<br />";
+                    echo "Vagas de Garagem: " . $modal->getCasa()->getGaragem() . "<br />";
+                    echo "Banheiro(s): " . $modal->getCasa()->getBanheiro() . "<br />";
+                    echo "Suite(s): " . $modal->getCasa()->getSuite() . "<br />";
+                    echo "Área: " . $modal->getCasa()->getArea() . "m2<br />";
+                    break;
+
+                case "2":
+
+                    echo "<div class='fields'><div class='four wide field'>
+                                                      <label>Número de Andares: </label>" . $modal->getApartamentoPlanta()->getAndares() . "</div>
+                                                      <div class='four wide field'>
+                                                      <label>Unidades por Andar: </label>" . $modal->getApartamentoPlanta()->getUnidadesAndar() . "</div>
+                                  </div>";
+                    echo "Número de Torres: " . $modal->getApartamentoPlanta()->getNumeroTorres() . "<br />";
+                    echo "Total de Unidades: " . $modal->getApartamentoPlanta()->getTotalUnidades() . "<br />";
+                    echo "<div class='ui dividing header'></div>";
+
+                    $numeroPlantas = count($modal->getPlanta());
+
+                    if ($numeroPlantas == 1) {
+                        echo "Planta:";
+
+                        echo "<table class='ui table'>
+                                <thead>
+                                    <tr>
+                                        <th>Titulo da Planta</th>
+                                        <th>Quarto(s)</th>
+                                        <th>Banheiro(s)</th>
+                                        <th>Suite(s)</th>
+                                        <th>Vaga(s) de Garagem</th>
+                                        <th>Área</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tr>";
+
+
+                        foreach ($modal->getPlanta() as $valoresPlanta) {
+                            echo "<td>" . $valoresPlanta->getTituloPlanta() . "</td>";
+                            echo "<td>" . $valoresPlanta->getQuarto() . "</td>";
+                            echo "<td>" . $valoresPlanta->getBanheiro() . "</td>";
+                            echo "<td>" . $valoresPlanta->getSuite() . "</td>";
+                            echo "<td>" . $valoresPlanta->getGaragem() . "</td>";
+                            echo "<td>" . $valoresPlanta->getArea() . "</td>";
+                        }
+
+                        echo "</tr></tbody></table>";
+                    } else {
+                        echo "Plantas: <br />";
+
+                        echo "<table class='ui table'>
+                                <thead>
+                                    <tr>
+                                        <th>Titulo da Planta</th>
+                                        <th>Quarto(s)</th>
+                                        <th>Banheiro(s)</th>
+                                        <th>Suite(s)</th>
+                                        <th>Vaga(s) de Garagem</th>
+                                        <th>Área</th>
+                                    </tr>
+                                </thead>
+                                <tbody>";
+
+                        foreach ($modal->getPlanta() as $valoresPlanta) {
+                            echo "<tr>";
+                            echo "<td>" . $valoresPlanta->getTituloPlanta() . "</td>";
+                            echo "<td>" . $valoresPlanta->getQuarto() . "</td>";
+                            echo "<td>" . $valoresPlanta->getBanheiro() . "</td>";
+                            echo "<td>" . $valoresPlanta->getSuite() . "</td>";
+                            echo "<td>" . $valoresPlanta->getGaragem() . "</td>";
+                            echo "<td>" . $valoresPlanta->getArea() . "</td>";
+                        }
+                        echo "</tr></tbody></table>";
+                    }
+
+                    break;
+                case "3":
+                    echo "Quarto: " . $modal->getApartamento()->getQuarto() . "<br />";
+                    echo "Vagas de Garagem: " . $modal->getApartamento()->getGaragem() . "<br />";
+                    echo "Quarto(s): " . $modal->getApartamento()->getQuarto() . "<br />";
+                    echo "Banheiro(s): " . $modal->getApartamento()->getBanheiro() . "<br />";
+                    echo "Suite(s): " . $modal->getApartamento()->getSuite() . "<br />";
+                    echo "Possui Sacada: " . $modal->getApartamento()->getSacada() . "<br />";
+                    echo "Apartamentos p/ Andar: " . $modal->getApartamento()->getUnidadesAndar() . "<br />";
+                    break;
+                case "4":
+                    echo "Condição: " . $modal->getCondicao() . "<br />";
+                    echo "Banheiro: " . $modal->getSalaComercial()->getBanheiro() . "<br />";
+                    echo "Vagas de Garagem: " . $modal->getSalaComercial()->getGaragem() . "<br />";
+                    echo "Condomínio: " . $modal->getSalaComercial()->getCondominio() . "<br />";
+                    echo "Area: " . $modal->getSalaComercial()->getArea() . "<br />";
+                    break;
+                case "5":
+                    echo "Area: " . $modal->getPredioComercial()->getArea() . "<br />";
+                    break;
+                case "6":
+                    echo "Area: " . $modal->getTerreno()->getArea() . "<br />";
+                    break;
+            }
+            echo "<div class='ui dividing header'></div>";
+            if ($modal->getEndereco()->getNumero() != "" && $modal->getEndereco()->getComplemento() != "") {
+                echo "Endereço: " . $modal->getEndereco()->getLogradouro() . ", " . $modal->getEndereco()->getNumero() . ", " . $modal->getEndereco()->getComplemento() . "<br />";
+                echo $modal->getEndereco()->getBairro()->getNome() . ", " . $modal->getEndereco()->getCidade()->getNome() . " - " . $modal->getEndereco()->getEstado()->getUf();
+            } elseif ($modal->getEndereco()->getNumero() != "" && $modal->getEndereco()->getComplemento() == "") {
+                echo "Endereço: " . $modal->getEndereco()->getLogradouro() . ", " . $modal->getEndereco()->getNumero() . "<br />";
+                echo $modal->getEndereco()->getBairro()->getNome() . ", " . $modal->getEndereco()->getCidade()->getNome() . " - " . $modal->getEndereco()->getEstado()->getUf();
+            } elseif ($modal->getEndereco()->getNumero() == "" && $modal->getEndereco()->getComplemento() == "") {
+                echo "Endereço: " . $modal->getEndereco()->getLogradouro() . "<br />";
+                echo $modal->getEndereco()->getBairro()->getNome() . ", " . $modal->getEndereco()->getCidade()->getNome() . " - " . $modal->getEndereco()->getEstado()->getUf();
+            } elseif ($modal->getEndereco()->getNumero() == "" && $modal->getEndereco()->getComplemento() != "") {
+                echo "Endereço: " . $modal->getEndereco()->getLogradouro() . ", " . $modal->getEndereco()->getComplemento() . "<br />";
+                ;
+                echo $modal->getEndereco()->getBairro()->getNome() . ", " . $modal->getEndereco()->getCidade()->getNome() . " - " . $modal->getEndereco()->getEstado()->getUf();
+            }
+            ?>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui button">FECHAR</div>
+    </div>
+</div> 
+
+<script>
+    $(("#btnDetalhesImovel")).click(function () {
+
+        $("#modal<?php echo $modal->getId() ?>").modal({
+            closable: false,
+            transition: "fade up",
+        }).modal('show');
+
+    })
+</script> 
+
+
+
+
+
+
+<?php
 die();
 ?>
-<!--<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
-<script src="assets/js/gmaps.js"></script>
-<script src="assets/js/wizard.js"></script>
-<script src="assets/js/bootstrap-maxlength.js"></script>
-<script src="assets/js/bootstrap-switch.js"></script>
-<script src="assets/js/jquery.price_format.min.js"></script>
- UPLOAD 
-<script src="assets/js/upload/jquery.ui.widget.js"></script>
-<script src="assets/js/upload/tmpl.min.js"></script>
-<script src="assets/js/upload/load-image.min.js"></script>
-<script src="assets/js/upload/canvas-to-blob.min.js"></script>
-<script src="assets/js/upload/jquery.iframe-transport.js"></script>
-<script src="assets/js/upload/jquery.fileupload.js"></script>
-<script src="assets/js/upload/jquery.fileupload-process.js"></script>
-<script src="assets/js/upload/jquery.fileupload-image.js"></script>
-<script src="assets/js/upload/jquery.fileupload-validate.js"></script>
-<script src="assets/js/upload/jquery.fileupload-ui.js"></script>-->
+
 
 <form id="fileupload" class="form-horizontal" enctype="multipart/form-data">
     <div class="container"> <!-- CLASSE QUE DEFINE O CONTAINER COMO FLUIDO (100%) -->
@@ -369,7 +703,7 @@ die();
                                     <div class="form-group">
                                         <label class="col-lg-3 control-label" for="txtValor">Valor</label>
                                         <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="txtValor" name="txtValor" placeholder="Valor do Imóvel"  value="<?php //echo $item["anuncio"]->getValor();                        ?>"> 
+                                            <input type="text" class="form-control" id="txtValor" name="txtValor" placeholder="Valor do Imóvel"  value="<?php //echo $item["anuncio"]->getValor();                            ?>"> 
                                         </div>
                                         <span class="col-lg-4 ">(Não informar os centavos)</span>
                                     </div>
@@ -624,6 +958,10 @@ die();
         </div>
     </div>
 </form>
+
+
+
+
 
 <script>
     //    $(document).ready(function() {
@@ -891,94 +1229,4 @@ die();
     //        });
     //
     //    });
-</script>
-<!-- The template to display files available for upload -->
-<script id="template-upload" type="text/x-tmpl">
-    {% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-upload fade">
-    <td>
-    <span class="preview"></span>
-    </td>
-    <td>
-    <p class="name">{%=file.name%}</p>
-    <strong class="error text-danger"></strong>
-    </td>
-    <td>
-    <input type="text" id="txtLegenda[{%=file.name%}]" name="txtLegenda[{%=file.name%}]" placeholder="Informe a Legenda" class="form-control" />
-    </td>    
-    <td>
-    <p class="size">Processing...</p>
-    <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-    <div class="progress-bar progress-bar-success" style="width:0%;"></div>
-    </div>
-    </td>
-    <td>
-    {% if (!i && !o.options.autoUpload) { %}
-    <button class="btn btn-primary start" disabled>
-    <span class="glyphicon glyphicon-upload"></span>
-    Enviar
-    </button>
-    {% } %}
-    {% if (!i) { %}
-    <button class="btn btn-warning cancel">
-    <span class="glyphicon glyphicon-ban-circle"></span>
-    Cancelar envio
-    </button>
-    {% } %}
-    </td>
-    </tr>
-    {% } %}
-</script>
-<!-- The template to display files available for download -->
-<script id="template-download" type="text/x-tmpl">
-    {% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-download fade">
-    <td style="vertical-align: middle;">
-    <input type="checkbox" name="delete" value="1" class="toggle">
-    </td>
-    <td style="vertical-align: middle;">
-    <span class="preview">
-    {% if (file.thumbnailUrl) { %}
-    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
-    {% } %}
-    </span>
-    </td>
-    <td style="vertical-align: middle;">
-    <p class="name">
-    {% if (file.url) { %}
-    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
-    {% } else { %}
-    <span>{%=file.name%}</span>
-    {% } %}
-    </p>
-    {% if (file.error) { %}
-    <div><span class="label label-danger">Error</span> {%=file.error%}</div>
-    {% } %}
-    </td>
-    <td style="vertical-align: middle;">
-    <span class="legenda">{%=file.legenda%}</span>
-    </td>
-    <td style="vertical-align: middle;">
-    <span class="size">{%=o.formatFileSize(file.size)%}</span>
-    </td>
-    <td style="vertical-align: middle;">
-    {% if (file.deleteUrl) { %}
-    <button class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
-    <span class="glyphicon glyphicon-trash"></span>
-    Excluir
-    </button>
-    {% } else { %}
-    <button class="btn btn-warning cancel">
-    <span class="glyphicon glyphicon-ban-circle"></span>
-    Cancelar envio
-    </button>
-    {% } %}
-    </td>
-    {% if (file.url) { %}
-    <td style="vertical-align: middle;">
-    <span class="size"><input type="radio" name="rdbDestaque" value="{%=file.name%}" data-text-label="Foto Destaque?" /></span>
-    </td>
-    {% } %}
-    </tr>
-    {% } %}
 </script>
