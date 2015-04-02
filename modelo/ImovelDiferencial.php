@@ -7,6 +7,8 @@ class ImovelDiferencial {
     private $idimovel;
     private $iddiferencial;
     
+    protected $diferencial;
+            
     function getId() {
         return $this->id;
     }
@@ -17,6 +19,10 @@ class ImovelDiferencial {
 
     function getIddiferencial() {
         return $this->iddiferencial;
+    }
+
+    function getDiferencial() {
+        return $this->diferencial;
     }
 
     function setId($id) {
@@ -31,6 +37,11 @@ class ImovelDiferencial {
         $this->iddiferencial = $iddiferencial;
     }
 
+    function setDiferencial($diferencial) {
+        $this->diferencial = $diferencial;
+    }
+
+    
     function cadastrar($parametros, $idImovel, $indiceControle) {
         
         $ImovelDiferencial = new ImovelDiferencial();

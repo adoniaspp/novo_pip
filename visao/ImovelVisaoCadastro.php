@@ -5,6 +5,7 @@
 <script src="assets/libs/jquery/jquery.mask.min.js"></script>
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
+<script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
 <script>
     
     cadastrarImovel();  
@@ -14,7 +15,6 @@
     confirmarCadastroImovel();
     buscarCep();
     preco();
-    
     
 </script>
 
@@ -331,9 +331,9 @@ Sessao::gerarToken();
                         <label>Número</label>
                         <input type="text" name="txtNumero" id="txtNumero"  maxlength="5" placeholder="Informe o nº">
                     </div>
-                    <div class="seven wide field">
+                    <div class="nine wide field">
                         <label>Complemento</label>
-                        <input type="text" name="txtComplemento" id="txtComplemento" maxlength="50" placeholder="Complemento">
+                        <input type="text" name="txtComplemento" id="txtComplemento" maxlength="80" placeholder="Complemento">
                     </div>
                     </div>
                 

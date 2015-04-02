@@ -4,6 +4,7 @@ include_once 'modelo/Anuncio.php';
 include_once 'modelo/Endereco.php';
 include_once 'modelo/Imovel.php';
 include_once 'modelo/ImovelDiferencial.php';
+include_once 'modelo/Diferencial.php';
 include_once 'modelo/Casa.php';
 include_once 'modelo/Apartamento.php';
 include_once 'modelo/ApartamentoPlanta.php';
@@ -219,8 +220,6 @@ class ImovelControle {
                 $selecionarEndereco = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarImovel->getIdEndereco()));
                 $selecionarImovel->setEndereco($selecionarEndereco[0]);
 
-
-
                 $listarImovel[] = $selecionarImovel;
             }
 
@@ -242,12 +241,14 @@ class ImovelControle {
             #verificar a melhor forma de tratar o blindado recursivo
             foreach ($listaImoveis as $selecionarImovel) {
                 $selecionarEndereco = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarImovel->getIdEndereco()));
-
                 $selecionarImovel->setEndereco($selecionarEndereco[0]);
 
                 $selecionarPlanta = $genericoDAO->consultar(new Planta(), true, array("idimovel" => $selecionarImovel->getId()));
                 $selecionarImovel->setPlanta($selecionarPlanta);
-
+                
+                $selecionarDiferencial = $genericoDAO->consultar(new ImovelDiferencial(), true, array("idimovel" => $selecionarImovel->getId()));
+                $selecionarImovel->setImovelDiferencial($selecionarDiferencial);
+                
                 $listarImovel[] = $selecionarImovel;
             }
 

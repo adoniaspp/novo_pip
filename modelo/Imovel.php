@@ -20,7 +20,8 @@ class Imovel {
     protected $terreno;
     protected $planta;
     protected $tipoimovel;
-                
+    protected $imoveldiferencial;
+            
     function getId() {
         return $this->id;
     }
@@ -87,6 +88,14 @@ class Imovel {
 
     function getPlanta() {
         return $this->planta;
+    }
+
+    function getTipoimovel() {
+        return $this->tipoimovel;
+    }
+
+    function getImoveldiferencial() {
+        return $this->imoveldiferencial;
     }
 
     function setId($id) {
@@ -157,14 +166,15 @@ class Imovel {
         $this->planta = $planta;
     }
 
-    public function getTipoimovel() {
-        return $this->tipoimovel;
-    }
-
-    public function setTipoimovel($tipoimovel) {
+    function setTipoimovel($tipoimovel) {
         $this->tipoimovel = $tipoimovel;
     }
 
+    function setImoveldiferencial($imoveldiferencial) {
+        $this->imoveldiferencial = $imoveldiferencial;
+    }
+
+    
         
     public function Referencia() {
         return substr($this->getDatahoracadastro(), 6, -9) . substr($this->getDatahoracadastro(), 3, -14) . str_pad($this->getId(), 5, "0", STR_PAD_LEFT);

@@ -269,7 +269,7 @@ if ($item) {
 <div class="ui standart modal" id="modalConfirmar">
     <i class="close icon"></i>
     <div class="header">
-        Confirmar Dados
+        Confirmar Alteração
     </div>
     <div class="content">
         <div class="description">

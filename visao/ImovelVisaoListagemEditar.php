@@ -57,8 +57,13 @@
         <?php
                         
         echo $imovel->buscarTipoImovel($imovel->getIdTipoImovel());
-                        
-        echo "<td>".$imovel->getIdentificacao()."</td>";
+        
+        if(trim($imovel->getIdentificacao()) == ""){
+            $descricao = "<h4 class='ui red header'>Não Informado</h4>";
+            
+        } else { $descricao = $imovel->getIdentificacao(); }
+        
+        echo "<td>".$descricao."</td>";
                         
         echo "<td>".$imovel->getDatahoracadastro()."</td>";
                         

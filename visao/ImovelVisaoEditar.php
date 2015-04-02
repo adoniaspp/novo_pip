@@ -5,6 +5,7 @@
 <script src="assets/libs/jquery/jquery.mask.min.js"></script>
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
+<script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
 <script>
     
     cadastrarImovel();  
@@ -13,8 +14,7 @@
     confirmarCadastroImovel(); //chama o mesmo modal da confirmação do Cadastro
     buscarCep();
     preco();
-    
-    
+       
 </script>
 
 
@@ -453,13 +453,13 @@ if ($item) {
                         <label>Logradouro</label>
                         <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly" value="<?php echo $imovel->getEndereco()->getLogradouro()?>">
                     </div>
-                    <div class="two wide field">
+                    <div class="two required wide field">
                         <label>Número</label>
                         <input type="text" name="txtNumero" id="txtNumero"  maxlength="5" placeholder="Informe o nº" value="<?php echo $imovel->getEndereco()->getNumero()?>">
                     </div>
-                    <div class="seven wide field">
+                    <div class="nine wide field">
                         <label>Complemento</label>
-                        <input type="text" name="txtComplemento" id="txtComplemento" maxlength="50" placeholder="Complemento" value="<?php echo $imovel->getEndereco()->getComplemento()?>">
+                        <input type="text" name="txtComplemento" id="txtComplemento" maxlength="80" placeholder="Complemento" value="<?php echo $imovel->getEndereco()->getComplemento()?>">
                     </div>
                     </div>
                 

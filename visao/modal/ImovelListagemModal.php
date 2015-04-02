@@ -1,6 +1,8 @@
     
 <?php
-
+/*echo "<pre>";       
+var_dump($this->getItem()); 
+echo "</pre>";die();*/
 foreach($this->getItem() as $modal){?>
 <div class="ui modal" id='modal<?php echo $modal->getId()?>'>
   <i class="close icon"></i>
@@ -10,6 +12,49 @@ foreach($this->getItem() as $modal){?>
   <div class="content">
     <div class="description">
         <?php
+        
+
+        
+        //diferencial
+        $totalDiferencial = count($modal->getImovelDiferencial());
+        
+        if($totalDiferencial == 0 ){ 
+        
+                echo "<div class='ui horizontal list'>
+                                        <div class='item'>
+                                        <div class='content'>
+                                        <div class='header'>Diferenciais</div><h4 class='ui red header'>Não Informado</h4></div>
+                                        </div>
+                                </div>
+                <div class='ui hidden divider'></div>";
+        } else {
+    
+           //transforma os elementos em um array
+           $valoresDiferencial = array();
+           
+           foreach($modal->getImovelDiferencial() as $valoresDif){
+               $valoresDiferencial[] = $valoresDif->getDiferencial()->getDescricao(); 
+           }
+           
+           $diferenciais = implode(", ", $valoresDiferencial);
+
+           echo "<div class='ui horizontal list'>
+                                        <div class='item'>
+                                        <div class='content'>
+                                        <div class='header'>Diferenciais </div>".$diferenciais."</div>
+                         </div>
+                         </div>
+            <div class='ui hidden divider'></div>";
+
+        }
+        
+        //fim do diferencial
+        
+        //verificar se a descrição está preenchida, pois é um campo não obrigatório
+        if(trim($modal->getIdentificacao()) == ""){
+            $descricao = "<h4 class='ui red header'>Não Informado</h4>";
+            
+        } else { $descricao = $modal->getIdentificacao(); }
 
                      echo  "<div class='ui horizontal list'>
                                 <div class='item'>
@@ -21,7 +66,7 @@ foreach($this->getItem() as $modal){?>
                                 <div class='item'>
                                   <div class='content'>
                                     <div class='header'>Descrição</div>
-                                    ".$modal->getIdentificacao()."
+                                    ".$descricao."
                                   </div>
                                 </div>
                             </div>
@@ -313,7 +358,7 @@ foreach($this->getItem() as $modal){?>
                                   <div class='content'>
                                     <div class='header'>Endereço</div>
                                     ".$endereco."<br />
-                                    ".$modal->getEndereco()->getBairro()->getNome().", ".$modal->getEndereco()->getCidade()->getNome()." - ".$imovel->getEndereco()->getEstado()->getUf()."
+                                    ".$modal->getEndereco()->getBairro()->getNome().", ".$modal->getEndereco()->getCidade()->getNome()." - ".$modal->getEndereco()->getEstado()->getUf()."
                                   </div>
                                 </div>                               
                           </div>";

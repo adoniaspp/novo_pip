@@ -27,6 +27,8 @@ include_once 'modelo/PredioComercial.php';
 include_once 'modelo/Terreno.php';
 include_once 'modelo/Planta.php';
 include_once 'modelo/TipoImovel.php';
+include_once 'modelo/ImovelDiferencial.php';
+include_once 'modelo/Diferencial.php';
 
 class UsuarioControle {
 

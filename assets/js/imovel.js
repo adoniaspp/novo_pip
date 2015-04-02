@@ -415,10 +415,23 @@ function esconderCamposInicio() {
                     var $clone = $('#divInfoApeCasa').clone();
                     $clone.attr("id","divInfoApeCasa"+valor);
 
-                 var label = "<h4>Planta "+(valor)+": </h4><div id='divNomePlantas' class='nine wide required field'><input type='text' name='txtPlanta[]' id='txtPlanta"+valor+"' placeholder='Titulo da Planta. Ex: 3 Quartos + 2 Suites + Opções (Ex: Gabinete, Living Ampliado, etc)'></div>"                 
+                 var label = "<h4>Planta "+(valor)+": </h4><div id='divNomePlantas' class='nine wide required field'><input type='text' maxlength='80' name='txtPlanta[]' id='txtPlanta"+valor+"' placeholder='Titulo da Planta. Ex: 3 Quartos + 2 Suites + Opções (Ex: Gabinete, Living Ampliado, etc)'></div>"                 
                  
                  $('#divInserePlanta').append(label);
                  $('#divInserePlanta').append($clone);
+                 
+                 //componente que exibe o valor máximo a ser digitado para cada planta
+                 $('#txtPlanta'+valor).maxlength({
+                    alwaysShow: true,
+                    threshold: 50,
+                    warningClass: "ui small green circular label",
+                    limitReachedClass: "ui small red circular label",
+                    separator: ' de ',
+                    preText: 'Voc&ecirc; digitou ',
+                    postText: ' caracteres permitidos.',
+                    validate: true
+                });
+                 
                  }
               
                  for (var contador = 1 ; contador <=valores ; contador++){
@@ -884,8 +897,18 @@ function mostrarCamposEdicaoCasa(tipoImovel,
                             parametroArea){
     $(document).ready(function () {  
             
-            var tituloPlanta = "<div class='sixteen wide field'>   <div id='divNomePlantas' class='nine wide required field'><label>Planta "+(parametroOrdem+1)+": </label><input type='text' name='txtPlanta[]' id='txtPlanta"+parametroOrdem+"' value = '"+parametroTituloPlanta+"' placeholder='Titulo da Planta. Ex: 3 Quartos + 2 Suites + Opções (Ex: Gabinete, Living Ampliado, etc)'></div></div>";                                     
+            var tituloPlanta = "<div class='sixteen wide field'>   <div id='divNomePlantas' class='nine wide required field'><label>Planta "+(parametroOrdem+1)+": </label><input type='text' name='txtPlanta[]' id='txtPlanta"+parametroOrdem+"' maxlength='80' value = '"+parametroTituloPlanta+"' placeholder='Titulo da Planta. Ex: 3 Quartos + 2 Suites + Opções (Ex: Gabinete, Living Ampliado, etc)'></div></div>";                                     
             $('#divInfoApeCasa').append(tituloPlanta);
+            $('#txtPlanta'+parametroOrdem).maxlength({
+                    alwaysShow: true,
+                    threshold: 50,
+                    warningClass: "ui small green circular label",
+                    limitReachedClass: "ui small red circular label",
+                    separator: ' de ',
+                    preText: 'Voc&ecirc; digitou ',
+                    postText: ' caracteres permitidos.',
+                    validate: true
+                });
 /* <div class="sixteen wide field">                
                 <div id="divInserePlanta"></div>
                 </div> */
@@ -1100,7 +1123,7 @@ function carregaDadosModalImovel($div) {
         $div.append("<div class='ui horizontal list'>\n\
                             <div class='item'>\n\
                             <div class='content'>\n\
-                            <div class='header'>Tipo</div>"+$("#sltTipo").val()+"</div>\n\
+                            <div class='header'>Tipo</div>"+tipoImovel($("#sltTipo").val())+"</div>\n\
                             </div><div class='item'>\n\
                             <div class='content'><div class='header'>Descrição</div>"+descricao+"\
                             </div></div>\n\
@@ -1108,10 +1131,10 @@ function carregaDadosModalImovel($div) {
                     <div class='ui hidden divider'></div>");
         
         //diferencial
-        /*var diferencial;
-        var totalDiferencial = $("input[checked^='checked']").length;
+        var diferencial;
+        var totalDiferencial = $('input[type=checkbox]:checked').length;
         
-        if(totalDiferencial <=0 ){ 
+        if(totalDiferencial == 0 ){ 
         
                 $div.append("<div class='ui horizontal list'>\n\
                                         <div class='item'>\n\
@@ -1121,12 +1144,26 @@ function carregaDadosModalImovel($div) {
                                 </div>\n\
                 <div class='ui hidden divider'></div>");
         } else {
+    
+           //transforma os elementos do checkbox em um array
+           var arr = [];
+           $("input[type^='checkbox']:checked").parent().find("#diferencial").each( function()
+                { arr.push($(this).html())});
+           
+           //retira a vírgula do último elemento
+           var diferenciais = arr.join(", ");
+
+           $div.append("<div class='ui horizontal list'>\n\
+                                        <div class='item'>\n\
+                                        <div class='content'>\n\
+                                        <div class='header'>Diferenciais </div>"+diferenciais+"</div>\n\
+                         </div>\n\
+                         </div>\n\
+            <div class='ui hidden divider'></div>");
+
+        }
         
-            for(var dif = 0; dif < totalDiferencial; dif++){
-                $div.append($("input[name^='sltGaragem']")[dif]).val();
-            }
-        }*/
-        
+        //fim do diferencial
         
         switch ($("#sltTipo").val()) {
         case "1":
@@ -1323,7 +1360,26 @@ function preco(){
         thousandsSeparator: '.',
         limit: 7
         });
-        
+        $('#txtDescricao').maxlength({
+            alwaysShow: true,
+            threshold: 150,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+        $('#txtComplemento').maxlength({
+            alwaysShow: true,
+            threshold: 80,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
     })
     }
     
@@ -1343,5 +1399,29 @@ function preco(){
                         .checkbox();
                     }
         })
+    }
+
+
+function tipoImovel(tipo){
+        switch (tipo) {
+                        case "1":
+                        return  "CASA";
+                        break;
+                        case "2":
+                        return "APARTAMENTO NA PLANTA";
+                        break;
+                        case "3":
+                        return " APARTAMENTO ";
+                        break;
+                        case "4": 
+                        return " SALA COMERCIAL ";
+                        break;
+                        case "5":
+                        return " PRÉDIO COMERCIAL ";
+                        break;
+                        case "6":
+                        return " TERRENO ";
+                        break;
+                        }
     }
 
