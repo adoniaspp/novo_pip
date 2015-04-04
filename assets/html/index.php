@@ -1,5 +1,5 @@
 <script src="assets/js/buscaAnuncio.js"></script>
-<script src="assets/js/jquery.price_format.min.js"></script>
+<script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 
 <script>
     buscarAnuncio();
@@ -163,8 +163,7 @@
 </div>
 </div>
 <div class="ui center aligned column page grid">
-
-    </div>
+</div>
 <div class="ui red segment" id="divAnuncios">  
 </div>
 

@@ -6,7 +6,7 @@
 
 <?php
 $item = $this->getItem();
-//print_r($this->getItem());
+//print_r($item);
 //die();
 if (count($item['anuncio']) == 1) {
     $linhas = 1;
@@ -14,8 +14,8 @@ if (count($item['anuncio']) == 1) {
 } else {
     $itens = count($item['anuncio']);
     $linhas = round($itens / 4);
-    $ultimaLinha = ($linhas * 4) - $itens;
-//var_dump($linhas);
+    $ultimaLinha = $itens - (($linhas-1) * 4);
+//var_dump($ultimaLinha);
 //die();
 }
 ?>
