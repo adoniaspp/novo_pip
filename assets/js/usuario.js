@@ -232,7 +232,7 @@ function acoesCEP() {
     })
 }
 
-function cancelar(URL) {
+function cancelar(entidade, acao) {
     $(document).ready(function() {
         $('#btnCancelar').click(function() {
             $('#modalCancelar').modal({
@@ -242,10 +242,9 @@ function cancelar(URL) {
                     return false;
                 },
                 onApprove: function() {
-                    if (URL === "inicio")
-                        location.href = "index.php";
-                    if (URL === "meuPIP")
-                        location.href = "index.php?entidade=Usuario&acao=meuPIP";
+                    if (entidade === "" && acao === ""){
+                        location.href = "index.php";}
+                    else location.href = "index.php?entidade="+entidade+"&acao="+acao;
                 }
             }).modal('show');
         })
@@ -514,7 +513,7 @@ function criarAlerta(tipo, mensagem) {
 
 $(document).ready(function() {
     var fileExtentionRange = '.jpg .jpeg .png .gif';
-    var MAX_SIZE = 30; // MB
+    var MAX_SIZE = 3; // MB
 
     $(document).on('change', '.btn-file :file', function() {
         var input = $(this);

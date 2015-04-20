@@ -11,6 +11,7 @@
     cadastrarImovel();  
     esconderCamposInicio();
     mascarasFormUsuario();
+    cancelar("Usuario", "meuPIP"); //caso estejam os dois parametros vazios, redirecionar para o index
     acoesCEP();
     confirmarCadastroImovel();
     buscarCep();
@@ -347,6 +348,27 @@ Sessao::gerarToken();
         </div>
     </div>
     <div class="ui hidden divider"></div>
+</div>
+
+<div class="ui small modal" id="modalCancelar">
+    <i class="close icon"></i>
+    <div class="header">
+        Cancelar
+    </div>
+    <div class="content">
+        <div class="description">
+            <div class="ui header">Deseja realmente cancelar e perder as informações não gravadas?</div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui red button">
+            Não
+        </div>
+        <div class="ui positive right labeled icon button">
+            Sim
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
 </div>
 
 <div class="ui standart modal" id="modalConfirmar">
