@@ -25,7 +25,6 @@ include_once 'modelo/Cidade.php';
 include_once 'modelo/Bairro.php';
 include_once 'DAO/GenericoDAO.php';
 include_once 'DAO/ConsultasAdHoc.php';
-include_once 'assets/pager/Pager.php';
 include_once 'modelo/Mensagem.php';
 include_once 'modelo/AnuncioClique.php';
 include_once 'modelo/EmailAnuncio.php';
