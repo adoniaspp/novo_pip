@@ -100,14 +100,14 @@ class AnuncioControle {
         unset($parametros["hdnEntidade"]);
         unset($parametros["hdnAcao"]);
         $parametros["predicados"] = $parametros;
-        $listarAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
-        $visao->setItem($listarAnuncio);
+        $listaAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
+        if(count($listaAnuncio['anuncio']) == 0){
+            $visao->setItem("errosemresultadobusca");
+            $visao->exibir('VisaoErrosGenerico.php');
+        }
+        $visao->setItem($listaAnuncio);
         $visao->exibir('AnuncioVisaoBusca.php');
-//        if($listarAnuncio){
-//            echo json_encode($listarAnuncio);
-//        }else{
-//            echo json_encode("false");
-//        }
+
     }
 
     function detalhar($parametros) {

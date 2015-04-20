@@ -27,154 +27,153 @@ $item = $this->getItem();
                             <a href="<?php echo "http://localhost/pip/fotos/5a04mq12btaqveua2pr7pai904/amostra04.jpg" ?>" data-caption="<?php echo "Casa" ?>" data-thumb="<?php echo "http://localhost/pip/fotos/5a04mq12btaqveua2pr7pai904/thumbnail/amostra04.jpg" ?>"></a>
                             <?php //} ?>
                         </div>
+                        <div class="ui info message">
+                            <p> <?php echo $item['anuncio'][0]['descricaoanuncio'] ?></p>
+                        </div>
                     </div>
                     <div class="eight wide column">
                         <div class="ui red dividing header">
-                            <i class="announcement icon"></i>
+                            <i class="file image outline icon"></i>
                             <div class="content">
                                 <?php echo $item['anuncio'][0]['tituloanuncio'] ?>
                             </div>
                         </div>
-                        <div class="ui info message">
-                            <p> <?php echo $item['anuncio'][0]['descricaoanuncio'] ?></p>
-                        </div>
-                        <div class="ui stackable two column grid">
-                            <div class="  column">
-                                <div class="ui segment">
-                                    <div class="ui top left attached label">Top Left</div>
-                                    <div class="ui top right attached label">Top Right</div>
-                                    <div class="ui bottom left attached label">Bottom Left</div>
-                                    <div class="ui bottom right attached label">Bottom Right</div>
+                        <!--                        <div class="ui info message">
+                                                    <p> <?php echo $item['anuncio'][0]['descricaoanuncio'] ?></p>
+                                                </div>-->
+<!--                        <div class="ui stackable two column grid">
+                            <div class="column">-->
+                                <div class="ui stackable two column grid">
+                                    <div class="column">
+                                        <div class="ui raised segment">
+                                            <a class="ui ribbon label">Detalhes</a>
+                                            <div class="ui celled list">                                                
+                                                <div class="item">
+<!--                                                    <img class="ui avatar image" src="/images/avatar/small/helen.jpg">-->
+                                                    <div class="content">
+                                                        <div class="header">Finalidade</div>
+                                                        <?php echo $item['anuncio'][0]['finalidade'] ?>
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+<!--                                                    <img class="ui avatar image" src="/images/avatar/small/daniel.jpg">-->
+                                                    <div class="content">
+                                                        <div class="header">Tipo do Imóvel</div>
+                                                        <?php echo $item['anuncio'][0]['descricao'] ?>
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+<!--                                                    <img class="ui avatar image" src="/images/avatar/small/daniel.jpg">-->
+                                                    <div class="content">
+                                                        <div class="header">Condição</div>
+                                                        <?php echo $item['anuncio'][0]['condicao'] ?>
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+<!--                                                    <img class="ui avatar image" src="/images/avatar/small/daniel.jpg">-->
+                                                    <div class="content">
+                                                        <div class="header">Valor</div>
+                                                        <?php echo $item['anuncio'][0]['valormin'] ?>
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+<!--                                                    <img class="ui avatar image" src="/images/avatar/small/daniel.jpg">-->
+                                                    <div class="content">
+                                                        <div class="header">Quartos</div>
+                                                        <?php echo $item['anuncio'][0]['quarto'] ?>
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+<!--                                                    <img class="ui avatar image" src="/images/avatar/small/daniel.jpg">-->
+                                                    <div class="content">
+                                                        <div class="header">Banheiros</div>
+                                                        <?php echo $item['anuncio'][0]['banheiro'] ?>
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+<!--                                                    <img class="ui avatar image" src="/images/avatar/small/daniel.jpg">-->
+                                                    <div class="content">
+                                                        <div class="header">Área</div>
+                                                        <?php echo $item['anuncio'][0]['area'] ?>
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+<!--                                                    <img class="ui avatar image" src="/images/avatar/small/daniel.jpg">-->
+                                                    <div class="content">
+                                                        <div class="header">Suítes</div>
+                                                        <?php echo $item['anuncio'][0]['suite'] ?>
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+<!--                                                    <img class="ui avatar image" src="/images/avatar/small/daniel.jpg">-->
+                                                    <div class="content">
+                                                        <div class="header">Garagem</div>
+                                                        <?php echo $item['anuncio'][0]['garagem'] ?>
+                                                    </div>
+                                                </div>
+                                            </div>           
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="ui segment">
+                                            <a class="ui right ribbon label">Diferenciais</a>
+                                            <div class="ui celled list">                                                
+                                                <div class="item">
+<!--                                                    <img class="ui avatar image" src="/images/avatar/small/helen.jpg">-->
+                                                    <div class="content">
+                                                        <div class="header">Academia</div>
+                                                        Sim
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+<!--                                                    <img class="ui avatar image" src="/images/avatar/small/daniel.jpg">-->
+                                                    <div class="content">
+                                                        <div class="header">Área de Serviço</div>
+                                                        Sim
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+<!--                                                    <img class="ui avatar image" src="/images/avatar/small/daniel.jpg">-->
+                                                    <div class="content">
+                                                        <div class="header">Dependência de Empregada</div>
+                                                        Sim
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+<!--                                                    <img class="ui avatar image" src="/images/avatar/small/daniel.jpg">-->
+                                                    <div class="content">
+                                                        <div class="header">Elevador</div>
+                                                        Sim
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+<!--                                                    <img class="ui avatar image" src="/images/avatar/small/daniel.jpg">-->
+                                                    <div class="content">
+                                                        <div class="header">Gabinete</div>
+                                                        Sim
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+<!--                                                    <img class="ui avatar image" src="/images/avatar/small/daniel.jpg">-->
+                                                    <div class="content">
+                                                        <div class="header">Piscina</div>
+                                                        Sim
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+<!--                                                    <img class="ui avatar image" src="/images/avatar/small/daniel.jpg">-->
+                                                    <div class="content">
+                                                        <div class="header">Quadra</div>
+                                                        Sim
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <!--                                <table class="ui collapsing celled table">
-                                                                    <thead>
-                                                                        <tr><th colspan="2">
-                                                                                Detalhes
-                                                                            </th>
-                                                                        </tr></thead><tbody>
-                                                                        <tr>
-                                                                            <td class="collapsing">
-                                                                                <i class="announcement icon"></i> Finalidade
-                                                                            </td>
-                                
-                                                                            <td class="collapsing"><?php echo $item['anuncio'][0]['finalidade'] ?></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td class="collapsing">
-                                                                                <i class="folder icon"></i> Tipo
-                                                                            </td>
-                                
-                                                                            <td class="collapsing"><?php echo $item['anuncio'][0]['descricao'] ?></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td class="collapsing">
-                                                                                <i class="folder icon"></i> Condição
-                                                                            </td>
-                                
-                                                                            <td class="collapsing"><?php echo $item['anuncio'][0]['condicao'] ?></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td class="collapsing">
-                                                                                <i class="folder icon"></i> Valor
-                                                                            </td>
-                                
-                                                                            <td class="collapsing"><?php echo $item['anuncio'][0]['valormin'] ?></td>
-                                                                        </tr> 
-                                                                        <tr>
-                                                                            <td class="collapsing">
-                                                                                <i class="folder icon"></i> Quartos
-                                                                            </td>
-                                
-                                                                            <td class="collapsing"><?php echo $item['anuncio'][0]['quarto'] ?></td>
-                                                                        </tr> 
-                                                                        <tr>
-                                                                            <td class="collapsing">
-                                                                                <i class="folder icon"></i> Banheiros
-                                                                            </td>
-                                                                            <td class="collapsing"><?php echo $item['anuncio'][0]['banheiro'] ?></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td class="collapsing">
-                                                                                <i class="folder icon"></i> Área
-                                                                            </td>
-                                                                            <td class="collapsing"><?php echo $item['anuncio'][0]['area'] ?></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td class="collapsing">
-                                                                                <i class="folder icon"></i> Suítes
-                                                                            </td>
-                                                                            <td class="collapsing"><?php echo $item['anuncio'][0]['suite'] ?></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td class="collapsing">
-                                                                                <i class="folder icon"></i> Garagem
-                                                                            </td>
-                                                                            <td class="collapsing"><?php echo $item['anuncio'][0]['garagem'] ?></td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>-->
-                            </div>
-
-<!--                            <div class="eight wide column"> 
-                                <table class="ui collapsing celled table">
-                                    <thead>
-                                        <tr><th colspan="2">
-                                                Diferenciais
-                                            </th>
-                                        </tr></thead><tbody>
-                                        <tr>
-                                            <td class="collapsing">
-                                                <i class="folder icon"></i> Academia
-                                            </td>
-
-                                            <td class="collapsing">ok</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="collapsing">
-                                                <i class="folder icon"></i> Área de Serviço
-                                            </td>
-
-                                            <td class="collapsing">ok</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="collapsing">
-                                                <i class="folder icon"></i> Dep. de Empregada
-                                            </td>
-
-                                            <td class="collapsing">ok</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="collapsing">
-                                                <i class="folder icon"></i> Elevador
-                                            </td>
-
-                                            <td class="collapsing">ok</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="collapsing">
-                                                <i class="folder icon"></i> Gabinete
-                                            </td>
-
-                                            <td class="collapsing">ok</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="collapsing">
-                                                <i class="folder icon"></i> Piscina
-                                            </td>
-
-                                            <td class="collapsing">ok</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="collapsing">
-                                                <i class="folder icon"></i> Quadra
-                                            </td>
-
-                                            <td class="collapsing">ok</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>-->
-                        </div>
+                                                                 
+<!--                            </div>
+                        </div>-->
                     </div>
                 </div>               
             </div> 
