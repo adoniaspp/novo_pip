@@ -10,6 +10,7 @@
     
     cadastrarImovel();  
     mascarasFormUsuario();
+    cancelar("Imovel", "listarEditar"); //caso estejam os dois parametros vazios, redirecionar para o index
     acoesCEP();
     confirmarCadastroImovel(); //chama o mesmo modal da confirmação do Cadastro
     buscarCep();
@@ -475,6 +476,27 @@ if ($item) {
     <div class="ui hidden divider"></div>
 </div>
 
+<div class="ui small modal" id="modalCancelar">
+    <i class="close icon"></i>
+    <div class="header">
+        Cancelar
+    </div>
+    <div class="content">
+        <div class="description">
+            <div class="ui header">Deseja realmente cancelar e perder as informações não gravadas?</div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui red button">
+            Não
+        </div>
+        <div class="ui positive right labeled icon button">
+            Sim
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
+    
 <div class="ui standart modal" id="modalConfirmar">
     <i class="close icon"></i>
     <div class="header">

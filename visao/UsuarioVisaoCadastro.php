@@ -8,7 +8,7 @@
     cadastrarUsuario();
     mascarasFormUsuario();
     acoesCEP();
-    cancelar("inicio");
+    cancelar("", ""); //caso estejam os dois parametros vazios, redirecionar para o index
     confirmar();
     telefone();
 </script>
