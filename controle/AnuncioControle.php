@@ -19,7 +19,6 @@ include_once 'modelo/Cidade.php';
 include_once 'modelo/Bairro.php';
 include_once 'DAO/GenericoDAO.php';
 include_once 'DAO/ConsultasAdHoc.php';
-include_once 'assets/pager/Pager.php';
 include_once 'modelo/Mensagem.php';
 include_once 'modelo/AnuncioClique.php';
 include_once 'modelo/EmailAnuncio.php';
@@ -42,6 +41,9 @@ class AnuncioControle {
             #verificar a melhor forma de tratar o blindado recursivo
             $selecionarEndereco = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarImovel[0]->getIdEndereco()));
             $selecionarImovel[0]->setEndereco($selecionarEndereco[0]);
+            
+            $selecionarDiferencial = $genericoDAO->consultar(new ImovelDiferencial(), true, array("idimovel" => $selecionarImovel[0]->getId()));
+            $selecionarImovel[0]->setImovelDiferencial($selecionarDiferencial);
             //verifica se existe o imovel selecionado
             if ($selecionarImovel) {
                 //verificar se o anuncio ja foi publicado e redirecionar para a tela de consulta
@@ -143,6 +145,9 @@ class AnuncioControle {
 
                 $selecionarPlanta = $consultasAdHoc->consultar(new Planta(), true, array("idimovel" => $selecionarImovel->getId()));
                 $selecionarImovel->setPlanta($selecionarPlanta);
+                
+                $selecionarDiferencial = $consultasAdHoc->consultar(new ImovelDiferencial(), true, array("idimovel" => $selecionarImovel->getId()));
+                $selecionarImovel->setImovelDiferencial($selecionarDiferencial);
 
                 $listarImovel[] = $selecionarImovel;
             }

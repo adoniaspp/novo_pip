@@ -129,7 +129,9 @@
                         data.context.each(function (index) {
                             var error = data.files[index].error;
                             if (error) {
-                                $(this).find('.error').text(error);
+                                //$(this).find('.error').text(error);
+                                $(this).find('.legenda').prop('disabled', true);
+                                $(this).find('.error').append('<div class="ui negative message"><div class="header">Ocorreu um erro</div><p>'+error+'</p></div>');
                             }
                         });
                     }

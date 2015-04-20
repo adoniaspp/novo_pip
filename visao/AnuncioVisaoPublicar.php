@@ -15,6 +15,7 @@ if ($item) {
 <script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 <script src="assets/js/anuncio.js"></script>
+<script src="assets/js/usuario.js"></script>
 
 
 <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
@@ -51,7 +52,7 @@ if ($item) {
             autoUpload: false,
             url: 'index.php?upload=1',
             maxNumberOfFiles: 5,
-             maxFileSize: 3000000,
+            maxFileSize: 3000000,
             acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
             disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator && navigator.userAgent),
             imageMaxWidth: 800,
@@ -60,9 +61,14 @@ if ($item) {
             loadImageFileTypes: /^image\/(gif|jpeg|png)$/,
             imageType: 'image/jpg',
             imageForceResize: true,
-            loadImageMaxFileSize: 2
+            loadImageMaxFileSize: 2,
+            messages: {
+                maxNumberOfFiles: 'Quantidade máxima de fotos atingida (5 fotos)',
+                acceptFileTypes: 'Arquivo não permitido. Apenas imagens (gif, jpeg, png)',
+                maxFileSize: 'Arquivo muito grande (3 MB)',
+                minFileSize: 'Arquivo muito pequeno (0 MB)'
+            }
         }).on('fileuploadsubmit', function (e, data) {
-            
             data.formData = $("#fileupload").serializeArray();
         }).on('fileuploadcompleted', function (e, data) {
             /*$('input[type="radio"]').bootstrapSwitch('destroy');
@@ -73,8 +79,17 @@ if ($item) {
              $('input[type="radio"]').on('switch-change', function() {
              $('input[type="radio"]').bootstrapSwitch('toggleRadioState');
              });*/
-            //console.log(data);
+            console.log(data);
+            console.log('data');
             $('.ui.checkbox').checkbox();
+            $("p[class='error']").each(function () {
+                var error = $(this).html();
+                if (error != "") {
+                    $(this).html('<div class="ui error message"><div class="header">Ocorreu um erro</div><p>' + error + '</p></div>');
+                }
+            })
+        }).on('fileuploadfail', function (e, data) {
+            console.log('s');
         })
         /*
          // Load existing files:
@@ -94,11 +109,9 @@ if ($item) {
     });
 </script>
 
-
-
 <script>
     cadastrarAnuncio();
-    cancelarAnuncio();
+    cancelar('Anuncio', 'listarCadastrar');
 </script>
 <div class="container">
     <div class="ui hidden divider"></div>
@@ -142,7 +155,6 @@ if ($item) {
                 <div id="menuStep4" class="step">
                     <div class="content">
                         <div class="title">Confirmação</div>
-
                     </div>
                 </div>
                 <div id="menuStep5" class="step">
@@ -156,8 +168,7 @@ if ($item) {
     <!--NAVEGAÇÃO-->
     <div class="ui page grid main">
         <div class="ui basic right aligned segment">
-
-            <div class="ui animated fade green button" id="btnDetalhesImovel">
+            <div class="ui animated fade green button" id="detalhes<?php echo $idImovel; ?>">
                 <div class="visible content"><i class="home icon"></i> <?php echo ucfirst($tipoImovel) ?></div>
                 <div class="hidden content">
                     Ver detalhes
@@ -326,20 +337,17 @@ if ($item) {
                 <table role="presentation" class="ui form table"><tbody class="files"></tbody></table>
                 <!-- The template to display files available for upload -->
                 <script id="template-upload" type="text/x-tmpl">
-                    {% for (var i=0, file; file=o.files[i]; i++) { %}
+                    {% for (var i=0, file; file=o.files[i]; i++) { console.log(this); %}
                     <tr class="template-upload fade">
                     <td>
                     <span class="preview"></span>
                     </td>
                     <td>
                     <p class="name">{%=file.name%}</p>
-                    
                     <p class="error"></p>
-                    
-                   
                     </td>
                     <td>
-                    <input type="text" id="txtLegenda[{%=file.name%}]" name="txtLegenda[{%=file.name%}]" placeholder="Informe a Legenda" class="ui input" />
+                    <input type="text" id="txtLegenda[{%=file.name%}]" name="txtLegenda[{%=file.name%}]" placeholder="Informe a Legenda" class="ui input legenda"/>
                     </td>    
                     <td>
                     <p class="size">Processing...</p>
@@ -364,7 +372,7 @@ if ($item) {
                 </script>
                 <!-- The template to display files available for download -->
                 <script id="template-download" type="text/x-tmpl">
-                    {% for (var i=0, file; file=o.files[i]; i++) { %}
+                    {% for (var i=0, file; file=o.files[i]; i++) { console.log(file); %}
                     <tr class="template-download fade">
                     <td style="vertical-align: middle;">
                     <input type="checkbox" name="delete" value="1" class="ui toggle checkbox">
@@ -397,20 +405,18 @@ if ($item) {
                     <td style="vertical-align: middle;">
                     {% if (file.deleteUrl) { %}
                     <button type="button" class="ui red button delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
-                    <i class="ui trash outline icon"></i>
-                    <span>Excluir</span>
+                    <i class="ui trash outline icon"></i>Excluir
                     </button>
                     {% } else { %}
                     <button type="reset" class="ui yellow button cancel">
-                    <i class="ui ban icon"></i>
-                    <span>Cancelar</span>
+                    <i class="ui ban icon"></i>Cancelar
                     </button>
                     {% } %}
                     </td>
                     {% if (file.url) { %}
                     <td style="vertical-align: middle;">
                     <div class="ui toggle checkbox">
-                    <input type="checkbox" name="rdbDestaque" value="{%=file.name%}">
+                    <input type="radio" name="rdbDestaque" value="{%=file.name%}">
                     <label>Foto Destaque?</label>
                     </div>
                     </td>
@@ -425,7 +431,42 @@ if ($item) {
         <div class="ui page grid main">        
             <div class="column" id="step4">
                 <h3 class="ui dividing header">Confirmação</h3>
-
+                <div class="ui segment">
+                    <div class="ui stackable ">
+                        <table class="ui tablet stackable purple table">
+                            <thead>
+                                <tr>
+                                    <th>Plano</th>
+                                    <th>Finalidade</th>
+                                    <th>Título</th>
+                                    <th>Descrição</th>
+                                    <th>Valor</th>
+                                    <th>Exibir Mapa?</th>
+                                    <th>Exibir Contato?</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="center aligned">
+                                    <td id="tdPlano"></td>
+                                    <td id="tdFinalidade"></td>
+                                    <td id="tdTitulo"></td>
+                                    <td id="tdDescricao"></td>
+                                    <td id="tdValor"></td>
+                                    <td id="tdMapa"></td>
+                                    <td id="tdContato"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="ui form">
+                            <textarea readonly="true"><?php include_once 'assets/txt/termo.php'; ?></textarea>
+                        </div>
+                        <div class="ui warning message ">
+                            Aceito os termos do contrato e reconheço como verdadeiras as informações constantes nesse anuncio e desde logo,
+                            responsabiliza-se integralmente pela veracidade e exatidão das informações aqui fornecidas, sob pena de incorrer nas sanções
+                            previstas no art. 299 do Decreto Lei 2848/40 (Código Penal). 
+                        </div>               
+                    </div>               
+                </div>
             </div>
         </div>
         <!--PUBLICAÇÃO-->
@@ -473,172 +514,9 @@ if ($item) {
 
 
 <?php
-$modal = $item["imovel"][0];
+$this->setItem($item["imovel"]);
+include_once "/modal/ImovelListagemModal.php";
 ?>
-<div class="ui modal" id='modal<?php echo $modal->getId() ?>'>
-    <i class="close icon"></i>
-    <div class="header">
-        Detalhes do Imóvel
-    </div>
-    <div class="content">
-        <div class="description">
-            <?php
-            echo "<div class='ui items'>
-                                    <div class='item'>
-                                      <div class='content'>
-                                        <div class='header'>Tipo</div>
-                                        <div class='meta'>
-                                            <span class='price'>" . $modal->buscarTipoImovel($modal->getIdTipoImovel()) . "</span>
-                                        </div>
-                                        <div class='header'>Descrição</div>
-                                        <div class='meta'>
-                                            <span class='price'>" . $modal->getIdentificacao() . "</span>
-                                        </div>
-                                        </div>
-                                    </div>
-                           </div>";
-            switch ($modal->getIdTipoImovel()) {
-                case "1":
-
-                    echo "Condição: " . $modal->getCondicao() . "<br />";
-                    echo "Quarto(s): " . $modal->getCasa()->getQuarto() . "<br />";
-                    echo "Vagas de Garagem: " . $modal->getCasa()->getGaragem() . "<br />";
-                    echo "Banheiro(s): " . $modal->getCasa()->getBanheiro() . "<br />";
-                    echo "Suite(s): " . $modal->getCasa()->getSuite() . "<br />";
-                    echo "Área: " . $modal->getCasa()->getArea() . "m2<br />";
-                    break;
-
-                case "2":
-
-                    echo "<div class='fields'><div class='four wide field'>
-                                                      <label>Número de Andares: </label>" . $modal->getApartamentoPlanta()->getAndares() . "</div>
-                                                      <div class='four wide field'>
-                                                      <label>Unidades por Andar: </label>" . $modal->getApartamentoPlanta()->getUnidadesAndar() . "</div>
-                                  </div>";
-                    echo "Número de Torres: " . $modal->getApartamentoPlanta()->getNumeroTorres() . "<br />";
-                    echo "Total de Unidades: " . $modal->getApartamentoPlanta()->getTotalUnidades() . "<br />";
-                    echo "<div class='ui dividing header'></div>";
-
-                    $numeroPlantas = count($modal->getPlanta());
-
-                    if ($numeroPlantas == 1) {
-                        echo "Planta:";
-
-                        echo "<table class='ui table'>
-                                <thead>
-                                    <tr>
-                                        <th>Titulo da Planta</th>
-                                        <th>Quarto(s)</th>
-                                        <th>Banheiro(s)</th>
-                                        <th>Suite(s)</th>
-                                        <th>Vaga(s) de Garagem</th>
-                                        <th>Área</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                <tr>";
-
-
-                        foreach ($modal->getPlanta() as $valoresPlanta) {
-                            echo "<td>" . $valoresPlanta->getTituloPlanta() . "</td>";
-                            echo "<td>" . $valoresPlanta->getQuarto() . "</td>";
-                            echo "<td>" . $valoresPlanta->getBanheiro() . "</td>";
-                            echo "<td>" . $valoresPlanta->getSuite() . "</td>";
-                            echo "<td>" . $valoresPlanta->getGaragem() . "</td>";
-                            echo "<td>" . $valoresPlanta->getArea() . "</td>";
-                        }
-
-                        echo "</tr></tbody></table>";
-                    } else {
-                        echo "Plantas: <br />";
-
-                        echo "<table class='ui table'>
-                                <thead>
-                                    <tr>
-                                        <th>Titulo da Planta</th>
-                                        <th>Quarto(s)</th>
-                                        <th>Banheiro(s)</th>
-                                        <th>Suite(s)</th>
-                                        <th>Vaga(s) de Garagem</th>
-                                        <th>Área</th>
-                                    </tr>
-                                </thead>
-                                <tbody>";
-
-                        foreach ($modal->getPlanta() as $valoresPlanta) {
-                            echo "<tr>";
-                            echo "<td>" . $valoresPlanta->getTituloPlanta() . "</td>";
-                            echo "<td>" . $valoresPlanta->getQuarto() . "</td>";
-                            echo "<td>" . $valoresPlanta->getBanheiro() . "</td>";
-                            echo "<td>" . $valoresPlanta->getSuite() . "</td>";
-                            echo "<td>" . $valoresPlanta->getGaragem() . "</td>";
-                            echo "<td>" . $valoresPlanta->getArea() . "</td>";
-                        }
-                        echo "</tr></tbody></table>";
-                    }
-
-                    break;
-                case "3":
-                    echo "Quarto: " . $modal->getApartamento()->getQuarto() . "<br />";
-                    echo "Vagas de Garagem: " . $modal->getApartamento()->getGaragem() . "<br />";
-                    echo "Quarto(s): " . $modal->getApartamento()->getQuarto() . "<br />";
-                    echo "Banheiro(s): " . $modal->getApartamento()->getBanheiro() . "<br />";
-                    echo "Suite(s): " . $modal->getApartamento()->getSuite() . "<br />";
-                    echo "Possui Sacada: " . $modal->getApartamento()->getSacada() . "<br />";
-                    echo "Apartamentos p/ Andar: " . $modal->getApartamento()->getUnidadesAndar() . "<br />";
-                    break;
-                case "4":
-                    echo "Condição: " . $modal->getCondicao() . "<br />";
-                    echo "Banheiro: " . $modal->getSalaComercial()->getBanheiro() . "<br />";
-                    echo "Vagas de Garagem: " . $modal->getSalaComercial()->getGaragem() . "<br />";
-                    echo "Condomínio: " . $modal->getSalaComercial()->getCondominio() . "<br />";
-                    echo "Area: " . $modal->getSalaComercial()->getArea() . "<br />";
-                    break;
-                case "5":
-                    echo "Area: " . $modal->getPredioComercial()->getArea() . "<br />";
-                    break;
-                case "6":
-                    echo "Area: " . $modal->getTerreno()->getArea() . "<br />";
-                    break;
-            }
-            echo "<div class='ui dividing header'></div>";
-            if ($modal->getEndereco()->getNumero() != "" && $modal->getEndereco()->getComplemento() != "") {
-                echo "Endereço: " . $modal->getEndereco()->getLogradouro() . ", " . $modal->getEndereco()->getNumero() . ", " . $modal->getEndereco()->getComplemento() . "<br />";
-                echo $modal->getEndereco()->getBairro()->getNome() . ", " . $modal->getEndereco()->getCidade()->getNome() . " - " . $modal->getEndereco()->getEstado()->getUf();
-            } elseif ($modal->getEndereco()->getNumero() != "" && $modal->getEndereco()->getComplemento() == "") {
-                echo "Endereço: " . $modal->getEndereco()->getLogradouro() . ", " . $modal->getEndereco()->getNumero() . "<br />";
-                echo $modal->getEndereco()->getBairro()->getNome() . ", " . $modal->getEndereco()->getCidade()->getNome() . " - " . $modal->getEndereco()->getEstado()->getUf();
-            } elseif ($modal->getEndereco()->getNumero() == "" && $modal->getEndereco()->getComplemento() == "") {
-                echo "Endereço: " . $modal->getEndereco()->getLogradouro() . "<br />";
-                echo $modal->getEndereco()->getBairro()->getNome() . ", " . $modal->getEndereco()->getCidade()->getNome() . " - " . $modal->getEndereco()->getEstado()->getUf();
-            } elseif ($modal->getEndereco()->getNumero() == "" && $modal->getEndereco()->getComplemento() != "") {
-                echo "Endereço: " . $modal->getEndereco()->getLogradouro() . ", " . $modal->getEndereco()->getComplemento() . "<br />";
-                ;
-                echo $modal->getEndereco()->getBairro()->getNome() . ", " . $modal->getEndereco()->getCidade()->getNome() . " - " . $modal->getEndereco()->getEstado()->getUf();
-            }
-            ?>
-        </div>
-    </div>
-    <div class="actions">
-        <div class="ui button">FECHAR</div>
-    </div>
-</div> 
-
-<script>
-    $(("#btnDetalhesImovel")).click(function () {
-
-        $("#modal<?php echo $modal->getId() ?>").modal({
-            closable: false,
-            transition: "fade up",
-        }).modal('show');
-
-    })
-</script> 
-
-
-
-
-
 
 <?php
 die();
@@ -703,7 +581,7 @@ die();
                                     <div class="form-group">
                                         <label class="col-lg-3 control-label" for="txtValor">Valor</label>
                                         <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="txtValor" name="txtValor" placeholder="Valor do Imóvel"  value="<?php //echo $item["anuncio"]->getValor();                            ?>"> 
+                                            <input type="text" class="form-control" id="txtValor" name="txtValor" placeholder="Valor do Imóvel"  value="<?php //echo $item["anuncio"]->getValor();                              ?>"> 
                                         </div>
                                         <span class="col-lg-4 ">(Não informar os centavos)</span>
                                     </div>

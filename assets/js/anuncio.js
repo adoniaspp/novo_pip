@@ -111,6 +111,31 @@ function cadastrarAnuncio() {
                     break;
                 case 3:
                     validacao = true;
+                    if (typeof ($("input[name^=txtLegenda]").val()) !== "undefined" && typeof ($("input[name^=txtLegenda]").attr('disabled')) === "undefined") {
+                        alert("Você ainda não enviou todas as fotos. \n Clique no botão Enviar");
+                        validacao = false;
+                    }
+                    if (typeof ($("input[name=delete]").val()) !== "undefined") {
+                        if (typeof ($("input[name=rdbDestaque]:checked").val()) === "undefined") {
+                            alert("Informe uma Foto para ser Destaque do seu anúncio");
+                            validacao = false;
+                        }
+                    }
+                    $("#tdPlano").html($('#sltPlano').parent().find(".selected").html());
+                    $("#tdFinalidade").html($('#sltFinalidade').parent().find(".selected").html());
+                    $("#tdTitulo").html($("#txtTitulo").val());
+                    $("#tdDescricao").html($("#txtDescricao").val());
+                    $("#tdValor").html(
+                            
+                            (typeof ($("input[name=chkValor]:checked").val()) === "undefined" ? "Não Informado" : $("#txtValor").val())
+                            
+                            );
+                    
+                            
+                            
+                    $("#tdMapa").html((typeof ($("input[name=chkMapa]:checked").val()) === "undefined" ? "Não" : "Sim"));
+                    $("#tdContato").html((typeof ($("input[name=chkContato]:checked").val()) === "undefined" ? "Não" : "Sim"));
+
                     break;
                 case 4:
                     validacao = ($("#sltPlano").valid() & $("#sltFinalidade").valid() & $("#txtTitulo").valid() & $("#txtDescricao").valid() & $("#txtValor").valid());
@@ -229,21 +254,4 @@ function cadastrarAnuncio() {
         })
 
     });
-}
-
-function cancelarAnuncio() {
-    $(document).ready(function () {
-        $('#btnCancelar').click(function () {
-            $('#modalCancelar').modal({
-                closable: false,
-                transition: "fade up",
-                onDeny: function () {
-                    return false;
-                },
-                onApprove: function () {
-                    location.href = "index.php?entidade=Anuncio&acao=listarCadastrar";
-                }
-            }).modal('show');
-        })
-    })
 }

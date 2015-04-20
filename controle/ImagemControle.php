@@ -17,7 +17,24 @@ class ImagemControle extends UploadHandler {
             'accept_file_types' => '/\.(gif|jpe?g|png)$/i',
             'upload_dir' => dirname($_SERVER["SCRIPT_FILENAME"]) . '/fotos/',
             'upload_url' => dirname($_SERVER["HTTP_REFERER"]) . '/fotos/',
-        ));
+        ), true,array(
+        1 => 'Erro Upload COD01',
+        2 => 'Erro Upload COD02',
+        3 => 'Erro Upload COD03',
+        4 => 'Erro Upload COD04',
+        6 => 'Erro Upload COD06',
+        7 => 'Erro Upload COD07',
+        8 => 'Erro Upload COD08',
+        'post_max_size' => 'Arquivo muito grande (3 MB)',
+        'max_file_size' => 'Arquivo muito grande (3 MB)',
+        'min_file_size' => 'Arquivo muito pequeno (0 MB)',
+        'accept_file_types' => 'Arquivo não permitido. Apenas imagens (gif, jpeg, png)',
+        'max_number_of_files' => 'Quantidade máxima de fotos atingida (5 fotos)',
+        'max_width' => 'Largura máxima atingida',
+        'min_width' => 'Image requires a minimum width',
+        'max_height' => 'Altura máxima atingida',
+        'min_height' => 'Image requires a minimum height'
+    ));
     }
 
     protected function handle_form_data($file, $index) {
