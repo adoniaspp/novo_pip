@@ -6,6 +6,9 @@
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/js/jquery.price_format.min.js"></script>
 <script src="assets/js/mask.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.6/css/jquery.dataTables.css">
+<script src="assets/libs/DataTables-1.10.6/media/js/jquery.dataTables.min.js"></script>
+
 
 <div class="container">
     <div class="ui hidden divider"></div>
@@ -22,7 +25,7 @@
     </div>
     <div class="ui hidden divider"></div>
 
-        <table class="ui table">
+    <table class="ui table" id="tabela">
             <thead>
                 <tr>
                     <th>Tipo</th>
@@ -35,7 +38,7 @@
             <tbody>
                 
     <?php
-    
+    /*
     $params = array(
     'mode'       => 'Sliding',
     'perPage'    => 5,
@@ -44,12 +47,12 @@
     
     $pager = & Pager::factory($params);
     $data  = $pager->getPageData();
-            
+         */   
     Sessao::gerarToken(); 
     /*echo "<pre>";
     var_dump($this->getItem());
     echo "</pre>";*/
-    foreach($data as $imovel){ /*echo "<pre>"; var_dump($imovel);echo "</pre>";*/?>
+    foreach($this->getItem() as $imovel){ /*echo "<pre>"; var_dump($imovel);echo "</pre>";*/?>
                 
                
                 
@@ -69,22 +72,28 @@
                         
         echo "<td><a href='#' class='ui teal button' id='detalhes".$imovel->getId()."' >Detalhes</div></td>" ;
        
-        if(count($imovel->getAnuncio())>0 && verificaAnuncioAtivo($imovel->getAnuncio())){echo"<td><div class='ui compact message'>Imóvel com Anúncio Ativo</div></td>";}
+        echo "<td>";
+        
+        if(count($imovel->getAnuncio())>0 && verificaAnuncioAtivo($imovel->getAnuncio())){echo"<div class='ui compact message'>Imóvel com Anúncio Ativo</div>";}
           else {              
-             echo "<td><a href=index.php?entidade=Imovel&acao=selecionar&id=".$imovel->getId().'&token='.$_SESSION['token']."  id='editar".$imovel->getId()."'><div class='ui green button'>Editar</div></a></td>";             
-                if(count($imovel->getAnuncio())>0){echo"<td><div class='ui compact message'>Imóvel possui anúncio. Não é possível excluir</div></td>";}
+             echo "<a href=index.php?entidade=Imovel&acao=selecionar&id=".$imovel->getId().'&token='.$_SESSION['token']."  id='editar".$imovel->getId()."'><div class='ui green button'>Editar</div></a>";             
+                if(count($imovel->getAnuncio())>0){echo"<div class='ui compact message'>Imóvel possui anúncio. Não é possível excluir</div>";}
              else{
-             echo "<td><a href=index.php?entidade=Imovel&acao=excluir&id=".$imovel->getId().'&token='.$_SESSION['token']." id='excluir".$imovel->getId()."''><div class='ui red button'>Excluir</div></a></td>";}
+             echo "<a href=index.php?entidade=Imovel&acao=excluir&id=".$imovel->getId().'&token='.$_SESSION['token']." id='excluir".$imovel->getId()."''><div class='ui red button'>Excluir</div></a>";}
           }
        
+          echo "</td>";
+          
         }
     ?>                    
                </tr>         
             </tbody>
         </table>
         <?php
-            $links = $pager->getLinks();
+         /*   $links = $pager->getLinks();
             echo ($links['all']!="" ? "&nbsp;&nbsp;&nbsp;&nbsp;Página: ".$links['all'] : ""); 
+         
+          */
         ?>
     </div>
     <div class="ui hidden divider"></div>  
@@ -107,3 +116,16 @@ function verificaAnuncioAtivo($listaAnuncios) {
 
 ?>
 
+<script>
+$('#tabela').dataTable({
+        "language": {
+            "url": "assets/libs/DataTables-1.10.6/media/js/pt.json",
+        },
+        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
+        "stateSave": true,
+        "columnDefs": [
+        { "orderable": false, "targets": 3 },
+        { "orderable": false, "targets": 4 }
+        ]
+    });
+</script>

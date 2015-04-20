@@ -10,6 +10,7 @@ switch ($item) {
     case "erroemail":
     case "errohashemail":
     case "erroanuncioinativo":
+    case "errosemresultadobusca"
         ?>
                 $('#divColuna').attr('class', 'ten wide column');
                 var img = $("<i>", {class: "huge warning icon"}, "</i>");
@@ -144,6 +145,12 @@ switch ($item) {
                                 <i class="home icon"></i><i class="add icon"></i> Editar Outro Imóvel
                             </button>
                         </a>         
+                        <?php
+                        break;
+                    case "errosemresultadobusca":
+                        ?>
+                        <br>
+                        <h2>Nenhum imóvel encontrado</h2>
                         <?php
                         break;
                 }

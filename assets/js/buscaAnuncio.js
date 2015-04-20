@@ -83,8 +83,9 @@ function buscarAnuncio() {
 
         $("#btnBuscarAnuncio").on('click', function() {
             $("#load").addClass('ui active inverted dimmer');
+            if($('#sltTipoImovel').val() == "") {tipoimovel = "todos"} else {tipoimovel = $('#sltTipoImovel').val()};
             $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
-                tipoImovel: $('#sltTipoImovel').val(),
+                tipoImovel: tipoimovel,
                 valor: $('#sltValor').val(),
                 finalidade: $('#sltFinalidade').val(),
                 idcidade: $('#sltCidade').val(),

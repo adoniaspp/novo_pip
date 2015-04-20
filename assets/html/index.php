@@ -13,12 +13,13 @@
         <div class="column">
             <div class="four fields">
                 <div class="ui field">
-                    <label>Tipo</label>
+                    <label>Tipo de Imóvel</label>
                     <div class="ui selection dropdown">
                         <input type="hidden" name="sltTipoImovel" id="sltTipoImovel">
                         <div class="default text">Informe o Tipo do Imóvel</div>
                         <i class="dropdown icon"></i>
                         <div class="menu">
+                            <div class="item" data-value="">Todos os Tipos</div>
                             <div class="item" data-value="casa">Casa</div>
                             <div class="item" data-value="apartamentoplanta">Apartamento na Planta/Novo</div>
                             <div class="item" data-value="apartamento">Apartamento</div>
@@ -27,13 +28,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="field">
+                <div class="ui field">
                     <label>Finalidade</label>
                     <div class="ui fluid selection dropdown">
                         <input type="hidden" name="sltFinalidade" id="sltFinalidade">
-                        <div class="default text">Informe a Finalidade</div>
+                        <div class="default text">Todas as Finalidades</div>
                         <i class="dropdown icon"></i>
                         <div class="menu">
+                            <div class="item" data-value="">Todas as Finalidade</div>
                             <div class="item" data-value="venda">Venda</div>
                             <div class="item" data-value="aluguel">Aluguel</div>
                         </div>
@@ -43,9 +45,10 @@
                     <label>Cidade</label>
                     <div class="ui fluid selection dropdown">
                         <input type="hidden" name="sltCidade" id="sltCidade">
-                        <div class="default text">Informe a Cidade</div>
+                        <div class="default text">Todas as Cidade</div>
                         <i class="dropdown icon"></i>
                         <div class="menu">
+                            <div class="item" data-value="">Todas as Cidade</div>
                             <div class="item" data-value="1">Belém</div>
                             <div class="item" data-value="2">Ananindeua</div>
                             <div class="item" data-value="3">Marituba</div>
@@ -73,9 +76,10 @@
                     <label>Condição</label>
                     <div class="ui fluid selection dropdown">
                         <input type="hidden" name="sltCondicao" id="sltCondicao">
-                        <div class="default text"></div>
+                        <div class="default text">Informe a Condição</div>
                         <i class="dropdown icon"></i>
                         <div class="menu">
+                            <div class="item" data-value="">Qualquer Condição</div>
                             <div class="item" data-value="novo">Novo</div>
                             <div class="item" data-value="usado">Usado</div>
                         </div>
@@ -85,9 +89,10 @@
                     <label>Quartos</label>
                     <div class="ui selection dropdown">
                         <input type="hidden" name="sltQuartos" id="sltQuartos">
-                        <div class="default text"></div>
+                        <div class="default text">Qualquer Quantidade</div>
                         <i class="dropdown icon"></i>
                         <div class="menu">
+                            <div class="item" data-value="">Qualquer Quantidade</div>
                             <div class="item" data-value="1">1</div>
                             <div class="item" data-value="2">2</div>
                             <div class="item" data-value="3">3</div>
@@ -101,7 +106,7 @@
                     <label>Valor</label>
                     <div class="ui selection dropdown">
                         <input type="hidden" name="sltValor" id="sltValor">
-                        <div class="default text"></div>
+                        <div class="default text">Informe o Valor</div>
                         <i class="dropdown icon"></i>
                         <div class="menu">
                             <div class='item' data-value=0>Menos de R$100.000</div>
@@ -122,7 +127,7 @@
                     <label>Valor</label>
                     <div class="ui selection dropdown">
                         <input type="hidden" name="sltValor" id="sltValor">
-                        <div class="default text"></div>
+                        <div class="default text">Informe o Valor</div>
                         <i class="dropdown icon"></i>
                         <div class="menu">
                             <div class='item' data-value=0>Menos de R$500</div>
