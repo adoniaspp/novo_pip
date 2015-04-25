@@ -85,11 +85,28 @@ class ConsultasAdHoc extends GenericoDAO {
 
         /* Imagens do anuncio */
         if (count($resultado['anuncio']) != 0) {
+            $ids = array_column($resultado['anuncio'], 'idanuncio');
+            $campos = implode(',', array_fill(0, count($ids), '?'));
+            $sth = $this->conexao->prepare("SELECT idanuncio, diretorio, legenda, destaque FROM imagem WHERE idanuncio IN ($campos)");
+            $sth->execute($ids);
+            $resultado['imagens'] = $sth->fetchAll(PDO::FETCH_ASSOC);
+        }
+        /* Telefones do usuario */
+        if (count($resultado['anuncio']) != 0) {
             $ids = array_column($resultado['anuncio'], 'id');
             $campos = implode(',', array_fill(0, count($ids), '?'));
             $sth = $this->conexao->prepare("SELECT idanuncio, diretorio, legenda, destaque FROM imagem WHERE idanuncio IN ($campos)");
             $sth->execute($ids);
             $resultado['imagens'] = $sth->fetchAll(PDO::FETCH_ASSOC);
+        }
+        /* diferenciais do imóvel */
+        if (count($resultado['anuncio']) != 0) {
+            $idsImoveis = array_column($resultado['anuncio'], 'idimovel');
+            $camposImovel = implode(',', array_fill(0, count($idsImoveis), '?'));
+            $sth = $this->conexao->prepare("SELECT idimovel, descricao FROM imoveldiferencial as imdif "
+                    . "LEFT JOIN diferencial as d on imdif.iddiferencial = d.id WHERE idimovel IN ($camposImovel)");
+            $sth->execute($idsImoveis);
+            $resultado['diferenciais'] = $sth->fetchAll(PDO::FETCH_ASSOC);
         }
 //        echo '<pre>';
 //        print_r($resultado['anuncio']);
