@@ -195,7 +195,7 @@ Sessao::gerarToken();
                 
                 <div class="fields" id="divApartamento">
                     
-                    <div class="two field" id="divAndares">
+                    <div class="two required field" id="divAndares">
                         <label>Nº de Andares do Prédio</label>
                         <div class="ui selection dropdown">
                             <input type="hidden" name="sltAndares" id="sltAndares">

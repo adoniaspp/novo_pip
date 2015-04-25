@@ -375,7 +375,7 @@ foreach($this->getItem() as $modal){?>
     $(("#detalhes<?php echo $modal->getId()?>")).click(function () {
 
         $("#modal<?php echo $modal->getId()?>").modal({
-            closable: false,
+            closable: true,
             transition: "fade up",
         }).modal('show');
 

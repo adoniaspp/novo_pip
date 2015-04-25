@@ -223,5 +223,38 @@ class AnuncioControle {
                 break;
         }
     }
+    
+    function buscarAnuncioCorretor($parametros) {
+
+        $visao = new Template();
+        $emailanuncio = new EmailAnuncio();
+        $usuario = new Usuario();
+        $genericoDAO = new GenericoDAO();
+        $selecionarAnuncioUsuario = $genericoDAO->consultar($usuario, true, array("login" => $parametros["login"]));
+        if (!$selecionarAnuncioUsuario) {
+            //verifica se o usuario existe na base ou se está inativo
+            $visao->setItem("errousuarioinativo");
+            $visao->exibir('VisaoErrosGenerico.php');
+        } else {
+            $item["usuario"] = $genericoDAO->consultar(new Usuario(), false, array("id" => $selecionarAnuncioUsuario[0]->getId()));
+            $statusUsuario = $item["usuario"] = $genericoDAO->consultar(new Usuario(), false, array("id" => $selecionarAnuncioUsuario[0]->getId()));
+            $verificarStatus = $selecionarAnuncioUsuario[0]->getStatus();
+            $verificarStatus = $statusUsuario[0]->getStatus();
+            $id = $statusUsuario[0]->getId();
+
+            if ($verificarStatus == 'ativo') {
+                //trazer todos os anuncios cadastrados para o usuário
+
+                
+                
+                $visao = new Template();
+                $item["usuario"] = $genericoDAO->consultar(new Usuario(), true, array("id" => $selecionarAnuncioUsuario[0]->getId()));
+                $item["cidadeEstado"] = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarAnuncioUsuario[0]->getIdEndereco()));
+
+                $visao->setItem($item);
+                $visao->exibir('AnuncioVisaoUsuario.php');
+            }
+        }
+    }
 
 }

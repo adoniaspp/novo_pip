@@ -579,7 +579,8 @@ function cadastrarImovel(){
                     minlength: 5
                 },
                 txtArea: {
-                    minlength: 2,
+                    maxlength: 7,
+                    minlength: 2
                 },
                 
                 txtTotalUnidades: {
@@ -602,10 +603,13 @@ function cadastrarImovel(){
                 },
                 "sltGaragem[]": {
                     required: true
-                },
+                },               
                 "txtArea[]": {
                     maxlength: 7,
                     minlength: 2
+                },
+                "sltAndares": {
+                    required: true
                 },
                 
             },
@@ -1115,7 +1119,7 @@ function carregaDadosModalImovel($div) {
         $div.html("");
         
         var descricao;
-        var area;
+        var area; //utilizada quando o imóvel não for do tipo apartamentoPlanta
         
         if($("#txtDescricao").val() == ""){descricao = "<h4 class='ui red header'>Não Informado</h4>";} else descricao = $("#txtDescricao").val();
         if($("#txtArea").val() == ""){area = "<h4 class='ui red header'>Não Informado</h4>";} else area = $("#txtArea").val();
@@ -1229,7 +1233,7 @@ function carregaDadosModalImovel($div) {
         var banheiro = $($("input[name^='sltBanheiro']")[valor]).val();
         var suite = $($("input[name^='sltSuite']")[valor]).val();
         var garagem = $($("input[name^='sltGaragem']")[valor]).val();
-        if ($($("input[name^='txtArea']")[valor]).val() == ""){areaPlanta = "<h4 class='ui red header'>Não Informado</h4>";} else areaPlanta = $($("input[name^='txtArea']")[valor]).val();
+        if ($($("input[name^='txtArea[]']")[valor]).val() == ""){areaPlanta = "<h4 class='ui red header'>Não Informadoooooo</h4>";} else areaPlanta = $($("input[name^='txtArea[]']")[valor]).val();
         
         linhas = linhas + "<tr><td>"+quarto+"</td><td>"+banheiro+"</td><td>"+suite+"</td><td>"+garagem+"</td><td>"+areaPlanta+"</td></tr>";
         }

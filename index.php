@@ -23,19 +23,19 @@ Sessao::criarSessaoUsuario();
 $parte1 = strrchr($_SERVER['REQUEST_URI'], "?");
 $parte2 = str_replace($parte1, "", $_SERVER['REQUEST_URI']);
 $url = explode("/", $parte2);
-//print $parte1;
+
 array_shift($url);
-//print_r($url);
-if (sizeof($url) > 2 & $url[2] != "") { //verificar existe algo depois da barra digitada e se não está vazio
+
+if (sizeof($url) > 0 & $url[0] != "") { //verificar existe algo depois da barra digitada e se não está vazio
     // print "É Maior <br>"; 
     //echo "Array: " . $url[2];
 
-    if ($url[2] == "index.php") { //verificar se existe algo depois da barra. Se for index.php, redirecionar para o inicio
+    if ($url[0] == "index.php") { //verificar se existe algo depois da barra. Se for index.php, redirecionar para o inicio
         //echo "index.php";
         $parametros = $_REQUEST;
         $controle = new Controle($parametros);
     } else { //verificar se o usuário foi digitado
-        $paginaCorretor = PIPURL . "/index.php?entidade=Anuncio&acao=buscarAnuncioCorretor&login=".$url[2];
+        $paginaCorretor = PIPURL . "/index.php?entidade=Anuncio&acao=buscarAnuncioCorretor&login=".$url[0];
         header("location: $paginaCorretor");
       //  echo 'redirect';
     }
