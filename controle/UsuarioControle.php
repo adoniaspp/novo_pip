@@ -638,13 +638,13 @@ class UsuarioControle {
 
             //se nao for exclusao de foto
             if ($parametros["hdnExcluir"] == 0) {
-                $arquivo_tmp = $_FILES['arquivo']['tmp_name'];
-                $nome = $_FILES['arquivo']['name'];
+                $arquivo_tmp = $_FILES['attachmentName']['tmp_name'];
+                $nome = $_FILES['attachmentName']['name'];
                 $extensao = strrchr($nome, '.');
                 $extensao = strtolower($extensao);
                 $novoNome = md5(microtime()) . $extensao;
                 $destino = PIPROOT . '/fotos/usuarios/' . $novoNome;
-                if (move_uploaded_file($_FILES['arquivo']['tmp_name'], $destino)) {
+                if (move_uploaded_file($_FILES['attachmentName']['tmp_name'], $destino)) {
                     $usuario->setFoto($novoNome);
                 }
             }

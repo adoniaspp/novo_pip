@@ -529,20 +529,35 @@ $(document).ready(function() {
     });
 
     $('.btn-file :file').on('fileselect', function(event, numFiles, label, size) {
-        $('#arquivo').attr('name', 'arquivo'); // allow upload.
+        $('#attachmentName').attr('name', 'attachmentName'); // allow upload.
+        
         var postfix = label.substr(label.lastIndexOf('.'));
         if (fileExtentionRange.indexOf(postfix.toLowerCase()) > -1) {
             if (size > 1024 * 1024 * MAX_SIZE) {
-                alert('Tamanho máximo da imagem：<strong>' + MAX_SIZE + '</strong> MB.');
-                $('#arquivo').removeAttr('name'); // cancel upload file.
+                alert('Tamanho máximo da imagem：' + MAX_SIZE + ' MB');
+                $("#btnAlterarImagem").attr("disabled", "disabled");
+                $("#uploadPreview").attr("src", "../assets/imagens/foto_padrao.png");
+                $('#attachmentName').removeAttr('name'); // cancel upload file.
             } else {
                 $('#arquivolabel').val(label);
+                $("#btnAlterarImagem").removeAttr("disabled");
+                var oFReader = new FileReader();
+                oFReader.readAsDataURL(document.getElementById("attachmentName").files[0]);
+
+                oFReader.onload = function (oFREvent) {
+                document.getElementById("uploadPreview").src = oFREvent.target.result;
+                };
+                
             }
         } else {
-            alert('Tipo de arquivo inválido：<br/> <strong>' + fileExtentionRange + '</strong>');
-            $('#arquivo').removeAttr('name'); // cancel upload file.
+            alert('Tipo de arquivo inválido. São aceitos os tipos：' + fileExtentionRange);
+            $("#btnAlterarImagem").attr("disabled", "disabled");
+            $("#uploadPreview").attr("src", "../assets/imagens/foto_padrao.png");
+            $('#attachmentName').removeAttr('name'); // cancel upload file.
         }
+        
     });
+
 });
 
 function alterarSenha() {

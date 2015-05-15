@@ -8,6 +8,7 @@
     cancelar("meuPIP");
     trocarImagem();
 </script>
+
 <?php
 Sessao::gerarToken();
 $tipoImagem = ($_SESSION["tipopessoa"] == "pf" ? "Imagem" : "Logomarca");
@@ -37,10 +38,10 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
                 <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
                 <input type="hidden" id="hdnExcluir" name="hdnExcluir" value="0" />
                 <h3 class="ui dividing header" >Foto / Logomarca</h3>
-                <div class="ui three column middle aligned relaxed fitted stackable grid" style="position: relative">
+                <div class="ui two column center aligned relaxed fitted stackable grid" style="position: relative">
                     <div class="column">
-                        <div class="ui header left aligned"><?php echo $tipoImagem; ?>  Atual</div>
-                        <div class="ui big image">
+                        <div class="ui header center aligned"><?php echo $tipoImagem; ?>  Atual</div>
+                        <div class="ui small image right aligned ">
                             <?php if ($this->getItem()->getFoto() != "") { ?>
                                 <img src="<?php echo $enderecoImagem; ?>" alt="<?php echo $nomeUsuario; ?>">
 
@@ -50,19 +51,21 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
                         </div>
                     </div>
 
-                    <div class="ten wide column">
-                        <div class="ui header centered aligned"><?php echo $tipoImagem; ?>  Nova</div>
-                        <div class="ui hidden divider"></div>
-                        <div class="ui action input">
-                            <input type="text" id="arquivolabel" name="arquivolabel">
-                            <label for="arquivo" class="ui teal icon labeled button btn-file">
-                                <i class="large file image outline icon"></i>
-                                <input type="file" id="arquivo" name="arquivo" style="display: none">Selecione a imagem</label>
-                        </div>
+                    <div class="center aligned column">
+                        <div class="ui header"><?php echo $tipoImagem; ?>  Nova</div>
+                          
+                        <img id="uploadPreview" src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" width="155" height="140"/><br />
+                    
+                    <div>   
+                        
+                        <label for="attachmentName" class="ui teal icon labeled button btn-file">
+                        <i class="large file image outline icon"></i>                        
+                        <input id="attachmentName" type="file" name="attachmentName" style="display: none"/>Selecionar</label>
+                    </div>  
                     </div>
                 </div>
                 <div class="ui hidden  divider"></div>
-                <button class="ui blue button" type="button" id="btnAlterarImagem">Alterar Imagem!</button>
+                <button class="ui blue button" type="button" id="btnAlterarImagem" disabled="disabled">Alterar Imagem!</button>
                 <button class="ui orange button" type="reset" id="btnCancelar">Cancelar</button>
                 <button class="ui red button" type="reset" id="btnExcluirImagem">Excluir Imagem</button>
                 <div class="ui hidden divider"></div>
@@ -111,3 +114,17 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+  /*  function PreviewImage(no) {
+       
+       
+       
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById("arquivo").files[0]);
+
+        oFReader.onload = function (oFREvent) {
+            document.getElementById("uploadPreview").src = oFREvent.target.result;
+        };
+    }*/
+</script>

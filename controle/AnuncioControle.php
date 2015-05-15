@@ -225,7 +225,7 @@ class AnuncioControle {
     }
     
     function buscarAnuncioCorretor($parametros) {
-
+        
         $visao = new Template();
         $emailanuncio = new EmailAnuncio();
         $usuario = new Usuario();
@@ -244,8 +244,23 @@ class AnuncioControle {
 
             if ($verificarStatus == 'ativo') {
                 //trazer todos os anuncios cadastrados para o usuário
+                 /* $consultasAdHoc = new ConsultasAdHoc();
+                    $parametros["atributos"] = "*";
+                    $parametros["tabela"] = "todos";     
+                    unset($parametros["tipoImovel"]);
+                    unset($parametros["hdnEntidade"]);
+                    unset($parametros["hdnAcao"]);
+                    $parametros["id"] = //Aqui entra o id do usuario corretor
+                    $parametros["garagem"] = "false";        
+                    $parametros["predicados"] = $parametros;
+                    $listaAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
+                    if(count($listaAnuncio['anuncio']) == 0){
+                        $visao->setItem("errosemresultadobusca");
+                        $visao->exibir('VisaoErrosGenerico.php');
+                    }
+                    $visao->setItem($listaAnuncio);
+                    $visao->exibir('AnuncioVisaoBusca.php');*/
 
-                
                 
                 $visao = new Template();
                 $item["usuario"] = $genericoDAO->consultar(new Usuario(), true, array("id" => $selecionarAnuncioUsuario[0]->getId()));

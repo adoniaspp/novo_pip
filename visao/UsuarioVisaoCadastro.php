@@ -203,8 +203,9 @@ Sessao::gerarToken();
                 </table>
                 <h3 class="ui dividing header" >Foto / Logomarca</h3>
                 <div class="twelve wide field">
+                <img id="uploadPreview" src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" width="155" height="140"/><br />
                     <div class="ui action input">
-                        <input type="text" id="_attachmentName">
+                        
                         <label for="attachmentName" class="ui teal icon labeled button btn-file">
                             <i class="large file image outline icon"></i>
                             <input type="file" id="attachmentName" name="attachmentName" style="display: none">Selecione a imagem</label>
