@@ -255,3 +255,51 @@ function cadastrarAnuncio() {
 
     });
 }
+
+
+function planta() {
+    $(document).ready(function() {
+        $(".btnAdicionarValor").click(function() {
+            var sltAndarInicial = $(this).parent().parent().find("input")[0];
+            $(sltAndarInicial).rules("add", {
+                required: true,
+                messages: {
+                    required: "Campo obrigatório",
+                }
+            });
+            var sltAndarFinal = $(this).parent().parent().find("input")[0];
+            $($(sltAndarFinal).parent().parent().find("input")[1]).rules("add", {
+                required: true,
+                messages: {
+                    required: "Campo obrigatório",
+                }
+            });
+            var txtValor = $(this).parent().parent().find("input")[0];
+            $($(txtValor).parent().parent().find("input")[2]).rules("add", {
+                required: true,
+                messages: {
+                    required: "Campo obrigatório",
+                }
+            });
+            console.log(validarPlanta(sltAndarInicial,sltAndarFinal,txtValor));
+            if (validarPlanta(sltAndarInicial,sltAndarFinal,txtValor)) {
+                var ordemPlanta = $(this).val();
+                var tabela = "#dadosPlanta"+ordemPlanta;
+                $(tabela).append(
+                        "<tr><td> <input type='hidden' id='hdnAndarInicial"+ordemPlanta+"[]' name='hdnTipoTelefone"+ordemPlanta+"[]' value='" + $(sltAndarInicial).val() + "'>" + $(sltAndarInicial).val() + "</td>" +
+                        "<td> <input type='hidden' id='hdnAndarFinal"+ordemPlanta+"[]' name='hdnAndarFinal"+ordemPlanta+"[]' value='" + $(sltAndarFinal).val() + "'>" + $(sltAndarFinal).val() + "</td>" +
+                        "<td> <input type='hidden' id='hdnValor"+ordemPlanta+"[]' name='hdnValor"+ordemPlanta+"[]' value='" + $(txtValor).val() + "'>" + $(txtValor).val() + "</td>" +
+                        "<td class='collapsing'><div class='red ui icon button' onclick='excluirPlanta($(this))'><i class='trash icon'></i>Excluir</div></td></tr>");
+                $(txtValor).val("");
+                $(tabela).show();
+            }
+            $(sltAndarInicial).rules("remove");
+            $(sltAndarFinal).rules("remove");
+            $(txtValor).rules("remove");
+        });
+    })
+}
+
+function validarPlanta(sltAndarInicial,sltAndarFinal,txtValor) {
+    return (sltAndarInicial.valid() & sltAndarFinal.valid() & txtValor.valid());
+}

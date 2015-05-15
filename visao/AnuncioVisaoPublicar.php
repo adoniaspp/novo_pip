@@ -105,7 +105,9 @@ if ($item) {
          console.log(result);
          $(this).fileupload('option', 'done').call(this, $.Event('done'), {result: result});
          });*/
-
+$('.special.cards .image').dimmer({
+  on: 'hover'
+});
     });
 </script>
 
@@ -299,6 +301,13 @@ if ($item) {
         <div class="ui page grid main">        
             <div class="column" id="step3">
                 <h3 class="ui dividing header">Informações Adicionais</h3>
+                
+                <?php 
+                if ($tipoImovel=="apartamentoplanta"){
+                    include_once 'AnuncioVisaoInformacoesAdicionais.php';
+                }
+                ?>
+                
                 <!-- Redirect browsers with JavaScript disabled to the origin page -->
                 <noscript><input type="hidden" name="redirect" value="index.php"></noscript>
                 <h4 class="ui header"> Adicione nessa etapa as fotos para o anúncio</h4>
