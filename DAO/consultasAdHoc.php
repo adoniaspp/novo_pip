@@ -84,33 +84,29 @@ class ConsultasAdHoc extends GenericoDAO {
         $resultado['anuncio'] = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         /* Imagens do anuncio */
-        if (count($resultado['anuncio']) != 0) {
-            $ids = array_column($resultado['anuncio'], 'idanuncio');
-            $campos = implode(',', array_fill(0, count($ids), '?'));
-            $sth = $this->conexao->prepare("SELECT idanuncio, diretorio, legenda, destaque FROM imagem WHERE idanuncio IN ($campos)");
-            $sth->execute($ids);
-            $resultado['imagens'] = $sth->fetchAll(PDO::FETCH_ASSOC);
-        }
+//        if (count($resultado['anuncio']) != 0) {
+//            $ids = array_column($resultado['anuncio'], 'idanuncio');
+//            $campos = implode(',', array_fill(0, count($ids), '?'));
+//            $sth = $this->conexao->prepare("SELECT idanuncio, diretorio, legenda, destaque FROM imagem WHERE idanuncio IN ($campos)");
+//            $sth->execute($ids);
+//            $resultado['imagens'] = $sth->fetchAll(PDO::FETCH_ASSOC);
+//        }
 
         /* diferenciais do imóvel */
-        if (count($resultado['anuncio']) != 0) {
-            $idsImoveis = array_column($resultado['anuncio'], 'idimovel');
-            for ($i=0; $i<count($idsImoveis); $i++){
-            $sth = $this->conexao->prepare("SELECT descricao FROM imoveldiferencial as imdif "
-                    . "LEFT JOIN diferencial as d on imdif.iddiferencial = d.id WHERE idimovel = :idimovel");
-            $sth->bindValue(':idimovel', $idsImoveis[$i]);
-            $sth->execute();
-            $resultado['diferenciais'] = $sth->fetchAll(PDO::FETCH_ASSOC);
+//        if (count($resultado['anuncio']) != 0) {
+//            $idsImoveis = array_column($resultado['anuncio'], 'idimovel');
+//            for ($i=0; $i<count($idsImoveis); $i++){
+//            $sth = $this->conexao->prepare("SELECT descricao FROM imoveldiferencial as imdif "
+//                    . "LEFT JOIN diferencial as d on imdif.iddiferencial = d.id WHERE idimovel = :idimovel");
+//            $sth->bindValue(':idimovel', $idsImoveis[$i]);
+//            $sth->execute();
+//            $resultado['diferenciais'] = $sth->fetchAll(PDO::FETCH_ASSOC);
 //            foreach ($resultado['diferenciais'] as descricao){
 //                
 //            }
-            $resultado['anuncio'][$i] = array_merge($resultado['diferenciais'][0], $resultado['anuncio'][$i]);
-        }
-        }
-        echo '<pre>';
-        print_r($resultado['diferenciais']);
-        die();
-        /* casa */
+//            $resultado['anuncio'][$i] = array_merge($resultado['diferenciais'][0], $resultado['anuncio'][$i]);
+//        }
+//        }
         if (count($resultado['anuncio']) != 0) {
             $idsImoveis = array_column($resultado['anuncio'], 'idimovel');
             $tiposImoveis = array_column($resultado['anuncio'], 'descricao');
@@ -122,21 +118,34 @@ class ConsultasAdHoc extends GenericoDAO {
                     $resultado['casa'] = $sth->fetchAll(PDO::FETCH_ASSOC);
                     $resultado['anuncio'][$i] = array_merge($resultado['casa'][0], $resultado['anuncio'][$i]); 
                    }
-//                if($tiposImoveis[$i] == 'apartamentoplanta'){
-//                    
-//                }
-//                if($tiposImoveis[$i] == 'apartamento'){
-//                    
-//                }
-//                if($tiposImoveis[$i] == 'salacomercial'){
-//                    
-//                }
-//                if($tiposImoveis[$i] == 'prediocomercial'){
-//                    
-//                }
-//                if($tiposImoveis[$i] == 'terreno'){
-//                    
-//                }
+                if($tiposImoveis[$i] == 'apartamentoplanta'){
+                    $sth = $this->conexao->prepare("SELECT andares, unidadesandar, totalunidades, numerotorres FROM buscaAnuncioApplanta WHERE idimovel = :idimovel");
+                    $sth->bindValue(':idimovel', $idsImoveis[$i]);
+                    $sth->execute();    
+                    $resultado['applanta'] = $sth->fetchAll(PDO::FETCH_ASSOC);
+                    $resultado['anuncio'][$i] = array_merge($resultado['applanta'][0], $resultado['anuncio'][$i]); 
+                }
+                if($tiposImoveis[$i] == 'apartamento'){
+                    $sth = $this->conexao->prepare("SELECT quarto, suite, banheiro, garagem, area, sacada, unidadesandar, andar, condominio, cobertura FROM buscaAnuncioAp WHERE idimovel = :idimovel");
+                    $sth->bindValue(':idimovel', $idsImoveis[$i]);
+                    $sth->execute();    
+                    $resultado['ap'] = $sth->fetchAll(PDO::FETCH_ASSOC);
+                    $resultado['anuncio'][$i] = array_merge($resultado['ap'][0], $resultado['anuncio'][$i]); 
+                }
+                if($tiposImoveis[$i] == 'salacomercial'){
+                    $sth = $this->conexao->prepare("SELECT area, banheiro, garagem, condominio FROM buscaAnuncioSala WHERE idimovel = :idimovel");
+                    $sth->bindValue(':idimovel', $idsImoveis[$i]);
+                    $sth->execute();    
+                    $resultado['sala'] = $sth->fetchAll(PDO::FETCH_ASSOC);
+                    $resultado['anuncio'][$i] = array_merge($resultado['sala'][0], $resultado['anuncio'][$i]); 
+                }
+                if($tiposImoveis[$i] == 'terreno'){
+                    $sth = $this->conexao->prepare("SELECT area FROM buscaAnuncioTerreno WHERE idimovel = :idimovel");
+                    $sth->bindValue(':idimovel', $idsImoveis[$i]);
+                    $sth->execute();    
+                    $resultado['terreno'] = $sth->fetchAll(PDO::FETCH_ASSOC);
+                    $resultado['anuncio'][$i] = array_merge($resultado['terreno'][0], $resultado['anuncio'][$i]);                     
+                }
             }
         }
    
