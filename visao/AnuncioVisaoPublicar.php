@@ -291,7 +291,7 @@ $('.special.cards .image').dimmer({
                     <div class="one fields" id="divInformarValor">
                         <div class="field">
                             <label>Valor (não informar os centavos)</label>
-                            <input name="txtValor" id="txtValor" placeholder="Valor do Imóvel" >
+                            <input name="txtValor" id="txtValor" class="txtValor" placeholder="Valor do Imóvel" >
                         </div>
                     </div>
                 </div>

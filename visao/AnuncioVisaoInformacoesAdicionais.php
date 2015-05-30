@@ -1,3 +1,4 @@
+<p>Para cada planta informe o valor (não informar os centavos) por andar inicial e final.</p>
 <?php
 $plantas = $item["imovel"][0]->getPlanta();
 $andares = $item["imovel"][0]->getApartamentoPlanta()->getAndares();
@@ -20,7 +21,7 @@ foreach ($plantas as $planta) {
                                 <i class="dropdown icon"></i>
                                 <div class="menu">
                                     <?php
-                                    for ($j = 0; $j <= $andares; $j++) {
+                                    for ($j = 1; $j <= $andares; $j++) {
                                         ?>
                                         <div class="item" data-value="<?php echo $j; ?>"><?php echo $j; ?></div>
                                     <?php } ?>
@@ -30,7 +31,7 @@ foreach ($plantas as $planta) {
                     <?php } ?>
                     <div class="three wide required field">
                         <label>Valor por andar</label>
-                        <input type="text" name="txtValor[]" placeholder="Valor">
+                        <input type="text" name="txtValor[]" placeholder="Valor" class="txtValor">
                     </div>
                     <div class="three wide required field">
                         <br>
@@ -49,7 +50,7 @@ foreach ($plantas as $planta) {
                             <th>Opção</th>
                         </tr>
                     </thead>
-                    <tbody id="dadosPlanta<?php echo $planta->getOrdemplantas(); ?>"></tbody>
+                    <tbody id="dadosPlanta_<?php echo $planta->getOrdemplantas(); ?>"></tbody>
                 </table>
             </div>
             <div class="four wide column">

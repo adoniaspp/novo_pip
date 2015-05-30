@@ -91,7 +91,7 @@ function cadastrarAnuncio() {
             postText: ' caracteres permitidos.',
             validate: true
         });
-        $('#txtValor').priceFormat({
+        $('.txtValor').priceFormat({
             prefix: 'R$ ',
             centsSeparator: ',',
             centsLimit: 0,
@@ -126,13 +126,9 @@ function cadastrarAnuncio() {
                     $("#tdTitulo").html($("#txtTitulo").val());
                     $("#tdDescricao").html($("#txtDescricao").val());
                     $("#tdValor").html(
-                            
                             (typeof ($("input[name=chkValor]:checked").val()) === "undefined" ? "Não Informado" : $("#txtValor").val())
-                            
+
                             );
-                    
-                            
-                            
                     $("#tdMapa").html((typeof ($("input[name=chkMapa]:checked").val()) === "undefined" ? "Não" : "Sim"));
                     $("#tdContato").html((typeof ($("input[name=chkContato]:checked").val()) === "undefined" ? "Não" : "Sim"));
 
@@ -258,39 +254,55 @@ function cadastrarAnuncio() {
 
 
 function planta() {
-    $(document).ready(function() {
-        $(".btnAdicionarValor").click(function() {
+    $(document).ready(function () {
+
+        $(".sltAndarInicial").change(function () {
+            $(this).valid();
+        })
+        $(".sltAndarFinal").change(function () {
+            $(this).valid();
+        })
+
+        $(".btnAdicionarValor").click(function () {
             var sltAndarInicial = $(this).parent().parent().find("input")[0];
+            var sltAndarFinal = $(this).parent().parent().find("input")[1];
+
             $(sltAndarInicial).rules("add", {
                 required: true,
+                max: function () {
+                    return $(sltAndarFinal).val();
+                },
                 messages: {
-                    required: "Campo obrigatório",
+                    max: "Andar Inicial deve ser Maior ou Igual ao Andar Final"
                 }
             });
-            var sltAndarFinal = $(this).parent().parent().find("input")[0];
-            $($(sltAndarFinal).parent().parent().find("input")[1]).rules("add", {
+
+            $(sltAndarFinal).rules("add", {
                 required: true,
+                min: function () {
+                    return $(sltAndarInicial).val();
+                },
                 messages: {
-                    required: "Campo obrigatório",
+                    min: "Andar Inicial deve ser Maior ou Igual ao Andar Final"
                 }
             });
-            var txtValor = $(this).parent().parent().find("input")[0];
-            $($(txtValor).parent().parent().find("input")[2]).rules("add", {
-                required: true,
-                messages: {
-                    required: "Campo obrigatório",
-                }
+
+            var txtValor = $(this).parent().parent().find("input")[2];
+            $(txtValor).rules("add", {
+                required: true
             });
-            console.log(validarPlanta(sltAndarInicial,sltAndarFinal,txtValor));
-            if (validarPlanta(sltAndarInicial,sltAndarFinal,txtValor)) {
-                var ordemPlanta = $(this).val();
-                var tabela = "#dadosPlanta"+ordemPlanta;
-                $(tabela).append(
-                        "<tr><td> <input type='hidden' id='hdnAndarInicial"+ordemPlanta+"[]' name='hdnTipoTelefone"+ordemPlanta+"[]' value='" + $(sltAndarInicial).val() + "'>" + $(sltAndarInicial).val() + "</td>" +
-                        "<td> <input type='hidden' id='hdnAndarFinal"+ordemPlanta+"[]' name='hdnAndarFinal"+ordemPlanta+"[]' value='" + $(sltAndarFinal).val() + "'>" + $(sltAndarFinal).val() + "</td>" +
-                        "<td> <input type='hidden' id='hdnValor"+ordemPlanta+"[]' name='hdnValor"+ordemPlanta+"[]' value='" + $(txtValor).val() + "'>" + $(txtValor).val() + "</td>" +
+            var ordemPlanta = $(this).val();
+            if (validarPlanta(sltAndarInicial, sltAndarFinal, txtValor, ordemPlanta)) {
+                var tbody = "#dadosPlanta_" + ordemPlanta;
+                $(tbody).append(
+                        "<tr><td> <input type='hidden' id='hdnAndarInicial" + ordemPlanta + "[]' name='hdnAndarInicial" + ordemPlanta + "[]' value='" + $(sltAndarInicial).val() + "'>" + $(sltAndarInicial).val() + "</td>" +
+                        "<td> <input type='hidden' id='hdnAndarFinal" + ordemPlanta + "[]' name='hdnAndarFinal" + ordemPlanta + "[]' value='" + $(sltAndarFinal).val() + "'>" + $(sltAndarFinal).val() + "</td>" +
+                        "<td> <input type='hidden' id='hdnValor" + ordemPlanta + "[]' name='hdnValor" + ordemPlanta + "[]' value='" + $(txtValor).val() + "'>" + $(txtValor).val() + "</td>" +
                         "<td class='collapsing'><div class='red ui icon button' onclick='excluirPlanta($(this))'><i class='trash icon'></i>Excluir</div></td></tr>");
+                $(sltAndarInicial).parent().dropdown('restore defaults');
+                $(sltAndarFinal).parent().dropdown('restore defaults');
                 $(txtValor).val("");
+                var tabela = "#tabelaPlanta_" + ordemPlanta;
                 $(tabela).show();
             }
             $(sltAndarInicial).rules("remove");
@@ -300,6 +312,53 @@ function planta() {
     })
 }
 
-function validarPlanta(sltAndarInicial,sltAndarFinal,txtValor) {
-    return (sltAndarInicial.valid() & sltAndarFinal.valid() & txtValor.valid());
+function validarPlanta(sltAndarInicial, sltAndarFinal, txtValor, ordemPlanta) {
+    var sucesso = $(sltAndarInicial).valid() & $(sltAndarFinal).valid() & $(txtValor).valid();
+
+    if (sucesso) {
+        var tbody = "#dadosPlanta_" + ordemPlanta;
+        var linhas = $(tbody).children();
+        if (linhas === 0) {
+            console.log('beleza nao tem tabela');
+        }
+        else {
+            var arrayIntervalo = [];
+            $(linhas).each(function(){
+                //buscar o andar inicial
+                //buscar o andar final
+                //criar array com numeros do intervalo
+                
+                
+                
+            })
+    //fazer um merge unique
+    //verificar se o valor do andar inicial ou final esta dentro dentro desse array
+
+    
+            console.log(' tem tabela');
+            
+            
+        }
+        console.log($(tbody).children());
+        //console.log($(tbody).children().children().find("input"));
+//        var hege = ["Cecilie", "Lone"];
+//var stale = ["Emil", "Lone", "Linus"]; var c = hege.concat(stale);
+//c.filter(function (item, pos) {return c.indexOf(item) == pos});
+//
+//
+//c.sort();
+    }
+
+    return sucesso;
+}
+
+function excluirPlanta(element) {
+    $(document).ready(function () {
+        var linha = element.parent().parent();
+        var pai = linha.parent();
+        linha.remove();
+        if (pai.find("input").length === 0) {
+            pai.parent().hide();
+        }
+    })
 }
