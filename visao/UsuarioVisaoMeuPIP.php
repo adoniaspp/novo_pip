@@ -68,7 +68,7 @@ $item = $this->getItem();
                                 <button type="button"  class="ui green button">
                                     <i class="edit icon"></i> Alterar Imóvel
                                 </button></a> 
-                            <a href="index.php?entidade=Imovel&acao=listar">
+                            <a href="index.php?entidade=Imovel&acao=listarDados">
                                 <button type="button" class="ui green button">
                                     <i class="list icon"></i> Visualizar Meus Imóveis
                                 </button></a> 
