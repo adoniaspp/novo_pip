@@ -243,29 +243,18 @@ class AnuncioControle {
             $id = $statusUsuario[0]->getId();
 
             if ($verificarStatus == 'ativo') {
-                //trazer todos os anuncios cadastrados para o usuário
-                 /* $consultasAdHoc = new ConsultasAdHoc();
-                    $parametros["atributos"] = "*";
-                    $parametros["tabela"] = "todos";     
-                    unset($parametros["tipoImovel"]);
-                    unset($parametros["hdnEntidade"]);
-                    unset($parametros["hdnAcao"]);
-                    $parametros["id"] = //Aqui entra o id do usuario corretor
-                    $parametros["garagem"] = "false";        
-                    $parametros["predicados"] = $parametros;
-                    $listaAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
-                    if(count($listaAnuncio['anuncio']) == 0){
-                        $visao->setItem("errosemresultadobusca");
-                        $visao->exibir('VisaoErrosGenerico.php');
-                    }
-                    $visao->setItem($listaAnuncio);
-                    $visao->exibir('AnuncioVisaoBusca.php');*/
-
+                
+                $consultasAdHoc = new ConsultasAdHoc();
+                $parametrosBusca["atributos"] = "*";
+                $parametrosBusca["tabela"] = "todos";
+                $parametrosBusca["predicados"]["id"] = $id; //Id do corretor. 
+                $parametrosBusca["predicados"]["garagem"] = "false"; 
                 
                 $visao = new Template();
                 $item["usuario"] = $genericoDAO->consultar(new Usuario(), true, array("id" => $selecionarAnuncioUsuario[0]->getId()));
                 $item["cidadeEstado"] = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarAnuncioUsuario[0]->getIdEndereco()));
-
+                $item["anuncio"] = $consultasAdHoc->buscaAnuncios($parametrosBusca);
+                
                 $visao->setItem($item);
                 $visao->exibir('AnuncioVisaoUsuario.php');
             }

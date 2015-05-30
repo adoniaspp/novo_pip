@@ -29,6 +29,7 @@
     $usuario = $item["usuario"][0];
     $cidadeEstado = $item["cidadeEstado"][0];
     $anuncios = $item["anuncio"];
+    $diferenciais = $item["diferenciais"];
     
     if($usuario->getEndereco()->getNumero() != "" && $usuario->getEndereco()->getComplemento() != ""){
                     $endereco = $usuario->getEndereco()->getLogradouro().", ".$usuario->getEndereco()->getNumero().", ".$usuario->getEndereco()->getComplemento();
@@ -49,7 +50,7 @@
     ?>
     
     <div class="ui two column page grid">
-        <div class="ten wide column">
+        <div class="twelve wide column">
             <div class="ui raised segment">                                
                 <a class="ui teal ribbon label">Informações <?php if ($usuario->getTipoUsuario() == "pf") {
                     echo "do Vendedor";
@@ -103,7 +104,73 @@
         </div>
  
     </div>
+        
+    <div class="ui page grid main">        
     
+      <div class="ui form segment">
+          
+        <div class="ui stackable grid">
+            
+            <div class="twelve wide column">
+                
+                <div class="fields">
+                    
+                        <div class="ten wide field">
+                            <a class="ui teal ribbon label">Informações <?php if ($usuario->getTipoUsuario() == "pf") {
+                                echo "do Vendedor";
+                            } else echo "da Empresa"; ?></a>
+                            <label>Nome</label>
+                       <?php echo strtoupper($usuario->getNome()); ?> <br />
+                            <label>Endereço</label>
+                      <?php echo $endereco . " - "; ?>
+                      <?php echo strtoupper($cidadeEstado->getCidade()->getNome()) . ", " . strtoupper($cidadeEstado->getEstado()->getUf()); ?>
+                        </div>
+                    
+                    <div class="five wide field"></div>
+                    <br>
+                    <div class="five wide field">
+                        <label>Tipo de Pessoa</label>
+                       <?php if ($usuario->getTipoUsuario() == "pf") {
+                                echo "PESSOA FÍSICA";
+                            } else echo "PESSOA JURÍDICA"; ?>
+                      
+                      <label>Contato(s)</label>
+                       <?php
+                            if (is_array($usuario->getTelefone())) { //verifica se existe mais de um número de telefone cadastrado para o usuário                                 
+                                foreach ($usuario->getTelefone() as $anuncioTelefone) {
+                                    ?>  
+                                    <?php echo strtoupper($anuncioTelefone->getOperadora()) . " - " . strtoupper($anuncioTelefone->getNumero())."<br />"; ?>				
+                                <?php } ?>
+                            <?php } else echo strtoupper($usuario->getTelefone()->getOperadora()) . " - " . strtoupper($usuario->getTelefone()->getNumero()); ?>  
+                      
+                    </div>
+                    
+                </div>    
+                
+                
+            </div>
+            <div class="four wide column">
+                <div class="ui horizontal segment">
+                    <div class="ui special cards">
+                        <div class="card">
+                            <div class="dimmable image">
+                                <div class="ui dimmer">
+                                    <div class="content">
+                                        <div class="center">
+                                            <div class="ui inverted button">Inserir Imagem</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <img src="<?php echo PIPURL ?>/fotos/usuarios/<?php echo $usuario->getFoto() ?>" width="100px" height="100px">
+                            </div>
+                              
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+            </div>
+    </div>
         <span class="glyphicon glyphicon-home" aria-hidden="true"></span><h4>Imóveis <?php if($usuario->getTipoUsuario() == "pf"){echo "do Vendedor";} else echo "da Empresa";?></h4>
         
         
@@ -118,93 +185,93 @@
 
             <?php
             //$itensAnuncio = $this->getItem();
+            
+            echo "<pre>";
+            print_r($anuncios);
+            die();
             if ($anuncios) {
-                foreach ($anuncios as $anuncio) {   
+                foreach ($anuncios as $anuncio) { var_dump($anuncio);
         ?>
             <?php //echo "Finalidade: ". $anuncio->getFinalidade();?>
 
-        <div class="panel panel-warning col-md-11"  id="<?php echo $anuncio->getId();?>" >
+        <div class="panel panel-warning col-md-11"  id="<?php echo $anuncio[0]["idanuncio"];?>" >
 
         <div class="panel-body">
         
         <fieldset class="col-md-9">
                         
                         <div data-row-span="1">
-                        <input type="checkbox" id="selecoes_<?php echo $anuncio->getId(); ?>" class="option" name="selecoes[]" value=<?php echo $anuncio->getId(); ?>> Selecionar Imóvel   
+                        <input type="checkbox" id="selecoes_<?php echo $anuncio[0]["idanuncio"]; ?>" class="option" name="selecoes[]" value=<?php echo $idanuncio[0]["idanuncio"]; ?>> Selecionar Imóvel   
                         </div>
             
                         <div data-row-span="7">
 				<div data-field-span="2">
                                     <label style="text-align: center">Título</label>
-					<?php echo "<span class='label label-info'>" . strtoupper($anuncio->getTituloAnuncio()) . "</span>"; ?>
+					<?php echo "<span class='label label-info'>" . strtoupper($anuncio[0]["tituloanuncio"]) . "</span>"; ?>
 				</div>
                             
                                 <div data-field-span="1">
 					<label style="text-align: center">Tipo</label>
-					<?php echo "<span class='label label-warning'>" . strtoupper($anuncio->getImovel()->getTipo()) . "</span>"; ?>
+					<?php //echo "<span class='label label-warning'>" . strtoupper($anuncio[0]["tituloanuncio"]) . "</span>"; ?>
 				</div>
                             
 				<div data-field-span="1">
 					<label style="text-align: center">Finalidade</label>
-					<?php echo "<span class='label label-primary'>" . strtoupper($anuncio->getFinalidade()) . "</span>"; ?>
+					<?php echo "<span class='label label-primary'>" . strtoupper($anuncio[0]["finalidade"]) . "</span>"; ?>
 				</div>
                                 <div data-field-span="1">
 					<label style="text-align: center">Quarto(s)</label>
-					<?php echo $anuncio->getImovel()->getQuarto(); ?>
+					<?php //echo $anuncio->getImovel()->getQuarto(); ?>
 				</div>
                                 <div data-field-span="1">
                                     <label style="text-align: center">Área (em m<sup>2</sup>)</label>
-					<?php echo $anuncio->getImovel()->getArea(); ?>
+					<?php //echo $anuncio->getImovel()->getArea(); ?>
 				</div>
                                 <div data-field-span="1">
 					<label style="text-align: center">Condição</label>
-					<?php echo $anuncio->getImovel()->getCondicao();?>
+					<?php echo strtoupper($anuncio[0]["condicao"]);?>
 				</div>
 			</div>
             
 			<div data-row-span="7">
 				<div data-field-span="3">
 					<label style="text-align: center">Descrição</label>
-					<?php echo $anuncio->getImovel()->getDescricao(); ?>
+					<?php echo $anuncio[0]["descricaoanuncio"]; ?>
 				</div>
 				<div data-field-span="1">
 					<label style="text-align: center">Valor</label>
-					 R$ <?php echo $anuncio->getValor(); ?>
+					 R$ <?php //echo $anuncio->getValor(); ?>
 				</div>
                                 <div data-field-span="1">
 					<label style="text-align: center">Banheiro(s)</label>
-					<?php echo $anuncio->getImovel()->getBanheiro(); ?>
+					<?php //echo $anuncio->getImovel()->getBanheiro(); ?>
 				</div>
                                  <div data-field-span="1">
 					<label style="text-align: center">Garagem(ns)</label>
-					<?php echo $anuncio->getImovel()->getGaragem(); ?>
+					<?php //echo $anuncio->getImovel()->getGaragem(); ?>
 				</div>
                                 <div data-field-span="1">
 					<label style="text-align: center">Referência</label>
-					<?php echo "<span class='label label-info'>" . substr($anuncio->getImovel()->getDatahoracadastro(), 6, -9) . substr($anuncio->getImovel()->getDatahoracadastro(), 3, -14) . str_pad($anuncio->getImovel()->getId(), 5, "0", STR_PAD_LEFT) . "</span>"; ?>
+					<?php //echo "<span class='label label-info'>" . substr($anuncio->getImovel()->getDatahoracadastro(), 6, -9) . substr($anuncio->getImovel()->getDatahoracadastro(), 3, -14) . str_pad($anuncio->getImovel()->getId(), 5, "0", STR_PAD_LEFT) . "</span>"; ?>
 				</div>
 			</div>
             
                         <div data-row-span="7">
                             <div data-field-span="3" style="background-color: #e4fcff">
 					<label style="text-align: center;">Endereço</label>
-					<?php echo $anuncio->getImovel()->getEndereco()->getLogradouro() . ", Nº " . $anuncio->getImovel()->getEndereco()->getNumero();?>
+					<?php echo $anuncio[0]["logradouro"] . ", Nº " . $anuncio[0]["numero"];?>
 				</div>
                                 <div data-field-span="1">
 					<label style="text-align: center">Cidade</label>
-					<?php echo $anuncio->getImovel()->getEndereco()->getCidade()->getNome() ;?>
+					<?php echo $anuncio[0]["cidade"] ;?>
 				</div>
 				<div data-field-span="1">
 					<label style="text-align: center">Bairro</label>
-					<?php echo $anuncio->getImovel()->getEndereco()->getBairro()->getNome(); ?>
+					<?php echo $anuncio[0]["bairro"]; ?>
 				</div>
                                 <div data-field-span="1">
 					<label style="text-align: center">Suite(s)</label>
-					<?php echo $anuncio->getImovel()->getSuite(); ?>
-				</div>
-                                 <div data-field-span="1">
-					<label style="text-align: center">Condição</label>
-					<?php echo $anuncio->getImovel()->getCondicao(); ?>
+					<?php //echo $anuncio->getImovel()->getSuite(); ?>
 				</div>
                                 
 			</div>
@@ -214,18 +281,18 @@
             <fieldset class="col-md-2">
                 
                 <div>
-                    <img src="<?php echo $anuncio->getImagem()->getDiretorio(); ?>" height="160" width="160" class="img-thumbnail" style="margin-left: 60px">
+                    <img src="<?php //echo $anuncio->getImagem()->getDiretorio(); ?>" height="160" width="160" class="img-thumbnail" style="margin-left: 60px">
                     
                 </div>
                 
                 <br/>
                 
                 <div>
-
-                    <button type="button" id="btnAnuncioModal" class="btn btn-default btn-sm" data-toggle="modal" data-target="#divAnuncioModal" data-modal="<?php echo $anuncio->getId(); ?>" data-title="<?php echo $anuncio->getTituloAnuncio(); ?>" style="margin-left: 60px">
+                    <!--
+                    <button type="button" id="btnAnuncioModal" class="btn btn-default btn-sm" data-toggle="modal" data-target="#divAnuncioModal" data-modal="<?php //echo $anuncio->getId(); ?>" data-title="<?php //echo $anuncio->getTituloAnuncio(); ?>" style="margin-left: 60px">
                         <span class="glyphicon glyphicon-plus-sign"></span> Veja mais detalhes
                     </button>
-                  
+                    -->
                 </div>
                   
             </fieldset>

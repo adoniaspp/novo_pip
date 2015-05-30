@@ -229,6 +229,33 @@ class ImovelControle {
             $visao->exibir('ImovelVisaoListagem.php');
         }
     }
+    
+        function listarDados() {
+        if (Sessao::verificarSessaoUsuario()) {
+            $imovel = new Imovel();
+            $genericoDAO = new GenericoDAO();
+            $consultarAD = new ConsultasAdHoc();
+            $listaImoveis = $genericoDAO->consultar($imovel, true, array("idusuario" => $_SESSION['idusuario']));
+
+            #verificar a melhor forma de tratar o blindado recursivo
+            foreach ($listaImoveis as $selecionarImovel) {
+                $selecionarEndereco = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarImovel->getIdEndereco()));
+                $selecionarImovel->setEndereco($selecionarEndereco[0]);
+
+                $selecionarPlanta = $genericoDAO->consultar(new Planta(), true, array("idimovel" => $selecionarImovel->getId()));
+                $selecionarImovel->setPlanta($selecionarPlanta);
+                
+                $selecionarDiferencial = $genericoDAO->consultar(new ImovelDiferencial(), true, array("idimovel" => $selecionarImovel->getId()));
+                $selecionarImovel->setImovelDiferencial($selecionarDiferencial);
+                
+                $listarImovel[] = $selecionarImovel;
+            }
+
+            $visao = new Template();
+            $visao->setItem($listarImovel);
+            $visao->exibir('ImovelVisaoListagemDados.php');
+        }
+    }
 
     function listarEditar() {
         if (Sessao::verificarSessaoUsuario()) {
