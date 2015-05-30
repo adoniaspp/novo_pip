@@ -4,7 +4,8 @@
 
 <?php
 $item = $this->getItem();
-//print_r($item['anuncio'][0]);
+//echo '<pre>';
+//print_r($item);
 //die();
 ?>
 <div class="container">
@@ -23,8 +24,8 @@ $item = $this->getItem();
                         </div>
                         <div class="fotorama" data-nav="thumbs" data-fit="cover" data-width="700" data-ratio="700/467" data-max-width="100%">
                             <?php //foreach ($imagens as $imagem) { ?>
-                            <a href="<?php echo "http://localhost/pip/fotos/5a04mq12btaqveua2pr7pai904/amostra04.jpg" ?>" data-caption="<?php echo "Casa" ?>" data-thumb="<?php echo "http://localhost/pip/fotos/5a04mq12btaqveua2pr7pai904/thumbnail/amostra04.jpg" ?>"></a>
-                            <a href="<?php echo "http://localhost/pip/fotos/5a04mq12btaqveua2pr7pai904/amostra04.jpg" ?>" data-caption="<?php echo "Casa" ?>" data-thumb="<?php echo "http://localhost/pip/fotos/5a04mq12btaqveua2pr7pai904/thumbnail/amostra04.jpg" ?>"></a>
+                            <a href="<?php echo "http://localhost/fotos/5a04mq12btaqveua2pr7pai904/amostra04.jpg" ?>" data-caption="<?php echo "Casa" ?>" data-thumb="<?php echo "http://localhost/fotos/5a04mq12btaqveua2pr7pai904/thumbnail/amostra04.jpg" ?>"></a>
+                            <a href="<?php echo "http://localhost/fotos/5a04mq12btaqveua2pr7pai904/amostra04.jpg" ?>" data-caption="<?php echo "Casa" ?>" data-thumb="<?php echo "http://localhost/fotos/5a04mq12btaqveua2pr7pai904/thumbnail/amostra04.jpg" ?>"></a>
                             <?php //} ?>
                         </div>
                         <div class="ui info message">

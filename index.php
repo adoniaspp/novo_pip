@@ -25,7 +25,6 @@ $parte2 = str_replace($parte1, "", $_SERVER['REQUEST_URI']);
 $url = explode("/", $parte2);
 
 array_shift($url);
-
 if (sizeof($url) > 0 & $url[0] != "") { //verificar existe algo depois da barra digitada e se não está vazio
     // print "É Maior <br>"; 
     //echo "Array: " . $url[2];
