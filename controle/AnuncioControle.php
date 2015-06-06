@@ -113,8 +113,7 @@ class AnuncioControle {
     }
 
     function detalhar($parametros) {
-//        var_dump($parametros);
-        $parametros["id"] = $parametros["hdnCodAnuncio"];
+        $parametros["idanuncio"] = $parametros["hdnCodAnuncio"];
         unset($parametros["hdnCodAnuncio"]);
         $parametros["tabela"] = $parametros["hdnTipoImovel"];
         unset($parametros["hdnTipoImovel"]);

@@ -33,7 +33,7 @@ class ConsultasAdHoc extends GenericoDAO {
         $sql = $sql . ' FROM buscaAnuncio' . ucfirst(strtolower($parametros['tabela']));
         /* Predicados da Consulta */
         if ($garagem == 'true') {
-                $sql = $sql . ' WHERE  garagem > 0 ';
+            $sql = $sql . ' WHERE  garagem > 0 ';
         }
         if ($crtlPred) {
             foreach ($parametros['predicados'] as $chave => $valor) {
@@ -50,7 +50,11 @@ class ConsultasAdHoc extends GenericoDAO {
             }
         }
         if ($crtlPred) {
-            $sql = $sql . ' WHERE ' . implode(' AND ', $predicados);
+            if ($garagem == 'true') {
+                $sql = $sql . 'AND ' . implode(' AND ', $predicados);
+            } else {
+                $sql = $sql . ' WHERE ' . implode(' AND ', $predicados);
+            }
             if ($preco != NULL) {
                 if ($preco >= 0 && $preco < 1000000) {
                     $sql = $sql . ' AND valormin BETWEEN ' . $preco . ' AND ' . ($preco + 100000);
@@ -66,7 +70,6 @@ class ConsultasAdHoc extends GenericoDAO {
             }
         }//        var_dump($sql);
 //        die();
-
 //        var_dump($sql);
 //        die();
         $statement = $this->conexao->prepare($sql);
@@ -80,6 +83,8 @@ class ConsultasAdHoc extends GenericoDAO {
                 }
             }
         }
+//        var_dump($sql);
+//        die();
         $statement->execute();
         $resultado['anuncio'] = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -110,45 +115,47 @@ class ConsultasAdHoc extends GenericoDAO {
         if (count($resultado['anuncio']) != 0) {
             $idsImoveis = array_column($resultado['anuncio'], 'idimovel');
             $tiposImoveis = array_column($resultado['anuncio'], 'descricao');
-            for ($i=0; $i<count($idsImoveis); $i++){
-                if($tiposImoveis[$i] == 'casa'){
+            for ($i = 0; $i < count($idsImoveis); $i++) {
+                if ($tiposImoveis[$i] == 'casa') {
                     $sth = $this->conexao->prepare("SELECT quarto, banheiro, suite, garagem, area FROM buscaAnuncioCasa WHERE idimovel = :idimovel");
                     $sth->bindValue(':idimovel', $idsImoveis[$i]);
-                    $sth->execute();    
-                    $resultado['casa'] = $sth->fetchAll(PDO::FETCH_ASSOC);
-                    $resultado['anuncio'][$i] = array_merge($resultado['casa'][0], $resultado['anuncio'][$i]); 
-                   }
-                if($tiposImoveis[$i] == 'apartamentoplanta'){
+                    $sth->execute();
+                    $imovel['casa'] = $sth->fetchAll(PDO::FETCH_ASSOC);
+                    $resultado['anuncio'][$i] = array_merge($imovel['casa'][0], $resultado['anuncio'][$i]);
+                }
+                if ($tiposImoveis[$i] == 'apartamentoplanta') {
                     $sth = $this->conexao->prepare("SELECT andares, unidadesandar, totalunidades, numerotorres FROM buscaAnuncioApplanta WHERE idimovel = :idimovel");
                     $sth->bindValue(':idimovel', $idsImoveis[$i]);
-                    $sth->execute();    
-                    $resultado['applanta'] = $sth->fetchAll(PDO::FETCH_ASSOC);
-                    $resultado['anuncio'][$i] = array_merge($resultado['applanta'][0], $resultado['anuncio'][$i]); 
+                    $sth->execute();
+                    $imovel['applanta'] = $sth->fetchAll(PDO::FETCH_ASSOC);
+                    $resultado['anuncio'][$i] = array_merge($imovel['applanta'][0], $resultado['anuncio'][$i]);
                 }
-                if($tiposImoveis[$i] == 'apartamento'){
+                if ($tiposImoveis[$i] == 'apartamento') {
                     $sth = $this->conexao->prepare("SELECT quarto, suite, banheiro, garagem, area, sacada, unidadesandar, andar, condominio, cobertura FROM buscaAnuncioAp WHERE idimovel = :idimovel");
                     $sth->bindValue(':idimovel', $idsImoveis[$i]);
-                    $sth->execute();    
-                    $resultado['ap'] = $sth->fetchAll(PDO::FETCH_ASSOC);
-                    $resultado['anuncio'][$i] = array_merge($resultado['ap'][0], $resultado['anuncio'][$i]); 
+                    $sth->execute();
+                    $imovel['ap'] = $sth->fetchAll(PDO::FETCH_ASSOC);
+                    $resultado['anuncio'][$i] = array_merge($imovel['ap'][0], $resultado['anuncio'][$i]);
                 }
-                if($tiposImoveis[$i] == 'salacomercial'){
+                if ($tiposImoveis[$i] == 'salacomercial') {
                     $sth = $this->conexao->prepare("SELECT area, banheiro, garagem, condominio FROM buscaAnuncioSala WHERE idimovel = :idimovel");
                     $sth->bindValue(':idimovel', $idsImoveis[$i]);
-                    $sth->execute();    
-                    $resultado['sala'] = $sth->fetchAll(PDO::FETCH_ASSOC);
-                    $resultado['anuncio'][$i] = array_merge($resultado['sala'][0], $resultado['anuncio'][$i]); 
+                    $sth->execute();
+                    $imovel['sala'] = $sth->fetchAll(PDO::FETCH_ASSOC);
+                    $resultado['anuncio'][$i] = array_merge($imovel['sala'][0], $resultado['anuncio'][$i]);
                 }
-                if($tiposImoveis[$i] == 'terreno'){
+                if ($tiposImoveis[$i] == 'terreno') {
                     $sth = $this->conexao->prepare("SELECT area FROM buscaAnuncioTerreno WHERE idimovel = :idimovel");
                     $sth->bindValue(':idimovel', $idsImoveis[$i]);
-                    $sth->execute();    
-                    $resultado['terreno'] = $sth->fetchAll(PDO::FETCH_ASSOC);
-                    $resultado['anuncio'][$i] = array_merge($resultado['terreno'][0], $resultado['anuncio'][$i]);                     
+                    $sth->execute();
+                    $imovel['terreno'] = $sth->fetchAll(PDO::FETCH_ASSOC);
+                    $resultado['anuncio'][$i] = array_merge($imovel['terreno'][0], $resultado['anuncio'][$i]);
                 }
             }
         }
-   
+        echo '<pre>';
+        print_r($resultado['anuncio']);
+        die();
         return $resultado;
     }
 

@@ -13,8 +13,8 @@ if (count($item['anuncio']) == 1) {
     $ultimaLinha = 1;
 } else {
     $itens = count($item['anuncio']);
-    $linhas = round($itens / 4);
-    $ultimaLinha = $itens - (($linhas-1) * 4);
+    $linhas = round($itens / 3);
+    $ultimaLinha = $itens - (($linhas-1) * 3);
 //var_dump($ultimaLinha);
 //die();
 }
@@ -25,13 +25,15 @@ if (count($item['anuncio']) == 1) {
     <input type="hidden" id="hdnAcao" name="hdnAcao" value="detalhar" />
     <input type="hidden" id="hdnCodAnuncio" name="hdnCodAnuncio" />
     <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" />
-    <div class="ui center aligned column page grid" id="resultadoBusca">
-        <div class="column">
+    <div class="ui center aligned three column page grid" id="resultadoBusca">
+        <div class="one wide column">
+        </div>  
+        <div class="fourteen wide column">
             <?php
             for ($i = 0; $i < $linhas; $i++) {
-                $linha = 4;
+                $linha = 3;
                 ?>
-                <div class="ui four special cards" id="resultados">
+                <div class="ui special cards" id="resultados">
                     <?php
                     if ($i + 1 >= $linhas) {
                         $linha = $ultimaLinha;
@@ -40,7 +42,7 @@ if (count($item['anuncio']) == 1) {
                         if ($i == 0) {
                             $crtl = $j;
                         } else {
-                            $crtl = (($i + 1) * 4) - (4 - ($j));
+                            $crtl = (($i + 1) * 3) - (3 - ($j));
                         }
                         ?>
                         <div class="card">
@@ -50,7 +52,7 @@ if (count($item['anuncio']) == 1) {
                                         <div class="center">
                                            <div class="ui blue basic button"> Detalhes </div>                                          
                                             <input type="hidden" id="anuncio<?php echo $item['anuncio'][$crtl]['id'] ?>"
-                                                   value="<?php echo $item['anuncio'][$crtl]['id'] ?>"/>
+                                                   value="<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>"/>
                                             <input type="hidden" id="anuncio<?php echo $item['anuncio'][$crtl]['descricao'] ?>"
                                                    value="<?php echo $item['anuncio'][$crtl]['descricao'] ?>"/>
                                         </div>
@@ -72,15 +74,15 @@ if (count($item['anuncio']) == 1) {
                                 <a>
                                     <i class="big facebook square icon"></i>
                                 </a>
-                                <a>
+<!--                                <a>
                                     <i class="big flickr icon"></i>
-                                </a>
+                                </a>-->
                                 <a>
                                     <i class="big google plus icon"></i>
                                 </a>
-                                <a>
+<!--                                <a>
                                     <i class="big instagram icon"></i>
-                                </a>
+                                </a>-->
                                 <a>
                                     <i class="big twitter square icon"></i>
                                 </a>
@@ -91,6 +93,9 @@ if (count($item['anuncio']) == 1) {
                 <?php
             }
             ?>
+        </div>
+        
+        <div class="one wide column">
         </div>
     </div>
 </form>
