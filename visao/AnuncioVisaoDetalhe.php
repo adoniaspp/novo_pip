@@ -39,7 +39,7 @@ $item = $this->getItem();
                                 Informações Gerais
                             </div>
                         </div>
-                        
+
                         <div class="ui stackable one column grid">
                             <div class="column">
                                 <div class="ui stackable three column padded grid"> 
@@ -137,114 +137,105 @@ $item = $this->getItem();
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
-                                
+
                                 <div class="ui divider"></div>                              
+                            </div>
+                        </div> 
+                        <div class="sixteen wide column"> 
+                            <div class="ui info message">
+                                <div class="header"><?php echo $item['anuncio'][0]['tituloanuncio'] ?></div>
+                                <p><?php echo $item['anuncio'][0]['descricaoanuncio'] ?></p>
+                            </div>
                         </div>
                     </div> 
-                    <div class="sixteen wide column"> 
-                        <div class="ui info message">
-                            <div class="header"><?php echo $item['anuncio'][0]['tituloanuncio'] ?></div>
-                            <p><?php echo $item['anuncio'][0]['descricaoanuncio'] ?></p>
-                        </div>
-                    </div>
-                </div> 
-            </div>
+                </div>
 
-            <div class="column">
-                <div class="ui segment">
-                    <a class="ui green ribbon label">Localização</a>
-                    <div class="ui vertically padded page grid">
-                        <div class="ui two column centered row">
-                            <div class="column">
-                                <?php if ($item['anuncio'][0]['publicarmapa'] == "SIM") { ?>
-                                    <div class="tab-pane fade" id="vernomapa">
-                                        <div class="row">
-                                            <form class="grid-form">
-                                                <div class="col-xs-12">
-                                                    <div data-row-span="5">
-                                                        <div data-field-span="1">
-                                                            <label>Logradouro</label>
-                                                            <?php echo $item['anuncio'][0]['logradouro'] ?>
-                                                        </div>
-                                                        <div data-field-span="1">
-                                                            <label>Número</label>
-                                                            <?php echo $item['anuncio'][0]['numero'] ?>
-                                                        </div>
-                                                        <div data-field-span="1">
-                                                            <label>Bairro</label>
-                                                            <?php echo $item['anuncio'][0]['bairro'] ?>
-                                                        </div>
-                                                        <div data-field-span="1">
-                                                            <label>Cidade</label>
-                                                            <?php echo $item['anuncio'][0]['cidade'] ?>
-                                                            <?php echo " - "; ?>
-                                                            <?php echo $item['anuncio'][0]['estado']; ?>
-                                                        </div>
-                                                        <div data-field-span="1">
-                                                            <label>Complemento</label>
-                                                            <?php echo $item['anuncio'][0]['complemento'] ?>
+                <div class="column">
+                    <div class="ui segment">
+                        <a class="ui green ribbon label">Localização</a>
+                        <div class="ui vertically padded page grid">
+                            <div class="ui two column centered row">
+                                <div class="column">
+                                    <?php if ($item['anuncio'][0]['publicarmapa'] == "SIM") { ?>
+                                        <div class="tab-pane fade" id="vernomapa">
+                                            <div class="row">
+                                                <form class="grid-form">
+                                                    <div class="col-xs-12">
+                                                        <div data-row-span="5">
+                                                            <div data-field-span="1">
+                                                                <label>Logradouro</label>
+                                                                <?php echo $item['anuncio'][0]['logradouro'] ?>
+                                                            </div>
+                                                            <div data-field-span="1">
+                                                                <label>Número</label>
+                                                                <?php echo $item['anuncio'][0]['numero'] ?>
+                                                            </div>
+                                                            <div data-field-span="1">
+                                                                <label>Bairro</label>
+                                                                <?php echo $item['anuncio'][0]['bairro'] ?>
+                                                            </div>
+                                                            <div data-field-span="1">
+                                                                <label>Cidade</label>
+                                                                <?php echo $item['anuncio'][0]['cidade'] ?>
+                                                                <?php echo " - "; ?>
+                                                                <?php echo $item['anuncio'][0]['estado']; ?>
+                                                            </div>
+                                                            <div data-field-span="1">
+                                                                <label>Complemento</label>
+                                                                <?php echo $item['anuncio'][0]['complemento'] ?>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </form>
+                                                </form>
+                                            </div>
                                         </div>
-                                    </div>
-                                <?php } ?>
-                            </div>
-                            <div class="column">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <div class="popin">
-                                            <div id="mapaModal"></div>
+                                    <?php } ?>
+                                </div>
+                                <div class="column">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="popin">
+                                                <div id="mapaModal"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
-
-                    </div>
-                </div> 
-            </div>
-            <div class="column">
-                <div class="ui segment">
-                    <a class="ui red ribbon label">Contatos</a>
-                    <div class="ui vertically padded page grid">
-                        <div class="ui two column centered row">
-                            <div class="column">
-                                <form id="formContato" class="ui form" action="index.php" method="post" enctype="multipart/form-data"">
-                                    <input type="hidden" id="hdnIdAnuncio" name="hdnIdAnuncio" value= "<?php echo $anuncio->getId() ?> "/>
-                                    <input type="hidden" id="hdnIdUsuario" name="hdnIdUsuario" value= "<?php echo $usuario->getId() ?>" />
-
-                                    <div class="modal-body text-left col-xs-7">
-
-                                        <div class="form-group">
-                                            <label for="recipient-name" class="control-label">Nome:</label>            
-                                            <input type="text" class="form-control" id="txtNome">
+                    </div> 
+                </div>
+                <div class="column">
+                    <div class="ui segment">
+                        <a class="ui red ribbon label">Contatos</a>
+                        <div class="ui stackable one column padded grid">
+                            <div class="column"> 
+                                <div class="ui relaxed divided items">
+                                    <div class="item">
+                                        <div class="ui small image">
+                                            <img src="http://localhost/fotos/usuarios/b48c8744714a3ff987ed6b91a9035882.jpg">
                                         </div>
-                                        <div class="form-group">
-                                            <label for="recipient-name" class="control-label">E-mail:</label>
-                                            <input type="text" class="form-control" id="txtEmail" name="txtEmail">
+                                        <div class="content">
+                                            <a class="header"><?php echo $item['anuncio'][0]['nome'] ?></a>
+                                            <div class="description">
+                                                Telefone: (91)988219977
+                                            </div>
+                                            <div class="extra">
+                                                <div class="ui right floated primary button">
+                                                    Envie uma mensagem
+                                                    <i class="right mail outline icon"></i>
+                                                </div>
+                                                <a class="ui label">
+                                                    <i class="mail icon"></i> <?php echo $item['anuncio'][0]['email'] ?>
+                                                </a>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="recipient-name" class="control-label">Telefone:</label>
-                                            <input type="text" class="form-control" id="txtTelefone" name="txtTelefone">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="message-text" class="control-label">Mensagem:</label>
-                                            <textarea maxlength="200" class="form-control" id="txtMensagem"></textarea>
-                                        </div>
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>    
-                                        <button type="submit" id="btnEnviarEmailAnuncio" class="btn btn-primary">Enviar</button>
                                     </div>
-                                </form>
-                            </div>
-                            <div class="column">
-                                asdjaoidjioajsd
+                                </div>                                
                             </div>
                         </div>
-
                     </div>
                 </div> 
             </div>
