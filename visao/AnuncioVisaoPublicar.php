@@ -14,8 +14,9 @@ if ($item) {
 <script src="assets/libs/jquery/jquery.mask.min.js"></script>
 <script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
+<script src="assets/js/util.validate.js"></script>
 <script src="assets/js/anuncio.js"></script>
-<script src="assets/js/usuario.js"></script>
+<!--<script src="assets/js/usuario.js"></script>-->
 
 
 <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
@@ -68,6 +69,22 @@ if ($item) {
                 maxFileSize: 'Arquivo muito grande (3 MB)',
                 minFileSize: 'Arquivo muito pequeno (0 MB)'
             }
+        }).on('fileuploadadd', function (e, data) {
+            
+            //verificar se o fileInput eh o attachmentName
+            //se for faz a logica do preview
+            //e chama o preventdefault
+            //senao nao faz nada.
+            var input = data.fileInput[0];
+console.log($(input).attr("name"));
+            if($(input).attr("name") == "attachmentName[]"){
+                e.preventDefault();
+            }
+           
+
+//console.log(data);
+    // // Prevents the default dragover action of the File Upload widget
+
         }).on('fileuploadsubmit', function (e, data) {
             data.formData = $("#fileupload").serializeArray();
         }).on('fileuploadcompleted', function (e, data) {
@@ -105,9 +122,9 @@ if ($item) {
          console.log(result);
          $(this).fileupload('option', 'done').call(this, $.Event('done'), {result: result});
          });*/
-$('.special.cards .image').dimmer({
-  on: 'hover'
-});
+        $('.special.cards .image').dimmer({
+            on: 'hover'
+        });
     });
 </script>
 
@@ -149,9 +166,14 @@ $('.special.cards .image').dimmer({
                         <div class="title">Anúncio</div>
                     </div>
                 </div>
+                <div id="menuStep31" class="step">
+                    <div class="content">
+                        <div class="title">Plantas</div>
+                    </div>
+                </div>
                 <div id="menuStep3" class="step">
                     <div class="content">
-                        <div class="title">Adicionais</div>
+                        <div class="title">Fotos</div>
                     </div>
                 </div>
                 <div id="menuStep4" class="step">
@@ -297,17 +319,24 @@ $('.special.cards .image').dimmer({
                 </div>
             </div>
         </div>
-        <!--INFORMAÇÕES ADICIONAIS-->
+        <?php
+        if ($tipoImovel == "apartamentoplanta") {
+            ?>
+            <!--PLANTAS-->
+            <div class="ui page grid main">        
+                <div class="column" id="step31">
+                    <h3 class="ui dividing header">Informações Adicionais</h3>
+                    <?php include_once 'AnuncioVisaoInformacoesAdicionais.php'; ?>
+                </div>
+            </div>
+            <?php
+        }
+        ?>
+
+        <!--FOTOS-->
         <div class="ui page grid main">        
             <div class="column" id="step3">
-                <h3 class="ui dividing header">Informações Adicionais</h3>
-                
-                <?php 
-                if ($tipoImovel=="apartamentoplanta"){
-                    include_once 'AnuncioVisaoInformacoesAdicionais.php';
-                }
-                ?>
-                
+                <h3 class="ui dividing header">Fotos</h3>
                 <!-- Redirect browsers with JavaScript disabled to the origin page -->
                 <noscript><input type="hidden" name="redirect" value="index.php"></noscript>
                 <h4 class="ui header"> Adicione nessa etapa as fotos para o anúncio</h4>
@@ -590,7 +619,7 @@ die();
                                     <div class="form-group">
                                         <label class="col-lg-3 control-label" for="txtValor">Valor</label>
                                         <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="txtValor" name="txtValor" placeholder="Valor do Imóvel"  value="<?php //echo $item["anuncio"]->getValor();                              ?>"> 
+                                            <input type="text" class="form-control" id="txtValor" name="txtValor" placeholder="Valor do Imóvel"  value="<?php //echo $item["anuncio"]->getValor();                               ?>"> 
                                         </div>
                                         <span class="col-lg-4 ">(Não informar os centavos)</span>
                                     </div>
@@ -845,275 +874,3 @@ die();
         </div>
     </div>
 </form>
-
-
-
-
-
-<script>
-    //    $(document).ready(function() {
-    //
-    //        $('.alert').hide();
-    //        $('#btnWizardPrev').hide();
-    //
-    //        // Associa o evento do popover ao clicar no link.
-    //        $("#popover").popover({
-    //            trigger: 'hover',
-    //            html: true,
-    //            placement: 'auto',
-    //            content: $('#div-popover').html()
-    //        }).click(function(e) {
-    //            e.preventDefault();
-    //            // Exibe o popover.
-    //            $(this).popover('show');
-    //        });
-    //
-    //        $("#btnCancelar").click(function() {
-    //            if (confirm("Deseja cancelar o cadastro do anúncio?")) {
-    //<?php if ($item["anuncio"]->getId() != "") { ?>
-        //                    location.href = "index.php?entidade=Anuncio&acao=listarReativar";
-        //<?php } else { ?>
-        //                    location.href = "index.php?entidade=Anuncio&acao=listarCadastrar";
-        //<?php } ?>
-    //            }
-    //        });
-    //
-    //        $('#MyWizard').on('change', function(e, data) {
-    //            if (data.direction === 'next') {
-    //                if (data.step === 1) {
-    //                    if (!$("#sltPlano").valid())
-    //                        return e.preventDefault();
-    //                }
-    //                if (data.step === 2) {
-    //                    if (!($("#sltFinalidade").valid() & $("#txtTitulo").valid() & $("#txtDescricao").valid() & $("#txtValor").valid()))
-    //                        return e.preventDefault();
-    //                }
-    //                if (data.step === 3) {
-    //                    if (typeof ($("input[name^=txtLegenda]").val()) !== "undefined") {
-    //                        alert("Você ainda não enviou todas as fotos. \n Clique no botão Enviar");
-    //                        return e.preventDefault();
-    //                    }
-    //                    if (typeof ($("input[name=delete]").val()) !== "undefined") {
-    //
-    //                        if (typeof ($("input[name=rdbDestaque]:checked").val()) === "undefined") {
-    //                            alert("Informe uma Foto para ser Destaque do seu anúncio");
-    //                            return e.preventDefault();
-    //                        }
-    //                    }
-    //                }
-    //                if (data.step === 4) {
-    //                    if (($("#sltPlano").valid() & $("#txtTitulo").valid() & $("#txtDescricao").valid() & $("#txtValor").valid()))
-    //                        $("#fileupload").submit();
-    //                }
-    //            }
-    //        });
-    //        $('#MyWizard').on('changed', function(e, data) {
-    //            var item = $('#MyWizard').wizard('selectedItem');
-    //
-    //            if (item.step === 1) {
-    //                $('#btnWizardPrev').hide();
-    //            } else {
-    //                $('#btnWizardPrev').show();
-    //            }
-    //
-    //            if (item.step === 2) {
-    //                var endereco = "<?php echo $endereco; ?>";
-    //                //######### INICIO DO CEP ########
-    //                map = new GMaps({
-    //                    div: '#map',
-    //                    lat: 0,
-    //                    lng: 0
-    //                });
-    //                GMaps.geocode({
-    //                    address: endereco.trim(),
-    //                    callback: function(results, status) {
-    //                        console.log(map);
-    //                        if (status == 'OK') {
-    //                            var latlng = results[0].geometry.location;
-    //                            map.setCenter(latlng.lat(), latlng.lng());
-    //                            map.addMarker({
-    //                                lat: latlng.lat(),
-    //                                lng: latlng.lng()
-    //                            });
-    //                        }
-    //                    }
-    //                });
-    //            }
-    //            if (item.step === 3) {
-    //                $("#colReferencia").click(function() {
-    //                    $('#myModal').modal('show');
-    //                })
-    //                $("#colImovelFinalidade").html('<span class="label label-primary">' + $("#sltFinalidade :selected").text() + '</span>');
-    //                $("#colPlano").html($("#sltPlano :selected").text());
-    //                $("#colTitulo").html($("#txtTitulo").val());
-    //                $("#colDescricao").html($("#txtDescricao").val());
-    //                $("#colValor").html($("#txtValor").val());
-    //                $("#colMapa").html((typeof ($("input[name=chkMapa]:checked").val()) === "undefined" ? "Não" : "Sim"));
-    //                $("#colContato").html((typeof ($("input[name=chkContato]:checked").val()) === "undefined" ? "Não" : "Sim"));
-    //                var varCampos = new Array();
-    //                $("input[name='sltCamposVisiveis[]']:checked").each(function() {
-    //                    //if ($(this).val() != "Todas")
-    //                    //  varCampos.push($(this).text());
-    //                    varCampos.push($(this).parent().text().trim());
-    //                })
-    //                if (varCampos.length > 0)
-    //                    $("#colCampos").html("&bullet; " + varCampos.join("<br /> &bullet; "));
-    //                else
-    //                    $("#colCampos").html("Nenhum campo escolhido");
-    //
-    //            }
-    //        });
-    //        //$('#MyWizard').on('finished', function(e, data) {
-    //        //    console.log('finished');
-    //        //});
-    //        $('#btnWizardPrev').on('click', function() {
-    //            $('#MyWizard').wizard('previous');
-    //        });
-    //        $('#btnWizardNext').on('click', function() {
-    //            $('#MyWizard').wizard('next');
-    //        });
-    //        //$('#btnWizardStep').on('click', function() {
-    //        //  var item = $('#MyWizard').wizard('selectedItem');
-    //        //console.log(item.step);
-    //        //});
-    //        //$('#MyWizard').on('stepclick', function(e, data) {
-    //        //    console.log('step' + data.step + ' clicked');
-    //        //    if (data.step === 1) {
-    //        //        // return e.preventDefault();
-    //        //    }
-    //        //});
-    //        // optionally navigate back to 2nd step
-    //        //$('#btnStep2').on('click', function(e, data) {
-    //        //    $('[data-target=#step2]').trigger("click");
-    //        //});
-    //
-    //        $('#fileupload').validate({
-    //            rules: {
-    //                sltPlano: {
-    //                    required: true
-    //                },
-    //                sltFinalidade: {
-    //                    required: true
-    //                },
-    //                txtTitulo: {
-    //                    required: true,
-    //                    minlength: 5
-    //                },
-    //                txtDescricao: {
-    //                    //required: true,
-    //                    minlength: 10
-    //                },
-    //                txtValor: {
-    //                    required: true
-    //                },
-    //                chkAceite: {
-    //                    required: true
-    //                }
-    //            },
-    //            messages: {
-    //                chkAceite: {
-    //                    required: "Obrigatório"
-    //                }
-    //            },
-    //            highlight: function(element) {
-    //                $(element).closest('.form-group').addClass('has-error');
-    //            },
-    //            unhighlight: function(element) {
-    //                $(element).closest('.form-group').removeClass('has-error');
-    //            },
-    //            errorElement: 'span',
-    //            errorClass: 'help-block',
-    //            errorPlacement: function(error, element) {
-    //                if (element.parent('.input-group').length) {
-    //                    error.insertAfter(element.parent());
-    //                } else {
-    //                    error.insertAfter(element);
-    //                }
-    //            },
-    //            submitHandler: function() {
-    //                $.ajax({
-    //                    url: "index.php",
-    //                    dataType: "json",
-    //                    type: "POST",
-    //                    data: $('#fileupload').serialize(),
-    //                    beforeSend: function() {
-    //                        $('.alert').show();
-    //                        $('button').attr('disabled', 'disabled');
-    //                    },
-    //                    success: function(resposta) {
-    //                        $(".alert").hide();
-    //                        if (resposta.resultado == 1) {
-    //                            $("#step5").html('<div class="row text-success">\n\
-    //<h2 class="text-center">Obrigado!</h2>\n\
-    //<p class="text-center">O cadastro de seu anúncio foi concluído com sucesso. </p>\n\
-    //<p class="text-center">Em breve você receberá um e-mail confirmando a publicação do mesmo. </p>\n\n\
-    //<p class="text-center"><a href="index.php?entidade=Anuncio&acao=listarCadastrar">Cadastrar outro Anúncio?</a> </p>\n\n\
-    //<p class="text-center">Não perca tempo <a href="index.php?entidade=UsuarioPlano&acao=listar">clique aqui</a> e compre mais anúncios! </p>\n\
-    //<p class="text-center">Divulgue esse anuncio no Facebook <img src="assets/imagens/facebook.png"></p>\n\
-    //</div>');
-    //                            $('#btnModalImovel').attr('disabled', 'disabled');
-    //                            $('button').attr('disabled', 'disabled');
-    //                        } else {
-    //                            $("#step5").html('<div class="row text-danger">\n\
-    //<h2 class="text-center">Tente novamente mais tarde!</h2>\n\
-    //<p class="text-center">Houve um erro no processamento de cadastro. </p>\n\
-    //</div>');
-    //                            $('button').removeAttr('disabled');
-    //                        }
-    //                    }
-    //                })
-    //                return false;
-    //            }
-    //        })
-    //
-    ////        $('#sltCamposVisiveis').multiselect({
-    ////            buttonClass: 'btn btn-default btn-sm',
-    ////            includeSelectAllOption: true
-    ////        });
-    //
-    //        // Initialize the jQuery File Upload widget:
-    //        $('#fileupload').fileupload({
-    //            dropZone: null,
-    //            pasteZone: null,
-    //            autoUpload: false,
-    //            url: 'index.php?upload=1',
-    //            maxNumberOfFiles: 5,
-    //            disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator && navigator.userAgent),
-    //            imageMaxWidth: 800,
-    //            imageMaxHeight: 800,
-    //            imageCrop: true,
-    //            loadImageFileTypes: /^image\/(gif|jpeg|png)$/,
-    //            imageType: 'image/jpg',
-    //            imageForceResize: true,
-    //            loadImageMaxFileSize: 2
-    //        }).on('fileuploadsubmit', function(e, data) {
-    //            //data.formData = data.context.find(':input').serializeArray();
-    //            data.formData = $("#fileupload").serializeArray();
-    //        }).on('fileuploadcompleted', function(e, data) {
-    //            $('input[type="radio"]').bootstrapSwitch('destroy');
-    //            $('input[type="radio"]').bootstrapSwitch();
-    //            $('input[type="radio"]').bootstrapSwitch('setOnLabel', 'Sim');
-    //            $('input[type="radio"]').bootstrapSwitch('setOffLabel', 'Não');
-    //            $('input[type="radio"]').bootstrapSwitch('setOffClass', 'danger');
-    //            $('input[type="radio"]').on('switch-change', function() {
-    //                $('input[type="radio"]').bootstrapSwitch('toggleRadioState');
-    //            });
-    //            console.log(data);
-    //        })
-    //
-    //        // Load existing files:
-    //        $('#fileupload').addClass('fileupload-processing');
-    //        $.ajax({
-    //            url: "index.php",
-    //            dataType: 'json',
-    //            context: $('#fileupload')[0],
-    //            data: {"anuncio": <?php echo ($item["anuncio"]->getId() != "" ? $item["anuncio"]->getId() : "0" ); ?>, "entidade": "Anuncio", "acao": "reativarAnuncioImagem"}
-    //        }).always(function() {
-    //            $(this).removeClass('fileupload-processing');
-    //        }).done(function(result) {
-    //            console.log(result);
-    //            $(this).fileupload('option', 'done').call(this, $.Event('done'), {result: result});
-    //        });
-    //
-    //    });
-</script>

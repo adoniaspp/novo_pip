@@ -1,3 +1,21 @@
+function cancelar(entidade, acao) {
+    $(document).ready(function() {
+        $('#btnCancelar').click(function() {
+            $('#modalCancelar').modal({
+                closable: false,
+                transition: "fade up",
+                onDeny: function() {
+                    return false;
+                },
+                onApprove: function() {
+                    if (entidade === "" && acao === ""){
+                        location.href = "index.php";}
+                    else location.href = "index.php?entidade="+entidade+"&acao="+acao;
+                }
+            }).modal('show');
+        })
+    })
+}
 function cadastrarAnuncio() {
     $(document).ready(function () {
         $('.ui.dropdown')
@@ -9,6 +27,7 @@ function cadastrarAnuncio() {
                 ;
         $("#step1").show();
         $("#step2").hide();
+        $("#step31").hide();
         $("#step3").hide();
         $("#step4").hide();
         $("#step5").hide();
@@ -267,8 +286,10 @@ function planta() {
             var sltAndarInicial = $(this).parent().parent().find("input")[0];
             var sltAndarFinal = $(this).parent().parent().find("input")[1];
 
+            var ordemPlanta = $(this).val();
             $(sltAndarInicial).rules("add", {
                 required: true,
+                validaAndar: function(){return ordemPlanta},
                 max: function () {
                     return $(sltAndarFinal).val();
                 },
@@ -279,6 +300,7 @@ function planta() {
 
             $(sltAndarFinal).rules("add", {
                 required: true,
+                validaAndar: function(){return ordemPlanta},
                 min: function () {
                     return $(sltAndarInicial).val();
                 },
@@ -291,7 +313,6 @@ function planta() {
             $(txtValor).rules("add", {
                 required: true
             });
-            var ordemPlanta = $(this).val();
             if (validarPlanta(sltAndarInicial, sltAndarFinal, txtValor, ordemPlanta)) {
                 var tbody = "#dadosPlanta_" + ordemPlanta;
                 $(tbody).append(
@@ -314,44 +335,49 @@ function planta() {
 
 function validarPlanta(sltAndarInicial, sltAndarFinal, txtValor, ordemPlanta) {
     var sucesso = $(sltAndarInicial).valid() & $(sltAndarFinal).valid() & $(txtValor).valid();
-
+/*
     if (sucesso) {
         var tbody = "#dadosPlanta_" + ordemPlanta;
         var linhas = $(tbody).children();
-        if (linhas === 0) {
-            console.log('beleza nao tem tabela');
+        if (linhas.length === 0) {
+            sucesso = true;
         }
         else {
             var arrayIntervalo = [];
-            $(linhas).each(function(){
-                //buscar o andar inicial
-                //buscar o andar final
-                //criar array com numeros do intervalo
-                
-                
-                
+            $(linhas).each(function () {
+                var inputs;
+                inputs = $(this).find("input");
+                var andarInicial = inputs[0];
+                var andarFinal = inputs[1];
+                arrayIntervalo = gerarNumerosIntervalos($(andarInicial).val(), $(andarFinal).val(), arrayIntervalo);
             })
-    //fazer um merge unique
-    //verificar se o valor do andar inicial ou final esta dentro dentro desse array
-
-    
-            console.log(' tem tabela');
-            
-            
+            Array.prototype.duplicates = function () {
+                return this.filter(function (x, y, k) {
+                    return y === k.lastIndexOf(x);
+                });
+            }
+            var andaresAdicionados = arrayIntervalo.duplicates();
+            if (andaresAdicionados.indexOf(parseInt($(sltAndarInicial).val())) < 0 && andaresAdicionados.indexOf(parseInt($(sltAndarFinal).val())) < 0) {
+                sucesso = true;
+            } else {
+                sucesso = false;
+                alert("ERRO: Não é permitido adicionar o mesmo andar");
+            }
         }
-        console.log($(tbody).children());
-        //console.log($(tbody).children().children().find("input"));
-//        var hege = ["Cecilie", "Lone"];
-//var stale = ["Emil", "Lone", "Linus"]; var c = hege.concat(stale);
-//c.filter(function (item, pos) {return c.indexOf(item) == pos});
-//
-//
-//c.sort();
     }
-
+*/
     return sucesso;
 }
-
+/*
+function gerarNumerosIntervalos(inicial, final, array) {
+    inicial = parseInt(inicial);
+    final = parseInt(final);
+    for ($i = inicial; $i <= final; $i++) {
+        array.push($i);
+    }
+    return array;
+}
+*/
 function excluirPlanta(element) {
     $(document).ready(function () {
         var linha = element.parent().parent();
@@ -362,3 +388,62 @@ function excluirPlanta(element) {
         }
     })
 }
+
+//
+//$(document).ready(function() {
+//    var fileExtentionRange = '.jpg .jpeg .png .gif';
+//    var MAX_SIZE = 3; // MB
+//
+//    $(document).on('change', '.btn-file :file', function() {
+//        alert('1');
+//        var input = $(this);
+//        console.log(input);
+//        if (navigator.appVersion.indexOf("MSIE") != -1) { // IE
+//            var label = input.val();
+//            input.trigger('fileselect', [1, label, 0, $(input).parent()]);
+//        } else {
+//            var label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+//            var numFiles = input.get(0).files ? input.get(0).files.length : 1;
+//            var size = input.get(0).files[0].size;
+//            input.trigger('fileselect', [numFiles, label, size, $(input).parent()]);
+//        }
+//    });
+//
+//    $('.btn-file :file').on('fileselect', function(event, numFiles, label, size, pai) {
+//        alert('2');
+//        //$('#attachmentName').attr('name', 'attachmentName'); // allow upload.
+//        console.log($(pai).parent());
+//        console.log($(pai).parent().parent());
+//        console.log($(pai).parent().parent().parent());
+//        console.log($(pai).parent().parent().parent().parent());
+//        var postfix = label.substr(label.lastIndexOf('.'));
+//        if (fileExtentionRange.indexOf(postfix.toLowerCase()) > -1) {
+//            if (size > 1024 * 1024 * MAX_SIZE) {
+//                alert('Tamanho máximo da imagem：' + MAX_SIZE + ' MB');
+//                console.log(event);
+//                console.log(numFiles);
+//                console.log(label);
+//                $("#btnAlterarImagem").attr("disabled", "disabled");
+//                $("#uploadPreview").attr("src", "../assets/imagens/foto_padrao.png");
+//                $('#attachmentName').removeAttr('name'); // cancel upload file.
+//            } else {
+//                $('#arquivolabel').val(label);
+//                $("#btnAlterarImagem").removeAttr("disabled");
+//                var oFReader = new FileReader();
+//                oFReader.readAsDataURL(document.getElementById("attachmentName").files[0]);
+//
+//                oFReader.onload = function (oFREvent) {
+//                document.getElementById("uploadPreview").src = oFREvent.target.result;
+//                };
+//                
+//            }
+//        } else {
+//            alert('Tipo de arquivo inválido. São aceitos os tipos：' + fileExtentionRange);
+//            $("#btnAlterarImagem").attr("disabled", "disabled");
+//            $("#uploadPreview").attr("src", "../assets/imagens/foto_padrao.png");
+//            $('#attachmentName').removeAttr('name'); // cancel upload file.
+//        }
+//        
+//    });
+//
+//});

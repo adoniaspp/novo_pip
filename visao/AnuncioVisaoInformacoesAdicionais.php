@@ -61,11 +61,11 @@ foreach ($plantas as $planta) {
                                 <div class="ui dimmer">
                                     <div class="content">
                                         <div class="center">
-                                            <div class="ui inverted button">Inserir Imagem</div>
+                                            <label class="ui inverted button btn-file"> <input class="attachmentName" type="file" name="attachmentName[]" style="display: none"/>Inserir Imagem</label>
                                         </div>
                                     </div>
                                 </div>
-                                <img class="ui small  rounded image" src="/assets/imagens/logo.png">
+                                <img class="ui small uploadPreview rounded image" src="/assets/imagens/logo.png">
                             </div>
                               <div class="extra content">
                                 <a>

@@ -5,7 +5,7 @@
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/js/usuario.js"></script>
 <script>
-    cancelar("meuPIP");
+    cancelar("Usuario","meuPIP");
     trocarImagem();
 </script>
 
