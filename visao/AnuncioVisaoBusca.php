@@ -1,4 +1,3 @@
-<script src="assets/js/jquery.price_format.min.js"></script>
 
 <script>
     carregarAnuncio();
