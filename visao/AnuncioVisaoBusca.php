@@ -56,7 +56,6 @@ if (count($item['anuncio']) == 1) {
                                                    value="<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>"/>
                                             <input type="hidden" id="anuncio<?php echo $item['anuncio'][$crtl]['tipo'] ?>"
                                                    value="<?php echo $item['anuncio'][$crtl]['tipo'] ?>"/>
-                                            $item['anuncio'][$crtl]['tipo']
                                         </div>
                                     </div>
                                 </div>
