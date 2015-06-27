@@ -1,3 +1,16 @@
+<script src="assets/js/buscaAnuncio.js"></script>
+<script src="assets/libs/jquery/jquery.price_format.min.js"></script>
+
+<script>
+ 
+    $(document).ready(function() {
+        
+        buscarAnuncioUsuario();
+        
+        carregarAnuncio();
+    })
+</script>
+
 <div class="container"> <!-- CLASSE QUE DEFINE O CONTAINER COMO FLUIDO (100%) --> 
 
     <form class="grid-form" id="form" action="index.php" method="post">
@@ -26,10 +39,25 @@
     
     $item = $this->getItem();
     
+    /*echo "<pre>";
+    var_dump($item);
+    echo "</pre>";*/
+    
     $usuario = $item["usuario"][0];
     $cidadeEstado = $item["cidadeEstado"][0];
     $anuncios = $item["anuncio"];
     $diferenciais = $item["diferenciais"];
+    
+    
+    if (count($item['anuncio']) == 1) {
+    $linhas = 1;
+    $ultimaLinha = 1;
+} else {
+    $itens = count($item['anuncio']);
+    $linhas = round($itens / 3);
+    $ultimaLinha = $itens - (($linhas-1) * 3);
+}
+    
     
     if($usuario->getEndereco()->getNumero() != "" && $usuario->getEndereco()->getComplemento() != ""){
                     $endereco = $usuario->getEndereco()->getLogradouro().", ".$usuario->getEndereco()->getNumero().", ".$usuario->getEndereco()->getComplemento();
@@ -49,73 +77,20 @@
     
     ?>
     
-    <div class="ui two column page grid">
-        <div class="twelve wide column">
-            <div class="ui raised segment">                                
-                <a class="ui teal ribbon label">Informações <?php if ($usuario->getTipoUsuario() == "pf") {
-                    echo "do Vendedor";
-                } else echo "da Empresa"; ?></a>
-                <div class='ui horizontal list'>
-                    <div class='item'>
-                        <div class='content'>
-                            <div class='header'>Nome</div>
-                        <?php echo strtoupper($usuario->getNome()); ?>
-                        </div>
-                    </div>
-                    <div class='item'>
-                        <div class='content'>
-                            <div class='header'>Endereço</div>
-                                <?php echo $endereco . " - "; ?>
-                                <?php echo strtoupper($cidadeEstado->getCidade()->getNome()) . ", " . strtoupper($cidadeEstado->getEstado()->getUf()); ?>
-                        </div>
-                    </div>
-                    <div class='item'>
-                        <div class='content'>
-                            <div class='header'>Tipo de Pessoa</div>
-                            <?php if ($usuario->getTipoUsuario() == "pf") {
-                                echo "PESSOA FÍSICA";
-                            } else echo "PESSOA JURÍDICA"; ?>
-                        </div>
-                    </div>
-                    <div class='item'>
-                        <div class='content'>
-                            <div class='header'>Contato(s)</div>
-                            <?php
-                            if (is_array($usuario->getTelefone())) { //verifica se existe mais de um número de telefone cadastrado para o usuário                                 
-                                foreach ($usuario->getTelefone() as $anuncioTelefone) {
-                                    ?>  
-                                    <?php echo strtoupper($anuncioTelefone->getOperadora()) . " - " . strtoupper($anuncioTelefone->getNumero())."<br />"; ?>				
-                                <?php } ?>
-                            <?php } else echo strtoupper($usuario->getTelefone()->getOperadora()) . " - " . strtoupper($usuario->getTelefone()->getNumero()); ?>
-                        </div>
-                    </div> 
-                    <div class='item'>
-                        <div class='content'>
-                        <?php if ($usuario->getFoto() != "") { ?>
-                                    <img src="<?php echo PIPURL ?>/fotos/usuarios/<?php echo $usuario->getFoto() ?>" class="img-thumbnail" width="120" height="120" style="margin-left: 60px">
-
-                                <?php } else { ?>
-                                    <img src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" class="img-circle" width="120" height="120" style="margin-left: 60px">
-                                <?php } ?>
-                        </div>
-                    </div> 
-                </div>
-            </div>
-        </div>
- 
-    </div>
-        
-    <div class="ui page grid main">        
     
+    <div class="ui two column centered page grid">        
+    
+     <div class="ten wide column">
+        
       <div class="ui form segment">
           
-        <div class="ui stackable grid">
+        <div class="ui two stackable padded grid">
             
             <div class="twelve wide column">
                 
                 <div class="fields">
                     
-                        <div class="ten wide field">
+                        <div class="eight wide field">
                             <a class="ui teal ribbon label">Informações <?php if ($usuario->getTipoUsuario() == "pf") {
                                 echo "do Vendedor";
                             } else echo "da Empresa"; ?></a>
@@ -126,9 +101,9 @@
                       <?php echo strtoupper($cidadeEstado->getCidade()->getNome()) . ", " . strtoupper($cidadeEstado->getEstado()->getUf()); ?>
                         </div>
                     
-                    <div class="five wide field"></div>
+                    <div class="two wide field"></div>
                     <br>
-                    <div class="five wide field">
+                    <div class="six wide field">
                         <label>Tipo de Pessoa</label>
                        <?php if ($usuario->getTipoUsuario() == "pf") {
                                 echo "PESSOA FÍSICA";
@@ -146,162 +121,299 @@
                     </div>
                     
                 </div>    
-                
-                
-            </div>
-            <div class="four wide column">
-                <div class="ui horizontal segment">
-                    <div class="ui special cards">
-                        <div class="card">
-                            <div class="dimmable image">
-                                <div class="ui dimmer">
-                                    <div class="content">
-                                        <div class="center">
-                                            <div class="ui inverted button">Inserir Imagem</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <img src="<?php echo PIPURL ?>/fotos/usuarios/<?php echo $usuario->getFoto() ?>" width="100px" height="100px">
-                            </div>
-                              
+                               
+                </div>
+                <div class="three wide column">
+                    <div class="ui horizontal segment">
+
+                        <?php if ($usuario->getFoto() != "") { ?>
+                            <img width="120px" height="120px" src="<?php echo PIPURL ?>/fotos/usuarios/<?php echo $usuario->getFoto(); ?>" >
+
+                        <?php } else { ?>
+                            <img src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" class="img-circle" width="120px" height="120px">
+                        <?php } ?>
+
+                </div>
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+    
+    <h4>Imóveis <?php if($usuario->getTipoUsuario() == "pf"){echo "do Vendedor";} else echo "da Empresa";?></h4>
+        
+    <table class="table table-hover">
+
+    <tbody>
+
+    <br/>
+    
+    <div class="ui form inverted blue segment" id="divBusca">
+    <div class="ui center aligned column page grid">
+        <div class="column">
+            <div class="four fields">
+                <div class="ui field">
+                    <label>Tipo de Imóvel</label>
+                    <div class="ui selection dropdown">
+                        <input type="hidden" name="sltTipoImovel" id="sltTipoImovel">
+                        <div class="default text">Informe o Tipo do Imóvel</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item" data-value="">Todos os Tipos</div>
+                            <div class="item" data-value="casa">Casa</div>
+                            <div class="item" data-value="apartamentoplanta">Apartamento na Planta/Novo</div>
+                            <div class="item" data-value="apartamento">Apartamento</div>
+                            <div class="item" data-value="salacomercial">Sala Cormecial</div>
+                            <div class="item" data-value="terreno">Terreno</div>
                         </div>
                     </div>
                 </div>
-        </div>
-    </div>
-            </div>
-    </div>
-        <span class="glyphicon glyphicon-home" aria-hidden="true"></span><h4>Imóveis <?php if($usuario->getTipoUsuario() == "pf"){echo "do Vendedor";} else echo "da Empresa";?></h4>
-        
-        
-        
-        <table class="table table-hover">
-            <thead>
-
-            </thead>
-            <tbody>
-
-            <br/>
-
-            <?php
-            //$itensAnuncio = $this->getItem();
-            
-            echo "<pre>";
-            print_r($anuncios);
-            die();
-            if ($anuncios) {
-                foreach ($anuncios as $anuncio) { var_dump($anuncio);
-        ?>
-            <?php //echo "Finalidade: ". $anuncio->getFinalidade();?>
-
-        <div class="panel panel-warning col-md-11"  id="<?php echo $anuncio[0]["idanuncio"];?>" >
-
-        <div class="panel-body">
-        
-        <fieldset class="col-md-9">
-                        
-                        <div data-row-span="1">
-                        <input type="checkbox" id="selecoes_<?php echo $anuncio[0]["idanuncio"]; ?>" class="option" name="selecoes[]" value=<?php echo $idanuncio[0]["idanuncio"]; ?>> Selecionar Imóvel   
+                <div class="ui field">
+                    <label>Finalidade</label>
+                    <div class="ui fluid selection dropdown">
+                        <input type="hidden" name="sltFinalidade" id="sltFinalidade">
+                        <div class="default text">Todas as Finalidades</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item" data-value="">Todas as Finalidade</div>
+                            <div class="item" data-value="venda">Venda</div>
+                            <div class="item" data-value="aluguel">Aluguel</div>
                         </div>
-            
-                        <div data-row-span="7">
-				<div data-field-span="2">
-                                    <label style="text-align: center">Título</label>
-					<?php echo "<span class='label label-info'>" . strtoupper($anuncio[0]["tituloanuncio"]) . "</span>"; ?>
-				</div>
-                            
-                                <div data-field-span="1">
-					<label style="text-align: center">Tipo</label>
-					<?php //echo "<span class='label label-warning'>" . strtoupper($anuncio[0]["tituloanuncio"]) . "</span>"; ?>
-				</div>
-                            
-				<div data-field-span="1">
-					<label style="text-align: center">Finalidade</label>
-					<?php echo "<span class='label label-primary'>" . strtoupper($anuncio[0]["finalidade"]) . "</span>"; ?>
-				</div>
-                                <div data-field-span="1">
-					<label style="text-align: center">Quarto(s)</label>
-					<?php //echo $anuncio->getImovel()->getQuarto(); ?>
-				</div>
-                                <div data-field-span="1">
-                                    <label style="text-align: center">Área (em m<sup>2</sup>)</label>
-					<?php //echo $anuncio->getImovel()->getArea(); ?>
-				</div>
-                                <div data-field-span="1">
-					<label style="text-align: center">Condição</label>
-					<?php echo strtoupper($anuncio[0]["condicao"]);?>
-				</div>
-			</div>
-            
-			<div data-row-span="7">
-				<div data-field-span="3">
-					<label style="text-align: center">Descrição</label>
-					<?php echo $anuncio[0]["descricaoanuncio"]; ?>
-				</div>
-				<div data-field-span="1">
-					<label style="text-align: center">Valor</label>
-					 R$ <?php //echo $anuncio->getValor(); ?>
-				</div>
-                                <div data-field-span="1">
-					<label style="text-align: center">Banheiro(s)</label>
-					<?php //echo $anuncio->getImovel()->getBanheiro(); ?>
-				</div>
-                                 <div data-field-span="1">
-					<label style="text-align: center">Garagem(ns)</label>
-					<?php //echo $anuncio->getImovel()->getGaragem(); ?>
-				</div>
-                                <div data-field-span="1">
-					<label style="text-align: center">Referência</label>
-					<?php //echo "<span class='label label-info'>" . substr($anuncio->getImovel()->getDatahoracadastro(), 6, -9) . substr($anuncio->getImovel()->getDatahoracadastro(), 3, -14) . str_pad($anuncio->getImovel()->getId(), 5, "0", STR_PAD_LEFT) . "</span>"; ?>
-				</div>
-			</div>
-            
-                        <div data-row-span="7">
-                            <div data-field-span="3" style="background-color: #e4fcff">
-					<label style="text-align: center;">Endereço</label>
-					<?php echo $anuncio[0]["logradouro"] . ", Nº " . $anuncio[0]["numero"];?>
-				</div>
-                                <div data-field-span="1">
-					<label style="text-align: center">Cidade</label>
-					<?php echo $anuncio[0]["cidade"] ;?>
-				</div>
-				<div data-field-span="1">
-					<label style="text-align: center">Bairro</label>
-					<?php echo $anuncio[0]["bairro"]; ?>
-				</div>
-                                <div data-field-span="1">
-					<label style="text-align: center">Suite(s)</label>
-					<?php //echo $anuncio->getImovel()->getSuite(); ?>
-				</div>
-                                
-			</div>
+                    </div>
+                </div>
+                <div class="ui field">
+                    <label>Cidade</label>
+                    <div class="ui fluid selection dropdown">
+                        <input type="hidden" name="sltCidade" id="sltCidade">
+                        <div class="default text">Todas as Cidade</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item" data-value="">Todas as Cidade</div>
+                            <div class="item" data-value="1">Belém</div>
+                            <div class="item" data-value="2">Ananindeua</div>
+                            <div class="item" data-value="3">Marituba</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui field">
+                    <label>Bairro</label>
+                    <div class="ui fluid selection dropdown">
+                        <input type="hidden" name="sltBairro" id="sltBairro">
+                        <div class="default text">Selecione a Cidade</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu" id="menuBairro">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui center aligned column page grid padding-reset" id="divCaracteristicas">
+        <div class="column">
+            <div class="four fields">
+                <!--                <div class="field" id="divPreenchimento1"></div>-->
+                <div class="field" id="condicao">
+                    <label>Condição</label>
+                    <div class="ui fluid selection dropdown">
+                        <input type="hidden" name="sltCondicao" id="sltCondicao">
+                        <div class="default text">Informe a Condição</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item" data-value="">Qualquer Condição</div>
+                            <div class="item" data-value="novo">Novo</div>
+                            <div class="item" data-value="usado">Usado</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Quartos</label>
+                    <div class="ui selection dropdown">
+                        <input type="hidden" name="sltQuartos" id="sltQuartos">
+                        <div class="default text">Qualquer Quantidade</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item" data-value="">Qualquer Quantidade</div>
+                            <div class="item" data-value="1">1</div>
+                            <div class="item" data-value="2">2</div>
+                            <div class="item" data-value="3">3</div>
+                            <div class="item" data-value="4">4</div>
+                            <div class="item" data-value="5">Mais de 5</div>
+                        </div>
+                    </div>
+                </div>
 
-        </fieldset>
-            <br/>
-            <fieldset class="col-md-2">
+                <div class="five wide field" id="divValorVenda">
+                    <label>Valor</label>
+                    <div class="ui selection dropdown">
+                        <input type="hidden" name="sltValor" id="sltValor">
+                        <div class="default text">Informe o Valor</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class='item' data-value=0>Menos de R$100.000</div>
+                            <?php
+                            $i = 100000;
+                            while ($i < 1000000) {
+                                print "<div class='item' data-value=" .
+                                        $i . ">Entre R$" . number_format($i, 2, ',', '.') . " e R$" . number_format($i + 100000, 2, ',', '.') . "</div>";
+                                $i = $i + 100000;
+                            }
+                            ?>
+                            <div class='item' data-value=1000000>Mais de R$1.000.000</div>
+                        </div>
+                    </div>
+                </div> 
                 
-                <div>
-                    <img src="<?php //echo $anuncio->getImagem()->getDiretorio(); ?>" height="160" width="160" class="img-thumbnail" style="margin-left: 60px">
-                    
+                <div class="five wide field" id="divValorAluguel">
+                    <label>Valor</label>
+                    <div class="ui selection dropdown">
+                        <input type="hidden" name="sltValor" id="sltValor">
+                        <div class="default text">Informe o Valor</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class='item' data-value=0>Menos de R$500</div>
+                            <?php
+                            $i = 500;
+                            while ($i < 10000) {
+                                print "<div class='item' data-value=" .
+                                        $i . ">Entre R$" . number_format($i, 2, ',', '.') . " e R$" . number_format($i + 500, 2, ',', '.') . "</div>";
+                                $i = $i + 500;
+                            }
+                            ?>
+                            <div class='item' data-value=1000000>Mais de R$10.000</div>
+                        </div>
+                    </div>
+                </div> 
+                
+                <div class="three wide field">
+                    <br><br>
+                    <div class="ui toggle checkbox">
+                        <input type="checkbox" name="checkgaragem" id="checkgaragem">
+                        <label>Garagem</label>
+                    </div>
                 </div>
-                
-                <br/>
-                
-                <div>
-                    <!--
-                    <button type="button" id="btnAnuncioModal" class="btn btn-default btn-sm" data-toggle="modal" data-target="#divAnuncioModal" data-modal="<?php //echo $anuncio->getId(); ?>" data-title="<?php //echo $anuncio->getTituloAnuncio(); ?>" style="margin-left: 60px">
-                        <span class="glyphicon glyphicon-plus-sign"></span> Veja mais detalhes
-                    </button>
-                    -->
+            </div>
+        </div>
+    </div>
+    <div class="ui center aligned column page grid padding-reset">
+        <div class="column">
+            <div class="field">
+                <br>
+                <div class="green ui icon button" id="btnBuscarAnuncioUsuario">
+                    <input type="hidden" id="hdUsuario" value="<?php echo $usuario->getId() ;?>">
+                    <i class="search icon"></i> 
+                    PIP
                 </div>
-                  
-            </fieldset>
-            
+            </div>
+        </div>
+    </div>
+</div>
+    
+    <?php
+        if ($anuncios) {
+                foreach ($anuncios["anuncio"] as $anuncio) { 
+    ?>
+    
+   
+<form id="form" action="index.php" method="post" target='_blank'>
+    <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio"  />
+    <input type="hidden" id="hdnAcao" name="hdnAcao" value="detalhar" />
+    <input type="hidden" id="hdnCodAnuncio" name="hdnCodAnuncio" />
+    <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" />
+
+</form>
+<div id="load">
+    <div class="ui text loader">Loading</div>
+</div>     
+    
+    <!--
+    <div class="panel panel-warning col-md-11"  id="<?php //echo $anuncio["idanuncio"];?>" >
+    <div class="panel-body">
+    <fieldset class="col-md-9">
+                        
+        <div data-row-span="1">
+        <input type="checkbox" id="selecoes_<?php //echo $anuncio["idanuncio"]; ?>" class="option" name="selecoes[]" value=<?php echo $idanuncio["idanuncio"]; ?>> Selecionar Imóvel   
         </div>
             
-        </div>    
-            
-        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+        <div data-row-span="7">
+            <div data-field-span="2">
+                <label style="text-align: center">Título</label>
+                <?php //echo "<span class='label label-info'>" . strtoupper($anuncio["tituloanuncio"]) . "</span>"; ?>
+            </div>
+
+            <div data-field-span="1">
+                <label style="text-align: center">Tipo</label>
+                <?php //echo "<span class='label label-warning'>" . strtoupper($anuncio["tipo"]) . "</span>"; ?>
+            </div>
+
+            <div data-field-span="1">
+                <label style="text-align: center">Finalidade</label>
+                <?php //echo "<span class='label label-primary'>" . strtoupper($anuncio["finalidade"]) . "</span>"; ?>
+            </div>
+                    
+            <div data-field-span="1">
+                <label style="text-align: center">Quarto(s)</label>
+                <?php //echo $anuncio["quarto"]; ?>
+            </div>
+                    
+            <div data-field-span="1">
+                <label style="text-align: center">Área (em m<sup>2</sup>)</label>
+                <?php //echo $anuncio["area"]; ?>
+            </div>
+                    
+            <div data-field-span="1">
+                        <label style="text-align: center">Condição</label>
+                        <?php //echo strtoupper($anuncio["condicao"]); ?>
+                    </div>
+                </div>
+
+                <div data-row-span="7">
+                    <div data-field-span="3">
+                        <label style="text-align: center">Descrição</label>
+                        <?php //echo $anuncio["descricaoanuncio"]; ?>
+                    </div>
+                    <div data-field-span="1">
+                        <label style="text-align: center">Valor</label>
+                        R$ <?php //echo $anuncio["valormin"]; ?>
+                    </div>
+                    <div data-field-span="1">
+                        <label style="text-align: center">Banheiro(s)</label>
+                        <?php //echo $anuncio["banheiro"]; ?>
+                    </div>
+                    <div data-field-span="1">
+                        <label style="text-align: center">Garagem(ns)</label>
+                        <?php //echo $anuncio["garagem"]; ?>
+                    </div>
+                    <div data-field-span="1">
+                        <label style="text-align: center">Referência</label>
+                        <?php //echo "<span class='label label-info'>" . substr($anuncio->getImovel()->getDatahoracadastro(), 6, -9) . substr($anuncio->getImovel()->getDatahoracadastro(), 3, -14) . str_pad($anuncio->getImovel()->getId(), 5, "0", STR_PAD_LEFT) . "</span>"; ?>
+                    </div>
+                </div>
+
+                <div data-row-span="7">
+                    <div data-field-span="3" style="background-color: #e4fcff">
+                        <label style="text-align: center;">Endereço</label>
+                        <?php //echo $anuncio["logradouro"] . ", Nº " . $anuncio["numero"]; ?>
+                    </div>
+                    <div data-field-span="1">
+                        <label style="text-align: center">Cidade</label>
+                        <?php //echo $anuncio["cidade"]; ?>
+                    </div>
+                    <div data-field-span="1">
+                        <label style="text-align: center">Bairro</label>
+                        <?php //echo $anuncio["bairro"]; ?>
+                    </div>
+                    <div data-field-span="1">
+                        <label style="text-align: center">Suite(s)</label>
+                        <?php //echo $anuncio["suite"]; ?>
+                    </div>
+
+                </div>
+
+            </fieldset>-->
+ 
               
         <?php } } else echo "<span class='text-info'><strong>Nenhum anuncio cadastrado</strong></span>";?>
 
@@ -310,9 +422,11 @@
         </table>
      
 </div>
-</form>
 
-
+<div class="ui center aligned column page grid">
+</div>
+<div class="ui red segment" id="divAnuncios">  
+</div>
 <!-- Modal Para Abrir a Div do Enviar Anuncios por Email -->
 <div class="modal fade" id="divEmailModal" tabindex="-1" role="dialog" aria-labelledby="lblAnuncioModal" aria-hidden="true">
   <div class="modal-dialog">
@@ -396,4 +510,6 @@
         })
      
      });
+
 </script>
+
