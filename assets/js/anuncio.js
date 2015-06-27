@@ -1,16 +1,18 @@
 function cancelar(entidade, acao) {
-    $(document).ready(function() {
-        $('#btnCancelar').click(function() {
+    $(document).ready(function () {
+        $('#btnCancelar').click(function () {
             $('#modalCancelar').modal({
                 closable: false,
                 transition: "fade up",
-                onDeny: function() {
+                onDeny: function () {
                     return false;
                 },
-                onApprove: function() {
-                    if (entidade === "" && acao === ""){
-                        location.href = "index.php";}
-                    else location.href = "index.php?entidade="+entidade+"&acao="+acao;
+                onApprove: function () {
+                    if (entidade === "" && acao === "") {
+                        location.href = "index.php";
+                    }
+                    else
+                        location.href = "index.php?entidade=" + entidade + "&acao=" + acao;
                 }
             }).modal('show');
         })
@@ -25,71 +27,6 @@ function cadastrarAnuncio() {
         $('.ui.checkbox')
                 .checkbox()
                 ;
-        $("#step1").show();
-        $("#step2").hide();
-        $("#step31").hide();
-        $("#step3").hide();
-        $("#step4").hide();
-        $("#step5").hide();
-        $("#divInformarValor").hide();
-        $("div[id^='btnAnterior']").hide();
-        $("#sltPlano").change(function () {
-            $(this).valid();
-        })
-
-        $("#sltFinalidade").change(function () {
-            $(this).valid();
-        })
-
-        $("#chkValor").change(function () {
-            if ($(this).parent().checkbox('is checked')) {
-                $("#divInformarValor").show();
-            } else {
-                $("#divInformarValor").hide();
-            }
-        })
-
-        $("div[id^='btnProximo']").click(function () {
-            if (validarStep()) {
-                var atual = parseInt($("#hdnStep").val());
-                var proximo = atual + 1;
-                $("#step" + atual).hide();
-                $("#step" + proximo).show();
-                $("#hdnStep").val(proximo);
-                $("div[id^='menuStep']").removeClass();
-                $("div[id^='menuStep']").addClass("step");
-                $("#menuStep" + proximo).addClass("active step");
-                if (proximo > 1)
-                    $("div[id^='btnAnterior']").show();
-                else
-                    $("div[id^='btnAnterior']").hide();
-                if (proximo > 4) {
-                    $("div[id^='btnProximo']").hide();
-                    $("div[id^='btnAnterior']").hide();
-                    $("#btnCancelar").hide();
-                }
-                else
-                    $("div[id^='btnProximo']").show();
-            }
-        })
-
-        $("div[id^='btnAnterior']").click(function () {
-            var atual = parseInt($("#hdnStep").val());
-            var anterior = atual - 1;
-            $("#step" + atual).hide();
-            $("#step" + anterior).show();
-            $("#hdnStep").val(anterior);
-            $("div[id^='menuStep']").removeClass();
-            $("div[id^='menuStep']").addClass("step");
-            $("#menuStep" + anterior).addClass("active step");
-            $("div[id^='btnProximo']").show();
-            if (anterior > 1)
-                $("div[id^='btnAnterior']").show();
-            else
-                $("div[id^='btnAnterior']").hide();
-        })
-
-
         $('#txtDescricao').maxlength({
             alwaysShow: true,
             threshold: 150,
@@ -117,51 +54,6 @@ function cadastrarAnuncio() {
             limit: 8,
             thousandsSeparator: '.'
         });
-        function validarStep() {
-            var validacao = false;
-            var step = parseInt($("#hdnStep").val());
-            switch (step) {
-                case 0:
-                case 1:
-                    validacao = $("#sltPlano").valid();
-                    break;
-                case 2:
-                    validacao = (($("#sltFinalidade").valid() & $("#txtTitulo").valid() & $("#txtDescricao").valid() & $("#txtValor").valid()));
-                    break;
-                case 3:
-                    validacao = true;
-                    if (typeof ($("input[name^=txtLegenda]").val()) !== "undefined" && typeof ($("input[name^=txtLegenda]").attr('disabled')) === "undefined") {
-                        alert("Você ainda não enviou todas as fotos. \n Clique no botão Enviar");
-                        validacao = false;
-                    }
-                    if (typeof ($("input[name=delete]").val()) !== "undefined") {
-                        if (typeof ($("input[name=rdbDestaque]:checked").val()) === "undefined") {
-                            alert("Informe uma Foto para ser Destaque do seu anúncio");
-                            validacao = false;
-                        }
-                    }
-                    $("#tdPlano").html($('#sltPlano').parent().find(".selected").html());
-                    $("#tdFinalidade").html($('#sltFinalidade').parent().find(".selected").html());
-                    $("#tdTitulo").html($("#txtTitulo").val());
-                    $("#tdDescricao").html($("#txtDescricao").val());
-                    $("#tdValor").html(
-                            (typeof ($("input[name=chkValor]:checked").val()) === "undefined" ? "Não Informado" : $("#txtValor").val())
-
-                            );
-                    $("#tdMapa").html((typeof ($("input[name=chkMapa]:checked").val()) === "undefined" ? "Não" : "Sim"));
-                    $("#tdContato").html((typeof ($("input[name=chkContato]:checked").val()) === "undefined" ? "Não" : "Sim"));
-
-                    break;
-                case 4:
-                    validacao = ($("#sltPlano").valid() & $("#sltFinalidade").valid() & $("#txtTitulo").valid() & $("#txtDescricao").valid() & $("#txtValor").valid());
-                    if (validacao) {
-                        $("#fileupload").submit();
-                    }
-                    break;
-            }
-            return validacao;
-        }
-
         $.validator.setDefaults({
             ignore: [],
             errorClass: 'errorField',
@@ -271,6 +163,248 @@ function cadastrarAnuncio() {
     });
 }
 
+function stepsSemPlanta() {
+    $(document).ready(function () {
+        $("#step1").show();
+        $("#step2").hide();
+        $("#step3").hide();
+        $("#step4").hide();
+        $("#step5").hide();
+        $("#step6").hide();
+        $("#divInformarValor").hide();
+        $("div[id^='btnAnterior']").hide();
+        $("#sltPlano").change(function () {
+            $(this).valid();
+        })
+
+        $("#sltFinalidade").change(function () {
+            $(this).valid();
+        })
+
+        $("#chkValor").change(function () {
+            if ($(this).parent().checkbox('is checked')) {
+                $("#divInformarValor").show();
+            } else {
+                $("#divInformarValor").hide();
+            }
+        })
+
+        $("div[id^='btnProximo']").click(function () {
+            if (validarStepSemPlanta()) {
+                var atual = parseInt($("#hdnStep").val());
+                var proximo;
+                if (atual == 2) {
+                    proximo = atual + 2;
+                } else {
+                    proximo = atual + 1;
+                }
+                $("#step" + atual).hide();
+                $("#step" + proximo).show();
+                $("#hdnStep").val(proximo);
+                $("div[id^='menuStep']").removeClass();
+                $("div[id^='menuStep']").addClass("step");
+                $("#menuStep" + proximo).addClass("active step");
+                if (proximo > 1)
+                    $("div[id^='btnAnterior']").show();
+                else
+                    $("div[id^='btnAnterior']").hide();
+                if (proximo > 5) {
+                    $("div[id^='btnProximo']").hide();
+                    $("div[id^='btnAnterior']").hide();
+                    $("#btnCancelar").hide();
+                }
+                else
+                    $("div[id^='btnProximo']").show();
+            }
+        })
+
+        $("div[id^='btnAnterior']").click(function () {
+            var atual = parseInt($("#hdnStep").val());
+            var anterior;
+            if (atual == 4) {
+                anterior = atual - 2;
+            } else {
+                anterior = atual - 1;
+            }
+            $("#step" + atual).hide();
+            $("#step" + anterior).show();
+            $("#hdnStep").val(anterior);
+            $("div[id^='menuStep']").removeClass();
+            $("div[id^='menuStep']").addClass("step");
+            $("#menuStep" + anterior).addClass("active step");
+            $("div[id^='btnProximo']").show();
+            if (anterior > 1)
+                $("div[id^='btnAnterior']").show();
+            else
+                $("div[id^='btnAnterior']").hide();
+        })
+    })
+}
+
+function validarStepSemPlanta() {
+    var validacao = false;
+    var step = parseInt($("#hdnStep").val());
+    switch (step) {
+        case 0:
+        case 1:
+            validacao = $("#sltPlano").valid();
+            break;
+        case 2:
+            validacao = (($("#sltFinalidade").valid() & $("#txtTitulo").valid() & $("#txtDescricao").valid() & $("#txtValor").valid()));
+            break;
+        case 4:
+            validacao = true;
+            if (typeof ($("input[name^=txtLegenda]").val()) !== "undefined" && typeof ($("input[name^=txtLegenda]").attr('disabled')) === "undefined") {
+                alert("Você ainda não enviou todas as fotos. \n Clique no botão Enviar");
+                validacao = false;
+            }
+            if (typeof ($("input[name=delete]").val()) !== "undefined") {
+                if (typeof ($("input[name=rdbDestaque]:checked").val()) === "undefined") {
+                    alert("Informe uma Foto para ser Destaque do seu anúncio");
+                    validacao = false;
+                }
+            }
+            $("#tdPlano").html($('#sltPlano').parent().find(".selected").html());
+            $("#tdFinalidade").html($('#sltFinalidade').parent().find(".selected").html());
+            $("#tdTitulo").html($("#txtTitulo").val());
+            $("#tdDescricao").html($("#txtDescricao").val());
+            $("#tdValor").html(
+                    (typeof ($("input[name=chkValor]:checked").val()) === "undefined" ? "Não Informado" : $("#txtValor").val())
+
+                    );
+            $("#tdMapa").html((typeof ($("input[name=chkMapa]:checked").val()) === "undefined" ? "Não" : "Sim"));
+            $("#tdContato").html((typeof ($("input[name=chkContato]:checked").val()) === "undefined" ? "Não" : "Sim"));
+
+            break;
+        case 5:
+            validacao = ($("#sltPlano").valid() & $("#sltFinalidade").valid() & $("#txtTitulo").valid() & $("#txtDescricao").valid() & $("#txtValor").valid());
+            if (validacao) {
+                $("#fileupload").submit();
+            }
+            break;
+    }
+    return validacao;
+
+}
+
+function stepsComPlanta() {
+    $(document).ready(function () {
+        $("#step1").show();
+        $("#step2").hide();
+        $("#step3").hide();
+        $("#step4").hide();
+        $("#step5").hide();
+        $("#step6").hide();
+        $("#divInformarValor").hide();
+        $("div[id^='btnAnterior']").hide();
+        $("#sltPlano").change(function () {
+            $(this).valid();
+        })
+
+        $("#sltFinalidade").change(function () {
+            $(this).valid();
+        })
+
+        $("#chkValor").change(function () {
+            if ($(this).parent().checkbox('is checked')) {
+                $("#divInformarValor").show();
+            } else {
+                $("#divInformarValor").hide();
+            }
+        })
+
+        $("div[id^='btnProximo']").click(function () {
+            if (validarStepComPlanta()) {
+                var atual = parseInt($("#hdnStep").val());
+                var proximo = atual + 1;
+                $("#step" + atual).hide();
+                $("#step" + proximo).show();
+                $("#hdnStep").val(proximo);
+                $("div[id^='menuStep']").removeClass();
+                $("div[id^='menuStep']").addClass("step");
+                $("#menuStep" + proximo).addClass("active step");
+                if (proximo > 1)
+                    $("div[id^='btnAnterior']").show();
+                else
+                    $("div[id^='btnAnterior']").hide();
+                if (proximo > 5) {
+                    $("div[id^='btnProximo']").hide();
+                    $("div[id^='btnAnterior']").hide();
+                    $("#btnCancelar").hide();
+                }
+                else
+                    $("div[id^='btnProximo']").show();
+            }
+        })
+
+        $("div[id^='btnAnterior']").click(function () {
+            var atual = parseInt($("#hdnStep").val());
+            var anterior = atual - 1;
+            $("#step" + atual).hide();
+            $("#step" + anterior).show();
+            $("#hdnStep").val(anterior);
+            $("div[id^='menuStep']").removeClass();
+            $("div[id^='menuStep']").addClass("step");
+            $("#menuStep" + anterior).addClass("active step");
+            $("div[id^='btnProximo']").show();
+            if (anterior > 1)
+                $("div[id^='btnAnterior']").show();
+            else
+                $("div[id^='btnAnterior']").hide();
+        })
+    })
+}
+
+function validarStepComPlanta() {
+
+    var validacao = false;
+    var step = parseInt($("#hdnStep").val());
+    switch (step) {
+        case 0:
+        case 1:
+            validacao = $("#sltPlano").valid();
+            break;
+        case 2:
+            validacao = (($("#sltFinalidade").valid() & $("#txtTitulo").valid() & $("#txtDescricao").valid() & $("#txtValor").valid()));
+            break;
+        case 3:
+            validacao = true;
+            break;
+        case 4:
+            validacao = true;
+            if (typeof ($("input[name^=txtLegenda]").val()) !== "undefined" && typeof ($("input[name^=txtLegenda]").attr('disabled')) === "undefined") {
+                alert("Você ainda não enviou todas as fotos. \n Clique no botão Enviar");
+                validacao = false;
+            }
+            if (typeof ($("input[name=delete]").val()) !== "undefined") {
+                if (typeof ($("input[name=rdbDestaque]:checked").val()) === "undefined") {
+                    alert("Informe uma Foto para ser Destaque do seu anúncio");
+                    validacao = false;
+                }
+            }
+            $("#tdPlano").html($('#sltPlano').parent().find(".selected").html());
+            $("#tdFinalidade").html($('#sltFinalidade').parent().find(".selected").html());
+            $("#tdTitulo").html($("#txtTitulo").val());
+            $("#tdDescricao").html($("#txtDescricao").val());
+            $("#tdValor").html(
+                    (typeof ($("input[name=chkValor]:checked").val()) === "undefined" ? "Não Informado" : $("#txtValor").val())
+
+                    );
+            $("#tdMapa").html((typeof ($("input[name=chkMapa]:checked").val()) === "undefined" ? "Não" : "Sim"));
+            $("#tdContato").html((typeof ($("input[name=chkContato]:checked").val()) === "undefined" ? "Não" : "Sim"));
+
+            break;
+        case 5:
+            validacao = ($("#sltPlano").valid() & $("#sltFinalidade").valid() & $("#txtTitulo").valid() & $("#txtDescricao").valid() & $("#txtValor").valid());
+            if (validacao) {
+                $("#fileupload").submit();
+            }
+            break;
+    }
+    //console.log(validacao);
+    return validacao;
+
+}
 
 function planta() {
     $(document).ready(function () {
@@ -289,7 +423,9 @@ function planta() {
             var ordemPlanta = $(this).val();
             $(sltAndarInicial).rules("add", {
                 required: true,
-                validaAndar: function(){return ordemPlanta},
+                validaAndar: function () {
+                    return ordemPlanta
+                },
                 max: function () {
                     return $(sltAndarFinal).val();
                 },
@@ -300,7 +436,9 @@ function planta() {
 
             $(sltAndarFinal).rules("add", {
                 required: true,
-                validaAndar: function(){return ordemPlanta},
+                validaAndar: function () {
+                    return ordemPlanta
+                },
                 min: function () {
                     return $(sltAndarInicial).val();
                 },
@@ -335,49 +473,49 @@ function planta() {
 
 function validarPlanta(sltAndarInicial, sltAndarFinal, txtValor, ordemPlanta) {
     var sucesso = $(sltAndarInicial).valid() & $(sltAndarFinal).valid() & $(txtValor).valid();
-/*
-    if (sucesso) {
-        var tbody = "#dadosPlanta_" + ordemPlanta;
-        var linhas = $(tbody).children();
-        if (linhas.length === 0) {
-            sucesso = true;
-        }
-        else {
-            var arrayIntervalo = [];
-            $(linhas).each(function () {
-                var inputs;
-                inputs = $(this).find("input");
-                var andarInicial = inputs[0];
-                var andarFinal = inputs[1];
-                arrayIntervalo = gerarNumerosIntervalos($(andarInicial).val(), $(andarFinal).val(), arrayIntervalo);
-            })
-            Array.prototype.duplicates = function () {
-                return this.filter(function (x, y, k) {
-                    return y === k.lastIndexOf(x);
-                });
-            }
-            var andaresAdicionados = arrayIntervalo.duplicates();
-            if (andaresAdicionados.indexOf(parseInt($(sltAndarInicial).val())) < 0 && andaresAdicionados.indexOf(parseInt($(sltAndarFinal).val())) < 0) {
-                sucesso = true;
-            } else {
-                sucesso = false;
-                alert("ERRO: Não é permitido adicionar o mesmo andar");
-            }
-        }
-    }
-*/
+    /*
+     if (sucesso) {
+     var tbody = "#dadosPlanta_" + ordemPlanta;
+     var linhas = $(tbody).children();
+     if (linhas.length === 0) {
+     sucesso = true;
+     }
+     else {
+     var arrayIntervalo = [];
+     $(linhas).each(function () {
+     var inputs;
+     inputs = $(this).find("input");
+     var andarInicial = inputs[0];
+     var andarFinal = inputs[1];
+     arrayIntervalo = gerarNumerosIntervalos($(andarInicial).val(), $(andarFinal).val(), arrayIntervalo);
+     })
+     Array.prototype.duplicates = function () {
+     return this.filter(function (x, y, k) {
+     return y === k.lastIndexOf(x);
+     });
+     }
+     var andaresAdicionados = arrayIntervalo.duplicates();
+     if (andaresAdicionados.indexOf(parseInt($(sltAndarInicial).val())) < 0 && andaresAdicionados.indexOf(parseInt($(sltAndarFinal).val())) < 0) {
+     sucesso = true;
+     } else {
+     sucesso = false;
+     alert("ERRO: Não é permitido adicionar o mesmo andar");
+     }
+     }
+     }
+     */
     return sucesso;
 }
 /*
-function gerarNumerosIntervalos(inicial, final, array) {
-    inicial = parseInt(inicial);
-    final = parseInt(final);
-    for ($i = inicial; $i <= final; $i++) {
-        array.push($i);
-    }
-    return array;
-}
-*/
+ function gerarNumerosIntervalos(inicial, final, array) {
+ inicial = parseInt(inicial);
+ final = parseInt(final);
+ for ($i = inicial; $i <= final; $i++) {
+ array.push($i);
+ }
+ return array;
+ }
+ */
 function excluirPlanta(element) {
     $(document).ready(function () {
         var linha = element.parent().parent();

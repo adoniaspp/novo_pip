@@ -16,7 +16,7 @@ foreach ($plantas as $planta) {
                         <div class="five wide required field">
                             <label>Andar <?php echo $tipoAndar[$i]; ?></label>
                             <div class="ui selection dropdown">
-                                <input type="hidden" name="sltAndar<?php echo $tipoAndar[$i]; ?>[]" id="sltAndar<?php echo $tipoAndar[$i]; ?>">
+                                <input type="hidden" name="sltAndar<?php echo $tipoAndar[$i]; ?>[]" id="sltAndar<?php echo $tipoAndar[$i]; ?>" class="sltAndar<?php echo $tipoAndar[$i]; ?>">
                                 <div class="default text">Andar</div>
                                 <i class="dropdown icon"></i>
                                 <div class="menu">

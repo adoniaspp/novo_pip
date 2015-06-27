@@ -70,20 +70,20 @@ if ($item) {
                 minFileSize: 'Arquivo muito pequeno (0 MB)'
             }
         }).on('fileuploadadd', function (e, data) {
-            
+
             //verificar se o fileInput eh o attachmentName
             //se for faz a logica do preview
             //e chama o preventdefault
             //senao nao faz nada.
             var input = data.fileInput[0];
-console.log($(input).attr("name"));
-            if($(input).attr("name") == "attachmentName[]"){
+            console.log($(input).attr("name"));
+            if ($(input).attr("name") == "attachmentName[]") {
                 e.preventDefault();
             }
-           
+
 
 //console.log(data);
-    // // Prevents the default dragover action of the File Upload widget
+            // // Prevents the default dragover action of the File Upload widget
 
         }).on('fileuploadsubmit', function (e, data) {
             data.formData = $("#fileupload").serializeArray();
@@ -131,8 +131,15 @@ console.log($(input).attr("name"));
 <script>
     cadastrarAnuncio();
     cancelar('Anuncio', 'listarCadastrar');
+<?php if ($tipoImovel == "apartamentoplanta") { ?>
+        stepsComPlanta();
+<?php } else { ?>
+        stepsSemPlanta();
+<?php } ?>
 </script>
-<div class="container">
+
+
+<div class="ui segment">
     <div class="ui hidden divider"></div>
     <div class="ui page grid main">
         <div class="column">
@@ -156,36 +163,64 @@ console.log($(input).attr("name"));
     <div class="ui page grid main">
         <div class="row">
             <div class="ui fluid small ordered steps">
-                <div id="menuStep1" class="active step">
-                    <div class="content">
-                        <div class="title">Plano</div>
+                <?php if ($tipoImovel == "apartamentoplanta") { ?>
+                    <div id="menuStep1" class="active step">
+                        <div class="content">
+                            <div class="title">Plano</div>
+                        </div>
                     </div>
-                </div>
-                <div id="menuStep2" class="step">
-                    <div class="content">
-                        <div class="title">Anúncio</div>
+                    <div id="menuStep2" class="step">
+                        <div class="content">
+                            <div class="title">Anúncio</div>
+                        </div>
                     </div>
-                </div>
-                <div id="menuStep31" class="step">
-                    <div class="content">
-                        <div class="title">Plantas</div>
+                    <div id="menuStep3" class="step">
+                        <div class="content">
+                            <div class="title">Plantas</div>
+                        </div>
                     </div>
-                </div>
-                <div id="menuStep3" class="step">
-                    <div class="content">
-                        <div class="title">Fotos</div>
+                    <div id="menuStep4" class="step">
+                        <div class="content">
+                            <div class="title">Fotos</div>
+                        </div>
                     </div>
-                </div>
-                <div id="menuStep4" class="step">
-                    <div class="content">
-                        <div class="title">Confirmação</div>
+                    <div id="menuStep5" class="step">
+                        <div class="content">
+                            <div class="title">Confirmação</div>
+                        </div>
                     </div>
-                </div>
-                <div id="menuStep5" class="step">
-                    <div class="content">
-                        <div class="title">Publicação</div>
+                    <div id="menuStep6" class="step">
+                        <div class="content">
+                            <div class="title">Publicação</div>
+                        </div>
                     </div>
-                </div>
+                <?php } else { ?>
+                    <div id="menuStep1" class="active step">
+                        <div class="content">
+                            <div class="title">Plano</div>
+                        </div>
+                    </div>
+                    <div id="menuStep2" class="step">
+                        <div class="content">
+                            <div class="title">Anúncio</div>
+                        </div>
+                    </div>
+                    <div id="menuStep4" class="step">
+                        <div class="content">
+                            <div class="title">Fotos</div>
+                        </div>
+                    </div>
+                    <div id="menuStep5" class="step">
+                        <div class="content">
+                            <div class="title">Confirmação</div>
+                        </div>
+                    </div>
+                    <div id="menuStep6" class="step">
+                        <div class="content">
+                            <div class="title">Publicação</div>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
         </div>
     </div>    <div class="ui hidden divider"></div>
@@ -324,7 +359,7 @@ console.log($(input).attr("name"));
             ?>
             <!--PLANTAS-->
             <div class="ui page grid main">        
-                <div class="column" id="step31">
+                <div class="column" id="step3">
                     <h3 class="ui dividing header">Informações Adicionais</h3>
                     <?php include_once 'AnuncioVisaoInformacoesAdicionais.php'; ?>
                 </div>
@@ -335,7 +370,7 @@ console.log($(input).attr("name"));
 
         <!--FOTOS-->
         <div class="ui page grid main">        
-            <div class="column" id="step3">
+            <div class="column" id="step4">
                 <h3 class="ui dividing header">Fotos</h3>
                 <!-- Redirect browsers with JavaScript disabled to the origin page -->
                 <noscript><input type="hidden" name="redirect" value="index.php"></noscript>
@@ -467,7 +502,7 @@ console.log($(input).attr("name"));
         </div> 
         <!--CONFIRMAÇÃO-->
         <div class="ui page grid main">        
-            <div class="column" id="step4">
+            <div class="column" id="step5">
                 <h3 class="ui dividing header">Confirmação</h3>
                 <div class="ui segment">
                     <div class="ui stackable ">
@@ -509,7 +544,7 @@ console.log($(input).attr("name"));
         </div>
         <!--PUBLICAÇÃO-->
         <div class="ui page grid main">        
-            <div class="column" id="step5">
+            <div class="column" id="step6">
                 <h3 class="ui dividing header">Publicação</h3>
                 <div class="ui segment" id="divRetorno">
                     <p></p>
@@ -525,8 +560,6 @@ console.log($(input).attr("name"));
             <div class="ui blue button" id="btnProximo2">Próximo <i class="arrow right icon"></i></div>
         </div>
     </div>
-
-
 </div>
 <!-- MODAIS -->
 <div class="ui small modal" id="modalCancelar">
@@ -550,327 +583,7 @@ console.log($(input).attr("name"));
     </div>
 </div>
 
-
 <?php
 $this->setItem($item["imovel"]);
 include_once "/modal/ImovelListagemModal.php";
 ?>
-
-<?php
-die();
-?>
-
-
-<form id="fileupload" class="form-horizontal" enctype="multipart/form-data">
-    <div class="container"> <!-- CLASSE QUE DEFINE O CONTAINER COMO FLUIDO (100%) -->
-        <?php
-        die();
-        Sessao::gerarToken();
-        $item = $this->getItem();
-        if ($item) {
-            foreach ($item["imovel"] as $objImovel) {
-                $referencia = $objImovel->Referencia();
-                $idImovel = $objImovel->getId();
-                echo $tipoImovel = $objImovel->buscarTipoImovel($objImovel->getIdTipoImovel());
-                $endereco = $objImovel->getEndereco()->enderecoMapa();
-                $imovel = $objImovel;
-            }
-        }
-        ?>
-
-
-        <div class="row">
-            <div class="alert alert-warning">Aguarde Processando...</div>
-            <div class="well wizard-example">
-
-                <div class="step-content">
-
-
-                    <div class="step-pane" id="step2">
-                        <input type="hidden" id="hdnId" name="hdnId" value=""/>
-                        <input type="hidden" id="hdnIdImovel" name="hdnIdImovel" value="<?php echo $idImovel; ?>" />
-                        <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio" />
-                        <input type="hidden" id="hdnAcao" name="hdnAcao" value="Cadastrar" />
-                        <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
-                        <div class="row">
-                            <div class="col-lg-7">
-                                <div id="forms" class="panel panel-default">
-                                    <div class="form-group">
-                                        <label class="col-lg-3 control-label" for="sltFinalidade">Finalidade</label>
-                                        <div class="col-lg-8">
-                                            <select class="form-control" id="sltFinalidade" name="sltFinalidade">
-                                                <option value="">Informe a Finalidade</option>
-                                                <option value="venda" <?php echo ($item["anuncio"]->getFinalidade() == "venda") ? "selected=\"selected\"" : "" ?> >Venda</option>
-                                                <option value="aluguel" <?php echo ($item["anuncio"]->getFinalidade() == "aluguel") ? "selected=\"selected\"" : "" ?> >Aluguel</option>
-                                            </select></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-lg-3 control-label" for="txtTitulo">Título</label>
-                                        <div class="col-lg-8">
-                                            <input type="text" class="form-control" id="txtTitulo" name="txtTitulo" placeholder="Informe o Título" maxlength="50" value="<?php echo $item["anuncio"]->getTituloAnuncio(); ?>" >
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-lg-3 control-label" for="txtDescricao"> Descrição </label>
-                                        <div class="col-lg-8">
-                                            <textarea maxlength="150" id="txtDescricao" name="txtDescricao" class="form-control" placeholder="Informe uma Descrição do Imóvel"> <?php echo $item["anuncio"]->getDescricaoAnuncio(); ?></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-lg-3 control-label" for="txtValor">Valor</label>
-                                        <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="txtValor" name="txtValor" placeholder="Valor do Imóvel"  value="<?php //echo $item["anuncio"]->getValor();                               ?>"> 
-                                        </div>
-                                        <span class="col-lg-4 ">(Não informar os centavos)</span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-lg-6 control-label" for="chkMapa"> Exibir o mapa do endereço?</label>
-                                        <div class="col-lg-5">
-                                            <input type="checkbox" name="chkMapa" value="SIM" <?php echo ($item["anuncio"]->getPublicarMapa() == "SIM") ? "checked=\"checked\"" : "" ?> >                                             
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-lg-6 control-label" for="chkContato"> Exibir o telefone para contato?</label>
-                                        <div class="col-lg-5">
-                                            <input type="checkbox" name="chkContato" value="SIM" <?php echo ($item["anuncio"]->getPublicarContato() == "SIM") ? "checked=\"checked\"" : "" ?> >                                             
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-lg-offset-1 col-lg-9" for="sltCamposVisiveis">Escolha quais informações do imóvel deseja exibir:</label>
-                                    </div>
-                                    <?php
-                                    if ($item["anuncio"]->getId() != "") {
-                                        $arrayValoresVisiveis = json_decode($item["anuncio"]->getValorVisivel());
-                                    } else {
-                                        $arrayValoresVisiveis = array("quarto", "banheiro", "garagem", "academia", "areaservico", "dependenciaempregada", "elevador", "piscina", "quadra", "area", "suite", "andar", "condominio", "cobertura", "sacada");
-                                    }
-                                    ?>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-1 col-sm-4">
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">Básicas</div>
-                                                <div class="panel-body">
-                                                    <?php /* if ($imovel->getTipo() != "terreno") { ?>
-                                                      <label class="checkbox">
-                                                      <input type="checkbox" name="sltCamposVisiveis[]" value="quarto" <?php echo (in_array("quarto", $arrayValoresVisiveis)) ? "checked=\"checked\"" : "" ?> > Quarto - <?php echo $imovel->getQuarto(); ?>
-                                                      </label>
-                                                      <label class="checkbox">
-                                                      <input type="checkbox" name="sltCamposVisiveis[]" value="banheiro" <?php echo (in_array("banheiro", $arrayValoresVisiveis)) ? "checked=\"checked\"" : "" ?> > Banheiro - <?php echo $imovel->getBanheiro(); ?>
-                                                      </label>
-                                                      <label class="checkbox">
-                                                      <input type="checkbox" name="sltCamposVisiveis[]" value="garagem" <?php echo (in_array("garagem", $arrayValoresVisiveis)) ? "checked=\"checked\"" : "" ?> > Garagem - <?php echo $imovel->getGaragem(); ?>
-                                                      </label>
-                                                      <?php
-                                                      } else {
-                                                      echo "Não se aplica";
-                                                      } */
-                                                    ?>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-4">
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">Adicionais</div>
-                                                <div class="panel-body">
-                                                    <?php /* if ($imovel->getAcademia() == "SIM") { ?>
-                                                      <label class="checkbox">
-                                                      <input type="checkbox" name="sltCamposVisiveis[]" value="academia" <?php echo (in_array("academia", $arrayValoresVisiveis)) ? "checked=\"checked\"" : "" ?> > Academia
-                                                      </label>
-                                                      <?php } ?>
-                                                      <?php if ($imovel->getAreaServico() == "SIM") { ?>
-                                                      <label class="checkbox">
-                                                      <input type="checkbox" name="sltCamposVisiveis[]" value="areaservico" <?php echo (in_array("areaservico", $arrayValoresVisiveis)) ? "checked=\"checked\"" : "" ?> > Área de Serviço
-                                                      </label>
-                                                      <?php } ?>
-                                                      <?php if ($imovel->getDependenciaEmpregada() == "SIM") { ?>
-                                                      <label class="checkbox">
-                                                      <input type="checkbox" name="sltCamposVisiveis[]" value="dependenciaempregada" <?php echo (in_array("dependenciaempregada", $arrayValoresVisiveis)) ? "checked=\"checked\"" : "" ?> > Dependência de Empregada
-                                                      </label>
-                                                      <?php } ?>
-                                                      <?php if ($imovel->getElevador() == "SIM") { ?>
-                                                      <label class="checkbox">
-                                                      <input type="checkbox" name="sltCamposVisiveis[]" value="elevador" <?php echo (in_array("elevador", $arrayValoresVisiveis)) ? "checked=\"checked\"" : "" ?> > Elevador
-                                                      </label>
-                                                      <?php } ?>
-                                                      <?php if ($imovel->getPiscina() == "SIM") { ?>
-                                                      <label class="checkbox">
-                                                      <input type="checkbox" name="sltCamposVisiveis[]" value="piscina" <?php echo (in_array("piscina", $arrayValoresVisiveis)) ? "checked=\"checked\"" : "" ?> > Piscina
-                                                      </label>
-                                                      <?php } ?>
-                                                      <?php if ($imovel->getQuadra() == "SIM") { ?>
-                                                      <label class="checkbox">
-                                                      <input type="checkbox" name="sltCamposVisiveis[]" value="quadra" <?php echo (in_array("quadra", $arrayValoresVisiveis)) ? "checked=\"checked\"" : "" ?> > Quadra
-                                                      </label>
-                                                      <?php } ?>
-                                                      <?php if ($imovel->getArea() != "") { ?>
-                                                      <label class="checkbox">
-                                                      <input type="checkbox" name="sltCamposVisiveis[]" value="area" <?php echo (in_array("area", $arrayValoresVisiveis)) ? "checked=\"checked\"" : "" ?> > Área m<sup>2</sup> - <?php echo $imovel->getArea(); ?>
-                                                      </label>
-                                                      <?php } ?>
-                                                      <?php if ($imovel->getSuite() != "") { ?>
-                                                      <label class="checkbox">
-                                                      <input type="checkbox" name="sltCamposVisiveis[]" value="suite" <?php echo (in_array("suite", $arrayValoresVisiveis)) ? "checked=\"checked\"" : "" ?> > Suíte - <?php echo $imovel->getSuite(); ?>
-                                                      </label>
-                                                      <?php } */ ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">Apartamento</div>
-                                                <div class="panel-body">
-                                                    <?php if ($tipoImovel == "apartamento") { ?>
-                                                        <?php
-                                                        if ($imovel->getAndar() == "" && $imovel->getCondominio() == "" && $imovel->getCobertura() == "NAO" && $imovel->getSacada() == "NAO") {
-                                                            echo "Não informado no cadastro do imóvel.";
-                                                        } else {
-                                                            ?>                                                   
-                                                            <?php if ($imovel->getAndar() != "") { ?>
-                                                                <label class="checkbox">
-                                                                    <input type="checkbox" name="sltCamposVisiveis[]" value="andar" <?php echo (in_array("andar", $arrayValoresVisiveis)) ? "checked=\"checked\"" : "" ?> > Andar - <?php echo $imovel->getAndar(); ?>
-                                                                </label>
-                                                            <?php } ?>                                                
-                                                            <?php if ($imovel->getCondominio() != "") { ?>
-                                                                <label class="checkbox">
-                                                                    <input type="checkbox" name="sltCamposVisiveis[]" value=condominio <?php echo (in_array("condominio", $arrayValoresVisiveis)) ? "checked=\"checked\"" : "" ?> > Condomínio - <?php echo $imovel->getCondominio(); ?>
-                                                                </label>
-                                                            <?php } ?>                                                                                                    
-                                                            <?php if ($imovel->getCobertura() == "SIM") { ?>
-                                                                <label class="checkbox">
-                                                                    <input type="checkbox" name="sltCamposVisiveis[]" value="cobertura" <?php echo (in_array("cobertura", $arrayValoresVisiveis)) ? "checked=\"checked\"" : "" ?> > Cobertura
-                                                                </label>
-                                                            <?php } ?>                                                
-                                                            <?php if ($imovel->getSacada() == "SIM") { ?>
-                                                                <label class="checkbox">
-                                                                    <input type="checkbox" name="sltCamposVisiveis[]" value="sacada" <?php echo (in_array("sacada", $arrayValoresVisiveis)) ? "checked=\"checked\"" : "" ?> > Sacada
-                                                                </label>
-                                                            <?php } ?> 
-                                                            <?php
-                                                        }
-                                                    } else {
-                                                        echo "Não se aplica.";
-                                                    }
-                                                    ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-5">
-                                <div id="forms" class="panel panel-default">
-                                    <div class="panel-heading">Mapa do Endereço Cadastrado</div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="popin">
-                                                <div id="map"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                    <div class="step-pane" id="step3">
-                        <!-- Redirect browsers with JavaScript disabled to the origin page -->
-                        <noscript><input type="hidden" name="redirect" value="index.php"></noscript>
-                        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-                        <div class="row fileupload-buttonbar">
-                            <div class="col-lg-7">
-                                <!-- The fileinput-button span is used to style the file input field as button -->
-                                <span class="btn btn-success fileinput-button">
-                                    <i class="glyphicon glyphicon-plus"></i>
-                                    <span>Adicionar fotos...</span>
-                                    <input type="file" name="files[]" multiple accept="image/png,image/jpeg,image/gif">
-                                </span>
-                                <!-- <button type="submit" class="btn btn-primary start">
-                                <i class="glyphicon glyphicon-upload"></i>
-                                <span>Start upload</span>
-                                </button> -->
-                                <button type="reset" class="btn btn-warning cancel">
-                                    <i class="glyphicon glyphicon-ban-circle"></i>
-                                    <span>Cancelar o envio de todas</span>
-                                </button>
-                                <button type="button" class="btn btn-danger delete">
-                                    <i class="glyphicon glyphicon-trash"></i>
-                                    <span>Excluir fotos selecionadas</span>
-                                </button>                                
-
-
-                                <!-- The global file processing state -->
-                                <span class="fileupload-process"></span>
-
-                            </div>
-                            <!-- The global progress state -->
-                            <div class="col-lg-5 fileupload-progress fade">
-                                <!-- The global progress bar -->
-                                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                                    <div class="progress-bar progress-bar-success" style="width:0%;"></div>
-                                </div>
-                                <!-- The extended global progress state -->
-                                <div class="progress-extended">&nbsp;</div>
-                            </div>
-                        </div>
-                        Adicione nessa etapa as fotos para o anúncio
-                        <!-- The table listing the files available for upload/download -->
-                        <div class="row">
-                            <div class="col-lg-9">
-                                <table role="presentation" class="table table-striped table-condensed table-responsive">
-                                    <tbody class="files"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="step-pane" id="step4">
-                        <div class="row">
-                            <h4>Confirme os dados informados:</h4>
-                            <table class="table table-bordered table-condensed table-hover table-responsive">
-                                <thead>
-                                    <tr>
-                                        <th id="colImovelFinalidade">Imóvel</th>
-                                        <th>Plano</th>
-                                        <th>Título</th>
-                                        <th>Descrição</th>
-                                        <th>Valor</th>
-                                        <th>Mapa</th>
-                                        <th>Contato</th>
-                                        <th>Informações Exibidas</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td id="colReferencia"><span class="label label-info"><?php echo $referencia; ?></span></td>
-                                        <td id="colPlano"></td>
-                                        <td id="colTitulo"></td>
-                                        <td id="colDescricao"></td>
-                                        <td id="colValor"></td>
-                                        <td id="colMapa"></td>
-                                        <td id="colContato"></td>
-                                        <td id="colCampos"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="row">
-                            <textarea class="form-control" rows="5"><?php include_once 'assets/txt/termo.php'; ?></textarea>
-                        </div>
-                        <div class="row text-center text-danger">
-                            <p>   Aceito os termos do contrato e reconheço como verdadeiras as informações constantes nesse anuncio e desde logo,
-                                responsabiliza-se integralmente pela veracidade e exatidão das informações aqui fornecidas, sob pena de incorrer nas sanções
-                                previstas no art. 299 do Decreto Lei 2848/40 (Código Penal). </p>
-                        </div>
-                    </div>
-                    <div class="step-pane" id="step5"></div>
-                </div>
-                <button id="btnCancelar" type="button" class="btn btn-danger"> <span class="glyphicon glyphicon-ok-circle"></span> Cancelar </button>
-                <button id="btnWizardPrev" type="button" class="btn btn-warning btn-prev"> <span class="glyphicon glyphicon-chevron-left"></span> Voltar </button>
-                <button id="btnWizardNext" type="button" class="btn btn-primary btn-next" data-last="Fim" > Avançar <span class="glyphicon glyphicon-chevron-right"></span></button>
-            </div>
-        </div>
-    </div>
-</form>
