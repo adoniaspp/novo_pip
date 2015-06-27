@@ -1,6 +1,7 @@
 function slideAnuncio() {
 
     $(document).ready(function() {
+        $('.ui.accordion').accordion();
         var options = {
             $ThumbnailNavigatorOptions: {
                 $Class: $JssorThumbnailNavigator$,

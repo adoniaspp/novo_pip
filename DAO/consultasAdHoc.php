@@ -127,7 +127,7 @@ class ConsultasAdHoc extends GenericoDAO {
         
         if (count($resultado['anuncio']) != 0) {
             $idsImoveis = array_column($resultado['anuncio'], 'idimovel');
-            $tiposImoveis = array_column($resultado['anuncio'], 'descricao');
+            $tiposImoveis = array_column($resultado['anuncio'], 'tipo');
             for ($i = 0; $i < count($idsImoveis); $i++) {
                 if ($tiposImoveis[$i] == 'apartamentoplanta') {
                 $sth = $this->conexao->prepare("SELECT ordemplantas, tituloplanta, quarto, banheiro, suite, garagem, area, imagem FROM planta WHERE idimovel = :idimovel");
@@ -161,7 +161,7 @@ class ConsultasAdHoc extends GenericoDAO {
         /* informacoes do tipo do imóvel */
         if (count($resultado['anuncio']) != 0) {
             $idsImoveis = array_column($resultado['anuncio'], 'idimovel');
-            $tiposImoveis = array_column($resultado['anuncio'], 'descricao');
+            $tiposImoveis = array_column($resultado['anuncio'], 'tipo');
             for ($i = 0; $i < count($idsImoveis); $i++) {
                 if ($tiposImoveis[$i] == 'casa') {
                     $sth = $this->conexao->prepare("SELECT quarto, banheiro, suite, garagem, area FROM buscaAnuncioCasa WHERE idimovel = :idimovel");
@@ -171,7 +171,7 @@ class ConsultasAdHoc extends GenericoDAO {
                     $resultado['anuncio'][$i] = array_merge($imovel['casa'][0], $resultado['anuncio'][$i]);
                 }
                 if ($tiposImoveis[$i] == 'apartamentoplanta') {
-                    $sth = $this->conexao->prepare("SELECT andares, unidadesandar, totalunidades, numerotorres FROM buscaAnuncioApplanta WHERE idimovel = :idimovel");
+                    $sth = $this->conexao->prepare("SELECT andares, unidadesandar, totalunidades, numerotorres FROM buscaAnuncioapartamentoplanta WHERE idimovel = :idimovel");
                     $sth->bindValue(':idimovel', $idsImoveis[$i]);
                     $sth->execute();
                     $imovel['applanta'] = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -185,7 +185,7 @@ class ConsultasAdHoc extends GenericoDAO {
                     $resultado['anuncio'][$i] = array_merge($imovel['ap'][0], $resultado['anuncio'][$i]);
                 }
                 if ($tiposImoveis[$i] == 'salacomercial') {
-                    $sth = $this->conexao->prepare("SELECT area, banheiro, garagem, condominio FROM buscaAnuncioSala WHERE idimovel = :idimovel");
+                    $sth = $this->conexao->prepare("SELECT area, banheiro, garagem, condominio FROM buscaAnunciosalacomercial WHERE idimovel = :idimovel");
                     $sth->bindValue(':idimovel', $idsImoveis[$i]);
                     $sth->execute();
                     $imovel['sala'] = $sth->fetchAll(PDO::FETCH_ASSOC);

@@ -12,7 +12,8 @@
 
         <script src="<?php echo PIPURL; ?>/assets/js/cabecalho.js"></script> 
         <!-- Template PIP -->
-        <link href="<?php echo PIPURL; ?>/assets/css/template-pip.css" rel="stylesheet" type="text/css" /> 		
+        <link href="<?php echo PIPURL; ?>/assets/css/template-pip.css" rel="stylesheet" type="text/css" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">        
     </head>
 
 <script>

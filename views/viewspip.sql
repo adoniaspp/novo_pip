@@ -25,7 +25,7 @@ RIGHT JOIN bairro as b
 ON b.id = en.idbairro
 WHERE a.status = 'cadastrado';
 
-CREATE VIEW buscaAnuncioApPlanta AS
+CREATE VIEW buscaAnuncioApartamentoPlanta AS
 /*Imóvel - ApNovo*/
 SELECT a.id as idanuncio, a.finalidade, a.tituloanuncio, a.descricaoanuncio, 
 a.status, a.valorvisivel, a.publicarmapa, a.publicarcontato, a.valormin,
@@ -79,7 +79,7 @@ RIGHT JOIN bairro as b
 ON b.id = en.idbairro
 WHERE a.status = 'cadastrado';
 
-CREATE VIEW buscaAnuncioSala AS
+CREATE VIEW buscaAnuncioSalaComercial AS
 /*Imóvel - Ap*/
 SELECT a.id as idanuncio, a.finalidade, a.tituloanuncio, a.descricaoanuncio, 
 a.status, a.valorvisivel, a.publicarmapa, a.publicarcontato, a.valormin,
