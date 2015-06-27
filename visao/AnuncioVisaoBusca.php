@@ -1,3 +1,4 @@
+<script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 
 <script>
     carregarAnuncio();
@@ -5,7 +6,8 @@
 
 <?php
 $item = $this->getItem();
-//print_r($item);
+//echo '<pre>';
+//print_r($item['anuncio'][0][tipo]);
 //die();
 if (count($item['anuncio']) == 1) {
     $linhas = 1;
@@ -52,8 +54,9 @@ if (count($item['anuncio']) == 1) {
                                            <div class="ui blue basic button"> Detalhes </div>                                          
                                             <input type="hidden" id="anuncio<?php echo $item['anuncio'][$crtl]['id'] ?>"
                                                    value="<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>"/>
-                                            <input type="hidden" id="anuncio<?php echo $item['anuncio'][$crtl]['descricao'] ?>"
-                                                   value="<?php echo $item['anuncio'][$crtl]['descricao'] ?>"/>
+                                            <input type="hidden" id="anuncio<?php echo $item['anuncio'][$crtl]['tipo'] ?>"
+                                                   value="<?php echo $item['anuncio'][$crtl]['tipo'] ?>"/>
+                                            $item['anuncio'][$crtl]['tipo']
                                         </div>
                                     </div>
                                 </div>
@@ -63,7 +66,7 @@ if (count($item['anuncio']) == 1) {
                                 <div class="description"><b><?php echo mb_substr($item['anuncio'][$crtl]['tituloanuncio'], 0, 32) . "..." ?></b></div>
 
                                 <div class="description">
-                                    <?php echo ucfirst($item['anuncio'][$crtl]['descricao']) ?>
+                                    <?php echo ucfirst($item['anuncio'][$crtl]['tipo']) ?>
                                     <br />
                                     <span id="spanValor"> <?php echo $item['anuncio'][$crtl]['valormin'] ?> </span>
                                 </div>
