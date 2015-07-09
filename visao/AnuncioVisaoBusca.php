@@ -1,8 +1,6 @@
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 
-<script>
-    carregarAnuncio();
-</script>
+
 
 <?php
 $item = $this->getItem();
@@ -20,6 +18,12 @@ if (count($item['anuncio']) == 1) {
 //die();
 }
 ?>
+
+<script>
+    
+    carregarAnuncio(<?php echo count($item['anuncio'])?>); 
+              
+</script>
 
 <form id="form" action="index.php" method="post" target='_blank'>
     <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio"  />
@@ -40,13 +44,15 @@ if (count($item['anuncio']) == 1) {
                         $linha = $ultimaLinha;
                     }
                     for ($j = 0; $j < $linha; $j++) {
+                                                
+                        
                         if ($i == 0) {
                             $crtl = $j;
                         } else {
                             $crtl = (($i + 1) * 3) - (3 - ($j));
                         }
                         ?>
-                        <div class="card">
+                    <div class="card" id="cartao<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">
                             <div class="dimmable image">
                                 <div class="ui inverted dimmer">
                                     <div class="content">
@@ -67,26 +73,16 @@ if (count($item['anuncio']) == 1) {
                                 <div class="description">
                                     <?php echo ucfirst($item['anuncio'][$crtl]['tipo']) ?>
                                     <br />
-                                    <span id="spanValor"> <?php echo $item['anuncio'][$crtl]['valormin'] ?> </span>
+                                    <span id="spanValor<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>"> 
+                                        <?php echo $item['anuncio'][$crtl]['valormin'] ?> </span>
                                 </div>
                             </div>
                             <!--                        Integração com redes sociais-->
                             <div class="extra content">      
-                                <a>
-                                    <i class="big facebook square icon"></i>
-                                </a>
-<!--                                <a>
-                                    <i class="big flickr icon"></i>
-                                </a>-->
-                                <a>
-                                    <i class="big google plus icon"></i>
-                                </a>
-<!--                                <a>
-                                    <i class="big instagram icon"></i>
-                                </a>-->
-                                <a>
-                                    <i class="big twitter square icon"></i>
-                                </a>
+                              <div class="ui checkbox">
+                                <input type="checkbox" name="selecionarAnuncio[]" id="selecionarAnuncio_<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">
+                                <label>Selecionar</label>
+                              </div>
                             </div>
                         </div>
                     <?php } ?>
@@ -96,10 +92,13 @@ if (count($item['anuncio']) == 1) {
             ?>
         </div>
         
+        <div id="divBotoes"></div>
+        
         <div class="one wide column">
         </div>
     </div>
 </form>
+
 <div id="load">
     <div class="ui text loader">Loading</div>
 </div>  

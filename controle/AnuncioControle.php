@@ -117,15 +117,16 @@ class AnuncioControle {
         unset($parametros["hdnCodAnuncio"]);
         $parametros["tabela"] = $parametros["hdnTipoImovel"];
         unset($parametros["hdnTipoImovel"]);
+        
         $visao = new Template();
         $consultasAdHoc = new ConsultasAdHoc();
         $parametros["atributos"] = "*";
         unset($parametros["hdnEntidade"]);
         unset($parametros["hdnAcao"]);
         $parametros["predicados"] = $parametros;
+        //print_r($parametros);
+       // die();
         $listarAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
-//        print_r($listarAnuncio);
-//        die();
         $visao->setItem($listarAnuncio);
         $visao->exibir('AnuncioVisaoDetalhe.php');
     }

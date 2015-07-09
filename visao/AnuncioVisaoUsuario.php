@@ -7,24 +7,13 @@
         
         buscarAnuncioUsuario();
         
-        carregarAnuncio();
+        carregarAnuncioUsuario();
+       
+        
     })
 </script>
 
 <div class="container"> <!-- CLASSE QUE DEFINE O CONTAINER COMO FLUIDO (100%) --> 
-
-    <form class="grid-form" id="form" action="index.php" method="post">
-    <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio"  />
-    <input type="hidden" id="hdnAcao" name="hdnAcao" value="comparar" />
-    <style type="text/css">
-        <!-- div#btncomparar {position:fixed;top:370px;right:80px} →</style>
-    <style type="text/css">
-        <!-- div#btnEnviarEmail {position:fixed;top:330px;right:80px} →</style>
-
-    <div id="btncomparar">
-        <button type="submit" class="btn" id="btncomparar" value="Comparar">Comparar</button>
-    </div>
-    <br>
 
 
     <div id="btnEnviarEmail">
@@ -34,7 +23,7 @@
             <span class="glyphicon glyphicon-plus-sign"></span> Enviar Email
         </button>
     </div>
-    
+     
     <?php 
     
     $item = $this->getItem();
@@ -143,290 +132,191 @@
     
     <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
     
-    <h4>Imóveis <?php if($usuario->getTipoUsuario() == "pf"){echo "do Vendedor";} else echo "da Empresa";?></h4>
-        
+    <div class="ui hidden divider"></div>
+    
+     <div class="ui center aligned column page grid">
+    <a class="ui big blue label">Imóveis <?php if($usuario->getTipoUsuario() == "pf"){echo "do Vendedor";} else echo "da Empresa";?></h4></a> 
+     </div>
+    
+    <div class="ui hidden divider"></div>
+    
     <table class="table table-hover">
 
     <tbody>
 
     <br/>
     
-    <div class="ui form inverted blue segment" id="divBusca">
     <div class="ui center aligned column page grid">
-        <div class="column">
-            <div class="four fields">
-                <div class="ui field">
-                    <label>Tipo de Imóvel</label>
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="sltTipoImovel" id="sltTipoImovel">
-                        <div class="default text">Informe o Tipo do Imóvel</div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <div class="item" data-value="">Todos os Tipos</div>
-                            <div class="item" data-value="casa">Casa</div>
-                            <div class="item" data-value="apartamentoplanta">Apartamento na Planta/Novo</div>
-                            <div class="item" data-value="apartamento">Apartamento</div>
-                            <div class="item" data-value="salacomercial">Sala Cormecial</div>
-                            <div class="item" data-value="terreno">Terreno</div>
+        <div class="ui form segment" id="divBusca">
+            <div class="ui center aligned column page grid">
+                <div class="column">
+                    <div class="four fields">
+                        <div class="ui field">
+                            <label>Tipo de Imóvel</label>
+                            <div class="ui selection dropdown">
+                                <input type="hidden" name="sltTipoImovel" id="sltTipoImovel">
+                                <div class="default text">Informe o Tipo do Imóvel</div>
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                    <div class="item" data-value="">Todos os Tipos</div>
+                                    <div class="item" data-value="casa">Casa</div>
+                                    <div class="item" data-value="apartamentoplanta">Apartamento na Planta/Novo</div>
+                                    <div class="item" data-value="apartamento">Apartamento</div>
+                                    <div class="item" data-value="salacomercial">Sala Cormecial</div>
+                                    <div class="item" data-value="terreno">Terreno</div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="ui field">
-                    <label>Finalidade</label>
-                    <div class="ui fluid selection dropdown">
-                        <input type="hidden" name="sltFinalidade" id="sltFinalidade">
-                        <div class="default text">Todas as Finalidades</div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <div class="item" data-value="">Todas as Finalidade</div>
-                            <div class="item" data-value="venda">Venda</div>
-                            <div class="item" data-value="aluguel">Aluguel</div>
+                        <div class="ui field">
+                            <label>Finalidade</label>
+                            <div class="ui fluid selection dropdown">
+                                <input type="hidden" name="sltFinalidade" id="sltFinalidade">
+                                <div class="default text">Todas as Finalidades</div>
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                    <div class="item" data-value="">Todas as Finalidade</div>
+                                    <div class="item" data-value="venda">Venda</div>
+                                    <div class="item" data-value="aluguel">Aluguel</div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="ui field">
-                    <label>Cidade</label>
-                    <div class="ui fluid selection dropdown">
-                        <input type="hidden" name="sltCidade" id="sltCidade">
-                        <div class="default text">Todas as Cidade</div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <div class="item" data-value="">Todas as Cidade</div>
-                            <div class="item" data-value="1">Belém</div>
-                            <div class="item" data-value="2">Ananindeua</div>
-                            <div class="item" data-value="3">Marituba</div>
+                        <div class="ui field">
+                            <label>Cidade</label>
+                            <div class="ui fluid selection dropdown">
+                                <input type="hidden" name="sltCidade" id="sltCidade">
+                                <div class="default text">Todas as Cidade</div>
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                    <div class="item" data-value="">Todas as Cidade</div>
+                                    <div class="item" data-value="1">Belém</div>
+                                    <div class="item" data-value="2">Ananindeua</div>
+                                    <div class="item" data-value="3">Marituba</div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="ui field">
-                    <label>Bairro</label>
-                    <div class="ui fluid selection dropdown">
-                        <input type="hidden" name="sltBairro" id="sltBairro">
-                        <div class="default text">Selecione a Cidade</div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu" id="menuBairro">
+                        <div class="ui field">
+                            <label>Bairro</label>
+                            <div class="ui fluid selection dropdown">
+                                <input type="hidden" name="sltBairro" id="sltBairro">
+                                <div class="default text">Selecione a Cidade</div>
+                                <i class="dropdown icon"></i>
+                                <div class="menu" id="menuBairro">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="ui center aligned column page grid padding-reset" id="divCaracteristicas">
-        <div class="column">
-            <div class="four fields">
-                <!--                <div class="field" id="divPreenchimento1"></div>-->
-                <div class="field" id="condicao">
-                    <label>Condição</label>
-                    <div class="ui fluid selection dropdown">
-                        <input type="hidden" name="sltCondicao" id="sltCondicao">
-                        <div class="default text">Informe a Condição</div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <div class="item" data-value="">Qualquer Condição</div>
-                            <div class="item" data-value="novo">Novo</div>
-                            <div class="item" data-value="usado">Usado</div>
+            <div class="ui center aligned column page grid padding-reset" id="divCaracteristicas">
+                <div class="column">
+                    <div class="four fields">
+                        <!--                <div class="field" id="divPreenchimento1"></div>-->
+                        <div class="field" id="condicao">
+                            <label>Condição</label>
+                            <div class="ui fluid selection dropdown">
+                                <input type="hidden" name="sltCondicao" id="sltCondicao">
+                                <div class="default text">Informe a Condição</div>
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                    <div class="item" data-value="">Qualquer Condição</div>
+                                    <div class="item" data-value="novo">Novo</div>
+                                    <div class="item" data-value="usado">Usado</div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="field">
-                    <label>Quartos</label>
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="sltQuartos" id="sltQuartos">
-                        <div class="default text">Qualquer Quantidade</div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <div class="item" data-value="">Qualquer Quantidade</div>
-                            <div class="item" data-value="1">1</div>
-                            <div class="item" data-value="2">2</div>
-                            <div class="item" data-value="3">3</div>
-                            <div class="item" data-value="4">4</div>
-                            <div class="item" data-value="5">Mais de 5</div>
+                        <div class="field">
+                            <label>Quartos</label>
+                            <div class="ui selection dropdown">
+                                <input type="hidden" name="sltQuartos" id="sltQuartos">
+                                <div class="default text">Qualquer Quantidade</div>
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                    <div class="item" data-value="">Qualquer Quantidade</div>
+                                    <div class="item" data-value="1">1</div>
+                                    <div class="item" data-value="2">2</div>
+                                    <div class="item" data-value="3">3</div>
+                                    <div class="item" data-value="4">4</div>
+                                    <div class="item" data-value="5">Mais de 5</div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="five wide field" id="divValorVenda">
-                    <label>Valor</label>
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="sltValor" id="sltValor">
-                        <div class="default text">Informe o Valor</div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <div class='item' data-value=0>Menos de R$100.000</div>
-                            <?php
-                            $i = 100000;
-                            while ($i < 1000000) {
-                                print "<div class='item' data-value=" .
-                                        $i . ">Entre R$" . number_format($i, 2, ',', '.') . " e R$" . number_format($i + 100000, 2, ',', '.') . "</div>";
-                                $i = $i + 100000;
-                            }
-                            ?>
-                            <div class='item' data-value=1000000>Mais de R$1.000.000</div>
+                        <div class="five wide field" id="divValorVenda">
+                            <label>Valor</label>
+                            <div class="ui selection dropdown">
+                                <input type="hidden" name="sltValor" id="sltValor">
+                                <div class="default text">Informe o Valor</div>
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                    <div class='item' data-value=0>Menos de R$100.000</div>
+                                    <?php
+                                    $i = 100000;
+                                    while ($i < 1000000) {
+                                        print "<div class='item' data-value=" .
+                                                $i . ">Entre R$" . number_format($i, 2, ',', '.') . " e R$" . number_format($i + 100000, 2, ',', '.') . "</div>";
+                                        $i = $i + 100000;
+                                    }
+                                    ?>
+                                    <div class='item' data-value=1000000>Mais de R$1.000.000</div>
+                                </div>
+                            </div>
+                        </div> 
+
+                        <div class="five wide field" id="divValorAluguel">
+                            <label>Valor</label>
+                            <div class="ui selection dropdown">
+                                <input type="hidden" name="sltValor" id="sltValor">
+                                <div class="default text">Informe o Valor</div>
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                    <div class='item' data-value=0>Menos de R$500</div>
+                                    <?php
+                                    $i = 500;
+                                    while ($i < 10000) {
+                                        print "<div class='item' data-value=" .
+                                                $i . ">Entre R$" . number_format($i, 2, ',', '.') . " e R$" . number_format($i + 500, 2, ',', '.') . "</div>";
+                                        $i = $i + 500;
+                                    }
+                                    ?>
+                                    <div class='item' data-value=1000000>Mais de R$10.000</div>
+                                </div>
+                            </div>
+                        </div> 
+
+                        <div class="three wide field">
+                            <br><br>
+                            <div class="ui toggle checkbox">
+                                <input type="checkbox" name="checkgaragem" id="checkgaragem">
+                                <label>Garagem</label>
+                            </div>
                         </div>
                     </div>
-                </div> 
-                
-                <div class="five wide field" id="divValorAluguel">
-                    <label>Valor</label>
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="sltValor" id="sltValor">
-                        <div class="default text">Informe o Valor</div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <div class='item' data-value=0>Menos de R$500</div>
-                            <?php
-                            $i = 500;
-                            while ($i < 10000) {
-                                print "<div class='item' data-value=" .
-                                        $i . ">Entre R$" . number_format($i, 2, ',', '.') . " e R$" . number_format($i + 500, 2, ',', '.') . "</div>";
-                                $i = $i + 500;
-                            }
-                            ?>
-                            <div class='item' data-value=1000000>Mais de R$10.000</div>
+                </div>
+            </div>
+            <div class="ui center aligned column page grid padding-reset">
+                <div class="column">
+                    <div class="field">
+                        <div class="green ui icon button" id="btnBuscarAnuncioUsuario">
+                            <input type="hidden" id="hdUsuario" value="<?php echo $usuario->getId(); ?>">
+                            <i class="search icon"></i> 
+                            Filtrar
                         </div>
-                    </div>
-                </div> 
-                
-                <div class="three wide field">
-                    <br><br>
-                    <div class="ui toggle checkbox">
-                        <input type="checkbox" name="checkgaragem" id="checkgaragem">
-                        <label>Garagem</label>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="ui center aligned column page grid padding-reset">
-        <div class="column">
-            <div class="field">
-                <br>
-                <div class="green ui icon button" id="btnBuscarAnuncioUsuario">
-                    <input type="hidden" id="hdUsuario" value="<?php echo $usuario->getId() ;?>">
-                    <i class="search icon"></i> 
-                    PIP
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    </div> 
+
+    </tbody>
+
+    </table>
     
-    <?php
-        if ($anuncios) {
-                foreach ($anuncios["anuncio"] as $anuncio) { 
-    ?>
+    <div class="ui segment" id="divAnuncios"></div> <!-- Exibe os resultados dos anuncios-->
     
-   
-<form id="form" action="index.php" method="post" target='_blank'>
-    <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio"  />
-    <input type="hidden" id="hdnAcao" name="hdnAcao" value="detalhar" />
-    <input type="hidden" id="hdnCodAnuncio" name="hdnCodAnuncio" />
-    <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" />
-
-</form>
-<div id="load">
-    <div class="ui text loader">Loading</div>
-</div>     
     
-    <!--
-    <div class="panel panel-warning col-md-11"  id="<?php //echo $anuncio["idanuncio"];?>" >
-    <div class="panel-body">
-    <fieldset class="col-md-9">
-                        
-        <div data-row-span="1">
-        <input type="checkbox" id="selecoes_<?php //echo $anuncio["idanuncio"]; ?>" class="option" name="selecoes[]" value=<?php echo $idanuncio["idanuncio"]; ?>> Selecionar Imóvel   
-        </div>
-            
-        <div data-row-span="7">
-            <div data-field-span="2">
-                <label style="text-align: center">Título</label>
-                <?php //echo "<span class='label label-info'>" . strtoupper($anuncio["tituloanuncio"]) . "</span>"; ?>
-            </div>
-
-            <div data-field-span="1">
-                <label style="text-align: center">Tipo</label>
-                <?php //echo "<span class='label label-warning'>" . strtoupper($anuncio["tipo"]) . "</span>"; ?>
-            </div>
-
-            <div data-field-span="1">
-                <label style="text-align: center">Finalidade</label>
-                <?php //echo "<span class='label label-primary'>" . strtoupper($anuncio["finalidade"]) . "</span>"; ?>
-            </div>
-                    
-            <div data-field-span="1">
-                <label style="text-align: center">Quarto(s)</label>
-                <?php //echo $anuncio["quarto"]; ?>
-            </div>
-                    
-            <div data-field-span="1">
-                <label style="text-align: center">Área (em m<sup>2</sup>)</label>
-                <?php //echo $anuncio["area"]; ?>
-            </div>
-                    
-            <div data-field-span="1">
-                        <label style="text-align: center">Condição</label>
-                        <?php //echo strtoupper($anuncio["condicao"]); ?>
-                    </div>
-                </div>
-
-                <div data-row-span="7">
-                    <div data-field-span="3">
-                        <label style="text-align: center">Descrição</label>
-                        <?php //echo $anuncio["descricaoanuncio"]; ?>
-                    </div>
-                    <div data-field-span="1">
-                        <label style="text-align: center">Valor</label>
-                        R$ <?php //echo $anuncio["valormin"]; ?>
-                    </div>
-                    <div data-field-span="1">
-                        <label style="text-align: center">Banheiro(s)</label>
-                        <?php //echo $anuncio["banheiro"]; ?>
-                    </div>
-                    <div data-field-span="1">
-                        <label style="text-align: center">Garagem(ns)</label>
-                        <?php //echo $anuncio["garagem"]; ?>
-                    </div>
-                    <div data-field-span="1">
-                        <label style="text-align: center">Referência</label>
-                        <?php //echo "<span class='label label-info'>" . substr($anuncio->getImovel()->getDatahoracadastro(), 6, -9) . substr($anuncio->getImovel()->getDatahoracadastro(), 3, -14) . str_pad($anuncio->getImovel()->getId(), 5, "0", STR_PAD_LEFT) . "</span>"; ?>
-                    </div>
-                </div>
-
-                <div data-row-span="7">
-                    <div data-field-span="3" style="background-color: #e4fcff">
-                        <label style="text-align: center;">Endereço</label>
-                        <?php //echo $anuncio["logradouro"] . ", Nº " . $anuncio["numero"]; ?>
-                    </div>
-                    <div data-field-span="1">
-                        <label style="text-align: center">Cidade</label>
-                        <?php //echo $anuncio["cidade"]; ?>
-                    </div>
-                    <div data-field-span="1">
-                        <label style="text-align: center">Bairro</label>
-                        <?php //echo $anuncio["bairro"]; ?>
-                    </div>
-                    <div data-field-span="1">
-                        <label style="text-align: center">Suite(s)</label>
-                        <?php //echo $anuncio["suite"]; ?>
-                    </div>
-
-                </div>
-
-            </fieldset>-->
- 
-              
-        <?php } } else echo "<span class='text-info'><strong>Nenhum anuncio cadastrado</strong></span>";?>
-
-            </tbody>
-            
-        </table>
-     
+    
 </div>
 
-<div class="ui center aligned column page grid">
-</div>
-<div class="ui red segment" id="divAnuncios">  
-</div>
 <!-- Modal Para Abrir a Div do Enviar Anuncios por Email -->
 <div class="modal fade" id="divEmailModal" tabindex="-1" role="dialog" aria-labelledby="lblAnuncioModal" aria-hidden="true">
   <div class="modal-dialog">

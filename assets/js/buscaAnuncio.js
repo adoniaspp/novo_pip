@@ -189,7 +189,7 @@ function buscarAnuncioUsuario() {
             bairro: '',
             quarto: '',
             condicao: '',
-            id: $('#txtUsuario').val(),
+            id: $('#hdUsuario').val(),
             garagem: 'false'});
 
 
@@ -215,7 +215,55 @@ function buscarAnuncioUsuario() {
     });
 }
 
-function carregarAnuncio() {
+function carregarAnuncio(valor) {
+    
+    $(document).ready(function() {
+        
+    var selecionado = valor + 1;
+    
+    $('.special.cards .image').dimmer({
+            on: 'hover'
+        });
+    
+    $('.ui.checkbox')
+        .checkbox({ 
+        onChecked: function() { //ao clicar no anuncio, marcar de vermelho
+          $(this).closest('.card').attr("class","red card");            
+          selecionado = selecionado + 1;
+          
+          if(selecionado>0){
+              var botaoEmailComparar = ("<div class='ui buttons'><button class='ui button'>Enviar Por Email</button><div class='or' data-text='ou'></div><button class='ui positive button'>Comparar</button></div>");
+               $("#divBotoes").append(botaoEmailComparar);
+          } else if(selecionado <= 0){
+               $("#divBotoes").empty();
+          }
+          
+        },
+        onUnchecked: function() { //ao desmarcar o anuncio, tirar o vermelho
+          $(this).closest('.card').attr("class","card");  
+          
+          selecionado = selecionado - 1;
+        }}
+      );
+        
+    $("#spanValor").priceFormat({
+        prefix: 'R$ ',
+        centsSeparator: ',',
+        centsLimit: 0,
+        limit: 8,
+        thousandsSeparator: '.'
+    })
+    
+    $('.special.cards .image .button').on('click', function(){
+         $("#hdnCodAnuncio").val($(this).siblings().val());
+         $("#hdnTipoImovel").val($(this).siblings().next().val());
+        $('#form').submit();
+    })
+    
+    })
+}
+
+function carregarAnuncioUsuario() {
     
     $('.special.cards .image').dimmer({
             on: 'hover'
@@ -235,4 +283,3 @@ function carregarAnuncio() {
         $('#form').submit();
     })
 }
-
