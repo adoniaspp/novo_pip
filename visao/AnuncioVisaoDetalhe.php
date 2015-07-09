@@ -9,7 +9,7 @@
 <?php
 $item = $this->getItem();
 //echo '<pre>';
-//print_r($item);
+//print_r($item['anuncio'][0]['imagem']);
 //die();
 ?>
 <div class="container">
@@ -27,10 +27,9 @@ $item = $this->getItem();
                             </div>
                         </div>
                         <div class="fotorama" data-nav="thumbs" data-fit="cover" data-width="700" data-ratio="700/467" data-max-width="100%">
-                            <?php //foreach ($imagens as $imagem) { ?>
-                            <a href="<?php echo "http://localhost/fotos/5a04mq12btaqveua2pr7pai904/amostra04.jpg" ?>" data-caption="<?php echo "Casa" ?>" data-thumb="<?php echo "http://localhost/fotos/5a04mq12btaqveua2pr7pai904/thumbnail/amostra04.jpg" ?>"></a>
-                            <a href="<?php echo "http://localhost/fotos/5a04mq12btaqveua2pr7pai904/amostra04.jpg" ?>" data-caption="<?php echo "Casa" ?>" data-thumb="<?php echo "http://localhost/fotos/5a04mq12btaqveua2pr7pai904/thumbnail/amostra04.jpg" ?>"></a>
-                            <?php //} ?>
+                            <?php foreach ($item['anuncio'][0]['imagem'] as $imagem) { ?>
+                            <a href="<?php echo PIPURL . $imagem['diretorio'] ?>" data-caption="<?php echo $imagem['legenda'] ?>" data-thumb="<?php echo PIPURL . "/fotos/imoveis/teste1/thumbnail/foto1.jpg" ?>"></a>
+                            <?php } ?>
                         </div>
                         <!--                        <div class="ui info message">
                                                     <p> <?php echo $item['anuncio'][0]['descricaoanuncio'] ?></p>
@@ -128,96 +127,96 @@ $item = $this->getItem();
                                                 <div class="content">
                                                     Quartos
                                                     <div class="sub header">
-    <?php echo $item['anuncio'][0]['quarto'] ?>
+                                                        <?php echo $item['anuncio'][0]['quarto'] ?>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     <?php } ?>
-<?php if ($item['anuncio'][0]['tipo'] != 'terreno' && $item['anuncio'][0]['tipo'] != 'apartamentoplanta') { ?>
+                                    <?php if ($item['anuncio'][0]['tipo'] != 'terreno' && $item['anuncio'][0]['tipo'] != 'apartamentoplanta') { ?>
                                         <div class="column">
                                             <div class="ui header">
                                                 <i class="money icon"></i>
                                                 <div class="content">
                                                     Banheiros
                                                     <div class="sub header">
-    <?php echo $item['anuncio'][0]['banheiro'] ?>
+                                                        <?php echo $item['anuncio'][0]['banheiro'] ?>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     <?php } ?> 
-<?php if ($item['anuncio'][0]['tipo'] != 'apartamentoplanta') { ?>
+                                    <?php if ($item['anuncio'][0]['tipo'] != 'apartamentoplanta') { ?>
                                         <div class="column">
                                             <div class="ui header">
                                                 <i class="privacy icon"></i>
                                                 <div class="content">
                                                     Área
                                                     <div class="sub header">
-    <?php echo $item['anuncio'][0]['area'] . 'm' ?>
+                                                        <?php echo $item['anuncio'][0]['area'] . 'm' ?>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     <?php } ?> 
-<?php if ($item['anuncio'][0]['tipo'] == 'salacomercial') { ?>
+                                    <?php if ($item['anuncio'][0]['tipo'] == 'salacomercial') { ?>
                                         <div class="column">
                                             <div class="ui header">
                                                 <i class="privacy icon"></i>
                                                 <div class="content">
                                                     Condomínio
                                                     <div class="sub header">
-    <?php echo $item['anuncio'][0]['condominio'] ?>
+                                                        <?php echo $item['anuncio'][0]['condominio'] ?>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                <?php } ?>
+                                    <?php } ?>
                                 </div>
-<?php if ($item['anuncio'][0]['tipo'] != 'terreno') { ?>
+                                <?php if ($item['anuncio'][0]['tipo'] != 'terreno') { ?>
                                     <div class="ui divider"></div>
                                     <div class="ui stackable three column padded grid">
-    <?php if ($item['anuncio'][0]['tipo'] == 'apartamentoplanta') { ?>
+                                        <?php if ($item['anuncio'][0]['tipo'] == 'apartamentoplanta') { ?>
                                             <div class="column">
                                                 <div class="ui header">
                                                     <i class="privacy icon"></i>
                                                     <div class="content">
                                                         Numero de Torres
                                                         <div class="sub header">
-        <?php echo $item['anuncio'][0]['numerotorres'] ?>
+                                                            <?php echo $item['anuncio'][0]['numerotorres'] ?>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         <?php } ?>
-    <?php if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'] != 'apartamentoplanta') { ?>
+                                        <?php if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'] != 'apartamentoplanta') { ?>
                                             <div class="column">
                                                 <div class="ui header">
                                                     <i class="privacy icon"></i>
                                                     <div class="content">
                                                         Suites
                                                         <div class="sub header">
-        <?php echo $item['anuncio'][0]['suite'] ?>
+                                                            <?php echo $item['anuncio'][0]['suite'] ?>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         <?php } ?>
-    <?php if ($item['anuncio'][0]['tipo'] != 'apartamentoplanta') { ?>
+                                        <?php if ($item['anuncio'][0]['tipo'] != 'apartamentoplanta') { ?>
                                             <div class="column">
                                                 <div class="ui header">
                                                     <i class="car icon"></i>
                                                     <div class="content">
                                                         Garagem
                                                         <div class="sub header">
-        <?php echo $item['anuncio'][0]['garagem'] ?> 
+                                                            <?php echo $item['anuncio'][0]['garagem'] ?> 
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                    <?php } ?>       
+                                        <?php } ?>       
                                     </div>
-<?php } ?>    
+                                <?php } ?>    
                                 <div class="ui divider"></div>                              
                             </div>
                         </div> 
@@ -231,134 +230,188 @@ $item = $this->getItem();
                 </div>
             </div> 
         </div>
-        <div class="column">
-            <div class="ui segment">
-                <a class="ui yellow ribbon label">Plantas</a>
-                <div class="ui stackable one column padded grid">
-                    <div class="column"> 
-                    <div class="ui styled fluid accordion">
-                        <div class="active title">
-                            <i class="dropdown icon"></i>
-                            What is a dog?
-                        </div>
-                        <div class="active content">
-                            <p>A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.</p>
-                        </div>
-                        <div class="title">
-                            <i class="dropdown icon"></i>
-                            What kinds of dogs are there?
-                        </div>
-                        <div class="content">
-                            <p>There are many breeds of dogs. Each breed varies in size and temperament. Owners often select a breed of dog that they find to be compatible with their own lifestyle and desires from a companion.</p>
-                        </div>
-                        <div class="title">
-                            <i class="dropdown icon"></i>
-                            How do you acquire a dog?
-                        </div>
-                        <div class="content">
-                            <p>Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.</p>
-                            <p>A pet shop may be the most convenient way to buy a dog. Buying a dog from a private owner allows you to assess the pedigree and upbringing of your dog before choosing to take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog who may not find one so readily.</p>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div> 
-        </div>
-        <div class="column">
-            <div class="ui segment">
-                <a class="ui green ribbon label">Localização</a>
-                <div class="ui vertically padded page grid">
-                    <div class="ui two column centered row">
-                        <div class="column">
-<?php if ($item['anuncio'][0]['publicarmapa'] == "SIM") { ?>
-                                <div class="tab-pane fade" id="vernomapa">
-                                    <div class="row">
-                                        <form class="grid-form">
-                                            <div class="col-xs-12">
-                                                <div data-row-span="5">
-                                                    <div data-field-span="1">
-                                                        <label>Logradouro</label>
-    <?php echo $item['anuncio'][0]['logradouro'] ?>
-                                                    </div>
-                                                    <div data-field-span="1">
-                                                        <label>Número</label>
-    <?php echo $item['anuncio'][0]['numero'] ?>
-                                                    </div>
-                                                    <div data-field-span="1">
-                                                        <label>Bairro</label>
-    <?php echo $item['anuncio'][0]['bairro'] ?>
-                                                    </div>
-                                                    <div data-field-span="1">
-                                                        <label>Cidade</label>
-                                                        <?php echo $item['anuncio'][0]['cidade'] ?>
-                                                        <?php echo " - "; ?>
-    <?php echo $item['anuncio'][0]['estado']; ?>
-                                                    </div>
-                                                    <div data-field-span="1">
-                                                        <label>Complemento</label>
-    <?php echo $item['anuncio'][0]['complemento'] ?>
+        <?php if ($item['anuncio'][0]['tipo'] == 'apartamentoplanta') { ?>
+            <div class="column">
+                <div class="ui segment">
+                    <a class="ui yellow ribbon label">Plantas</a>
+                    <div class="ui stackable one column padded grid">
+                        <div class="column"> 
+                            <div class="ui styled fluid accordion">
+                                <?php
+                                foreach ($item['anuncio'][0]['plantas'] as $planta) {
+                                    ?>
+                                    <div class="active title">
+                                        <i class="dropdown icon"></i>
+                                        <?php echo $planta['tituloplanta'] ?>
+                                    </div>
+                                    <div class="active content">
+                                        <div class="ui six column stackable grid container"> 
+                                            <div class="column">
+                                                <img class="ui medium image" src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>"> 
+                                            </div>
+
+                                            <div class="column">  
+                                                <div class="ui header">
+                                                    <i class="privacy icon"></i>
+                                                    <div class="content">
+                                                        Quartos
+                                                        <div class="sub header">
+                                                            <?php echo $planta['quarto'] ?>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </form>
+                                            <div class="column"> 
+                                                <div class="ui header">
+                                                    <i class="privacy icon"></i>
+                                                    <div class="content">
+                                                        Suites
+                                                        <div class="sub header">
+                                                            <?php echo $planta['suite'] ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="column"> 
+                                                <div class="ui header">
+                                                    <i class="privacy icon"></i>
+                                                    <div class="content">
+                                                        Banheiros
+                                                        <div class="sub header">
+                                                            <?php echo $planta['banheiro'] ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="column"> 
+                                                <div class="ui header">
+                                                    <i class="privacy icon"></i>
+                                                    <div class="content">
+                                                        Garagem
+                                                        <div class="sub header">
+                                                            <?php echo $planta['garagem'] ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="column"> 
+                                                <div class="ui header">
+                                                    <i class="privacy icon"></i>
+                                                    <div class="content">
+                                                        Area
+                                                        <div class="sub header">
+                                                            <?php echo $planta['area'] ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
                                     </div>
-                                </div>
-<?php } ?>
+                                    <?php
+                                }
+                                ?>
+                            </div>
                         </div>
-                        <div class="column">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <div class="popin">
-                                        <div id="mapaModal"></div>
+                    </div> 
+                </div>
+            <?php } ?>
+            <div class="column">
+                <div class="ui segment">
+                    <a class="ui green ribbon label">Localização</a>
+                    <div class="ui vertically padded page grid">
+                        <div class="ui two column centered row">
+                            <div class="column">
+                                <?php if ($item['anuncio'][0]['publicarmapa'] == "SIM") { ?>
+                                    <div class="tab-pane fade" id="vernomapa">
+                                        <div class="row">
+                                            <form class="grid-form">
+                                                <div class="col-xs-12">
+                                                    <div data-row-span="5">
+                                                        <div data-field-span="1">
+                                                            <label>Logradouro</label>
+                                                            <?php echo $item['anuncio'][0]['logradouro'] ?>
+                                                        </div>
+                                                        <div data-field-span="1">
+                                                            <label>Número</label>
+                                                            <?php echo $item['anuncio'][0]['numero'] ?>
+                                                        </div>
+                                                        <div data-field-span="1">
+                                                            <label>Bairro</label>
+                                                            <?php echo $item['anuncio'][0]['bairro'] ?>
+                                                        </div>
+                                                        <div data-field-span="1">
+                                                            <label>Cidade</label>
+                                                            <?php echo $item['anuncio'][0]['cidade'] ?>
+                                                            <?php echo " - "; ?>
+                                                            <?php echo $item['anuncio'][0]['estado']; ?>
+                                                        </div>
+                                                        <div data-field-span="1">
+                                                            <label>Complemento</label>
+                                                            <?php echo $item['anuncio'][0]['complemento'] ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                            <div class="column">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="popin">
+                                            <div id="mapaModal"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
+                </div> 
+            </div>
+
+            <div class="column">
+                <div class="ui segment">
+                    <a class="ui red ribbon label">Contatos</a>
+                    <div class="ui stackable one column padded grid">
+                        <div class="column"> 
+                            <div class="ui relaxed divided items">
+                                <div class="item">
+                                    <div class="ui small image">
+                                        <img src="http://localhost/fotos/usuarios/b48c8744714a3ff987ed6b91a9035882.jpg">
+                                    </div>
+                                    <div class="content">
+                                        <a class="header"><?php echo $item['anuncio'][0]['nome'] ?></a>
+                                        <div class="description">
+                                            Telefone: (91)988219977
+                                        </div>
+                                        <div class="extra">
+                                            <div class="ui right floated primary button">
+                                                Envie uma mensagem
+                                                <i class="right mail outline icon"></i>
+                                            </div>
+                                            <a class="ui label">
+                                                <i class="mail icon"></i> <?php echo $item['anuncio'][0]['email'] ?>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                                
+                        </div>
+                    </div>
                 </div>
             </div> 
+            <div class="column"></div>
         </div>
-
-        <div class="column">
-            <div class="ui segment">
-                <a class="ui red ribbon label">Contatos</a>
-                <div class="ui stackable one column padded grid">
-                    <div class="column"> 
-                        <div class="ui relaxed divided items">
-                            <div class="item">
-                                <div class="ui small image">
-                                    <img src="http://localhost/fotos/usuarios/b48c8744714a3ff987ed6b91a9035882.jpg">
-                                </div>
-                                <div class="content">
-                                    <a class="header"><?php echo $item['anuncio'][0]['nome'] ?></a>
-                                    <div class="description">
-                                        Telefone: (91)988219977
-                                    </div>
-                                    <div class="extra">
-                                        <div class="ui right floated primary button">
-                                            Envie uma mensagem
-                                            <i class="right mail outline icon"></i>
-                                        </div>
-                                        <a class="ui label">
-                                            <i class="mail icon"></i> <?php echo $item['anuncio'][0]['email'] ?>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>                                
-                    </div>
-                </div>
-            </div>
-        </div> 
         <div class="column"></div>
     </div>
-    <div class="column"></div>
-</div>
 
 
-<!--    </div>-->
-<!--</div>-->
+    <!--    </div>-->
+    <!--</div>-->
 
 
 
