@@ -1,8 +1,17 @@
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.6/css/jquery.dataTables.css">
-<script src="assets/libs/DataTables-1.10.6/media/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
+<script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function () {
         $('.ui.accordion').accordion();
+
+        $('#tabela').DataTable({
+            "language": {
+                "url": "assets/libs/datatables/js/Portuguese-Brasil.json",
+            },
+            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
+            "stateSave": true
+        });
+
     })
 </script>
 <style>
@@ -170,8 +179,8 @@ $item = $this->getItem();
             } else {
                 ?> 
 
-                <table class="ui orange stackable table">
-                    <thead class="full-width">
+                <table class="ui orange stackable table" id="tabela">
+                    <thead>
                         <tr>
                             <th>Plano</th>
                             <th>Descrição</th>
