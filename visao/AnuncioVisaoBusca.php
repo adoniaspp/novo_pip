@@ -54,8 +54,8 @@ $item = $this->getItem();
                                     <!--                        Integração com redes sociais-->
                                     <div class="extra content">      
                                         <div class="ui checkbox">
-                                            <input type="checkbox" name="selecionarAnuncio[]" id="selecionarAnuncio_<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">
-                                            <label>Selecionar</label>
+                                            <input type="checkbox" name="selecionarAnuncio[]" id="selecionarAnuncio_<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>" value="<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">
+                                            <label id="idsAnuncios">Selecionar</label>
                                         </div>
                                     </div>
                                 </div>
@@ -68,10 +68,10 @@ $item = $this->getItem();
             </table>
         </div>
     </div>
-    <div id="divBotoes"></div>
     <div class="one wide column"></div>
 </div>
 </form>
+    <div id="divBotoes"></div>
 <div id="load">
     <div class="ui text loader">Loading</div>
 </div>  
