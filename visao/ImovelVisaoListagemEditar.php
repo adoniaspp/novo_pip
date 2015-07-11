@@ -6,126 +6,104 @@
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/js/jquery.price_format.min.js"></script>
 <script src="assets/js/mask.js"></script>
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.6/css/jquery.dataTables.css">
-<script src="assets/libs/DataTables-1.10.6/media/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
+<script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 
-
-<div class="container">
-    <div class="ui hidden divider"></div>
-    <div class="ui page grid main">
-        <div class="column">          
+<div class="ui column doubling grid container">
+    <div class="column">
+        <div class="ui large breadcrumb">
             <div class="ui large breadcrumb">
                 <a class="section" href="index.php">Início</a>
                 <i class="right chevron icon divider"></i>
-                <a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
+                <i class="block layout small icon"></i><a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
                 <i class="right chevron icon divider"></i>
-                <a class="active section">Imóveis Cadastrados</a>
+                <div class="active section"><i class="home small icon"></i>Imóveis Cadastrados</div>
             </div>
         </div>
     </div>
-    <div class="ui hidden divider"></div>
-
-    <table class="ui table" id="tabela">
+</div>
+<div class="ui middle aligned stackable grid container">
+    <div class="row">
+        <table class="ui green stackable table" id="tabela">
             <thead>
                 <tr>
-                    <th>Tipo</th>
-                    <th>Descrição</th>
-                    <th>Data Cadastro</th>
-                    <th>Detalhes</th>
-                    <th>Operações</th>
+                    <th class="three wide">Tipo</th>
+                    <th class="five wide">Descrição</th>
+                    <th class="three wide">Data Cadastro</th>
+                    <th class="five wide">Operações</th>
                 </tr>
             </thead>
             <tbody>
-                
-    <?php
-    /*
-    $params = array(
-    'mode'       => 'Sliding',
-    'perPage'    => 5,
-    'dela'       => 2,
-    'itemData'   => $this->getItem());
-    
-    $pager = & Pager::factory($params);
-    $data  = $pager->getPageData();
-         */   
-    Sessao::gerarToken(); 
-    /*echo "<pre>";
-    var_dump($this->getItem());
-    echo "</pre>";*/
-    foreach($this->getItem() as $imovel){ /*echo "<pre>"; var_dump($imovel);echo "</pre>";*/?>
-                
-               
-                
-               <tr>        
-        <?php
-                        
-        echo $imovel->buscarTipoImovel($imovel->getIdTipoImovel());
-        
-        if(trim($imovel->getIdentificacao()) == ""){
-            $descricao = "<h4 class='ui red header'>Não Informado</h4>";
-            
-        } else { $descricao = $imovel->getIdentificacao(); }
-        
-        echo "<td>".$descricao."</td>";
-                        
-        echo "<td>".$imovel->getDatahoracadastro()."</td>";
-                        
-        echo "<td><a href='#' class='ui teal button' id='detalhes".$imovel->getId()."' >Detalhes</div></td>" ;
-       
-        echo "<td>";
-        
-        if(count($imovel->getAnuncio())>0 && verificaAnuncioAtivo($imovel->getAnuncio())){echo"<div class='ui compact message'>Imóvel com Anúncio Ativo</div>";}
-          else {              
-             echo "<a href=index.php?entidade=Imovel&acao=selecionar&id=".$imovel->getId().'&token='.$_SESSION['token']."  id='editar".$imovel->getId()."'><div class='ui green button'>Editar</div></a>";             
-                if(count($imovel->getAnuncio())>0){echo"<div class='ui compact message'>Imóvel possui anúncio. Não é possível excluir</div>";}
-             else{
-             echo "<a href=index.php?entidade=Imovel&acao=excluir&id=".$imovel->getId().'&token='.$_SESSION['token']." id='excluir".$imovel->getId()."''><div class='ui red button'>Excluir</div></a>";}
-          }
-       
-          echo "</td>";
-          
-        }
-    ?>                    
-               </tr>         
+                <?php
+                Sessao::gerarToken();
+                foreach ($this->getItem() as $imovel) {
+                    ?>
+                    <tr>        
+                        <?php
+                        echo $imovel->buscarTipoImovel($imovel->getIdTipoImovel());
+
+                        if (trim($imovel->getIdentificacao()) == "") {
+                            $descricao = "<h4 class='ui red header'>Não Informado</h4>";
+                        } else {
+                            $descricao = $imovel->getIdentificacao();
+                        }
+
+                        echo "<td>" . $descricao . "</td>";
+
+                        echo "<td>" . $imovel->getDatahoracadastro() . "</td>";
+
+                        echo "<td> <a href='#' class='ui green button' id='detalhes" . $imovel->getId() . "' ><i class='ui home icon'></i>Detalhes</a>";
+
+                        if (count($imovel->getAnuncio()) > 0 && verificaAnuncioAtivo($imovel->getAnuncio())) {
+                            echo '<div class="ui compact positive message"><i class="large icons"><i class="announcement  icon"></i><i class="corner checkmark icon"></i></i> Anúncio Ativo</div>';
+                        } else {
+                            echo "<a href=index.php?entidade=Imovel&acao=selecionar&id=" . $imovel->getId() . '&token=' . $_SESSION['token'] . "  id='editar" . $imovel->getId() . "' class='ui teal button'><i class='ui edit icon'></i>Editar</a>";
+                            if (count($imovel->getAnuncio()) > 0) {
+                                echo"<div class='ui compact message'>Imóvel possui anúncio. Não é possível excluir</div>";
+                            } else {
+                                echo "<a href=index.php?entidade=Imovel&acao=excluir&id=" . $imovel->getId() . '&token=' . $_SESSION['token'] . " id='excluir" . $imovel->getId() . "' class='ui red button'><i class='ui trash icon'></i>Excluir</a>";
+                            }
+                        }
+
+                        echo "</td>";
+                    }
+                    ?>                    
+                </tr>         
             </tbody>
         </table>
-        <?php
-         /*   $links = $pager->getLinks();
-            echo ($links['all']!="" ? "&nbsp;&nbsp;&nbsp;&nbsp;Página: ".$links['all'] : ""); 
-         
-          */
-        ?>
     </div>
-    <div class="ui hidden divider"></div>  
-    
-<?php include_once "/modal/ImovelListagemModal.php"; 
+</div>
+<div class="ui hidden divider"></div>  
+
+<?php
+include_once "/modal/ImovelListagemModal.php";
 
 function verificaAnuncioAtivo($listaAnuncios) {
-   $temAnuncioAtivo = false;
-   if (count($listaAnuncios) > 1) {
-       foreach ($listaAnuncios as $anuncio) {
-           if ($anuncio->getStatus() == "cadastrado")
-               $temAnuncioAtivo = true;
-       }
-   } else {
-       if ($listaAnuncios->getStatus() == "cadastrado")
-           $temAnuncioAtivo = true;
-   }
-   return $temAnuncioAtivo;
+    $temAnuncioAtivo = false;
+    if (count($listaAnuncios) > 1) {
+        foreach ($listaAnuncios as $anuncio) {
+            if ($anuncio->getStatus() == "cadastrado")
+                $temAnuncioAtivo = true;
+        }
+    } else {
+        if ($listaAnuncios->getStatus() == "cadastrado")
+            $temAnuncioAtivo = true;
+    }
+    return $temAnuncioAtivo;
 }
-
 ?>
 
 <script>
-$('#tabela').dataTable({
-        "language": {
-            "url": "assets/libs/DataTables-1.10.6/media/js/pt.json",
-        },
-        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
-        "stateSave": true,
-        "columnDefs": [
-        { "orderable": false, "targets": 3 },
-        { "orderable": false, "targets": 4 }
-        ]
-    });
+    $(document).ready(function () {
+        $('#tabela').DataTable({
+            "language": {
+                "url": "assets/libs/datatables/js/Portuguese-Brasil.json",
+            },
+            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
+            "stateSave": true,
+            "columnDefs": [
+                {"orderable": false, "targets": 3}
+            ]
+        });
+    })
 </script>
