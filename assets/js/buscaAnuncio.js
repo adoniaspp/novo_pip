@@ -215,11 +215,11 @@ function buscarAnuncioUsuario() {
     });
 }
 
-function carregarAnuncio(valor) {
+function carregarAnuncio() { //valor = quantidade de anuncios
     
     $(document).ready(function() {
-        
-    var selecionado = valor + 1;
+  
+    var selecionado = 0;
     
     $('.special.cards .image').dimmer({
             on: 'hover'
@@ -230,19 +230,21 @@ function carregarAnuncio(valor) {
         onChecked: function() { //ao clicar no anuncio, marcar de vermelho
           $(this).closest('.card').attr("class","red card");            
           selecionado = selecionado + 1;
-          
-          if(selecionado>0){
-              var botaoEmailComparar = ("<div class='ui buttons'><button class='ui button'>Enviar Por Email</button><div class='or' data-text='ou'></div><button class='ui positive button'>Comparar</button></div>");
-               $("#divBotoes").append(botaoEmailComparar);
-          } else if(selecionado <= 0){
-               $("#divBotoes").empty();
-          }
-          
+          console.log(selecionado);
+          var botaoEmailComparar = ("<div class='ui buttons'><button class='ui button' type='submit' id='btnEmail'>Enviar Por Email</button><div class='or' data-text='ou'></div><button class='ui positive button'>Comparar</button></div>");
+ 
+            if(selecionado == 1){   
+            $("#divBotoes").append(botaoEmailComparar);
+            confirmarEmail();
+            }
         },
         onUnchecked: function() { //ao desmarcar o anuncio, tirar o vermelho
-          $(this).closest('.card').attr("class","card");  
+            $(this).closest('.card').attr("class","card");            
+            selecionado = selecionado - 1;
+            if(selecionado == 0){
+            $("#divBotoes").empty();
+          }
           
-          selecionado = selecionado - 1;
         }}
       );
         
@@ -282,4 +284,142 @@ function carregarAnuncioUsuario() {
          $("#hdnTipoImovel").val($(this).siblings().next().val());
         $('#form').submit();
     })
+}
+
+function confirmarEmail(){
+       $(document).ready(function() {  
+       
+       $('#btnEmail').click(function() {  
+       $("#idAnuncios").empty();
+           var arr = [];
+           $("input[type^='checkbox']:checked").each( function()
+                { $("#idAnuncios").append("<input type='hidden' name='anunciosSelecionados[]' value='"+$(this).val()+"'>");
+                    arr.push($(this).val())});
+           
+           //retira a vírgula do último elemento
+           var anuncios = arr.join(", ");
+
+           $("#idAnuncios").append("<div class='ui horizontal list'>\n\
+                                        <div class='item'>\n\
+                                        <div class='content'>\n\
+                                        <div class='header'>Anuncios Selecionados: </div>"+anuncios+"</div>\n\
+                         </div>\n\
+                         </div>\n\
+            <div class='ui hidden divider'></div>");
+
+           $('#modalEmail').modal({
+                        closable: true,
+                        transition: "fade up",
+                        onDeny: function() {
+                            return false;                           
+                        },
+                        onApprove: function() {
+                            $("#formEmail").submit();
+                        }
+                    }).modal('show');     
+        })
+    })
+}
+
+function enviarEmail() {
+    $(document).ready(function () {
+
+        $('#txtNomeEmail').maxlength({
+            alwaysShow: true,
+            threshold: 50,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+        $('#txtMsgEmail').maxlength({
+            alwaysShow: true,
+            threshold: 200,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+        $('#txtEmailEmail').maxlength({
+            alwaysShow: true,
+            threshold: 100,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+        $.validator.setDefaults({
+            ignore: [],
+            errorClass: 'errorField',
+            errorElement: 'div',
+            errorPlacement: function (error, element) {
+                error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).closest("div.field").addClass("error").removeClass("success");
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).closest(".error").removeClass("error").addClass("success");
+            }
+        });
+
+        $.validator.messages.required = 'Campo obrigatório';
+        $('#formEmail').validate({
+            onkeyup: false,
+            focusInvalid: true,
+            rules: {
+                
+                txtEmailEmail: {
+                    required: true
+                }
+            },
+
+            submitHandler: function (form) {
+                $.ajax({
+                    url: "index.php",
+                    dataType: "json",
+                    type: "POST",
+                    data: $('#formEmail').serialize(),
+
+                    success: function (resposta) {
+                        if (resposta.resultado == 1) {
+                            $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
+    <p>E-Mail enviado com Sucesso </p>\n\
+    ');
+                        } else {
+                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
+    <h2 class="ui header">Tente novamente mais tarde!</h2>\n\
+    <p>Houve um erro no processamento. </p>\n\
+    </div>');
+                        }
+                    }
+                })
+                return false;
+            }
+        })
+
+    });
+}
+
+function inserirAnuncioModal(){
+    
+    var idAnuncio;
+    
+    $('.ui.checkbox')
+        .checkbox({ 
+        onChecked: function() {      
+            idAnuncio = ("<input type='hidden' name='idAnuncio[]' id='idAnuncio'"+$(this)+">");
+            $("#divBotoes").append(idAnuncio);
+        },
+        onUnchecked: function() { 
+           // idAnuncio.remove();
+          
+        }})
+    
 }

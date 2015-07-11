@@ -1,5 +1,7 @@
 <script src="assets/js/buscaAnuncio.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
+<script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
+<script src="assets/libs/jquery/jquery.validate.min.js" type="text/javascript"></script>
 
 <script>
  
@@ -8,21 +10,13 @@
         buscarAnuncioUsuario();
         
         carregarAnuncioUsuario();
-       
         
+        enviarEmail();
+             
     })
 </script>
 
 <div class="container"> <!-- CLASSE QUE DEFINE O CONTAINER COMO FLUIDO (100%) --> 
-
-
-    <div id="btnEnviarEmail">
-        <button type="button" id="btnEnviarEmail" class="btn btn-default btn-sm" style="margin-left: 60px" 
-                data-toggle="modal" data-target="#divEmailModal" data-modal="<?php echo $anuncio->id; ?>" 
-                data-title="<?php echo $anuncio->tituloanuncio; ?>">
-            <span class="glyphicon glyphicon-plus-sign"></span> Enviar Email
-        </button>
-    </div>
      
     <?php 
     
@@ -317,56 +311,8 @@
     
 </div>
 
-<!-- Modal Para Abrir a Div do Enviar Anuncios por Email -->
-<div class="modal fade" id="divEmailModal" tabindex="-1" role="dialog" aria-labelledby="lblAnuncioModal" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-        <form role="form" id="formEmail">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="exampleModalLabel">Enviar Anúncio</h4>
-      </div>
-      <div class="modal-body">
-          <div id="alert" role="alert" class="alert alert-warning">
-                      Preencha os dados abaixo para realizar o envio, por e-mail, dos anúncios selecionados. 
-                    </div>
-                <br>
-<!--        <form role="form" id="formEmail">-->
-           <div class="form-group">
-            <label for="recipient-name" class="control-label">Nome:</label>
-            <input type="text" class="form-control" id="txtNome">
-          </div>
-          <div class="form-group">
-            <label for="recipient-name" class="control-label">E-mail:</label>
-            <input type="text" class="form-control" id="txtEmail" name="txtEmail">
-          </div>
-          <div class="form-group">
-            <label for="message-text" class="control-label">Mensagem:</label>
-            <textarea maxlength="200" class="form-control" id="txtMensagem"></textarea>
-          </div>
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button type="submit" id="btnEnviarEmailAnuncio" class="btn btn-primary">Enviar</button>
-      </div>
-            </form>
-    </div>
-  </div>
-</div>
-
-
-<div class="modal fade" id="divAnuncioModal" tabindex="-1" role="dialog" aria-labelledby="lblAnuncioModal" data-modal="" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div id="modal-body" class="modal-body text-center">
-                                        </div>
-                                    </div>
-                                </div>
-</div>
-    </form>
 <script>
-    $(document).ready(function() {
+  /*  $(document).ready(function() {
     $('[id^=btnAnuncioModal]').click(function() {
             $("#lblAnuncioModal").html("<span class='glyphicon glyphicon-bullhorn'></span> " + $(this).attr('data-title'));
             $("#modal-body").html('<img src="assets/imagens/loading.gif" /><h2>Aguarde... Carregando...</h2>');
@@ -400,6 +346,51 @@
         })
      
      });
-
+*/
 </script>
 
+<!-- Modal Para Abrir a Div do Enviar Anuncios por Email -->
+<div class="ui standart modal" id="modalEmail">
+    <i class="close icon"></i>
+    <div class="header">
+        Enviar Anuncio(s) por Email
+    </div>
+    <div class="content">
+        <div class="description">
+            <div class="ui piled segment">
+                <p id="textoConfirmacao"></p>
+               
+                <form class="ui form" id="formEmail" action="index.php" method="post">
+                <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio"  />
+                <input type="hidden" id="hdnAcao" name="hdnAcao" value="enviarEmail" />               
+                
+                    <div class="field">
+                        <label>Nome</label>
+                        <input name="txtNomeEmail" id="txtNomeEmail" placeholder="Digite Seu Nome" type="text" maxlength="50">
+                    </div>
+                    <div class="field">
+                        <label>Mensagem</label>
+                        <textarea rows="2" id="txtMsgEmail" name="txtMsgEmail" maxlength="200"></textarea>
+                    </div>
+                    <div class="field">
+                        <label>E-mail</label>
+                        <input name="txtEmailEmail"  id="txtEmailEmail" placeholder="Digite o email" type="text" maxlength="50">
+                    </div>
+                    
+                <div id="idAnuncios"></div>
+                
+                </form>
+
+            </div>
+            </div>
+        </div>
+    <div class="actions">
+        <div class="ui red button">
+            Cancelar
+        </div>
+        <div class="ui positive right labeled icon button">
+            Enviar
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>

@@ -5,7 +5,7 @@
 $item = $this->getItem();
 ?>
 <script>
-    carregarAnuncio(<?php echo count($item['anuncio']) ?>);
+    carregarAnuncio();
 </script>
 <form id="form" action="index.php" method="post" target='_blank'>
     <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio"  />
@@ -69,7 +69,7 @@ $item = $this->getItem();
         </div>
     </div>
     <div class="one wide column"></div>
-</div>
+
 </form>
     <div id="divBotoes"></div>
 <div id="load">
