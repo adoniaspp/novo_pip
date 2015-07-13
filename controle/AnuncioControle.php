@@ -123,6 +123,7 @@ class AnuncioControle {
         $parametros["atributos"] = "*";
         unset($parametros["hdnEntidade"]);
         unset($parametros["hdnAcao"]);
+        unset($parametros["tabela_length"]);
         $parametros["predicados"] = $parametros;
         //print_r($parametros);
        // die();
