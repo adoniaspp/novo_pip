@@ -355,7 +355,7 @@
     <div class="header">
         Enviar Anuncio(s) por Email
     </div>
-    <div class="content">
+    <div class="content" id="camposEmail">
         <div class="description">
             <div class="ui piled segment">
                 <p id="textoConfirmacao"></p>
@@ -380,19 +380,21 @@
                 <div id="idAnuncios"></div>
                 
                 </form>
-                
-                <div id="divRetorno"></div>
-                
+               
             </div>
             </div>
         </div>
+    <div id="divRetorno"></div>
     <div class="actions">
-        <div class="ui red button">
+        <div  id="botaoCancelarEmail" class="ui red deny button">
             Cancelar
         </div>
-        <div class="ui positive right labeled icon button">
+        <div  id="botaoEnviarEmail" class="ui positive right labeled icon button">
             Enviar
-            <i class="checkmark icon"></i>
+        <i class="checkmark icon"></i>
+        </div>
+        <div  id="botaoFecharEmail" class="ui red deny button">
+            Fechar
         </div>
     </div>
 </div>

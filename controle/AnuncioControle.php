@@ -268,9 +268,10 @@ class AnuncioControle {
         $genericoDAO->iniciarTransacao();
         $dadosEmail['destino'] = $parametros['txtEmailEmail'];
         $dadosEmail['contato'] = "PIP-Online";
-        $dadosEmail['assunto'] = "PIP-Online - Selecionou imóvel(is) para você";
+        $dadosEmail['assunto'] = utf8_decode("PIP-Online - Selecionou imóvel(is) para você");
         $dadosEmail['msg'] .= 'Veja o(s) imóvel(is) que ' . $parametros['txtNomeEmail'] .' indicou para você!<br><br>';
-
+        $dadosEmail['msg'] .= 'Mensagem: ' . $parametros['txtMsgEmail'];
+        
         foreach ($parametros['anunciosSelecionados'] as $idanuncio) {
 
             $item["anuncio"] = $genericoDAO->consultar(new Anuncio(), true, array("id" => $idanuncio));
@@ -348,8 +349,6 @@ class AnuncioControle {
     </tr></table> <br>';
 
         }
-  
-        var_dump();
 
         if (Email::enviarEmail($dadosEmail)) {
             $genericoDAO->commit();

@@ -290,6 +290,12 @@ function confirmarEmail(){
        $(document).ready(function() {  
        
        $('#btnEmail').click(function() {  
+       $("#camposEmail").show();    
+       $("#botaoEnviarEmail").show();
+       $("#botaoCancelarEmail").show();
+       $("#botaoFecharEmail").hide();
+       $("#divRetorno").empty();
+       
        $("#idAnuncios").empty();
            var arr = [];
            $("input[type^='checkbox']:checked").each( function()
@@ -306,24 +312,26 @@ function confirmarEmail(){
                          </div>\n\
                          </div>\n\
             <div class='ui hidden divider'></div>");
-
-           $('#modalEmail').modal({
+                   
+                $('#modalEmail').modal({
                         closable: true,
                         transition: "fade up",
-                        onDeny: function() {
-                            return false;                           
+                        onDeny: function() {                        
                         },
-                        onApprove: function() {
+                        onApprove: function() {                           
                             $("#formEmail").submit();
+                            return false; //deixar o modal fixo
                         }
-                    }).modal('show');     
+                }).modal('show'); 
+           
+               
         })
     })
 }
 
 function enviarEmail() {
     $(document).ready(function () {
-
+        $("#botaoFecharEmail").hide();
         $('#txtNomeEmail').maxlength({
             alwaysShow: true,
             threshold: 50,
@@ -393,17 +401,25 @@ function enviarEmail() {
                     dataType: "json",
                     type: "POST",
                     data: $('#formEmail').serialize(),
-
+                    
+                    beforeSend: function() {                      
+                        $("#botaoEnviarEmail").hide();
+                        $("#botaoCancelarEmail").hide();
+                        $("#camposEmail").hide();
+                        $("#divRetorno").html("<div><div class='ui active inverted dimmer'><div class='ui text loader'>Enviando Email. Aguarde...</div></div></div>");
+                    },
+                    
                     success: function (resposta) {
-                        if (resposta.resultado == 1) {
-                            $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
+                        $("#divRetorno").empty();
+                        $("#botaoCancelarEmail").hide();                       
+                        $("#botaoFecharEmail").show();
+                        if (resposta.resultado == 1) {                       
+                        $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
     <p>E-Mail enviado com Sucesso </p>\n\
     ');
                         } else {
                             $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-    <h2 class="ui header">Tente novamente mais tarde!</h2>\n\
-    <p>Houve um erro no processamento. </p>\n\
-    </div>');
+    <h2 class="ui header">Tente novamente mais tarde!</h2><p>Houve um erro no processamento. </p></div>');
                         }
                     }
                 })
