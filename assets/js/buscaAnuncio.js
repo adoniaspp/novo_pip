@@ -376,7 +376,14 @@ function enviarEmail() {
             rules: {
                 
                 txtEmailEmail: {
-                    required: true
+                    required: true,
+                    email: true
+                }
+            },
+            messages: {
+                txtEmailEmail: {
+                    required: "Email Inválido",
+                    email: "Informe um email válido"
                 }
             },
 

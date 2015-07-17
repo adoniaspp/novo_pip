@@ -71,7 +71,15 @@ $item = $this->getItem();
     <div class="one wide column"></div>
 
 </form>
-    <div id="divBotoes"></div>
+    
+
+
+<div class="ui one column centered grid">
+    <div class="four column centered row">
+        <div class="column" id="divBotoes"></div>
+    </div>
+</div>
+    
 <div id="load">
     <div class="ui text loader">Loading</div>
 </div>  
