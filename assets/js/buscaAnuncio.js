@@ -105,7 +105,7 @@ function buscarAnuncio() {
 
 function buscarAnuncioUsuario() {
     $(document).ready(function() {
-
+        
         $("#divCaracteristicas").hide();
         $("#divValorVenda").hide(); //oculta a div dos valores de venda 
         $("#divValorAluguel").hide(); //oculta a div dos valores de aluguel
@@ -230,7 +230,6 @@ function carregarAnuncio() { //valor = quantidade de anuncios
         onChecked: function() { //ao clicar no anuncio, marcar de vermelho
           $(this).closest('.card').attr("class","red card");            
           selecionado = selecionado + 1;
-          console.log(selecionado);
           var botaoEmailComparar = ("<div class='ui buttons'><button class='ui button' type='submit' id='btnEmail'>Enviar Por Email</button><div class='or' data-text='ou'></div><button class='ui positive button'>Comparar</button></div>");
  
             if(selecionado == 1){   
@@ -262,7 +261,55 @@ function carregarAnuncio() { //valor = quantidade de anuncios
         $('#form').submit();
     })
     
+     $("#hdnOrdTipoImovel").val($('#sltTipoImovel').val());
+       $("#hdnOrdValor").val($('#sltValor').val());
+       $("#hdnOrdFinalidade").val($('#sltFinalidade').val());
+       $("#hdnOrdIdcidade").val($('#sltCidade').val());
+       $("#hdnOrdIdbairro").val($('#sltBairro').val());
+       $("#hdnOrdQuarto").val($('#sltQuartos').val());
+       $("#hdnOrdCondicao").val($('#sltCondicao').val());
+       $("#hdnOrdGaragem").val($('#checkgaragem').parent().checkbox('is checked'));
+
+       $('#tabela').DataTable({
+           "language": {
+               "url": "assets/libs/datatables/js/Portuguese-Brasil.json",
+           },
+           "pageLength": 6,
+           "lengthMenu": [[6, 12, 18, 24, -1], [6, 12, 18, 24, "Todos"]],
+           "stateSave": true
+       });
+
+       $('.ui.dropdown')
+               .dropdown({
+                   on: 'hover'
+               });
+
+       $("#sltOrdenacao").change(function () {
+           $("#load").addClass('ui active inverted dimmer');
+           if ($('#hdnOrdTipoImovel').val() == "") {
+               tipoimovel = "todos";
+           } else {
+               tipoimovel = $('#sltTipoImovel').val();
+           }
+           $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
+               tipoImovel: tipoimovel,
+               valor: $('#hdnOrdValor').val(),
+               finalidade: $('#hdnOrdFinalidade').val(),
+               idcidade: $('#hdnOrdCidade').val(),
+               idbairro: $('#hdnOrdBairro').val(),
+               quarto: $('#hdnOrdQuartos').val(),
+               condicao: $('#hdnOrdCondicao').val(),
+               garagem: $('#hdnOrdcheckgaragem').val(),
+               ordem: $(this).val()}, function () {
+               $("#load").addClass('ui active inverted dimmer');
+           });
+           setTimeout(function () {
+               $('#load').removeClass("ui active inverted dimmer");
+           }, 1000);
+       });
+    
     })
+    
 }
 
 function carregarAnuncioUsuario() {
@@ -289,7 +336,12 @@ function carregarAnuncioUsuario() {
 function confirmarEmail(){
        $(document).ready(function() {  
        
-       $('#btnEmail').click(function() {  
+       $('#btnEmail').click(function() { 
+           if("#hdnMsgDuvida"){
+            $("#txtMsgEmail").rules("add", {
+                    required: true
+                });
+        }
        $("#camposEmail").show();    
        $("#botaoEnviarEmail").show();
        $("#botaoCancelarEmail").show();
@@ -323,7 +375,7 @@ function confirmarEmail(){
                             return false; //deixar o modal fixo
                         }
                 }).modal('show'); 
-           
+            
                
         })
     })
@@ -331,6 +383,9 @@ function confirmarEmail(){
 
 function enviarEmail() {
     $(document).ready(function () {
+         
+        
+         
         $("#botaoFecharEmail").hide();
         $('#txtNomeEmail').maxlength({
             alwaysShow: true,
@@ -379,10 +434,10 @@ function enviarEmail() {
 
         $.validator.messages.required = 'Campo obrigatório';
         $('#formEmail').validate({
+                 
             onkeyup: false,
             focusInvalid: true,
-            rules: {
-                
+            rules: {              
                 txtEmailEmail: {
                     required: true,
                     email: true
@@ -402,7 +457,7 @@ function enviarEmail() {
                     type: "POST",
                     data: $('#formEmail').serialize(),
                     
-                    beforeSend: function() {                      
+                    beforeSend: function() {    
                         $("#botaoEnviarEmail").hide();
                         $("#botaoCancelarEmail").hide();
                         $("#camposEmail").hide();

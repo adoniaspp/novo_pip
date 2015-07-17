@@ -1,7 +1,8 @@
 function slideAnuncio() {
 
     $(document).ready(function() {
-        $('.ui.accordion').accordion({active: false, collapsible: false});
+        
+        $('.ui.accordion').accordion();
         var options = {
             $ThumbnailNavigatorOptions: {
                 $Class: $JssorThumbnailNavigator$,
@@ -44,6 +45,8 @@ function slideAnuncio() {
 
     });
 }
+
+
 
 
 

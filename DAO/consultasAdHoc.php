@@ -13,12 +13,14 @@ class ConsultasAdHoc extends GenericoDAO {
                 unset($parametros['predicados'][$chave]);
             }
         }
-//        if (count($parametros['predicados']) == 1)
-//            $crtlPred = FALSE;
         if ($parametros['predicados']['valor'] >= 0) {
             $preco = $parametros['predicados']['valor'];
             unset($parametros['predicados']['valor']);
         }
+
+        $ordem = $parametros['predicados']['ordem'];
+        unset($parametros['predicados']['ordem']);
+        
         $garagem = $parametros['predicados']['garagem'];
         unset($parametros['predicados']['garagem']);
         if ($parametros['predicados']['quarto'] == 5) {
@@ -27,6 +29,8 @@ class ConsultasAdHoc extends GenericoDAO {
         }
         if (count($parametros['predicados']) == 0)
             $crtlPred = FALSE;
+        
+        
         /* Atributos da Consulta */
         $sql = 'SELECT ' . $parametros['atributos'];
         /* View da Consulta */
@@ -62,16 +66,29 @@ class ConsultasAdHoc extends GenericoDAO {
                     $sql = $sql . ' AND valormin > ' . $preco;
                 }
             }
-//            if ($garagem == 'true') {
-//                $sql = $sql . ' AND garagem > 0 ';
-//            }
+
             if ($quartos == 5) {
                 $sql = $sql . ' AND quarto >= 5 ';
             }
-        }//        var_dump($sql);
-//        die();
-//        var_dump($sql);
-//        die();
+            
+        }
+        if ($ordem) {
+                
+                $criterios = explode("_", $ordem);
+                if ($criterios[0] == 'preco') {
+                    $sql = $sql . ' ORDER BY valormin ';
+                } else if ($criterios[0] == 'recente') {
+                    $sql = $sql . ' ORDER BY datahoracadastro ';
+                }
+                if ($criterios[1] == 'maior' || $criterios[1] == 'mais') {
+                    $sql = $sql . ' DESC ';
+                }else if ($criterios[1] == 'menor' || $criterios[1] == 'menos') {
+                    $sql = $sql . ' ASC ';
+                }
+//                var_dump($sql);
+//                die();
+            }
+     
         $statement = $this->conexao->prepare($sql);
 
         foreach ($parametros['predicados'] as $chave => $valor) {
@@ -83,8 +100,7 @@ class ConsultasAdHoc extends GenericoDAO {
                 }
             }
         }
-//        var_dump($sql);
-//        die();
+
         $statement->execute();
         $resultado['anuncio'] = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -116,31 +132,37 @@ class ConsultasAdHoc extends GenericoDAO {
                 $sth->bindValue(':idimovel', $idsImoveis[$i]);
                 $sth->execute();
                 $imovel['diferenciais'] = $sth->fetchAll(PDO::FETCH_ASSOC);
-                if (count($imovel['diferenciais']) > 0) {
-                    $resultado['anuncio'][$i]['diferenciais'] = ($imovel['diferenciais']);
-                }
+//                if (count($imovel['diferenciais']) > 0) {
+//                    foreach ($imovel['diferenciais'] as $diferenciais){
+//                        $diferenciaisList = $diferenciais['descricao'];
+//                    }
+//                    echo '<pre>';
+//                    print_r($diferenciais);
+//                    die();
+//                    $resultado['anuncio'][$i]['diferenciais'] = ($imovel['diferenciais']);
+//                }
             }
 //            echo '<pre>';
 //            print_r($resultado['anuncio']);
 //            die();
         }
-        
+
         if (count($resultado['anuncio']) != 0) {
             $idsImoveis = array_column($resultado['anuncio'], 'idimovel');
             $tiposImoveis = array_column($resultado['anuncio'], 'tipo');
             for ($i = 0; $i < count($idsImoveis); $i++) {
                 if ($tiposImoveis[$i] == 'apartamentoplanta') {
-                $sth = $this->conexao->prepare("SELECT ordemplantas, tituloplanta, quarto, banheiro, suite, garagem, area, imagem FROM planta WHERE idimovel = :idimovel");
-                $sth->bindValue(':idimovel', $idsImoveis[$i]);
-                $sth->execute();
-                $imovel['plantas'] = $sth->fetchAll(PDO::FETCH_ASSOC);
-                if (count($imovel['plantas']) > 0) {
-                    $resultado['anuncio'][$i]['plantas'] = ($imovel['plantas']);
+                    $sth = $this->conexao->prepare("SELECT ordemplantas, tituloplanta, quarto, banheiro, suite, garagem, area, imagem FROM planta WHERE idimovel = :idimovel");
+                    $sth->bindValue(':idimovel', $idsImoveis[$i]);
+                    $sth->execute();
+                    $imovel['plantas'] = $sth->fetchAll(PDO::FETCH_ASSOC);
+                    if (count($imovel['plantas']) > 0) {
+                        $resultado['anuncio'][$i]['plantas'] = ($imovel['plantas']);
+                    }
                 }
-            }           
+            }
         }
-        }
-        
+
         if (count($resultado['anuncio']) != 0) {
             $idsUsuarios = array_column($resultado['anuncio'], 'id');
             for ($i = 0; $i < count($idsUsuarios); $i++) {
@@ -149,15 +171,11 @@ class ConsultasAdHoc extends GenericoDAO {
                 $sth->execute();
                 $usuario['telefone'] = $sth->fetchAll(PDO::FETCH_ASSOC);
                 if (count($usuario['telefone']) > 0) {
-                    $resultado['anuncio'][$i]['telefone'] = ($imovel['telefone']);
+                    $resultado['anuncio'][$i]['telefone'] = ($usuario['telefone']);
                 }
-            }           
+            }
         }
 
-//        echo '<pre>';
-//            print_r($resultado['anuncio']);
-//            die();
-            
         /* informacoes do tipo do imóvel */
         if (count($resultado['anuncio']) != 0) {
             $idsImoveis = array_column($resultado['anuncio'], 'idimovel');

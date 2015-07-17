@@ -124,9 +124,8 @@ class AnuncioControle {
         unset($parametros["hdnEntidade"]);
         unset($parametros["hdnAcao"]);
         unset($parametros["tabela_length"]);
+        unset($parametros["selecionarAnuncio"]);
         $parametros["predicados"] = $parametros;
-        //print_r($parametros);
-       // die();
         $listarAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
         $visao->setItem($listarAnuncio);
         $visao->exibir('AnuncioVisaoDetalhe.php');
@@ -272,8 +271,13 @@ class AnuncioControle {
         $dadosEmail['msg'] .= 'Veja o(s) imóvel(is) que ' . $parametros['txtNomeEmail'] .' indicou para você!<br><br>';
         $dadosEmail['msg'] .= 'Mensagem: ' . $parametros['txtMsgEmail'];
         
+        //Utilizado se for envio de e-mail para o correto através da tela de detalhes 
+        if($parametros['hdnAnuncio']){
+            $parametros['anunciosSelecionados'] = array($parametros['hdnAnuncio']);
+        }
+        
         foreach ($parametros['anunciosSelecionados'] as $idanuncio) {
-
+            
             $item["anuncio"] = $genericoDAO->consultar(new Anuncio(), true, array("id" => $idanuncio));
             
             $item["imovel"] = $genericoDAO->consultar(new Imovel(), false, array("id" => $item["anuncio"][0]->getIdImovel()));
