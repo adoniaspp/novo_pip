@@ -28,7 +28,7 @@ $item = $this->getItem();
     <div class="column">
         <div class="ui large breadcrumb">
             <div class="ui large breadcrumb">
-                <i class="home small icon"></i><a class="section" href="index.php">Início</a>
+                <a class="section" href="index.php">Início</a>
                 <i class="right chevron icon divider"></i>
                 <div class="active section"><i class="block layout small icon"></i>Meu PIP</div>
             </div>

@@ -12,31 +12,9 @@ $item = $this->getItem();
     <input type="hidden" id="hdnAcao" name="hdnAcao" value="detalhar" />
     <input type="hidden" id="hdnCodAnuncio" name="hdnCodAnuncio" />
     <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" />
-    <input type="hidden" id="hdnOrdTipoImovel" name="hdnOrdTipoImovel"/>
-    <input type="hidden" id="hdnOrdValor" name="hdnOrdValor"/>
-    <input type="hidden" id="hdnOrdFinalidade" name="hdnOrdFinalidade"/>
-    <input type="hidden" id="hdnOrdIdcidade" name="hdnOrdIdcidade"/>
-    <input type="hidden" id="hdnOrdIdbairro" name="hdnOrdIdbairro"/>
-    <input type="hidden" id="hdnOrdQuarto" name="hdnOrdQuarto"/>
-    <input type="hidden" id="hdnOrdCondicao" name="hdnOrdCondicao"/>
-    <input type="hidden" id="hdnOrdGaragem" name="hdnOrdGaragem"/>    
     <div class="ui center aligned three column page grid" id="resultadoBusca">
         <div class="sixteen wide column">
             <?php if (count($item['anuncio']) > 0) { ?>
-                <div class="ui right aligned">
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="sltOrdenacao" id="sltOrdenacao">
-                        <div class="default text">Escolha a ordem</div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <div class="item" data-value="preco_maior"><i class="ui chevron up icon"></i>Maior Preço</div>
-                            <div class="item" data-value="preco_menor"><i class="ui chevron down icon"></i>Menor Preço</div>
-                            <div class="item" data-value="recente_mais"><i class="ui chevron up icon"></i>Mais Recente</div>
-                            <div class="item" data-value="recente_menos"><i class="ui chevron down icon"></i>Menos Recente</div>
-                        </div>
-                    </div>
-                </div>
-            <?php } ?>
             <table id="tabela" class="ui very basic table stackable">
                 <thead>
                     <tr style="border: none !important">
@@ -88,6 +66,7 @@ $item = $this->getItem();
                     ?>
                 </tbody>
             </table>
+            <?php } ?>
         </div>
     </div>
     <div class="one wide column"></div>

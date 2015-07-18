@@ -201,8 +201,8 @@ function stepsSemPlanta() {
                 $("#step" + atual).hide();
                 $("#step" + proximo).show();
                 $("#hdnStep").val(proximo);
-                $("div[id^='menuStep']").removeClass();
-                $("div[id^='menuStep']").addClass("step");
+                $("#menuStep" + atual).removeClass();
+                $("#menuStep" + atual).addClass("completed step");
                 $("#menuStep" + proximo).addClass("active step");
                 if (proximo > 1)
                     $("div[id^='btnAnterior']").show();
@@ -229,8 +229,9 @@ function stepsSemPlanta() {
             $("#step" + atual).hide();
             $("#step" + anterior).show();
             $("#hdnStep").val(anterior);
-            $("div[id^='menuStep']").removeClass();
-            $("div[id^='menuStep']").addClass("step");
+            $("#menuStep" + atual).removeClass();
+            $("#menuStep" + atual).addClass("step");
+            $("#menuStep" + anterior).removeClass();
             $("#menuStep" + anterior).addClass("active step");
             $("div[id^='btnProximo']").show();
             if (anterior > 1)
@@ -320,8 +321,8 @@ function stepsComPlanta() {
                 $("#step" + atual).hide();
                 $("#step" + proximo).show();
                 $("#hdnStep").val(proximo);
-                $("div[id^='menuStep']").removeClass();
-                $("div[id^='menuStep']").addClass("step");
+                $("#menuStep" + atual).removeClass();
+                $("#menuStep" + atual).addClass("completed step");
                 $("#menuStep" + proximo).addClass("active step");
                 if (proximo > 1)
                     $("div[id^='btnAnterior']").show();
@@ -343,8 +344,9 @@ function stepsComPlanta() {
             $("#step" + atual).hide();
             $("#step" + anterior).show();
             $("#hdnStep").val(anterior);
-            $("div[id^='menuStep']").removeClass();
-            $("div[id^='menuStep']").addClass("step");
+            $("#menuStep" + atual).removeClass();
+            $("#menuStep" + atual).addClass("step");
+            $("#menuStep" + anterior).removeClass();
             $("#menuStep" + anterior).addClass("active step");
             $("div[id^='btnProximo']").show();
             if (anterior > 1)

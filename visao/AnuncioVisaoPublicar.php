@@ -16,9 +16,6 @@ if ($item) {
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/js/anuncio.js"></script>
-<!--<script src="assets/js/usuario.js"></script>-->
-
-
 <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
 <script src="assets/libs/fileupload/vendor/jquery.ui.widget.js"></script>
 <!-- The Templates plugin is included to render the upload/download listings -->
@@ -70,7 +67,6 @@ if ($item) {
                 minFileSize: 'Arquivo muito pequeno (0 MB)'
             }
         }).on('fileuploadadd', function (e, data) {
-
             //verificar se o fileInput eh o attachmentName
             //se for faz a logica do preview
             //e chama o preventdefault
@@ -80,22 +76,9 @@ if ($item) {
             if ($(input).attr("name") == "attachmentName[]") {
                 e.preventDefault();
             }
-
-
-//console.log(data);
-            // // Prevents the default dragover action of the File Upload widget
-
         }).on('fileuploadsubmit', function (e, data) {
             data.formData = $("#fileupload").serializeArray();
         }).on('fileuploadcompleted', function (e, data) {
-            /*$('input[type="radio"]').bootstrapSwitch('destroy');
-             $('input[type="radio"]').bootstrapSwitch();
-             $('input[type="radio"]').bootstrapSwitch('setOnLabel', 'Sim');
-             $('input[type="radio"]').bootstrapSwitch('setOffLabel', 'Não');
-             $('input[type="radio"]').bootstrapSwitch('setOffClass', 'danger');
-             $('input[type="radio"]').on('switch-change', function() {
-             $('input[type="radio"]').bootstrapSwitch('toggleRadioState');
-             });*/
             console.log(data);
             console.log('data');
             $('.ui.checkbox').checkbox();
@@ -138,94 +121,95 @@ if ($item) {
 <?php } ?>
 </script>
 
-
-<div class="ui segment">
-    <div class="ui hidden divider"></div>
-    <div class="ui page grid main">
-        <div class="column">
+<div class="ui column doubling grid container">
+    <div class="column">
+        <div class="ui large breadcrumb">
             <div class="ui large breadcrumb">
                 <a class="section" href="index.php">Início</a>
                 <i class="right chevron icon divider"></i>
-                <a class="section" href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
+                <i class="block layout small icon"></i><a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
                 <i class="right chevron icon divider"></i>
-                <a class="section" href="index.php?entidade=Anuncio&acao=listarCadastrar">Anúncios</a>
+                <i class="announcement small icon"></i><a href="index.php?entidade=Anuncio&acao=listarCadastrar">Anúncios</a>
                 <i class="right chevron icon divider"></i>
                 <?php if ($item["anuncio"]->getId() != "") { ?>
                     <a class="active section" href="index.php?entidade=Anuncio&acao=listarReativar">Reativar Anúncios</a>
                 <?php } else { ?>
                     <a class="active section" href="index.php?entidade=Anuncio&acao=listarCadastrar">Publicar Anúncio</a>
                 <?php } ?>
-
             </div>
         </div>
     </div>
-    <div class="ui hidden divider"></div>
-    <div class="ui page grid main">
-        <div class="row">
-            <div class="ui fluid small ordered steps">
-                <?php if ($tipoImovel == "apartamentoplanta") { ?>
-                    <div id="menuStep1" class="active step">
-                        <div class="content">
-                            <div class="title">Plano</div>
-                        </div>
+</div>
+
+
+<div class="ui middle aligned stackable grid container">
+    <div class="row">
+        <div class="ui fluid small ordered steps">
+            <?php if ($tipoImovel == "apartamentoplanta") { ?>
+                <div id="menuStep1" class="active step">
+                    <div class="content">
+                        <div class="title">Plano</div>
                     </div>
-                    <div id="menuStep2" class="step">
-                        <div class="content">
-                            <div class="title">Anúncio</div>
-                        </div>
+                </div>
+                <div id="menuStep2" class="step">
+                    <div class="content">
+                        <div class="title">Anúncio</div>
                     </div>
-                    <div id="menuStep3" class="step">
-                        <div class="content">
-                            <div class="title">Plantas</div>
-                        </div>
+                </div>
+                <div id="menuStep3" class="step">
+                    <div class="content">
+                        <div class="title">Plantas</div>
                     </div>
-                    <div id="menuStep4" class="step">
-                        <div class="content">
-                            <div class="title">Fotos</div>
-                        </div>
+                </div>
+                <div id="menuStep4" class="step">
+                    <div class="content">
+                        <div class="title">Fotos</div>
                     </div>
-                    <div id="menuStep5" class="step">
-                        <div class="content">
-                            <div class="title">Confirmação</div>
-                        </div>
+                </div>
+                <div id="menuStep5" class="step">
+                    <div class="content">
+                        <div class="title">Confirmação</div>
                     </div>
-                    <div id="menuStep6" class="step">
-                        <div class="content">
-                            <div class="title">Publicação</div>
-                        </div>
+                </div>
+                <div id="menuStep6" class="step">
+                    <div class="content">
+                        <div class="title">Publicação</div>
                     </div>
-                <?php } else { ?>
-                    <div id="menuStep1" class="active step">
-                        <div class="content">
-                            <div class="title">Plano</div>
-                        </div>
+                </div>
+            <?php } else { ?>
+                <div id="menuStep1" class="active step">
+                    <div class="content">
+                        <div class="title">Plano</div>
                     </div>
-                    <div id="menuStep2" class="step">
-                        <div class="content">
-                            <div class="title">Anúncio</div>
-                        </div>
+                </div>
+                <div id="menuStep2" class="step">
+                    <div class="content">
+                        <div class="title">Anúncio</div>
                     </div>
-                    <div id="menuStep4" class="step">
-                        <div class="content">
-                            <div class="title">Fotos</div>
-                        </div>
+                </div>
+                <div id="menuStep4" class="step">
+                    <div class="content">
+                        <div class="title">Fotos</div>
                     </div>
-                    <div id="menuStep5" class="step">
-                        <div class="content">
-                            <div class="title">Confirmação</div>
-                        </div>
+                </div>
+                <div id="menuStep5" class="step">
+                    <div class="content">
+                        <div class="title">Confirmação</div>
                     </div>
-                    <div id="menuStep6" class="step">
-                        <div class="content">
-                            <div class="title">Publicação</div>
-                        </div>
+                </div>
+                <div id="menuStep6" class="step">
+                    <div class="content">
+                        <div class="title">Publicação</div>
                     </div>
-                <?php } ?>
-            </div>
+                </div>
+            <?php } ?>
         </div>
-    </div>    <div class="ui hidden divider"></div>
-    <!--NAVEGAÇÃO-->
-    <div class="ui page grid main">
+    </div>
+</div>
+<div class="ui hidden divider"></div>
+<div class="ui middle aligned stackable grid container">
+    <div class="row">
+        <!--NAVEGAÇÃO-->
         <div class="ui basic right aligned segment">
             <div class="ui animated fade green button" id="detalhes<?php echo $idImovel; ?>">
                 <div class="visible content"><i class="home icon"></i> <?php echo ucfirst($tipoImovel) ?></div>
@@ -247,18 +231,22 @@ if ($item) {
             </div>
         </div>
     </div>
-    <div class="ui hidden divider"></div>
-    <form id="fileupload" class="form-horizontal" enctype="multipart/form-data">
-        <input type="hidden" id="hdnId" name="hdnId" value=""/>
-        <input type="hidden" id="hdnIdImovel" name="hdnIdImovel" value="<?php echo $idImovel; ?>" />
-        <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio" />
-        <input type="hidden" id="hdnAcao" name="hdnAcao" value="Cadastrar" />
-        <input type="hidden" id="hdnStep" name="hdnStep" value="1" />
-        <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
+</div>
 
-        <!--SELECIONE O PLANO-->
-        <div class="ui page grid main">
-            <div class="column" id="step1" class="">            
+<div class="ui hidden divider"></div>
+
+<form id="fileupload" class="form-horizontal" enctype="multipart/form-data">
+    <input type="hidden" id="hdnId" name="hdnId" value=""/>
+    <input type="hidden" id="hdnIdImovel" name="hdnIdImovel" value="<?php echo $idImovel; ?>" />
+    <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio" />
+    <input type="hidden" id="hdnAcao" name="hdnAcao" value="Cadastrar" />
+    <input type="hidden" id="hdnStep" name="hdnStep" value="1" />
+    <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
+
+    <div class="ui middle aligned stackable grid container">
+        <div class="row">
+            <!--SELECIONE O PLANO-->
+            <div class="sixteen wide column" id="step1" class="">            
                 <h3 class="ui dividing header">Escolha o plano a ser utilizado no seu anúncio</h3>
                 <div class="ui form segment">
                     <div class="fields">
@@ -297,10 +285,9 @@ if ($item) {
                     </div>
                 </div>
             </div>
-        </div>
-        <!--INFORMAÇÕES BÁSICAS-->
-        <div class="ui page grid main">        
-            <div class="column" id="step2">
+
+            <!--INFORMAÇÕES BÁSICAS-->
+            <div class="sixteen wide column" id="step2">
                 <h3 class="ui dividing header">Informações Básicas</h3>
                 <div class="ui form segment">
                     <div class="fields">
@@ -353,24 +340,20 @@ if ($item) {
                     </div>
                 </div>
             </div>
-        </div>
-        <?php
-        if ($tipoImovel == "apartamentoplanta") {
-            ?>
-            <!--PLANTAS-->
-            <div class="ui page grid main">        
-                <div class="column" id="step3">
+
+            <?php
+            if ($tipoImovel == "apartamentoplanta") {
+                ?>
+                <!--PLANTAS-->                 
+                <div class="sixteen wide column" id="step3">
                     <h3 class="ui dividing header">Informações Adicionais</h3>
                     <?php include_once 'AnuncioVisaoInformacoesAdicionais.php'; ?>
                 </div>
-            </div>
-            <?php
-        }
-        ?>
-
-        <!--FOTOS-->
-        <div class="ui page grid main">        
-            <div class="column" id="step4">
+                <?php
+            }
+            ?>
+            <!--FOTOS-->
+            <div class="sixteen wide column" id="step4">
                 <h3 class="ui dividing header">Fotos</h3>
                 <!-- Redirect browsers with JavaScript disabled to the origin page -->
                 <noscript><input type="hidden" name="redirect" value="index.php"></noscript>
@@ -499,10 +482,9 @@ if ($item) {
                 </script>
 
             </div>
-        </div> 
-        <!--CONFIRMAÇÃO-->
-        <div class="ui page grid main">        
-            <div class="column" id="step5">
+
+            <!--CONFIRMAÇÃO-->
+            <div class="sixteen wide column" id="step5">
                 <h3 class="ui dividing header">Confirmação</h3>
                 <div class="ui segment">
                     <div class="ui stackable ">
@@ -541,19 +523,22 @@ if ($item) {
                     </div>               
                 </div>
             </div>
-        </div>
-        <!--PUBLICAÇÃO-->
-        <div class="ui page grid main">        
-            <div class="column" id="step6">
+
+            <!--PUBLICAÇÃO-->
+            <div class="sixteen wide column" id="step6">
                 <h3 class="ui dividing header">Publicação</h3>
                 <div class="ui segment" id="divRetorno">
                     <p></p>
                 </div>
             </div>
+
         </div>
-    </form>
-    <!--NAVEGAÇÃO-->
-    <div class="ui page grid main">
+    </div>
+</form>
+<div class="ui hidden divider"></div>
+<!--NAVEGAÇÃO-->
+<div class="ui middle aligned stackable grid container">
+    <div class="row">
         <div class="ui basic center aligned segment">
             <div class="ui orange button" id="btnAnterior2"><i class="arrow left icon"></i> Anterior</div>
             <div class="ui button" id="btnCancelar">Cancelar</div>
@@ -561,6 +546,7 @@ if ($item) {
         </div>
     </div>
 </div>
+
 <!-- MODAIS -->
 <div class="ui small modal" id="modalCancelar">
     <i class="close icon"></i>
@@ -573,7 +559,7 @@ if ($item) {
         </div>
     </div>
     <div class="actions">
-        <div class="ui red button">
+        <div class="ui red deny button">
             Não
         </div>
         <div class="ui positive right labeled icon button">
