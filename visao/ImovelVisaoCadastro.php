@@ -361,7 +361,7 @@ Sessao::gerarToken();
         </div>
     </div>
     <div class="actions">
-        <div class="ui red button">
+        <div class="ui red deny button">
             Não
         </div>
         <div class="ui positive right labeled icon button">
@@ -384,7 +384,7 @@ Sessao::gerarToken();
         </div>
     </div>
     <div class="actions">
-        <div class="ui red button">
+        <div class="ui red deny button">
             Não
         </div>
         <div class="ui positive right labeled icon button">

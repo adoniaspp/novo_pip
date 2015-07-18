@@ -1102,7 +1102,6 @@ function confirmarCadastroImovel(){
                         closable: true,
                         transition: "fade up",
                         onDeny: function() {
-                            return false;
                         },
                         onApprove: function() {
                             $("#form").submit();

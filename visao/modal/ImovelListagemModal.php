@@ -367,7 +367,7 @@ foreach($this->getItem() as $modal){?>
     </div>
   </div>
   <div class="actions">
-    <div class="ui button">FECHAR</div>
+    <div class="ui deny button">FECHAR</div>
   </div>
   </div> 
   

@@ -156,7 +156,7 @@
                                     <div class="item" data-value="casa">Casa</div>
                                     <div class="item" data-value="apartamentoplanta">Apartamento na Planta/Novo</div>
                                     <div class="item" data-value="apartamento">Apartamento</div>
-                                    <div class="item" data-value="salacomercial">Sala Cormecial</div>
+                                    <div class="item" data-value="salacomercial">Sala Comercial</div>
                                     <div class="item" data-value="terreno">Terreno</div>
                                 </div>
                             </div>
