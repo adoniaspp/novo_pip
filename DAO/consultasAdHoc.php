@@ -100,7 +100,8 @@ class ConsultasAdHoc extends GenericoDAO {
                 }
             }
         }
-
+    //        var_dump($sql);
+    //                die();
         $statement->execute();
         $resultado['anuncio'] = $statement->fetchAll(PDO::FETCH_ASSOC);
 

@@ -35,8 +35,8 @@ echo "</pre>";*/
 <div class="ui hidden divider"></div>
 
 <form id="form" action="index.php" method="post" target='_blank'>
-    <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio"  />
-    <input type="hidden" id="hdnAcao" name="hdnAcao" value="detalhar" />
+    <input type="hidden" id="hdnEntidade" name="hdnEntidade"  />
+    <input type="hidden" id="hdnAcao" name="hdnAcao" />
     <input type="hidden" id="hdnCodAnuncio" name="hdnCodAnuncio" />
     <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" />
     <div class="ui center aligned three column page grid" id="resultadoBusca">
@@ -63,7 +63,7 @@ echo "</pre>";*/
                                                     <input type="hidden" id="anuncio<?php echo $item['anuncio'][$crtl]['id'] ?>"
                                                            value="<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>"/>
                                                     <input type="hidden" id="anuncio<?php echo $item['anuncio'][$crtl]['tipo'] ?>"
-                                                           value="<?php echo $item['anuncio'][$crtl]['tipo'] ?>"/>
+                                                           value="<?php echo $item['anuncio'][$crtl]['tipo'] ?>"/>                                                   
                                                 </div>
                                             </div>
                                         </div>

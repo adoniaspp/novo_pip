@@ -240,11 +240,16 @@ function carregarAnuncio() { //valor = quantidade de anuncios
                     onChecked: function () { //ao clicar no anuncio, marcar de vermelho
                         $(this).closest('.card').attr("class", "red card");
                         selecionado = selecionado + 1;
-                        var botaoEmailComparar = ("<div class='ui buttons'><button class='ui button' type='submit' id='btnEmail'>Enviar Por Email</button><div class='or' data-text='ou'></div><button class='ui positive button'>Comparar</button></div>");
+                        var botaoEmailComparar = ("<div class='ui buttons'><button class='ui button' type='submit' id='btnEmail'>Enviar Por Email</button><div class='or' data-text='ou'></div><button class='ui positive button' type='submit' id='btnComparar'>Comparar</button></div>");
 
                         if (selecionado == 1) {
                             $("#divBotoes").append(botaoEmailComparar);
                             confirmarEmail();
+                            $('#btnComparar').on('click', function () {
+                                $("#hdnEntidade").val("Anuncio");
+                                $("#hdnAcao").val("comparar");
+                                $('#form').submit();
+                            })
                         }
                     },
                     onUnchecked: function () { //ao desmarcar o anuncio, tirar o vermelho
@@ -268,9 +273,11 @@ function carregarAnuncio() { //valor = quantidade de anuncios
         $('.special.cards .image .button').on('click', function () {
             $("#hdnCodAnuncio").val($(this).siblings().val());
             $("#hdnTipoImovel").val($(this).siblings().next().val());
+            $("#hdnEntidade").val("Anuncio");
+            $("#hdnAcao").val("detalhar");
             $('#form').submit();
         })
-
+        
         $("#hdnOrdTipoImovel").val($('#sltTipoImovel').val());
         $("#hdnOrdValor").val($('#sltValor').val());
         $("#hdnOrdFinalidade").val($('#sltFinalidade').val());
