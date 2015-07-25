@@ -6,7 +6,7 @@ i.id as idimovel, i.condicao,
 ti.descricao as tipo,
 ca.quarto, ca.banheiro, ca.suite, ca.garagem, ca.area,
 en.cep, en.logradouro, en.numero, b.id as idbairro, b.nome as bairro, ci.id as idcidade, ci.nome as cidade, es.id as idestado, es.nome as estado, en.complemento,
-us.id, us.nome, us.tipousuario, us.email
+us.id, us.nome, us.tipousuario, us.email, us.foto
 FROM anuncio AS a RIGHT JOIN imovel as i
 ON a.idimovel = i.id
 LEFT JOIN usuario as us
@@ -33,7 +33,7 @@ i.id as idimovel, i.condicao,
 ti.descricao as tipo,
 app.id as idapartamento, app.andares, app.unidadesandar, totalunidades, numerotorres,
 en.cep, en.logradouro, en.numero, b.id as idbairro, b.nome as bairro, ci.id as idcidade, ci.nome as cidade, es.id as idestado, es.nome as estado, en.complemento,
-us.id, us.nome, us.tipousuario, us.email
+us.id, us.nome, us.tipousuario, us.email, us.foto
 FROM anuncio AS a RIGHT JOIN imovel as i
 ON a.idimovel = i.id
 LEFT JOIN usuario as us
@@ -60,7 +60,7 @@ i.id as idimovel, i.condicao,
 ti.descricao as tipo,
 ap.quarto, ap.suite, ap.banheiro, ap.garagem, ap.area, ap.sacada, ap.unidadesandar, ap.andar, ap.condominio, ap.cobertura,
 en.cep, en.logradouro, en.numero, b.id as idbairro, b.nome as bairro, ci.id as idcidade, ci.nome as cidade, es.id as idestado, es.nome as estado, en.complemento,
-us.id, us.nome, us.tipousuario, us.email
+us.id, us.nome, us.tipousuario, us.email, us.foto
 FROM anuncio AS a RIGHT JOIN imovel as i
 ON a.idimovel = i.id
 LEFT JOIN usuario as us
@@ -87,7 +87,7 @@ i.id as idimovel, i.condicao,
 ti.descricao as tipo,
 sl.area, sl.banheiro, sl.garagem, sl.condominio,
 en.cep, en.logradouro, en.numero, b.id as idbairro, b.nome as bairro, ci.id as idcidade, ci.nome as cidade, es.id as idestado, es.nome as estado, en.complemento,
-us.id, us.nome, us.tipousuario, us.email
+us.id, us.nome, us.tipousuario, us.email, us.foto
 FROM anuncio AS a RIGHT JOIN imovel as i
 ON a.idimovel = i.id
 LEFT JOIN usuario as us
@@ -114,7 +114,7 @@ i.id as idimovel, i.condicao,
 ti.descricao as tipo,
 t.area,
 en.cep, en.logradouro, en.numero, b.id as idbairro, b.nome as bairro, ci.id as idcidade, ci.nome as cidade, es.id as idestado, es.nome as estado, en.complemento,
-us.id, us.nome, us.tipousuario, us.email
+us.id, us.nome, us.tipousuario, us.email, us.foto
 FROM anuncio AS a RIGHT JOIN imovel as i
 ON a.idimovel = i.id
 LEFT JOIN usuario as us
@@ -140,7 +140,7 @@ a.status, a.valorvisivel, a.publicarmapa, a.publicarcontato, a.valormin, a.datah
 i.id as idimovel, i.condicao,
 ti.descricao as tipo,
 en.cep, en.logradouro, en.numero, b.id as idbairro, b.nome as bairro, ci.id as idcidade, ci.nome as cidade, es.id as idestado, es.nome as estado, en.complemento,
-us.id, us.nome, us.tipousuario, us.email
+us.id, us.nome, us.tipousuario, us.email, us.foto
 FROM anuncio AS a RIGHT JOIN imovel as i
 ON a.idimovel = i.id
 LEFT JOIN usuario as us
