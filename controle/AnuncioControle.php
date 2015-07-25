@@ -195,6 +195,7 @@ class AnuncioControle {
         }
     }
 
+
     function cadastrar($parametros) {
         if (Sessao::verificarSessaoUsuario()) {
             if (isset($parametros['upload']) & $parametros['upload'] === "1") {
@@ -218,22 +219,25 @@ class AnuncioControle {
                         $entidadeUsuarioPlano->setStatus("utilizado");
                         $genericoDAO->editar($entidadeUsuarioPlano);
                     }
-
+                    /*
+                    //se for apartamento na planta
+                    if($_SESSION["anuncio"]["tipoimovel"]==2){
+                        $valor = new Valor();
+                        $valor->setIdanuncio($idAnuncio);
+                        $valor->setIdplantaapartamentonovo($idplantaapartamentonovo);
+                        
+                            $idValor = $genericoDAO->cadastrar($entidadeValor);
+                        }
+                    }
+                    */
+                    //somente salva fotos se houver
                     if (isset($_SESSION["imagem"])) {
                         foreach ($_SESSION["imagem"] as $file) {
                             $imagem = new Imagem();
                             $entidadeImagem = $imagem->cadastrar($file, $idAnuncio, $parametros["rdbDestaque"]);
                             $idImagem = $genericoDAO->cadastrar($entidadeImagem);
                         }
-                    } else {
-                        $imagem = new Imagem();
-                        $file->url = PIPURL . "/assets/imagens/foto_padrao.png";
-                        $file->legenda = "";
-                        $file->name = "padrao";
-                        $entidadeImagem = $imagem->cadastrar($file, $idAnuncio, "padrao");
-                        $idImagem = $genericoDAO->cadastrar($entidadeImagem);
                     }
-
                     //visao
                     if ($idAnuncio) {
                         $genericoDAO->commit();
@@ -250,15 +254,28 @@ class AnuncioControle {
     }
 
     private function verificaValorMinimo($anuncio, $parametros) {
+        $valorMinimo = 0;
         switch ($_SESSION["anuncio"]["tipoimovel"]) {
             case 1://casa
             case 3://apartamento
             case 4://sala comercial
             case 5://predio comercial
             case 6://terreno
-                $anuncio->setValormin($parametros["txtValor"]);
+                $valorMinimo = $parametros["txtValor"];
                 break;
+            case 2://apartamento na planta
+                $plantas = array("hdnValor0","hdnValor1","hdnValor2","hdnValor3","hdnValor4","hdnValor5");
+                $menor = array();
+                foreach ($plantas as $planta) {
+                    if(isset($parametros[$planta])){
+                        $menor[] = min($parametro[$planta]);
+                    }
+                }
+                $valorMinimo = min($menor);
+                break;
+                
         }
+        $anuncio->setValormin($valorMinimo);
     }
     
     function buscarAnuncioCorretor($parametros) {
