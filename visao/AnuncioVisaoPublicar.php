@@ -315,19 +315,19 @@ if ($item) {
                     <div class="three fields">
                         <div class="field">
                             <div class="ui toggle checkbox">
-                                <input name="chkValor" id="chkValor" type="radio" value="SIM">
+                                <input name="chkValor" id="chkValor" type="checkbox" value="SIM">
                                 <label>Deseja informar um valor para o imóvel?</label>
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui toggle checkbox">
-                                <input name="chkMapa" id="chkMapa" type="radio" value="SIM">
+                                <input name="chkMapa" id="chkMapa" type="checkbox" value="SIM">
                                 <label>Exibir o mapa do endereço?</label>
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui toggle checkbox">
-                                <input name="chkContato" id="chkContato" type="radio" value="SIM">
+                                <input name="chkContato" id="chkContato" type="checkbox" value="SIM">
                                 <label>Exibir suas informações de contato?</label>
                             </div>
                         </div>

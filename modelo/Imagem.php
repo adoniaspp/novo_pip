@@ -18,6 +18,9 @@ class Imagem {
     private $diretorio;
     private $legenda;
     private $destaque;
+    private $nome;
+    private $tipo;
+    private $tamanho;
 
     public function getDestaque() {
         return $this->destaque;
@@ -58,6 +61,30 @@ class Imagem {
     public function setLegenda($legenda) {
         $this->legenda = $legenda;
     }
+    
+    public function getNome() {
+        return $this->nome;
+    }
+
+    public function getTipo() {
+        return $this->tipo;
+    }
+
+    public function getTamanho() {
+        return $this->tamanho;
+    }
+
+    public function setNome($nome) {
+        $this->nome = $nome;
+    }
+
+    public function setTipo($tipo) {
+        $this->tipo = $tipo;
+    }
+
+    public function setTamanho($tamanho) {
+        $this->tamanho = $tamanho;
+    }
 
     public function cadastrar($file,$idanuncio,$destaque) {
         $imagem = new Imagem();
@@ -65,6 +92,9 @@ class Imagem {
         $imagem->setDiretorio($file->url);
         $imagem->setLegenda($file->legenda);
         $imagem->setDestaque(($destaque == $file->name)?"SIM":"NÃO");
+        $imagem->setNome($file->name);
+        $imagem->setTipo($file->type);
+        $imagem->setTamanho($file->size);
         return $imagem;
     }
 

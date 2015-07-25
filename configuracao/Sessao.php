@@ -74,6 +74,18 @@ class Sessao {
     public static function configurarSessaoImagem($acao, $nome, $dados = NULL) {
         if ($acao == "inserir") {
             $_SESSION["imagem"][$nome] = $dados;
+            /*
+            [name] => DSC08956.JPG
+            [size] => 2305002
+            [type] => image/jpeg
+            [legenda] => cidade
+            [idImagem] => 
+            [url] => http://localhost:8080/fotos/imoveis/0u3at2hns031qqj5b82c9thuh4/DSC08956.JPG
+            [thumbnailUrl] => http://localhost:8080/fotos/imoveis/0u3at2hns031qqj5b82c9thuh4/thumbnail/DSC08956.JPG
+            [deleteUrl] => http://localhost:8080/?file=DSC08956.JPG
+            [deleteType] => DELETE
+            [id] => 
+            */
         }
 
         if ($acao == "excluir") {

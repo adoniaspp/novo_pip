@@ -15,8 +15,8 @@ class ImagemControle extends UploadHandler {
             'user_dirs' => true,
             //'download_via_php' => true,
             'accept_file_types' => '/\.(gif|jpe?g|png)$/i',
-            'upload_dir' => dirname($_SERVER["SCRIPT_FILENAME"]) . '/fotos/',
-            'upload_url' => dirname($_SERVER["HTTP_REFERER"]) . '/fotos/',
+            'upload_dir' => dirname($_SERVER["SCRIPT_FILENAME"]) . '/fotos/imoveis/',
+            'upload_url' => dirname($_SERVER["HTTP_REFERER"]) . '/fotos/imoveis/',
         ), true,array(
         1 => 'Erro Upload COD01',
         2 => 'Erro Upload COD02',

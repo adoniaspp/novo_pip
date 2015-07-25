@@ -136,7 +136,7 @@ function cadastrarAnuncio() {
                     },
                     success: function (resposta) {
                         $("div[id^='step']").hide();
-                        $("#step5").show();
+                        $("#step6").show();
                         if (resposta.resultado == 1) {
                             $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
     <h2 class="ui header">Obrigado!</h2>\n\
