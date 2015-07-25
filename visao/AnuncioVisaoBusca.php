@@ -1,12 +1,39 @@
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
+
 <script>
     carregarAnuncio();
+    
+    <?php 
+    $item = $this->getItem();
+    
+    foreach ($item["anuncio"] as $buscaAnuncio){
+    
+    ?>
+        
+    marcarMapa("<?php echo $buscaAnuncio["logradouro"]?>", "<?php echo $buscaAnuncio["numero"]?>", "<?php echo $buscaAnuncio["bairro"]?>", "<?php echo $buscaAnuncio["tituloanuncio"]?>", "<?php echo $buscaAnuncio["valormin"]?>", "<?php echo $buscaAnuncio["finalidade"]?>", "600", "350", 11);    
+    
+    <?php 
+    }
+    ?>
+ 
 </script>
 <?php
-$item = $this->getItem();
+
+
+/*echo "<pre>";
+var_dump($item["anuncio"]);
+echo "</pre>";*/
+
 ?>
+
+<div class="ui center aligned column page grid">
+<div id="mapaGmapsBusca"></div>
+</div>
+
+<div class="ui hidden divider"></div>
+
 <form id="form" action="index.php" method="post" target='_blank'>
     <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio"  />
     <input type="hidden" id="hdnAcao" name="hdnAcao" value="detalhar" />

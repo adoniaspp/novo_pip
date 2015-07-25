@@ -1,7 +1,10 @@
 <script src="assets/js/buscaAnuncio.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 <script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
-<script src="assets/libs/jquery/jquery.validate.min.js" type="text/javascript"></script>
+<script src="assets/libs/jquery/jquery.validate.min.js"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=false&amp;language=pt"></script>
+<script src="assets/libs/gmaps/gmap3.min.js"></script>
+
 
 <script>
  
@@ -22,24 +25,14 @@
     
     $item = $this->getItem();
     
-    /*echo "<pre>";
-    var_dump($item);
-    echo "</pre>";*/
-    
     $usuario = $item["usuario"][0];
     $cidadeEstado = $item["cidadeEstado"][0];
     $anuncios = $item["anuncio"];
     $diferenciais = $item["diferenciais"];
-    
-    
-    if (count($item['anuncio']) == 1) {
-    $linhas = 1;
-    $ultimaLinha = 1;
-} else {
-    $itens = count($item['anuncio']);
-    $linhas = round($itens / 3);
-    $ultimaLinha = $itens - (($linhas-1) * 3);
-}
+        
+    /*echo"<pre>";
+    var_dump($anuncios);
+    echo"</pre>"; die();*/
     
     
     if($usuario->getEndereco()->getNumero() != "" && $usuario->getEndereco()->getComplemento() != ""){
@@ -61,30 +54,29 @@
     ?>
     
     
-    <div class="ui two column centered page grid">        
+    <div class="ui three column centered page grid">        
     
-     <div class="ten wide column">
+     <div class="twelve wide column">
         
       <div class="ui form segment">
           
         <div class="ui two stackable padded grid">
-            
-            <div class="twelve wide column">
-                
+            <a class="ui teal ribbon label">Informações <?php if ($usuario->getTipoUsuario() == "pf") {
+                                echo "do Vendedor";
+                            } else echo "da Empresa"; ?></a> 
+            <div class="thirteen wide column">
+               
                 <div class="fields">
                     
-                        <div class="eight wide field">
-                            <a class="ui teal ribbon label">Informações <?php if ($usuario->getTipoUsuario() == "pf") {
-                                echo "do Vendedor";
-                            } else echo "da Empresa"; ?></a>
-                            <label>Nome</label>
-                       <?php echo strtoupper($usuario->getNome()); ?> <br />
-                            <label>Endereço</label>
-                      <?php echo $endereco . " - "; ?>
-                      <?php echo strtoupper($cidadeEstado->getCidade()->getNome()) . ", " . strtoupper($cidadeEstado->getEstado()->getUf()); ?>
-                        </div>
-                    
-                    <div class="two wide field"></div>
+                    <div class="eight wide field">
+                            
+                        <label>Nome</label>
+                        <?php echo strtoupper($usuario->getNome()); ?> <br />
+                        <label>Endereço</label>
+                        <?php echo $endereco . " - "; ?>
+                        <?php echo strtoupper($cidadeEstado->getCidade()->getNome()) . ", " . strtoupper($cidadeEstado->getEstado()->getUf()); ?>
+                    </div>
+
                     <br>
                     <div class="six wide field">
                         <label>Tipo de Pessoa</label>
@@ -102,22 +94,24 @@
                             <?php } else echo strtoupper($usuario->getTelefone()->getOperadora()) . " - " . strtoupper($usuario->getTelefone()->getNumero()); ?>  
                       
                     </div>
-                    
-                </div>    
-                               
-                </div>
-                <div class="three wide column">
-                    <div class="ui horizontal segment">
+                   
+                    <div class="four centered wide fields">
 
                         <?php if ($usuario->getFoto() != "") { ?>
-                            <img width="120px" height="120px" src="<?php echo PIPURL ?>/fotos/usuarios/<?php echo $usuario->getFoto(); ?>" >
+                        <img width="120px" height="120px" src="<?php echo PIPURL ?>/fotos/usuarios/<?php echo $usuario->getFoto(); ?>" style="" >
 
                         <?php } else { ?>
                             <img src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" class="img-circle" width="120px" height="120px">
                         <?php } ?>
 
                 </div>
-             </div>
+                    
+                </div>    
+                
+                
+                
+                </div>
+                
           </div>
         </div>
       </div>
@@ -305,6 +299,11 @@
 
     </table>
     
+    <div class="ui hidden divider"></div>
+    <div class="ui hidden divider"></div>
+    
+    <div class="ui hidden divider"></div>
+    
     <div class="ui segment" id="divAnuncios"></div> <!-- Exibe os resultados dos anuncios-->
     
     
@@ -347,7 +346,9 @@
      
      });
 */
+
 </script>
+
 
 <!-- Modal Para Abrir a Div do Enviar Anuncios por Email -->
 <div class="ui standart modal" id="modalEmail">

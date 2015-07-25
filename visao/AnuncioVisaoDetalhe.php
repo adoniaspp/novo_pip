@@ -5,19 +5,27 @@
 <script src="assets/libs/fotorama/fotorama.js"></script> 
 <script src="assets/js/anuncioDetalhe.js"></script>
 <script src="assets/js/buscaAnuncio.js"></script>
-
-<script>
-    confirmarEmail();
-    enviarEmail();
-    slideAnuncio();
-</script>
+<script src="assets/libs/gmaps/gmap3.min.js"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=false&amp;language=pt"></script>
 
 <?php
 $item = $this->getItem();
-//echo '<pre>';
-//print_r($item['anuncio'][0]['diferenciais']);
-//die();
+/*echo '<pre>';
+print_r($item['anuncio']);
+die();*/
 ?>
+
+<script>
+    marcarMapa("<?php echo $item["anuncio"][0]["logradouro"]?>", "<?php echo $item["anuncio"][0]["numero"]?>", "<?php echo $item["anuncio"][0]["bairro"]?>", "<?php echo $item["anuncio"][0]["tituloanuncio"]?>", "<?php echo $item["anuncio"][0]["valormin"]?>", "<?php echo $item["anuncio"][0]["finalidade"]?>", "500", "300", 10);
+    confirmarEmail();
+    enviarEmail();
+    slideAnuncio();
+
+</script>
+
+
+
+
 <div class="container">
 
     <div class="ui one column centered page grid">
@@ -331,54 +339,47 @@ if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'
                 </div>
             </div>
 <?php } ?>
+        
         <div class="column">
             <div class="ui segment">
                 <a class="ui green ribbon label">Localização</a>
                 <div class="ui vertically padded page grid">
                     <div class="ui two column centered row">
                         <div class="column">
-<?php if ($item['anuncio'][0]['publicarmapa'] == "SIM") { ?>
-                                <div class="tab-pane fade" id="vernomapa">
+                                <?php if ($item['anuncio'][0]['publicarmapa'] == "SIM") { ?>
+
                                     <div class="row">
-                                        <form class="grid-form">
-                                            <div class="col-xs-12">
+
                                                 <div data-row-span="5">
                                                     <div data-field-span="1">
-                                                        <label>Logradouro</label>
+                                                        <label>Endereço: </label>
                                                         <?php echo $item['anuncio'][0]['logradouro'] ?>
                                                     </div>
                                                     <div data-field-span="1">
-                                                        <label>Número</label>
+                                                        <label>Nº - </label>
                                                         <?php echo $item['anuncio'][0]['numero'] ?>
                                                     </div>
                                                     <div data-field-span="1">
-                                                        <label>Bairro</label>
+                                                        <label>Bairro: </label>
                                                         <?php echo $item['anuncio'][0]['bairro'] ?>
                                                     </div>
                                                     <div data-field-span="1">
-                                                        <label>Cidade</label>
-    <?php echo $item['anuncio'][0]['cidade'] ?>
+                                                        <label>Cidade: </label>
+                                                    <?php echo $item['anuncio'][0]['cidade'] ?>
                                                         <?php echo " - "; ?>
                                                         <?php echo $item['anuncio'][0]['estado']; ?>
                                                     </div>
                                                     <div data-field-span="1">
-                                                        <label>Complemento</label>
-    <?php echo $item['anuncio'][0]['complemento'] ?>
+                                                        <label>Complemento: </label>
+                                                    <?php echo $item['anuncio'][0]['complemento'] ?>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </form>
                                     </div>
-                                </div>
-<?php } ?>
+                        <?php } ?>
                         </div>
                         <div class="column">
                             <div class="row">
-                                <div class="col-xs-12">
-                                    <div class="popin">
-                                        <div id="mapaModal"></div>
-                                    </div>
-                                </div>
+                                <div id="mapaGmapsBusca"></div>
                             </div>
                         </div>
                     </div>
@@ -386,7 +387,7 @@ if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'
                 </div>
             </div> 
         </div>
-
+        
         <div class="column">
             <div class="ui segment">
                 <a class="ui red ribbon label">Contatos</a>
@@ -395,7 +396,7 @@ if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'
                         <div class="ui relaxed divided items">
                             <div class="item">
                                 <div class="ui small image">
-                                    <img src="http://localhost/fotos/usuarios/b48c8744714a3ff987ed6b91a9035882.jpg">
+                                    <img src="<?php echo PIPURL . "fotos/usuarios/" . $item['anuncio'][0]['foto'] ?>">
                                 </div>
                                 <div class="content">
                                     <a class="header"><?php echo $item['anuncio'][0]['nome'] ?></a>
@@ -409,9 +410,7 @@ if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'
 }
 ?>
                                     <div class="extra">
-                                        <a class="ui label">
-                                            <i class="mail icon"></i> <?php echo $item['anuncio'][0]['email'] ?>
-                                        </a>
+                                        
                                         <button class="ui right floated primary button" id="btnEmail">
                                             Envie uma mensagem
                                             <i class="right mail outline icon"></i>

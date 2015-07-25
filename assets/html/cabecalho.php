@@ -46,31 +46,29 @@ if (Sessao::verificarSessaoUsuario()) {
             <nav  class="ui menu inverted navbar page grid" style="background-color: #ffffff" style="margin-bottom:300px">
                 <a href="<?php echo PIPURL; ?>/index.php"> <img src="<?php echo PIPURL; ?>/assets/imagens/logo.png" width="120px"/></a>
              
-                <div id="divForm" class="right menu hide" style="margin-top: -30px; margin-bottom: 10px">
+                <div id="divForm" class="right menu hide">
                     
-                    <div class="column padding-reset">                     
-                        <h5 id="divTitulo" style=" margin-left: 0px; margin-bottom: 10px;"> Acesse o Meu PIP </h5>
-                        <div class="ui left icon input">
-                            <input type="text" id="txtLoginIndex" name="txtLoginIndex" placeholder="Login">
-                            <i class="user icon"></i>
+                
+                    <div class="ui form">
+                    <div class="fields">
+                      <div class="five field">                            
+                        <label>Login</label>                        
+                        <input placeholder="Digite o Login" type="text" id="txtLoginIndex" name="txtLoginIndex">                       
+                      </div>
+                      <div class="field">
+                        <label>Senha</label>
+                        <input placeholder="Digite a Senha" type="password" id="txtSenhaIndex" name="txtSenhaIndex">
                         </div>
-                        
-                        <div class="ui left icon input">
-                            
-                            <input type="password" id="txtSenhaIndex" name="txtSenhaIndex" placeholder="Senha">
-                            <i class="lock icon"></i>
-                        </div>
-
-                    
-                    
-                    <div class="item column padding-reset"><button  type="button" id="btnAcessar" class="ui green button">Acessar</button></div>
-                   </div>
-                <div class="fields" >
-                    <div class="four wide field">
-                       <a href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=form&tipo=cadastro" class="ui green label">Ainda não é cadastrado?</a>                      
+                      </div>
+                      <div class="field">
+                          <label style="color: white">Teste</label>
+                        <button class="ui green button" id="btnAcessar">Fazer Login</button>
+                         <a href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=form&tipo=cadastro" class="ui green label">Ainda não é cadastrado?</a>                      
                        <a href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=form&tipo=esquecisenha" class="ui red label">Não lembra a senha?</a>
-                   </div>                
+                      </div>
+                    </div>
                 </div>
+
               </div>
 
                 <div id="divUsuario" class="right menu hide" style="margin-left:800px; margin-top: -80px">
@@ -87,7 +85,6 @@ if (Sessao::verificarSessaoUsuario()) {
                         
                     </form>            
                 </div>
-
 
             </nav>
         </div>

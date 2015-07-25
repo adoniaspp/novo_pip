@@ -368,8 +368,6 @@ function confirmarEmail() {
 function enviarEmail() {
     $(document).ready(function () {
 
-
-
         $("#botaoFecharEmail").hide();
         $('#txtNomeEmail').maxlength({
             alwaysShow: true,
@@ -480,4 +478,59 @@ function inserirAnuncioModal() {
 
                 }})
 
+}
+
+function marcarMapa(logradouro, numero, bairro, tituloAnuncio, valor, finalidade, altura, largura, aprox){
+    
+$(document).ready(function() {
+
+$("#mapaGmaps").hide();
+
+$("#mapaGmapsBusca").width(altura).height(largura).gmap3();
+
+$("#mapaGmapsBusca").gmap3({
+ map:{
+    options:{
+     center:[-1.37178665, -48.45176697],
+     zoom: aprox,
+     draggable: true
+    }
+ },
+ marker:{
+    values:[
+        
+        {address:logradouro +", "+ numero+" - "+ bairro, data: tituloAnuncio+" - R$ "+valor+"<br>"+ "FInalidade: "+finalidade},
+               
+    ],
+    options:{
+      draggable: false
+    },
+    events:{
+      mouseover: function(marker, event, context){
+        var map = $(this).gmap3("get"),
+          infowindow = $(this).gmap3({get:{name:"infowindow"}});
+        if (infowindow){
+          infowindow.open(map, marker);
+          infowindow.setContent(context.data);
+        } else {
+          $(this).gmap3({
+            infowindow:{
+              anchor:marker, 
+              options:{content: context.data}
+            }
+          });
+        }
+      },
+      mouseout: function(){
+        var infowindow = $(this).gmap3({get:{name:"infowindow"}});
+        if (infowindow){
+          infowindow.close();
+        }
+    }
+    }
+  }
+});
+                              
+});
+    
 }
