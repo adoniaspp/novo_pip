@@ -1,80 +1,87 @@
+<link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
+<script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
+
 <?php
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 $item = $this->getItem();
 //echo "<pre>";
-//        print_r($item);
+//        print_r($item[0]);
 //        die();
+//
 ?>     
+
 <div class="container">
 
     <div class="ui three column padded grid">
-        <div class="three wide column"></div>
+        <div class="two wide column"></div>
         <div class="ten wide column">
-            <table class="ui compact celled definition table">
+            <table class="ui compact celled definition table" id="tabela">
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Name</th>
-                        <th>Registration Date</th>
-                        <th>E-mail address</th>
-                        <th>Premium Plan</th>
+                        <th>Valor</th>
+                        <th>Tipo</th>
+                        <th>Bairro</th>
+                        <th>Condição</th>
+                        <th>Área</th>
+                        <th>Quartos</th>
+                        <th>Banheiros</th>
+                        <th>Garagem</th>
+                        <th>Foto</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="collapsing">
-                            <div class="ui fitted slider checkbox">
-                                <input type="checkbox"> <label></label>
-                            </div>
-                        </td>
-                        <td>John Lilki</td>
-                        <td>September 14, 2013</td>
-                        <td>jhlilk22@yahoo.com</td>
-                        <td>No</td>
-                    </tr>
-                    <tr>
-                        <td class="collapsing">
-                            <div class="ui fitted slider checkbox">
-                                <input type="checkbox"> <label></label>
-                            </div>
-                        </td>
-                        <td>Jamie Harington</td>
-                        <td>January 11, 2014</td>
-                        <td>jamieharingonton@yahoo.com</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td class="collapsing">
-                            <div class="ui fitted slider checkbox">
-                                <input type="checkbox"> <label></label>
-                            </div>
-                        </td>
-                        <td>Jill Lewis</td>
-                        <td>May 11, 2014</td>
-                        <td>jilsewris22@yahoo.com</td>
-                        <td>Yes</td>
-                    </tr>
+                    <?php
+                    foreach ($item as $anuncio) {
+                        ?>
+                        <tr>
+                            <td class="collapsing">
+                                <button class="ui icon button">
+                                    <i class="remove icon"> </i> 
+                                </button>
+                                <?php echo $anuncio['tituloanuncio'] ?>
+                            </td>
+                            <td><?php echo 'R$' . $anuncio['valormin'] ?></td>
+                            <td>
+                                <?php
+                                if ($anuncio['tipo'] == 'apartamentoplanta') {
+                                    echo 'Apartamento na Planta';
+                                } else if ($anuncio['tipo'] == 'salacomercial') {
+                                    echo 'Sala Comercial';
+                                } else {
+                                    echo ucfirst($anuncio['tipo']);
+                                }
+                                ?>
+                            </td>
+                            <td><?php echo $anuncio['bairro'] ?></td>
+                            <td><?php echo ucfirst($anuncio['condicao']) ?></td>
+                            <td>
+                                <?php
+                                echo minMax($anuncio, 'area') . 'm<sup>2</sup>';
+                                ?>
+                            </td>
+                            <td>
+                                <?php
+                                echo minMax($anuncio, 'quarto') . ' quarto(s)';
+                                ?>
+                            </td>
+                            <td>
+                                <?php
+                                echo minMax($anuncio, 'banheiro') . ' banheiro(s)';
+                                ?>
+                            </td>
+                            <td>
+                                <?php
+                                echo minMax($anuncio, 'garagem') . ' vaga(s)';
+                                ?>
+                            </td>
+                            <td>
+                                NO
+                            </td>
+                        </tr>
+                    <?php } ?>
+
                 </tbody>
-                <tfoot class="full-width">
-                    <tr>
-                        <th></th>
-                        <th colspan="4">
-                <div class="ui right floated small primary labeled icon button">
-                    <i class="user icon"></i> Add User
-                </div>
-                <div class="ui small button">
-                    Approve
-                </div>
-                <div class="ui small  disabled button">
-                    Approve All
-                </div>
-                </th>
-                </tr>
-                </tfoot>
+
             </table>       
         </div>
         <div class="three wide column"></div>
@@ -82,3 +89,34 @@ $item = $this->getItem();
 
 
 </div>
+
+<?php
+
+function minMax($parametros, $coluna) {
+    if ($parametros['tipo'] == 'apartamentoplanta') {
+        foreach ($parametros['plantas'] as $planta) {
+            $conjunto[] = $planta[$coluna];
+        }
+        return min($conjunto) . ' a ' . max($conjunto);
+    } else if ($parametros[$coluna]) {
+        return $parametros[$coluna];
+    } else {
+        return '-';
+    }
+}
+?>
+
+<script>
+    $(document).ready(function () {
+        $('#tabela').DataTable({
+            "language": {
+                "url": "assets/libs/datatables/js/Portuguese-Brasil.json",
+            },
+            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
+            "stateSave": true,
+            "columnDefs": [
+                {"orderable": false, "targets": 3}
+            ]
+        });
+    })
+</script>
