@@ -12,7 +12,6 @@ class Anuncio {
     private $datahoracadastro;
     private $datahoraalteracao;
     private $datahoradesativacao;
-    private $valorvisivel;
     private $publicarmapa;
     private $publicarcontato;
     private $idusuarioplano;
@@ -55,10 +54,6 @@ class Anuncio {
 
     public function getDatahoradesativacao() {
         return $this->datahoradesativacao;
-    }
-
-    public function getValorvisivel() {
-        return $this->valorvisivel;
     }
 
     public function getPublicarmapa() {
@@ -119,10 +114,6 @@ class Anuncio {
 
     public function setDatahoradesativacao($datahoradesativacao) {
         $this->datahoradesativacao = $datahoradesativacao;
-    }
-
-    public function setValorvisivel($valorvisivel) {
-        $this->valorvisivel = $valorvisivel;
     }
 
     public function setPublicarmapa($publicarmapa) {

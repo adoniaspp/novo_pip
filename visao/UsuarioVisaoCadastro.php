@@ -124,30 +124,34 @@ Sessao::gerarToken();
                     <div class="three wide field"><label>Não sabe o CEP? <a href="http://www.buscacep.correios.com.br/servicos/dnec/menuAction.do?Metodo=menuLogradouro" target="_blank">clique aqui</a></label></div>
                     <div class="five wide field"><div id="msgCEP"></div> </div>
                 </div>
-                <div id="divCEP" class="six fields">
-                    <div class="field">
-                        <label>Cidade</label>
-                        <input type="text" name="txtCidade" id="txtCidade" readonly="readonly">
+                <div id="divCEP" class="ui">
+                    <div class="three fields">
+                        <div class="field">
+                            <label>Cidade</label>
+                            <input type="text" name="txtCidade" id="txtCidade" readonly="readonly">
+                        </div>
+                        <div class="two wide field">
+                            <label>Estado</label>
+                            <input type="text" name="txtEstado" id="txtEstado" readonly="readonly">
+                        </div>
+                        <div class="field">
+                            <label>Bairro</label>
+                            <input type="text" name="txtBairro" id="txtBairro" readonly="readonly">
+                        </div>
                     </div>
-                    <div class="one wide field">
-                        <label>Estado</label>
-                        <input type="text" name="txtEstado" id="txtEstado" readonly="readonly">
-                    </div>
-                    <div class=" field">
-                        <label>Bairro</label>
-                        <input type="text" name="txtBairro" id="txtBairro" readonly="readonly">
-                    </div>
-                    <div class="seven wide field">
-                        <label>Logradouro</label>
-                        <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly">
-                    </div>
-                    <div class="two wide required field">
-                        <label>Número</label>
-                        <input type="text" name="txtNumero" id="txtNumero" placeholder="Informe o nº">
-                    </div>
-                    <div class="seven wide field">
-                        <label>Complemento</label>
-                        <input type="text" name="txtComplemento" id="txtComplemento" placeholder="Complemento">
+                    <div class="two fields">
+                        <div class="field">
+                            <label>Logradouro</label>
+                            <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly">
+                        </div>
+                        <div class="three wide required field">
+                            <label>Número</label>
+                            <input type="text" name="txtNumero" id="txtNumero" placeholder="Informe o nº">
+                        </div>
+                        <div class="field">
+                            <label>Complemento</label>
+                            <input type="text" name="txtComplemento" id="txtComplemento" placeholder="Complemento">
+                        </div>
                     </div>
                 </div>
                 <h3 class="ui dividing header">Telefones</h3> 
@@ -203,9 +207,9 @@ Sessao::gerarToken();
                 </table>
                 <h3 class="ui dividing header" >Foto / Logomarca</h3>
                 <div class="twelve wide field">
-                <img id="uploadPreview" src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" width="155" height="140"/><br />
+                    <img id="uploadPreview" src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" width="155" height="140"/><br />
                     <div class="ui action input">
-                        
+
                         <label for="attachmentName" class="ui teal icon labeled button btn-file">
                             <i class="large file image outline icon"></i>
                             <input type="file" id="attachmentName" name="attachmentName" style="display: none">Selecione a imagem</label>

@@ -41,7 +41,7 @@ class AnuncioControle {
             #verificar a melhor forma de tratar o blindado recursivo
             $selecionarEndereco = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarImovel[0]->getIdEndereco()));
             $selecionarImovel[0]->setEndereco($selecionarEndereco[0]);
-            
+
             $selecionarDiferencial = $genericoDAO->consultar(new ImovelDiferencial(), true, array("idimovel" => $selecionarImovel[0]->getId()));
             $selecionarImovel[0]->setImovelDiferencial($selecionarDiferencial);
             //verifica se existe o imovel selecionado
@@ -103,13 +103,12 @@ class AnuncioControle {
         unset($parametros["hdnAcao"]);
         $parametros["predicados"] = $parametros;
         $listaAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
-        if(count($listaAnuncio['anuncio']) == 0){
+        if (count($listaAnuncio['anuncio']) == 0) {
             $visao->setItem("errosemresultadobusca");
             $visao->exibir('VisaoErrosGenerico.php');
         }
         $visao->setItem($listaAnuncio);
         $visao->exibir('AnuncioVisaoBusca.php');
-
     }
 
     function detalhar($parametros) {
@@ -117,7 +116,7 @@ class AnuncioControle {
         unset($parametros["hdnCodAnuncio"]);
         $parametros["tabela"] = $parametros["hdnTipoImovel"];
         unset($parametros["hdnTipoImovel"]);
-        
+
         $visao = new Template();
         $consultasAdHoc = new ConsultasAdHoc();
         $parametros["atributos"] = "*";
@@ -130,7 +129,7 @@ class AnuncioControle {
         $visao->setItem($listarAnuncio);
         $visao->exibir('AnuncioVisaoDetalhe.php');
     }
-    
+
     function comparar($parametros) {
         $genericoDAO = new GenericoDAO();
         $indice = 0;
@@ -141,13 +140,13 @@ class AnuncioControle {
         unset($parametros["selecionarAnuncio"]);
         unset($parametros["hdnCodAnuncio"]);
         unset($parametros["hdnTipoImovel"]);
-        foreach ($idsAnuncio as $idanuncio){
+        foreach ($idsAnuncio as $idanuncio) {
             $item["anuncio"] = $genericoDAO->consultar(new Anuncio(), false, array("id" => $idanuncio));
             $item["imovel"] = $genericoDAO->consultar(new Imovel(), true, array("id" => $item["anuncio"][0]->getIdimovel()));
             $descricaoTipoImovel = $item["imovel"][0]->getTipoimovel()->getDescricao();
             $consultasAdHoc = new ConsultasAdHoc();
-            $parametros["idanuncio"] = $idanuncio; 
-            $parametros["tabela"] = $descricaoTipoImovel; 
+            $parametros["idanuncio"] = $idanuncio;
+            $parametros["tabela"] = $descricaoTipoImovel;
             $parametros["atributos"] = "*";
             $parametros["predicados"] = $parametros;
             $anuncio = $consultasAdHoc->buscaAnuncios($parametros);
@@ -158,11 +157,11 @@ class AnuncioControle {
 //            die();
             $indice++;
         }
-        
+
 //        echo "<pre>";
 //        print_r($listarAnuncio);
 //        die();
-        
+
         $visao = new Template();
         $visao->setItem($listarAnuncio);
         $visao->exibir('AnuncioVisaoComparar.php');
@@ -182,7 +181,7 @@ class AnuncioControle {
 
                 $selecionarPlanta = $consultasAdHoc->consultar(new Planta(), true, array("idimovel" => $selecionarImovel->getId()));
                 $selecionarImovel->setPlanta($selecionarPlanta);
-                
+
                 $selecionarDiferencial = $consultasAdHoc->consultar(new ImovelDiferencial(), true, array("idimovel" => $selecionarImovel->getId()));
                 $selecionarImovel->setImovelDiferencial($selecionarDiferencial);
 
@@ -194,7 +193,6 @@ class AnuncioControle {
             $visao->exibir('AnuncioVisaoListagemCadastrar.php');
         }
     }
-
 
     function cadastrar($parametros) {
         if (Sessao::verificarSessaoUsuario()) {
@@ -220,16 +218,16 @@ class AnuncioControle {
                         $genericoDAO->editar($entidadeUsuarioPlano);
                     }
                     /*
-                    //se for apartamento na planta
-                    if($_SESSION["anuncio"]["tipoimovel"]==2){
-                        $valor = new Valor();
-                        $valor->setIdanuncio($idAnuncio);
-                        $valor->setIdplantaapartamentonovo($idplantaapartamentonovo);
-                        
-                            $idValor = $genericoDAO->cadastrar($entidadeValor);
-                        }
-                    }
-                    */
+                      //se for apartamento na planta
+                      if($_SESSION["anuncio"]["tipoimovel"]==2){
+                      $valor = new Valor();
+                      $valor->setIdanuncio($idAnuncio);
+                      $valor->setIdplantaapartamentonovo($idplantaapartamentonovo);
+
+                      $idValor = $genericoDAO->cadastrar($entidadeValor);
+                      }
+                      }
+                     */
                     //somente salva fotos se houver
                     if (isset($_SESSION["imagem"])) {
                         foreach ($_SESSION["imagem"] as $file) {
@@ -255,31 +253,33 @@ class AnuncioControle {
 
     private function verificaValorMinimo($anuncio, $parametros) {
         $valorMinimo = 0;
-        switch ($_SESSION["anuncio"]["tipoimovel"]) {
-            case 1://casa
-            case 3://apartamento
-            case 4://sala comercial
-            case 5://predio comercial
-            case 6://terreno
-                $valorMinimo = $parametros["txtValor"];
-                break;
-            case 2://apartamento na planta
-                $plantas = array("hdnValor0","hdnValor1","hdnValor2","hdnValor3","hdnValor4","hdnValor5");
-                $menor = array();
-                foreach ($plantas as $planta) {
-                    if(isset($parametros[$planta])){
-                        $menor[] = min($parametro[$planta]);
+        if (isset($parametros["chkValor"])) {
+            switch ($_SESSION["anuncio"]["tipoimovel"]) {
+                case 1://casa
+                case 3://apartamento
+                case 4://sala comercial
+                case 5://predio comercial
+                case 6://terreno
+                    $valorMinimo = $parametros["txtValor"];
+                    break;
+                case 2://apartamento na planta
+                    $plantas = array("hdnValor0", "hdnValor1", "hdnValor2", "hdnValor3", "hdnValor4", "hdnValor5");
+                    $menor = array();
+                    foreach ($plantas as $planta) {
+                        if (isset($parametros[$planta])) {
+                            $menor[] = min($parametro[$planta]);
+                        }
                     }
-                }
-                $valorMinimo = min($menor);
-                break;
-                
+                    $valorMinimo = min($menor);
+                    break;
+            }
         }
+
         $anuncio->setValormin($valorMinimo);
     }
-    
+
     function buscarAnuncioCorretor($parametros) {
-        
+
         $visao = new Template();
         $emailanuncio = new EmailAnuncio();
         $usuario = new Usuario();
@@ -297,24 +297,24 @@ class AnuncioControle {
             $id = $statusUsuario[0]->getId();
 
             if ($verificarStatus == 'ativo') {
-                
+
                 $consultasAdHoc = new ConsultasAdHoc();
                 $parametrosBusca["atributos"] = "*";
                 $parametrosBusca["tabela"] = "todos";
                 $parametrosBusca["predicados"]["id"] = $id; //Id do corretor. 
-                $parametrosBusca["predicados"]["garagem"] = "false"; 
-                
+                $parametrosBusca["predicados"]["garagem"] = "false";
+
                 $visao = new Template();
                 $item["usuario"] = $genericoDAO->consultar(new Usuario(), true, array("id" => $selecionarAnuncioUsuario[0]->getId()));
                 $item["cidadeEstado"] = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarAnuncioUsuario[0]->getIdEndereco()));
                 $item["anuncio"] = $consultasAdHoc->buscaAnuncios($parametrosBusca);
-                
+
                 $visao->setItem($item);
                 $visao->exibir('AnuncioVisaoUsuario.php');
             }
         }
     }
-    
+
     function enviarEmail($parametros) {
 
         $genericoDAO = new GenericoDAO();
@@ -322,28 +322,28 @@ class AnuncioControle {
         $dadosEmail['destino'] = $parametros['txtEmailEmail'];
         $dadosEmail['contato'] = "PIP-Online";
         $dadosEmail['assunto'] = utf8_decode("PIP-Online - Selecionou imóvel(is) para você");
-        $dadosEmail['msg'] .= 'Veja o(s) imóvel(is) que ' . $parametros['txtNomeEmail'] .' indicou para você!<br><br>';
+        $dadosEmail['msg'] .= 'Veja o(s) imóvel(is) que ' . $parametros['txtNomeEmail'] . ' indicou para você!<br><br>';
         $dadosEmail['msg'] .= 'Mensagem: ' . $parametros['txtMsgEmail'];
-        
+
         //Utilizado se for envio de e-mail para o correto através da tela de detalhes 
-        if($parametros['hdnAnuncio']){
+        if ($parametros['hdnAnuncio']) {
             $parametros['anunciosSelecionados'] = array($parametros['hdnAnuncio']);
         }
-        
+
         foreach ($parametros['anunciosSelecionados'] as $idanuncio) {
-            
+
             $item["anuncio"] = $genericoDAO->consultar(new Anuncio(), true, array("id" => $idanuncio));
-            
+
             $item["imovel"] = $genericoDAO->consultar(new Imovel(), false, array("id" => $item["anuncio"][0]->getIdImovel()));
-            
+
             $item["endereco"] = $genericoDAO->consultar(new Endereco(), true, array("id" => $item["imovel"][0]->getIdEndereco()));
 
             $emailanuncio = new EmailAnuncio();
-            
+
             $selecionaremailanuncio = $emailanuncio->cadastrar($idanuncio);
-           
-            $idemailanuncio = $genericoDAO->cadastrar($selecionaremailanuncio);           
-            
+
+            $idemailanuncio = $genericoDAO->cadastrar($selecionaremailanuncio);
+
             $dadosEmail['msg'] .=
                     '
     <table class="container" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: inherit; width: 580px; margin: 0 auto; padding: 0;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0;" align="left" valign="top">
@@ -362,7 +362,7 @@ class AnuncioControle {
 
           <table class="three columns" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 130px; margin: 0 auto; padding: 0;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0px 0px 10px;" align="left" valign="top">
 
-                <img height="130" width="130" src=" '. PIPURL . "/assets/imagens/foto_padrao.png" . '" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; width: auto; max-width: 100%; float: left; clear: both; display: block;" align="left" /></td>
+                <img height="130" width="130" src=" ' . PIPURL . "/assets/imagens/foto_padrao.png" . '" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; width: auto; max-width: 100%; float: left; clear: both; display: block;" align="left" /></td>
               <td class="expander" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; visibility: hidden; width: 0px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0;" align="left" valign="top"></td>
             </tr></table></td>
         <td class="wrapper last" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; position: relative; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 10px 0px 0px;" align="left" valign="top">
@@ -405,7 +405,6 @@ class AnuncioControle {
     <td class="expander" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; visibility: hidden; width: 0px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0;" align="left" valign="top"></td>
     </tr></table></td>
     </tr></table> <br>';
-
         }
 
         if (Email::enviarEmail($dadosEmail)) {
@@ -417,7 +416,6 @@ class AnuncioControle {
             $genericoDAO->fecharConexao();
             echo json_encode(array("resultado" => 0));
         }
-
     }
 
 }
