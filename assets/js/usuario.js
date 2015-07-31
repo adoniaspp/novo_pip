@@ -1,6 +1,7 @@
 function cadastrarUsuario() {
     $(document).ready(function() {
         /*inicialização da página*/
+        $("#sltTipoUsuario").val(''); //limpar o valor do tipo de usuario que foi submetido
         $("#linhaPF").hide();
         $("#linhaPJ1").hide();
         $("#linhaPJ2").hide();
@@ -10,6 +11,7 @@ function cadastrarUsuario() {
                 .dropdown({
             on: 'hover'
         });
+        $("#sltTipoUsuario").parent().dropdown('restore defaults');
         $('.ui.checkbox').checkbox();
         /*eventos e acoes*/
         $("#sltTipoUsuario").change(function() {
@@ -505,6 +507,86 @@ function buscarCep() {
     }
 }
 
+function buscarEmail() { 
+    
+    $(document).ready(function () {
+
+        $.validator.setDefaults({
+            ignore: [],
+            errorClass: 'errorField',
+            errorElement: 'div',
+            errorPlacement: function (error, element) {
+                error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).closest("div.field").addClass("error").removeClass("success");
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).closest(".error").removeClass("error").addClass("success");
+            }
+        });
+
+        $.validator.messages.required = 'Campo obrigatório';
+        $('#form').validate({
+            onkeyup: false,
+            focusInvalid: true,
+            rules: {
+                txtEmail: {
+                    required: true,
+                    email: true
+                }
+            },
+            messages: {
+                txtEmail: {
+                    email: "Informe um email válido"
+                }
+            },
+            submitHandler: function (form) {
+                $.ajax({
+                    url: "index.php",
+                    dataType: "json",
+                    type: "POST",
+                    data: $('#form').serialize(),
+                    beforeSend: function () {
+                        $("#divEnviarEmail").hide(); //esconder o botão de enviar 
+                        $("#divRetorno").html("<div><div class='ui active inverted dimmer'><div class='ui text loader'>Processando. Aguarde...</div></div></div>");
+                    },
+                    success: function (resposta) {
+                        $("#divRetorno").empty();
+                        
+                        if (resposta.resultado == 0) {
+                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
+                            <p>E-mail informado n&atilde;o encontrado. Faça seu cadastro!</p>');
+                            $("#divEnviarEmail").show();
+                        } else if (resposta.resultado == 1) {
+                            $("#txtEmail").attr("readonly", "readonly");
+                            $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
+    <p>Informações para troca da senha foram enviados para o email informado.</p>');
+                        } else if (resposta.resultado == 2) {
+                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
+    <p>Erro ao processar requisição - 002</p>');
+                        } 
+                          else if (resposta.resultado == 3) {
+                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
+    <p>Erro ao enviar email. Tente novamente em alguns minutos.</p>');
+                        }
+                          else if (resposta.resultado == 4) {
+                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
+    <p>Erro ao processar requisição - 004.</p>');
+                        }else {
+                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
+    <p>Erro ao processar requisição - 005</p>');
+                        }
+                    }
+                })
+                return false;
+            }
+        })
+
+    });
+
+}
+
 function criarAlerta(tipo, mensagem) {
     var divAlerta = $("<div>", {class: "ui " + tipo + " message"});
     divAlerta.append($("<div>", {class: "content"}).html('<div class="header">' + mensagem + '</div>'));
@@ -560,7 +642,101 @@ $(document).ready(function() {
 
 });
 
-function alterarSenha() {
+
+
+
+
+function trocarSenha() { //alterar a senha esquecida
+    $(document).ready(function() {
+        $("#btnAlterarSenha").click(function() {
+            if ($("#form").valid()) {
+                if (($("input[name^=txtSenhaAtual]").val()) === ($("input[name^=txtSenhaNova]").val())) {
+                    $('#modalSenha').modal({
+                        transition: "fade up",
+                    }).modal('show');
+                } else {
+                    $("#form").submit();
+                }
+            }
+        });
+        $.validator.setDefaults({
+            ignore: [],
+            errorClass: 'errorField',
+            errorElement: 'div',
+            errorPlacement: function(error, element) {
+                error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
+            },
+            highlight: function(element, errorClass, validClass) {
+                $(element).closest("div.field").addClass("error").removeClass("success");
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).closest(".error").removeClass("error").addClass("success");
+            }
+        });
+        $.validator.messages.required = 'Campo obrigatório';
+        $.validator.messages.minlength = "Senha deve possuir no mínimo 8 caracteres";
+        $('#form').validate({
+            rules: {
+                txtSenhaAtual: {
+                    required: true,
+                    minlength: 8
+                },
+                txtSenhaNova: {
+                    required: true,
+                    minlength: 8
+                },
+                txtSenhaConfirmacao: {
+                    required: true,
+                    minlength: 8,
+                    equalTo: "#txtSenhaNova"
+                }
+            },
+            messages: {
+                txtSenhaConfirmacao: {
+                    equalTo: "Por Favor digite a nova senha novamente"
+                }
+            },
+            submitHandler: function() {
+               
+                $.ajax({
+                    url: "index.php",
+                    dataType: "json",
+                    type: "POST",
+                    data: $('#form').serialize(),
+                    beforeSend: function () {
+                        $("#divBotoesAlterarSenha").hide();
+                        $("#divCamposAlterarSenha").hide();                       
+                        $("#divRetorno").html("<div><div class='ui active inverted dimmer'><div class='ui text loader'>Processando. Aguarde...</div></div></div>");
+                    },
+                    success: function (resposta) {
+                        $("#divRetorno").empty();
+                        
+                        if (resposta.resultado == 0) {
+                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
+                            <p>Erro ao processar requisição. Tente novamente em alguns minutos - 000</p>');
+                            $("#divBotoesAlterarSenha").show();
+                            $("#divCamposAlterarSenha").show();
+                        } else if (resposta.resultado == 1) {
+                            $("#txtEmail").attr("readonly", "readonly");
+                            $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
+    <p>Senha alterada com sucesso</p>');
+                        } else {
+                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
+    <p>Erro ao processar requisição - 005</p>');
+                        }
+                    }
+                })
+                return false;
+            }
+        });
+    });
+}
+
+
+
+
+/*
+function trocarSenha() {
     $(document).ready(function() {
         $("#btnAlterarSenha").click(function() {
             if ($("#form").valid()) {
@@ -615,7 +791,7 @@ function alterarSenha() {
             }
         });
     });
-}
+}*/
 
 function trocarImagem() {
     $(document).ready(function() {
@@ -716,6 +892,87 @@ function esqueciSenha() {
         });
 
 
+    });
+}
+
+function alterarSenha() { //alterar a senha esquecida
+    $(document).ready(function() {
+
+        $("#btnAlterar").click(function() {
+            if ($("#form").valid()) {
+                $("#form").submit();
+            }
+        });
+
+        $.validator.setDefaults({
+            ignore: [],
+            errorClass: 'errorField',
+            errorElement: 'div',
+            errorPlacement: function(error, element) {
+                error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
+            },
+            highlight: function(element, errorClass, validClass) {
+                $(element).closest("div.field").addClass("error").removeClass("success");
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).closest(".error").removeClass("error").addClass("success");
+            }
+        });
+        $.validator.messages.required = 'Campo obrigatório';
+        $('#form').validate({
+            onkeyup: false,
+            focusInvalid: true,
+            rules: {
+                txtSenha: {
+                    required: true,
+                    minlength: 8
+                },
+                txtSenhaConfirmacao: {
+                    required: true,
+                    equalTo: "#txtSenha"
+                }
+            },
+            messages: {
+                txtSenha: {
+                    minlength: "Senha deve possuir no mínimo 8 caracteres"
+                },
+                txtSenhaConfirmacao: {
+                    equalTo: "Por Favor digite a senha novamente"
+                }
+            },
+            submitHandler: function() {
+               
+                $.ajax({
+                    url: "index.php",
+                    dataType: "json",
+                    type: "POST",
+                    data: $('#form').serialize(),
+                    beforeSend: function () {
+                        $("#divBotoesAlterarSenha").hide();
+                        $("#divCamposAlterarSenha").hide();                       
+                        $("#divRetorno").html("<div><div class='ui active inverted dimmer'><div class='ui text loader'>Processando. Aguarde...</div></div></div>");
+                    },
+                    success: function (resposta) {
+                        $("#divRetorno").empty();
+                        
+                        if (resposta.resultado == 0) {
+                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
+                            <p>Erro ao processar requisição. Tente novamente em alguns minutos - 000</p>');
+                            $("#divBotoesAlterarSenha").show();
+                            $("#divCamposAlterarSenha").show();
+                        } else if (resposta.resultado == 1) {
+                            $("#txtEmail").attr("readonly", "readonly");
+                            $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
+    <p>Senha alterada com sucesso</p>');
+                        } else {
+                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
+    <p>Erro ao processar requisição - 005</p>');
+                        }
+                    }
+                })
+                return false;
+            }
+        });
     });
 }
 

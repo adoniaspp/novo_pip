@@ -28,7 +28,7 @@ if (Sessao::verificarSessaoUsuario()) {
                 $("#divNome").html("<font color='black'><h4>Seja bem vindo, <?php echo ucfirst(strtolower(explode(" ", $_SESSION['nome'])[0])); ?>  <h4></font>");
     <?php
 } else {
-    Sessao::gerarToken();
+    //Sessao::gerarToken();
 };
 ?>
             $("#btnAcessar").click(function () {

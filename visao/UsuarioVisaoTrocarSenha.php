@@ -3,8 +3,8 @@
 <!-- JS -->
 <script src="assets/js/usuario.js"></script>
 <script>
-    cancelar("meuPIP");
-    alterarSenha();
+    cancelar("Usuario", "meuPIP");
+    trocarSenha();
 </script>
 <?php
 Sessao::gerarToken();
@@ -55,7 +55,7 @@ Sessao::gerarToken();
                     </div>
                 </div>            
                 <div class="ui dividing header"></div>
-                <button class="ui blue button" type="button" id="btnAlterarSenha">Alterar!</button>
+                <button class="ui blue button" type="button" id="btnAlterarSenha">Alterar</button>
                 <button class="ui orange button" type="reset" id="btnCancelar">Cancelar</button>
                 <div class="ui dividing header"></div>
             </form>

@@ -2,12 +2,18 @@
 <script src="assets/libs/jquery/jquery.validate.min.js"></script>
 <!-- JS -->
 <script src="assets/js/usuario.js"></script>
-<script>
-    esqueciSenha();
-</script>
+
 <?php
 Sessao::gerarToken();
 ?>
+
+<script>
+    
+    buscarEmail();
+    esqueciSenha();
+   
+</script>
+
 <!-- HTML -->
 <div class="container">
     <div class="ui hidden divider"></div>
@@ -34,9 +40,16 @@ Sessao::gerarToken();
                     </div>
                 </div>
                 <div class="ui hidden divider"></div>
-                <button class="ui blue button" type="button" id="btnEnviar">Enviar!</button>
-                <div class="ui hidden divider"></div>                   
+                
+                <div id="divEnviarEmail">
+                <button class="ui blue button" type="button" id="btnEnviar">Enviar</button>
+                </div>
+                <div class="ui hidden divider"></div>
+                <div id="divRetorno"></div>               
+                <div class="ui hidden divider"></div>      
+                
             </form>
+            
         </div>        
     </div>
 </div>

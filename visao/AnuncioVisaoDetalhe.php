@@ -339,55 +339,44 @@ if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'
                 </div>
             </div>
 <?php } ?>
-        
-        <div class="column">
+            
+            <div class="column">
             <div class="ui segment">
-                <a class="ui green ribbon label">Localização</a>
-                <div class="ui vertically padded page grid">
-                    <div class="ui two column centered row">
-                        <div class="column">
-                                <?php if ($item['anuncio'][0]['publicarmapa'] == "SIM") { ?>
-
-                                    <div class="row">
-
-                                                <div data-row-span="5">
-                                                    <div data-field-span="1">
-                                                        <label>Endereço: </label>
-                                                        <?php echo $item['anuncio'][0]['logradouro'] ?>
-                                                    </div>
-                                                    <div data-field-span="1">
-                                                        <label>Nº - </label>
-                                                        <?php echo $item['anuncio'][0]['numero'] ?>
-                                                    </div>
-                                                    <div data-field-span="1">
-                                                        <label>Bairro: </label>
-                                                        <?php echo $item['anuncio'][0]['bairro'] ?>
-                                                    </div>
-                                                    <div data-field-span="1">
-                                                        <label>Cidade: </label>
-                                                    <?php echo $item['anuncio'][0]['cidade'] ?>
-                                                        <?php echo " - "; ?>
-                                                        <?php echo $item['anuncio'][0]['estado']; ?>
-                                                    </div>
-                                                    <div data-field-span="1">
-                                                        <label>Complemento: </label>
-                                                    <?php echo $item['anuncio'][0]['complemento'] ?>
-                                                    </div>
-                                                </div>
-                                    </div>
-                        <?php } ?>
-                        </div>
-                        <div class="column">
-                            <div class="row">
-                                <div id="mapaGmapsBusca"></div>
-                            </div>
-                        </div>
-                    </div>
-
+            <a class="ui green ribbon label">Localização</a>
+            <div class="ui stackable two column padded grid">
+            <div class="six wide column">               
+                
+                <div class="content">
+                Endereço:  <?php echo $item['anuncio'][0]['logradouro'] ?>   
                 </div>
-            </div> 
+                
+                <div class="content">
+                Nº -  <?php echo $item['anuncio'][0]['numero'] ?>
+                </div>
+                
+                <div class="content">
+                Bairro: <?php echo $item['anuncio'][0]['bairro'] ?>
+                </div>
+               
+                <div class="content">
+                <?php echo $item['anuncio'][0]['cidade'] ?>
+                        <?php echo " - "; ?>
+                        <?php echo $item['anuncio'][0]['estado']; ?>  
+                </div>
+                
+                <?php if($item['anuncio'][0]['complemento'] != ""){?>               
+                    <div class="content">
+                Complemento: <?php echo $item['anuncio'][0]['complemento'] ?>
+                     </div>
+                <?php }?>
+                
+            </div>
+            <div class="column">
+                <div id="mapaGmapsBusca"></div>
+            </div>
+            </div>
         </div>
-        
+                        </div>
         <div class="column">
             <div class="ui segment">
                 <a class="ui red ribbon label">Contatos</a>

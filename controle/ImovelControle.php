@@ -44,8 +44,9 @@ class ImovelControle {
 
     function cadastrar($parametros, $idendereco) {
         $visao = new Template();
-        /* echo "<pre>";
+         /*echo "<pre>";
           print_r($parametros);
+          echo "</pre>";
           die(); */
         if (Sessao::verificarToken($parametros)) {
             $genericoDAO = new GenericoDAO();

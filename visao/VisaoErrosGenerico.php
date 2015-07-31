@@ -10,6 +10,7 @@ switch ($item) {
     case "erroemail":
     case "errohashemail":
     case "erroanuncioinativo":
+    case "erroemailNaoEncontrado":
     case "errosemresultadobusca"
         ?>
                 $('#divColuna').attr('class', 'ten wide column');
@@ -83,9 +84,9 @@ switch ($item) {
                         <h2>Ops! Esse anuncio não é mais válido. <br>Obrigado pelo acesso</h2>
                         <?php
                         break;
-                    case "errousuarioinativo":
+                    case "erroemailNaoEncontrado":
                         ?>
-                        <h2>Ops! Esse Usuário não existe. <br>Obrigado pelo acesso</h2>
+                        <h2>E-mail não encontrado. Faça seu cadastro.</h2>
                         <?php
                         break;
                     case "sucessocadastrousuario":

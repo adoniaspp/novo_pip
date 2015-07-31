@@ -72,9 +72,7 @@ class UsuarioControle {
     function cadastrar($parametros) {
         //Endereço
         $visao = new Template();
-        /* echo "<pre>";
-          print_r($parametros);
-          die(); */
+
         if (Sessao::verificarToken($parametros)) {
             $genericoDAO = new GenericoDAO();
             $genericoDAO->iniciarTransacao();
@@ -366,32 +364,39 @@ class UsuarioControle {
         }
     }
 
-    function esquecersenha($parametros) {
+    function esquecerSenha($parametros) {
         $visao = new Template();
+        /*echo "<pre>";
+        var_dump($parametros);
+        echo "</pre>";*/
+
         if (Sessao::verificarToken($parametros)) {
+            //echo "TESTE2";
             $usuario = new Usuario();
             $recuperaSenha = new RecuperaSenha();
             $genericoDAO = new GenericoDAO();
             $genericoDAO->iniciarTransacao();
+            
             $avisoRecuperaSenha = false;
-            $selecionarUsuario = $genericoDAO->consultar($usuario, false, array("email" => $parametros['txtEmail']));
-            if ($selecionarUsuario) {
+            $selecionarUsuario = $genericoDAO->consultar($usuario, false, array("email" => $parametros['txtEmail']));           
+            
+           if ($selecionarUsuario) {
                 $consultasAdHoc = new ConsultasAdHoc();
                 $selecionarRegistroRecuperaSenha = $consultasAdHoc->ConsultarRegistroAtivoDeRecuperarSenha($selecionarUsuario[0]->getId());
                 if ($selecionarRegistroRecuperaSenha) {
                     $resultadoExcluirRecuperaSenha = $genericoDAO->excluir($recuperaSenha, $selecionarRegistroRecuperaSenha[0]->getId());
                     $avisoRecuperaSenha = true;
-                    if (!$resultadoExcluirRecuperaSenha) {
+                    if (!$resultadoExcluirRecuperaSenha) { //apagar token já cadastrado - 002
                         $genericoDAO->rollback();
                         $genericoDAO->fecharConexao();
-                        echo json_encode(array("resultado" => 3));
+                        echo json_encode(array("resultado" => 2));
                     }
                 }
                 //gravar registro no banco
                 $recuperasenha = new RecuperaSenha();
                 $entidadeRecuperaSenha = $recuperasenha->cadastrar($selecionarUsuario[0]->getId());
                 $idResuperaSenha = $genericoDAO->cadastrar($entidadeRecuperaSenha);
-                if ($idResuperaSenha) {
+                if ($idResuperaSenha){
                     //enviar email
                     $dadosEmail['destino'] = $selecionarUsuario[0]->getEmail(); //$parametros["email"];  
                     $dadosEmail['nome'] = $selecionarUsuario[0]->getNome(); //$parametros["nome"];
@@ -399,42 +404,37 @@ class UsuarioControle {
                         $dadosEmail['msg'] = "
                         <br> 
                         &lt;h1&gt;Você já solicitou uma troca de senha. Desconsidere o email já enviado e clique no link abaixo para processar a troca&lt;/h1&gt; 
-                        <a href=http://localhost/PIP/index.php?entidade=Usuario&acao=form&tipo=alterarsenha&id=" . $entidadeRecuperaSenha->getHash() . ">http://localhost/PIP/index.php?entidade=Usuario&acao=form&tipo=alterarsenha&id=" . $entidadeRecuperaSenha->getHash() . "</a>";
+                        <a href=http://localhost/index.php?entidade=Usuario&acao=form&tipo=alterarsenha&id=" . $entidadeRecuperaSenha->getHash() . ">http://localhost/index.php?entidade=Usuario&acao=form&tipo=alterarsenha&id=" . $entidadeRecuperaSenha->getHash() . "</a>";
                     } else {
                         $dadosEmail['msg'] = "PIP OnLINE - Clique abaixo para recuperar sua senha. Este é um email automático. Não responda;
                         <br> 
-                        <a href=http://localhost/PIP/index.php?entidade=Usuario&acao=form&tipo=alterarsenha&id=" . $entidadeRecuperaSenha->getHash() . ">http://localhost/PIP/index.php?entidade=Usuario&acao=form&tipo=alterarsenha&id=" . $entidadeRecuperaSenha->getHash() . "</a>";
+                        <a href=http://localhost/index.php?entidade=Usuario&acao=form&tipo=alterarsenha&id=" . $entidadeRecuperaSenha->getHash() . ">http://localhost/index.php?entidade=Usuario&acao=form&tipo=alterarsenha&id=" . $entidadeRecuperaSenha->getHash() . "</a>";
                     }
                     $dadosEmail['contato'] = $_SESSION["nome"];
-                    $dadosEmail['assunto'] = "Recuperação de Senha - PIP";
-                    if (Email::enviarEmail($dadosEmail)) {
+                    $dadosEmail['assunto'] = utf8_decode("Recuperação de Senha - PIP");
+                    if (Email::enviarEmail($dadosEmail)) { //email enviado com sucesso
                         $genericoDAO->commit();
                         $genericoDAO->fecharConexao();
-                        $visao->setItem("sucessoenvioemail");
-                        $visao->exibir('VisaoErrosGenerico.php');
-                    } else {
+                        echo json_encode(array("resultado" => 1));
+                    } else { //erro no envio do email
                         $genericoDAO->rollback();
                         $genericoDAO->fecharConexao();
-                        $visao->setItem("erroemail");
-                        $visao->exibir('VisaoErrosGenerico.php');
+                        echo json_encode(array("resultado" => 3));
                     }
-                } else {
+                } else { //erro ao cadastrar token no banco - 004
                     $genericoDAO->rollback();
                     $genericoDAO->fecharConexao();
-                    $visao->setItem("errobanco");
-                    $visao->exibir('VisaoErrosGenerico.php');
+                    echo json_encode(array("resultado" => 4));
                 }
-            } else {
-                $visao->setItem("errobanco");
-                $visao->exibir('VisaoErrosGenerico.php');
+            } else { //email não encontrado
+               echo json_encode(array("resultado" => 0));
             }
-        } else {
-            $visao->setItem("errotoken");
-            $visao->exibir('VisaoErrosGenerico.php');
+        } else { //erro de sessão do token - 005
+            echo json_encode(array("resultado" => 5));
         }
     }
 
-    function alterarsenha($parametros) {
+    function alterarSenha($parametros) { //Usuário Esqueceu a Senha
         $visao = new Template();
         if (Sessao::verificarToken($parametros)) {
             $genericoDAO = new GenericoDAO();
@@ -448,21 +448,22 @@ class UsuarioControle {
             if ($resultadoUsuario && $resultadoAlterarSenha) {
                 $genericoDAO->commit();
                 $genericoDAO->fecharConexao();
-                $visao->setItem("sucessoalterarsenha");
-                $visao->exibir('VisaoErrosGenerico.php');
+                 echo json_encode(array("resultado" => 1));
             } else {
+                
                 $genericoDAO->rollback();
                 $genericoDAO->fecharConexao();
-                $visao->setItem("errobanco");
-                $visao->exibir('VisaoErrosGenerico.php');
+                 echo json_encode(array("resultado" => 0)); //erro de banco de dados - 000
+                //$visao->setItem("errobanco");
+                //$visao->exibir('VisaoErrosGenerico.php');
             }
         } else {
-            $visao->setItem("errotoken");
-            $visao->exibir('VisaoErrosGenerico.php');
+            echo json_encode(array("resultado" => 5)); //erro de sessão do token - 005
+            
         }
     }
 
-    function trocarsenha($parametros) {
+    function trocarSenha($parametros) { //Usuário Deseja Alterar Senha
         $visao = new Template();
         if (Sessao::verificarToken($parametros)) {
             $genericoDAO = new GenericoDAO();
