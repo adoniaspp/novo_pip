@@ -161,14 +161,10 @@ class UsuarioControle {
     function validarCaptcha($parametros){
         
         $captcha = new Securimage();
-        
-        echo "<pre>";
-        var_dump($captcha,$parametros["captcha_code"]);
-        echo "</pre>";
             
-        if($captcha->check($parametros["captcha_code"] == false)){
-            echo "false";
-        } else echo "true";
+        if($captcha->check($parametros["captcha_code"])){
+            echo "true";
+        } else echo "false";
         
         
     }

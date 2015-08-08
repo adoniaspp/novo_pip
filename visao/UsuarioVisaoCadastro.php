@@ -233,9 +233,7 @@ Sessao::gerarToken();
                     <img src="../assets/libs/captcha/securimage/images/refresh.png" height="32" width="32" alt="Trocar Imagem" onclick="this.blur()" align="bottom" border="0"></a>
                     <input type="text" name="captcha_code" id="captcha_code" maxlength="6" />
                 </div>
-                <?php echo "<pre>";
-                   print_r($_SESSION)  ;
-                ?>
+
                 <h3 class="ui dividing header"></h3>
                 
                 <button class="ui blue button" type="button" id="btnRegistrar">Registrar Agora</button>
