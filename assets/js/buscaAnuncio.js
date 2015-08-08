@@ -433,7 +433,6 @@ function enviarEmail() {
             },
             messages: {
                 txtEmailEmail: {
-                    required: "Email Inválido",
                     email: "Informe um email válido"
                 }
             },

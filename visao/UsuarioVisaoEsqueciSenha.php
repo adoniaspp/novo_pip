@@ -1,6 +1,6 @@
 <!-- LIBS -->
 <script src="assets/libs/jquery/jquery.validate.min.js"></script>
-<!-- JS -->
+<script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
 <script src="assets/js/usuario.js"></script>
 
 <?php
@@ -36,7 +36,7 @@ Sessao::gerarToken();
                 <div class="fields">
                     <div class="twelve wide required field">
                         <label>E-mail</label>
-                        <input type="text" name="txtEmail" id="txtEmail" placeholder="Informe o email cadastrado">
+                        <input type="text" name="txtEmail" id="txtEmail" placeholder="Informe o email cadastrado" maxlength="50">
                     </div>
                 </div>
                 <div class="ui hidden divider"></div>

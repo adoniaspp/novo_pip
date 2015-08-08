@@ -1,9 +1,10 @@
 <!-- LIBS -->
 <script src="assets/libs/jquery/jquery.validate.min.js"></script>
 <script src="assets/libs/jquery/jquery.mask.min.js"></script>
-<!-- JS -->
+<script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/js/usuario.js"></script>
+
 <script>
     cadastrarUsuario();
     mascarasFormUsuario();
@@ -94,20 +95,20 @@ Sessao::gerarToken();
                         <label>Login</label>
                         <div class="ui left icon input">
                             <i class="user icon"></i>                            
-                            <input type="text" name="txtLogin" id="txtLogin" placeholder="Informe um login">
+                            <input type="text" name="txtLogin" id="txtLogin" placeholder="Informe um login" maxlength="25">
                         </div>
                     </div>
                     <div class="required field" id="pwd-container">
                         <label>Senha</label>
                         <div class="ui left icon input">
-                            <input type="password" name="txtSenha" id="txtSenha" placeholder="Informe uma senha">
+                            <input type="password" name="txtSenha" id="txtSenha" placeholder="Informe uma senha" maxlength="20">
                             <i class="lock icon"></i>
                         </div>
                     </div>
                     <div class="required field">
                         <label>Confirmação da senha</label>
                         <div class="ui left icon input">
-                            <input type="password" name="txtConfirmarSenha" id="txtConfirmarSenha" placeholder="Repita a senha">
+                            <input type="password" name="txtConfirmarSenha" id="txtConfirmarSenha" placeholder="Repita a senha" maxlength="20">
                             <i class="lock icon"></i>
                         </div>
                     </div>
@@ -146,11 +147,11 @@ Sessao::gerarToken();
                         </div>
                         <div class="three wide required field">
                             <label>Número</label>
-                            <input type="text" name="txtNumero" id="txtNumero" placeholder="Informe o nº">
+                            <input type="text" name="txtNumero" id="txtNumero" placeholder="Informe o nº" maxlength="6">
                         </div>
                         <div class="field">
                             <label>Complemento</label>
-                            <input type="text" name="txtComplemento" id="txtComplemento" placeholder="Complemento">
+                            <input type="text" name="txtComplemento" id="txtComplemento" placeholder="Complemento" maxlength="60">
                         </div>
                     </div>
                 </div>
@@ -221,8 +222,23 @@ Sessao::gerarToken();
                         <input type="checkbox"  name="chkConfirmacao" id="chkConfirmacao">
                         <label>Estou de acordo com a <a href="#">política de privacidade</a> e os <a href="#">termos de uso</a> do PIP.</label>
                     </div>
+                                      
+                
                 </div>
-                <button class="ui blue button" type="button" id="btnRegistrar">Registrar Agora!</button>
+                  
+                <div class="five wide field">
+                    <label>Digite o código abaixo:</label>
+                    <img id="captcha" src="../assets/libs/captcha/securimage/securimage_show.php" alt="CAPTCHA Image" />    
+                    <a href="#" onclick="document.getElementById('captcha').src = '../assets/libs/captcha/securimage/securimage_show.php?' + Math.random(); return false">
+                    <img src="../assets/libs/captcha/securimage/images/refresh.png" height="32" width="32" alt="Trocar Imagem" onclick="this.blur()" align="bottom" border="0"></a>
+                    <input type="text" name="captcha_code" id="captcha_code" maxlength="6" />
+                </div>
+                <?php echo "<pre>";
+                   print_r($_SESSION)  ;
+                ?>
+                <h3 class="ui dividing header"></h3>
+                
+                <button class="ui blue button" type="button" id="btnRegistrar">Registrar Agora</button>
                 <button class="ui orange button" type="reset" id="btnCancelar">Cancelar</button>
             </form>
         </div>

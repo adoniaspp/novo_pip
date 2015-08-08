@@ -29,6 +29,7 @@ include_once 'modelo/Planta.php';
 include_once 'modelo/TipoImovel.php';
 include_once 'modelo/ImovelDiferencial.php';
 include_once 'modelo/Diferencial.php';
+include_once 'assets/libs/captcha/securimage/securimage.php';
 
 class UsuarioControle {
 
@@ -139,7 +140,7 @@ class UsuarioControle {
                     break;
                 }
             }
-
+            
             if ($idEndereco && $idUsuario && $idEmpresa && $resultadoTelefone) {
                 $genericoDAO->commit();
                 $genericoDAO->fecharConexao();
@@ -156,7 +157,22 @@ class UsuarioControle {
             $visao->exibir('VisaoErrosGenerico.php');
         }
     }
-
+    
+    function validarCaptcha($parametros){
+        
+        $captcha = new Securimage();
+        
+        echo "<pre>";
+        var_dump($captcha,$parametros["captcha_code"]);
+        echo "</pre>";
+            
+        if($captcha->check($parametros["captcha_code"] == false)){
+            echo "false";
+        } else echo "true";
+        
+        
+    }
+    
     function selecionar($parametro) {
         //modelo
         if (Sessao::verificarSessaoUsuario()) {
@@ -168,8 +184,6 @@ class UsuarioControle {
             $selecionarUsuario[0]->setEndereco($selecionarEndereco[0]);
             //visao
             $visao = new Template();
-//            var_dump($selecionarUsuario[0]->getEndereco()->getIdCidade());
-//            die();
             $visao->setItem($selecionarUsuario);
             $visao->exibir('UsuarioVisaoEdicao.php');
         } else {
@@ -345,15 +359,17 @@ class UsuarioControle {
     function autenticar($parametros) {
         $usuario = new Usuario();
         $genericoDAO = new GenericoDAO();
-        $selecionarUsuario = $genericoDAO->consultar($usuario, false, array("login" => $parametros['txtLogin']));
-
+        $selecionarUsuario = $genericoDAO->consultar($usuario, false, array("login" => $parametros['txtLogin']));       
+            
         if ((count($selecionarUsuario) > 0) && (password_verify($parametros['txtSenha'], $selecionarUsuario[0]->getSenha()))) {
             Sessao::configurarSessaoUsuario($selecionarUsuario);
             $redirecionamento = ConsultaUrl::consulta($_SERVER['HTTP_REFERER']);
-            echo json_encode(array("resultado" => 1, "nome" => $_SESSION['nome'], "redirecionamento" => $redirecionamento));
+            echo json_encode(array("resultado" => 1, "nome" => $_SESSION['nome'], 
+                "redirecionamento" => $redirecionamento));
         } else {
             echo json_encode(array("resultado" => 2)); //usuario ou senha invalido
-        }
+        }        
+        
     }
 
     function logout($parametros) {
@@ -366,12 +382,8 @@ class UsuarioControle {
 
     function esquecerSenha($parametros) {
         $visao = new Template();
-        /*echo "<pre>";
-        var_dump($parametros);
-        echo "</pre>";*/
 
         if (Sessao::verificarToken($parametros)) {
-            //echo "TESTE2";
             $usuario = new Usuario();
             $recuperaSenha = new RecuperaSenha();
             $genericoDAO = new GenericoDAO();
@@ -403,10 +415,10 @@ class UsuarioControle {
                     if ($avisoRecuperaSenha) {
                         $dadosEmail['msg'] = "
                         <br> 
-                        &lt;h1&gt;Você já solicitou uma troca de senha. Desconsidere o email já enviado e clique no link abaixo para processar a troca&lt;/h1&gt; 
+                        <h4>Você já solicitou uma troca de senha no PIP Imóveis. Desconsidere o email já enviado e clique no link abaixo para processar a troca:</h4><br>
                         <a href=http://localhost/index.php?entidade=Usuario&acao=form&tipo=alterarsenha&id=" . $entidadeRecuperaSenha->getHash() . ">http://localhost/index.php?entidade=Usuario&acao=form&tipo=alterarsenha&id=" . $entidadeRecuperaSenha->getHash() . "</a>";
                     } else {
-                        $dadosEmail['msg'] = "PIP OnLINE - Clique abaixo para recuperar sua senha. Este é um email automático. Não responda;
+                        $dadosEmail['msg'] = "PIP Imóveis - Clique abaixo para recuperar sua senha. Este é um email automático. Não responda.
                         <br> 
                         <a href=http://localhost/index.php?entidade=Usuario&acao=form&tipo=alterarsenha&id=" . $entidadeRecuperaSenha->getHash() . ">http://localhost/index.php?entidade=Usuario&acao=form&tipo=alterarsenha&id=" . $entidadeRecuperaSenha->getHash() . "</a>";
                     }
@@ -454,8 +466,6 @@ class UsuarioControle {
                 $genericoDAO->rollback();
                 $genericoDAO->fecharConexao();
                  echo json_encode(array("resultado" => 0)); //erro de banco de dados - 000
-                //$visao->setItem("errobanco");
-                //$visao->exibir('VisaoErrosGenerico.php');
             }
         } else {
             echo json_encode(array("resultado" => 5)); //erro de sessão do token - 005
@@ -464,8 +474,10 @@ class UsuarioControle {
     }
 
     function trocarSenha($parametros) { //Usuário Deseja Alterar Senha
+
         $visao = new Template();
         if (Sessao::verificarToken($parametros)) {
+
             $genericoDAO = new GenericoDAO();
             $genericoDAO->iniciarTransacao();
             $usuario = new Usuario();
@@ -477,25 +489,20 @@ class UsuarioControle {
                 if ($resultadoUsuario) {
                     $genericoDAO->commit();
                     $genericoDAO->fecharConexao();
-                    $visao->setItem("sucessoalterarsenha");
-                    $visao->exibir('VisaoErrosGenerico.php');
+                    echo json_encode(array("resultado" => 1));
                     //banco
                 } else {
                     $genericoDAO->rollback();
                     $genericoDAO->fecharConexao();
-                    $visao->setItem("errobanco");
-                    $visao->exibir('VisaoErrosGenerico.php');
+                    echo json_encode(array("resultado" => 0));
                 }
-                //especifico - A Senha atual está incorreta.
+                //A Senha atual está incorreta.
             } else {
-                $visao->setItem("errotrocasenha");
-                $visao->exibir('VisaoErrosGenerico.php');
-                //echo json_encode(array("resultado" => 3));
+                echo json_encode(array("resultado" => 2));
             }
             //token
         } else {
-            $visao->setItem("errotoken");
-            $visao->exibir('VisaoErrosGenerico.php');
+            echo json_encode(array("resultado" => 3));
         }
     }
 
@@ -599,8 +606,6 @@ class UsuarioControle {
         $genericoDAO->fecharConexao();
         echo json_encode(array("resultado" => 1));
 
-//     var_dump(sizeof($parametros["msgs"]));
-//     die();
     }
 
     public function lerMensagem($parametros) {

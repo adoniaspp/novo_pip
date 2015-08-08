@@ -40,6 +40,7 @@ function cadastrarUsuario() {
                                 }
                             }
                 });
+                
                 $("#txtRazaoSocial").rules("add", {
                     required: true,
                 });
@@ -100,6 +101,7 @@ function cadastrarUsuario() {
                 $(element).closest(".error").removeClass("error").addClass("success");
             }
         });
+       
         $.validator.messages.required = 'Campo obrigatório';
         $('#form').validate({
             onkeyup: false,
@@ -111,6 +113,7 @@ function cadastrarUsuario() {
                 txtLogin: {
                     required: true,
                     minlength: 2,
+                    maxlength: 25,
                     remote:
                             {
                                 url: "index.php",
@@ -138,13 +141,28 @@ function cadastrarUsuario() {
                                 }
                             }
                 },
+                captcha_code: {
+                    required: true,
+                    remote:
+                            {
+                                url: "index.php",
+                                dataType: "json",
+                                type: "POST",
+                                data: {
+                                    hdnEntidade: "Usuario",
+                                    hdnAcao: "validarCaptcha"
+                                }
+                            }
+                },
                 txtSenha: {
                     required: true,
-                    minlength: 8
+                    minlength: 8,
+                    maxlength: 20
                 },
                 txtConfirmarSenha: {
                     required: true,
-                    equalTo: "#txtSenha"
+                    equalTo: "#txtSenha",
+                    maxlength: 20
                 },
                 txtCEP: {
                     required: true
@@ -174,10 +192,12 @@ function cadastrarUsuario() {
                 },
                 txtLogin: {
                     minlength: "Login deve possuir no mínimo 2 caracteres",
+                    maxlength: "Login deve possuir no máximo 25 caracteres",
                     remote: "Login já utilizado"
                 },
                 txtSenha: {
-                    minlength: "Senha deve possuir no mínimo 8 caracteres"
+                    minlength: "Senha deve possuir no mínimo 8 caracteres",
+                    maxlength: "Senha deve possuir no máximo 20 caracteres"
                 },
                 txtConfirmarSenha: {
                     equalTo: "Por Favor digite a senha novamente"
@@ -189,7 +209,11 @@ function cadastrarUsuario() {
                     //required: "Campo obrigatório"
                     filesize: "A imagem deve ser menor que 2MB",
                     accept: "Extensão de Arquivo Inválida"
-                }
+                },
+                captcha_code: {
+                    required: "Campo obrigatório",
+                    remote: "Código Inválido"
+                },
             },
             submitHandler: function(form) {
                 form.submit();
@@ -225,6 +249,29 @@ function mascarasFormUsuario() {
 
 function acoesCEP() {
     $(document).ready(function() {
+        
+        $('#txtNumero').maxlength({
+            alwaysShow: true,
+            threshold: 6,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+        
+        $('#txtComplemento').maxlength({
+            alwaysShow: true,
+            threshold: 60,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+        
         $("#btnCEP").click(function() {
             buscarCep();
         });
@@ -465,7 +512,7 @@ function carregaDadosModal($div) {
 
 function buscarCep() {
     var validator = $("#form").validate();
-    if (validator.element("#txtCEP")) {
+    if (validator) {
         $.ajax({
             url: "index.php",
             dataType: "json",
@@ -696,16 +743,14 @@ function trocarSenha() { //alterar a senha esquecida
                     equalTo: "Por Favor digite a nova senha novamente"
                 }
             },
-            submitHandler: function() {
+            submitHandler: function(form) {
                
                 $.ajax({
                     url: "index.php",
                     dataType: "json",
                     type: "POST",
                     data: $('#form').serialize(),
-                    beforeSend: function () {
-                        $("#divBotoesAlterarSenha").hide();
-                        $("#divCamposAlterarSenha").hide();                       
+                    beforeSend: function () {                     
                         $("#divRetorno").html("<div><div class='ui active inverted dimmer'><div class='ui text loader'>Processando. Aguarde...</div></div></div>");
                     },
                     success: function (resposta) {
@@ -714,16 +759,18 @@ function trocarSenha() { //alterar a senha esquecida
                         if (resposta.resultado == 0) {
                             $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
                             <p>Erro ao processar requisição. Tente novamente em alguns minutos - 000</p>');
-                            $("#divBotoesAlterarSenha").show();
-                            $("#divCamposAlterarSenha").show();
                         } else if (resposta.resultado == 1) {
-                            $("#txtEmail").attr("readonly", "readonly");
+                            $("#divCamposTrocaSenha").hide();
+                            $("#divBotoesTrocarSenha").hide();
                             $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
     <p>Senha alterada com sucesso</p>');
-                        } else {
+                        } else if (resposta.resultado == 2) {
+                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
+    <p>A senha atual está incorreta. Tente novamente.</p>');
+                        } else if (resposta.resultado == 3) {
                             $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
     <p>Erro ao processar requisição - 005</p>');
-                        }
+                        } 
                     }
                 })
                 return false;
@@ -857,6 +904,18 @@ function esqueciSenha() {
                 $("#form").submit();
             }
         });
+        
+        $('#txtEmail').maxlength({
+            alwaysShow: true,
+            threshold: 50,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+        
         $.validator.setDefaults({
             ignore: [],
             errorClass: 'errorField',
@@ -975,6 +1034,122 @@ function alterarSenha() { //alterar a senha esquecida
         });
     });
 }
+
+function fazerLogin() { 
+    $(document).ready(function() {
+        $("#divUsuario").hide();
+        $("#btnLogin").click(function() {
+            if ($("#form").valid()) {
+                $("#form").submit();
+            }
+        });
+
+        $.validator.setDefaults({
+            ignore: [],
+            errorClass: 'errorField',
+            errorElement: 'div',
+            errorPlacement: function(error, element) {
+                error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
+            },
+            highlight: function(element, errorClass, validClass) {
+                $(element).closest("div.field").addClass("error").removeClass("success");
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).closest(".error").removeClass("error").addClass("success");
+            }
+        });
+        $.validator.messages.required = 'Campo obrigatório';
+        $('#form').validate({
+            onkeyup: false,
+            focusInvalid: true,
+            rules: {
+                txtSenha: {
+                    required: true,
+                    minlength: 8
+                },
+                txtLogin: {
+                    required: true,
+                    minlength: 2
+                }
+            },
+            messages: {
+                txtSenha: {
+                    minlength: "Senha deve possuir no mínimo 8 caracteres"
+                },
+                txtLogin: {
+                    minlength: "Login deve possuir no mínimo 2 caracteres"
+                }
+            },
+            submitHandler: function() {
+               
+                $.ajax({
+                    url: "index.php",
+                    dataType: "json",
+                    type: "POST",
+                    data: $('#form').serialize(),
+                    beforeSend: function () {                            
+                        $("#divRetorno").html("<div><div class='ui active inverted dimmer'>\n\
+                        <div class='ui text loader'>Processando. Aguarde...</div></div></div>");
+                    },
+                    success: function (resposta) {
+                        
+                        $("#divRetorno").empty();
+                        
+                        if (resposta.resultado == 1) {       
+                            $("#divLoginCadastro").hide();
+                            $("#divUsuario").show();                           
+                            location.href = resposta.redirecionamento;
+                        } else if (resposta.resultado == 2) {
+                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
+                            <p>Usuário ou Senha inválido</p>');                           
+                        }
+                    }
+                })
+                return false;
+            }
+        });
+    });
+}
+
+function exibirMeuPIP(valor, nome){
+    $(document).ready(function() {
+        
+        if(valor == "SIM"){
+           $("#loginCadastro").hide();
+           $("#divUsuario").show(); 
+           $("#divNome").html("<font color='black'><h4>Seja bem vindo, "+nome+" <h4></font>");
+        } else{
+           $("#divUsuario").hide();
+           $("#loginCadastro").show(); 
+        }
+                
+    })
+}
+
+
+function logout() {
+    $(document).ready(function() {
+        $("#btnLogout").click(function() {
+            $.ajax({
+                url: "index.php",
+                dataType: "json",
+                type: "POST",
+                data: {
+                    hdnEntidade: "Usuario",
+                    hdnAcao: "logout"
+                },
+                success: function (resposta) {
+                    if (resposta.resultado == 1) {
+                        $("#divUsuario").hide();
+                        //$('#divForm').show();
+                        location.href = 'index.php'
+                    }
+                }
+            })
+        })
+    })
+}
+
 
 function alterarUsuario() {
     $(document).ready(function() {

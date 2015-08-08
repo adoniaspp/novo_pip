@@ -228,51 +228,55 @@ Sessao::gerarToken();
                 
                 <div class="ui hidden divider"></div>
                 
+                <div id="divEndereco">
                 
-                <div class="fields" id="divEndereco">
                     <h3 class="ui dividing header">Endereço</h3>
-                        <div class="fields">
-                            <div class="five wide field">
-                                <div class="ui action left icon input">
-                                    <i class="search icon"></i>
-                                    <input type="text" name="txtCEP" id="txtCEP" placeholder="Informe o seu CEP...">
-                                    <div class="ui teal button" id="btnCEP">Buscar CEP</div>
-                                </div>              
-                            </div>
-                            <div class="three wide field"><label>Não sabe o CEP? <a href="http://www.buscacep.correios.com.br/servicos/dnec/menuAction.do?Metodo=menuLogradouro" target="_blank">clique aqui</a></label></div>
-                            <div class="five wide field"><div id="msgCEP"></div> </div>
+
+                    <div class="fields">
+                        <div class="five wide field">
+                            <div class="ui action left icon input">
+                                <i class="search icon"></i>
+                                <input type="text" name="txtCEP" id="txtCEP" placeholder="Informe o seu CEP...">
+                                <div class="ui teal button" id="btnCEP">Buscar CEP</div>
+                            </div>              
                         </div>
-                                       
-                    <div class="five wide field"><div id="msgCEP"></div> </div>
+                        <div class="three wide field"><label>Não sabe o CEP? <a href="http://www.buscacep.correios.com.br/servicos/dnec/menuAction.do?Metodo=menuLogradouro" target="_blank">clique aqui</a></label></div>
+                        <div class="five wide field"><div id="msgCEP"></div> </div>
+                    </div>
+
+
+                    <div id="divCEP" class="ui">
+                        <div class="three fields">
+                            <div class="field">
+                                <label>Cidade</label>
+                                <input type="text" name="txtCidade" id="txtCidade" readonly="readonly">
+                            </div>
+                            <div class="two wide field">
+                                <label>Estado</label>
+                                <input type="text" name="txtEstado" id="txtEstado" readonly="readonly">
+                            </div>
+                            <div class="field">
+                                <label>Bairro</label>
+                                <input type="text" name="txtBairro" id="txtBairro" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Logradouro</label>
+                                <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly">
+                            </div>
+                            <div class="three wide required field">
+                                <label>Número</label>
+                                <input type="text" name="txtNumero" id="txtNumero" placeholder="Informe o nº" maxlength="6">
+                            </div>
+                            <div class="field">
+                                <label>Complemento</label>
+                                <input type="text" name="txtComplemento" id="txtComplemento" placeholder="Complemento" maxlength="60">
+                            </div>
+                        </div>
+                    </div>
                 
-                    <div id="divCEP" class="six fields">
-                    <div class="field">
-                        <label>Cidade</label>
-                        <input type="text" name="txtCidade" id="txtCidade" readonly="readonly">
-                    </div>
-                    <div class="one wide field">
-                        <label>Estado</label>
-                        <input type="text" name="txtEstado" id="txtEstado" readonly="readonly">
-                    </div>
-                    <div class=" field">
-                        <label>Bairro</label>
-                        <input type="text" name="txtBairro" id="txtBairro" readonly="readonly">
-                    </div>
-                    <div class="seven wide field">
-                        <label>Logradouro</label>
-                        <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly">
-                    </div>
-                    <div class="two wide required field">
-                        <label>Número</label>
-                        <input type="text" name="txtNumero" id="txtNumero" placeholder="Informe o nº">
-                    </div>
-                    <div class="seven wide field">
-                        <label>Complemento</label>
-                        <input type="text" name="txtComplemento" id="txtComplemento" placeholder="Complemento">
-                    </div>
                 </div>
-                
-                </div>    
                 
                 <h3 class="ui dividing header">Confirmação de Cadastro</h3>
 
