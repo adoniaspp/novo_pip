@@ -40,9 +40,10 @@ class RespostaMensagem{
     }
 
     public function cadastrar($parametros){
+
         $respostaMensagem = new RespostaMensagem();
-        $respostaMensagem->setIdMensagem($_SESSION["mensagem"][$parametros["id"]]);
-        $respostaMensagem->setResposta($parametros["msg"]);
+        $respostaMensagem->setIdMensagem($_SESSION["mensagem"][$parametros["hdnMensagem"]]);
+        $respostaMensagem->setResposta($parametros["txtResposta"]);
         $respostaMensagem->setDatahora(date('d/m/Y H:i:s'));
         return $respostaMensagem;
     }

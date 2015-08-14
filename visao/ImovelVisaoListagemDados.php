@@ -6,8 +6,8 @@
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/js/jquery.price_format.min.js"></script>
 <script src="assets/js/mask.js"></script>
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.6/css/jquery.dataTables.css">
-<script src="assets/libs/DataTables-1.10.6/media/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.8/css/jquery.dataTables.css">
+<script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 
 
 <div class="container">
@@ -22,9 +22,13 @@
                 <a class="active section">Imóveis Cadastrados - Informações</a>
             </div>
         </div>
+      
     </div>
+    
     <div class="ui hidden divider"></div>
-
+    
+    <div class="ui page grid main">
+    
     <table class="ui table" id="tabela">
             <thead>
                 <tr>
@@ -37,28 +41,16 @@
             <tbody>
                 
     <?php
-    /*
-    $params = array(
-    'mode'       => 'Sliding',
-    'perPage'    => 5,
-    'dela'       => 2,
-    'itemData'   => $this->getItem());
-    
-    $pager = & Pager::factory($params);
-    $data  = $pager->getPageData();
-         */   
+
     Sessao::gerarToken(); 
-    /*echo "<pre>";
-    var_dump($this->getItem());
-    echo "</pre>";*/
+
     foreach($this->getItem() as $imovel){ /*echo "<pre>"; var_dump($imovel);echo "</pre>";*/?>
                 
-               
-                
-               <tr>        
         <?php
-                        
-        echo $imovel->buscarTipoImovel($imovel->getIdTipoImovel());
+
+        echo "<tr>";
+        
+        echo $imovel->buscarTipoImovel($imovel->getIdTipoImovel())."</td>";
         
         if(trim($imovel->getIdentificacao()) == ""){
             $descricao = "<h4 class='ui red header'>Não Informado</h4>";
@@ -69,14 +61,13 @@
                         
         echo "<td>".$imovel->getDatahoracadastro()."</td>";
                         
-        echo "<td><a href='#' class='ui teal button' id='detalhes".$imovel->getId()."' >Detalhes</div></td>" ;
-       
-        echo "<td>";
+        echo "<td><a href='#' class='ui teal button' id='detalhes".$imovel->getId()."' >Detalhes do Imóvel</td>" ;
         
-          
+        echo "</tr>";
+        
         }
     ?>                    
-               </tr>         
+                       
             </tbody>
         </table>
         <?php
@@ -85,6 +76,7 @@
          
           */
         ?>
+    </div>
     </div>
     <div class="ui hidden divider"></div>  
     
@@ -107,9 +99,10 @@ function verificaAnuncioAtivo($listaAnuncios) {
 ?>
 
 <script>
+$(document).ready(function () {   
 $('#tabela').dataTable({
         "language": {
-            "url": "assets/libs/DataTables-1.10.6/media/js/pt.json",
+            "url": "assets/libs/DataTables/js/Portuguese-Brasil.json",
         },
         "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
         "stateSave": true,
@@ -117,4 +110,5 @@ $('#tabela').dataTable({
         { "orderable": false, "targets": 3 }
         ]
     });
+})
 </script>

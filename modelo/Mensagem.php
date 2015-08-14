@@ -112,15 +112,17 @@ class Mensagem {
     }
 
     function cadastrar($parametros) {
+
         $mensagem = new Mensagem();
-        $mensagem->setNome($parametros['nome']);
-        $mensagem->setEmail($parametros['email']);
-        $mensagem->setTelefone($parametros['telefone']);
-        $mensagem->setMensagem($parametros['mensagem']);
+        $mensagem->setNome($parametros['txtNomeDuvida']);
+        $mensagem->setEmail($parametros['txtEmailDuvida']);
+        $mensagem->setTelefone("");
+        $mensagem->setMensagem($parametros['txtMsgDuvida']);
         $mensagem->setStatus("NOVA");
         $mensagem->setDatahora(date('d/m/Y H:i:s'));
-        $mensagem->setIdanuncio($parametros['idanuncio']);
-        $mensagem->setIdusuario($parametros['idusuario']);
+        $mensagem->setIdanuncio($parametros['hdnAnuncio']);
+        $mensagem->setIdusuario($parametros['hdnUsuario']);
+
         //$mensagem->setArquivada("NÃO");
         return $mensagem;
     }

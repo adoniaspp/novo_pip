@@ -10,15 +10,13 @@
 
 <?php
 $item = $this->getItem();
-/*echo '<pre>';
-print_r($item['anuncio']);
-die();*/
+
 ?>
 
 <script>
     marcarMapa("<?php echo $item["anuncio"][0]["logradouro"]?>", "<?php echo $item["anuncio"][0]["numero"]?>", "<?php echo $item["anuncio"][0]["bairro"]?>", "<?php echo $item["anuncio"][0]["tituloanuncio"]?>", "<?php echo $item["anuncio"][0]["valormin"]?>", "<?php echo $item["anuncio"][0]["finalidade"]?>", "500", "300", 10);
-    confirmarEmail();
-    enviarEmail();
+    //confirmarEmail();
+    enviarDuvidaAnuncio();
     slideAnuncio();
 
 </script>
@@ -40,14 +38,15 @@ die();*/
                                 Fotos
                             </div>
                         </div>
+ 
                         <div class="fotorama" data-allowfullscreen="true" data-nav="thumbs" data-fit="cover" data-width="700" data-ratio="700/467" data-max-width="100%">
                             <?php foreach ($item['anuncio'][0]['imagem'] as $imagem) { ?>
-                                <a href="<?php echo PIPURL . $imagem['diretorio'] ?>" data-caption="<?php echo $imagem['legenda'] ?>" data-thumb="<?php echo PIPURL . "/fotos/imoveis/teste1/thumbnail/foto1.jpg" ?>"></a>
+                                <a href="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . $imagem['nome'] ?>" data-caption="<?php echo $imagem['legenda'] ?>" data-thumb="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . 'thumbnail/' . $imagem['nome'] ?>"></a>
                             <?php } ?>
                         </div>
-                        <!--                        <div class="ui info message">
-                                                    <p> <?php echo $item['anuncio'][0]['descricaoanuncio'] ?></p>
-                                                </div>-->
+                        <!--<div class="ui info message">
+                        <p> <?php echo $item['anuncio'][0]['descricaoanuncio'] ?></p>
+                        </div>-->
                     </div>
                     <div class="eight wide column">
                         <div class="ui blue dividing header">
@@ -400,7 +399,7 @@ if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'
 ?>
                                     <div class="extra">
                                         
-                                        <button class="ui right floated primary button" id="btnEmail">
+                                        <button class="ui right floated primary button" id="btnDuvida">
                                             Envie uma mensagem
                                             <i class="right mail outline icon"></i>
                                         </button>
@@ -418,35 +417,43 @@ if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'
     <div class="column"></div>
 
     <!-- Modal Para Abrir a Div do Enviar Anuncios por Email -->
-    <div class="ui standart modal" id="modalEmail">
+    <div class="ui standart modal" id="modalDuvidaAnuncio">
         <i class="close icon"></i>
         <div class="header">
             Envie sua dúvida
         </div>
-        <div class="content" id="camposEmail">
+        <div class="content" id="camposDuvida">
             <div class="description">
                 <div class="ui piled segment">
                     <p id="textoConfirmacao"></p>
 
-                    <form class="ui form" id="formEmail" action="index.php" method="post">
+                    <form class="ui form" id="formDuvidaAnuncio" action="index.php" method="post">
                         <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio"  />
-                        <input type="hidden" id="hdnAcao" name="hdnAcao" value="enviarEmail" />   
-                        <input type="hidden" id="hdnMsgDuvida" name="hdnMsgDuvida"/>
+                        <input type="hidden" id="hdnAcao" name="hdnAcao" value="enviarDuvidaAnuncio" />  
+                        <input type="hidden" id="hdnUsuario" name="hdnUsuario" value="<?php echo $item['anuncio'][0]['id'] ?>" />  
                         <input type="hidden" id="hdnAnuncio" name="hdnAnuncio" value="<?php echo $item['anuncio'][0]['idanuncio'] ?>" />
 
                         <div class="field">
-                            <label>Nome</label>
-                            <input name="txtNomeEmail" id="txtNomeEmail" placeholder="Digite Seu Nome" type="text" maxlength="50">
+                            <label>Seu Nome</label>
+                            <input name="txtNomeDuvida" id="txtNomeDuvida" placeholder="Digite seu Nome" type="text" maxlength="50">
                         </div>
                         <div class="field">
                             <label>E-mail para contato</label>
-                            <input name="txtEmailEmail"  id="txtEmailEmail" placeholder="Digite o email" type="text" maxlength="50">
+                            <input name="txtEmailDuvida"  id="txtEmailDuvida" placeholder="Digite seu email" type="text" maxlength="50">
                         </div>
                         <div class="field">
                             <label>Escreva sua dúvida</label>
-                            <textarea rows="2" id="txtMsgEmail" name="txtMsgEmail" maxlength="200"></textarea>
+                            <textarea rows="2" id="txtMsgDuvida" name="txtMsgDuvida" maxlength="200"></textarea>
                         </div>
-
+                        
+                        <div class="five wide field">
+                        <label>Digite o código abaixo:</label>
+                        <img id="captcha" src="../assets/libs/captcha/securimage/securimage_show.php" alt="CAPTCHA Image" />    
+                        <a href="#" onclick="document.getElementById('captcha').src = '../assets/libs/captcha/securimage/securimage_show.php?' + Math.random(); return false">
+                        <img src="../assets/libs/captcha/securimage/images/refresh.png" height="32" width="32" alt="Trocar Imagem" onclick="this.blur()" align="bottom" border="0"></a>
+                        <input type="text" name="captcha_code" id="captcha_code" maxlength="6" />
+                        </div>
+                        
                     </form>
 
                 </div>
@@ -454,14 +461,14 @@ if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'
         </div>
         <div id="divRetorno"></div>
         <div class="actions">
-            <div  id="botaoCancelarEmail" class="ui red deny button">
+            <div  id="botaoCancelarDuvida" class="ui red deny button">
                 Cancelar
             </div>
-            <div  id="botaoEnviarEmail" class="ui positive right labeled icon button">
+            <div  id="botaoEnviarDuvida" class="ui positive right labeled icon button">
                 Enviar
                 <i class="checkmark icon"></i>
             </div>
-            <div  id="botaoFecharEmail" class="ui red deny button">
+            <div  id="botaoFecharDuvida" class="ui red deny button">
                 Fechar
             </div>
         </div>

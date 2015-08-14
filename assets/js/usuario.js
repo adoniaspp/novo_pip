@@ -689,10 +689,6 @@ $(document).ready(function() {
 
 });
 
-
-
-
-
 function trocarSenha() { //alterar a senha esquecida
     $(document).ready(function() {
         $("#btnAlterarSenha").click(function() {
@@ -778,67 +774,6 @@ function trocarSenha() { //alterar a senha esquecida
         });
     });
 }
-
-
-
-
-/*
-function trocarSenha() {
-    $(document).ready(function() {
-        $("#btnAlterarSenha").click(function() {
-            if ($("#form").valid()) {
-                if (($("input[name^=txtSenhaAtual]").val()) === ($("input[name^=txtSenhaNova]").val())) {
-                    $('#modalSenha').modal({
-                        transition: "fade up",
-                    }).modal('show');
-                } else {
-                    $("#form").submit();
-                }
-            }
-        });
-        $.validator.setDefaults({
-            ignore: [],
-            errorClass: 'errorField',
-            errorElement: 'div',
-            errorPlacement: function(error, element) {
-                error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
-            },
-            highlight: function(element, errorClass, validClass) {
-                $(element).closest("div.field").addClass("error").removeClass("success");
-            },
-            unhighlight: function(element, errorClass, validClass) {
-                $(element).closest(".error").removeClass("error").addClass("success");
-            }
-        });
-        $.validator.messages.required = 'Campo obrigatório';
-        $.validator.messages.minlength = "Senha deve possuir no mínimo 8 caracteres";
-        $('#form').validate({
-            rules: {
-                txtSenhaAtual: {
-                    required: true,
-                    minlength: 8
-                },
-                txtSenhaNova: {
-                    required: true,
-                    minlength: 8
-                },
-                txtSenhaConfirmacao: {
-                    required: true,
-                    minlength: 8,
-                    equalTo: "#txtSenhaNova"
-                }
-            },
-            messages: {
-                txtSenhaConfirmacao: {
-                    equalTo: "Por Favor digite a nova senha novamente"
-                }
-            },
-            submitHandler: function(form) {
-                form.submit();
-            }
-        });
-    });
-}*/
 
 function trocarImagem() {
     $(document).ready(function() {
@@ -1125,7 +1060,6 @@ function exibirMeuPIP(valor, nome){
                 
     })
 }
-
 
 function logout() {
     $(document).ready(function() {

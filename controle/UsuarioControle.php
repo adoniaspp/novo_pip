@@ -554,20 +554,34 @@ class UsuarioControle {
     }
 
     public function responderMensagem($parametros) {
+        
         $genericoDAO = new GenericoDAO();
         $genericoDAO->iniciarTransacao();
         $respostaMensagem = new RespostaMensagem();
+
         $entidadeRespostaMensagem = $respostaMensagem->cadastrar($parametros);
+
         $resultadoRespostaMensagem = $genericoDAO->cadastrar($entidadeRespostaMensagem);
-        if ($resultadoRespostaMensagem) {
+        
+        $entidadeMensagem = $genericoDAO->consultar(new Mensagem(), true, array("id" => $_SESSION["mensagem"][$parametros["hdnMensagem"]]));
+        
+        $entidadeMensagem = $entidadeMensagem[0];
+        
+        $entidadeMensagem->setStatus("RESPONDIDO"); //alterar o status da mensagem para Respondido
+        
+        $statusRespondido = $genericoDAO->editar($entidadeMensagem);
+
+        if ($resultadoRespostaMensagem && $statusRespondido) {
+            
             //Enviar email para o usuário
-            $selecionarMensagem = $genericoDAO->consultar(new Mensagem(), false, array("id" => $_SESSION["mensagem"][$parametros["id"]]));
+            $selecionarMensagem = $genericoDAO->consultar(new Mensagem(), false, array("id" => $entidadeRespostaMensagem->getIdMensagem()));
+            
             $selecionarAnuncio = $genericoDAO->consultar(new Anuncio(), false, array("id" => $selecionarMensagem[0]->getIdAnuncio()));
             $dadosEmail['destino'] = $selecionarMensagem[0]->getEmail(); //$parametros["email"];  
             $dadosEmail['nome'] = $selecionarMensagem[0]->getNome(); //$parametros["nome"]; 
-            $dadosEmail['msg'] = $parametros["msg"];
+            $dadosEmail['msg'] = "O vendedor respondeu sua mensagem: <br><br>Resposta: ".$parametros["txtResposta"]."<br><br>Este é um e-mail automático. Favor, não responder";
             $dadosEmail['contato'] = $_SESSION["nome"];
-            $dadosEmail['assunto'] = $selecionarAnuncio[0]->getTituloAnuncio();
+            $dadosEmail['assunto'] = "PIP Online - Resposta do vendedor sobre o anuncio ".$selecionarAnuncio[0]->getTituloAnuncio();
             if (Email::enviarEmail($dadosEmail)) {
                 $genericoDAO->commit();
                 $genericoDAO->fecharConexao();

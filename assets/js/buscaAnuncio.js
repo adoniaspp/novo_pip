@@ -338,6 +338,8 @@ function confirmarEmail() {
             $("#divRetorno").empty();
 
             $("#idAnuncios").empty();
+            $("#idAnunciosCabecalho").empty();
+            
             var arr = [];
             $("input[type^='checkbox']:checked").each(function ()
             {
@@ -348,13 +350,11 @@ function confirmarEmail() {
             //retira a vírgula do último elemento
             var anuncios = arr.join(", ");
 
-            $("#idAnuncios").append("<div class='ui horizontal list'>\n\
+            $("#idAnunciosCabecalho").append("<div class='ui horizontal list'>\n\
                                         <div class='item'>\n\
-                                        <div class='content'>\n\
-                                        <div class='header'>Anuncios Selecionados: </div>" + anuncios + "</div>\n\
+                                        <div class='content'>" + anuncios + "</div>\n\
                          </div>\n\
-                         </div>\n\
-            <div class='ui hidden divider'></div>");
+                         </div>");
 
             $('#modalEmail').modal({
                 closable: true,
@@ -376,6 +376,7 @@ function enviarEmail() {
     $(document).ready(function () {
 
         $("#botaoFecharEmail").hide();
+        
         $('#txtNomeEmail').maxlength({
             alwaysShow: true,
             threshold: 50,
@@ -406,6 +407,7 @@ function enviarEmail() {
             postText: ' caracteres permitidos.',
             validate: true
         });
+
         $.validator.setDefaults({
             ignore: [],
             errorClass: 'errorField',
@@ -429,12 +431,30 @@ function enviarEmail() {
                 txtEmailEmail: {
                     required: true,
                     email: true
+                },
+                captcha_code: {
+                    required: true,
+                    remote:
+                            {
+                                url: "index.php",
+                                dataType: "json",
+                                type: "POST",
+                                data: {
+                                    hdnEntidade: "Usuario",
+                                    hdnAcao: "validarCaptcha"
+                                }
+                            }
                 }
             },
+            
             messages: {
                 txtEmailEmail: {
                     email: "Informe um email válido"
-                }
+                },
+                captcha_code: {
+                    remote: "Código Inválido"
+                },
+                
             },
             submitHandler: function (form) {
                 $.ajax({
@@ -454,8 +474,8 @@ function enviarEmail() {
                         $("#botaoFecharEmail").show();
                         if (resposta.resultado == 1) {
                             $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
-    <p>E-Mail enviado com Sucesso </p>\n\
-    ');
+                        <p>E-Mail enviado com Sucesso </p>');
+                            
                         } else {
                             $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
     <h2 class="ui header">Tente novamente mais tarde!</h2><p>Houve um erro no processamento. </p></div>');
@@ -468,6 +488,144 @@ function enviarEmail() {
 
     });
 }
+
+
+function enviarDuvidaAnuncio() {
+    $(document).ready(function () {
+
+        $("#botaoFecharDuvida").hide();
+       
+        $('#btnDuvida').click(function () {
+        
+        $('#txtNomeDuvida').maxlength({
+            alwaysShow: true,
+            threshold: 50,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+        $('#txtMsgDuvida').maxlength({
+            alwaysShow: true,
+            threshold: 200,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+        $('#txtEmailDuvida').maxlength({
+            alwaysShow: true,
+            threshold: 100,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+        
+        $('#modalDuvidaAnuncio').modal({
+                closable: true,
+                transition: "fade up",
+                onDeny: function () {
+                },
+                onApprove: function () {
+                    $("#formDuvidaAnuncio").submit();
+                    return false; //deixar o modal fixo
+                }
+            }).modal('show');     
+
+        $.validator.setDefaults({
+            ignore: [],
+            errorClass: 'errorField',
+            errorElement: 'div',
+            errorPlacement: function (error, element) {
+                error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).closest("div.field").addClass("error").removeClass("success");
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).closest(".error").removeClass("error").addClass("success");
+            }
+        });
+
+        $.validator.messages.required = 'Campo obrigatório';
+        $('#formDuvidaAnuncio').validate({
+            onkeyup: false,
+            focusInvalid: true,
+            rules: {
+                txtEmailDuvida: {
+                    required: true,
+                    email: true
+                },
+                txtMsgDuvida: {
+                    required: true
+                },
+                captcha_code: {
+                    required: true,
+                    remote:
+                            {
+                                url: "index.php",
+                                dataType: "json",
+                                type: "POST",
+                                data: {
+                                    hdnEntidade: "Usuario",
+                                    hdnAcao: "validarCaptcha"
+                                }
+                            }
+                }
+            },
+            
+            messages: {
+                txtEmailDuvida: {
+                    email: "Informe um email válido"
+                },
+                captcha_code: {
+                    remote: "Código Inválido"
+                },
+                
+            },
+            submitHandler: function (form) {
+                $.ajax({
+                    url: "index.php",
+                    dataType: "json",
+                    type: "POST",
+                    data: $('#formDuvidaAnuncio').serialize(),
+                    beforeSend: function () {
+                        $("#botaoEnviarDuvida").hide();
+                        $("#botaoCancelarDuvida").hide();
+                        $("#camposDuvida").hide();
+                        $("#divRetorno").html("<div><div class='ui active inverted dimmer'>\n\
+                        <div class='ui text loader'>Enviando mensagem. Aguarde...</div></div></div>");
+                    },
+                    success: function (resposta) {
+                        $("#divRetorno").empty();
+                        $("#botaoCancelarDuvida").hide();
+                        $("#botaoFecharDuvida").show();
+                        if (resposta.resultado == 1) {
+                            $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
+                        <p>Mensagem enviada com Sucesso </p>');
+                            $("#btnDuvida").attr("disabled", "disabled");
+                            
+                        } else {
+                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
+                        <h2 class="ui header">Tente novamente mais tarde. Houve um erro no processamento.</h2></div>');
+                        }
+                    }
+                })
+                return false;
+            }
+        })
+
+       })
+   })
+}
+
 
 function inserirAnuncioModal() {
 

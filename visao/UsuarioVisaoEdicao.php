@@ -15,6 +15,7 @@
 <?php
 Sessao::gerarToken();
 $item = $this->getItem();
+
 if ($item) {
     foreach ($item as $usuario) {
         ?>
@@ -113,40 +114,45 @@ if ($item) {
                         </div>
                         <h3 class="ui dividing header">Endereço</h3>
                         <div class="fields">
-                            <div class="five wide field">
-                                <div class="ui action left icon input">
-                                    <i class="search icon"></i>
-                                    <input type="text" name="txtCEP" id="txtCEP" placeholder="Informe o seu CEP..." value="<?php echo $usuario->getEndereco()->getCep() ?>">
-                                    <div class="ui teal button" id="btnCEP">Buscar CEP</div>
-                                </div>              
-                            </div>
-                            <div class="three wide field"><label>Não sabe o CEP? <a href="http://www.buscacep.correios.com.br/servicos/dnec/menuAction.do?Metodo=menuLogradouro" target="_blank">clique aqui</a></label></div>
-                            <div class="five wide field"><div id="msgCEP"></div> </div>
+                        <div class="five wide field">
+                            <div class="ui action left icon input">
+                                <i class="search icon"></i>
+                                <input type="text" name="txtCEP" id="txtCEP" placeholder="Informe o seu CEP..."
+                                value="<?php echo $usuario->getEndereco()->getCep() ?>">
+                                <div class="ui teal button" id="btnCEP">Buscar CEP</div>
+                            </div>              
                         </div>
-                        <div id="divCEP" class="six fields">
-                            <div class="field">
-                                <label>Cidade</label>
-                                <input type="text" name="txtCidade" id="txtCidade" readonly="readonly" value="<?php echo $usuario->getEndereco()->getCidade()->getNome(); ?>">
+                        <div class="three wide field"><label>Não sabe o CEP? <a href="http://www.buscacep.correios.com.br/servicos/dnec/menuAction.do?Metodo=menuLogradouro" target="_blank">clique aqui</a></label></div>
+                        <div class="five wide field"><div id="msgCEP"></div> </div>
+                        </div>
+                        <div id="divCEP" class="ui">
+                            <div class="three fields">
+                                <div class="field">
+                                    <label>Cidade</label>
+                                    <input type="text" name="txtCidade" id="txtCidade" readonly="readonly" value="<?php echo $usuario->getEndereco()->getCidade()->getNome(); ?>">
+                                </div>
+                                <div class="two wide field">
+                                    <label>Estado</label>
+                                    <input type="text" name="txtEstado" id="txtEstado" readonly="readonly" value="<?php echo $usuario->getEndereco()->getEstado()->getUf() ?>">
+                                </div>
+                                <div class="field">
+                                    <label>Bairro</label>
+                                    <input type="text" name="txtBairro" id="txtBairro" readonly="readonly" value="<?php echo $usuario->getEndereco()->getBairro()->getNome() ?>">
+                                </div>
                             </div>
-                            <div class="one wide field">
-                                <label>Estado</label>
-                                <input type="text" name="txtEstado" id="txtEstado" readonly="readonly" value="<?php echo $usuario->getEndereco()->getEstado()->getUf() ?>">
-                            </div>
-                            <div class=" field">
-                                <label>Bairro</label>
-                                <input type="text" name="txtBairro" id="txtBairro" readonly="readonly" value="<?php echo $usuario->getEndereco()->getBairro()->getNome() ?>">
-                            </div>
-                            <div class="seven wide field">
-                                <label>Logradouro</label>
-                                <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly" value="<?php echo $usuario->getEndereco()->getLogradouro() ?>">
-                            </div>
-                            <div class="two wide required field">
-                                <label>Número</label>
-                                <input type="text" name="txtNumero" id="txtNumero" placeholder="Informe o nº" value="<?php echo $usuario->getEndereco()->getNumero() ?>">
-                            </div>
-                            <div class="seven wide field">
-                                <label>Complemento</label>
-                                <input type="text" name="txtComplemento" id="txtComplemento" placeholder="Complemento" value="<?php echo $usuario->getEndereco()->getComplemento() ?>">
+                            <div class="two fields">
+                                <div class="field">
+                                    <label>Logradouro</label>
+                                    <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly" value="<?php echo $usuario->getEndereco()->getLogradouro() ?>">
+                                </div>
+                                <div class="three wide required field">
+                                    <label>Número</label>
+                                    <input type="text" name="txtNumero" id="txtNumero" placeholder="Informe o nº" maxlength="6" value="<?php echo $usuario->getEndereco()->getNumero() ?>">
+                                </div>
+                                <div class="field">
+                                    <label>Complemento</label>
+                                    <input type="text" name="txtComplemento" id="txtComplemento" placeholder="Complemento" maxlength="60" value="<?php echo $usuario->getEndereco()->getComplemento() ?>">
+                                </div>
                             </div>
                         </div>
                         <h3 class="ui dividing header">Telefones</h3> 
@@ -217,7 +223,7 @@ if ($item) {
         <?php } ?>     
                             </tbody>
                         </table>
-                        <button class="ui blue button" type="button" id="btnRegistrar">Atualizar Agora!</button>
+                        <button class="ui blue button" type="button" id="btnRegistrar">Atualizar</button>
                         <button class="ui orange button" type="reset" id="btnCancelar">Cancelar</button>
                     </form>
                 </div>
