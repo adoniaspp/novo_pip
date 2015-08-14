@@ -116,8 +116,10 @@ if ($item) {
     cancelar('Anuncio', 'listarCadastrar');
 <?php if ($tipoImovel == "apartamentoplanta") { ?>
         stepsComPlanta();
+        validarValor(false);
 <?php } else { ?>
         stepsSemPlanta();
+        validarValor(true);
 <?php } ?>
 </script>
 

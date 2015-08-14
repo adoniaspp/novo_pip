@@ -121,7 +121,7 @@ switch ($item) {
                         <h2>O imóvel foi cadastrado com sucesso!</h2>
                         <h3>O que deseja fazer? </h3> 
                         <a href="index.php?entidade=Anuncio&acao=listarCadastrar">
-                            <button type="button"  class="ui purple button">
+                            <button type="button"  class="ui brown button">
                                 <i class="announcement icon"></i><i class="add icon"></i> Publicar Anúncios
                             </button>
                         </a> 
@@ -137,8 +137,8 @@ switch ($item) {
                         <h2>O imóvel foi atualizado com sucesso!</h2>
                         <h3>O que deseja fazer? </h3> 
                         <a href="index.php?entidade=Usuario&acao=meuPIP">
-                            <button type="button"  class="ui purple button">
-                                <i class="announcement icon"></i><i class="add icon"></i> Voltar ao Meu PIP
+                            <button type="button"  class="ui primary button">
+                                <i class="block layout icon"></i><i class="add icon"></i> Voltar ao Meu PIP
                             </button>
                         </a> 
                         <a href="index.php?entidade=Imovel&acao=listarEditar">

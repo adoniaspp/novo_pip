@@ -217,17 +217,34 @@ class AnuncioControle {
                         $entidadeUsuarioPlano->setStatus("utilizado");
                         $genericoDAO->editar($entidadeUsuarioPlano);
                     }
-                    /*
-                      //se for apartamento na planta
-                      if($_SESSION["anuncio"]["tipoimovel"]==2){
-                      $valor = new Valor();
-                      $valor->setIdanuncio($idAnuncio);
-                      $valor->setIdplantaapartamentonovo($idplantaapartamentonovo);
 
-                      $idValor = $genericoDAO->cadastrar($entidadeValor);
-                      }
-                      }
-                     */
+                    //se for apartamento na planta
+                    if ($_SESSION["anuncio"]["tipoimovel"] == 2) {
+                        $valor = new Valor();
+                        $valor->setIdanuncio($idAnuncio);
+                        //traz todas as plantas
+                        $plantas = $genericoDAO->consultar(new Imovel(), true, array("id" => $_SESSION["anuncio"]["idimovel"]));
+                        $plantas = $plantas[0]->getPlanta();
+                        //itera para cada planta
+                        foreach ($plantas as $planta) {
+                            $valor->setIdplanta($planta->getId());
+                            //monta os parametros que vem do formulario
+                            $parametroAndarInicial = "hdnAndarInicial" . $planta->getOrdemplantas();
+                            $parametroAndarFinal = "hdnAndarFinal" . $planta->getOrdemplantas();
+                            $parametroValor = "hdnValor" . $planta->getOrdemplantas();
+                            //verifica se tem algum valor informado para cada planta
+                            if (isset($parametros[$parametroAndarInicial])) {
+                                //itera pela quantidade de registros por planta
+                                for ($i = 0; $i <= count($parametros[$parametroAndarInicial]) - 1; $i++) {
+                                    $entidadeValor = $valor;
+                                    $entidadeValor->setAndarinicial($parametros[$parametroAndarInicial][$i]);
+                                    $entidadeValor->setAndarFinal($parametros[$parametroAndarFinal][$i]);
+                                    $entidadeValor->setValor($parametros[$parametroValor][$i]);
+                                    $genericoDAO->cadastrar($entidadeValor);
+                                }
+                            }
+                        }
+                    }
                     //somente salva fotos se houver
                     if (isset($_SESSION["imagem"])) {
                         foreach ($_SESSION["imagem"] as $file) {
@@ -267,14 +284,22 @@ class AnuncioControle {
                     $menor = array();
                     foreach ($plantas as $planta) {
                         if (isset($parametros[$planta])) {
-                            $menor[] = min($parametro[$planta]);
+                            $minimo = min($parametros[$planta]);
+                            $minimo = str_replace("R$", "", $minimo);
+                            $minimo = str_replace(".", "", $minimo);
+                            $minimo = str_replace(",", ".", $minimo);
+                            $minimo = trim($minimo);
+                            if ((float) $minimo > 0) {
+                                $menor[] = $minimo;
+                            }
                         }
                     }
-                    $valorMinimo = min($menor);
+                    if (min($menor) > 0) {
+                        $valorMinimo = min($menor);
+                    }
                     break;
             }
         }
-
         $anuncio->setValormin($valorMinimo);
     }
 
@@ -322,8 +347,15 @@ class AnuncioControle {
         $dadosEmail['destino'] = $parametros['txtEmailEmail'];
         $dadosEmail['contato'] = "PIP-Online";
         $dadosEmail['assunto'] = utf8_decode("PIP-Online - Selecionou imóvel(is) para você");
-        $dadosEmail['msg'] .= 'Veja o(s) imóvel(is) que ' . $parametros['txtNomeEmail'] . ' indicou para você!<br><br>';
-        $dadosEmail['msg'] .= 'Mensagem: ' . $parametros['txtMsgEmail'];
+
+        if ($parametros['txtNomeEmail'] != "") {
+
+            $dadosEmail['msg'] .= 'Veja o(s) imóvel(is) indicados para você por ' . $parametros['txtNomeEmail'] . ':<br><br>';
+        } else {
+            $dadosEmail['msg'] .= 'Veja o(s) imóvel(is) indicados para você:<br><br>';
+        }
+
+        $dadosEmail['msg'] .= 'Mensagem: ' . $parametros['txtMsgEmail'] . "<br><br>";
 
         //Utilizado se for envio de e-mail para o correto através da tela de detalhes 
         if ($parametros['hdnAnuncio']) {
@@ -415,6 +447,41 @@ class AnuncioControle {
             $genericoDAO->rollback();
             $genericoDAO->fecharConexao();
             echo json_encode(array("resultado" => 0));
+        }
+    }
+
+    function enviarDuvidaAnuncio($parametros) {
+// if (Sessao::verificarToken($parametros)) {
+
+        $genericoDAO = new GenericoDAO();
+        $genericoDAO->iniciarTransacao();
+        $mensagem = new Mensagem();
+
+        $entidadeMensagem = $mensagem->cadastrar($parametros);
+
+        $resultadoMensagem = $genericoDAO->cadastrar($entidadeMensagem);
+
+        if ($resultadoMensagem) {
+//Enviar email para o anunciante;
+            $selecionarUsuario = $genericoDAO->consultar(new Usuario(), false, array("id" => $parametros['hdnUsuario']));
+            $selecionarAnuncio = $genericoDAO->consultar(new Anuncio(), false, array("id" => $parametros['hdnAnuncio']));
+            $dadosEmail['destino'] = $selecionarUsuario[0]->getEmail();
+            $dadosEmail['contato'] = $parametros['nome'];
+            $dadosEmail['msg'] = "Você recebeu uma mensagem nova sobre o anuncio '" . $selecionarAnuncio[0]->getTituloAnuncio() . "'. Acesse a sua caixa de mensagens para visualizá-la<br><br>Favor não responder esse e-mail.";
+            $dadosEmail['assunto'] = utf8_decode("E-mail Automático - Mensagem sobre um anuncio em PIP-Online");
+            if (Email::enviarEmail($dadosEmail)) {
+                $genericoDAO->commit();
+                $genericoDAO->fecharConexao();
+                echo json_encode(array("resultado" => 1));
+            } else {
+                $genericoDAO->rollback();
+                $genericoDAO->fecharConexao();
+                echo json_encode(array("resultado" => 0));
+            }
+        } else {
+            $genericoDAO->rollback();
+            $genericoDAO->fecharConexao();
+            echo json_encode(array("resultado" => 2));
         }
     }
 

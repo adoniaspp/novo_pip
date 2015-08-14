@@ -89,7 +89,8 @@ class Imagem {
     public function cadastrar($file,$idanuncio,$destaque) {
         $imagem = new Imagem();
         $imagem->setIdanuncio($idanuncio);
-        $imagem->setDiretorio($file->url);
+        $url = array_reverse(explode("/", $file->url));
+        $imagem->setDiretorio($url[1]);
         $imagem->setLegenda($file->legenda);
         $imagem->setDestaque(($destaque == $file->name)?"SIM":"NÃO");
         $imagem->setNome($file->name);

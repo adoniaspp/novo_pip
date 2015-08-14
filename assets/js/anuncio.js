@@ -68,31 +68,6 @@ function cadastrarAnuncio() {
                 $(element).closest(".error").removeClass("error").addClass("success");
             }
         });
-        $.validator.addMethod("verificaValor", function (value, element) {
-            var validacao = false;
-            if ($("#chkValor").parent().checkbox('is checked')) {
-                var valor = parseInt($("#txtValor").unmask());
-                switch ($('#sltFinalidade').parent().dropdown('get value')) {
-                    case "Aluguel":
-                        if (!isNaN(valor)) {
-                            if (valor > 100) {
-                                validacao = true;
-                            }
-                        }
-                        break;
-                    case "Venda":
-                        if (!isNaN(valor)) {
-                            if (valor > 1000) {
-                                validacao = true;
-                            }
-                        }
-                        break;
-                }
-            } else {
-                validacao = true;
-            }
-            return this.optional(element) || validacao;
-        }, 'Informe um valor mínimo.');
         $.validator.messages.required = 'Campo obrigatório';
         $('#fileupload').validate({
             onkeyup: false,
@@ -109,12 +84,6 @@ function cadastrarAnuncio() {
                 },
                 txtDescricao: {
                     required: true
-                },
-                txtValor: {
-                    verificaValor: true,
-                    required: function (element) {
-                        return $("#chkValor").parent().checkbox('is checked');
-                    }
                 },
                 chkAceite: {
                     required: true
@@ -139,12 +108,12 @@ function cadastrarAnuncio() {
                         $("#step6").show();
                         if (resposta.resultado == 1) {
                             $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
-    <h2 class="ui header">Obrigado!</h2>\n\
+    <h2 class="ui header">Publicado!</h2>\n\
     <p>O cadastro de seu anúncio foi concluído com sucesso. </p>\n\
     <p>Em breve você receberá um e-mail confirmando a publicação do mesmo. </p>\n\n\
-    <p><a href="index.php?entidade=Anuncio&acao=listarCadastrar" class="ui purple button"><i class="ui add icon"></i>Cadastrar outro anúncio?</a> </p>\n\n\
+    <p><a href="index.php?entidade=Anuncio&acao=listarCadastrar" class="ui brown button"><i class="ui add icon"></i>Cadastrar outro anúncio?</a> </p>\n\n\
     <p><a href="index.php?entidade=UsuarioPlano&amp;acao=listar" class="ui orange button"><i class="ui add icon"></i>Comprar mais planos!</a></p>\n\
-    <p>Divulgue esse anuncio no <span class="ui facebook button"> <i class="facebook square icon"></i> Facebook </span></p>\n\
+    <p>Compartilhe no <span class="ui facebook button"> <i class="facebook square icon"></i> Facebook </span></p>\n\
     </div>');
                             $('button').attr('disabled', 'disabled');
                         } else {
@@ -306,14 +275,6 @@ function stepsComPlanta() {
             $(this).valid();
         })
 
-        $("#chkValor").change(function () {
-            if ($(this).parent().checkbox('is checked')) {
-                $("#divInformarValor").show();
-            } else {
-                $("#divInformarValor").hide();
-            }
-        })
-
         $("div[id^='btnProximo']").click(function () {
             if (validarStepComPlanta()) {
                 var atual = parseInt($("#hdnStep").val());
@@ -419,8 +380,9 @@ function planta() {
         })
 
         $(".btnAdicionarValor").click(function () {
-            var sltAndarInicial = $(this).parent().parent().find("input")[0];
-            var sltAndarFinal = $(this).parent().parent().find("input")[1];
+            var input = $(this).parent().parent().find("input");
+            var sltAndarInicial = input[0];
+            var sltAndarFinal = input[1];
 
             var ordemPlanta = $(this).val();
             $(sltAndarInicial).rules("add", {
@@ -449,26 +411,30 @@ function planta() {
                 }
             });
 
-            var txtValor = $(this).parent().parent().find("input")[2];
+            var txtValor = input[2];
             $(txtValor).rules("add", {
                 required: true
             });
-            if (validarPlanta(sltAndarInicial, sltAndarFinal, txtValor, ordemPlanta)) {
+            var validacao = validarPlanta(sltAndarInicial, sltAndarFinal, txtValor, ordemPlanta);
+            if (validacao) {
                 var tbody = "#dadosPlanta_" + ordemPlanta;
                 $(tbody).append(
                         "<tr><td> <input type='hidden' id='hdnAndarInicial" + ordemPlanta + "[]' name='hdnAndarInicial" + ordemPlanta + "[]' value='" + $(sltAndarInicial).val() + "'>" + $(sltAndarInicial).val() + "</td>" +
                         "<td> <input type='hidden' id='hdnAndarFinal" + ordemPlanta + "[]' name='hdnAndarFinal" + ordemPlanta + "[]' value='" + $(sltAndarFinal).val() + "'>" + $(sltAndarFinal).val() + "</td>" +
                         "<td> <input type='hidden' id='hdnValor" + ordemPlanta + "[]' name='hdnValor" + ordemPlanta + "[]' value='" + $(txtValor).val() + "'>" + $(txtValor).val() + "</td>" +
                         "<td class='collapsing'><div class='red ui icon button' onclick='excluirPlanta($(this))'><i class='trash icon'></i>Excluir</div></td></tr>");
-                $(sltAndarInicial).parent().dropdown('restore defaults');
-                $(sltAndarFinal).parent().dropdown('restore defaults');
-                $(txtValor).val("");
                 var tabela = "#tabelaPlanta_" + ordemPlanta;
                 $(tabela).show();
             }
             $(sltAndarInicial).rules("remove");
             $(sltAndarFinal).rules("remove");
             $(txtValor).rules("remove");
+
+            if (validacao) {
+                $(sltAndarInicial).parent().dropdown('restore defaults');
+                $(sltAndarFinal).parent().dropdown('restore defaults');
+                $(txtValor).val("");
+            }
         });
     })
 }
@@ -529,61 +495,51 @@ function excluirPlanta(element) {
     })
 }
 
-//
-//$(document).ready(function() {
-//    var fileExtentionRange = '.jpg .jpeg .png .gif';
-//    var MAX_SIZE = 3; // MB
-//
-//    $(document).on('change', '.btn-file :file', function() {
-//        alert('1');
-//        var input = $(this);
-//        console.log(input);
-//        if (navigator.appVersion.indexOf("MSIE") != -1) { // IE
-//            var label = input.val();
-//            input.trigger('fileselect', [1, label, 0, $(input).parent()]);
-//        } else {
-//            var label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-//            var numFiles = input.get(0).files ? input.get(0).files.length : 1;
-//            var size = input.get(0).files[0].size;
-//            input.trigger('fileselect', [numFiles, label, size, $(input).parent()]);
-//        }
-//    });
-//
-//    $('.btn-file :file').on('fileselect', function(event, numFiles, label, size, pai) {
-//        alert('2');
-//        //$('#attachmentName').attr('name', 'attachmentName'); // allow upload.
-//        console.log($(pai).parent());
-//        console.log($(pai).parent().parent());
-//        console.log($(pai).parent().parent().parent());
-//        console.log($(pai).parent().parent().parent().parent());
-//        var postfix = label.substr(label.lastIndexOf('.'));
-//        if (fileExtentionRange.indexOf(postfix.toLowerCase()) > -1) {
-//            if (size > 1024 * 1024 * MAX_SIZE) {
-//                alert('Tamanho máximo da imagem：' + MAX_SIZE + ' MB');
-//                console.log(event);
-//                console.log(numFiles);
-//                console.log(label);
-//                $("#btnAlterarImagem").attr("disabled", "disabled");
-//                $("#uploadPreview").attr("src", "../assets/imagens/foto_padrao.png");
-//                $('#attachmentName').removeAttr('name'); // cancel upload file.
-//            } else {
-//                $('#arquivolabel').val(label);
-//                $("#btnAlterarImagem").removeAttr("disabled");
-//                var oFReader = new FileReader();
-//                oFReader.readAsDataURL(document.getElementById("attachmentName").files[0]);
-//
-//                oFReader.onload = function (oFREvent) {
-//                document.getElementById("uploadPreview").src = oFREvent.target.result;
-//                };
-//                
-//            }
-//        } else {
-//            alert('Tipo de arquivo inválido. São aceitos os tipos：' + fileExtentionRange);
-//            $("#btnAlterarImagem").attr("disabled", "disabled");
-//            $("#uploadPreview").attr("src", "../assets/imagens/foto_padrao.png");
-//            $('#attachmentName').removeAttr('name'); // cancel upload file.
-//        }
-//        
-//    });
-//
-//});
+function validarValor(validacao) {
+    $(document).ready(function () {
+
+        if (validacao) {
+            $.validator.addMethod("verificaValor", function (value, element) {
+                var validacao = false;
+                if ($("#chkValor").parent().checkbox('is checked')) {
+                    var valor = parseInt($("#txtValor").unmask());
+                    switch ($('#sltFinalidade').parent().dropdown('get value')) {
+                        case "Aluguel":
+                            if (!isNaN(valor)) {
+                                if (valor > 100) {
+                                    validacao = true;
+                                }
+                            }
+                            break;
+                        case "Venda":
+                            if (!isNaN(valor)) {
+                                if (valor > 1000) {
+                                    validacao = true;
+                                }
+                            }
+                            break;
+                    }
+                } else {
+                    validacao = true;
+                }
+                return this.optional(element) || validacao;
+            }, 'Informe um valor mínimo.');
+
+            $("#txtValor").rules("add", {
+                verificaValor: true,
+                required: function (element) {
+                    return $("#chkValor").parent().checkbox('is checked');
+                }
+            });
+
+            $("#chkValor").change(function () {
+                if ($(this).parent().checkbox('is checked')) {
+                    $("#divInformarValor").show();
+                } else {
+                    $("#divInformarValor").hide();
+                }
+            })
+        }
+
+    })
+}

@@ -5,7 +5,7 @@ class Valor {
     
     private $id;
     private $idanuncio;
-    private $idplantaapartamentonovo;
+    private $idplanta;
     private $andarinicial;
     private $andarfinal;
     private $valor;
@@ -18,8 +18,8 @@ class Valor {
         return $this->idanuncio;
     }
 
-    function getIdplantaapartamentonovo() {
-        return $this->idplantaapartamentonovo;
+    function getIdplanta() {
+        return $this->idplanta;
     }
 
     function getAndarinicial() {
@@ -42,8 +42,8 @@ class Valor {
         $this->idanuncio = $idanuncio;
     }
 
-    function setIdplantaapartamentonovo($idplantaapartamentonovo) {
-        $this->idplantaapartamentonovo = $idplantaapartamentonovo;
+    function setIdplanta($idplanta) {
+        $this->idplanta = $idplanta;
     }
 
     function setAndarinicial($andarinicial) {
@@ -55,7 +55,15 @@ class Valor {
     }
 
     function setValor($valor) {
-        $this->valor = $valor;
+         $this->valor = $this->limpaValorNumerico($valor);
+    }
+    
+    private function limpaValorNumerico($valor) {
+        $valor = str_replace("R$", "", $valor);
+        $valor = str_replace(".", "", $valor);
+        $valor = str_replace(",", ".", $valor);
+        $valor = trim($valor);
+        return $valor;
     }
     
 }

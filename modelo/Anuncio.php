@@ -149,7 +149,6 @@ class Anuncio {
         $this->setDatahoracadastro(date("Y/m/d H:i:s"));
         $this->setDatahoraalteracao('');
         $this->setDatahoradesativacao('');
-        $this->setValorVisivel((isset($parametros['sltCamposVisiveis']) ? json_encode($parametros['sltCamposVisiveis']) : ""));
         $this->setPublicarmapa((isset($parametros['chkMapa']) ? "SIM" : "NAO"));
         $this->setPublicarcontato((isset($parametros['chkContato']) ? "SIM" : "NAO"));
         $this->setIdusuarioplano($parametros['sltPlano']);
