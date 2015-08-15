@@ -109,7 +109,7 @@ class ConsultasAdHoc extends GenericoDAO {
         if (count($resultado['anuncio']) != 0) {
             $idsAnuncios = array_column($resultado['anuncio'], 'idanuncio');
             for ($i = 0; $i < count($idsAnuncios); $i++) {
-                $sth = $this->conexao->prepare("SELECT diretorio, legenda, destaque FROM imagem WHERE idanuncio = :idanuncio");
+                $sth = $this->conexao->prepare("SELECT diretorio, legenda, nome destaque FROM imagem WHERE idanuncio = :idanuncio");
                 $sth->bindValue(':idanuncio', $idsAnuncios[$i]);
                 $sth->execute();
                 $imovel['imagem'] = $sth->fetchAll(PDO::FETCH_ASSOC);

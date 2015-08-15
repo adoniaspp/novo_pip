@@ -3,10 +3,6 @@
 
 <?php
 $item = $this->getItem();
-//echo "<pre>";
-//        print_r($item[0]);
-//        die();
-//
 ?>     
 
 <div class="container">
@@ -15,17 +11,18 @@ $item = $this->getItem();
         <div class="two wide column"></div>
         <div class="ten wide column">
             <table class="ui compact celled definition table" id="tabela">
+                
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Valor</th>
-                        <th>Tipo</th>
-                        <th>Bairro</th>
-                        <th>Condição</th>
+                        <th>Valor</th>                        
                         <th>Área</th>
                         <th>Quartos</th>
                         <th>Banheiros</th>
                         <th>Garagem</th>
+                        <th>Tipo</th>
+                        <th>Bairro</th>
+                        <th>Condição</th>
                         <th>Foto</th>
                     </tr>
                 </thead>
@@ -35,25 +32,10 @@ $item = $this->getItem();
                         ?>
                         <tr>
                             <td class="collapsing">
-                                <button class="ui icon button">
-                                    <i class="remove icon"> </i> 
-                                </button>
+                                
                                 <?php echo $anuncio['tituloanuncio'] ?>
                             </td>
                             <td><?php echo 'R$' . $anuncio['valormin'] ?></td>
-                            <td>
-                                <?php
-                                if ($anuncio['tipo'] == 'apartamentoplanta') {
-                                    echo 'Apartamento na Planta';
-                                } else if ($anuncio['tipo'] == 'salacomercial') {
-                                    echo 'Sala Comercial';
-                                } else {
-                                    echo ucfirst($anuncio['tipo']);
-                                }
-                                ?>
-                            </td>
-                            <td><?php echo $anuncio['bairro'] ?></td>
-                            <td><?php echo ucfirst($anuncio['condicao']) ?></td>
                             <td>
                                 <?php
                                 echo minMax($anuncio, 'area') . 'm<sup>2</sup>';
@@ -75,6 +57,20 @@ $item = $this->getItem();
                                 ?>
                             </td>
                             <td>
+                                <?php
+                                if ($anuncio['tipo'] == 'apartamentoplanta') {
+                                    echo 'Apartamento na Planta';
+                                } else if ($anuncio['tipo'] == 'salacomercial') {
+                                    echo 'Sala Comercial';
+                                } else {
+                                    echo ucfirst($anuncio['tipo']);
+                                }
+                                ?>
+                            </td>
+                            <td><?php echo $anuncio['bairro'] ?></td>
+                            <td><?php echo ucfirst($anuncio['condicao']) ?></td>
+                            
+                            <td>
                                 NO
                             </td>
                         </tr>
@@ -84,7 +80,12 @@ $item = $this->getItem();
 
             </table>       
         </div>
-        <div class="three wide column"></div>
+        <div class="three wide column">
+            
+        </div>
+        </div>   
+        
+    <br>
     </div>   
 
 
@@ -107,16 +108,28 @@ function minMax($parametros, $coluna) {
 ?>
 
 <script>
-    $(document).ready(function () {
-        $('#tabela').DataTable({
+    $(document).ready(function() {
+        var table = $('#tabela').DataTable({
             "language": {
                 "url": "assets/libs/datatables/js/Portuguese-Brasil.json",
             },
-            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
-            "stateSave": true,
+            "searching": false,
+            "paging":   false,
+            "info": false,
             "columnDefs": [
-                {"orderable": false, "targets": 3}
-            ]
+                {"orderable": false, "targets": [ 6, 7, 8, 9 ]}
+            ]            
         });
+        $('#tabela tbody').on('click', 'tr', function() {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            }
+            else {
+                table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        });
+
+        
     })
 </script>
