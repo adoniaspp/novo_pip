@@ -74,7 +74,7 @@ Sessao::gerarToken();
                                     <div class="item" data-value="usado">Usado</div>
                                 </div>
                             </div>
-                        </div>   
+                    </div>   
                     
                         <div class="three wide required field" id="divNumeroPlantas">
                             <label>Número de Plantas</label>
@@ -103,8 +103,10 @@ Sessao::gerarToken();
                 </div>
                 <div class="fields" id="divPlantaUm"></div>
                 
-                <div class="fields" id="divInfoApeCasa">
+                <div class="row">
+                <div class="five fields" id="divInfoApeCasa">
 
+                </div>
                 </div>
                 
                 <div class="fields">                

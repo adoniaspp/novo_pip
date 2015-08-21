@@ -30,6 +30,7 @@ include_once 'modelo/TipoImovel.php';
 include_once 'modelo/ImovelDiferencial.php';
 include_once 'modelo/Diferencial.php';
 include_once 'assets/libs/captcha/securimage/securimage.php';
+include_once 'assets/libs/log4php/Logger.php';
 
 class UsuarioControle {
 
@@ -365,7 +366,10 @@ class UsuarioControle {
         } else {
             echo json_encode(array("resultado" => 2)); //usuario ou senha invalido
         }        
-        
+        Logger::configure("configuracao/logs.php");
+        $logger = Logger::getLogger("main");
+        $logger->info("olá ao mundo info");
+        $logger->warn("olá ao mundo warning");
     }
 
     function logout($parametros) {
@@ -510,10 +514,14 @@ class UsuarioControle {
             $consultasAdHoc = new ConsultasAdHoc();
 
             $listarUsuarioPlano = $genericoDAO->consultar($usuarioPlano, true, array("idusuario" => $_SESSION["idusuario"]));
+            $usuario = $genericoDAO->consultar(new Usuario, true, array("id" => $_SESSION["idusuario"]));
             $itemMeuPIP = array();
             $itemMeuPIP["usuarioPlano"] = $listarUsuarioPlano;
+            $itemMeuPIP["usuario"] = $usuario;
             $itemMeuPIP["imovel"] = is_array($genericoDAO->consultar(new Imovel(), true, array("idusuario" => $_SESSION['idusuario'])));
+            $itemMeuPIP["imovelCadastrado"] = $genericoDAO->consultar(new Imovel(), true, array("idusuario" => $_SESSION['idusuario']));
             $itemMeuPIP["anuncio"] = count($consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario']) > 0);
+            $itemMeuPIP["mensagem"] = $genericoDAO->consultar(new Mensagem(), false, array("idusuario" => $_SESSION['idusuario']));
             //visao
             $visao = new Template();
             $visao->setItem($itemMeuPIP);

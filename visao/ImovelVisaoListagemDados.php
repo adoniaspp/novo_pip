@@ -61,7 +61,7 @@
                         
         echo "<td>".$imovel->getDatahoracadastro()."</td>";
                         
-        echo "<td><a href='#' class='ui teal button' id='detalhes".$imovel->getId()."' >Detalhes do Imóvel</td>" ;
+        echo "<td><a href='#' class='ui green button' id='detalhes".$imovel->getId()."' >Detalhes do Imóvel</td>" ;
         
         echo "</tr>";
         

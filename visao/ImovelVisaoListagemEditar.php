@@ -22,8 +22,7 @@
         </div>
     </div>
 </div>
-<div class="ui middle aligned stackable grid container">
-    <div class="row">
+
         <table class="ui green stackable table" id="tabela">
             <thead>
                 <tr>
@@ -71,7 +70,7 @@
                 </tr>         
             </tbody>
         </table>
-    </div>
+   
 </div>
 <div class="ui hidden divider"></div>  
 

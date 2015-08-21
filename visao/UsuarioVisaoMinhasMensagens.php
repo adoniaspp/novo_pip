@@ -10,17 +10,6 @@
 <script src="assets/libs/DataTables/js/jquery.dataTables.min.js"></script>
 
 <script>
-    
-$('#tabela').DataTable({
-            "language": {
-                "url": "assets/libs/datatables/js/Portuguese-Brasil.json",
-            },
-            "pageLength": 6,
-            "lengthMenu": [[6, 12, 18, 24, -1], [6, 12, 18, 24, "Todos"]],
-            "stateSave": true,
-            "bSort": false
-});
-        
 esconderResposta();
 </script>
 <?php
@@ -53,22 +42,32 @@ Sessao::gerarToken();
     <h3 class="ui dividing header">Administre suas mensagens</h3>
     <div class="ui hidden divider"></div>
     </div>  
+    <div class="ui hidden divider"></div>
 
+    <table class="ui green stackable table" id="tabela">
+                <thead>
+                    <tr style="border: none !important">
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                
 <?php
             
         foreach ($this->getItem() as $mensagem) {
                    
 ?>
-
+    
+    
+    
     <script>
         exibirDivResposta(<?php echo $mensagem->getId();?>);
         responderMensagem(<?php echo $mensagem->getId();?>);
         ocultarResposta(<?php echo $mensagem->getId();?>);
     </script>    
-                 
-<div class="ui page grid main">
-        
-        <div class="column">
+    
+            <tr style="border: none !important">
+                    <td style="border: none !important"> 
             
             <form id="form<?php echo $mensagem->getId()?>" class="ui form" action="index.php" method="post">
                 <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
@@ -76,7 +75,8 @@ Sessao::gerarToken();
                 <input type="hidden" id="hdnMensagem" name="hdnMensagem" value="<?php echo $mensagem->getId(); ?>" />
                 <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
                 
-             
+                   
+                    
                 <div class="field" id="divMensagem<?php echo (string)$mensagem->getId()?>">                   
                 
                 <div class="required field">
@@ -112,7 +112,7 @@ Sessao::gerarToken();
                            <a href="#<?php echo $mensagem->getId()?>" id="responder<?php echo $mensagem->getId();?>">Responder</a>
                     </label>
                     
-                    <div class="required field" id="divResposta<?php echo $mensagem->getId();?>">
+                    <div class="required field"  id="divResposta<?php echo $mensagem->getId();?>">
                         <label>Digite a resposta</label>
                         <textarea rows="2" name="txtResposta" id="txtResposta<?php echo $mensagem->getId();?>" maxlength="200"></textarea>     
                         
@@ -144,16 +144,32 @@ Sessao::gerarToken();
                     <?php } ?>  
                     
                 </div>            
-              
+                        
                 <div class="ui hidden divider"></div>
                 <div id="divRetorno<?php echo $mensagem->getId()?>"></div>               
                 <div class="ui hidden divider"></div>
-                
+               
             </form>
+                        
                 <div class="ui divider"></div>
-        </div>
        
-    </div><?php } ?>
-    
-</div>
+                </td>
+                </tr>
 
+  <?php } ?>               
+                
+                </tbody>
+                </table>
+        </div>
+<script>
+$(document).ready(function () {   
+$('#tabela').dataTable({
+        "language": {
+            "url": "assets/libs/DataTables/js/Portuguese-Brasil.json",
+        },
+        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
+        "stateSave": true,
+        "bSort": false,
+    });
+})
+</script>
