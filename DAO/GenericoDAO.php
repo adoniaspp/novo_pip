@@ -1,9 +1,13 @@
 <?php
 
 include_once 'configuracao/Conexao.php';
+include_once 'assets/libs/log4php/Logger.php';
+include_once 'configuracao/Log.php';
 
 class GenericoDAO {
 
+    use Log;
+    
     public $conexao = null;
 
     public function __construct() {
@@ -63,6 +67,7 @@ class GenericoDAO {
     }
 
     function consultar($entidade, $estrangeiro, $parametros = NULL) {
+        $this->log();
         $reflect = new ReflectionClass($entidade);
         $classe = $reflect->getName();
         $sql = "SELECT * FROM " . strtolower($classe);
