@@ -1000,11 +1000,13 @@ function fazerLogin() {
             rules: {
                 txtSenha: {
                     required: true,
-                    minlength: 8
+                    minlength: 8,
+                    maxlength: 20
                 },
                 txtLogin: {
                     required: true,
-                    minlength: 2
+                    minlength: 2,
+                    maxlength: 25
                 }
             },
             messages: {

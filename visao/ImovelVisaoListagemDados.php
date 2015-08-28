@@ -29,7 +29,7 @@
     
     <div class="ui page grid main">
     
-    <table class="ui table" id="tabela">
+    <table class="ui green table" id="tabela">
             <thead>
                 <tr>
                     <th>Tipo</th>

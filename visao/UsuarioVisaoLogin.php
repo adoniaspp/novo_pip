@@ -27,13 +27,13 @@ Sessao::gerarToken();
                         <label>Login</label>
                         <div class="ui left icon input">
                             <i class="user icon"></i>                            
-                            <input type="text" name="txtLogin" id="txtLogin" placeholder="Digite o Login">
+                            <input type="text" name="txtLogin" id="txtLogin" placeholder="Digite o Login" maxlength="25">
                         </div>
                     </div>
                     <div class="required field">
                         <label>Senha</label>
                         <div class="ui left icon input">
-                            <input type="password" name="txtSenha" id="txtSenha" placeholder="Digite a Senha">
+                            <input type="password" name="txtSenha" id="txtSenha" placeholder="Digite a Senha" maxlength="20">
                             <i class="lock icon"></i>
                         </div>
                     </div>

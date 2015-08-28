@@ -194,6 +194,36 @@ class AnuncioControle {
         }
     }
 
+        function listarAtivo() {
+        if (Sessao::verificarSessaoUsuario()) {
+            $anuncio = new Anuncio();
+            $genericoDAO = new GenericoDAO();
+            $consultasAdHoc = new ConsultasAdHoc();
+            $listaAnuncio = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, 'cadastrado');
+            
+            foreach ($listaAnuncio as $anuncio) {
+                $imovel = $genericoDAO->consultar(new Imovel(), false, array("id" => $anuncio->getIdImovel()));
+                // var_dump($imovel);;
+                $anuncio->setImovel($imovel[0]);
+                /*echo "<pre>";
+                var_dump($anuncio->getId());
+                echo "</pre>";*/
+                //$historicoAluguelVenda = $genericoDAO->consultar(new HistoricoAluguelVenda(), false, array("idAnuncio" => $anuncio->getId()));
+                
+                //var_dump($historicoAluguelVenda);
+                
+                //$anuncio->setHistoricoAluguelVenda($historicoAluguelVenda[0]);
+                $listarAnuncios[] = $anuncio;
+            }
+            //visao
+            $visao = new Template();
+            $item["listaAnuncio"] = $listarAnuncios;
+            $item["tipoListagemAnuncio"] = "ativo";
+            $visao->setItem($item);
+            $visao->exibir('AnuncioVisaoListagem.php');
+        }
+    }
+    
     function cadastrar($parametros) {
         if (Sessao::verificarSessaoUsuario()) {
             if (isset($parametros['upload']) & $parametros['upload'] === "1") {
@@ -482,6 +512,32 @@ class AnuncioControle {
             $genericoDAO->rollback();
             $genericoDAO->fecharConexao();
             echo json_encode(array("resultado" => 2));
+        }
+    }
+    
+    function finalizar($parametros) {
+        
+        if (Sessao::verificarSessaoUsuario()) {
+            
+            if (Sessao::verificarToken($parametros)) {
+               
+                $genericoDAO = new GenericoDAO();
+                $entidadeAnuncio = new Anuncio();
+                $selecionarAnuncio = $genericoDAO->consultar($entidadeAnuncio, false, array("id" => $parametros["hdnAnuncio"]));
+                $entidadeAnuncio = $selecionarAnuncio[0];
+                $entidadeAnuncio->setStatus('finalizado');
+                $entidadeAnuncio->setDatahoraalteracao(date('d/m/Y H:i:s'));
+                $genericoDAO->editar($entidadeAnuncio);
+                
+                $historicoAluguelVenda = new HistoricoAluguelVenda();
+                $entidadeHistoricoAluguelVenda = $historicoAluguelVenda->cadastrar($parametros);
+                $resultadoFinalizarNegocio = $genericoDAO->cadastrar($entidadeHistoricoAluguelVenda);
+                if ($resultadoFinalizarNegocio) {
+                    echo json_encode(array("resultado" => 1));
+                } else {
+                    echo json_encode(array("resultado" => 0));
+                }
+            }
         }
     }
 

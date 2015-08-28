@@ -543,3 +543,70 @@ function validarValor(validacao) {
 
     })
 }
+
+function finalizar(botao) {
+    $(document).ready(function () {
+        $("#botaoFecharFinalizar"+botao).hide();
+       
+        $('#btnFinalizar'+botao).click(function () {
+        
+        $('#txtFinalizar'+botao).maxlength({
+            alwaysShow: true,
+            threshold: 100,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+        
+        $('#modalFinalizar'+botao).modal({
+                closable: true,
+                transition: "fade up",
+                onDeny: function () {
+                },
+                onApprove: function () {
+                    $("#formFinalizar"+botao).submit();
+                    return false; //deixar o modal fixo
+                }
+            }).modal('show');     
+
+        $.validator.messages.required = 'Campo obrigatório';
+        $('#formFinalizar'+botao).validate({
+
+            submitHandler: function (form) {
+                $.ajax({
+                    url: "index.php",
+                    dataType: "json",
+                    type: "POST",
+                    data: $('#formFinalizar'+botao).serialize(),
+                    beforeSend: function () {
+                        $("#botaoFecharFinalizar"+botao).hide();
+                        $("#botaoCancelarFinalizar"+botao).hide();
+                        $("#camposFinalizar"+botao).hide();
+                        $("#divRetorno"+botao).html("<div><div class='ui active inverted dimmer'>\n\
+                        <div class='ui text loader'>Aguarde...</div></div></div>");
+                    },
+                    success: function (resposta) {
+                        $("#divRetorno"+botao).empty();
+                        $("#botaoCancelarFinalizar"+botao).hide();
+                        $("#botaoEnviarFinalizar"+botao).hide();                       
+                        $("#botaoFecharFinalizar"+botao).show();
+                        if (resposta.resultado == 1) {
+                            $("#divRetorno"+botao).html('<div class="ui inverted green center aligned segment">\n\
+                        <p>Obrigado por fazer negócio no PIP OnLine</p>');
+                            
+                        } else {
+                            $("#divRetorno"+botao).html('<div class="ui inverted red center aligned segment">\n\
+                        <h2 class="ui header">Tente novamente mais tarde. Houve um erro no processamento.</h2></div>');
+                        }
+                    }
+                })
+                return false;
+            }
+        })
+
+       })
+   })
+}
