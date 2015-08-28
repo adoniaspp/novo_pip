@@ -43,6 +43,7 @@ class GenericoDAO {
                 $sql = $sql . ", ";
         }
         $sql = $sql . ") VALUES (";
+        $sqlLog = $sql;
         foreach ($atributos as $chave => $valor) {
             $sql = $sql . ":" . strtolower($valor->getName());
             if ($chave != (count($atributos) - 1))
@@ -54,20 +55,26 @@ class GenericoDAO {
             $acao = "get" . ucfirst($valor->getName());
             $resultado = $entidade->$acao();
             $parametro = ":" . strtolower($valor->getName());
+            if($resultado){
+                $sqlLog = $sqlLog . $resultado . ", ";
+            }
             $statement->bindValue($parametro, $resultado);
         }
+        $sqlLog = $sqlLog . ")";
         if ($statement->execute()) {
-            if ($this->conexao->lastInsertId())
+            $this->log($sqlLog);
+            if ($this->conexao->lastInsertId()) {              
                 return $this->conexao->lastInsertId();
-            else
+            } else {
                 return true;
+            }
         } else {
+            $this->log("Erro Durante a Inserção de Dados no BD");
             return false;
         }
     }
 
     function consultar($entidade, $estrangeiro, $parametros = NULL) {
-        $this->log();
         $reflect = new ReflectionClass($entidade);
         $classe = $reflect->getName();
         $sql = "SELECT * FROM " . strtolower($classe);
@@ -149,16 +156,10 @@ class GenericoDAO {
                 continue;
             }else{
                 $criterios[] = strtolower($valor->getName()) . " = :" . strtolower($valor->getName());
-//            $sql = $sql . strtolower($valor->getName()) . " = :" . strtolower($valor->getName());
-//            if ($chave != (count($atributos) - 1))
-//                $sql = $sql . ", ";
-//            }
         }
         }
+        $sqlLog = $sql . "(";
         $sql = $sql . implode(", ", $criterios) . " WHERE id = :id";
-        //var_dump($sql);        die();
-        //$sql = $sql . " WHERE id = :id";
-
         $statement = $this->conexao->prepare($sql);
         foreach ($atributos as $valor) {
             $acao = "get" . ucfirst($valor->getName());
@@ -167,25 +168,36 @@ class GenericoDAO {
                 continue;
             }else{
             $parametro = ":" . strtolower($valor->getName());
+            if($resultado){
+                $sqlLog = $sqlLog . $resultado . ", ";
+            }
             $statement->bindValue($parametro, $resultado);
             }
         }
+        $sqlLog = $sqlLog . ")";
         if ($statement->execute()) {
+            $this->log($sqlLog);
             return true;
-        } else
+        } else{
+            $this->log("Erro Durante a Atualização de Dados no BD");
             return false;
+        }
     }
 
     function excluir($entidade, $parametro) {
         $reflect = new ReflectionClass($entidade);
         $classe = $reflect->getName();
         $sql = "DELETE FROM " . strtolower($classe) . " WHERE id=:id";
+        $sqlLog = $sql . "(" . $parametro . ")";
         $statement = $this->conexao->prepare($sql);
         $statement->bindParam(':id', $parametro);
         if ($statement->execute()) {
+            $this->log($sqlLog);
             return true;
-        } else
+        } else {
+            $this->log("Erro Durante a Exclusão de Dados no BD");
             return false;
+        }
     }
 
 }

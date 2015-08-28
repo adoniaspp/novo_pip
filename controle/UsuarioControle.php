@@ -31,9 +31,12 @@ include_once 'modelo/ImovelDiferencial.php';
 include_once 'modelo/Diferencial.php';
 include_once 'assets/libs/captcha/securimage/securimage.php';
 include_once 'assets/libs/log4php/Logger.php';
+include_once 'configuracao/Log.php';
 
 class UsuarioControle {
 
+    use Log;
+    
     function form($parametros) {
         $visao = new Template();
         switch ($parametros['tipo']) {
@@ -72,6 +75,7 @@ class UsuarioControle {
     }
 
     function cadastrar($parametros) {
+        $this->log("Inicio da Operação " . $parametros["hdnEntidade"] . ucfirst($parametros["hdnAcao"]));
         //Endereço
         $visao = new Template();
 
@@ -145,8 +149,9 @@ class UsuarioControle {
             if ($idEndereco && $idUsuario && $idEmpresa && $resultadoTelefone) {
                 $genericoDAO->commit();
                 $genericoDAO->fecharConexao();
+                $this->log("Término da Operação " . $parametros["hdnEntidade"] . ucfirst($parametros["hdnAcao"]));
                 $visao->setItem("sucessocadastrousuario");
-                $visao->exibir('VisaoErrosGenerico.php');
+                $visao->exibir('VisaoErrosGenerico.php');               
             } else {
                 $genericoDAO->rollback();
                 $genericoDAO->fecharConexao();
@@ -154,6 +159,7 @@ class UsuarioControle {
                 $visao->exibir('VisaoErrosGenerico.php');
             }
         } else {
+            $this->log("Término da Operação por Erro no Token");
             $visao->setItem("errotoken");
             $visao->exibir('VisaoErrosGenerico.php');
         }
@@ -190,7 +196,7 @@ class UsuarioControle {
     }
 
     function alterar($parametros) {
-
+        $this->log("Inicio da Operação " . $parametros["hdnEntidade"] . ucfirst($parametros["hdnAcao"]));
         $visao = new Template();
         if (Sessao::verificarToken($parametros)) {
             $genericoDAO = new GenericoDAO();
@@ -265,6 +271,7 @@ class UsuarioControle {
             if ($editarUsuario & $editarEndereco & $resultadoTelefoneFinalExcluir & $resultadoTelefone) {
                 $genericoDAO->commit();
                 $genericoDAO->fecharConexao();
+                $this->log("Término da Operação " . $parametros["hdnEntidade"] . ucfirst($parametros["hdnAcao"]));
                 Sessao::desconfigurarVariavelSessao("usuario");
                 $visao->setItem("sucessoedicaousuario");
                 $visao->exibir('VisaoErrosGenerico.php');
@@ -276,6 +283,7 @@ class UsuarioControle {
                 $visao->exibir('VisaoErrosGenerico.php');
             }
         } else {
+            $this->log("Término da Operação por Erro no Token");
             $visao->setItem("errotoken");
             $visao->exibir('VisaoErrosGenerico.php');
         }
@@ -366,21 +374,21 @@ class UsuarioControle {
         } else {
             echo json_encode(array("resultado" => 2)); //usuario ou senha invalido
         }        
-        Logger::configure("configuracao/logs.php");
-        $logger = Logger::getLogger("main");
-        $logger->info("olá ao mundo info");
-        $logger->warn("olá ao mundo warning");
+        $this->log("login");
     }
 
     function logout($parametros) {
         if (Sessao::encerrarSessaoUsuario()) {
             echo json_encode(array("resultado" => 1));
+            $this->log("logout");
         } else {
             echo json_encode(array("resultado" => 0));
+            $this->log("Falha no Logout");
         }
     }
 
     function esquecerSenha($parametros) {
+        $this->log("Inicio da Operação " . $parametros["hdnEntidade"] . ucfirst($parametros["hdnAcao"]));
         $visao = new Template();
 
         if (Sessao::verificarToken($parametros)) {
@@ -433,6 +441,7 @@ class UsuarioControle {
                         $genericoDAO->fecharConexao();
                         echo json_encode(array("resultado" => 3));
                     }
+                    $this->log("Término da Operação " . $parametros["hdnEntidade"] . ucfirst($parametros["hdnAcao"]));
                 } else { //erro ao cadastrar token no banco - 004
                     $genericoDAO->rollback();
                     $genericoDAO->fecharConexao();
@@ -443,10 +452,12 @@ class UsuarioControle {
             }
         } else { //erro de sessão do token - 005
             echo json_encode(array("resultado" => 5));
+            $this->log("Término da Operação por Erro no Token");
         }
     }
 
     function alterarSenha($parametros) { //Usuário Esqueceu a Senha
+        $this->log("Inicio da Operação " . $parametros["hdnEntidade"] . ucfirst($parametros["hdnAcao"]));
         $visao = new Template();
         if (Sessao::verificarToken($parametros)) {
             $genericoDAO = new GenericoDAO();

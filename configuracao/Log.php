@@ -2,7 +2,7 @@
 
 trait Log {
 
-    public function log() {
+    public function log($mensagem) {
         $socket = fsockopen('udp://pool.ntp.br', 123, $err_no, $err_str, 1);
         if ($socket) {
             if (fwrite($socket, chr(bindec('00' . sprintf('%03d', decbin(3)) . '011')) . str_repeat(chr(0x0), 39) . pack('N', time()) . pack("N", 0))) {
@@ -20,6 +20,6 @@ trait Log {
         }
         Logger::configure('configuracao/logsConfig.php');
         $logger = Logger::getLogger("main");
-        $logger->info($data . " " . $_SERVER["REMOTE_ADDR"] . " " . $_SESSION["login"] . " SQL...");
+        $logger->info($data . " " . $_SERVER["REMOTE_ADDR"] . " " . $_SESSION["login"] . " " . $mensagem);
     }
 }
