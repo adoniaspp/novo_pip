@@ -44,7 +44,7 @@ Sessao::gerarToken();
                 <input type="hidden" id="hdnAcao" name="hdnAcao" value="cadastrar" />
                 <input type="hidden" id="hdnCEP" name="hdnCEP" />
                 <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
-                <h3 class="ui dividing header">Informações do Imóvel</h3>
+                <h3 class="ui dividing header">Informaçõess do Imóvel</h3>
                 <div class="fields">
                     <div class="four wide required field">
                         <label>Tipo de Imóvel</label>
