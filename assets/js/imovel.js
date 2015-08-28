@@ -560,7 +560,7 @@ function cadastrarImovel() {
                     minlength: "Digite ao menos 2 numeros"
                 },
                 txtArea: {
-                    minlength: "Digite ao menos 2 numeros"
+                    minlength: "Digite ao menos 2 numeross"
                 },
                 "txtArea[]": {
                     digits: "Digite Somente Numeros",
