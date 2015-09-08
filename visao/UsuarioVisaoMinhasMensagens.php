@@ -13,16 +13,10 @@
 esconderResposta();
 </script>
 <?php
-/*echo "<pre>";
-var_dump($this->getItem());
-echo "</pre>";
 
-die();*/
 Sessao::gerarToken();
             
 ?>
-
-
 
 <div class="container">
     <div class="ui hidden divider"></div>
@@ -37,14 +31,15 @@ Sessao::gerarToken();
             </div>
         </div>
     </div>
-    <div class="ui hidden divider"></div>
-    <div class="ui page grid main">
-    <h3 class="ui dividing header">Administre suas mensagens</h3>
-    <div class="ui hidden divider"></div>
-    </div>  
-    <div class="ui hidden divider"></div>
 
-    <table class="ui green stackable table" id="tabela">
+</div>    
+ 
+   
+    <div class="ui page main grid">
+    
+    
+    <div class="row">
+    <table class="ui green table" id="tabela">
                 <thead>
                     <tr style="border: none !important">
                         <th></th>
@@ -57,8 +52,6 @@ Sessao::gerarToken();
         foreach ($this->getItem() as $mensagem) {
                    
 ?>
-    
-    
     
     <script>
         exibirDivResposta(<?php echo $mensagem->getId();?>);
@@ -84,9 +77,12 @@ Sessao::gerarToken();
                             <label>Anuncio <?php echo $mensagem->getIdAnuncio()." - ".$mensagem->getAnuncio()->getTituloAnuncio();?></label>
                         </div>
                         
-                        <div class="ui message">
+                        <div class="ui icon message">
+                            <i class="mail outline icon"></i>
+                            <div class="content">
                             <div class="header">Mensagem</div>
                               <?php echo $mensagem->getMensagem()?>
+                            </div>
                         </div>
                         
                         <div>
@@ -133,10 +129,12 @@ Sessao::gerarToken();
                     </div>
                     <label>Sua resposta:</label>
                     
-                    <ul class="list">
-                        <li><?php echo $mensagem->getRespostaMensagem()[0]->getResposta()?></li>
-                    </ul>
                     
+                        <i class="forward mail icon"></i>
+                        <?php echo $mensagem->getRespostaMensagem()[0]->getResposta()?>
+                    
+                    <div class="ui hidden divider"></div>
+                     
                     <label>Respondido em <?php echo substr($mensagem->getRespostaMensagem()[0]->getDataHora(), 0, 10)?> 
                               as <?php echo substr($mensagem->getRespostaMensagem()[0]->getDataHora(), 10, -3)?>
                     </label>          
@@ -161,6 +159,7 @@ Sessao::gerarToken();
                 </tbody>
                 </table>
         </div>
+    </div>
 <script>
 $(document).ready(function () {   
 $('#tabela').dataTable({

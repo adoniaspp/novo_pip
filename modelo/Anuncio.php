@@ -5,6 +5,7 @@ class Anuncio {
    
     private $id;   
     private $idimovel;    
+    private $idanuncio;
     private $finalidade;
     private $tituloanuncio;
     private $descricaoanuncio;
@@ -20,128 +21,142 @@ class Anuncio {
     protected $imovel;
     protected $usuarioplano;
     
-    public function getId() {
+    function getId() {
         return $this->id;
     }
 
-    public function getIdimovel() {
+    function getIdimovel() {
         return $this->idimovel;
     }
 
-    public function getFinalidade() {
+    function getIdAnuncio() {
+        return $this->idanuncio;
+    }
+
+    function getFinalidade() {
         return $this->finalidade;
     }
 
-    public function getTituloanuncio() {
+    function getTituloanuncio() {
         return $this->tituloanuncio;
     }
 
-    public function getDescricaoanuncio() {
+    function getDescricaoanuncio() {
         return $this->descricaoanuncio;
     }
 
-    public function getStatus() {
+    function getStatus() {
         return $this->status;
     }
 
-    public function getDatahoracadastro() {
+    function getDatahoracadastro() {
         return $this->datahoracadastro;
     }
 
-    public function getDatahoraalteracao() {
+    function getDatahoraalteracao() {
         return $this->datahoraalteracao;
     }
 
-    public function getDatahoradesativacao() {
+    function getDatahoradesativacao() {
         return $this->datahoradesativacao;
     }
 
-    public function getPublicarmapa() {
+    function getPublicarmapa() {
         return $this->publicarmapa;
     }
 
-    public function getPublicarcontato() {
+    function getPublicarcontato() {
         return $this->publicarcontato;
     }
 
-    public function getIdusuarioplano() {
+    function getIdusuarioplano() {
         return $this->idusuarioplano;
     }
 
-    public function getValormin() {
+    function getValormin() {
         return $this->valormin;
     }
 
-    public function getImovel() {
+    function getImovel() {
         return $this->imovel;
     }
 
-    public function getUsuarioplano() {
+    function getUsuarioplano() {
         return $this->usuarioplano;
     }
 
-    public function setId($id) {
+    function setId($id) {
         $this->id = $id;
     }
 
-    public function setIdimovel($idimovel) {
+    function setIdimovel($idimovel) {
         $this->idimovel = $idimovel;
     }
 
-    public function setFinalidade($finalidade) {
+    function setIdAnuncio($idanuncio) {
+        $this->idanuncio = $idanuncio;
+    }
+
+    function setFinalidade($finalidade) {
         $this->finalidade = $finalidade;
     }
 
-    public function setTituloanuncio($tituloanuncio) {
+    function setTituloanuncio($tituloanuncio) {
         $this->tituloanuncio = $tituloanuncio;
     }
 
-    public function setDescricaoanuncio($descricaoanuncio) {
+    function setDescricaoanuncio($descricaoanuncio) {
         $this->descricaoanuncio = $descricaoanuncio;
     }
 
-    public function setStatus($status) {
+    function setStatus($status) {
         $this->status = $status;
     }
 
-    public function setDatahoracadastro($datahoracadastro) {
+    function setDatahoracadastro($datahoracadastro) {
         $this->datahoracadastro = $datahoracadastro;
     }
 
-    public function setDatahoraalteracao($datahoraalteracao) {
+    function setDatahoraalteracao($datahoraalteracao) {
         $this->datahoraalteracao = $datahoraalteracao;
     }
 
-    public function setDatahoradesativacao($datahoradesativacao) {
+    function setDatahoradesativacao($datahoradesativacao) {
         $this->datahoradesativacao = $datahoradesativacao;
     }
 
-    public function setPublicarmapa($publicarmapa) {
+    function setPublicarmapa($publicarmapa) {
         $this->publicarmapa = $publicarmapa;
     }
 
-    public function setPublicarcontato($publicarcontato) {
+    function setPublicarcontato($publicarcontato) {
         $this->publicarcontato = $publicarcontato;
     }
 
-    public function setIdusuarioplano($idusuarioplano) {
+    function setIdusuarioplano($idusuarioplano) {
         $this->idusuarioplano = $idusuarioplano;
     }
 
-    public function setValormin($valormin) {
-        $this->valormin = $this->limpaValorNumerico($valormin);
+    function setValormin($valormin) {
+        $this->valormin = $valormin;
     }
 
-    public function setImovel($imovel) {
+    function setImovel($imovel) {
         $this->imovel = $imovel;
     }
 
-    public function setUsuarioplano($usuarioplano) {
+    function setUsuarioplano($usuarioplano) {
         $this->usuarioplano = $usuarioplano;
     }
-        
+
+            
     public function cadastrar($parametros) {
         $this->setIdImovel($_SESSION["anuncio"]["idimovel"]);
+        
+        $idrand = substr(date("Y/m/d H:i:s"), 0, -15) . substr(date("Y/m/d H:i:s"), 5, 2) . str_pad($_SESSION["anuncio"]["idimovel"], 5, "0", STR_PAD_LEFT);
+        //ano, mês e id do imóvel
+        
+        $this->setIdAnuncio($idrand);       
         $this->setFinalidade($parametros['sltFinalidade']);
         $this->setTituloAnuncio($parametros['txtTitulo']);
         $this->setDescricaoAnuncio($parametros['txtDescricao']);

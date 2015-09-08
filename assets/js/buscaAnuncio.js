@@ -372,6 +372,17 @@ function confirmarEmail() {
     })
 }
 
+function formatarValor(valor){
+    console.log(valor);
+    $("#spanValor"+valor).priceFormat({
+            prefix: 'R$ ',
+            centsSeparator: ',',
+            centsLimit: 0,
+            limit: 8,
+            thousandsSeparator: '.'
+        })
+}
+
 function enviarEmail() {
     $(document).ready(function () {
 

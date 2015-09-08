@@ -1,6 +1,7 @@
 
 <script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
 <script src="assets/libs/jquery/jquery.validate.min.js" type="text/javascript"></script>
+<script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
 <script src="assets/js/anuncio.js"></script>
@@ -24,6 +25,7 @@
 </script>
 
 <div class="ui hidden divider"></div>
+
 <div class="ui column doubling grid container">
 
     <div class="ui hidden divider"></div>
@@ -31,7 +33,7 @@
     <div class="ui large breadcrumb">
         <a class="section" href="index.php">Início</a>
         <i class="right chevron icon divider"></i>
-        <a class="section" href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
+        <i class="block layout small icon"></i><a class="section" href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
         <i class="right chevron icon divider"></i>
         <a class="active section">Visualizar Anuncios</a>
     </div>
@@ -45,13 +47,43 @@
     Sessao::gerarToken();
 
     $item = $this->getItem();
+    
+    $totalAnunciosCadastrados = count($item["listaAnuncio"]);
+    
+    if($totalAnunciosCadastrados < 1){      
     ?>
+    
+    </div>
+    
+    <div class="ui middle aligned stackable grid container">
+    
+    <div class="row">
+    <div class="ui info message">
+        <div class="header">Mensagem</div>
+        <ul class="list">
+          <li>Você não possui mais anuncios ativos. Clique em voltar para retornar ao MEUPIP</li>
+        </ul>
+    </div>
+    </div>
+
+   
+    <div class="row">
+    <a href="index.php?entidade=Usuario&acao=meuPIP">
+    <button class="ui orange button">Voltar</button>
+    </a>
+    </div>
+    
+    <div class="row"></div>     
+        
+    </div>   
+        
+    <?php } else { //caso exista ao menos 1 anuncio cadastrado, exibir o datatable?>
 
     <table class="ui brown table" id="tabela">
         
         <thead>
             <tr>
-                <th>Imóvel</th>
+                <th>ID Anuncio</th>
                 <th>Finalidade</th>
                 <th>Titulo</th>
                 <th>Descrição</th> 
@@ -66,7 +98,7 @@
                 foreach ($item["listaAnuncio"] as $anuncio) {
                     ?>
                     <tr>
-                        <td><?php echo $anuncio->getImovel()->Referencia() ?></td>
+                        <td><?php echo $anuncio->getIdAnuncio() ?></td>
                         <td><?php echo $anuncio->getFinalidade(); ?></td>
                         <td><?php echo $anuncio->getTituloAnuncio(); ?></td>
                         <td><?php echo $anuncio->getDescricaoAnuncio(); ?></td>
@@ -102,26 +134,42 @@
 
 <script>
   finalizar(<?php echo $anuncio->getId() ?>);
+  formatarValor(<?php echo $anuncio->getId() ?>);
 </script>
 
 <!-- Modal do Finalizar Negócio-->    
-<div class="ui standart modal" id="modalFinalizar<?php echo $anuncio->getId() ?>">
-                    <i class="close icon"></i>
+<div class="ui basic modal" id="modalFinalizar<?php echo $anuncio->getId() ?>">
+                    
                     <div class="header">
-                        Finalizar Negócio
+                        ATENÇÃO: Ao Finalizar Negócio, o anuncio não será mais visualizado, deixando de existir!
                     </div>
                     <div class="content" id="camposFinalizar<?php echo $anuncio->getId() ?>">
-                        <div class="description">
-                            <div class="ui piled segment">
+                        
+                            <div class="ui segment">
                                 <p id="textoConfirmacao"></p>
-                                
-                                <form></form>
                                 
                                 <form class="ui form" id="formFinalizar<?php echo $anuncio->getId() ?>" action="index.php" method="post">
                                     <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio"  />
                                     <input type="hidden" id="hdnAcao" name="hdnAcao" value="finalizar" />  
                                     <input type="hidden" id="hdnAnuncio" name="hdnAnuncio" value="<?php echo $anuncio->getId() ?>" />
                                     <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
+                                    
+                                    <div class=" required grouped fields">
+                                    <label for="sucesso">Sua negociação foi bem sucedida?</label>
+                                    <div class="field">
+                                      <div class="ui radio checkbox checked">
+                                          <input class="hidden" tabindex="0" name="radioSucesso" id="radioSucesso<?php echo $anuncio->getId() ?>" type="radio" value="SIM">
+                                        <label>Sim</label>
+                                      </div>
+                                    </div>
+                                    <div class="field">
+                                      <div class="ui radio checkbox">
+                                          <input class="hidden" tabindex="0" name="radioSucesso"  id="radioSucesso<?php echo $anuncio->getId() ?>" type="radio" value="NAO">
+                                        <label>Não</label>
+                                      </div>
+                                    </div>                                                                      
+                                  </div>
+
                                     <div class="field">
                                         <label>Se desejar, escreva detalhes da finalização de seu anuncio</label>
                                         <textarea rows="2" id="txtFinalizar<?php echo $anuncio->getId() ?>" name="txtFinalizar" maxlength="200"></textarea>
@@ -130,7 +178,7 @@
                                 </form>
 
                             </div>
-                        </div>
+                       
                     </div>
                     <div id="divRetorno<?php echo $anuncio->getId() ?>"></div>
                     <div class="actions">
@@ -144,12 +192,13 @@
                         <div  id="botaoFecharFinalizar<?php echo $anuncio->getId() ?>" class="ui red deny button">
                             Fechar
                         </div>
+                            
                     </div>
+                   
                 </div>
 <?php
             }
         }
 ?>
 
-
-
+<?php } //fim do else, caso haja anuncios ativos?> 

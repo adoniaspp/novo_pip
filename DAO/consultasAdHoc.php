@@ -225,8 +225,30 @@ class ConsultasAdHoc extends GenericoDAO {
         return $resultado;
     }
 
-    public function consultarAnunciosPorUsuario() {
-        
+    public function ConsultarAnunciosPorUsuario($idUsuario, $idAnuncio = null, $statusAnuncio = null) {
+        $sql = "SELECT a.* "
+                . " FROM anuncio a"
+                . " JOIN usuarioplano up ON up.id = a.idusuarioplano"
+                . " JOIN usuario u ON up.idusuario = u.id"
+                . " WHERE u.status = 'ativo'"
+                . " AND u.id = :idUsuario ";
+        if ($idAnuncio != null)
+            $sql .= " AND a.id = :idAnuncio ";
+        if ($statusAnuncio != null)
+            $sql .= " AND a.status = :statusAnuncio ";
+
+        $sql .= " ORDER BY a.ID DESC";
+        $statement = $this->conexao->prepare($sql);
+
+        $statement->bindParam(':idUsuario', $idUsuario);
+        if ($idAnuncio != null)
+            $statement->bindParam(':idAnuncio', $idAnuncio);
+        if ($statusAnuncio != null)
+            $statement->bindParam(':statusAnuncio', $statusAnuncio);
+
+        $statement->execute();
+        $resultado = $statement->fetchAll(PDO::FETCH_CLASS, "Anuncio");
+        return $resultado;
     }
 
     public function ConsultarRegistroAtivoDeRecuperarSenha($idUsuario) {

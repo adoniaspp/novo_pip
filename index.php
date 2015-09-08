@@ -16,6 +16,7 @@ include_once 'configuracao/Sessao.php';
 include_once 'assets/mailer/class.phpmailer.php';
 include_once 'assets/mailer/class.smtp.php';
 include_once 'configuracao/Email.php';
+include_once './controle/AnuncioControle.php';
 
 ####INDEX#####################################
 Sessao::criarSessaoUsuario();
@@ -33,10 +34,32 @@ if (sizeof($url) > 0 & $url[0] != "") { //verificar existe algo depois da barra 
         //echo "index.php";
         $parametros = $_REQUEST;
         $controle = new Controle($parametros);
-    } else { //verificar se o usuário foi digitado
+    } else { //verificar se o usuário ou anuncio foi digitado
+        
+        $verificaUsuario = $url[0];
+        $verificaAnuncio = $url[0];
+        $anuncioControle = new AnuncioControle();
+               
+        if(!$anuncioControle->exibirAnuncioURL($verificaUsuario) && !$anuncioControle->exibirAnuncioURL($verificaAnuncio)){
+            echo "erro";
+        }
+        
+        elseif($anuncioControle->exibirAnuncioURL($verificaUsuario) == "usuario"){
+        
         $paginaCorretor = PIPURL . "/index.php?entidade=Anuncio&acao=buscarAnuncioCorretor&login=".$url[0];
         header("location: $paginaCorretor");
-      //  echo 'redirect';
+        
+        }
+        
+        else {
+            
+        $paginaAnuncio = PIPURL . "/index.php?entidade=Anuncio&acao=detalhar&hdnCodAnuncio=".$url[0];
+        header("location: $paginaAnuncio");     
+            
+        } 
+        
+        
+        
     }
 } else {
     //echo "nada";

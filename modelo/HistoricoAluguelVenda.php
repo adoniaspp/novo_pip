@@ -4,44 +4,54 @@ class HistoricoAluguelVenda {
 
     private $id;
     private $descricao;
+    private $sucesso;
     private $idanuncio;
     private $datahora;
-
-    public function getId() {
+    
+    function getId() {
         return $this->id;
     }
 
-    public function setId($id) {
-        $this->id = $id;
-    }
-
-    public function getDescricao() {
+    function getDescricao() {
         return $this->descricao;
     }
 
-    public function setDescricao($descricao) {
-        $this->descricao = $descricao;
+    function getSucesso() {
+        return $this->sucesso;
     }
 
-    public function getIdanuncio() {
+    function getIdanuncio() {
         return $this->idanuncio;
     }
 
-    public function setIdanuncio($idanuncio) {
-        $this->idanuncio = $idanuncio;
-    }
-
-    public function getDatahora() {
+    function getDatahora() {
         return $this->datahora;
     }
 
-    public function setDatahora($datahora) {
-        $this->datahora = $datahora;
+    function setId($id) {
+        $this->id = $id;
     }
+
+    function setDescricao($descricao) {
+        $this->descricao = $descricao;
+    }
+
+    function setSucesso($sucesso) {
+        $this->sucesso = $sucesso;
+    }
+
+    function setIdanuncio($idanuncio) {
+        $this->idanuncio = $idanuncio;
+    }
+
+    function setDatahora($datahora) {
+        $this->datahora = $datahora;
+    }      
 
     function cadastrar($parametros) {
         $historicoAluguelVenda = new HistoricoAluguelVenda();
-        $historicoAluguelVenda->setDescricao($parametros['txtDescricao']);
+        $historicoAluguelVenda->setDescricao($parametros['txtFinalizar']);
+        $historicoAluguelVenda->setSucesso($parametros['radioSucesso']);
         $historicoAluguelVenda->setIdanuncio($parametros['hdnAnuncio']);
         $historicoAluguelVenda->setDatahora(date('d/m/Y H:i:s'));
         return $historicoAluguelVenda;

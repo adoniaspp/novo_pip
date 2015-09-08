@@ -544,8 +544,27 @@ function validarValor(validacao) {
     })
 }
 
+function formatarValor(vetor){
+    $("#tdValor"+vetor).priceFormat({
+            prefix: 'R$ ',
+            centsSeparator: ',',
+            centsLimit: 0,
+            limit: 8,
+            thousandsSeparator: '.'
+        })
+}
+
 function finalizar(botao) {
     $(document).ready(function () {
+        
+        $('.ui.radio.checkbox')
+            .checkbox()
+        ;
+        
+        $("#radioSucesso"+botao).select(function () {
+            $(this).valid();
+        })
+        
         $("#botaoFecharFinalizar"+botao).hide();
        
         $('#btnFinalizar'+botao).click(function () {
@@ -562,7 +581,7 @@ function finalizar(botao) {
         });
         
         $('#modalFinalizar'+botao).modal({
-                closable: true,
+                closable: false,
                 transition: "fade up",
                 onDeny: function () {
                 },
@@ -571,9 +590,31 @@ function finalizar(botao) {
                     return false; //deixar o modal fixo
                 }
             }).modal('show');     
-
+        
+        $.validator.setDefaults({
+            ignore: [],
+            errorClass: 'errorField',
+            errorElement: 'div',
+            errorPlacement: function (error, element) {
+                error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).closest("div.field").addClass("error").removeClass("success");
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).closest(".error").removeClass("error").addClass("success");
+            }
+        });
+        
         $.validator.messages.required = 'Campo obrigatório';
         $('#formFinalizar'+botao).validate({
+
+            focusInvalid: true,
+            rules: {              
+                radioSucesso: {
+                    required: true
+                }
+            },
 
             submitHandler: function (form) {
                 $.ajax({
@@ -591,8 +632,13 @@ function finalizar(botao) {
                     success: function (resposta) {
                         $("#divRetorno"+botao).empty();
                         $("#botaoCancelarFinalizar"+botao).hide();
-                        $("#botaoEnviarFinalizar"+botao).hide();                       
+                        $("#botaoEnviarFinalizar"+botao).hide();                         
                         $("#botaoFecharFinalizar"+botao).show();
+                        //ao clicar no botão de fechar, o conteúdo será atualizado para retirar o último negócio finalizado
+                        $("#botaoFecharFinalizar"+botao).click(function() {
+                        window.location = "index.php?entidade=Anuncio&acao=listarAtivo";
+                        });
+                        
                         if (resposta.resultado == 1) {
                             $("#divRetorno"+botao).html('<div class="ui inverted green center aligned segment">\n\
                         <p>Obrigado por fazer negócio no PIP OnLine</p>');

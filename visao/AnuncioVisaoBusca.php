@@ -7,9 +7,9 @@
     
     <?php 
     $item = $this->getItem();
-    
+
     foreach ($item["anuncio"] as $buscaAnuncio){
-    
+        
     ?>
         
     marcarMapa("<?php echo $buscaAnuncio["logradouro"]?>", "<?php echo $buscaAnuncio["numero"]?>", "<?php echo $buscaAnuncio["bairro"]?>", "<?php echo $buscaAnuncio["tituloanuncio"]?>", "<?php echo $buscaAnuncio["valormin"]?>", "<?php echo $buscaAnuncio["finalidade"]?>", "600", "350", 11);    
@@ -52,6 +52,9 @@ echo "</pre>";*/
                     <?php
                     for ($crtl = 0; $crtl < count($item['anuncio']); $crtl++) {
                         ?>
+                    <script>
+                        formatarValor("<?php echo $item['anuncio'][$crtl]['idanuncio']?>");
+                    </script>
                         <tr style="width: 33%;float: left; border: none !important">
                             <td class="ui special cards" style="border: none !important">
                                 <div class="card" id="cartao<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">

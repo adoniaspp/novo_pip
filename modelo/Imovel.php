@@ -177,7 +177,10 @@ class Imovel {
     
         
     public function Referencia() {
-        return substr($this->getDatahoracadastro(), 6, -9) . substr($this->getDatahoracadastro(), 3, -14) . str_pad($this->getId(), 5, "0", STR_PAD_LEFT);
+
+        return substr($this->getDatahoracadastro(), 0, -15) . substr($this->getDatahoracadastro(), 5, 2) . str_pad($this->getId(), 5, "0", STR_PAD_LEFT);
+        //ano, mês e id do anuncio
+        
     }
     
     function buscarTipoImovel($tipo){
