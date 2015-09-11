@@ -1,6 +1,7 @@
 <!-- LIBS -->
 <script src="assets/libs/jquery/jquery.validate.min.js"></script>
 <script src="assets/libs/jquery/jquery.mask.min.js"></script>
+<script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
 <!-- JS -->
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/js/usuario.js"></script>
@@ -246,7 +247,7 @@ if ($item) {
         </div>
     </div>
     <div class="actions">
-        <div class="ui red button">
+        <div class="ui deny button">
             Não
         </div>
         <div class="ui positive right labeled icon button">
@@ -285,7 +286,7 @@ if ($item) {
         </div>
     </div>
     <div class="actions">
-        <div class="ui red button">
+        <div class="ui deny button">
             Não
         </div>
         <div class="ui positive right labeled icon button">
