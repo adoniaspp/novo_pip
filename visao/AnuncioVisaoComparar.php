@@ -43,12 +43,12 @@ $item = $this->getItem();
                             </td>
                             <td>
                                 <?php
-                                echo minMax($anuncio, 'quarto') . ' quarto(s)';
+                                echo minMax($anuncio, 'quarto');
                                 ?>
                             </td>
                             <td>
                                 <?php
-                                echo minMax($anuncio, 'banheiro') . ' banheiro(s)';
+                                echo minMax($anuncio, 'banheiro');
                                 ?>
                             </td>
                             <td>
@@ -71,7 +71,21 @@ $item = $this->getItem();
                             <td><?php echo ucfirst($anuncio['condicao']) ?></td>
                             
                             <td>
-                                NO
+                                <?php
+                                if($anuncio['imagem']) {
+                            foreach ($anuncio['imagem'] as $imagem) {                                                                
+                                if($imagem['destaque'] == 'SIM'){
+//                                    var_dump($imagem['diretorio']);
+//                                    die();
+                                    ?>
+                                        <img style="height:80px; width: 100px;" src="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] .'/'. $imagem['nome'] ?>">
+                            <?php 
+                                }}
+                            }else{
+                                    ?>
+                                <img style="height:80px; width: 100px;" src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>">
+                               <?php 
+                                } ?>
                             </td>
                         </tr>
                     <?php } ?>

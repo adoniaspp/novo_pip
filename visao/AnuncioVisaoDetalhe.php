@@ -38,10 +38,19 @@ $item = $this->getItem();
                             </div>
                         </div>
  
-                        <div class="fotorama" data-allowfullscreen="true" data-nav="thumbs" data-fit="cover" data-width="700" data-ratio="700/467" data-max-width="100%">
-                            <?php foreach ($item['anuncio'][0]['imagem'] as $imagem) { ?>
+                        <div class="fotorama" data-allowfullscreen="true" data-nav="thumbs" data-fit="cover" data-width="700" data-ratio="700/467" data-max-width="100%">                            
+                            <?php 
+                            if($item['anuncio'][0]['imagem']) {
+                            foreach ($item['anuncio'][0]['imagem'] as $imagem) {                                  
+                                ?>
                                 <a href="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] .'/'. $imagem['nome'] ?>" data-caption="<?php echo $imagem['legenda'] ?>" data-thumb="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] .'/'. 'thumbnail/' . $imagem['nome'] ?>"></a>
-                            <?php } ?>
+                            <?php 
+                                }
+                            }else{
+                                    ?>
+                                   <a href="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" data-thumb=" <?php echo PIPURL . "/assets/imagens/thumbnail/foto_padrao.png" ?>"></a>
+                               <?php 
+                                } ?>
                         </div>
                         <!--<div class="ui info message">
                         <p> <?php echo $item['anuncio'][0]['descricaoanuncio'] ?></p>
@@ -393,7 +402,7 @@ if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'
                         <div class="ui relaxed divided items">
                             <div class="item">
                                 <div class="ui small image">
-                                    <img src="<?php echo PIPURL . "fotos/usuarios/" . $item['anuncio'][0]['foto'] ?>">
+                                    <img style="height:180px; width: 290px;" src="<?php echo PIPURL . "fotos/usuarios/" . $item['anuncio'][0]['foto'] ?>">
                                 </div>
                                 <div class="content">
                                     <a class="header"><?php echo $item['anuncio'][0]['nome'] ?></a>

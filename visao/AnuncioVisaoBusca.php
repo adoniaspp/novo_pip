@@ -70,7 +70,21 @@ echo "</pre>";*/
                                                 </div>
                                             </div>
                                         </div>
-                                        <img src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>">
+                                        <?php 
+                            if($item['anuncio'][$crtl]['imagem']) {
+                            foreach ($item['anuncio'][$crtl]['imagem'] as $imagem) {                                                                
+                                if($imagem['destaque'] == 'SIM'){
+//                                    var_dump($imagem['diretorio']);
+//                                    die();
+                                    ?>
+                                        <img style="height:200px; width: 290px;" src="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] .'/'. $imagem['nome'] ?>">
+                            <?php 
+                                }}
+                            }else{
+                                    ?>
+                                <img style="height:200px; width: 290px;" src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>">
+                               <?php 
+                                } ?>
                                     </div>
                                     <div class="content">
                                         <div class="description"><b><?php echo mb_substr($item['anuncio'][$crtl]['tituloanuncio'], 0, 32) . "..." ?></b></div>
