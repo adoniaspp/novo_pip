@@ -9,20 +9,19 @@
 <script src="http://maps.google.com/maps/api/js?sensor=false&amp;language=pt"></script>
 
 <?php
+
 $item = $this->getItem();
 
 ?>
 
 <script>
     marcarMapa("<?php echo $item["anuncio"][0]["logradouro"]?>", "<?php echo $item["anuncio"][0]["numero"]?>", "<?php echo $item["anuncio"][0]["bairro"]?>", "<?php echo $item["anuncio"][0]["tituloanuncio"]?>", "<?php echo $item["anuncio"][0]["valormin"]?>", "<?php echo $item["anuncio"][0]["finalidade"]?>", "500", "300", 10);
-    //confirmarEmail();
     enviarDuvidaAnuncio();
     slideAnuncio();
 
 </script>
 
-
-
+<div class="ui hidden divider"></div>
 
 <div class="container">
 
@@ -41,7 +40,7 @@ $item = $this->getItem();
  
                         <div class="fotorama" data-allowfullscreen="true" data-nav="thumbs" data-fit="cover" data-width="700" data-ratio="700/467" data-max-width="100%">
                             <?php foreach ($item['anuncio'][0]['imagem'] as $imagem) { ?>
-                                <a href="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . $imagem['nome'] ?>" data-caption="<?php echo $imagem['legenda'] ?>" data-thumb="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . 'thumbnail/' . $imagem['nome'] ?>"></a>
+                                <a href="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] .'/'. $imagem['nome'] ?>" data-caption="<?php echo $imagem['legenda'] ?>" data-thumb="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] .'/'. 'thumbnail/' . $imagem['nome'] ?>"></a>
                             <?php } ?>
                         </div>
                         <!--<div class="ui info message">
@@ -375,7 +374,17 @@ if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'
             </div>
             </div>
         </div>
-                        </div>
+        </div>
+        
+        <?php if($item["qtdAnuncios"] >= 2){
+            ?>
+
+            <div class="ui attached message">
+                Este vendedor possui <?php echo $item["qtdAnuncios"] ?> anuncios cadastrados. Clique <a href='index.php?entidade=Anuncio&acao=buscarAnuncioCorretor&login=<?php echo $item["loginUsuario"]?>' target="_blank">AQUI</a> para visualizá-los
+            </div>
+
+        <?php } ?>
+        
         <div class="column">
             <div class="ui segment">
                 <a class="ui red ribbon label">Contatos</a>

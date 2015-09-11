@@ -113,7 +113,7 @@ class AnuncioControle {
     }
 
     function detalhar($parametros) {
-        //var_dump($parametros);
+        $genericoDAO = new GenericoDAO();
         $parametros["idanuncio"] = $parametros["hdnCodAnuncio"];
         unset($parametros["hdnCodAnuncio"]);
         $parametros["tabela"] = $parametros["hdnTipoImovel"];
@@ -127,7 +127,17 @@ class AnuncioControle {
         unset($parametros["tabela_length"]);
         unset($parametros["selecionarAnuncio"]);
         $parametros["predicados"] = $parametros;
+        
         $listarAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
+        
+        $usuarioQtdAnuncio = count($consultasAdHoc->ConsultarAnunciosPorUsuario($listarAnuncio["anuncio"][0]["id"], null, "cadastrado"));       
+        
+        $usuario = $genericoDAO->consultar(new Usuario(), false, array("id" => $listarAnuncio["anuncio"][0]["id"]));
+
+        $listarAnuncio["qtdAnuncios"]  = $usuarioQtdAnuncio;
+        
+        $listarAnuncio["loginUsuario"] = $usuario[0]->getLogin();
+        
         $visao->setItem($listarAnuncio);
         $visao->exibir('AnuncioVisaoDetalhe.php');
     }
@@ -145,14 +155,18 @@ class AnuncioControle {
         } 
         
         if($anuncio <> NULL){ //se o anuncio existir     
-        $imovel  = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio[0]->getIdImovel()));
-        $endereco = $genericoDAO->consultar(new Endereco(), true, array("id" => $imovel[0]->getIdEndereco()));
-        $usuario = $genericoDAO->consultar(new Usuario(), true, array("id" => $imovel[0]->getIdUsuario())); 
+        $consultasAdHoc = new ConsultasAdHoc();
+        $imovel         = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio[0]->getIdImovel()));
+        $endereco       = $genericoDAO->consultar(new Endereco(), true, array("id" => $imovel[0]->getIdEndereco()));
+        $usuario        = $genericoDAO->consultar(new Usuario(), true, array("id" => $imovel[0]->getIdUsuario())); 
+        $qtdAnuncios    = count($consultasAdHoc->ConsultarAnunciosPorUsuario($imovel[0]->getIdUsuario(), null, "cadastrado"));
             
-            $item["anuncio"]   = $anuncio;
-            $item["imovel"]    = $imovel;
-            $item["usuario"]   = $usuario;
-            $item["endereco"]  = $endereco;
+            $item["anuncio"]    = $anuncio;
+            $item["imovel"]     = $imovel;
+            $item["usuario"]    = $usuario;
+            $item["endereco"]   = $endereco;
+            $item["qtdAnuncios"]= $qtdAnuncios;
+            
             $visao = new Template();
             $visao->setItem($item);
             $visao->exibir('AnuncioVisaoDetalheURL.php');           

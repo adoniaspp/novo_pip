@@ -10,10 +10,11 @@
 <?php
 $item = $this->getItem();
 
-$anuncio   = $item["anuncio"];
-$endereco  = $item["endereco"];
-$imovel    = $item["imovel"];
-$usuario   = $item["usuario"];
+$anuncio        = $item["anuncio"];
+$endereco       = $item["endereco"];
+$imovel         = $item["imovel"];
+$usuario        = $item["usuario"];
+$qtdAnuncios    = $item["qtdAnuncios"];
 
 ?>
 
@@ -416,10 +417,24 @@ if ($imovel[0]->getTipoImovel()->getDescricao() != 'salacomercial' && $imovel[0]
             </div>
             </div>
         </div>
-                        </div>
+        </div>
+        
+        <?php if($qtdAnuncios >= 2){
+            ?>
+
+            <div class="ui attached message">
+                Este vendedor possui <?php echo $qtdAnuncios ?> anuncios cadastrados. Clique <a href='index.php?entidade=Anuncio&acao=buscarAnuncioCorretor&login=<?php echo $usuario[0]->getLogin()?>' target="_blank">AQUI</a> para visualizá-los
+            </div>
+
+        <?php } ?>
+        
         <div class="column">
+            
             <div class="ui segment">
                 <a class="ui red ribbon label">Contatos</a>
+                
+                
+                
                 <div class="ui stackable one column padded grid">
                     <div class="column"> 
                         <div class="ui relaxed divided items">
@@ -435,9 +450,10 @@ if ($imovel[0]->getTipoImovel()->getDescricao() != 'salacomercial' && $imovel[0]
                                         <div class="description">
                                         <?php echo $telefone->getNumero() ?> - <?php echo $telefone->getOperadora() ?>
                                         </div>
-    <?php
-}
-?>
+                                        <?php
+                                    } 
+                                    ?>                                   
+                                    
                                     <div class="extra">
                                         
                                         <button class="ui right floated primary button" id="btnDuvida">
