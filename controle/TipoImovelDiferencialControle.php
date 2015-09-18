@@ -18,7 +18,7 @@ class TipoImovelDiferencialControle {
         foreach ($diferenciais as $diferencial) {
             echo "<div class='ui checkbox'>"
             . "<input type='checkbox' name='chkDiferencial[]' value='" . $diferencial->getDiferencial()->getId() . "'>"
-            . "<label id='diferencial'>" . $diferencial->getDiferencial()->getDescricao() . " </label>\n
+            . "<label id='diferencial'>" . $diferencial->getDiferencial()->getDescricao() . " &nbsp;</label>\n
               </div>";
         }
     }
@@ -44,7 +44,7 @@ class TipoImovelDiferencialControle {
             if (in_array($diferencial->getDiferencial()->getId(), $listaIDs)) {
                 echo " checked = 'checked'";
             }
-            echo "><label id='diferencial'>" . $diferencial->getDiferencial()->getDescricao() . " </label></div>";
+            echo "><label id='diferencial'>" . $diferencial->getDiferencial()->getDescricao() ." &nbsp;</label></div>";
         } 
     }
 
