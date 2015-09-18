@@ -44,7 +44,7 @@
 
     Sessao::gerarToken(); 
 
-    foreach($this->getItem() as $imovel){ /*echo "<pre>"; var_dump($imovel);echo "</pre>";*/?>
+    foreach($this->getItem() as $imovel){?>
                 
         <?php
 
@@ -70,12 +70,7 @@
                        
             </tbody>
         </table>
-        <?php
-         /*   $links = $pager->getLinks();
-            echo ($links['all']!="" ? "&nbsp;&nbsp;&nbsp;&nbsp;Página: ".$links['all'] : ""); 
-         
-          */
-        ?>
+
     </div>
     </div>
     <div class="ui hidden divider"></div>  

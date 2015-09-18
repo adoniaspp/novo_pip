@@ -104,7 +104,7 @@ Sessao::gerarToken();
                 <div class="fields" id="divPlantaUm"></div>
                 
                 <div class="row">
-                <div class="five fields" id="divInfoApeCasa">
+                <div class="fields" id="divInfoApeCasa">
 
                 </div>
                 </div>

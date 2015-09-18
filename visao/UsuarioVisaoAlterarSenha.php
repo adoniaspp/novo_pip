@@ -63,7 +63,7 @@ Sessao::gerarToken();
 
             
 
-<div class="ui small modal" id="modalCancelar">
+<div class="ui stardart modal" id="modalCancelar">
     <i class="close icon"></i>
     <div class="header">
         Cancelar

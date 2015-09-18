@@ -39,6 +39,7 @@ Sessao::gerarToken();
     
     
     <div class="row">
+    <div class="one column">
     <table class="ui green table" id="tabela">
                 <thead>
                     <tr style="border: none !important">
@@ -60,7 +61,7 @@ Sessao::gerarToken();
     </script>    
     
             <tr style="border: none !important">
-                    <td style="border: none !important"> 
+                    <td style="border: none !important; width: 500px"> 
             
             <form id="form<?php echo $mensagem->getId()?>" class="ui form" action="index.php" method="post">
                 <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
@@ -70,20 +71,20 @@ Sessao::gerarToken();
                 
                    
                     
-                <div class="field" id="divMensagem<?php echo (string)$mensagem->getId()?>">                   
+                <div id="divMensagem<?php echo (string)$mensagem->getId()?>">                   
                 
-                <div class="required field">
+                <div class="field">
                         <div>
                             <label>Anuncio <?php echo $mensagem->getIdAnuncio()." - ".$mensagem->getAnuncio()->getTituloAnuncio();?></label>
                         </div>
                         
-                        <div class="ui icon message">
-                            <i class="mail outline icon"></i>
+                    <div class="ui info icon message" style="width: 90%">   
+                        <i class="mail icon"></i>
                             <div class="content">
                             <div class="header">Mensagem</div>
                               <?php echo $mensagem->getMensagem()?>
                             </div>
-                        </div>
+                    </div>
                         
                         <div>
                         <label>Enviado em <?php echo substr($mensagem->getDataHora(), 0, 10)?> 
@@ -94,7 +95,7 @@ Sessao::gerarToken();
                         </label>    
                         </div>
                         
-                    </div>                                       
+                </div>                                       
                     
                     <?php 
                     
@@ -102,7 +103,7 @@ Sessao::gerarToken();
                     
                     ?>
                     
-                    <div id="divCamposResposta<?php echo $mensagem->getId()?>">
+                    <div id="divCamposResposta<?php echo $mensagem->getId()?>" style="width: 90%">
                     
                     <label id="laberResponder<?php echo $mensagem->getId()?>">
                            <a href="#<?php echo $mensagem->getId()?>" id="responder<?php echo $mensagem->getId();?>">Responder</a>
@@ -110,7 +111,7 @@ Sessao::gerarToken();
                     
                     <div class="required field"  id="divResposta<?php echo $mensagem->getId();?>">
                         <label>Digite a resposta</label>
-                        <textarea rows="2" name="txtResposta" id="txtResposta<?php echo $mensagem->getId();?>" maxlength="200"></textarea>     
+                        <textarea rows="2" cols="5" name="txtResposta" id="txtResposta<?php echo $mensagem->getId();?>" maxlength="200"></textarea>     
                         
                          <div class="ui hidden divider"></div>       
                             
@@ -159,6 +160,7 @@ Sessao::gerarToken();
                 </tbody>
                 </table>
         </div>
+      </div>
     </div>
 <script>
 $(document).ready(function () {   

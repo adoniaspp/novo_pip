@@ -164,6 +164,7 @@ if ($item) {
                 <input type="hidden" id="hdnCEP" name="hdnCEP" value="<?php echo $imovel->getEndereco()->getCep() ?>"/>
                 <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
                 <h3 class="ui dividing header">Informações do Imóvel</h3>
+                
                 <div class="fields" id="divInfoBasicas">
                     <div class="four wide field">
                         <label>Tipo de Imóvel</label>
@@ -172,114 +173,11 @@ if ($item) {
                             <?php echo $imovel->buscarTipoImovel($imovel->getIdTipoImovel())?>
                     </div>
                     
-                       <div class="three wide field" id="divNumeroPlantas">                     
-                        <!--   <label>Número de Plantas</label>
-                             <div class="ui selection dropdown">
-                                <input type="hidden" name="sltNumeroPlantas" id="sltNumeroPlantas" 
-                                    <?php /*if($imovel->getApartamentoPlanta()){
-                                       $numeroPlantas = count($imovel->getPlanta());
-                                       echo "value='".$numeroPlantas."'";
-                                   }*/
-                                   ?>
-                                   
-                                   >
-                                <div class="default text">Número de Plantas</div>
-                                <i class="dropdown icon"></i>
-                                <div class="menu">
-                                    <?php 
-                                    /*for($plantas = 1; $plantas <=6; $plantas++){
-                                    echo "<div class='item' data-value='$plantas'>".$plantas."</div>";
-                                    }*/
-                                    ?>
-                                </div>
-                            </div> -->
-                            
-                      </div>
-                    <!-- 
-                       <div id="divArea" class="three wide field">
-                                    <div class="field">
-                                        <label>Área(m2)</label>
-                                        <input type="text" name="txtArea" id="txtArea" placeholder="Informe a Área" maxlength="7">
-                                    </div>                                     
-                        </div>
-                 -->   
-                </div>
-                
-                <div class="fields" id="divInfoApeCasa">
-               
-                
-                    <!--<div class="three wide required field">
-                        <label>Quarto(s)</label>
-                        <div class="ui selection dropdown">
-                            <input type="hidden" name="sltQuarto[]" id="sltQuarto">
-                            <div class="default text">Quarto(s)</div>
-                            <i class="dropdown icon"></i>
-                            <div class="menu">
-                                <div class="item" data-value="1">1</div>
-                                <div class="item" data-value="2">2</div>
-                                <div class="item" data-value="3">3</div>
-                                <div class="item" data-value="4">4</div>
-                                <div class="item" data-value="5">5</div>
-                                <div class="item" data-value="6">Mais de 5</div>
-                            </div>
-                        </div>
-                    </div>-->
-                    <!--<div class="three wide required field">
-                        <label>Banheiro(s)</label>
-                        <div class="ui selection dropdown">
-                            <input type="hidden" name="sltBanheiro[]" id="sltBanheiro">
-                            <div class="default text">Banheiro(s)</div>
-                            <i class="dropdown icon"></i>
-                            <div class="menu">
-                                <div class="item" data-value="1">1</div>
-                                <div class="item" data-value="2">2</div>
-                                <div class="item" data-value="3">3</div>
-                                <div class="item" data-value="4">4</div>
-                                <div class="item" data-value="5">Mais de 5</div>
-                            </div>
-                        </div>
-                    </div>-->
-                    <!--<div class="three wide required field">
-                        <label>Suite(s)</label>
-                        <div class="ui selection dropdown">
-                            <input type="hidden" name="sltSuite[]" id="sltSuite">
-                            <div class="default text">Suite(s)</div>
-                            <i class="dropdown icon"></i>
-                            <div class="menu">
-                                <div class="item" data-value="0">nenhuma</div>
-                                <div class="item" data-value="1">1</div>
-                                <div class="item" data-value="2">2</div>
-                                <div class="item" data-value="3">3</div>
-                                <div class="item" data-value="4">4</div>
-                                <div class="item" data-value="5">Mais de 5</div>
-                            </div>
-                        </div>
-                    </div>-->
-                    <!--<div class="three wide required field">
-                        <label>Vagas de Garagem</label>
-                        <div class="ui selection dropdown">
-                            <input type="hidden" name="sltGaragem[]" id="sltGaragem">
-                            <div class="default text">Vaga(s) de Garagem</div>
-                            <i class="dropdown icon"></i>
-                            <div class="menu">
-                                <div class="item" data-value="0">nenhuma</div>
-                                <div class="item" data-value="1">1</div>
-                                <div class="item" data-value="2">2</div>
-                                <div class="item" data-value="3">3</div>
-                                <div class="item" data-value="4">4</div>
-                                <div class="item" data-value="5">Mais de 5</div>
-                            </div>
-                        </div>
-                    </div>-->
-                    
-                    <!--<div id="divAreaPlanta" class="one field">
-                        <div class="field">
-                            <label>Área(m2)</label>
-                            <input type="text" name="txtArea[]" id="txtArea" placeholder="Informe a Área">
-                        </div>                                     
-                    </div>-->
+                       <div class="three wide field" id="divNumeroPlantas"></div>
                     
                 </div>
+                
+                <div class="fields" id="divInfoApeCasa"></div>
             
                 <div class="one field" id="divDescricao">
                     <div class="field">
@@ -289,9 +187,7 @@ if ($item) {
                         </textarea>
                     </div>                    
                 </div>
-                
-                
-                
+               
                 <div class="fields" id="divApartamento">
                     
                     <div class="two field" id="divAndares">
@@ -301,9 +197,7 @@ if ($item) {
                                 <?php if($imovel->getApartamentoPlanta()){
                                        echo "value='".$imovel->getApartamentoPlanta()->getAndares()."'";
                                    }
-                                   ?>
-                                   
-                                   >
+                                   ?>>
                             <div class="default text">Andares</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
@@ -383,33 +277,7 @@ if ($item) {
                             </div>
                         </div>
                     </div> 
-                  <!-- 
-                    <div class="three wide field" id="divUnidadesTotal">
-                    <div class="field">
-                        <label>Total de Unidades</label>                       
-                        <input type="text" name="txtTotalUnidades" id="txtTotalUnidades" placeholder="Total de Apartamentos" maxlength="3">
-                        </div>
-                    </div>
-                    
-                    
-                    <div id="divCondominio" class="one field">
-                    <div class=" field">
-                        <label>Condominio(R$)</label>
-                        <input type="text" name="txtCondominio" id="txtCondominio" placeholder="Valor do Condominio">
-                    </div>                                     
-                    </div>
-                    
-                    <div class="ui checkbox" id="chkCobertura">
-                        <input type="checkbox" name="chkCobertura" value="chkCobertura">
-                            <label>Está na Cobertura</label>
-                    </div>
-                    
-                    <div class="ui checkbox" id="chkSacada">
-                        <input type="checkbox" name="chkSacada" value="chkSacada">
-                            <label>Possui Sacada</label>
-                    </div>
-                    
-                -->    
+                 
                 </div>
 
                 <div class="ui hidden divider"></div>
@@ -423,49 +291,50 @@ if ($item) {
                 </div>       
                 
                 <div class="ui hidden divider"></div>
-                
-                
-                <div class="fields" id="divEndereco">
-                    <h3 class="ui dividing header">Endereço</h3>                
-                        <div class="five wide field">
-                            <div class="ui action left icon input">
-                                <i class="search icon"></i>
-                                <input type="text" name="txtCEP" id="txtCEP" placeholder="Informe o seu CEP..." value="<?php echo $imovel->getEndereco()->getCep()?>">
-                                <div class="ui teal button" id="btnCEP">Buscar CEP</div>
-                            </div>              
-                        </div>
-                    <div class="three wide field"><label>Não sabe o CEP? <a href="#">clique aqui</a></label></div>
+              
+                <div class="fields">
+                    <div class="five wide field">
+                        <div class="ui action left icon input">
+                            <i class="search icon"></i>
+                            <input type="text" name="txtCEP" id="txtCEP" placeholder="Informe o seu CEP..." value="<?php echo $imovel->getEndereco()->getCep()?>">
+                            <div class="ui teal button" id="btnCEP">Buscar CEP</div>
+                        </div>              
+                    </div>
+                    <div class="three wide field"><label>Não sabe o CEP? <a href="http://www.buscacep.correios.com.br/servicos/dnec/menuAction.do?Metodo=menuLogradouro" target="_blank">clique aqui</a></label></div>
                     <div class="five wide field"><div id="msgCEP"></div> </div>
-                
-                    <div id="divCEP" class="six fields">
+                </div>
+                <div id="divCEP" class="ui">
+                    <div class="three fields">
                         <div class="field">
-                        <label>Cidade</label>
-                        <input type="text" name="txtCidade" id="txtCidade" readonly="readonly" value="<?php echo $imovel->getEndereco()->getCidade()->getNome()?>">
+                            <label>Cidade</label>
+                            <input type="text" name="txtCidade" id="txtCidade" readonly="readonly" value="<?php echo $imovel->getEndereco()->getCidade()->getNome()?>">
+                        </div>
+                        <div class="two wide field">
+                            <label>Estado</label>
+                            <input type="text" name="txtEstado" id="txtEstado" readonly="readonly" value="<?php echo $imovel->getEndereco()->getEstado()->getUF()?>">
+                        </div>
+                        <div class="field">
+                            <label>Bairro</label>
+                            <input type="text" name="txtBairro" id="txtBairro" readonly="readonly" value="<?php echo $imovel->getEndereco()->getBairro()->getNome()?>">
+                        </div>
                     </div>
-                    <div class="one wide field">
-                        <label>Estado</label>
-                        <input type="text" name="txtEstado" id="txtEstado" readonly="readonly" value="<?php echo $imovel->getEndereco()->getEstado()->getUf()?>">
+                    <div class="two fields">
+                        <div class="field">
+                            <label>Logradouro</label>
+                            <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly" value="<?php echo $imovel->getEndereco()->getLogradouro()?>">
+                        </div>
+                        <div class="three wide required field">
+                            <label>Número</label>
+                            <input type="text" name="txtNumero" id="txtNumero" placeholder="Informe o nº" maxlength="5" value="<?php echo $imovel->getEndereco()->getNumero()?>">
+                        </div>
+                        <div class="field">
+                            <label>Complemento</label>
+                            <input type="text" name="txtComplemento" id="txtComplemento" placeholder="Complemento" maxlength="80" value="<?php echo $imovel->getEndereco()->getComplemento()?>">
+                        </div>
                     </div>
-                    <div class=" field">
-                        <label>Bairro</label>
-                        <input type="text" name="txtBairro" id="txtBairro" readonly="readonly" value="<?php echo $imovel->getEndereco()->getBairro()->getNome()?>">
-                    </div>
-                    <div class="seven wide field">
-                        <label>Logradouro</label>
-                        <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly" value="<?php echo $imovel->getEndereco()->getLogradouro()?>">
-                    </div>
-                    <div class="two required wide field">
-                        <label>Número</label>
-                        <input type="text" name="txtNumero" id="txtNumero"  maxlength="5" placeholder="Informe o nº" value="<?php echo $imovel->getEndereco()->getNumero()?>">
-                    </div>
-                    <div class="nine wide field">
-                        <label>Complemento</label>
-                        <input type="text" name="txtComplemento" id="txtComplemento" maxlength="80" placeholder="Complemento" value="<?php echo $imovel->getEndereco()->getComplemento()?>">
-                    </div>
-                    </div>
-                
-                </div>    
-<?php }} ?> 
+                </div>
+  
+<?php } } ?> 
                 <h3 class="ui dividing header">Confirmação de Alteração</h3>
 
                  <a href='#' <button class="ui blue submit button" type="submit" id="btnCadastrar" >Alterar</button></a>
@@ -487,7 +356,7 @@ if ($item) {
         </div>
     </div>
     <div class="actions">
-        <div class="ui red button">
+        <div class="ui deny red button">
             Não
         </div>
         <div class="ui positive right labeled icon button">
@@ -510,7 +379,7 @@ if ($item) {
         </div>
     </div>
     <div class="actions">
-        <div class="ui red button">
+        <div class="ui deny red button">
             Não
         </div>
         <div class="ui positive right labeled icon button">
@@ -519,53 +388,3 @@ if ($item) {
         </div>
     </div>
 </div>
-    
-<script>
-  /*  
-    $(("#btnCadastrar")).click(function () {
-        if ($("#form").valid()) {
-        $("#modalConfirmar").modal({
-            closable: true,
-                        transition: "fade up",
-                        onDeny: function() {
-                            return false;
-                        },
-                        onApprove: function() {
-                            $("#form").submit();
-                        }
-        }).modal('show');
-        } 
-    })*/
-   </script> 
-   
-   <script>
-        /*
-    $(document).ready(function () {
-   
-    var vetor1 = new Array();
-
-    $("input[id^='slt']").each(function(i){ 
-        vetor1.push($(this).val());
-    }); 
-    
-  
-    $(("#btnAlterar")).click(function () {
-        
-        
-        for (var x = 0; x < vetor1.length-1; x++){
-        $("#modalCondicao").empty();
-        var $clone = $('#modalCondicao').clone();
-        $clone.attr("id","modalCondicao"+x);
-       
-        $("#modalCondicao"+x).append(vetor1[x]);
-        
-        
-  //if(vetor1[x] !== vetor1[x]){console.log(vetor1[x]);}
-
-        }
-        
-        
-        
-    })
-})*/
-</script>

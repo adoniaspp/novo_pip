@@ -85,7 +85,7 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
         </div>
     </div>
     <div class="actions">
-        <div class="ui red button">
+        <div class="ui red deny button">
             Não
         </div>
         <div class="ui positive right labeled icon button">
@@ -96,7 +96,7 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
 </div>
 <div class="ui small modal" id="modalExcluir">
     <i class="close icon"></i>
-    <div class="ui red header">
+    <div class="ui header">
         Excluir imagem
     </div>
     <div class="content">
@@ -105,7 +105,7 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
         </div>
     </div>
     <div class="actions">
-        <div class="ui red button">
+        <div class="ui red deny button">
             Não
         </div>
         <div class="ui positive right labeled icon button">
@@ -114,17 +114,3 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-  /*  function PreviewImage(no) {
-       
-       
-       
-        var oFReader = new FileReader();
-        oFReader.readAsDataURL(document.getElementById("arquivo").files[0]);
-
-        oFReader.onload = function (oFREvent) {
-            document.getElementById("uploadPreview").src = oFREvent.target.result;
-        };
-    }*/
-</script>

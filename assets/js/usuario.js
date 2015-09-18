@@ -309,6 +309,9 @@ function confirmar() {
                     $('#modalTelefone').modal({
                         closable: true,
                         transition: "fade up",
+                        onDeny: function () {
+                            return false;
+                        },
                     }).modal('show');
                 } else
                 if ($("#hdnCEP").val() != "") {
@@ -317,7 +320,7 @@ function confirmar() {
                         closable: true,
                         transition: "fade up",
                         onDeny: function() {
-                            return false;
+                            return true;
                         },
                         onApprove: function() {
                             $("#form").submit();
@@ -891,7 +894,15 @@ function esqueciSenha() {
 
 function alterarSenha() { //alterar a senha esquecida
     $(document).ready(function() {
-
+        
+        $('#modalCancelar').modal({
+                closable: false,
+                transition: "fade up",
+                onDeny: function () {
+                    return true
+                }                
+        }) 
+        
         $("#btnAlterar").click(function() {
             if ($("#form").valid()) {
                 $("#form").submit();
@@ -1089,6 +1100,16 @@ function logout() {
 
 function alterarUsuario() {
     $(document).ready(function() {
+        
+        $('#modalConfirmar').modal({
+                closable: true,
+                transition: "fade up",
+                onDeny: function () {
+                    return true;
+                },
+                
+        })       
+
         /*validações*/
         $.validator.setDefaults({
             ignore: [],

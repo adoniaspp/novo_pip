@@ -247,7 +247,7 @@ if ($item) {
         </div>
     </div>
     <div class="actions">
-        <div class="ui deny button">
+        <div class="ui deny red button">
             Não
         </div>
         <div class="ui positive right labeled icon button">
@@ -256,6 +256,7 @@ if ($item) {
         </div>
     </div>
 </div>
+
 <div class="ui small modal" id="modalTelefone">
     <i class="close icon"></i>
     <div class="header">
@@ -286,7 +287,7 @@ if ($item) {
         </div>
     </div>
     <div class="actions">
-        <div class="ui deny button">
+        <div class="ui deny red button">
             Não
         </div>
         <div class="ui positive right labeled icon button">

@@ -345,7 +345,7 @@ function esconderCamposInicio() {
                     var $clone = $('#divInfoApeCasa').clone();
                     $clone.attr("id", "divInfoApeCasa" + valor);
 
-                    var label = "<h4>Planta " + (valor) + ": </h4><div id='divNomePlantas' class='nine wide required field'><input type='text' maxlength='80' name='txtPlanta[]' id='txtPlanta" + valor + "' placeholder='Titulo da Planta. Ex: 3 Quartos + 2 Suites + Opções (Ex: Gabinete, Living Ampliado, etc)'></div>"
+                    var label = "<h4>Planta " + (valor) + ": </h4><div id='divNomePlantas' class='ten wide required field'><input type='text' maxlength='80' name='txtPlanta[]' id='txtPlanta" + valor + "' placeholder='Titulo da Planta. Ex: 3 Quartos + 2 Suites + Opções (Ex: Gabinete, Living Ampliado, etc)'></div>"
 
                     $('#divInserePlanta').append(label);
                     $('#divInserePlanta').append($clone);
@@ -366,7 +366,7 @@ function esconderCamposInicio() {
 
                 for (var contador = 1; contador <= valores; contador++) {
 
-                    var quarto = "<div class='two wide required field'>\n\
+                    var quarto = "<div class='four wide required field'>\n\
                                     <label>Quarto(s)</label>\n\
                                     <div class='ui selection dropdown'>\n\
                                     <input type='hidden' name='sltQuarto[]' id='sltQuarto" + contador + "'>\n\
@@ -378,10 +378,10 @@ function esconderCamposInicio() {
                                         <div class='item' data-value='4'>4</div>\n\
                                         <div class='item' data-value='5'>5 ou mais</div>\n\
                                         </div></div></div>";
-                    var banheiro = "<div class='three wide required field'><label>Banheiro(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltBanheiro[]' id='sltBanheiro" + contador + "'><div class='default text'>Banheiro(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
-                    var suite = "<div class='three wide required field'><label>Suite(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltSuite[]' id='sltSuite" + contador + "'><div class='default text'>Suite(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
-                    var garagem = "<div class='three wide required field'><label>Vagas de Garagem</label><div class='ui selection dropdown'><input type='hidden' name='sltGaragem[]' id='sltGaragem" + contador + "'><div class='default text'>Vaga(s) de Garagem</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
-                    var area = "<div id='divAreaPlanta' class='three wide field'><div class='field'><label>Área(m2)</label><input type='text' name='txtArea[]' id='txtArea" + contador + "' maxlength='7' placeholder='Informe a Área'></div></div>";
+                    var banheiro = "<div class='four wide required field'><label>Banheiro(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltBanheiro[]' id='sltBanheiro" + contador + "'><div class='default text'>Banheiro(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
+                    var suite = "<div class='four wide required field'><label>Suite(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltSuite[]' id='sltSuite" + contador + "'><div class='default text'>Suite(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
+                    var garagem = "<div class='four wide required field'><label>Vagas de Garagem</label><div class='ui selection dropdown'><input type='hidden' name='sltGaragem[]' id='sltGaragem" + contador + "'><div class='default text'>Vaga(s) de Garagem</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
+                    var area = "<div id='divAreaPlanta' class='four wide field'><div class='field'><label>Área(m2)</label><input type='text' name='txtArea[]' id='txtArea" + contador + "' maxlength='7' placeholder='Área'></div></div>";
 
                     $("#divInfoApeCasa" + contador).append(quarto);
                     $("#divInfoApeCasa" + contador).append(banheiro);
@@ -432,10 +432,10 @@ function mostrarDivInfoApeCasa() {
         $("#divInfoApeCasa").empty();
 
         if ($("#sltTipo").val() == "1" || $("#sltTipo").val() == "3") {
-            var quarto = "<div class='three wide required field'><label>Quarto(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltQuarto' id='sltQuarto'><div class='default text'>Quarto(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
-            var banheiro = "<div class='three wide required field'><label>Banheiro(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltBanheiro' id='sltBanheiro'><div class='default text'>Banheiro(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
-            var suite = "<div class='three wide required field'><label>Suite(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltSuite' id='sltSuite'><div class='default text'>Suite(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
-            var garagem = "<div class='three wide required field'><label>Vagas de Garagem</label><div class='ui selection dropdown'><input type='hidden' name='sltGaragem' id='sltGaragem'><div class='default text'>Vaga(s) de Garagem</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
+            var quarto = "<div class='four wide required field'><label>Quarto(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltQuarto' id='sltQuarto'><div class='default text'>Quarto(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
+            var banheiro = "<div class='four wide required field'><label>Banheiro(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltBanheiro' id='sltBanheiro'><div class='default text'>Banheiro(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
+            var suite = "<div class='four wide required field'><label>Suite(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltSuite' id='sltSuite'><div class='default text'>Suite(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
+            var garagem = "<div class='four wide required field'><label>Vagas de Garagem</label><div class='ui selection dropdown'><input type='hidden' name='sltGaragem' id='sltGaragem'><div class='default text'>Vaga(s) de Garagem</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
 
             $("#divInfoApeCasa").append(quarto);
             $("#divInfoApeCasa").append(banheiro);
@@ -467,8 +467,8 @@ function mostrarDivInfoApeCasa() {
 
 
 
-            var banheiro = "<div class='three wide required field'><label>Banheiro(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltBanheiro' id='sltBanheiro'><div class='default text'>Banheiro(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
-            var garagem = "<div class='three wide required field'><label>Vagas de Garagem</label><div class='ui selection dropdown'><input type='hidden' name='sltGaragem' id='sltGaragem'><div class='default text'>Vaga(s) de Garagem</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
+            var banheiro = "<div class='four wide required field'><label>Banheiro(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltBanheiro' id='sltBanheiro'><div class='default text'>Banheiro(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
+            var garagem = "<div class='four wide required field'><label>Vagas de Garagem</label><div class='ui selection dropdown'><input type='hidden' name='sltGaragem' id='sltGaragem'><div class='default text'>Vaga(s) de Garagem</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
 
             $("#divInfoApeCasa").append(banheiro);
             $("#divInfoApeCasa").append(garagem);
@@ -595,7 +595,11 @@ function mostrarCamposEdicaoCasa(tipoImovel,
         $("#divAndar").hide();
         $("#divUnidadesAndar").hide();
         $("#divNumeroTorres").hide();
-
+        
+        $("#sltAndares").rules("remove");
+        
+        $("#sltAndar").rules("remove");
+        
         var condicao = "<div class='four wide required field' id='divCondicao'>\n\
                              <label>Condição</label><div class='ui selection dropdown'>\n\
                              <input type='hidden' name='sltCondicao' id='sltCondicao' value='" + parametroCondicao + "'> \n\
@@ -639,6 +643,7 @@ function mostrarCamposEdicaoApartamento(tipoImovel,
         parametroCondominio) {
 
     $(document).ready(function () {
+            
         exibirDiferencialEdicao();
         preco();
         $("#divNumeroPlantas").hide();
@@ -646,7 +651,9 @@ function mostrarCamposEdicaoApartamento(tipoImovel,
         $("#divAndar").show();
         $("#divUnidadesAndar").show();
         $("#divNumeroTorres").hide();
-
+        
+        $("#sltAndares").rules("remove");
+        
         var condicao = "<div class='four wide required field' id='divCondicao'>\n\
                              <label>Condição</label><div class='ui selection dropdown'>\n\
                              <input type='hidden' name='sltCondicao' id='sltCondicao' value='" + parametroCondicao + "'> \n\
@@ -739,7 +746,9 @@ function mostrarCamposEdicaoSalaComercial(tipoImovel,
         $("#divAndar").hide();
         $("#divUnidadesAndar").hide();
         $("#divNumeroTorres").hide();
-
+        
+        $("#sltAndares").rules("remove");
+        
         var condicao = "<div class='four wide required field' id='divCondicao'>\n\
                              <label>Condição</label><div class='ui selection dropdown'>\n\
                              <input type='hidden' name='sltCondicao' id='sltCondicao' value='" + parametroCondicao + "'> \n\
@@ -785,7 +794,9 @@ function mostrarCamposEdicaoPredioComercial(tipoImovel, parametroArea) {
         $("#divUnidadesAndar").hide();
         $("#divCondicao").hide();
         $("#divNumeroTorres").hide();
-
+        
+        $("#sltAndares").rules("remove");
+        
         var area = "<div id='divArea' class='three wide field'>\n\
                              <div class='field'><label>Área(m2)</label>\n\
                              <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='7' value='" + parametroArea + "'>\n\
@@ -805,7 +816,9 @@ function mostrarCamposEdicaoTerreno(tipoImovel, parametroArea) {
         $("#divAndar").hide();
         $("#divUnidadesAndar").hide();
         $("#divNumeroTorres").hide();
-
+        
+        $("#sltAndares").rules("remove");
+        
         var area = "<div id='divArea' class='three wide field'>\n\
                              <div class='field'><label>Área(m2)</label>\n\
                              <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='7' value='" + parametroArea + "'>\n\
@@ -864,7 +877,7 @@ function campos(parametroQuarto,
         parametroSuite,
         parametroGaragem,
         parametroArea) {
-    var quarto = "<div class='three wide required field' id='divQuarto'><label>Quarto(s)</label>\n\
+    var quarto = "<div class='four wide required field' id='divQuarto'><label>Quarto(s)</label>\n\
                             <div class='ui selection dropdown'>\n\
                             <input type='hidden' name='sltQuarto' id='sltQuarto' value='" + parametroQuarto + "'>\n\
                             <div class='default text'>Quarto(s)</div><i class='dropdown icon'></i>\n\
@@ -875,7 +888,7 @@ function campos(parametroQuarto,
                                 <div class='item' data-value='4'>4</div>\n\
                                 <div class='item' data-value='5'>5 ou mais</div>\n\
                             </div></div></div>";
-    var banheiro = "<div class='three wide required field' id='divBanheiro'>\n\
+    var banheiro = "<div class='four wide required field' id='divBanheiro'>\n\
                                 <label>Banheiro(s)</label><div class='ui selection dropdown'>\n\
                                 <input type='hidden' name='sltBanheiro' id='sltBanheiro' value='" + parametroBanheiro + "'>\n\
                                 <div class='default text'>Banheiro(s)</div><i class='dropdown icon'></i>\n\
@@ -886,7 +899,7 @@ function campos(parametroQuarto,
                                 <div class='item' data-value='4'>4</div>\n\
                                 <div class='item' data-value='5'>5 ou mais</div>\n\
                             </div></div></div>";
-    var suite = "<div class='three wide required field' id='divSuite'>\n\
+    var suite = "<div class='four wide required field' id='divSuite'>\n\
                             <label>Suite(s)</label><div class='ui selection dropdown'>\n\
                             <input type='hidden' name='sltSuite' id='sltSuite' value='" + parametroSuite + "'>\n\
                             <div class='default text'>Suite(s)</div><i class='dropdown icon'></i>\n\
@@ -897,7 +910,8 @@ function campos(parametroQuarto,
                             <div class='item' data-value='4'>4</div>\n\
                             <div class='item' data-value='5'>5 ou mais</div>\n\
                             </div></div></div>";
-    var garagem = "<div class='three wide required field' id='divGaragem'><label>Vagas de Garagem</label>\n\
+    
+    var garagem = "<div class='four wide required field' id='divGaragem'><label>Vagas de Garagem</label>\n\
                             <div class='ui selection dropdown'>\n\
                             <input type='hidden' name='sltGaragem' id='sltGaragem' value='" + parametroGaragem + "'>\n\
                             <div class='default text'>Vaga(s) de Garagem</div>\n\
@@ -909,11 +923,11 @@ function campos(parametroQuarto,
                             <div class='item' data-value='4'>4</div>\n\
                             <div class='item' data-value='5'>5 ou mais</div>\n\
                            </div></div></div>";
-
+    /*
     var area = "<div id='divArea' class='three wide field'>\n\
                              <div class='field'><label>Área(m2)</label>\n\
                              <input type='text' name='txtArea[]' id='txtArea' placeholder='Informe a Área' maxlength='7' value='" + parametroArea + "'>\n\
-                        </div></div>";
+                        </div></div>";*/
 
     if (parametroQuarto !== null) {
         $("#divInfoApeCasa").append(quarto);
@@ -1044,6 +1058,7 @@ function camposPlantas(parametroQuarto,
                        closable: true,
                        transition: "fade up",
                        onDeny: function () {
+                           return true;
                        },
                        onApprove: function () {
                            $("#form").submit();
@@ -1354,8 +1369,7 @@ function exibirDiferencialEdicao() {
         },
         success: function (resposta) {
             $('#chkDiferencial').html(resposta);
-            $('.ui.checkbox')
-                    .checkbox();
+            $('.ui.checkbox').checkbox();
         }
     })
 }
