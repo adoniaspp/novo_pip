@@ -94,7 +94,7 @@ class AnuncioControle {
     }
 
     function buscarAnuncio($parametros) {
-        
+
         $visao = new Template('ajax');
         $consultasAdHoc = new ConsultasAdHoc();
         $parametros["atributos"] = "*";
@@ -127,56 +127,52 @@ class AnuncioControle {
         unset($parametros["tabela_length"]);
         unset($parametros["selecionarAnuncio"]);
         $parametros["predicados"] = $parametros;
-        
+
         $listarAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
-        
-        $usuarioQtdAnuncio = count($consultasAdHoc->ConsultarAnunciosPorUsuario($listarAnuncio["anuncio"][0]["id"], null, "cadastrado"));       
-        
+
+        $usuarioQtdAnuncio = count($consultasAdHoc->ConsultarAnunciosPorUsuario($listarAnuncio["anuncio"][0]["id"], null, "cadastrado"));
+
         $usuario = $genericoDAO->consultar(new Usuario(), false, array("id" => $listarAnuncio["anuncio"][0]["id"]));
 
-        $listarAnuncio["qtdAnuncios"]  = $usuarioQtdAnuncio;
-        
+        $listarAnuncio["qtdAnuncios"] = $usuarioQtdAnuncio;
+
         $listarAnuncio["loginUsuario"] = $usuario[0]->getLogin();
-        
+
         $visao->setItem($listarAnuncio);
         $visao->exibir('AnuncioVisaoDetalhe.php');
     }
-    
-    function exibirAnuncioURL($parametros){
+
+    function exibirAnuncioURL($parametros) {
 
         $genericoDAO = new GenericoDAO();
-        
+
         $anuncio = $genericoDAO->consultar(new Anuncio(), true, array("idanuncio" => $parametros));
-        $usuario = $genericoDAO->consultar(new Usuario(), true, array("login" => $parametros)); 
-             
-      
-        if($usuario <> NULL){
+        $usuario = $genericoDAO->consultar(new Usuario(), true, array("login" => $parametros));
+
+
+        if ($usuario <> NULL) {
             return "usuario"; //se o usuário existir
-        } 
-        
-        if($anuncio <> NULL){ //se o anuncio existir     
-        $consultasAdHoc = new ConsultasAdHoc();
-        $imovel         = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio[0]->getIdImovel()));
-        $endereco       = $genericoDAO->consultar(new Endereco(), true, array("id" => $imovel[0]->getIdEndereco()));
-        $usuario        = $genericoDAO->consultar(new Usuario(), true, array("id" => $imovel[0]->getIdUsuario())); 
-        $qtdAnuncios    = count($consultasAdHoc->ConsultarAnunciosPorUsuario($imovel[0]->getIdUsuario(), null, "cadastrado"));
-            
-            $item["anuncio"]    = $anuncio;
-            $item["imovel"]     = $imovel;
-            $item["usuario"]    = $usuario;
-            $item["endereco"]   = $endereco;
-            $item["qtdAnuncios"]= $qtdAnuncios;
-            
+        }
+
+        if ($anuncio <> NULL) { //se o anuncio existir     
+            $consultasAdHoc = new ConsultasAdHoc();
+            $imovel = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio[0]->getIdImovel()));
+            $endereco = $genericoDAO->consultar(new Endereco(), true, array("id" => $imovel[0]->getIdEndereco()));
+            $usuario = $genericoDAO->consultar(new Usuario(), true, array("id" => $imovel[0]->getIdUsuario()));
+            $qtdAnuncios = count($consultasAdHoc->ConsultarAnunciosPorUsuario($imovel[0]->getIdUsuario(), null, "cadastrado"));
+
+            $item["anuncio"] = $anuncio;
+            $item["imovel"] = $imovel;
+            $item["usuario"] = $usuario;
+            $item["endereco"] = $endereco;
+            $item["qtdAnuncios"] = $qtdAnuncios;
+
             $visao = new Template();
             $visao->setItem($item);
-            $visao->exibir('AnuncioVisaoDetalheURL.php');           
-            
-        }
-        
-        elseif(!$usuario && !$anuncio){ //se nem o anuncio nem o usuário existirem
+            $visao->exibir('AnuncioVisaoDetalheURL.php');
+        } elseif (!$usuario && !$anuncio) { //se nem o anuncio nem o usuário existirem
             return false;
         }
-            
     }
 
     function comparar($parametros) {
@@ -243,7 +239,7 @@ class AnuncioControle {
         }
     }
 
-        function listarAtivo() {
+    function listarAtivo() {
         if (Sessao::verificarSessaoUsuario()) {
             $anuncio = new Anuncio();
             $genericoDAO = new GenericoDAO();
@@ -261,8 +257,17 @@ class AnuncioControle {
             $visao->exibir('AnuncioVisaoListagem.php');
         }
     }
-    
+
     function cadastrar($parametros) {
+//        echo "<pre>";
+//        echo "parameetros<br>";
+//        print_r($parametros);
+//        echo "files<br>";
+//        var_dump($_FILES);
+//        echo "request<br>";
+//        var_dump($_REQUEST);
+//        exit();
+
         if (Sessao::verificarSessaoUsuario()) {
             if (isset($parametros['upload']) & $parametros['upload'] === "1") {
                 include_once 'controle/ImagemControle.php';
@@ -293,6 +298,7 @@ class AnuncioControle {
                         //traz todas as plantas
                         $plantas = $genericoDAO->consultar(new Imovel(), true, array("id" => $_SESSION["anuncio"]["idimovel"]));
                         $plantas = $plantas[0]->getPlanta();
+                        if(is_object($plantas)) $plantas = array($plantas);
                         //itera para cada planta
                         foreach ($plantas as $planta) {
                             $valor->setIdplanta($planta->getId());
@@ -311,11 +317,20 @@ class AnuncioControle {
                                     $genericoDAO->cadastrar($entidadeValor);
                                 }
                             }
+                            //imagens das plantas
+                            $sessaoImagemPlanta = $_SESSION["imagemPlanta"][$planta->getOrdemplantas()];
+                            if(isset($sessaoImagemPlanta)){
+                                $planta->setImagemdiretorio($sessaoImagemPlanta["diretorio"]);
+                                $planta->setImagemnome($sessaoImagemPlanta["name"]);
+                                $planta->setImagemtamanho($sessaoImagemPlanta["size"]);
+                                $planta->setImagemtipo($sessaoImagemPlanta["type"]);
+                                $genericoDAO->editar($planta);
+                            }
                         }
                     }
                     //somente salva fotos se houver
-                    if (isset($_SESSION["imagem"])) {
-                        foreach ($_SESSION["imagem"] as $file) {
+                    if (isset($_SESSION["imagemAnuncio"])) {
+                        foreach ($_SESSION["imagemAnuncio"] as $file) {
                             $imagem = new Imagem();
                             $entidadeImagem = $imagem->cadastrar($file, $idAnuncio, $parametros["rdbDestaque"]);
                             $idImagem = $genericoDAO->cadastrar($entidadeImagem);
@@ -325,7 +340,8 @@ class AnuncioControle {
                     if ($idAnuncio) {
                         $genericoDAO->commit();
                         Sessao::desconfigurarVariavelSessao("anuncio");
-                        Sessao::desconfigurarVariavelSessao("imagem");
+                        Sessao::desconfigurarVariavelSessao("imagemAnuncio");
+                        Sessao::desconfigurarVariavelSessao("imagemPlanta");
                         echo json_encode(array("resultado" => 1));
                     } else {
                         $genericoDAO->rollback();
@@ -334,6 +350,82 @@ class AnuncioControle {
                 }
             }
         }
+    }
+
+    function cadastrarAnuncioImagemPlanta($parametros) {
+        $sucesso = 1;
+        $resposta = "";
+        //verifica o token
+        if (Sessao::verificarToken($parametros)) {
+            $ordem = $parametros["ordem"];
+            $imagem = $_FILES["attachmentName" . $ordem];
+            //pega o mesmo diretorio das imagens. ver em ImagemControle()->get_user_id()
+            $user_dir = strrev(str_pad($_SESSION["idusuario"], 5, "0", STR_PAD_LEFT)) . "P" . hash("crc32", stripslashes(session_id()));
+            $target_dir = PIPROOT . "/fotos/plantas/" . $user_dir . "/"; //retorna o idusuario + hash
+            $target_file = $target_dir . basename($imagem["name"]);
+
+            //inicio das validações
+            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            //verifica tipo de arquivo
+            if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+                $sucesso = 0;
+                $resposta = "ERRO: somente os tipos JPG, JPEG, PNG e GIF são permitidos. O arquivo enviado foi do tipo " . $imageFileType;
+            } else {
+                //verifica se é uma imagem
+                $check = getimagesize($imagem["tmp_name"]);
+                if ($check !== false) {
+                    //verifica se o arquivo já existe
+                    //if (file_exists($target_file)) {
+                    //    $sucesso = 0;
+                    //    $resposta = "ERRO: um arquivo com este nome já foi enviado";
+                    //} else {
+                    //verifica o tamanho do arquivo
+                    if ($imagem["size"] > 3000000) {
+                        $sucesso = 0;
+                        $resposta = "ERRO: o arquivo é muito grande. O tamanho máximo permitido é 3MB";
+                    } else {
+                        //verifica se a pasta tem mais de 200 arquivos
+                        $arquivosNaPasta = scandir($target_dir);
+                        if (count($arquivosNaPasta) > 200) {
+                            $sucesso = 0;
+                            $resposta = "ERRO (200): houve um problema ao carregar a sua imagem";
+                        } else {
+                            mkdir($target_dir, 0700);
+                            if (move_uploaded_file($imagem["tmp_name"], $target_file)) {
+                                $resposta = "Imagem da Planta " . $ordem . " (" . basename($imagem["name"]) . ") foi carregado com sucesso";
+                            } else {
+                                $sucesso = 0;
+                                $resposta = "ERRO (UPLOAD): houve um problema ao carregar a sua imagem";
+                            }
+                        }
+                    }
+                    //}
+                } else {
+                    $sucesso = 0;
+                    $resposta = "O arquivo enviado não é uma imagem";
+                }
+            }
+        } else {
+            $sucesso = 0;
+            $resposta = "Ops! Não podemos processar sua requisição. Tente novamente.";
+        }
+        if ($sucesso === 1) {
+            Sessao::configurarSessaoImagemPlanta($ordem, $imagem, $user_dir);
+        } else {
+            Sessao::desconfigurarSessaoImagemPlanta($ordem);
+        }
+        echo json_encode(array("resultado" => $sucesso, "retorno" => $resposta));
+        //echo "<pre>";
+        //print_r($_SESSION["imagemPlanta"]);
+        exit();
+    }
+
+    function apagarImagemPlanta($parametros) {
+        //verifica o token
+        if (Sessao::verificarToken($parametros)) {
+            Sessao::desconfigurarSessaoImagemPlanta($parametros["ordem"]);
+        }
+        exit();
     }
 
     private function verificaValorMinimo($anuncio, $parametros) {
@@ -552,13 +644,13 @@ class AnuncioControle {
             echo json_encode(array("resultado" => 2));
         }
     }
-    
+
     function finalizar($parametros) {
-        
+
         if (Sessao::verificarSessaoUsuario()) {
-            
+
             if (Sessao::verificarToken($parametros)) {
-                
+
                 $genericoDAO = new GenericoDAO();
                 $entidadeAnuncio = new Anuncio();
                 $selecionarAnuncio = $genericoDAO->consultar($entidadeAnuncio, false, array("id" => $parametros["hdnAnuncio"]));
@@ -566,7 +658,7 @@ class AnuncioControle {
                 $entidadeAnuncio->setStatus('finalizado');
                 $entidadeAnuncio->setDatahoraalteracao(date('d/m/Y H:i:s'));
                 $genericoDAO->editar($entidadeAnuncio);
-                
+
                 $historicoAluguelVenda = new HistoricoAluguelVenda();
                 $entidadeHistoricoAluguelVenda = $historicoAluguelVenda->cadastrar($parametros);
                 $resultadoFinalizarNegocio = $genericoDAO->cadastrar($entidadeHistoricoAluguelVenda);

@@ -38,12 +38,13 @@ if ($item) {
 <script src="assets/libs/fileupload/jquery.fileupload-ui.js"></script>
 <!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
 <!--[if (gte IE 8)&(lt IE 10)]>
-<script src="js/cors/jquery.xdr-transport.js"></script>
+<script src="assets/libs/fileupload/cors/jquery.xdr-transport.js"></script>
 <![endif]-->
 <script>
     /*jslint unparam: true, regexp: true */
     /*global window, $ */
     $(function () {
+
         $('#fileupload').fileupload({
             dropZone: null,
             pasteZone: null,
@@ -67,30 +68,122 @@ if ($item) {
                 minFileSize: 'Arquivo muito pequeno (0 MB)'
             }
         }).on('fileuploadadd', function (e, data) {
-            //verificar se o fileInput eh o attachmentName
-            //se for faz a logica do preview
-            //e chama o preventdefault
-            //senao nao faz nada.
-            var input = data.fileInput[0];
-            console.log($(input).attr("name"));
-            if ($(input).attr("name") == "attachmentName[]") {
-                e.preventDefault();
-            }
+            console.log("adicionando foto");
+            //metodo para testar de qual upload esta vindo a imagem
+            //se for apartamento na planta
+            if (data.paramName.substring(0, 14) === "attachmentName") {
+                //fazer a validacao do arquivo
+                //#configuracao de variaveis
+                var EXTENSOES_PERMITIDAS = '.jpg .jpeg .png .gif';
+                var TAMANHO_MAXIMO = 3; // MB
+                var labelArquivo = data.files[0].name;
+                var postfix = labelArquivo.substr(labelArquivo.lastIndexOf('.'));
+                var ordemPlanta = data.paramName.substring(14, 15);
+                var imagemPreview = $("#uploadPreview" + ordemPlanta);
+                var tamanhoArquivo = data.files[0].size;
+                var FOTO_PADRAO = "<?php echo PIPURL . "assets/imagens/logo.png"; ?>";
+                var sucesso;
+                sucesso = true;
+                //validacao tipo arquivo
+                if (EXTENSOES_PERMITIDAS.indexOf(postfix.toLowerCase()) > -1) {
+                    //validacao tamanho
+                    if (tamanhoArquivo > 1024 * 1024 * TAMANHO_MAXIMO) {
+                        alert('Tamanho máximo da imagem:' + TAMANHO_MAXIMO + ' MB');
+                        $(imagemPreview).attr("src", FOTO_PADRAO);
+                        sucesso = false;
+                    } else {
+                        //mostrar preview da foto
+                        var oFReader = new FileReader();
+                        oFReader.readAsDataURL(data.fileInput[0].files[0]);
+                        oFReader.onload = function (oFREvent) {
+                            $(imagemPreview).attr("src", oFREvent.target.result);
+                            var novoFormulario = new FormData();
+                            $.each(data.fileInput[0].files, function (i, file) {
+                                novoFormulario.append(data.paramName, file);
+                            });
+                            novoFormulario.append("hdnEntidade", "Anuncio");
+                            novoFormulario.append("hdnAcao", "cadastrarAnuncioImagemPlanta");
+                            novoFormulario.append("ordem", ordemPlanta);
+                            novoFormulario.append("hdnToken", $("#hdnToken").val());
+
+                            $.ajax({
+                                url: "index.php",
+                                dataType: "json",
+                                type: "POST",
+                                data: novoFormulario,
+                                contentType: false,
+                                processData: false,
+                                cache: false,
+                                success: function (resposta) {
+                                    console.log(resposta);
+                                    if (resposta.resultado === 1) {
+                                        alert("Imagem da planta " + (parseInt(ordemPlanta) + 1) + " foi carregada com sucesso");
+                                    } else {
+                                        alert(resposta.retorno);
+                                        $(imagemPreview).attr("src", FOTO_PADRAO);
+                                    }
+                                }
+                            })
+                        }
+                    }
+                } else {
+                    alert('Tipo de arquivo inválido. São aceitos os tipos:' + EXTENSOES_PERMITIDAS);
+                    $(imagemPreview).attr("src", FOTO_PADRAO);
+                    sucesso = false;
+                }
+                e.preventDefault();//nao mostrar no template do fileupload
+
+                if (!sucesso) {
+                    //falha cria formulario e envia erro
+                    var novoFormulario = new FormData();
+                    novoFormulario.append("hdnEntidade", "Anuncio");
+                    novoFormulario.append("hdnAcao", "apagarImagemPlanta");
+                    novoFormulario.append("ordem", ordemPlanta);
+                    novoFormulario.append("hdnToken", $("#hdnToken").val());
+                    $.ajax({
+                        url: "index.php",
+                        type: "POST",
+                        data: novoFormulario,
+                        contentType: false,
+                        processData: false,
+                        cache: false,
+                        success: function () {
+                        }
+                    });
+                }
+            } /*else {
+                //imagens do anuncio
+                console.log("uploading");
+                $('.ui.checkbox').checkbox();
+                $("p[class='error']").each(function () {
+                    var error = $(this).html();
+                    if (error !== "") {
+                        $(this).html('<div class="ui error message"><div class="header">Ocorreu um erro</div><p>' + error + '</p></div>');
+                    }
+                })
+            }*/
         }).on('fileuploadsubmit', function (e, data) {
             data.formData = $("#fileupload").serializeArray();
-        }).on('fileuploadcompleted', function (e, data) {
-            console.log(data);
-            console.log('data');
+        }).on('fileuploadalways', function (e, data) {
+            console.log('completou');
             $('.ui.checkbox').checkbox();
             $("p[class='error']").each(function () {
                 var error = $(this).html();
-                if (error != "") {
-                    $(this).html('<div class="ui error message"><div class="header">Ocorreu um erro</div><p>' + error + '</p></div>');
+                if (error !== "") {
+                    //$(this).html('<div class="ui error message"><div class="header">Ocorreu um erro</div><p>' + error + '</p></div>');
                 }
             })
         }).on('fileuploadfail', function (e, data) {
-            console.log('s');
+            console.log('cancelando');
+            //# metodo para testar de qual upload esta vindo a imagem
+            var input = data.fileInput[0];
+            //#se for apartamento na planta
+            if ($(input).attr("name") == "attachmentName[]") {
+                $($('#fileupload  .cancel ')[parseInt(data.context[0].rowIndex) + 1]).click();
+            }
         })
+
+
         /*
          // Load existing files:
          $('#fileupload').addClass('fileupload-processing');
@@ -109,6 +202,7 @@ if ($item) {
             on: 'hover'
         });
     });
+
 </script>
 
 <script>
@@ -395,7 +489,7 @@ if ($item) {
                 <table role="presentation" class="ui form table"><tbody class="files"></tbody></table>
                 <!-- The template to display files available for upload -->
                 <script id="template-upload" type="text/x-tmpl">
-                    {% for (var i=0, file; file=o.files[i]; i++) { console.log(this); %}
+                    {% for (var i=0, file; file=o.files[i]; i++) { %}
                     <tr class="template-upload fade">
                     <td>
                     <span class="preview"></span>
@@ -430,7 +524,7 @@ if ($item) {
                 </script>
                 <!-- The template to display files available for download -->
                 <script id="template-download" type="text/x-tmpl">
-                    {% for (var i=0, file; file=o.files[i]; i++) { console.log(file); %}
+                    {% for (var i=0, file; file=o.files[i]; i++) { %}
                     <tr class="template-download fade">
                     <td style="vertical-align: middle;">
                     <input type="checkbox" name="delete" value="1" class="ui toggle checkbox">
@@ -451,7 +545,7 @@ if ($item) {
                     {% } %}
                     </p>
                     {% if (file.error) { %}
-                    <div class="ui negative message"><div class="ui header">Ocorreu um erro</div> {%=file.error%}</div>
+                    <div class="ui error message"><div class="header">Ocorreu um erro</div><p class="error"> {%=file.error%} </p></div>
                     {% } %}
                     </td>
                     <td style="vertical-align: middle;">

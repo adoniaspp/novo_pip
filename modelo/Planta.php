@@ -13,88 +13,124 @@ class Planta {
     private $suite;
     private $garagem;
     private $area;
+    private $imagemdiretorio;
+    private $imagemnome;
+    private $imagemtamanho;
+    private $imagemtipo;
     
-    function getId() {
+    public function getId() {
         return $this->id;
     }
 
-    function getIdapartamentoplanta() {
+    public function getIdapartamentoplanta() {
         return $this->idapartamentoplanta;
     }
 
-    function getIdimovel() {
+    public function getIdimovel() {
         return $this->idimovel;
     }
 
-    function getOrdemplantas() {
+    public function getOrdemplantas() {
         return $this->ordemplantas;
     }
 
-    function getTituloplanta() {
+    public function getTituloplanta() {
         return $this->tituloplanta;
     }
 
-    function getQuarto() {
+    public function getQuarto() {
         return $this->quarto;
     }
 
-    function getBanheiro() {
+    public function getBanheiro() {
         return $this->banheiro;
     }
 
-    function getSuite() {
+    public function getSuite() {
         return $this->suite;
     }
 
-    function getGaragem() {
+    public function getGaragem() {
         return $this->garagem;
     }
 
-    function getArea() {
+    public function getArea() {
         return $this->area;
     }
 
-    function setId($id) {
+    public function getImagemdiretorio() {
+        return $this->imagemdiretorio;
+    }
+
+    public function getImagemnome() {
+        return $this->imagemnome;
+    }
+
+    public function getImagemtamanho() {
+        return $this->imagemtamanho;
+    }
+
+    public function getImagemtipo() {
+        return $this->imagemtipo;
+    }
+
+    public function setId($id) {
         $this->id = $id;
     }
 
-    function setIdapartamentoplanta($idapartamentoplanta) {
+    public function setIdapartamentoplanta($idapartamentoplanta) {
         $this->idapartamentoplanta = $idapartamentoplanta;
     }
 
-    function setIdimovel($idimovel) {
+    public function setIdimovel($idimovel) {
         $this->idimovel = $idimovel;
     }
 
-    function setOrdemplantas($ordemplantas) {
+    public function setOrdemplantas($ordemplantas) {
         $this->ordemplantas = $ordemplantas;
     }
 
-    function setTituloplanta($tituloplanta) {
+    public function setTituloplanta($tituloplanta) {
         $this->tituloplanta = $tituloplanta;
     }
 
-    function setQuarto($quarto) {
+    public function setQuarto($quarto) {
         $this->quarto = $quarto;
     }
 
-    function setBanheiro($banheiro) {
+    public function setBanheiro($banheiro) {
         $this->banheiro = $banheiro;
     }
 
-    function setSuite($suite) {
+    public function setSuite($suite) {
         $this->suite = $suite;
     }
 
-    function setGaragem($garagem) {
+    public function setGaragem($garagem) {
         $this->garagem = $garagem;
     }
 
-    function setArea($area) {
+    public function setArea($area) {
         $this->area = $area;
     }
 
-                
+    public function setImagemdiretorio($imagemdiretorio) {
+        $this->imagemdiretorio = $imagemdiretorio;
+    }
+
+    public function setImagemnome($imagemnome) {
+        $this->imagemnome = $imagemnome;
+    }
+
+    public function setImagemtamanho($imagemtamanho) {
+        $this->imagemtamanho = $imagemtamanho;
+    }
+
+    public function setImagemtipo($imagemtipo) {
+        $this->imagemtipo = $imagemtipo;
+    }
+
+                    
     function cadastrar($parametros, $idApartamentoPlanta, $idimovel, $indiceControle) {
 
         $planta = new Planta();
@@ -111,11 +147,11 @@ class Planta {
         
     }
     
-    function editar($parametros, $idPartamentoPlanta, $PLId, $indiceControle) {
+    function editar($parametros, $idPartamentoPlanta, $idPlanta, $indiceControle) {
        
         
         $planta = new Planta();
-        $planta->setId($PLId);
+        $planta->setId($idPlanta);
         $planta->setIdapartamentoplanta($idPartamentoPlanta);
         $planta->setIdimovel($_SESSION["imovel"]["id"]);
         $planta->setOrdemplantas($indiceControle);
@@ -129,4 +165,10 @@ class Planta {
         
     }
     
+    function cadastrarImagem($parametros){
+        $this->setImagemdiretorio(dirname($_SERVER["HTTP_REFERER"]) . '/fotos/planta/');
+        $this->setImagemnome($parametros["name"]);
+        $this->setImagemtipo($parametros["type"]);
+        $this->setImagemtamanho($parametros["size"]);
+    }
 }

@@ -1,6 +1,7 @@
 <p>Para cada planta informe o valor (não informar os centavos) por andar inicial e final.</p>
 <?php
 $plantas = $item["imovel"][0]->getPlanta();
+if(is_object($plantas)) $plantas = array($plantas);
 $andares = $item["imovel"][0]->getApartamentoPlanta()->getAndares();
 foreach ($plantas as $planta) {
     $tipoAndar = array('Inicial', 'Final');
@@ -61,11 +62,11 @@ foreach ($plantas as $planta) {
                                 <div class="ui dimmer">
                                     <div class="content">
                                         <div class="center">
-                                            <label class="ui inverted button btn-file"> <input class="attachmentName" type="file" name="attachmentName[]" style="display: none"/>Inserir Imagem</label>
+                                            <label class="ui inverted button btn-file"> <input id="attachmentName<?php echo $planta->getOrdemplantas(); ?>" class="attachmentName" type="file" name="attachmentName<?php echo $planta->getOrdemplantas(); ?>" style="display: none"/>Inserir Imagem</label>
                                         </div>
                                     </div>
                                 </div>
-                                <img class="ui small uploadPreview rounded image" src="/assets/imagens/logo.png">
+                                <img id="uploadPreview<?php echo $planta->getOrdemplantas(); ?>" class="ui small uploadPreview rounded image" src="/assets/imagens/logo.png">
                             </div>
                               <div class="extra content">
                                 <a>

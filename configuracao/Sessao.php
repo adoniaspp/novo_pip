@@ -72,26 +72,40 @@ class Sessao {
         $_SESSION["imagem"] = NULL;
     }
 
-    public static function configurarSessaoImagem($acao, $nome, $dados = NULL) {
+    public static function existeSessaoImagem($nome) {
+        return isset($_SESSION["imagemAnuncio"][$nome]);
+    }
+
+    public static function configurarSessaoImagemAnuncio($acao, $nome, $dados = NULL) {
         if ($acao == "inserir") {
-            $_SESSION["imagem"][$nome] = $dados;
+            $_SESSION["imagemAnuncio"][$nome] = $dados;
             /*
-            [name] => DSC08956.JPG
-            [size] => 2305002
-            [type] => image/jpeg
-            [legenda] => cidade
-            [idImagem] => 
-            [url] => http://localhost:8080/fotos/imoveis/0u3at2hns031qqj5b82c9thuh4/DSC08956.JPG
-            [thumbnailUrl] => http://localhost:8080/fotos/imoveis/0u3at2hns031qqj5b82c9thuh4/thumbnail/DSC08956.JPG
-            [deleteUrl] => http://localhost:8080/?file=DSC08956.JPG
-            [deleteType] => DELETE
-            [id] => 
-            */
+              [name] => DSC08956.JPG
+              [size] => 2305002
+              [type] => image/jpeg
+              [legenda] => cidade
+              [idImagem] =>
+              [url] => http://localhost:8080/fotos/imoveis/0u3at2hns031qqj5b82c9thuh4/DSC08956.JPG
+              [thumbnailUrl] => http://localhost:8080/fotos/imoveis/0u3at2hns031qqj5b82c9thuh4/thumbnail/DSC08956.JPG
+              [deleteUrl] => http://localhost:8080/?file=DSC08956.JPG
+              [deleteType] => DELETE
+              [id] =>
+             */
         }
 
         if ($acao == "excluir") {
-            unset($_SESSION["imagem"][$nome]);
+            unset($_SESSION["imagemAnuncio"][$nome]);
         }
+    }
+
+    public static function configurarSessaoImagemPlanta($ordem, $imagem, $diretorio) {
+        $imagem["diretorio"] = $diretorio;
+        $_SESSION["imagemPlanta"][$ordem] = $imagem;
+    }
+
+    public static function desconfigurarSessaoImagemPlanta($ordem) {
+        if (isset($_SESSION["imagemPlanta"][$ordem]))
+            unset($_SESSION["imagemPlanta"][$ordem]);
     }
 
     public static function configurarSessaoImovel($imovel) {
