@@ -6,20 +6,25 @@
 </script>
 
 <br>
-<div class="ui center aligned column page grid">
     <!--<div class="column"></div>-->
-    <div class="ui form inverted blue segment" id="divBusca">
-        <div class="ui center aligned column page grid">
-            <div class="column">
-                <div class="four fields">
-                    <div class="ui field">
+    
+    <div class="ui form segment" id="divBusca">
+       <div class="ui hidden divider"></div>
+          
+            <div class="ui page grid">
+                   
+                <div class="row">
+                
+                    <div class="fields">
+                    
+                    <div class="five field">
                         <label>Tipo de Imóvel</label>
                         <div class="ui selection dropdown">
                             <input type="hidden" name="sltTipoImovel" id="sltTipoImovel">
-                            <div class="default text">Informe o Tipo do Imóvel</div>
+                            <div class="default text">Tipo</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
-                                <div class="item" data-value="">Todos os Tipos</div>
+                                <div class="item" data-value="">Todos</div>
                                 <div class="item" data-value="casa">Casa</div>
                                 <div class="item" data-value="apartamentoplanta">Apartamento na Planta/Novo</div>
                                 <div class="item" data-value="apartamento">Apartamento</div>
@@ -28,36 +33,36 @@
                             </div>
                         </div>
                     </div>
-                    <div class="ui field">
+                    <div class="five field">
                         <label>Finalidade</label>
-                        <div class="ui fluid selection dropdown">
+                        <div class="ui selection dropdown">
                             <input type="hidden" name="sltFinalidade" id="sltFinalidade">
-                            <div class="default text">Todas as Finalidades</div>
+                            <div class="default text">Finalidade</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
-                                <div class="item" data-value="">Todas as Finalidade</div>
+                                <div class="item" data-value="">Todas</div>
                                 <div class="item" data-value="venda">Venda</div>
                                 <div class="item" data-value="aluguel">Aluguel</div>
                             </div>
                         </div>
                     </div>
-                    <div class="ui field">
+                    <div class="five field">
                         <label>Cidade</label>
-                        <div class="ui fluid selection dropdown">
+                        <div class="ui selection dropdown">
                             <input type="hidden" name="sltCidade" id="sltCidade">
-                            <div class="default text">Todas as Cidade</div>
+                            <div class="default text">Cidade</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
-                                <div class="item" data-value="">Todas as Cidade</div>
+                                <div class="item" data-value="">Todas</div>
                                 <div class="item" data-value="1">Belém</div>
                                 <div class="item" data-value="2">Ananindeua</div>
                                 <div class="item" data-value="3">Marituba</div>
                             </div>
                         </div>
                     </div>
-                    <div class="ui field">
+                    <div class="five field">
                         <label>Bairro</label>
-                        <div class="ui fluid selection dropdown">
+                        <div class="ui selection dropdown">
                             <input type="hidden" name="sltBairro" id="sltBairro">
                             <div class="default text">Selecione a Cidade</div>
                             <i class="dropdown icon"></i>
@@ -65,18 +70,12 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="ui center aligned column page grid padding-reset" id="divCaracteristicas">
-            <div class="column">
-                <div class="four fields">
-                    <!--                <div class="field" id="divPreenchimento1"></div>-->
-                    <div class="field" id="condicao">
+                        
+                    <div class="five field" id="condicao">
                         <label>Condição</label>
-                        <div class="ui fluid selection dropdown">
+                        <div class="ui selection dropdown">
                             <input type="hidden" name="sltCondicao" id="sltCondicao">
-                            <div class="default text">Informe a Condição</div>
+                            <div class="default text">Condição</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
                                 <div class="item" data-value="">Qualquer Condição</div>
@@ -84,12 +83,21 @@
                                 <div class="item" data-value="usado">Usado</div>
                             </div>
                         </div>
-                    </div>
-                    <div class="field">
-                        <label>Quartos</label>
+                    </div>    
+                        
+                    </div>      
+                    
+            </div>
+                
+            <div class="row">
+            
+            <div class="fields">                   
+                        
+                    <div class="five field" id="divQuarto">
+                        <label>Quarto(s)</label>
                         <div class="ui selection dropdown">
                             <input type="hidden" name="sltQuartos" id="sltQuartos">
-                            <div class="default text">Qualquer Quantidade</div>
+                            <div class="default text">Quartos</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
                                 <div class="item" data-value="">Qualquer Quantidade</div>
@@ -97,16 +105,50 @@
                                 <div class="item" data-value="2">2</div>
                                 <div class="item" data-value="3">3</div>
                                 <div class="item" data-value="4">4</div>
-                                <div class="item" data-value="5">Mais de 5</div>
+                                <div class="item" data-value="5">5 ou mais</div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="five wide field" id="divValorVenda">
+                    
+                    <div class="five field" id="divBanheiro">
+                        <label>Banheiro(s)</label>
+                        <div class="ui selection dropdown">
+                            <input type="hidden" name="sltBanheiros" id="sltBanheiros">
+                            <div class="default text">Banheiro(s)</div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <div class="item" data-value="">Qualquer Quantidade</div>
+                                <div class="item" data-value="1">1</div>
+                                <div class="item" data-value="2">2</div>
+                                <div class="item" data-value="3">3</div>
+                                <div class="item" data-value="4">4</div>
+                                <div class="item" data-value="5">5 ou mais</div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="five field" id="divSuite">
+                        <label>Suite(s)</label>
+                        <div class="ui selection dropdown">
+                            <input type="hidden" name="sltSuites" id="sltSuites">
+                            <div class="default text">Suite(s)</div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <div class="item" data-value="">Qualquer Quantidade</div>
+                                <div class="item" data-value="1">1</div>
+                                <div class="item" data-value="2">2</div>
+                                <div class="item" data-value="3">3</div>
+                                <div class="item" data-value="4">4</div>
+                                <div class="item" data-value="5">5 ou mais</div>
+                            </div>
+                        </div>
+                    </div>
+                        
+                    <div class="five field" id="divValorVenda">
                         <label>Valor</label>
                         <div class="ui selection dropdown">
                             <input type="hidden" name="sltValor" id="sltValor">
-                            <div class="default text">Informe o Valor</div>
+                            <div class="default text">Valor</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
                                 <div class='item' data-value=0>Menos de R$100.000</div>
@@ -121,13 +163,13 @@
                                 <div class='item' data-value=1000000>Mais de R$1.000.000</div>
                             </div>
                         </div>
-                    </div> 
-
-                    <div class="five wide field" id="divValorAluguel">
+                    </div>
+                        
+                    <div class="five field" id="divValorAluguel">
                         <label>Valor</label>
                         <div class="ui selection dropdown">
                             <input type="hidden" name="sltValor" id="sltValor">
-                            <div class="default text">Informe o Valor</div>
+                            <div class="default text">Valor</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
                                 <div class='item' data-value=0>Menos de R$500</div>
@@ -143,30 +185,77 @@
                             </div>
                         </div>
                     </div> 
-
-                    <div class="three wide field">
-                        <br><br>
+                    
+                    <div class="five field" id="divArea">
+                        <label>Área m<sup>2</sup></label>
+                        <div class="ui selection dropdown">
+                            <input type="hidden" name="sltArea" id="sltArea">
+                            <div class="default text">Area</div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <div class='item' data-value="">Indiferente</div>
+                                <div class='item' data-value=0>Menos de 40</div>
+                                <?php
+                                $i = 40;
+                                while ($i < 240) {
+                                    print "<div class='item' data-value=" . number_format($i) . ">Entre " . $i . " e " . number_format($i + 20) . " m<sup>2</sup></div>";
+                                    $i = $i + 20;
+                                }
+                                ?>
+                                <div class='item' data-value=240>Mais de 240</div>
+                            </div>
+                        </div>
+                    </div>    
+                    
+                       
+                </div>   
+                
+                </div>  
+                
+                <div class="row">
+                    <div class="fields">
+                    <div class="five field" id="divUnidadesAndar">
+                        <label>Apartamentos por Andar</label>
+                        <div class="ui selection dropdown">
+                            <input type="hidden" name="sltUnidadesAndar" id="sltUnidadesAndar">
+                            <div class="default text">Apto(s) por andar</div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <div class="item" data-value="">Indiferente</div>
+                                <div class="item" data-value="1">1</div>
+                                <div class="item" data-value="2">2</div>
+                                <div class="item" data-value="3">3</div>
+                                <div class="item" data-value="4">4</div>
+                                <div class="item" data-value="5">5</div>
+                                <div class="item" data-value="6">6 ou mais</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="five field" id="divGaragem">
+                        <label>Garagem</label>
                         <div class="ui toggle checkbox">
                             <input type="checkbox" name="checkgaragem" id="checkgaragem">
-                            <label>Garagem</label>
+                            
+                        </div>
+                    </div>
+                    </div>                   
+                </div> 
+                
+                <div class="center row">
+                    <div class="five field">
+                        <div class="green ui icon button" id="btnBuscarAnuncio">
+                        <i class="search icon"></i> 
+                        Filtrar
                         </div>
                     </div>
                 </div>
-            </div>
+                
         </div>
-        <div class="ui center aligned column page grid padding-reset">
-            <div class="column">
-                <div class="field">
-                    <br>
-                    <div class="green ui icon button" id="btnBuscarAnuncio">
-                        <i class="search icon"></i> 
-                        PIP
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
-</div>
+
+
 <div class="ui center aligned column page grid"></div>
 <div id="divOrdenacao" class="ui center aligned basic segment">
     <input type="hidden" id="hdnOrdTipoImovel" name="hdnOrdTipoImovel"/>
@@ -261,6 +350,14 @@
     $(document).ready(function () {
         $("#divValorVenda").hide(); //oculta a div dos valores de venda 
         $("#divValorAluguel").hide(); //oculta a div dos valores de aluguel
+        $("#divQuarto").hide(); //oculta a div dos valores de aluguel
+        $("#condicao").hide(); //oculta a div dos valores de aluguel
+        $("#divGaragem").hide(); //oculta a div dos valores de aluguel
+        $("#divQuarto").hide();
+        $("#divBanheiro").hide();
+        $("#divSuite").hide();
+        $("#divArea").hide();
+        $("#divUnidadesAndar").hide();
 
         $("#sltFinalidade").change(function () {
             if ($(this).val() == "venda") {
@@ -285,6 +382,83 @@
             }
 
         })
+        
+        $("#sltTipoImovel").change(function () {
+           
+           switch($(this).val()){
+               
+            case "casa":
+                
+                $("#divQuarto").show(); //oculta a div dos valores de aluguel
+                $("#condicao").show(); //oculta a div dos valores de aluguel
+                $("#divGaragem").show();
+                $("#divBanheiro").show();
+                $("#divSuite").show();
+                $("#divArea").show();
+                $("#divUnidadesAndar").hide();
+            break;   
+            
+            case "apartamento":
+                
+                $("#divQuarto").show(); //oculta a div dos valores de aluguel
+                $("#condicao").show(); //oculta a div dos valores de aluguel
+                $("#divGaragem").show();
+                $("#divBanheiro").show();
+                $("#divSuite").show();
+                $("#divArea").show();
+                $("#divUnidadesAndar").show();
+            break;
+            
+            case "apartamentoplanta":
+                
+                $("#divQuarto").show(); //oculta a div dos valores de aluguel
+                $("#condicao").show(); //oculta a div dos valores de aluguel
+                $("#divGaragem").show();
+                $("#divBanheiro").show();
+                $("#divSuite").show();
+                $("#divArea").show();
+                $("#divUnidadesAndar").show();
+            break;
+            
+            case "salacomercial":
+                
+                $("#divQuarto").hide(); //oculta a div dos valores de aluguel
+                $("#condicao").hide(); //oculta a div dos valores de aluguel
+                $("#divSuite").hide();
+                $("#divArea").hide();
+                $("#divUnidadesAndar").hide();
+                $("#divGaragem").show();
+                $("#divBanheiro").show();
+                
+            break;
+            
+            case "prediocomercial":
+                
+                $("#divQuarto").hide(); //oculta a div dos valores de aluguel
+                $("#condicao").hide(); //oculta a div dos valores de aluguel
+                $("#divSuite").hide();
+                $("#divGaragem").hide();
+                $("#divUnidadesAndar").hide();
+                $("#divArea").show();               
+                $("#divBanheiro").show();
+                
+            break;
+            
+            case "terreno":
+                
+                $("#divQuarto").hide(); //oculta a div dos valores de aluguel
+                $("#condicao").hide(); //oculta a div dos valores de aluguel
+                $("#divSuite").hide();
+                $("#divGaragem").hide();
+                $("#divBanheiro").hide();
+                $("#divUnidadesAndar").hide();
+                $("#divArea").show();               
+                               
+            break;
+           }
+          
+        })
+        
     });
 </script>
 

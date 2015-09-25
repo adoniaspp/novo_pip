@@ -17,6 +17,11 @@ class ConsultasAdHoc extends GenericoDAO {
             $preco = $parametros['predicados']['valor'];
             unset($parametros['predicados']['valor']);
         }
+        
+        if ($parametros['predicados']['area'] >= 0) {
+            $area = $parametros['predicados']['area'];
+            unset($parametros['predicados']['area']);
+        }
 
         $ordem = $parametros['predicados']['ordem'];
         unset($parametros['predicados']['ordem']);
@@ -64,6 +69,14 @@ class ConsultasAdHoc extends GenericoDAO {
                     $sql = $sql . ' AND valormin BETWEEN ' . $preco . ' AND ' . ($preco + 100000);
                 } else {
                     $sql = $sql . ' AND valormin > ' . $preco;
+                }
+            }
+            
+            if ($area != NULL) {
+                if ($area >= 0 && $area < 220) {
+                    $sql = $sql . ' AND area BETWEEN ' . $area . ' AND ' . ($area + 20);
+                } else {
+                    $sql = $sql . ' AND area > ' . $area;
                 }
             }
 
@@ -153,7 +166,7 @@ class ConsultasAdHoc extends GenericoDAO {
             $tiposImoveis = array_column($resultado['anuncio'], 'tipo');
             for ($i = 0; $i < count($idsImoveis); $i++) {
                 if ($tiposImoveis[$i] == 'apartamentoplanta') {
-                    $sth = $this->conexao->prepare("SELECT ordemplantas, tituloplanta, quarto, banheiro, suite, garagem, area, imagem FROM planta WHERE idimovel = :idimovel");
+                    $sth = $this->conexao->prepare("SELECT ordemplantas, tituloplanta, quarto, banheiro, suite, garagem, area, imagemdiretorio, imagemnome FROM planta WHERE idimovel = :idimovel");
                     $sth->bindValue(':idimovel', $idsImoveis[$i]);
                     $sth->execute();
                     $imovel['plantas'] = $sth->fetchAll(PDO::FETCH_ASSOC);

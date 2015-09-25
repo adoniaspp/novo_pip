@@ -94,7 +94,7 @@ class AnuncioControle {
     }
 
     function buscarAnuncio($parametros) {
-
+        
         $visao = new Template('ajax');
         $consultasAdHoc = new ConsultasAdHoc();
         $parametros["atributos"] = "*";
@@ -104,6 +104,7 @@ class AnuncioControle {
         unset($parametros["hdnAcao"]);
         $parametros["predicados"] = $parametros;
         $listaAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
+
         if (count($listaAnuncio['anuncio']) == 0) {
             $visao->setItem("errosemresultadobusca");
             $visao->exibir('VisaoErrosGenerico.php');

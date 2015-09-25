@@ -6,10 +6,10 @@
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/js/usuario.js"></script>
 <script>
+    cancelar("Usuario", "meuPIP");
     alterarUsuario();
     mascarasFormUsuario();
     acoesCEP();
-    cancelar("meuPIP");
     confirmar();
     telefone();
 </script>
@@ -235,8 +235,10 @@ if ($item) {
     }
 }
 ?>
+        
+        
 <!-- MODAIS -->
-<div class="ui small modal" id="modalCancelar">
+<div class="ui standart modal" id="modalCancelar">
     <i class="close icon"></i>
     <div class="header">
         Cancelar

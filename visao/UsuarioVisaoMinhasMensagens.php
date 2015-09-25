@@ -117,7 +117,7 @@ Sessao::gerarToken();
                             
                         <div id="divBotoesMensagem">
                         <button class="ui blue button" type="button" id="btnResponderMensagem<?php echo $mensagem->getId()?>">Responder</button>
-                        <button class="ui button" type="button" id="btnCancelarMensagem<?php echo $mensagem->getId()?>">Cancelar</button>
+                        <button class="ui orange button" type="button" id="btnCancelarMensagem<?php echo $mensagem->getId()?>">Cancelar</button>
                         </div>    
                     
                     </div>

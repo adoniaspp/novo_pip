@@ -78,7 +78,11 @@ function buscarAnuncio() {
             cidade: '',
             bairro: '',
             quarto: '',
+            banheiro: '',
+            suite: '',
             condicao: '',
+            unidadesandar: '',
+            area: '',
             garagem: 'false'});
 
 
@@ -97,7 +101,11 @@ function buscarAnuncio() {
                 idcidade: $('#sltCidade').val(),
                 idbairro: $('#sltBairro').val(),
                 quarto: $('#sltQuartos').val(),
+                banheiro: $('#sltBanheiros').val(),
+                suite: $('#sltSuites').val(),
                 condicao: $('#sltCondicao').val(),
+                unidadesandar: $('#sltUnidadesAndar').val(),
+                area: $('#sltArea').val(),
                 garagem: $('#checkgaragem').parent().checkbox('is checked')}, function () {
                 $("#load").addClass('ui active inverted dimmer');
             });
@@ -213,6 +221,8 @@ function buscarAnuncioUsuario() {
                 idcidade: $('#sltCidade').val(),
                 idbairro: $('#sltBairro').val(),
                 quarto: $('#sltQuartos').val(),
+                banheiro: $('#sltBanheiros').val(),
+                suite: $('#sltSuites').val(),
                 condicao: $('#sltCondicao').val(),
                 id: $('#hdUsuario').val(),
                 garagem: $('#checkgaragem').parent().checkbox('is checked')}, function () {
@@ -373,7 +383,7 @@ function confirmarEmail() {
 }
 
 function formatarValor(valor){
-    console.log(valor);
+
     $("#spanValor"+valor).priceFormat({
             prefix: 'R$ ',
             centsSeparator: ',',

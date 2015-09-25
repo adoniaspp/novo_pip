@@ -283,12 +283,13 @@ function acoesCEP() {
 
 function cancelar(entidade, acao) {
     $(document).ready(function() {
+
         $('#btnCancelar').click(function() {
             $('#modalCancelar').modal({
-                closable: false,
+                closable: true,
                 transition: "fade up",
                 onDeny: function() {
-                    return false;
+                    return true;
                 },
                 onApprove: function() {
                     if (entidade === "" && acao === ""){
@@ -302,6 +303,17 @@ function cancelar(entidade, acao) {
 
 function confirmar() {
     $(document).ready(function() {
+        
+        /*$('#btnCancelar').click(function() {
+            $('#modalCancelar').modal({
+                            closable: true,
+                            transition: "fade up",
+                            onDeny: function() {
+                                return true;
+                            }
+            })
+        });*/
+        
         $('#btnRegistrar').click(function() {
             validarTelefone();
             if ($("#form").valid()) {
@@ -787,10 +799,10 @@ function trocarImagem() {
         });
         $("#btnExcluirImagem").click(function() {
             $('#modalExcluir').modal({
-                closable: false,
+                closable: true,
                 transition: "fade up",
                 onDeny: function() {
-                    return false;
+                    return true;
                 },
                 onApprove: function() {
                     $("#hdnExcluir").val(1);
