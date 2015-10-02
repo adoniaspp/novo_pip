@@ -104,7 +104,7 @@ class AnuncioControle {
         unset($parametros["hdnAcao"]);
         $parametros["predicados"] = $parametros;
         $listaAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
-
+        //var_dump($listaAnuncio); die();
         if (count($listaAnuncio['anuncio']) == 0) {
             $visao->setItem("errosemresultadobusca");
             $visao->exibir('VisaoErrosGenerico.php');
