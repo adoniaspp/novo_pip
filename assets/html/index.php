@@ -2,11 +2,15 @@
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 
 <script>
+    
+    inicio();
+    ordemInicio();
     buscarAnuncio();
+    carregarDiferencial();
+
 </script>
 
-<br>
-    <!--<div class="column"></div>-->
+<div class="ui hidden divider"></div>
     
     <div class="ui form segment" id="divBusca">
        <div class="ui hidden divider"></div>
@@ -64,7 +68,7 @@
                         <label>Bairro</label>
                         <div class="ui selection dropdown">
                             <input type="hidden" name="sltBairro" id="sltBairro">
-                            <div class="default text">Selecione a Cidade</div>
+                            <div class="default text" id="defaultBairro">Selecione a Cidade</div>
                             <i class="dropdown icon"></i>
                             <div class="menu" id="menuBairro">
                             </div>
@@ -186,7 +190,7 @@
                         </div>
                     </div> 
                     
-                    <div class="five field" id="divArea">
+                    <div class="five field" id="divAreaApartamento">
                         <label>Área m<sup>2</sup></label>
                         <div class="ui selection dropdown">
                             <input type="hidden" name="sltArea" id="sltArea">
@@ -202,10 +206,32 @@
                                     $i = $i + 20;
                                 }
                                 ?>
-                                <div class='item' data-value=240>Mais de 240</div>
+                                <div class='item' data-value=240>Mais de 240 m<sup>2</sup></div>
                             </div>
                         </div>
                     </div>    
+                    
+                    <div class="five field" id="divAreaCasaTerreno">
+                        <label>Área m<sup>2</sup></label>
+                        <div class="ui selection dropdown">
+                            <input type="hidden" name="sltArea" id="sltArea">
+                            <div class="default text">Area</div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <div class='item' data-value="">Indiferente</div>
+                                <div class='item' data-value=0>Menos de 60</div>
+                                <?php
+                                $i = 60;
+                                while ($i < 500) {
+                                    print "<div class='item' data-value=" . number_format($i) . ">Entre " . $i . " e " . number_format($i + 20) . " m<sup>2</sup></div>";
+                                    $i = $i + 20;
+                                }
+                                ?>
+                                <div class='item' data-value=240>Mais de 500 m<sup>2</sup></div>
+                            </div>
+                        </div>
+                    </div>
+                
                     
                        
                 </div>   
@@ -232,6 +258,14 @@
                         </div>
                     </div>
                     
+                    <div class="five field" id="divDiferencial">
+                        <label>Diferenciais</label>
+                        <select multiple="" class="ui dropdown"  name="carregarDiferenciais" id="carregarDiferenciais">    
+                         <option value="" >Indiferente</option>   
+                        </select>
+                    </div>
+
+                        
                     <div class="five field" id="divGaragem">
                         <label>Garagem</label>
                         <div class="ui toggle checkbox">
@@ -242,7 +276,7 @@
                     </div>                   
                 </div> 
                 
-                <div class="center row">
+                <div class="row">
                     <div class="five field">
                         <div class="green ui icon button" id="btnBuscarAnuncio">
                         <i class="search icon"></i> 
@@ -282,213 +316,7 @@
 
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
 
-<script src="assets/js/diferencial.js"></script>
 
-<script>
-    $(document).ready(function () {
-        $("#sltOrdenacao").change(function () {
-            $("#load").addClass('ui active inverted dimmer');
-            if ($('#hdnOrdTipoImovel').val() == "") {
-                tipoimovel = "todos";
-            } else {
-                tipoimovel = $('#sltTipoImovel').val();
-            }
-            $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
-                tipoImovel: tipoimovel,
-                valor: $('#hdnOrdValor').val(),
-                finalidade: $('#hdnOrdFinalidade').val(),
-                idcidade: $('#hdnOrdCidade').val(),
-                idbairro: $('#hdnOrdBairro').val(),
-                quarto: $('#hdnOrdQuartos').val(),
-                condicao: $('#hdnOrdCondicao').val(),
-                garagem: $('#hdnOrdGaragem').val(),
-                ordem: $(this).val()}, function () {
-                $("#load").addClass('ui active inverted dimmer');
-            });
-            setTimeout(function () {
-                $('#load').removeClass("ui active inverted dimmer");
-            }, 1000);
-        })
-    });
-</script>
-<script>
 
-    chamarDiferencial(); //chama a função javascript diferencial.js, para chamar o diferencial de cada Tipo de Imóvel
 
-    $(document).ready(function () {
 
-        $("select[name=sltCidade]").change(function () {
-            $('select[name=sltBairro]').html('<option value="">Procurando...</option>');
-            $.post('index.php?hdnEntidade=Bairro&hdnAcao=selecionarBairro&idcidade=' + $('#sltCidade').val(),
-                    function (resposta) {
-                        $('select[name=sltBairro]').html(resposta);
-                    }
-
-            );
-        });
-    });
-
-</script>
-
-<script>
-
-    $(document).ready(function () {
-        $("select[name=sltCidadeAvancado]").change(function () {
-            $('select[name=sltBairroAvancado]').html('<option value="">Procurando...</option>');
-            $.post('index.php?hdnEntidade=Bairro&hdnAcao=selecionarBairro&idcidade=' + $('#sltCidadeAvancado').val(),
-                    function (resposta) {
-                        $('select[name=sltBairroAvancado]').html(resposta);
-                    }
-
-            );
-        });
-    });
-
-</script>
-
-<script>
-    $(document).ready(function () {
-        $("#divValorVenda").hide(); //oculta a div dos valores de venda 
-        $("#divValorAluguel").hide(); //oculta a div dos valores de aluguel
-        $("#divQuarto").hide(); //oculta a div dos valores de aluguel
-        $("#condicao").hide(); //oculta a div dos valores de aluguel
-        $("#divGaragem").hide(); //oculta a div dos valores de aluguel
-        $("#divQuarto").hide();
-        $("#divBanheiro").hide();
-        $("#divSuite").hide();
-        $("#divArea").hide();
-        $("#divUnidadesAndar").hide();
-
-        $("#sltFinalidade").change(function () {
-            if ($(this).val() == "venda") {
-                $("#divValorInicial").fadeOut(); //oculta campos exclusivos do apartamento 
-                $("#divValorAluguel").fadeOut(); //oculta campos exclusivos do apartamento 
-                $("#divValorVenda").fadeIn(); //oculta campos exclusivos do apartamento 
-                //             $("#lblCpfCnpj").html("CPF")
-                //             $("#txtCpfCnpj").attr("placeholder", "Informe o CPF");
-            }
-            if ($(this).val() == "aluguel") {
-                $("#divValorInicial").fadeOut(); //oculta campos exclusivos do apartamento 
-                $("#divValorVenda").fadeOut(); //oculta campos exclusivos do apartamento 
-                $("#divValorAluguel").fadeIn(); //oculta campos exclusivos do apartamento 
-                //             $("#lblCpfCnpj").html("CNPJ");
-                //             $("#txtCpfCnpj").attr("placeholder", "Informe o CNPJ");
-            }
-
-            if ($(this).val() == "") {
-                $("#divValorVenda").fadeOut(); //oculta campos exclusivos do apartamento 
-                $("#divValorAluguel").fadeOut(); //oculta campos exclusivos do apartamento 
-                $("#divValorInicial").fadeIn(); //oculta campos exclusivos do apartamento 
-            }
-
-        })
-        
-        $("#sltTipoImovel").change(function () {
-           
-           switch($(this).val()){
-               
-            case "casa":
-                
-                $("#divQuarto").show(); //oculta a div dos valores de aluguel
-                $("#condicao").show(); //oculta a div dos valores de aluguel
-                $("#divGaragem").show();
-                $("#divBanheiro").show();
-                $("#divSuite").show();
-                $("#divArea").show();
-                $("#divUnidadesAndar").hide();
-            break;   
-            
-            case "apartamento":
-                
-                $("#divQuarto").show(); //oculta a div dos valores de aluguel
-                $("#condicao").show(); //oculta a div dos valores de aluguel
-                $("#divGaragem").show();
-                $("#divBanheiro").show();
-                $("#divSuite").show();
-                $("#divArea").show();
-                $("#divUnidadesAndar").show();
-            break;
-            
-            case "apartamentoplanta":
-                
-                $("#divQuarto").show(); //oculta a div dos valores de aluguel
-                $("#condicao").show(); //oculta a div dos valores de aluguel
-                $("#divGaragem").show();
-                $("#divBanheiro").show();
-                $("#divSuite").show();
-                $("#divArea").show();
-                $("#divUnidadesAndar").show();
-            break;
-            
-            case "salacomercial":
-                
-                $("#divQuarto").hide(); //oculta a div dos valores de aluguel
-                $("#condicao").hide(); //oculta a div dos valores de aluguel
-                $("#divSuite").hide();
-                $("#divArea").hide();
-                $("#divUnidadesAndar").hide();
-                $("#divGaragem").show();
-                $("#divBanheiro").show();
-                
-            break;
-            
-            case "prediocomercial":
-                
-                $("#divQuarto").hide(); //oculta a div dos valores de aluguel
-                $("#condicao").hide(); //oculta a div dos valores de aluguel
-                $("#divSuite").hide();
-                $("#divGaragem").hide();
-                $("#divUnidadesAndar").hide();
-                $("#divArea").show();               
-                $("#divBanheiro").show();
-                
-            break;
-            
-            case "terreno":
-                
-                $("#divQuarto").hide(); //oculta a div dos valores de aluguel
-                $("#condicao").hide(); //oculta a div dos valores de aluguel
-                $("#divSuite").hide();
-                $("#divGaragem").hide();
-                $("#divBanheiro").hide();
-                $("#divUnidadesAndar").hide();
-                $("#divArea").show();               
-                               
-            break;
-           }
-          
-        })
-        
-    });
-</script>
-
-<script>
-    $(document).ready(function () {
-        $("#divValorVendaAvancado").hide(); //oculta a div dos valores de venda 
-        $("#divValorAluguelAvancado").hide(); //oculta a div dos valores de aluguel
-
-        $("#sltFinalidadeAvancado").change(function () {
-            if ($(this).val() == "venda") {
-                $("#divValorInicialAvancado").fadeOut(); //oculta campos exclusivos do apartamento 
-                $("#divValorAluguelAvancado").fadeOut(); //oculta campos exclusivos do apartamento 
-                $("#divValorVendaAvancado").fadeIn(); //oculta campos exclusivos do apartamento 
-                //             $("#lblCpfCnpj").html("CPF")
-                //             $("#txtCpfCnpj").attr("placeholder", "Informe o CPF");
-            }
-            if ($(this).val() == "aluguel") {
-                $("#divValorInicialAvancado").fadeOut(); //oculta campos exclusivos do apartamento 
-                $("#divValorVendaAvancado").fadeOut(); //oculta campos exclusivos do apartamento 
-                $("#divValorAluguelAvancado").fadeIn(); //oculta campos exclusivos do apartamento 
-                //             $("#lblCpfCnpj").html("CNPJ");
-                //             $("#txtCpfCnpj").attr("placeholder", "Informe o CNPJ");
-            }
-
-            if ($(this).val() == "") {
-                $("#divValorVendaAvancado").fadeOut(); //oculta campos exclusivos do apartamento 
-                $("#divValorAluguelAvancado").fadeOut(); //oculta campos exclusivos do apartamento 
-                $("#divValorInicialAvancado").fadeIn(); //oculta campos exclusivos do apartamento 
-            }
-
-        })
-    });
-</script>

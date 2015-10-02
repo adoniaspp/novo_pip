@@ -94,7 +94,7 @@ class AnuncioControle {
     }
 
     function buscarAnuncio($parametros) {
-        
+        //var_dump($parametros); die();
         $visao = new Template('ajax');
         $consultasAdHoc = new ConsultasAdHoc();
         $parametros["atributos"] = "*";

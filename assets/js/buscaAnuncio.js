@@ -43,9 +43,10 @@ function buscarAnuncio() {
         })
 
         $("input[name=sltCidade]").change(function () {
-            $("#menuBairro").html("<div class='item'>Procurando...</div>");
+            $("#defaultBairro").html("<option value=''>Procurando...</div>");
             $.post('index.php?hdnEntidade=Bairro&hdnAcao=selecionarBairro&idcidade=' + $('#sltCidade').val(),
                     function (resposta) {
+                        $("#defaultBairro").html("<option value=''>Selecione o Bairro</div>");
                         $("#menuBairro").html(resposta);
                     }
             );
@@ -87,6 +88,7 @@ function buscarAnuncio() {
 
 
         $("#btnBuscarAnuncio").on('click', function () {
+            
             $("#load").addClass('ui active inverted dimmer');
             if ($('#sltTipoImovel').val() == "") {
                 tipoimovel = "todos"
@@ -106,6 +108,7 @@ function buscarAnuncio() {
                 condicao: $('#sltCondicao').val(),
                 unidadesandar: $('#sltUnidadesAndar').val(),
                 area: $('#sltArea').val(),
+                diferencial: $('#carregarDiferenciais').val(), 
                 garagem: $('#checkgaragem').parent().checkbox('is checked')}, function () {
                 $("#load").addClass('ui active inverted dimmer');
             });
@@ -718,4 +721,190 @@ $("#mapaGmapsBusca").gmap3({
                               
 });
     
+}
+
+function carregarDiferencial(){
+    
+    $(document).ready(function() {
+
+        $("#sltTipoImovel").change(function () {
+            
+            $.ajax({
+                        url: "index.php",
+                        type: "POST",
+                        data: {
+                            hdnEntidade: "TipoImovelDiferencial",
+                            hdnAcao: "buscarDiferencialLista",
+                            sltTipoImovel: $('#sltTipoImovel').val()
+                        },
+                        success: function (resposta) {
+                            
+                            $('#carregarDiferenciais').html(resposta);
+
+                        }
+            })
+        })
+    })
+}
+
+function inicio(){
+    
+    $(document).ready(function () {
+        $("#divValorVenda").hide(); 
+        $("#divValorAluguel").hide(); 
+        $("#divQuarto").hide(); 
+        $("#condicao").hide(); 
+        $("#divGaragem").hide(); 
+        $("#divQuarto").hide();
+        $("#divBanheiro").hide();
+        $("#divSuite").hide();
+        $("#divAreaApartamento").hide();
+        $("#divAreaCasaTerreno").hide();
+        $("#divUnidadesAndar").hide();
+        $("#divDiferencial").hide();
+
+        $("#sltFinalidade").change(function () {
+            if ($(this).val() == "venda") {
+                $("#divValorInicial").hide(); 
+                $("#divValorAluguel").hide(); 
+                $("#divValorVenda").show(); 
+   
+            }
+            if ($(this).val() == "aluguel") {
+                $("#divValorInicial").hide(); 
+                $("#divValorVenda").hide(); 
+                $("#divValorAluguel").show(); 
+                
+            }
+
+            if ($(this).val() == "") {
+                $("#divValorVenda").hide(); 
+                $("#divValorAluguel").hide(); 
+                $("#divValorInicial").show(); 
+            }
+
+        })
+        
+        $("#sltTipoImovel").change(function () {
+
+           $('#carregarDiferenciais').dropdown('restore defaults'); //resetar os diferenciais selecionados ao trocar o tipo
+
+           
+           switch($(this).val()){
+               
+            case "casa":
+                
+                $("#divQuarto").show(); //oculta a div dos valores de aluguel
+                $("#condicao").show(); //oculta a div dos valores de aluguel
+                $("#divGaragem").show();
+                $("#divBanheiro").show();
+                $("#divSuite").show();
+                $("#divAreaCasaTerreno").show();
+                $("#divDiferencial").show();
+                $("#divAreaApartamento").hide();              
+                $("#divUnidadesAndar").hide();
+            break;   
+            
+            case "apartamento":
+                
+                $("#divAreaCasaTerreno").hide();
+                $("#divQuarto").show(); //oculta a div dos valores de aluguel
+                $("#condicao").show(); //oculta a div dos valores de aluguel
+                $("#divGaragem").show();
+                $("#divBanheiro").show();
+                $("#divSuite").show();
+                $("#divAreaApartamento").show();
+                $("#divUnidadesAndar").show();
+                $("#divDiferencial").show();
+                
+            break;
+            
+            case "apartamentoplanta":
+                
+                $("#divAreaCasaTerreno").hide();
+                $("#divQuarto").show(); 
+                $("#condicao").show(); 
+                $("#divGaragem").show();
+                $("#divBanheiro").show();
+                $("#divSuite").show();
+                $("#divAreaApartamento").show();
+                $("#divUnidadesAndar").show();
+                $("#divDiferencial").show();
+                
+            break;
+            
+            case "salacomercial":
+                
+                $("#divQuarto").hide(); //oculta a div dos valores de aluguel
+                $("#condicao").hide(); //oculta a div dos valores de aluguel
+                $("#divSuite").hide();
+                $("#divAreaApartamento").show();
+                $("#divAreaCasaTerreno").hide();
+                $("#divAreaTerreno").hide();
+                $("#divUnidadesAndar").hide();
+                $("#divGaragem").show();
+                $("#divBanheiro").show();
+                
+            break;
+            
+            case "prediocomercial":
+                
+                $("#divQuarto").hide(); //oculta a div dos valores de aluguel
+                $("#condicao").hide(); //oculta a div dos valores de aluguel
+                $("#divSuite").hide();
+                $("#divGaragem").hide();
+                $("#divUnidadesAndar").hide();
+                $("#divAreaCasaTerreno").hide();
+                $("#divAreaApartamento").hide();
+                $("#divArea").show();               
+                $("#divBanheiro").show();
+                
+            break;
+            
+            case "terreno":
+                
+                $("#divQuarto").hide(); //oculta a div dos valores de aluguel
+                $("#condicao").hide(); //oculta a div dos valores de aluguel
+                $("#divSuite").hide();
+                $("#divGaragem").hide();
+                $("#divBanheiro").hide();
+                $("#divUnidadesAndar").hide();               
+                $("#divAreaApartamento").hide();
+                $("#divAreaCasaTerreno").show();
+                               
+            break;
+           }
+          
+        })
+        
+    });
+}
+
+function ordemInicio(){
+    
+    $(document).ready(function () {
+        $("#sltOrdenacao").change(function () {
+            $("#load").addClass('ui active inverted dimmer');
+            if ($('#hdnOrdTipoImovel').val() == "") {
+                tipoimovel = "todos";
+            } else {
+                tipoimovel = $('#sltTipoImovel').val();
+            }
+            $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
+                tipoImovel: tipoimovel,
+                valor: $('#hdnOrdValor').val(),
+                finalidade: $('#hdnOrdFinalidade').val(),
+                idcidade: $('#hdnOrdCidade').val(),
+                idbairro: $('#hdnOrdBairro').val(),
+                quarto: $('#hdnOrdQuartos').val(),
+                condicao: $('#hdnOrdCondicao').val(),
+                garagem: $('#hdnOrdGaragem').val(),
+                ordem: $(this).val()}, function () {
+                $("#load").addClass('ui active inverted dimmer');
+            });
+            setTimeout(function () {
+                $('#load').removeClass("ui active inverted dimmer");
+            }, 1000);
+        })
+    });
 }
