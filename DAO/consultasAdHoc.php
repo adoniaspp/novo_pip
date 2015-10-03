@@ -17,9 +17,8 @@ class ConsultasAdHoc extends GenericoDAO {
             $preco = $parametros['predicados']['valor'];
             unset($parametros['predicados']['valor']);
         }
-        
+
         if ($parametros['predicados']['area'] != "") {
-            echo "dsadsadasdsad";
             $area = $parametros['predicados']['area'];
             unset($parametros['predicados']['area']);
         }
@@ -27,25 +26,26 @@ class ConsultasAdHoc extends GenericoDAO {
         $ordem = $parametros['predicados']['ordem'];
         unset($parametros['predicados']['ordem']);
         
-        $garagem = $parametros['predicados']['garagem'];
-        unset($parametros['predicados']['garagem']);
-
+        if($parametros['predicados']['garagem'] == true || $parametros['predicados']['garagem'] == false){
+            $garagem = $parametros['predicados']['garagem'];
+            unset($parametros['predicados']['garagem']);
+        }    
         $diferencial = $parametros['predicados']['diferencial'];
         unset($parametros['predicados']['diferencial']);
-        
+
         if ($parametros['predicados']['quarto'] == 5) {
             $quartos = $parametros['predicados']['quarto'];
             unset($parametros['predicados']['quarto']);
         }
         if (count($parametros['predicados']) == 0)
             $crtlPred = FALSE;
-        
-        
+
+
         /* Atributos da Consulta */
         $sql = 'SELECT ' . $parametros['atributos'];
         /* View da Consulta */
-        $sql = $sql . ' FROM buscaAnuncio' . ucfirst(strtolower($parametros['tabela']));
-        
+        $sql = $sql . ' FROM buscaAnuncio' . ucfirst(strtolower($parametros['tabela'])) . ' vbapp';
+
         /* Predicados da Consulta */
         $sql = $sql . ' WHERE 1=1 ';
         if ($crtlPred) {
@@ -59,69 +59,78 @@ class ConsultasAdHoc extends GenericoDAO {
                         }, $keys
                         )
                 );
-                $predicados[] = $chave . ' IN (' . $place_holders . ')';               
+                $predicados[] = $chave . ' IN (' . $place_holders . ')';
             }
-            
+
             $sql = $sql . 'AND ' . implode(' AND ', $predicados);
         }
 
-            
-             if ($garagem == 'true') {
-                $sql = $sql . ' WHERE  garagem > 0 ';
-             }
 
-            if ($preco != NULL) {
-                if ($preco >= 0 && $preco < 1000000) {
-                    $sql = $sql . ' AND valormin BETWEEN ' . $preco . ' AND ' . ($preco + 100000);
-                } else {
-                    $sql = $sql . ' AND valormin > ' . $preco;
-                }
+        if ($garagem == 'true') {
+            $sql = $sql . ' WHERE  garagem > 0 ';
+        }
+
+        if ($preco != NULL) {
+            if ($preco >= 0 && $preco < 1000000) {
+                $sql = $sql . ' AND valormin BETWEEN ' . $preco . ' AND ' . ($preco + 100000);
+            } else {
+                $sql = $sql . ' AND valormin > ' . $preco;
             }
-            
-            if ($area != NULL) {
-                if ($area >= 0 && $area < 220) {
-                    $sql = $sql . ' AND area BETWEEN ' . $area . ' AND ' . ($area + 20);
-                } else {
-                    $sql = $sql . ' AND area > ' . $area;
-                }
+        }
+
+        if ($area != NULL) {
+            if ($area >= 0 && $area < 220) {
+                $sql = $sql . ' AND area BETWEEN ' . $area . ' AND ' . ($area + 20);
+            } else {
+                $sql = $sql . ' AND area > ' . $area;
             }
-            
-            
-            if ($diferencial != NULL) {
-            $statementDif = $this->conexao->prepare($sql);    
-                for($j = 0; $j < count($diferencial); $j++){
-                    echo $diferencial[$j];
-                    $sql = $sql . ' AND EXISTS (select * from imoveldiferencial tid '
-                            . 'WHERE tid.idimovel = vbapp.idimovel AND tid.iddiferencial = :idDiferencial'.$j.'")';
-                    $statementDif->bindValue(':idDiferencial'.$j, $diferencial[$j]);
-                    //$statementDif->execute();
-                }
+        }
+
+
+
+        if ($diferencial != NULL) {
+            for ($j = 0; $j < count($diferencial); $j++) {
+                $sql = $sql . ' AND EXISTS (select * from imoveldiferencial tid '
+                        . 'WHERE tid.idimovel = vbapp.idimovel AND tid.iddiferencial = :idDiferencial' . $j . ')';               
             }
-            
-            
-            if ($quartos == 5) {
-                $sql = $sql . ' AND quarto >= 5 ';
-            }
-            
-        //var_dump($sql); die();  
+        }
+
+
+        if ($quartos == 5) {
+            $sql = $sql . ' AND quarto >= 5 ';
+        }
+
+        
         if ($ordem) {
-                
-                $criterios = explode("_", $ordem);
-                if ($criterios[0] == 'preco') {
-                    $sql = $sql . ' ORDER BY valormin ';
-                } else if ($criterios[0] == 'recente') {
-                    $sql = $sql . ' ORDER BY datahoracadastro ';
-                }
-                if ($criterios[1] == 'maior' || $criterios[1] == 'mais') {
-                    $sql = $sql . ' DESC ';
-                }else if ($criterios[1] == 'menor' || $criterios[1] == 'menos') {
-                    $sql = $sql . ' ASC ';
-                }
+
+            $criterios = explode("_", $ordem);
+            if ($criterios[0] == 'preco') {
+                $sql = $sql . ' ORDER BY valormin ';
+            } else if ($criterios[0] == 'recente') {
+                $sql = $sql . ' ORDER BY datahoracadastro ';
+            }
+            if ($criterios[1] == 'maior' || $criterios[1] == 'mais') {
+                $sql = $sql . ' DESC ';
+            } else if ($criterios[1] == 'menor' || $criterios[1] == 'menos') {
+                $sql = $sql . ' ASC ';
+            }
 //                var_dump($sql);
 //                die();
-            }
-     
+        }
+
         $statement = $this->conexao->prepare($sql);
+        
+        if ($diferencial != NULL) {
+            foreach ($diferencial as $valor) {               
+                if (count($diferencial) == 1) {
+                    $statement->bindValue(':idDiferencial' . 0, $valor);
+                } else {
+                    foreach ($diferencial as $k => $v) {                       
+                        $statement->bindValue(':idDiferencial' . $k, $v);
+                    }
+                }
+            }
+        }
 
         foreach ($parametros['predicados'] as $chave => $valor) {
             if (count($valor) == 1) {
@@ -132,7 +141,7 @@ class ConsultasAdHoc extends GenericoDAO {
                 }
             }
         }
-            
+
         $statement->execute();
         $resultado['anuncio'] = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -253,7 +262,7 @@ class ConsultasAdHoc extends GenericoDAO {
 //        echo '<pre>';
 //        print_r($resultado['anuncio']);
 //        die();
-       
+
         return $resultado;
     }
 
