@@ -1071,45 +1071,6 @@ function fazerLogin() {
     });
 }
 
-function exibirMeuPIP(valor, nome){
-    $(document).ready(function() {
-        
-        if(valor == "SIM"){
-           $("#loginCadastro").hide();
-           $("#divUsuario").show(); 
-           $("#divNome").html("<font color='black'><h4>Seja bem vindo, "+nome+" <h4></font>");
-        } else{
-           $("#divUsuario").hide();
-           $("#loginCadastro").show(); 
-        }
-                
-    })
-}
-
-function logout() {
-    $(document).ready(function() {
-        $("#btnLogout").click(function() {
-            $.ajax({
-                url: "index.php",
-                dataType: "json",
-                type: "POST",
-                data: {
-                    hdnEntidade: "Usuario",
-                    hdnAcao: "logout"
-                },
-                success: function (resposta) {
-                    if (resposta.resultado == 1) {
-                        $("#divUsuario").hide();
-                        //$('#divForm').show();
-                        location.href = 'index.php'
-                    }
-                }
-            })
-        })
-    })
-}
-
-
 function alterarUsuario() {
     $(document).ready(function() {
         

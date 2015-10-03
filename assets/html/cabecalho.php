@@ -1,42 +1,38 @@
-
 <!DOCTYPE HTML>
 <html lang="pt-br">
     <head>
-        
-        <meta charset="UTF-8">
         <title>PIP - Procure Im&oacute;veis Pai D'Egua</title> 
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <!-- JQUERY --> 
         <script src="<?php echo PIPURL; ?>/assets/libs/jquery/jquery-2.1.3.min.js"></script> 
         <!-- SEMANTIC UI --> 
         <link href="<?php echo PIPURL; ?>/assets/libs/semantic-ui/semantic.min.css" rel="stylesheet" type="text/css" /> 
         <script src="<?php echo PIPURL; ?>/assets/libs/semantic-ui/semantic.min.js"></script> 
-
-        <script src="assets/js/usuario.js"></script>
         <!-- Template PIP -->
         <link href="<?php echo PIPURL; ?>/assets/css/template-pip.css" rel="stylesheet" type="text/css" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">        
+        <!-- Scripts -->
+        <script type="text/javascript" src="assets/js/cabecalho.js"></script>
+        <script type="text/javascript" src="assets/libs/timeout-dialog/timeout-dialog.js"></script>
     </head>
 
-<script>
- $(document).ready(function() {
-<?php
-if (Sessao::verificarSessaoUsuario()) { ?>
-     exibirMeuPIP("SIM", "<?php echo ucfirst(strtolower(explode(" ", $_SESSION['nome'])[0])); ?>");
-     logout();
-<?php } else {?>
-    
-    exibirMeuPIP("NAO", "");
-    
-<?php }?>
-})  
-</script>
+    <script>
+        $(document).ready(function () {
+<?php if (Sessao::verificarSessaoUsuario()) { ?>
+                exibirMeuPIP("SIM", "<?php echo ucfirst(strtolower(explode(" ", $_SESSION['nome'])[0])); ?>");
+                logout();
+<?php } else { ?>
+                exibirMeuPIP("NAO", "");
+<?php } ?>
+        })
+    </script>
 
-        <div class="container">  
-            <nav class="ui menu inverted navbar page grid" style="background-color: #ffffff" style="margin-bottom:300px">
-                <a href="<?php echo PIPURL; ?>/index.php"> <img src="<?php echo PIPURL; ?>/assets/imagens/logo.png" width="120px"/></a>
-               
+    <div class="container">  
+        <nav class="ui menu inverted navbar page grid" style="background-color: #ffffff" style="margin-bottom:300px">
+            <a href="<?php echo PIPURL; ?>/index.php"> <img src="<?php echo PIPURL; ?>/assets/imagens/logo.png" width="120px"/></a>
+
             <div id="loginCadastro">
-                
                 <div class="ui menu">
                     <div class="item">
                         <a href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=form&tipo=login"><div class="ui primary button" id="btnAcessar">LOGIN</div></a>
@@ -44,22 +40,11 @@ if (Sessao::verificarSessaoUsuario()) { ?>
                     <div class="item">
                         <a href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=form&tipo=cadastro"<div class="ui button">CADASTRAR-SE</div></a>
                     </div>
+                </div>
             </div>
-                    
-        </div>
-                <!--<label for="CaptchaCode">Retype the characters from the picture:</label>
-<?php // Adding BotDetect Captcha to the page 
-  /*$SampleCaptcha = new Captcha("SampleCaptcha");
-  $SampleCaptcha->UserInputID = "CaptchaCode";
-  echo $SampleCaptcha->Html(); */
-?>
 
-<input name="CaptchaCode" id="CaptchaCode" type="text" />-->
-                
-                
-            <div id="divUsuario" class="right menu hide" style="margin-left:800px; margin-top: -80px">
+            <div id="divUsuario" class="right menu hide" style="margin-left:800px; margin-top: -80px" style="display: none">
                 <form>
-                           
                     <div class="ui center aligned compact segment" style="margin-bottom: 10px">
                         <div id="divNome" style="margin-bottom: -10px"> </div>
                         <div>
@@ -67,7 +52,46 @@ if (Sessao::verificarSessaoUsuario()) { ?>
                             <a id="btnLogout" href="#" class="ui red button"><i class="power icon"></i> Sair</a>  
                         </div>
                     </div>
-                        
-                        
                 </form>            
             </div>
+
+
+
+            <div class="ui basic test small modal">
+                
+                <div class="ui icon header">
+                    <i class="warning sign icon"></i>
+                    ATENÇÃO: Seu tempo de sessão irá expirar
+                </div>
+                <div class="content">
+                    <p>Você será deslogado e redirecionado automaticamente para a página inicial em  <span id="timeout-countdown">60</span> segundos.</p>
+                </div>
+                <div class="actions">
+                    <div class="ui red basic cancel inverted button">
+                        <i class="remove icon"></i>
+                        Encerrar sessão
+                    </div>
+                    <div class="ui green ok inverted button">
+                        <i class="checkmark icon"></i>
+                        Desejo continuar logado!
+                    </div>
+                </div>
+                
+            </div>
+            <div class="ui small second coupled modal">
+                <div class="header">
+                    Modal #2
+                </div>
+                <div class="content">
+                    <div class="description">
+                        <p>That's everything!</p>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui approve button">
+                        <i class="checkmark icon"></i>
+                        All Done
+                    </div>
+                </div>
+            </div>
+
