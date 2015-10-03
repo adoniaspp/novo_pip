@@ -3,7 +3,7 @@
 class ConsultasAdHoc extends GenericoDAO {
 
     public function buscaAnuncios($parametros) {
-
+        //var_dump($parametros); die();
         unset($parametros['predicados']['atributos']);
         unset($parametros['predicados']['tabela']);
         $crtlPred = true;
@@ -18,7 +18,8 @@ class ConsultasAdHoc extends GenericoDAO {
             unset($parametros['predicados']['valor']);
         }
         
-        if ($parametros['predicados']['area'] >= 0) {
+        if ($parametros['predicados']['area'] != "") {
+            echo "dsadsadasdsad";
             $area = $parametros['predicados']['area'];
             unset($parametros['predicados']['area']);
         }
@@ -28,6 +29,10 @@ class ConsultasAdHoc extends GenericoDAO {
         
         $garagem = $parametros['predicados']['garagem'];
         unset($parametros['predicados']['garagem']);
+
+        $diferencial = $parametros['predicados']['diferencial'];
+        unset($parametros['predicados']['diferencial']);
+        
         if ($parametros['predicados']['quarto'] == 5) {
             $quartos = $parametros['predicados']['quarto'];
             unset($parametros['predicados']['quarto']);
@@ -40,10 +45,9 @@ class ConsultasAdHoc extends GenericoDAO {
         $sql = 'SELECT ' . $parametros['atributos'];
         /* View da Consulta */
         $sql = $sql . ' FROM buscaAnuncio' . ucfirst(strtolower($parametros['tabela']));
+        
         /* Predicados da Consulta */
-        if ($garagem == 'true') {
-            $sql = $sql . ' WHERE  garagem > 0 ';
-        }
+        $sql = $sql . ' WHERE 1=1 ';
         if ($crtlPred) {
             foreach ($parametros['predicados'] as $chave => $valor) {
                 $keys = array_fill(0, count($valor), $chave);
@@ -55,15 +59,17 @@ class ConsultasAdHoc extends GenericoDAO {
                         }, $keys
                         )
                 );
-                $predicados[] = $chave . ' IN (' . $place_holders . ')';
+                $predicados[] = $chave . ' IN (' . $place_holders . ')';               
             }
+            
+            $sql = $sql . 'AND ' . implode(' AND ', $predicados);
         }
-        if ($crtlPred) {
-            if ($garagem == 'true') {
-                $sql = $sql . 'AND ' . implode(' AND ', $predicados);
-            } else {
-                $sql = $sql . ' WHERE ' . implode(' AND ', $predicados);
-            }
+
+            
+             if ($garagem == 'true') {
+                $sql = $sql . ' WHERE  garagem > 0 ';
+             }
+
             if ($preco != NULL) {
                 if ($preco >= 0 && $preco < 1000000) {
                     $sql = $sql . ' AND valormin BETWEEN ' . $preco . ' AND ' . ($preco + 100000);
@@ -79,12 +85,25 @@ class ConsultasAdHoc extends GenericoDAO {
                     $sql = $sql . ' AND area > ' . $area;
                 }
             }
-
+            
+            
+            if ($diferencial != NULL) {
+            $statementDif = $this->conexao->prepare($sql);    
+                for($j = 0; $j < count($diferencial); $j++){
+                    echo $diferencial[$j];
+                    $sql = $sql . ' AND EXISTS (select * from imoveldiferencial tid '
+                            . 'WHERE tid.idimovel = vbapp.idimovel AND tid.iddiferencial = :idDiferencial'.$j.'")';
+                    $statementDif->bindValue(':idDiferencial'.$j, $diferencial[$j]);
+                    //$statementDif->execute();
+                }
+            }
+            
+            
             if ($quartos == 5) {
                 $sql = $sql . ' AND quarto >= 5 ';
             }
             
-        }
+        //var_dump($sql); die();  
         if ($ordem) {
                 
                 $criterios = explode("_", $ordem);
@@ -113,8 +132,7 @@ class ConsultasAdHoc extends GenericoDAO {
                 }
             }
         }
-    //        var_dump($sql);
-    //                die();
+            
         $statement->execute();
         $resultado['anuncio'] = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -235,6 +253,7 @@ class ConsultasAdHoc extends GenericoDAO {
 //        echo '<pre>';
 //        print_r($resultado['anuncio']);
 //        die();
+       
         return $resultado;
     }
 
