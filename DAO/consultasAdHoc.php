@@ -122,8 +122,8 @@ class ConsultasAdHoc extends GenericoDAO {
             }
 
         }
-                var_dump($sql);
-                die();
+         //       var_dump($sql);
+         //       die();
         $statement = $this->conexao->prepare($sql);
         
         if ($diferencial != NULL) {
