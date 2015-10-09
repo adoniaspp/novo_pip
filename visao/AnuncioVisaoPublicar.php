@@ -201,6 +201,7 @@ if ($item) {
         $('.special.cards .image').dimmer({
             on: 'hover'
         });
+        timeoutSessao();
     });
 
 </script>

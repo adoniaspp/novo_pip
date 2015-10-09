@@ -30,6 +30,10 @@ class Sessao {
             unset($_SESSION[$variavel]);
     }
 
+    public static function renovarSessao() {
+        $_SESSION['token_time'] = time();
+    }
+
     public static function gerarToken() {
         $token = md5(uniqid(rand(), TRUE));
         $_SESSION['token'] = $token;

@@ -4,7 +4,7 @@ class Controle {
 
     public function __construct($parametros) {
         //checa tamanho da requisição
-        if (isset($_SERVER["CONTENT_LENGTH"]) ){
+        if (isset($_SERVER["CONTENT_LENGTH"])) {
             $cabecalho = $_SERVER['CONTENT_LENGTH'];
             $tamanho = ($cabecalho / 1024) / 1024;
             if ($tamanho > 10) {
@@ -39,13 +39,17 @@ class Controle {
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $entidade = $parametros['hdnEntidade'];
             $acao = $parametros['hdnAcao'];
-            if($entidade!="" && $acao!=""){
+            if ($entidade != "" && $acao != "") {
                 if (is_file(PIPROOT . '/controle/' . $entidade . "Controle.php")) {
                     include_once ($entidade . "Controle.php");
                     $classe = $entidade . "Controle";
                     $controle = new $classe;
                     $controle->$acao($parametros);
+                } else {
+                    Template::error404();
                 }
+            } else {
+                Template::error404();
             }
         }
         //vem do upload e somente do upload
@@ -58,15 +62,15 @@ class Controle {
 
     public static function index() {
         //modelo
-        /*include_once 'DAO/GenericoDAO.php';
-        include_once 'modelo/Imagem.php';
-        include_once 'modelo/Anuncio.php';
-        include_once 'modelo/Imovel.php';
-        include_once 'modelo/HistoricoAluguelVenda.php';
-        $genericoDAO = new GenericoDAO();
-        $anuncios = $genericoDAO->consultar(new Anuncio(), true, array("status" => "cadastrado"));
-        $item['anuncios'] = $anuncios;
-*/
+        /* include_once 'DAO/GenericoDAO.php';
+          include_once 'modelo/Imagem.php';
+          include_once 'modelo/Anuncio.php';
+          include_once 'modelo/Imovel.php';
+          include_once 'modelo/HistoricoAluguelVenda.php';
+          $genericoDAO = new GenericoDAO();
+          $anuncios = $genericoDAO->consultar(new Anuncio(), true, array("status" => "cadastrado"));
+          $item['anuncios'] = $anuncios;
+         */
         //visao
         $visao = new Template();
         $visao->setItem($item);

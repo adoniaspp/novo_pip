@@ -7,7 +7,7 @@ date_default_timezone_set("America/Belem");
 
 ####CONSTANTES################################
 define(PIPROOT, dirname(__FILE__));
-define(PIPURL, str_replace('\\','/',"http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER["SCRIPT_NAME"])));
+define(PIPURL, str_replace('\\', '/', "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER["SCRIPT_NAME"])));
 define(TEMPOTOKEN, 600); // 10 minutos
 ####INCLUDES##################################
 include_once 'configuracao/Template.php';
@@ -29,37 +29,26 @@ array_shift($url);
 if (sizeof($url) > 0 & $url[0] != "") { //verificar existe algo depois da barra digitada e se não está vazio
     // print "É Maior <br>"; 
     //echo "Array: " . $url[2];
-
     if ($url[0] == "index.php") { //verificar se existe algo depois da barra. Se for index.php, redirecionar para o inicio
         //echo "index.php";
         $parametros = $_REQUEST;
         $controle = new Controle($parametros);
     } else { //verificar se o usuário ou anuncio foi digitado
-        
         $verificaUsuario = $url[0];
         $verificaAnuncio = $url[0];
         $anuncioControle = new AnuncioControle();
-               
-        if(!$anuncioControle->exibirAnuncioURL($verificaUsuario) && !$anuncioControle->exibirAnuncioURL($verificaAnuncio)){
+
+        if (!$anuncioControle->exibirAnuncioURL($verificaUsuario) && !$anuncioControle->exibirAnuncioURL($verificaAnuncio)) {
             echo "erro";
+        } elseif ($anuncioControle->exibirAnuncioURL($verificaUsuario) == "usuario") {
+
+            $paginaCorretor = PIPURL . "/index.php?entidade=Anuncio&acao=buscarAnuncioCorretor&login=" . $url[0];
+            header("location: $paginaCorretor");
+        } else {
+
+            $paginaAnuncio = PIPURL . "/index.php?entidade=Anuncio&acao=detalhar&hdnCodAnuncio=" . $url[0];
+            header("location: $paginaAnuncio");
         }
-        
-        elseif($anuncioControle->exibirAnuncioURL($verificaUsuario) == "usuario"){
-        
-        $paginaCorretor = PIPURL . "/index.php?entidade=Anuncio&acao=buscarAnuncioCorretor&login=".$url[0];
-        header("location: $paginaCorretor");
-        
-        }
-        
-        else {
-            
-        $paginaAnuncio = PIPURL . "/index.php?entidade=Anuncio&acao=detalhar&hdnCodAnuncio=".$url[0];
-        header("location: $paginaAnuncio");     
-            
-        } 
-        
-        
-        
     }
 } else {
     //echo "nada";

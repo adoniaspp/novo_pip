@@ -387,6 +387,11 @@ class UsuarioControle {
         }
     }
 
+    public function renovarSessao($parametros) {
+        Sessao::renovarSessao();
+        echo json_encode(array("resultado" => 1));
+    }
+
     function esquecerSenha($parametros) {
         $this->log("Inicio da Operação " . $parametros["hdnEntidade"] . ucfirst($parametros["hdnAcao"]));
         $visao = new Template();

@@ -47,6 +47,8 @@ String.prototype.format = function () {
         var settings = {
             timeout: 1200,
             countdown: 60,
+            div_modal_alerta: 'div_modal_alerta',
+            div_modal_logout: 'div_modal_logout',
             title: 'Your session is about to expire!',
             message: 'You will be logged out in {0} seconds.',
             question: 'Do you want to stay signed in?',
@@ -109,23 +111,7 @@ String.prototype.format = function () {
                  });
                  */
 
-                $('.ui.basic.test.modal')
-                 .modal({
-                 closable: false,
-                 onDeny: function () {
-                 self.signOut(true);
-                 return false;
-                 },
-                 onApprove: function () {
-                 self.keepAlive();
-                 }
-                 })
-                 .modal('show');
-/*
-
-                $('.coupled.modal').modal({allowMultiple: false, closable: false});
-// show first now
-                $('.first.modal').modal({
+                $("#" + settings.div_modal_alerta).modal({
                     closable: false,
                     onDeny: function () {
                         self.signOut(true);
@@ -135,8 +121,22 @@ String.prototype.format = function () {
                         self.keepAlive();
                     }
                 }).modal('show');
-
-*/
+                /*
+                 
+                 $('.coupled.modal').modal({allowMultiple: false, closable: false});
+                 // show first now
+                 $('.first.modal').modal({
+                 closable: false,
+                 onDeny: function () {
+                 self.signOut(true);
+                 return false;
+                 },
+                 onApprove: function () {
+                 self.keepAlive();
+                 }
+                 }).modal('show');
+                 
+                 */
 
                 self.startCountdown();
             },
@@ -145,7 +145,7 @@ String.prototype.format = function () {
 //                    $(this).dialog("close");
 //                    $('#timeout-dialog').remove();
 //                }
-                $('.ui.basic.test.modal').modal('hide');
+                $("#" + settings.div_modal_alerta).modal('hide');
 //                $('.second.modal').modal('show')
 //                        .modal({
 //                            onHidden: function () {
@@ -153,16 +153,16 @@ String.prototype.format = function () {
 //                                return false;
 //                            }});
 
-/*
-                if (settings.logout_url != null) {
-                    $.post(settings.logout_url, function (data) {
-                        self.redirectLogout(is_forced);
-                    });
-                }
-                else {
-                    self.redirectLogout(is_forced);
-                }
-*/
+                /*
+                 if (settings.logout_url != null) {
+                 $.post(settings.logout_url, function (data) {
+                 self.redirectLogout(is_forced);
+                 });
+                 }
+                 else {
+                 self.redirectLogout(is_forced);
+                 }
+                 */
 
             },
             startCountdown: function () {
@@ -184,10 +184,8 @@ String.prototype.format = function () {
                 this.destroyDialog();
                 window.clearInterval(this.countdown);
 
-                $.get(settings.keep_alive_url, function (data) {
-                    console.log('data');
-                    console.log(data);
-                    if (data == "OK") {
+                $.post(settings.keep_alive_url, {hdnEntidade: "Usuario", hdnAcao: "renovarSessao"}, function (resposta) {
+                    if (resposta.resultado == 1) {
                         if (settings.restart_on_yes) {
                             self.setupDialogTimer();
                         }
@@ -195,17 +193,17 @@ String.prototype.format = function () {
                     else {
                         self.signOut(false);
                     }
-                });
+                }, "json");
             },
             signOut: function (is_forced) {
                 var self = this;
-                alert('Você foi deslogado! \n ...redirecionando...');
+                //alert('Você foi deslogado! \n ...redirecionando...');
 
                 this.destroyDialog();
- if (settings.logout_url != null) {
-                    $.post(settings.logout_url, function (data) {
+                if (settings.logout_url != null) {
+                    $.post(settings.keep_alive_url, {hdnEntidade: "Usuario", hdnAcao: "logout"}, function (resposta) {
                         self.redirectLogout(is_forced);
-                    });
+                    }, "json");
                 }
                 else {
                     self.redirectLogout(is_forced);
@@ -216,7 +214,13 @@ String.prototype.format = function () {
                 var target = settings.logout_redirect_url;// + '?next=' + encodeURIComponent(window.location.pathname + window.location.search);
                 //if (!is_forced)
                 //    target += '&timeout=t';
-                window.location = target;
+                $("#" + settings.div_modal_logout).modal({
+                    closable: true,
+                    onHidden: function () {
+                        //alert('bla');
+                        window.location = target;
+                    }
+                }).modal('show');
             }
         };
 

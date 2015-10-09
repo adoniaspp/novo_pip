@@ -1,18 +1,17 @@
 function cancelar(entidade, acao) {
-    $(document).ready(function () {
-        $('#btnCancelar').click(function () {
+    $(document).ready(function() {
+
+        $('#btnCancelar').click(function() {
             $('#modalCancelar').modal({
-                closable: false,
+                closable: true,
                 transition: "fade up",
-                onDeny: function () {
-                    return false;
+                onDeny: function() {
+                    return true;
                 },
-                onApprove: function () {
-                    if (entidade === "" && acao === "") {
-                        location.href = "index.php";
-                    }
-                    else
-                        location.href = "index.php?entidade=" + entidade + "&acao=" + acao;
+                onApprove: function() {
+                    if (entidade === "" && acao === ""){
+                        location.href = "index.php";}
+                    else location.href = "index.php?entidade="+entidade+"&acao="+acao;
                 }
             }).modal('show');
         })

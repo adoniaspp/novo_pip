@@ -57,8 +57,7 @@
 
 
 
-            <div class="ui basic test small modal">
-                
+            <div id="modalAlertaSessao" class="ui basic test small modal">                
                 <div class="ui icon header">
                     <i class="warning sign icon"></i>
                     ATENÇÃO: Seu tempo de sessão irá expirar
@@ -78,20 +77,10 @@
                 </div>
                 
             </div>
-            <div class="ui small second coupled modal">
-                <div class="header">
-                    Modal #2
-                </div>
-                <div class="content">
-                    <div class="description">
-                        <p>That's everything!</p>
-                    </div>
-                </div>
-                <div class="actions">
-                    <div class="ui approve button">
-                        <i class="checkmark icon"></i>
-                        All Done
-                    </div>
+            <div id="modalAlertaLogout" class="ui basic test small modal">
+                <div class="ui icon header">
+                    <i class="sign out icon"></i>
+                    ATENÇÃO: Você foi deslogado
                 </div>
             </div>
 
