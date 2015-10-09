@@ -73,8 +73,8 @@ Sessao::gerarToken();
 
                     </tbody>
                 </table>
-                <button class="ui green button" type="submit" >Confirmar</button>
-                <button class="ui red button" type="reset" id="btnCancelar">Cancelar</button>
+                <button class="ui green button" type="button" type="submit" >Confirmar</button>
+                <button class="ui red button" id="btnCancelar">Cancelar</button>
             </form>
             <div class="ui hidden divider"></div>
         </div>

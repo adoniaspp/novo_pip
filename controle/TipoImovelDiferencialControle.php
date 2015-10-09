@@ -49,7 +49,6 @@ class TipoImovelDiferencialControle {
     }
     
     function buscarDiferencialLista($parametros) {
-        //var_dump($parametros); die();
         $genericoDAO = new GenericoDAO();
         $tipoImovelDiferencial = new TipoImovelDiferencial();
             

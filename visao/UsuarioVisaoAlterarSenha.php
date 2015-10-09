@@ -49,7 +49,7 @@ Sessao::gerarToken();
                 <div id="divBotoesAlterarSenha">
                 <div class="ui hidden divider"></div>
                 <button class="ui blue button" type="button" id="btnAlterar">Alterar</button>
-                <button class="ui red button" type="button" id="btnCancelar">Cancelar</button>
+                <button class="ui red button" id="btnCancelar">Cancelar</button>
                 <div class="ui hidden divider"></div>     
                 </div>
                 <div class="ui hidden divider"></div>

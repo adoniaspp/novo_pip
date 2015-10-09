@@ -50,6 +50,9 @@ class ConsultasAdHoc extends GenericoDAO {
         $sql = $sql . ' WHERE 1=1 ';
         if ($crtlPred) {
             foreach ($parametros['predicados'] as $chave => $valor) {
+                
+                if($valor != ""){
+                    
                 $keys = array_fill(0, count($valor), $chave);
                 $place_holders = implode(
                         ',', array_map(
@@ -60,6 +63,9 @@ class ConsultasAdHoc extends GenericoDAO {
                         )
                 );
                 $predicados[] = $chave . ' IN (' . $place_holders . ')';
+                    
+                }               
+                
             }
 
             $sql = $sql . 'AND ' . implode(' AND ', $predicados);
@@ -67,7 +73,7 @@ class ConsultasAdHoc extends GenericoDAO {
 
 
         if ($garagem == 'true') {
-            $sql = $sql . ' WHERE  garagem > 0 ';
+            $sql = $sql . ' AND garagem > 0 ';
         }
 
         if ($preco != NULL) {
@@ -114,10 +120,10 @@ class ConsultasAdHoc extends GenericoDAO {
             } else if ($criterios[1] == 'menor' || $criterios[1] == 'menos') {
                 $sql = $sql . ' ASC ';
             }
-//                var_dump($sql);
-//                die();
-        }
 
+        }
+                var_dump($sql);
+                die();
         $statement = $this->conexao->prepare($sql);
         
         if ($diferencial != NULL) {

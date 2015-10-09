@@ -225,7 +225,7 @@ if ($item) {
                             </tbody>
                         </table>
                         <button class="ui blue button" type="button" id="btnRegistrar">Atualizar</button>
-                        <button class="ui orange button" type="reset" id="btnCancelar">Cancelar</button>
+                        <button class="ui orange button" id="btnCancelar">Cancelar</button>
                     </form>
                 </div>
             </div>

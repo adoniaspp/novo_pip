@@ -66,8 +66,8 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
                 </div>
                 <div class="ui hidden  divider"></div>
                 <button class="ui blue button" type="button" id="btnAlterarImagem" disabled="disabled">Alterar Imagem!</button>
-                <button class="ui orange button" type="reset" id="btnCancelar">Cancelar</button>
-                <button class="ui red button" type="reset" id="btnExcluirImagem">Excluir Imagem</button>
+                <button class="ui orange button" id="btnCancelar">Cancelar</button>
+                <button class="ui red button" id="btnExcluirImagem">Excluir Imagem</button>
                 <div class="ui hidden divider"></div>
             </form>
         </div>

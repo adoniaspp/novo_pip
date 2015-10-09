@@ -3,51 +3,25 @@ function buscarAnuncio() {
 
         $("#divCaracteristicas").hide();
         $("#divValor").hide();
-
-
-        $("#sltTipoImovel").change(function () {
-            if ($(this).val() == "casa") {
-                $("#divCaracteristicas").show();
-                $("#condicao").show();
-            }
-            if ($(this).val() == "apartamentoplanta") {
-                $("#divCaracteristicas").show();
-                $("#condicao").hide();
-                //$("#divCaracteristicas").hide();
-            }
-            if ($(this).val() == "apartamento") {
-                $("#divCaracteristicas").show();
-                $("#condicao").hide();
-            }
-            if ($(this).val() == "salacomercial") {
-                $("#divCaracteristicas").hide();
-                $("#condicao").show();
-            }
-            if ($(this).val() == "terreno") {
-                $("#divCaracteristicas").hide();
-                $("#condicao").show();
-            }
-        })
-
-        $("#sltFinalidade").change(function () {
-            if ($(this).val() == "venda") {
-                $("#divValorAluguel").hide();
-                $("#divPreenchimento2").hide();
-                $("#divValor").show();
-            }
-            if ($(this).val() == "aluguel") {
-                $("#divValorVenda").hide();
-                $("#divPreenchimento2").hide();
-                $("#divValor").show();
-            }
-        })
+        
+        $('.menu .item').tab();
 
         $("input[name=sltCidade]").change(function () {
             $("#defaultBairro").html("<option value=''>Procurando...</div>");
             $.post('index.php?hdnEntidade=Bairro&hdnAcao=selecionarBairro&idcidade=' + $('#sltCidade').val(),
                     function (resposta) {
-                        $("#defaultBairro").html("<option value=''>Selecione o Bairro</div>");
+                        $("#defaultBairro").html("Selecione o Bairro");
                         $("#menuBairro").html(resposta);
+                    }
+            );
+        });
+        
+        $("input[name=sltCidadeAvancado]").change(function () {
+            $("#defaultBairroAvancado").html("<option value=''>Procurando...</div>");
+            $.post('index.php?hdnEntidade=Bairro&hdnAcao=selecionarBairro&idcidade=' + $('#sltCidadeAvancado').val(),
+                    function (resposta) {
+                        $("#defaultBairroAvancado").html("Selecione o Bairro");
+                        $("#menuBairroAvancado").html(resposta);
                     }
             );
         });
@@ -116,6 +90,40 @@ function buscarAnuncio() {
                 $('#load').removeClass("ui active inverted dimmer");
             }, 1000);
         });
+        
+        
+        $("#btnBuscarAnuncioAvancado").on('click', function () {
+            
+            $("#load").addClass('ui active inverted dimmer');
+            if ($('#sltTipoImovelAvancado').val() == "") {
+                tipoimovel = "todos"
+            } else {
+                tipoimovel = $('#sltTipoImovelAvancado').val()
+            }
+            ;
+            $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
+                tipoImovel: tipoimovel,
+                valor: $('#sltValor').val(),
+                finalidade: $('#sltFinalidadeAvancado').val(),
+                idcidade: $('#sltCidadeAvancado').val(),
+                idbairro: $('#sltBairroAvancado').val(),
+                quarto: $('#sltQuartos').val(),
+                banheiro: $('#sltBanheiros').val(),
+                suite: $('#sltSuites').val(),
+                condicao: $('#sltCondicaoAvancado').val(),
+                unidadesandar: $('#sltUnidadesAndar').val(),
+                area: $('#sltArea').val(),
+                diferencial: $('#carregarDiferenciais').val(), 
+                garagem: $('#sltGaragem').val()}, 
+            function () {
+                $("#load").addClass('ui active inverted dimmer');
+            });
+            setTimeout(function () {
+                $('#load').removeClass("ui active inverted dimmer");
+            }, 1000);
+        });
+        
+        
     });
 }
 
@@ -727,7 +735,7 @@ function carregarDiferencial(){
     
     $(document).ready(function() {
 
-        $("#sltTipoImovel").change(function () {
+        $("#sltTipoImovelAvancado").change(function () {
             
             $.ajax({
                         url: "index.php",
@@ -735,7 +743,7 @@ function carregarDiferencial(){
                         data: {
                             hdnEntidade: "TipoImovelDiferencial",
                             hdnAcao: "buscarDiferencialLista",
-                            sltTipoImovel: $('#sltTipoImovel').val()
+                            sltTipoImovel: $('#sltTipoImovelAvancado').val()
                         },
                         success: function (resposta) {
                             
@@ -753,8 +761,8 @@ function inicio(){
         $("#divValorVenda").hide(); 
         $("#divValorAluguel").hide(); 
         $("#divQuarto").hide(); 
-        $("#condicao").hide(); 
-        $("#divGaragem").hide(); 
+        $("#divCondicao").hide(); 
+        $("#divCondicaoAvancado").hide(); 
         $("#divQuarto").hide();
         $("#divBanheiro").hide();
         $("#divSuite").hide();
@@ -762,6 +770,8 @@ function inicio(){
         $("#divAreaCasaTerreno").hide();
         $("#divUnidadesAndar").hide();
         $("#divDiferencial").hide();
+        $("#divGaragem").hide();
+        $("#divGaragemAvancado").hide();
 
         $("#sltFinalidade").change(function () {
             if ($(this).val() == "venda") {
@@ -786,17 +796,54 @@ function inicio(){
         })
         
         $("#sltTipoImovel").change(function () {
+            
+            switch($(this).val()){
+                
+                case "casa":
+                $("#divGaragem").show();
+                $("#divCondicao").show();
+                break;
+                
+                case "apartamentoplanta":
+                $("#divGaragem").show();
+                $("#divCondicao").hide();
+                break;
+                
+                case "apartamento":
+                $("#divGaragem").show();
+                $("#divCondicao").show();
+                break;
+                
+                case "salacomercial":
+                $("#divGaragem").show();
+                $("#divCondicao").show();
+                break;
+                
+                case "prediocomercial":
+                $("#divGaragem").hide();
+                $("#divCondicao").hide();
+                break;
+                
+                case "terreno":
+                $("#divGaragem").hide();
+                $("#divCondicao").hide();
+                break;
+                
+            }
+            
+        })
+        
+        $("#sltTipoImovelAvancado").change(function () {
 
            $('#carregarDiferenciais').dropdown('restore defaults'); //resetar os diferenciais selecionados ao trocar o tipo
-
            
            switch($(this).val()){
                
             case "casa":
                 
-                $("#divQuarto").show(); //oculta a div dos valores de aluguel
-                $("#condicao").show(); //oculta a div dos valores de aluguel
-                $("#divGaragem").show();
+                $("#divQuarto").show(); 
+                $("#divCondicaoAvancado").show(); 
+                $("#divGaragemAvancado").show();
                 $("#divBanheiro").show();
                 $("#divSuite").show();
                 $("#divAreaCasaTerreno").show();
@@ -808,9 +855,9 @@ function inicio(){
             case "apartamento":
                 
                 $("#divAreaCasaTerreno").hide();
-                $("#divQuarto").show(); //oculta a div dos valores de aluguel
-                $("#condicao").show(); //oculta a div dos valores de aluguel
-                $("#divGaragem").show();
+                $("#divQuarto").show(); 
+                $("#divCondicaoAvancado").show(); 
+                $("#divGaragemAvancado").show();
                 $("#divBanheiro").show();
                 $("#divSuite").show();
                 $("#divAreaApartamento").show();
@@ -821,10 +868,10 @@ function inicio(){
             
             case "apartamentoplanta":
                 
+                $("#divCondicaoAvancado").hide();
                 $("#divAreaCasaTerreno").hide();
-                $("#divQuarto").show(); 
-                $("#condicao").show(); 
-                $("#divGaragem").show();
+                $("#divQuarto").show();                
+                $("#divGaragemAvancado").show();
                 $("#divBanheiro").show();
                 $("#divSuite").show();
                 $("#divAreaApartamento").show();
@@ -835,24 +882,24 @@ function inicio(){
             
             case "salacomercial":
                 
-                $("#divQuarto").hide(); //oculta a div dos valores de aluguel
-                $("#condicao").hide(); //oculta a div dos valores de aluguel
-                $("#divSuite").hide();
-                $("#divAreaApartamento").show();
+                $("#divQuarto").hide(); 
+                $("#divSuite").hide();              
                 $("#divAreaCasaTerreno").hide();
                 $("#divAreaTerreno").hide();
                 $("#divUnidadesAndar").hide();
-                $("#divGaragem").show();
+                $("#divAreaApartamento").show();
+                $("#divCondicaoAvancado").show();
+                $("#divGaragemAvancado").show();
                 $("#divBanheiro").show();
                 
             break;
             
             case "prediocomercial":
                 
-                $("#divQuarto").hide(); //oculta a div dos valores de aluguel
-                $("#condicao").hide(); //oculta a div dos valores de aluguel
+                $("#divQuarto").hide(); 
+                $("#divCondicaoAvancado").hide(); 
                 $("#divSuite").hide();
-                $("#divGaragem").hide();
+                $("#divGaragemAvancado").hide();
                 $("#divUnidadesAndar").hide();
                 $("#divAreaCasaTerreno").hide();
                 $("#divAreaApartamento").hide();
@@ -863,10 +910,10 @@ function inicio(){
             
             case "terreno":
                 
-                $("#divQuarto").hide(); //oculta a div dos valores de aluguel
-                $("#condicao").hide(); //oculta a div dos valores de aluguel
+                $("#divQuarto").hide(); 
+                $("#divCondicaoAvancado").hide(); 
                 $("#divSuite").hide();
-                $("#divGaragem").hide();
+                $("#divGaragemAvancado").hide();
                 $("#divBanheiro").hide();
                 $("#divUnidadesAndar").hide();               
                 $("#divAreaApartamento").hide();

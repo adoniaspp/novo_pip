@@ -19,7 +19,7 @@
     })
 </script>
 
-<div class="container"> <!-- CLASSE QUE DEFINE O CONTAINER COMO FLUIDO (100%) --> 
+<div class="container"> 
      
     <?php 
     
@@ -29,11 +29,6 @@
     $cidadeEstado = $item["cidadeEstado"][0];
     $anuncios = $item["anuncio"];
     $diferenciais = $item["diferenciais"];
-        
-    /*echo"<pre>";
-    var_dump($anuncios);
-    echo"</pre>"; die();*/
-    
     
     if($usuario->getEndereco()->getNumero() != "" && $usuario->getEndereco()->getComplemento() != ""){
                     $endereco = $usuario->getEndereco()->getLogradouro().", ".$usuario->getEndereco()->getNumero().", ".$usuario->getEndereco()->getComplemento();

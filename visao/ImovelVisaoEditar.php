@@ -338,7 +338,7 @@ if ($item) {
                 <h3 class="ui dividing header">Confirmação de Alteração</h3>
 
                  <a href='#' <button class="ui blue submit button" type="submit" id="btnCadastrar" >Alterar</button></a>
-                <button class="ui orange button" type="reset" id="btnCancelar">Cancelar</button>
+                <button class="ui orange button" id="btnCancelar">Cancelar</button>
             </form>
         </div>
     </div>
