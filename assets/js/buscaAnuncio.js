@@ -3,7 +3,7 @@ function buscarAnuncio() {
 
         $("#divCaracteristicas").hide();
         $("#divValor").hide();
-        
+
         $('.menu .item').tab();
 
         $("input[name=sltCidade]").change(function () {
@@ -15,7 +15,7 @@ function buscarAnuncio() {
                     }
             );
         });
-        
+
         $("input[name=sltCidadeAvancado]").change(function () {
             $("#defaultBairroAvancado").html("<option value=''>Procurando...</div>");
             $.post('index.php?hdnEntidade=Bairro&hdnAcao=selecionarBairro&idcidade=' + $('#sltCidadeAvancado').val(),
@@ -62,7 +62,7 @@ function buscarAnuncio() {
 
 
         $("#btnBuscarAnuncio").on('click', function () {
-            
+
             $("#load").addClass('ui active inverted dimmer');
             if ($('#sltTipoImovel').val() == "") {
                 tipoimovel = "todos"
@@ -82,7 +82,7 @@ function buscarAnuncio() {
                 condicao: $('#sltCondicao').val(),
                 unidadesandar: $('#sltUnidadesAndar').val(),
                 area: $('#sltArea').val(),
-                diferencial: $('#carregarDiferenciais').val(), 
+                diferencial: $('#carregarDiferenciais').val(),
                 garagem: $('#checkgaragem').parent().checkbox('is checked')}, function () {
                 $("#load").addClass('ui active inverted dimmer');
             });
@@ -90,10 +90,10 @@ function buscarAnuncio() {
                 $('#load').removeClass("ui active inverted dimmer");
             }, 1000);
         });
-        
-        
+
+
         $("#btnBuscarAnuncioAvancado").on('click', function () {
-            
+
             $("#load").addClass('ui active inverted dimmer');
             if ($('#sltTipoImovelAvancado').val() == "") {
                 tipoimovel = "todos"
@@ -113,8 +113,8 @@ function buscarAnuncio() {
                 condicao: $('#sltCondicaoAvancado').val(),
                 unidadesandar: $('#sltUnidadesAndar').val(),
                 area: $('#sltArea').val(),
-                diferencial: $('#carregarDiferenciais').val(), 
-                garagem: $('#sltGaragem').val()}, 
+                diferencial: $('#carregarDiferenciais').val(),
+                garagem: $('#sltGaragem').val()},
             function () {
                 $("#load").addClass('ui active inverted dimmer');
             });
@@ -122,8 +122,8 @@ function buscarAnuncio() {
                 $('#load').removeClass("ui active inverted dimmer");
             }, 1000);
         });
-        
-        
+
+
     });
 }
 
@@ -258,22 +258,29 @@ function carregarAnuncio() { //valor = quantidade de anuncios
 
         $('.ui.checkbox')
                 .checkbox({
-                    onChecked: function () { //ao clicar no anuncio, marcar de vermelho
-                        $(this).closest('.card').attr("class", "red card");
-                        selecionado = selecionado + 1;
-                        var botaoEmailComparar = ("<div class='ui buttons'><button class='ui button' type='submit' id='btnEmail'>Enviar Por Email</button><div class='or' data-text='ou'></div><button class='ui positive button' type='submit' id='btnComparar'>Comparar</button></div>");
-
-                        if (selecionado == 1) {
-                            $("#divBotoes").append(botaoEmailComparar);
-                            confirmarEmail();
-                            $('#btnComparar').on('click', function () {
-                                $("#hdnEntidade").val("Anuncio");
-                                $("#hdnAcao").val("comparar");
-                                $('#form').submit();
-                            })
+                    beforeChecked: function () { //ao clicar no anuncio, marcar de vermelho                                               
+                        var NumeroMaximo = 2;
+                        if ($("input[name^='listaAnuncio']").length >= NumeroMaximo) {
+                            alert('Selecione no máximo ' + NumeroMaximo + ' imóveis para a comparação');
+                            return false;
+                        } else {
+                            $('#hdnTipoImovel').after('<input type="hidden" name="listaAnuncio[]" id=anuncio_' + $(this).val() + ' value=' + $(this).val() + '>');
+                            $(this).closest('.card').attr("class", "red card");
+                            selecionado = selecionado + 1;
+                            var botaoEmailComparar = ("<div class='ui buttons'><button class='ui button' type='submit' id='btnEmail'>Enviar Por Email</button><div class='or' data-text='ou'></div><button class='ui positive button' type='submit' id='btnComparar'>Comparar</button></div>");
+                            if (selecionado == 1) {
+                                $("#divBotoes").append(botaoEmailComparar);
+                                confirmarEmail();
+                                $('#btnComparar').on('click', function () {
+                                    $("#hdnEntidade").val("Anuncio");
+                                    $("#hdnAcao").val("comparar");
+                                    $('#form').submit();
+                                })
+                            }
                         }
                     },
                     onUnchecked: function () { //ao desmarcar o anuncio, tirar o vermelho
+                        $('#anuncio_' + $(this).val()).remove();
                         $(this).closest('.card').attr("class", "card");
                         selecionado = selecionado - 1;
                         if (selecionado == 0) {
@@ -298,7 +305,7 @@ function carregarAnuncio() { //valor = quantidade de anuncios
             $("#hdnAcao").val("detalhar");
             $('#form').submit();
         })
-        
+
         $("#hdnOrdTipoImovel").val($('#sltTipoImovel').val());
         $("#hdnOrdValor").val($('#sltValor').val());
         $("#hdnOrdFinalidade").val($('#sltFinalidade').val());
@@ -321,7 +328,6 @@ function carregarAnuncio() { //valor = quantidade de anuncios
     })
 
 }
-
 function carregarAnuncioUsuario() {
 
     $('.special.cards .image').dimmer({
@@ -360,7 +366,7 @@ function confirmarEmail() {
 
             $("#idAnuncios").empty();
             $("#idAnunciosCabecalho").empty();
-            
+
             var arr = [];
             $("input[type^='checkbox']:checked").each(function ()
             {
@@ -393,22 +399,22 @@ function confirmarEmail() {
     })
 }
 
-function formatarValor(valor){
+function formatarValor(valor) {
 
-    $("#spanValor"+valor).priceFormat({
-            prefix: 'R$ ',
-            centsSeparator: ',',
-            centsLimit: 0,
-            limit: 8,
-            thousandsSeparator: '.'
-        })
+    $("#spanValor" + valor).priceFormat({
+        prefix: 'R$ ',
+        centsSeparator: ',',
+        centsLimit: 0,
+        limit: 8,
+        thousandsSeparator: '.'
+    })
 }
 
 function enviarEmail() {
     $(document).ready(function () {
 
         $("#botaoFecharEmail").hide();
-        
+
         $('#txtNomeEmail').maxlength({
             alwaysShow: true,
             threshold: 50,
@@ -478,7 +484,6 @@ function enviarEmail() {
                             }
                 }
             },
-            
             messages: {
                 txtEmailEmail: {
                     email: "Informe um email válido"
@@ -486,7 +491,6 @@ function enviarEmail() {
                 captcha_code: {
                     remote: "Código Inválido"
                 },
-                
             },
             submitHandler: function (form) {
                 $.ajax({
@@ -507,7 +511,7 @@ function enviarEmail() {
                         if (resposta.resultado == 1) {
                             $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
                         <p>E-Mail enviado com Sucesso </p>');
-                            
+
                         } else {
                             $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
     <h2 class="ui header">Tente novamente mais tarde!</h2><p>Houve um erro no processamento. </p></div>');
@@ -526,41 +530,41 @@ function enviarDuvidaAnuncio() {
     $(document).ready(function () {
 
         $("#botaoFecharDuvida").hide();
-       
+
         $('#btnDuvida').click(function () {
-        
-        $('#txtNomeDuvida').maxlength({
-            alwaysShow: true,
-            threshold: 50,
-            warningClass: "ui small green circular label",
-            limitReachedClass: "ui small red circular label",
-            separator: ' de ',
-            preText: 'Voc&ecirc; digitou ',
-            postText: ' caracteres permitidos.',
-            validate: true
-        });
-        $('#txtMsgDuvida').maxlength({
-            alwaysShow: true,
-            threshold: 200,
-            warningClass: "ui small green circular label",
-            limitReachedClass: "ui small red circular label",
-            separator: ' de ',
-            preText: 'Voc&ecirc; digitou ',
-            postText: ' caracteres permitidos.',
-            validate: true
-        });
-        $('#txtEmailDuvida').maxlength({
-            alwaysShow: true,
-            threshold: 100,
-            warningClass: "ui small green circular label",
-            limitReachedClass: "ui small red circular label",
-            separator: ' de ',
-            preText: 'Voc&ecirc; digitou ',
-            postText: ' caracteres permitidos.',
-            validate: true
-        });
-        
-        $('#modalDuvidaAnuncio').modal({
+
+            $('#txtNomeDuvida').maxlength({
+                alwaysShow: true,
+                threshold: 50,
+                warningClass: "ui small green circular label",
+                limitReachedClass: "ui small red circular label",
+                separator: ' de ',
+                preText: 'Voc&ecirc; digitou ',
+                postText: ' caracteres permitidos.',
+                validate: true
+            });
+            $('#txtMsgDuvida').maxlength({
+                alwaysShow: true,
+                threshold: 200,
+                warningClass: "ui small green circular label",
+                limitReachedClass: "ui small red circular label",
+                separator: ' de ',
+                preText: 'Voc&ecirc; digitou ',
+                postText: ' caracteres permitidos.',
+                validate: true
+            });
+            $('#txtEmailDuvida').maxlength({
+                alwaysShow: true,
+                threshold: 100,
+                warningClass: "ui small green circular label",
+                limitReachedClass: "ui small red circular label",
+                separator: ' de ',
+                preText: 'Voc&ecirc; digitou ',
+                postText: ' caracteres permitidos.',
+                validate: true
+            });
+
+            $('#modalDuvidaAnuncio').modal({
                 closable: true,
                 transition: "fade up",
                 onDeny: function () {
@@ -569,93 +573,91 @@ function enviarDuvidaAnuncio() {
                     $("#formDuvidaAnuncio").submit();
                     return false; //deixar o modal fixo
                 }
-            }).modal('show');     
+            }).modal('show');
 
-        $.validator.setDefaults({
-            ignore: [],
-            errorClass: 'errorField',
-            errorElement: 'div',
-            errorPlacement: function (error, element) {
-                error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
-            },
-            highlight: function (element, errorClass, validClass) {
-                $(element).closest("div.field").addClass("error").removeClass("success");
-            },
-            unhighlight: function (element, errorClass, validClass) {
-                $(element).closest(".error").removeClass("error").addClass("success");
-            }
-        });
-
-        $.validator.messages.required = 'Campo obrigatório';
-        $('#formDuvidaAnuncio').validate({
-            onkeyup: false,
-            focusInvalid: true,
-            rules: {
-                txtEmailDuvida: {
-                    required: true,
-                    email: true
+            $.validator.setDefaults({
+                ignore: [],
+                errorClass: 'errorField',
+                errorElement: 'div',
+                errorPlacement: function (error, element) {
+                    error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
                 },
-                txtMsgDuvida: {
-                    required: true
+                highlight: function (element, errorClass, validClass) {
+                    $(element).closest("div.field").addClass("error").removeClass("success");
                 },
-                captcha_code: {
-                    required: true,
-                    remote:
-                            {
-                                url: "index.php",
-                                dataType: "json",
-                                type: "POST",
-                                data: {
-                                    hdnEntidade: "Usuario",
-                                    hdnAcao: "validarCaptcha"
-                                }
-                            }
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).closest(".error").removeClass("error").addClass("success");
                 }
-            },
-            
-            messages: {
-                txtEmailDuvida: {
-                    email: "Informe um email válido"
-                },
-                captcha_code: {
-                    remote: "Código Inválido"
-                },
-                
-            },
-            submitHandler: function (form) {
-                $.ajax({
-                    url: "index.php",
-                    dataType: "json",
-                    type: "POST",
-                    data: $('#formDuvidaAnuncio').serialize(),
-                    beforeSend: function () {
-                        $("#botaoEnviarDuvida").hide();
-                        $("#botaoCancelarDuvida").hide();
-                        $("#camposDuvida").hide();
-                        $("#divRetorno").html("<div><div class='ui active inverted dimmer'>\n\
-                        <div class='ui text loader'>Enviando mensagem. Aguarde...</div></div></div>");
-                    },
-                    success: function (resposta) {
-                        $("#divRetorno").empty();
-                        $("#botaoCancelarDuvida").hide();
-                        $("#botaoFecharDuvida").show();
-                        if (resposta.resultado == 1) {
-                            $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
-                        <p>Mensagem enviada com Sucesso </p>');
-                            $("#btnDuvida").attr("disabled", "disabled");
-                            
-                        } else {
-                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-                        <h2 class="ui header">Tente novamente mais tarde. Houve um erro no processamento.</h2></div>');
-                        }
-                    }
-                })
-                return false;
-            }
-        })
+            });
 
-       })
-   })
+            $.validator.messages.required = 'Campo obrigatório';
+            $('#formDuvidaAnuncio').validate({
+                onkeyup: false,
+                focusInvalid: true,
+                rules: {
+                    txtEmailDuvida: {
+                        required: true,
+                        email: true
+                    },
+                    txtMsgDuvida: {
+                        required: true
+                    },
+                    captcha_code: {
+                        required: true,
+                        remote:
+                                {
+                                    url: "index.php",
+                                    dataType: "json",
+                                    type: "POST",
+                                    data: {
+                                        hdnEntidade: "Usuario",
+                                        hdnAcao: "validarCaptcha"
+                                    }
+                                }
+                    }
+                },
+                messages: {
+                    txtEmailDuvida: {
+                        email: "Informe um email válido"
+                    },
+                    captcha_code: {
+                        remote: "Código Inválido"
+                    },
+                },
+                submitHandler: function (form) {
+                    $.ajax({
+                        url: "index.php",
+                        dataType: "json",
+                        type: "POST",
+                        data: $('#formDuvidaAnuncio').serialize(),
+                        beforeSend: function () {
+                            $("#botaoEnviarDuvida").hide();
+                            $("#botaoCancelarDuvida").hide();
+                            $("#camposDuvida").hide();
+                            $("#divRetorno").html("<div><div class='ui active inverted dimmer'>\n\
+                        <div class='ui text loader'>Enviando mensagem. Aguarde...</div></div></div>");
+                        },
+                        success: function (resposta) {
+                            $("#divRetorno").empty();
+                            $("#botaoCancelarDuvida").hide();
+                            $("#botaoFecharDuvida").show();
+                            if (resposta.resultado == 1) {
+                                $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
+                        <p>Mensagem enviada com Sucesso </p>');
+                                $("#btnDuvida").attr("disabled", "disabled");
+
+                            } else {
+                                $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
+                        <h2 class="ui header">Tente novamente mais tarde. Houve um erro no processamento.</h2></div>');
+                            }
+                        }
+                    })
+                    return false;
+                }
+            })
+
+        })
+    })
 }
 
 
@@ -676,93 +678,91 @@ function inserirAnuncioModal() {
 
 }
 
-function marcarMapa(logradouro, numero, bairro, tituloAnuncio, valor, finalidade, altura, largura, aprox){
-    
-$(document).ready(function() {
+function marcarMapa(logradouro, numero, bairro, tituloAnuncio, valor, finalidade, altura, largura, aprox) {
 
-$("#mapaGmaps").hide();
+    $(document).ready(function () {
 
-$("#mapaGmapsBusca").width(altura).height(largura).gmap3();
+        $("#mapaGmaps").hide();
 
-$("#mapaGmapsBusca").gmap3({
- map:{
-    options:{
-     center:[-1.37178665, -48.45176697],
-     zoom: aprox,
-     draggable: true
-    }
- },
- marker:{
-    values:[
-        
-        {address:logradouro +", "+ numero+" - "+ bairro, data: tituloAnuncio+" - R$ "+valor+"<br>"+ "FInalidade: "+finalidade},
-               
-    ],
-    options:{
-      draggable: false
-    },
-    events:{
-      mouseover: function(marker, event, context){
-        var map = $(this).gmap3("get"),
-          infowindow = $(this).gmap3({get:{name:"infowindow"}});
-        if (infowindow){
-          infowindow.open(map, marker);
-          infowindow.setContent(context.data);
-        } else {
-          $(this).gmap3({
-            infowindow:{
-              anchor:marker, 
-              options:{content: context.data}
+        $("#mapaGmapsBusca").width(altura).height(largura).gmap3();
+
+        $("#mapaGmapsBusca").gmap3({
+            map: {
+                options: {
+                    center: [-1.37178665, -48.45176697],
+                    zoom: aprox,
+                    draggable: true
+                }
+            },
+            marker: {
+                values: [
+                    {address: logradouro + ", " + numero + " - " + bairro, data: tituloAnuncio + " - R$ " + valor + "<br>" + "FInalidade: " + finalidade},
+                ],
+                options: {
+                    draggable: false
+                },
+                events: {
+                    mouseover: function (marker, event, context) {
+                        var map = $(this).gmap3("get"),
+                                infowindow = $(this).gmap3({get: {name: "infowindow"}});
+                        if (infowindow) {
+                            infowindow.open(map, marker);
+                            infowindow.setContent(context.data);
+                        } else {
+                            $(this).gmap3({
+                                infowindow: {
+                                    anchor: marker,
+                                    options: {content: context.data}
+                                }
+                            });
+                        }
+                    },
+                    mouseout: function () {
+                        var infowindow = $(this).gmap3({get: {name: "infowindow"}});
+                        if (infowindow) {
+                            infowindow.close();
+                        }
+                    }
+                }
             }
-          });
-        }
-      },
-      mouseout: function(){
-        var infowindow = $(this).gmap3({get:{name:"infowindow"}});
-        if (infowindow){
-          infowindow.close();
-        }
-    }
-    }
-  }
-});
-                              
-});
-    
+        });
+
+    });
+
 }
 
-function carregarDiferencial(){
-    
-    $(document).ready(function() {
+function carregarDiferencial() {
+
+    $(document).ready(function () {
 
         $("#sltTipoImovelAvancado").change(function () {
-            
-            $.ajax({
-                        url: "index.php",
-                        type: "POST",
-                        data: {
-                            hdnEntidade: "TipoImovelDiferencial",
-                            hdnAcao: "buscarDiferencialLista",
-                            sltTipoImovel: $('#sltTipoImovelAvancado').val()
-                        },
-                        success: function (resposta) {
-                            
-                            $('#carregarDiferenciais').html(resposta);
 
-                        }
+            $.ajax({
+                url: "index.php",
+                type: "POST",
+                data: {
+                    hdnEntidade: "TipoImovelDiferencial",
+                    hdnAcao: "buscarDiferencialLista",
+                    sltTipoImovel: $('#sltTipoImovelAvancado').val()
+                },
+                success: function (resposta) {
+
+                    $('#carregarDiferenciais').html(resposta);
+
+                }
             })
         })
     })
 }
 
-function inicio(){
-    
+function inicio() {
+
     $(document).ready(function () {
-        $("#divValorVenda").hide(); 
-        $("#divValorAluguel").hide(); 
-        $("#divQuarto").hide(); 
-        $("#divCondicao").hide(); 
-        $("#divCondicaoAvancado").hide(); 
+        $("#divValorVenda").hide();
+        $("#divValorAluguel").hide();
+        $("#divQuarto").hide();
+        $("#divCondicao").hide();
+        $("#divCondicaoAvancado").hide();
         $("#divQuarto").hide();
         $("#divBanheiro").hide();
         $("#divSuite").hide();
@@ -775,160 +775,160 @@ function inicio(){
 
         $("#sltFinalidade").change(function () {
             if ($(this).val() == "venda") {
-                $("#divValorInicial").hide(); 
-                $("#divValorAluguel").hide(); 
-                $("#divValorVenda").show(); 
-   
+                $("#divValorInicial").hide();
+                $("#divValorAluguel").hide();
+                $("#divValorVenda").show();
+
             }
             if ($(this).val() == "aluguel") {
-                $("#divValorInicial").hide(); 
-                $("#divValorVenda").hide(); 
-                $("#divValorAluguel").show(); 
-                
+                $("#divValorInicial").hide();
+                $("#divValorVenda").hide();
+                $("#divValorAluguel").show();
+
             }
 
             if ($(this).val() == "") {
-                $("#divValorVenda").hide(); 
-                $("#divValorAluguel").hide(); 
-                $("#divValorInicial").show(); 
+                $("#divValorVenda").hide();
+                $("#divValorAluguel").hide();
+                $("#divValorInicial").show();
             }
 
         })
-        
+
         $("#sltTipoImovel").change(function () {
-            
-            switch($(this).val()){
-                
+
+            switch ($(this).val()) {
+
                 case "casa":
-                $("#divGaragem").show();
-                $("#divCondicao").show();
-                break;
-                
+                    $("#divGaragem").show();
+                    $("#divCondicao").show();
+                    break;
+
                 case "apartamentoplanta":
-                $("#divGaragem").show();
-                $("#divCondicao").hide();
-                break;
-                
+                    $("#divGaragem").show();
+                    $("#divCondicao").hide();
+                    break;
+
                 case "apartamento":
-                $("#divGaragem").show();
-                $("#divCondicao").show();
-                break;
-                
+                    $("#divGaragem").show();
+                    $("#divCondicao").show();
+                    break;
+
                 case "salacomercial":
-                $("#divGaragem").show();
-                $("#divCondicao").show();
-                break;
-                
+                    $("#divGaragem").show();
+                    $("#divCondicao").show();
+                    break;
+
                 case "prediocomercial":
-                $("#divGaragem").hide();
-                $("#divCondicao").hide();
-                break;
-                
+                    $("#divGaragem").hide();
+                    $("#divCondicao").hide();
+                    break;
+
                 case "terreno":
-                $("#divGaragem").hide();
-                $("#divCondicao").hide();
-                break;
-                
+                    $("#divGaragem").hide();
+                    $("#divCondicao").hide();
+                    break;
+
             }
-            
+
         })
-        
+
         $("#sltTipoImovelAvancado").change(function () {
 
-           $('#carregarDiferenciais').dropdown('restore defaults'); //resetar os diferenciais selecionados ao trocar o tipo
-           
-           switch($(this).val()){
-               
-            case "casa":
-                
-                $("#divQuarto").show(); 
-                $("#divCondicaoAvancado").show(); 
-                $("#divGaragemAvancado").show();
-                $("#divBanheiro").show();
-                $("#divSuite").show();
-                $("#divAreaCasaTerreno").show();
-                $("#divDiferencial").show();
-                $("#divAreaApartamento").hide();              
-                $("#divUnidadesAndar").hide();
-            break;   
-            
-            case "apartamento":
-                
-                $("#divAreaCasaTerreno").hide();
-                $("#divQuarto").show(); 
-                $("#divCondicaoAvancado").show(); 
-                $("#divGaragemAvancado").show();
-                $("#divBanheiro").show();
-                $("#divSuite").show();
-                $("#divAreaApartamento").show();
-                $("#divUnidadesAndar").show();
-                $("#divDiferencial").show();
-                
-            break;
-            
-            case "apartamentoplanta":
-                
-                $("#divCondicaoAvancado").hide();
-                $("#divAreaCasaTerreno").hide();
-                $("#divQuarto").show();                
-                $("#divGaragemAvancado").show();
-                $("#divBanheiro").show();
-                $("#divSuite").show();
-                $("#divAreaApartamento").show();
-                $("#divUnidadesAndar").show();
-                $("#divDiferencial").show();
-                
-            break;
-            
-            case "salacomercial":
-                
-                $("#divQuarto").hide(); 
-                $("#divSuite").hide();              
-                $("#divAreaCasaTerreno").hide();
-                $("#divAreaTerreno").hide();
-                $("#divUnidadesAndar").hide();
-                $("#divAreaApartamento").show();
-                $("#divCondicaoAvancado").show();
-                $("#divGaragemAvancado").show();
-                $("#divBanheiro").show();
-                
-            break;
-            
-            case "prediocomercial":
-                
-                $("#divQuarto").hide(); 
-                $("#divCondicaoAvancado").hide(); 
-                $("#divSuite").hide();
-                $("#divGaragemAvancado").hide();
-                $("#divUnidadesAndar").hide();
-                $("#divAreaCasaTerreno").hide();
-                $("#divAreaApartamento").hide();
-                $("#divArea").show();               
-                $("#divBanheiro").show();
-                
-            break;
-            
-            case "terreno":
-                
-                $("#divQuarto").hide(); 
-                $("#divCondicaoAvancado").hide(); 
-                $("#divSuite").hide();
-                $("#divGaragemAvancado").hide();
-                $("#divBanheiro").hide();
-                $("#divUnidadesAndar").hide();               
-                $("#divAreaApartamento").hide();
-                $("#divAreaCasaTerreno").show();
-                               
-            break;
-           }
-          
+            $('#carregarDiferenciais').dropdown('restore defaults'); //resetar os diferenciais selecionados ao trocar o tipo
+
+            switch ($(this).val()) {
+
+                case "casa":
+
+                    $("#divQuarto").show();
+                    $("#divCondicaoAvancado").show();
+                    $("#divGaragemAvancado").show();
+                    $("#divBanheiro").show();
+                    $("#divSuite").show();
+                    $("#divAreaCasaTerreno").show();
+                    $("#divDiferencial").show();
+                    $("#divAreaApartamento").hide();
+                    $("#divUnidadesAndar").hide();
+                    break;
+
+                case "apartamento":
+
+                    $("#divAreaCasaTerreno").hide();
+                    $("#divQuarto").show();
+                    $("#divCondicaoAvancado").show();
+                    $("#divGaragemAvancado").show();
+                    $("#divBanheiro").show();
+                    $("#divSuite").show();
+                    $("#divAreaApartamento").show();
+                    $("#divUnidadesAndar").show();
+                    $("#divDiferencial").show();
+
+                    break;
+
+                case "apartamentoplanta":
+
+                    $("#divCondicaoAvancado").hide();
+                    $("#divAreaCasaTerreno").hide();
+                    $("#divQuarto").show();
+                    $("#divGaragemAvancado").show();
+                    $("#divBanheiro").show();
+                    $("#divSuite").show();
+                    $("#divAreaApartamento").show();
+                    $("#divUnidadesAndar").show();
+                    $("#divDiferencial").show();
+
+                    break;
+
+                case "salacomercial":
+
+                    $("#divQuarto").hide();
+                    $("#divSuite").hide();
+                    $("#divAreaCasaTerreno").hide();
+                    $("#divAreaTerreno").hide();
+                    $("#divUnidadesAndar").hide();
+                    $("#divAreaApartamento").show();
+                    $("#divCondicaoAvancado").show();
+                    $("#divGaragemAvancado").show();
+                    $("#divBanheiro").show();
+
+                    break;
+
+                case "prediocomercial":
+
+                    $("#divQuarto").hide();
+                    $("#divCondicaoAvancado").hide();
+                    $("#divSuite").hide();
+                    $("#divGaragemAvancado").hide();
+                    $("#divUnidadesAndar").hide();
+                    $("#divAreaCasaTerreno").hide();
+                    $("#divAreaApartamento").hide();
+                    $("#divArea").show();
+                    $("#divBanheiro").show();
+
+                    break;
+
+                case "terreno":
+
+                    $("#divQuarto").hide();
+                    $("#divCondicaoAvancado").hide();
+                    $("#divSuite").hide();
+                    $("#divGaragemAvancado").hide();
+                    $("#divBanheiro").hide();
+                    $("#divUnidadesAndar").hide();
+                    $("#divAreaApartamento").hide();
+                    $("#divAreaCasaTerreno").show();
+
+                    break;
+            }
+
         })
-        
+
     });
 }
 
-function ordemInicio(){
-    
+function ordemInicio() {
+
     $(document).ready(function () {
         $("#sltOrdenacao").change(function () {
             $("#load").addClass('ui active inverted dimmer');

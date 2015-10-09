@@ -179,11 +179,12 @@ class AnuncioControle {
     function comparar($parametros) {
         $genericoDAO = new GenericoDAO();
         $indice = 0;
-        $idsAnuncio = $parametros['selecionarAnuncio'];
+        $idsAnuncio = $parametros['listaAnuncio'];
         unset($parametros["hdnEntidade"]);
         unset($parametros["hdnAcao"]);
         unset($parametros["tabela_length"]);
         unset($parametros["selecionarAnuncio"]);
+        unset($parametros["listaAnuncio"]);
         unset($parametros["hdnCodAnuncio"]);
         unset($parametros["hdnTipoImovel"]);
         foreach ($idsAnuncio as $idanuncio) {

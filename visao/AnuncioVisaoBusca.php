@@ -39,7 +39,6 @@ echo "</pre>";*/
     <input type="hidden" id="hdnAcao" name="hdnAcao" />
     <input type="hidden" id="hdnCodAnuncio" name="hdnCodAnuncio" />
     <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" />
-    <input type="hidden" name="selecionarAnuncio2">
     <div class="ui center aligned three column page grid" id="resultadoBusca">
         <div class="sixteen wide column">
             <?php if (count($item['anuncio']) > 0) { ?>
