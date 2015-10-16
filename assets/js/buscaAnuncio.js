@@ -4,8 +4,6 @@ function buscarAnuncio() {
         $("#divCaracteristicas").hide();
         $("#divValor").hide();
 
-        $('.menu .item').tab();
-
         $("input[name=sltCidade]").change(function () {
             $("#defaultBairro").html("<option value=''>Procurando...</div>");
             $.post('index.php?hdnEntidade=Bairro&hdnAcao=selecionarBairro&idcidade=' + $('#sltCidade').val(),
@@ -177,10 +175,21 @@ function buscarAnuncioUsuario() {
         })
 
         $("input[name=sltCidade]").change(function () {
-            $("#menuBairro").html("<div class='item'>Procurando...</div>");
+            $("#defaultBairro").html("<option value=''>Procurando...</div>");
             $.post('index.php?hdnEntidade=Bairro&hdnAcao=selecionarBairro&idcidade=' + $('#sltCidade').val(),
                     function (resposta) {
+                        $("#defaultBairro").html("Selecione o Bairro");
                         $("#menuBairro").html(resposta);
+                    }
+            );
+        });
+        
+        $("input[name=sltCidadeAvancado]").change(function () {
+            $("#defaultBairroAvancado").html("<option value=''>Procurando...</div>");
+            $.post('index.php?hdnEntidade=Bairro&hdnAcao=selecionarBairro&idcidade=' + $('#sltCidadeAvancado').val(),
+                    function (resposta) {
+                        $("#defaultBairroAvancado").html("Selecione o Bairro");
+                        $("#menuBairroAvancado").html(resposta);
                     }
             );
         });
@@ -243,6 +252,37 @@ function buscarAnuncioUsuario() {
                 $('#load').removeClass("ui active inverted dimmer");
             }, 1000);
         });
+        
+        $("#btnBuscarAnuncioUsuarioAvancado").on('click', function () {
+            $("#load").addClass('ui active inverted dimmer');
+            if ($('#sltTipoImovelAvancado').val() == "") {
+                tipoimovel = "todos"
+            } else {
+                tipoimovel = $('#sltTipoImovelAvancado').val()
+            }
+            ;
+            $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',            
+                tipoImovel: tipoimovel,
+                valor: $('#sltValor').val(),
+                finalidade: $('#sltFinalidadeAvancado').val(),
+                idcidade: $('#sltCidadeAvancado').val(),
+                idbairro: $('#sltBairroAvancado').val(),
+                quarto: $('#sltQuartos').val(),
+                banheiro: $('#sltBanheiros').val(),
+                suite: $('#sltSuites').val(),
+                condicao: $('#sltCondicaoAvancado').val(),
+                unidadesandar: $('#sltUnidadesAndar').val(),
+                area: $('#sltArea').val(),
+                diferencial: $('#carregarDiferenciais').val(),
+                id: $('#hdUsuario').val(),
+                garagem: $('#sltGaragem').val()},function () {
+                $("#load").addClass('ui active inverted dimmer');
+            });
+            setTimeout(function () {
+                $('#load').removeClass("ui active inverted dimmer");
+            }, 1000);
+        });
+        
     });
 }
 
@@ -758,6 +798,9 @@ function carregarDiferencial() {
 function inicio() {
 
     $(document).ready(function () {
+        
+        $('.menu .item').tab();
+        
         $("#divValorVenda").hide();
         $("#divValorAluguel").hide();
         $("#divQuarto").hide();
@@ -772,12 +815,15 @@ function inicio() {
         $("#divDiferencial").hide();
         $("#divGaragem").hide();
         $("#divGaragemAvancado").hide();
+        $("#divAndares").hide();
+        $("#divOutrasCaracteristicas").hide();
 
-        $("#sltFinalidade").change(function () {
+        $("#sltFinalidadeAvancado").change(function () {
             if ($(this).val() == "venda") {
                 $("#divValorInicial").hide();
                 $("#divValorAluguel").hide();
                 $("#divValorVenda").show();
+                
 
             }
             if ($(this).val() == "aluguel") {
@@ -798,7 +844,12 @@ function inicio() {
         $("#sltTipoImovel").change(function () {
 
             switch ($(this).val()) {
-
+                
+                case "":
+                    $("#divGaragem").hide();
+                    $("#divCondicao").hide();
+                    break;
+                
                 case "casa":
                     $("#divGaragem").show();
                     $("#divCondicao").show();
@@ -835,12 +886,38 @@ function inicio() {
 
         $("#sltTipoImovelAvancado").change(function () {
 
-            $('#carregarDiferenciais').dropdown('restore defaults'); //resetar os diferenciais selecionados ao trocar o tipo
-
+            $('#carregarDiferenciais').dropdown('restore defaults'); //resetar os diferenciais selecionados ao trocar o tipo    
+            
             switch ($(this).val()) {
+                
+                case "":
+                  
+                    $("#divValorVenda").hide();
+                    $("#divValorAluguel").hide();
+                    $("#divQuarto").hide();
+                    $("#divCondicao").hide();
+                    $("#divCondicaoAvancado").hide();
+                    $("#divQuarto").hide();
+                    $("#divBanheiro").hide();
+                    $("#divSuite").hide();
+                    $("#divAreaApartamento").hide();
+                    $("#divAreaCasaTerreno").hide();
+                    $("#divUnidadesAndar").hide();
+                    $("#divDiferencial").hide();
+                    $("#divGaragem").hide();
+                    $("#divGaragemAvancado").hide();
+                    $("#divAndares").hide();
+                    $("#divOutrasCaracteristicas").hide();
+                    $("#textoEspecifico").hide();    
+                    $("#tabelaInicioBusca").show();
+                    break;
 
                 case "casa":
-
+                    
+                    $("#tabelaInicioBusca").hide();
+                    $("#divAreaApartamento").hide();
+                    $("#divUnidadesAndar").hide();
+                    $("#divAndares").hide();
                     $("#divQuarto").show();
                     $("#divCondicaoAvancado").show();
                     $("#divGaragemAvancado").show();
@@ -848,13 +925,16 @@ function inicio() {
                     $("#divSuite").show();
                     $("#divAreaCasaTerreno").show();
                     $("#divDiferencial").show();
-                    $("#divAreaApartamento").hide();
-                    $("#divUnidadesAndar").hide();
+                    $("#divOutrasCaracteristicas").show();
+                    $("#textoEspecifico").show();
+                    $("#textoEspecifico").html("<div class='ui teal large label'>Específico da Casa</div>");
                     break;
 
                 case "apartamento":
-
+                    
+                    $("#tabelaInicioBusca").hide();
                     $("#divAreaCasaTerreno").hide();
+                    $("#divAndares").hide();
                     $("#divQuarto").show();
                     $("#divCondicaoAvancado").show();
                     $("#divGaragemAvancado").show();
@@ -863,11 +943,14 @@ function inicio() {
                     $("#divAreaApartamento").show();
                     $("#divUnidadesAndar").show();
                     $("#divDiferencial").show();
-
+                    $("#textoEspecifico").show();
+                    $("#textoEspecifico").html("<div class='ui teal large label'>Específico do Apartamento</div>");
+                    $("#divOutrasCaracteristicas").show();
                     break;
 
                 case "apartamentoplanta":
-
+                    
+                    $("#tabelaInicioBusca").hide();
                     $("#divCondicaoAvancado").hide();
                     $("#divAreaCasaTerreno").hide();
                     $("#divQuarto").show();
@@ -877,25 +960,34 @@ function inicio() {
                     $("#divAreaApartamento").show();
                     $("#divUnidadesAndar").show();
                     $("#divDiferencial").show();
-
+                    $("#divAndares").show();
+                    $("#textoEspecifico").show();
+                    $("#textoEspecifico").html("<div class='ui teal large label'>Específico do Apartamento na Planta</di>");
+                    $("#divOutrasCaracteristicas").show();
                     break;
 
                 case "salacomercial":
-
+                    
+                    $("#tabelaInicioBusca").hide();
                     $("#divQuarto").hide();
                     $("#divSuite").hide();
                     $("#divAreaCasaTerreno").hide();
                     $("#divAreaTerreno").hide();
                     $("#divUnidadesAndar").hide();
+                    $("#divAndares").hide();
                     $("#divAreaApartamento").show();
                     $("#divCondicaoAvancado").show();
                     $("#divGaragemAvancado").show();
                     $("#divBanheiro").show();
-
+                    $("#divDiferencial").show();
+                    $("#textoEspecifico").show();
+                    $("#textoEspecifico").html("<div class='ui teal large label'>Específico da Sala Comercial</div>");
+                    $("#divOutrasCaracteristicas").show();
                     break;
 
                 case "prediocomercial":
-
+                    
+                    $("#tabelaInicioBusca").hide();
                     $("#divQuarto").hide();
                     $("#divCondicaoAvancado").hide();
                     $("#divSuite").hide();
@@ -903,22 +995,27 @@ function inicio() {
                     $("#divUnidadesAndar").hide();
                     $("#divAreaCasaTerreno").hide();
                     $("#divAreaApartamento").hide();
+                    $("#divAndares").hide();                   
+                    $("#textoEspecifico").hide();
+                    $("#divBanheiro").hide();
                     $("#divArea").show();
-                    $("#divBanheiro").show();
-
+                    $("#divDiferencial").show();
+                    $("#divOutrasCaracteristicas").show();
                     break;
 
                 case "terreno":
-
+                    
+                    $("#tabelaInicioBusca").hide();
                     $("#divQuarto").hide();
                     $("#divCondicaoAvancado").hide();
                     $("#divSuite").hide();
                     $("#divGaragemAvancado").hide();
                     $("#divBanheiro").hide();
                     $("#divUnidadesAndar").hide();
+                    $("#divAndares").hide();
                     $("#divAreaApartamento").hide();
                     $("#divAreaCasaTerreno").show();
-
+                    $("#textoEspecifico").hide();
                     break;
             }
 

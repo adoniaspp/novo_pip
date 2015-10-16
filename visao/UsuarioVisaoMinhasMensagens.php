@@ -40,7 +40,7 @@ Sessao::gerarToken();
     
     <div class="row">
     <div class="one column">
-    <table class="ui green table" id="tabela">
+    <table class="ui brown table" id="tabela">
                 <thead>
                     <tr style="border: none !important">
                         <th></th>

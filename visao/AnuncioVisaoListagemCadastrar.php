@@ -31,7 +31,7 @@
 
 <div class="ui middle aligned stackable grid container">
     <div class="row">
-        <table class="ui green stackable table" id="tabela">
+        <table class="ui brown stackable table" id="tabela">
             <thead>
                 <tr>
                     <th class="three wide">Tipo</th>
