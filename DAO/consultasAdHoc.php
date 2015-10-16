@@ -178,7 +178,9 @@ class ConsultasAdHoc extends GenericoDAO {
                         . "LEFT JOIN diferencial as d on imdif.iddiferencial = d.id WHERE idimovel = :idimovel");
                 $sth->bindValue(':idimovel', $idsImoveis[$i]);
                 $sth->execute();
-                $imovel['diferenciais'] = $sth->fetchAll(PDO::FETCH_ASSOC);
+                $imovel['diferenciais'] = $sth->fetchAll(PDO::FETCH_ASSOC);                
+                if (count($imovel['diferenciais']) > 0) {
+                    $resultado['anuncio'][$i]['diferenciais'] = ($imovel['diferenciais']);
 //                if (count($imovel['diferenciais']) > 0) {
 //                    foreach ($imovel['diferenciais'] as $diferenciais){
 //                        $diferenciaisList = $diferenciais['descricao'];
@@ -188,6 +190,7 @@ class ConsultasAdHoc extends GenericoDAO {
 //                    die();
 //                    $resultado['anuncio'][$i]['diferenciais'] = ($imovel['diferenciais']);
 //                }
+                }
             }
 //            echo '<pre>';
 //            print_r($resultado['anuncio']);
