@@ -122,7 +122,7 @@ ON i.idusuario = us.id
 RIGHT JOIN tipoimovel as ti
 ON i.idtipoimovel = ti.id
 RIGHT JOIN prediocomercial as pc
-ON sl.idimovel = i.id
+ON pc.idimovel = i.id
 RIGHT JOIN endereco as en
 ON en.id = i.idendereco
 RIGHT JOIN estado as es
