@@ -4,8 +4,7 @@
 <script src="assets/libs/jquery/jquery.validate.min.js"></script>
 <script src="assets/libs/jquery/jquery.mask.min.js"></script>
 <script src="assets/js/util.validate.js"></script>
-<script src="assets/js/jquery.price_format.min.js"></script>
-<script src="assets/js/mask.js"></script>
+<script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 
@@ -19,7 +18,7 @@
                     <i class="right chevron icon divider"></i>
                     <i class="block layout small icon"></i><a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
                     <i class="right chevron icon divider"></i>
-                    <div class="active section"><i class="home small icon"></i>Imóveis Cadastrados</div>
+                    <div class="active section"><i class="list small icon"></i>Imóveis Cadastrados</div>
                 </div>
             </div>
         </div>

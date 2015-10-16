@@ -28,7 +28,7 @@ class Template {
             } elseif (is_file('visao/' . $visao)) {
                 $this->corpo($visao);
             } else {
-                self::error404();
+                self::error404(false);
             }
             $this->rodape();
         }
@@ -48,8 +48,14 @@ class Template {
         include_once 'assets/html/index.php';
     }
 
-    public static function error404() {
-        include_once 'assets/html/error404.php';
+    public static function error404($carregarCabecalho = true) {
+        if ($carregarCabecalho) {
+            self::cabecalho();
+            include_once 'assets/html/error404.php';
+            self::rodape();
+        } else {
+            include_once 'assets/html/error404.php';
+        }
     }
 
     public function rodape() {

@@ -36,7 +36,7 @@ include_once 'configuracao/Log.php';
 class UsuarioControle {
 
     use Log;
-    
+
     function form($parametros) {
         $visao = new Template();
         switch ($parametros['tipo']) {
@@ -145,13 +145,13 @@ class UsuarioControle {
                     break;
                 }
             }
-            
+
             if ($idEndereco && $idUsuario && $idEmpresa && $resultadoTelefone) {
                 $genericoDAO->commit();
                 $genericoDAO->fecharConexao();
                 $this->log("Término da Operação " . $parametros["hdnEntidade"] . ucfirst($parametros["hdnAcao"]));
                 $visao->setItem("sucessocadastrousuario");
-                $visao->exibir('VisaoErrosGenerico.php');               
+                $visao->exibir('VisaoErrosGenerico.php');
             } else {
                 $genericoDAO->rollback();
                 $genericoDAO->fecharConexao();
@@ -164,18 +164,17 @@ class UsuarioControle {
             $visao->exibir('VisaoErrosGenerico.php');
         }
     }
-    
-    function validarCaptcha($parametros){
-        
+
+    function validarCaptcha($parametros) {
+
         $captcha = new Securimage();
-            
-        if($captcha->check($parametros["captcha_code"])){
+
+        if ($captcha->check($parametros["captcha_code"])) {
             echo "true";
-        } else echo "false";
-        
-        
+        } else
+            echo "false";
     }
-    
+
     function selecionar($parametro) {
         //modelo
         if (Sessao::verificarSessaoUsuario()) {
@@ -332,8 +331,7 @@ class UsuarioControle {
         if (Sessao::verificarToken($parametros)) {
             $usuario = new Usuario();
             $genericoDAO = new GenericoDAO();
-            $selecionarUsuario = $genericoDAO->consultar($usuario, false, array("cpfcnpj" => $parametros['txtCpf']));
-
+            $selecionarUsuario = $genericoDAO->consultar($usuario, false, array("cpfcnpj" => $parametros['txtCPF']));
             if (count($selecionarUsuario) > 0)
                 echo "false";
             else
@@ -349,7 +347,7 @@ class UsuarioControle {
         if (Sessao::verificarToken($parametros)) {
             $usuario = new Usuario();
             $genericoDAO = new GenericoDAO();
-            $selecionarUsuario = $genericoDAO->consultar($usuario, false, array("cpfcnpj" => $parametros['txtCnpj']));
+            $selecionarUsuario = $genericoDAO->consultar($usuario, false, array("cpfcnpj" => $parametros['txtCNPJ']));
 
             if (count($selecionarUsuario) > 0)
                 echo "false";
@@ -364,16 +362,16 @@ class UsuarioControle {
     function autenticar($parametros) {
         $usuario = new Usuario();
         $genericoDAO = new GenericoDAO();
-        $selecionarUsuario = $genericoDAO->consultar($usuario, false, array("login" => $parametros['txtLogin']));       
-            
+        $selecionarUsuario = $genericoDAO->consultar($usuario, false, array("login" => $parametros['txtLogin']));
+
         if ((count($selecionarUsuario) > 0) && (password_verify($parametros['txtSenha'], $selecionarUsuario[0]->getSenha()))) {
             Sessao::configurarSessaoUsuario($selecionarUsuario);
             $redirecionamento = ConsultaUrl::consulta($_SERVER['HTTP_REFERER']);
-            echo json_encode(array("resultado" => 1, "nome" => $_SESSION['nome'], 
+            echo json_encode(array("resultado" => 1, "nome" => $_SESSION['nome'],
                 "redirecionamento" => $redirecionamento));
         } else {
             echo json_encode(array("resultado" => 2)); //usuario ou senha invalido
-        }        
+        }
         $this->log("login");
     }
 
@@ -401,11 +399,11 @@ class UsuarioControle {
             $recuperaSenha = new RecuperaSenha();
             $genericoDAO = new GenericoDAO();
             $genericoDAO->iniciarTransacao();
-            
+
             $avisoRecuperaSenha = false;
-            $selecionarUsuario = $genericoDAO->consultar($usuario, false, array("email" => $parametros['txtEmail']));           
-            
-           if ($selecionarUsuario) {
+            $selecionarUsuario = $genericoDAO->consultar($usuario, false, array("email" => $parametros['txtEmail']));
+
+            if ($selecionarUsuario) {
                 $consultasAdHoc = new ConsultasAdHoc();
                 $selecionarRegistroRecuperaSenha = $consultasAdHoc->ConsultarRegistroAtivoDeRecuperarSenha($selecionarUsuario[0]->getId());
                 if ($selecionarRegistroRecuperaSenha) {
@@ -421,7 +419,7 @@ class UsuarioControle {
                 $recuperasenha = new RecuperaSenha();
                 $entidadeRecuperaSenha = $recuperasenha->cadastrar($selecionarUsuario[0]->getId());
                 $idResuperaSenha = $genericoDAO->cadastrar($entidadeRecuperaSenha);
-                if ($idResuperaSenha){
+                if ($idResuperaSenha) {
                     //enviar email
                     $dadosEmail['destino'] = $selecionarUsuario[0]->getEmail(); //$parametros["email"];  
                     $dadosEmail['nome'] = $selecionarUsuario[0]->getNome(); //$parametros["nome"];
@@ -453,7 +451,7 @@ class UsuarioControle {
                     echo json_encode(array("resultado" => 4));
                 }
             } else { //email não encontrado
-               echo json_encode(array("resultado" => 0));
+                echo json_encode(array("resultado" => 0));
             }
         } else { //erro de sessão do token - 005
             echo json_encode(array("resultado" => 5));
@@ -476,21 +474,19 @@ class UsuarioControle {
             if ($resultadoUsuario && $resultadoAlterarSenha) {
                 $genericoDAO->commit();
                 $genericoDAO->fecharConexao();
-                 echo json_encode(array("resultado" => 1));
+                echo json_encode(array("resultado" => 1));
             } else {
-                
+
                 $genericoDAO->rollback();
                 $genericoDAO->fecharConexao();
-                 echo json_encode(array("resultado" => 0)); //erro de banco de dados - 000
+                echo json_encode(array("resultado" => 0)); //erro de banco de dados - 000
             }
         } else {
             echo json_encode(array("resultado" => 5)); //erro de sessão do token - 005
-            
         }
     }
 
     function trocarSenha($parametros) { //Usuário Deseja Alterar Senha
-
         $visao = new Template();
         if (Sessao::verificarToken($parametros)) {
 
@@ -578,7 +574,7 @@ class UsuarioControle {
     }
 
     public function responderMensagem($parametros) {
-        
+
         $genericoDAO = new GenericoDAO();
         $genericoDAO->iniciarTransacao();
         $respostaMensagem = new RespostaMensagem();
@@ -586,26 +582,26 @@ class UsuarioControle {
         $entidadeRespostaMensagem = $respostaMensagem->cadastrar($parametros);
 
         $resultadoRespostaMensagem = $genericoDAO->cadastrar($entidadeRespostaMensagem);
-        
+
         $entidadeMensagem = $genericoDAO->consultar(new Mensagem(), true, array("id" => $_SESSION["mensagem"][$parametros["hdnMensagem"]]));
-        
+
         $entidadeMensagem = $entidadeMensagem[0];
-        
+
         $entidadeMensagem->setStatus("RESPONDIDO"); //alterar o status da mensagem para Respondido
-        
+
         $statusRespondido = $genericoDAO->editar($entidadeMensagem);
 
         if ($resultadoRespostaMensagem && $statusRespondido) {
-            
+
             //Enviar email para o usuário
             $selecionarMensagem = $genericoDAO->consultar(new Mensagem(), false, array("id" => $entidadeRespostaMensagem->getIdMensagem()));
-            
+
             $selecionarAnuncio = $genericoDAO->consultar(new Anuncio(), false, array("id" => $selecionarMensagem[0]->getIdAnuncio()));
             $dadosEmail['destino'] = $selecionarMensagem[0]->getEmail(); //$parametros["email"];  
             $dadosEmail['nome'] = $selecionarMensagem[0]->getNome(); //$parametros["nome"]; 
-            $dadosEmail['msg'] = "O vendedor respondeu sua mensagem: <br><br>Resposta: ".$parametros["txtResposta"]."<br><br>Este é um e-mail automático. Favor, não responder";
+            $dadosEmail['msg'] = "O vendedor respondeu sua mensagem: <br><br>Resposta: " . $parametros["txtResposta"] . "<br><br>Este é um e-mail automático. Favor, não responder";
             $dadosEmail['contato'] = $_SESSION["nome"];
-            $dadosEmail['assunto'] = "PIP Online - Resposta do vendedor sobre o anuncio ".$selecionarAnuncio[0]->getTituloAnuncio();
+            $dadosEmail['assunto'] = "PIP Online - Resposta do vendedor sobre o anuncio " . $selecionarAnuncio[0]->getTituloAnuncio();
             if (Email::enviarEmail($dadosEmail)) {
                 $genericoDAO->commit();
                 $genericoDAO->fecharConexao();
@@ -639,7 +635,6 @@ class UsuarioControle {
         $genericoDAO->commit();
         $genericoDAO->fecharConexao();
         echo json_encode(array("resultado" => 1));
-
     }
 
     public function lerMensagem($parametros) {

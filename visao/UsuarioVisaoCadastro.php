@@ -52,13 +52,13 @@ Sessao::gerarToken();
                     </div>
                     <div class="twelve wide required field">
                         <label>E-mail</label>
-                        <input type="text" name="txtEmail" id="txtEmail" placeholder="Informe seu e-mail">
+                        <input type="text" name="txtEmail" id="txtEmail" placeholder="Informe seu e-mail" maxlength="100">
                     </div>
                 </div>
                 <div id="linhaPF" class="two fields">
                     <div class="required field">
                         <label>Nome Completo</label>
-                        <input type="text" name="txtNome" id="txtNome" placeholder="Informe o seu nome">
+                        <input type="text" name="txtNome" id="txtNome" placeholder="Informe o seu nome" maxlength="100">
                     </div>
                     <div class="required field">
                         <label>CPF</label>
@@ -68,7 +68,7 @@ Sessao::gerarToken();
                 <div id="linhaPJ1" class="two fields">
                     <div class="required field">
                         <label>Nome da Empresa</label>
-                        <input type="text" name="txtNomeEmpresa" id="txtNomeEmpresa" placeholder="Informe o Nome da Empresa">
+                        <input type="text" name="txtNomeEmpresa" id="txtNomeEmpresa" placeholder="Informe o Nome da Empresa" maxlength="100">
                     </div>
                     <div class="required field">
                         <label>CNPJ</label>
@@ -78,11 +78,11 @@ Sessao::gerarToken();
                 <div id="linhaPJ2" class="three fields">
                     <div class="required field">
                         <label>Razão Social</label>
-                        <input type="text" name="txtRazaoSocial" id="txtRazaoSocial" placeholder="Informe a Razão Social da Empresa">
+                        <input type="text" name="txtRazaoSocial" id="txtRazaoSocial" placeholder="Informe a Razão Social da Empresa" maxlength="100">
                     </div>
                     <div class="required field">
                         <label>Responsável</label>
-                        <input type="text" name="txtResponsavel" id="txtResponsavel" placeholder="Informe o Responsável da Empresa">
+                        <input type="text" name="txtResponsavel" id="txtResponsavel" placeholder="Informe o Responsável da Empresa" maxlength="100">
                     </div>                    
                     <div class="required field">
                         <label>CPF do Responsável</label>
@@ -126,7 +126,7 @@ Sessao::gerarToken();
                     <div class="five wide field"><div id="msgCEP"></div> </div>
                 </div>
                 <div id="divCEP" class="ui">
-                    <div class="three fields">
+                    <div class="three disabled fields">
                         <div class="field">
                             <label>Cidade</label>
                             <input type="text" name="txtCidade" id="txtCidade" readonly="readonly">
@@ -141,12 +141,12 @@ Sessao::gerarToken();
                         </div>
                     </div>
                     <div class="two fields">
-                        <div class="field">
+                        <div class="disabled field">
                             <label>Logradouro</label>
                             <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly">
                         </div>
                         <div class="three wide required field">
-                            <label>Número</label>
+                            <label>Número </label>
                             <input type="text" name="txtNumero" id="txtNumero" placeholder="Informe o nº" maxlength="6">
                         </div>
                         <div class="field">
@@ -184,7 +184,7 @@ Sessao::gerarToken();
                         </div>
                     </div>
                     <div class="four wide required field">
-                        <label>Número</label>
+                        <label>(DDD) Número</label>
                         <input type="text" name="txtTel" id="txtTel" placeholder="Informe o Número">
                     </div>
                     <div class="center aligned column">
@@ -237,7 +237,7 @@ Sessao::gerarToken();
                 <h3 class="ui dividing header"></h3>
                 
                 <button class="ui blue button" type="button" id="btnRegistrar">Registrar Agora</button>
-                <button class="ui orange button" id="btnCancelar">Cancelar</button>
+                <button class="ui orange button" type="button" id="btnCancelar">Cancelar</button>
             </form>
         </div>
     </div>
@@ -255,7 +255,7 @@ Sessao::gerarToken();
         </div>
     </div>
     <div class="actions">
-        <div class="ui red button">
+        <div class="ui red deny button">
             Não
         </div>
         <div class="ui positive right labeled icon button">

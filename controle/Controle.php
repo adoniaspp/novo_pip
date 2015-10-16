@@ -29,7 +29,11 @@ class Controle {
                     include_once ($entidade . "Controle.php");
                     $classe = $entidade . "Controle";
                     $controle = new $classe;
-                    $contexto = $controle->$acao($parametros);
+                    if (method_exists($controle, $acao)) {
+                        $contexto = $controle->$acao($parametros);
+                    } else {
+                        Template::error404();
+                    }
                 } else {
                     Template::error404();
                 }

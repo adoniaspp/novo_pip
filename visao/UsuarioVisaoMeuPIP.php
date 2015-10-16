@@ -88,7 +88,7 @@ foreach ($imoveis as $qtdAnuncios){
         </a>
         <a href="index.php?entidade=Anuncio&acao=buscarAnuncioCorretor&login=<?php echo $_SESSION["login"]?>"  class="spaced"> 
             <div type="button"  class="ui blue button">
-                <i class="square outline icon"></i> Visualizar Minha Página
+                <i class="newspaper icon"></i> Visualizar Minha Página
             </div>
         </a>
     </div>

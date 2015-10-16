@@ -1,5 +1,5 @@
 function cadastrarUsuario() {
-    $(document).ready(function() {
+    $(document).ready(function () {
         /*inicialização da página*/
         $("#sltTipoUsuario").val(''); //limpar o valor do tipo de usuario que foi submetido
         $("#linhaPF").hide();
@@ -9,12 +9,12 @@ function cadastrarUsuario() {
         $("#tabelaTelefone").hide();
         $('.ui.dropdown')
                 .dropdown({
-            on: 'hover'
-        });
+                    on: 'hover'
+                });
         $("#sltTipoUsuario").parent().dropdown('restore defaults');
         $('.ui.checkbox').checkbox();
         /*eventos e acoes*/
-        $("#sltTipoUsuario").change(function() {
+        $("#sltTipoUsuario").change(function () {
             $(this).valid();
             if ($(this).val() == "pj") {
                 $("#linhaPF").hide();
@@ -40,7 +40,7 @@ function cadastrarUsuario() {
                                 }
                             }
                 });
-                
+
                 $("#txtRazaoSocial").rules("add", {
                     required: true,
                 });
@@ -81,7 +81,7 @@ function cadastrarUsuario() {
             }
         })
         /*validações*/
-        $.validator.addMethod('filesize', function(value, element, param) {
+        $.validator.addMethod('filesize', function (value, element, param) {
             // param = size (en bytes) 
             // element = element to validate (<input>)
             // value = value of the element (file name)
@@ -91,17 +91,17 @@ function cadastrarUsuario() {
             ignore: [],
             errorClass: 'errorField',
             errorElement: 'div',
-            errorPlacement: function(error, element) {
+            errorPlacement: function (error, element) {
                 error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
             },
-            highlight: function(element, errorClass, validClass) {
+            highlight: function (element, errorClass, validClass) {
                 $(element).closest("div.field").addClass("error").removeClass("success");
             },
-            unhighlight: function(element, errorClass, validClass) {
+            unhighlight: function (element, errorClass, validClass) {
                 $(element).closest(".error").removeClass("error").addClass("success");
             }
         });
-       
+
         $.validator.messages.required = 'Campo obrigatório';
         $('#form').validate({
             onkeyup: false,
@@ -180,10 +180,10 @@ function cadastrarUsuario() {
                 },
             },
             messages: {
-                txtCpf: {
+                txtCPF: {
                     remote: "CPF já utilizado"
                 },
-                txtCnpj: {
+                txtCNPJ: {
                     remote: "CNPJ já utilizado"
                 },
                 txtEmail: {
@@ -215,7 +215,7 @@ function cadastrarUsuario() {
                     remote: "Código Inválido"
                 },
             },
-            submitHandler: function(form) {
+            submitHandler: function (form) {
                 form.submit();
             }
         });
@@ -230,7 +230,7 @@ function validarTelefone() {
 }
 
 function excluirTelefone(element) {
-    $(document).ready(function() {
+    $(document).ready(function () {
         element.parent().parent().remove();
         if ($("input[name='hdnTelefone[]'").length === 0)
             $("#tabelaTelefone").hide();
@@ -238,18 +238,100 @@ function excluirTelefone(element) {
 }
 
 function mascarasFormUsuario() {
-    $(document).ready(function() {
+    $(document).ready(function () {
         $("#txtCPF").mask('000.000.000-00', {reverse: false});
         $("#txtCNPJ").mask("00.000.000/0000-00");
         $("#txtCEP").mask("00.000-000");
         $("#txtCPFResponsavel").mask('000.000.000-00', {reverse: false});
         $("#txtTel").mask('(00) 0000-0000');
+        
+        $('#txtEmail').maxlength({
+            threshold: 50,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+
+        $('#txtNome').maxlength({
+            threshold: 50,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+
+        $('#txtNomeEmpresa').maxlength({
+            threshold: 50,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+
+        $('#txtRazaoSocial').maxlength({
+            threshold: 50,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+
+        $('#txtResponsavel').maxlength({
+            threshold: 50,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+
+
+        $('#txtLogin').maxlength({
+            alwaysShow: true,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+
+        $('#txtSenha').maxlength({
+            alwaysShow: true,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+
+        $('#txtConfirmarSenha').maxlength({
+            alwaysShow: true,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+
     })
 }
 
 function acoesCEP() {
-    $(document).ready(function() {
-        
+    $(document).ready(function () {
+
         $('#txtNumero').maxlength({
             alwaysShow: true,
             threshold: 6,
@@ -260,7 +342,7 @@ function acoesCEP() {
             postText: ' caracteres permitidos.',
             validate: true
         });
-        
+
         $('#txtComplemento').maxlength({
             alwaysShow: true,
             threshold: 60,
@@ -271,30 +353,32 @@ function acoesCEP() {
             postText: ' caracteres permitidos.',
             validate: true
         });
-        
-        $("#btnCEP").click(function() {
+
+        $("#btnCEP").click(function () {
             buscarCep();
         });
-        $("#txtCEP").blur(function() {
+        $("#txtCEP").blur(function () {
             buscarCep();
         });
     })
 }
 
 function cancelar(entidade, acao) {
-    $(document).ready(function() {
+    $(document).ready(function () {
 
-        $('#btnCancelar').click(function() {
+        $('#btnCancelar').click(function () {
             $('#modalCancelar').modal({
                 closable: true,
                 transition: "fade up",
-                onDeny: function() {
+                onDeny: function () {
                     return true;
                 },
-                onApprove: function() {
-                    if (entidade === "" && acao === ""){
-                        location.href = "index.php";}
-                    else location.href = "index.php?entidade="+entidade+"&acao="+acao;
+                onApprove: function () {
+                    if (entidade === "" && acao === "") {
+                        location.href = "index.php";
+                    }
+                    else
+                        location.href = "index.php?entidade=" + entidade + "&acao=" + acao;
                 }
             }).modal('show');
         })
@@ -302,19 +386,19 @@ function cancelar(entidade, acao) {
 }
 
 function confirmar() {
-    $(document).ready(function() {
-        
+    $(document).ready(function () {
+
         /*$('#btnCancelar').click(function() {
-            $('#modalCancelar').modal({
-                            closable: true,
-                            transition: "fade up",
-                            onDeny: function() {
-                                return true;
-                            }
-            })
-        });*/
-        
-        $('#btnRegistrar').click(function() {
+         $('#modalCancelar').modal({
+         closable: true,
+         transition: "fade up",
+         onDeny: function() {
+         return true;
+         }
+         })
+         });*/
+
+        $('#btnRegistrar').click(function () {
             validarTelefone();
             if ($("#form").valid()) {
                 if (typeof ($("input[name^=hdnTipoTelefone]").val()) == "undefined") {
@@ -331,10 +415,10 @@ function confirmar() {
                     $('#modalConfirmar').modal({
                         closable: true,
                         transition: "fade up",
-                        onDeny: function() {
+                        onDeny: function () {
                             return true;
                         },
-                        onApprove: function() {
+                        onApprove: function () {
                             $("#form").submit();
                         }
                     }).modal('show');
@@ -352,7 +436,7 @@ function confirmar() {
 }
 
 function carregaDadosModal($div) {
-    $(document).ready(function() {
+    $(document).ready(function () {
         $div.html("");
         if ($("#sltTipoUsuario").val() === "pf")
         {
@@ -368,15 +452,15 @@ function carregaDadosModal($div) {
                                 </div>\n\
                                 <div class='item'>\n\
                                   <div class='content'>\n\
-                                    <div class='header'>CPF</div>" + $("#txtCPF").val() +"</div>\n\
+                                    <div class='header'>CPF</div>" + $("#txtCPF").val() + "</div>\n\
                                 </div>");
             /*if (jQuery.type($("#txtCPF").val()) !== "undefined") {
-                $div.append("<div class='item'>\n\
-                                      <div class='content'>\n\
-                                        <div class='header'>CPF</div>" 
-                                        + $("#txtCPF").val() + "</div>\n\
-                                 </div>");
-            }*/
+             $div.append("<div class='item'>\n\
+             <div class='content'>\n\
+             <div class='header'>CPF</div>" 
+             + $("#txtCPF").val() + "</div>\n\
+             </div>");
+             }*/
             $div.append("</div>");
         } else {
             $div.append("<div class='ui horizontal list'>\n\
@@ -395,133 +479,133 @@ function carregaDadosModal($div) {
                                 </div>\n\
                                 <div class='item'>\n\
                                   <div class='content'>\n\
-                                    <div class='header'>Responsavel</div>\n\
-                                    "+ $('#txtResponsavel').val() +"\n\
+                                    <div class='header'>Responsável</div>\n\
+                                    " + $('#txtResponsavel').val() + "\n\
                                 </div></div>\n\
                                 <div class='item'>\n\
                                   <div class='content'>\n\
                                     <div class='header'>CPF do Responsável</div>\n\
-                                    "+ $("#txtCPFResponsavel").val() + "</div>\n\
+                                    " + $("#txtCPFResponsavel").val() + "</div>\n\
                                 </div>\n\
                                 <div class='item'>\n\
                                   <div class='content'>\n\
                                     <div class='header'>Razão Social</div>\n\
-                                    "+ $("#txtRazaoSocial").val() + "</div>\n\
+                                    " + $("#txtRazaoSocial").val() + "</div>\n\
                                 </div>\n\
                         </div>");
             /*if (jQuery.type($("#txtCNPJ").val()) !== "undefined") {
-                $div.append("<div class='item'>\n\
-                                  <div class='content'>\n\
-                                    <div class='header'>CNPJ</div>" + $("#txtCNPJ").val() + "</div>\n\
-                             </div>");
-                $div.append("</div>");
-            //}
-            $div.append("<div class='ui horizontal list'>\n\
-                                <div class='item'>\n\
-                                  <div class='content'>\n\
-                                    <div class='header'>Responsavel</div>\n\
-                                    "+ $('#txtResponsavel').val() +"\n\
-                                </div></div>\n\
-                                <div class='item'>\n\
-                                  <div class='content'>\n\
-                                    <div class='header'>CPF do Responsável</div>\n\
-                                    "+ $("#txtCPFResponsavel").val() + "</div>\n\
-                                </div>\n\
-                                <div class='item'>\n\
-                                  <div class='content'>\n\
-                                    <div class='header'>Razão Social</div>\n\
-                                    "+ $("#txtRazaoSocial").val() + "</div>\n\
-                                </div>\n\
-                         </div>");*/
-           /* $div.append("Tipo de Pessoa: " + "Jurídica" + "<br />");
-            $div.append("Empresa: " + $("#txtNomeEmpresa").val() + "<br />");
-            if (jQuery.type($("#txtCNPJ").val()) !== "undefined") {
-                $div.append("CNPJ: " + $("#txtCNPJ").val() + "<br />");
-            }
-            $div.append("Responsável: " + $("#txtResponsavel").val() + "<br />");
-            $div.append("CPF do Responsável: " + $("#txtCPFResponsavel").val() + "<br />");
-            $div.append("Razão Social: " + $("#txtRazaoSocial").val() + "<br />");*/
+             $div.append("<div class='item'>\n\
+             <div class='content'>\n\
+             <div class='header'>CNPJ</div>" + $("#txtCNPJ").val() + "</div>\n\
+             </div>");
+             $div.append("</div>");
+             //}
+             $div.append("<div class='ui horizontal list'>\n\
+             <div class='item'>\n\
+             <div class='content'>\n\
+             <div class='header'>Responsavel</div>\n\
+             "+ $('#txtResponsavel').val() +"\n\
+             </div></div>\n\
+             <div class='item'>\n\
+             <div class='content'>\n\
+             <div class='header'>CPF do Responsável</div>\n\
+             "+ $("#txtCPFResponsavel").val() + "</div>\n\
+             </div>\n\
+             <div class='item'>\n\
+             <div class='content'>\n\
+             <div class='header'>Razão Social</div>\n\
+             "+ $("#txtRazaoSocial").val() + "</div>\n\
+             </div>\n\
+             </div>");*/
+            /* $div.append("Tipo de Pessoa: " + "Jurídica" + "<br />");
+             $div.append("Empresa: " + $("#txtNomeEmpresa").val() + "<br />");
+             if (jQuery.type($("#txtCNPJ").val()) !== "undefined") {
+             $div.append("CNPJ: " + $("#txtCNPJ").val() + "<br />");
+             }
+             $div.append("Responsável: " + $("#txtResponsavel").val() + "<br />");
+             $div.append("CPF do Responsável: " + $("#txtCPFResponsavel").val() + "<br />");
+             $div.append("Razão Social: " + $("#txtRazaoSocial").val() + "<br />");*/
         }
         if (jQuery.type($("#txtLogin").val()) !== "undefined") {
             $div.append("<div class='ui horizontal list'>\n\
                                 <div class='item'>\n\
                                   <div class='content'>\n\
                                     <div class='header'>Login</div>\n\
-                                    "+ $('#txtLogin').val() +"\n\
+                                    " + $('#txtLogin').val() + "\n\
                                 </div></div>\n\
                         </div>");
         }
-        
+
         $div.append("<div class='ui dividing header'></div>\n\
                      <div class='ui horizontal list'>\n\
                                 <div class='item'>\n\
                                   <div class='content'>\n\
                                     <div class='header'>Email</div>" + $("#txtEmail").val() + "</div>\n\
                                 </div>\n\
-                     </div></div>");            
-                
-        
-        
-        
-        
+                     </div></div>");
+
+
+
+
+
         $div.append("<div class='ui hidden divider'></div>\n\
                         <div class='ui horizontal list'>\n\
                             <div class='item'><div class='content'>\n\
                             <div class='header'>Telefone(s)</div></div>\n\
                             </div></div>");
 
-        
 
-        var linhas = "";                        
-        for(var valor = 0; valor < $("input[name^='hdnTipoTelefone']").length; valor++){
-            
-        var tipo = $($("input[name^='hdnTipoTelefone']")[valor]).val();
-        var operadora = $($("input[name^='hdnOperadora']")[valor]).val();
-        var numero = $($("input[name^='hdnTelefone']")[valor]).val();
-        
-        linhas = linhas + "<tr><td>"+tipo+"</td><td>"+operadora+"</td><td>"+numero+"</td></tr>";
+
+        var linhas = "";
+        for (var valor = 0; valor < $("input[name^='hdnTipoTelefone']").length; valor++) {
+
+            var tipo = $($("input[name^='hdnTipoTelefone']")[valor]).val();
+            var operadora = $($("input[name^='hdnOperadora']")[valor]).val();
+            var numero = $($("input[name^='hdnTelefone']")[valor]).val();
+
+            linhas = linhas + "<tr><td>" + tipo + "</td><td>" + operadora + "</td><td>" + numero + "</td></tr>";
         }
         $div.append("<table class='ui table'>\n\
                         <thead><tr>\n\
-                        <th>Tipo Telefone</th>\n\
+                        <th>Tipo</th>\n\
                         <th>Operadora</th>\n\
                         <th>Número</th> \n\
                         </tr>\n\
                         </thead> \n\
                     <tbody>" + linhas + "</tbody></table>");
 
-                    var endereco;
-                    if($("#txtNumero").val() !== "" && $("#txtComplemento").val() !== ""){
-                    endereco = $("#txtLogradouro").val() + ", "+$("#txtNumero").val()+", "+$("#txtComplemento").val();
-                    }
-                    
-                    else if($("#txtNumero").val() !== "" && $("#txtComplemento").val() === ""){
-                    endereco = $("#txtLogradouro").val() + ", "+$("#txtNumero").val();
-                    }
-                    
-                    else if($("#txtNumero").val() === "" && $("#txtComplemento").val() === ""){
-                     endereco = $("#txtLogradouro").val();                 
-                    }
-                    
-                    else if($("#txtNumero").val() === "" && $("#txtComplemento").val() !== ""){
-                    endereco = $("#txtLogradouro").val() + ", "+$("#txtComplemento").val();
-                    }
-        
+        var endereco;
+        if ($("#txtNumero").val() !== "" && $("#txtComplemento").val() !== "") {
+            endereco = $("#txtLogradouro").val() + ", " + $("#txtNumero").val() + ", " + $("#txtComplemento").val();
+        }
+
+        else if ($("#txtNumero").val() !== "" && $("#txtComplemento").val() === "") {
+            endereco = $("#txtLogradouro").val() + ", " + $("#txtNumero").val();
+        }
+
+        else if ($("#txtNumero").val() === "" && $("#txtComplemento").val() === "") {
+            endereco = $("#txtLogradouro").val();
+        }
+
+        else if ($("#txtNumero").val() === "" && $("#txtComplemento").val() !== "") {
+            endereco = $("#txtLogradouro").val() + ", " + $("#txtComplemento").val();
+        }
+
         $div.append("<div class='ui dividing header'></div>\n\
                      <div class='ui horizontal list'>\n\
                                 <div class='item'>\n\
                                   <div class='content'>\n\
                                     <div class='header'>Endereço</div>" + endereco + "</div>\n\
                      </div></div>");
-        
-      /*  $div.append("Logradouro: " + $("#txtLogradouro").val() + "<br />");
-        $div.append("Número: " + $("#txtNumero").val() + "<br />");
-        $div.append("Complemento: " + $("#txtComplemento").val() + "<br />");
-        $div.append("Bairro: " + $("#txtBairro").val() + "<br />");
-        $div.append("Cidade: " + $("#txtCidade").val() + "<br />");
-        $div.append("Estado: " + $("#txtEstado").val() + "<br />");
-        $div.append("CEP: " + $("#txtCEP").val() + "<br />");*/
-        
+
+        /*  $div.append("Logradouro: " + $("#txtLogradouro").val() + "<br />");
+         $div.append("Número: " + $("#txtNumero").val() + "<br />");
+         $div.append("Complemento: " + $("#txtComplemento").val() + "<br />");
+         $div.append("Bairro: " + $("#txtBairro").val() + "<br />");
+         $div.append("Cidade: " + $("#txtCidade").val() + "<br />");
+         $div.append("Estado: " + $("#txtEstado").val() + "<br />");
+         $div.append("CEP: " + $("#txtCEP").val() + "<br />");*/
+
     })
 }
 
@@ -537,7 +621,7 @@ function buscarCep() {
                 hdnEntidade: "Endereco",
                 hdnAcao: "buscarCEP"
             },
-            beforeSend: function() {
+            beforeSend: function () {
                 $("#msgCEP").html('');
                 $("#divCEP").hide(); //oculta campos do DIVCEP
                 $("#msgCEP").append(criarAlerta("orange", "<i class=\"spinner loading icon\"></i>...aguarde buscando CEP..."));
@@ -549,7 +633,7 @@ function buscarCep() {
                 $('#txtLogradouro').val('');
                 $('#hdnCEP').val('');
             },
-            success: function(resposta) {
+            success: function (resposta) {
                 $("#msgCEP").html('');
                 if (resposta.resultado == 0) {
                     $("#msgCEP").append(criarAlerta("red", "<i class=\"red warning sign icon\"></i> N&atilde;o localizamos o CEP informado."));
@@ -569,8 +653,8 @@ function buscarCep() {
     }
 }
 
-function buscarEmail() { 
-    
+function buscarEmail() {
+
     $(document).ready(function () {
 
         $.validator.setDefaults({
@@ -615,7 +699,7 @@ function buscarEmail() {
                     },
                     success: function (resposta) {
                         $("#divRetorno").empty();
-                        
+
                         if (resposta.resultado == 0) {
                             $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
                             <p>E-mail informado n&atilde;o encontrado. Faça seu cadastro!</p>');
@@ -627,15 +711,15 @@ function buscarEmail() {
                         } else if (resposta.resultado == 2) {
                             $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
     <p>Erro ao processar requisição - 002</p>');
-                        } 
-                          else if (resposta.resultado == 3) {
+                        }
+                        else if (resposta.resultado == 3) {
                             $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
     <p>Erro ao enviar email. Tente novamente em alguns minutos.</p>');
                         }
-                          else if (resposta.resultado == 4) {
+                        else if (resposta.resultado == 4) {
                             $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
     <p>Erro ao processar requisição - 004.</p>');
-                        }else {
+                        } else {
                             $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
     <p>Erro ao processar requisição - 005</p>');
                         }
@@ -655,11 +739,11 @@ function criarAlerta(tipo, mensagem) {
     return divAlerta;
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
     var fileExtentionRange = '.jpg .jpeg .png .gif';
     var MAX_SIZE = 3; // MB
 
-    $(document).on('change', '.btn-file :file', function() {
+    $(document).on('change', '.btn-file :file', function () {
         var input = $(this);
         if (navigator.appVersion.indexOf("MSIE") != -1) { // IE
             var label = input.val();
@@ -672,9 +756,9 @@ $(document).ready(function() {
         }
     });
 
-    $('.btn-file :file').on('fileselect', function(event, numFiles, label, size) {
+    $('.btn-file :file').on('fileselect', function (event, numFiles, label, size) {
         $('#attachmentName').attr('name', 'attachmentName'); // allow upload.
-        
+
         var postfix = label.substr(label.lastIndexOf('.'));
         if (fileExtentionRange.indexOf(postfix.toLowerCase()) > -1) {
             if (size > 1024 * 1024 * MAX_SIZE) {
@@ -689,9 +773,9 @@ $(document).ready(function() {
                 oFReader.readAsDataURL(document.getElementById("attachmentName").files[0]);
 
                 oFReader.onload = function (oFREvent) {
-                document.getElementById("uploadPreview").src = oFREvent.target.result;
+                    document.getElementById("uploadPreview").src = oFREvent.target.result;
                 };
-                
+
             }
         } else {
             alert('Tipo de arquivo inválido. São aceitos os tipos：' + fileExtentionRange);
@@ -699,14 +783,14 @@ $(document).ready(function() {
             $("#uploadPreview").attr("src", "../assets/imagens/foto_padrao.png");
             $('#attachmentName').removeAttr('name'); // cancel upload file.
         }
-        
+
     });
 
 });
 
 function trocarSenha() { //alterar a senha esquecida
-    $(document).ready(function() {
-        $("#btnAlterarSenha").click(function() {
+    $(document).ready(function () {
+        $("#btnAlterarSenha").click(function () {
             if ($("#form").valid()) {
                 if (($("input[name^=txtSenhaAtual]").val()) === ($("input[name^=txtSenhaNova]").val())) {
                     $('#modalSenha').modal({
@@ -721,13 +805,13 @@ function trocarSenha() { //alterar a senha esquecida
             ignore: [],
             errorClass: 'errorField',
             errorElement: 'div',
-            errorPlacement: function(error, element) {
+            errorPlacement: function (error, element) {
                 error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
             },
-            highlight: function(element, errorClass, validClass) {
+            highlight: function (element, errorClass, validClass) {
                 $(element).closest("div.field").addClass("error").removeClass("success");
             },
-            unhighlight: function(element, errorClass, validClass) {
+            unhighlight: function (element, errorClass, validClass) {
                 $(element).closest(".error").removeClass("error").addClass("success");
             }
         });
@@ -754,19 +838,19 @@ function trocarSenha() { //alterar a senha esquecida
                     equalTo: "Por Favor digite a nova senha novamente"
                 }
             },
-            submitHandler: function(form) {
-               
+            submitHandler: function (form) {
+
                 $.ajax({
                     url: "index.php",
                     dataType: "json",
                     type: "POST",
                     data: $('#form').serialize(),
-                    beforeSend: function () {                     
+                    beforeSend: function () {
                         $("#divRetorno").html("<div><div class='ui active inverted dimmer'><div class='ui text loader'>Processando. Aguarde...</div></div></div>");
                     },
                     success: function (resposta) {
                         $("#divRetorno").empty();
-                        
+
                         if (resposta.resultado == 0) {
                             $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
                             <p>Erro ao processar requisição. Tente novamente em alguns minutos - 000</p>');
@@ -781,7 +865,7 @@ function trocarSenha() { //alterar a senha esquecida
                         } else if (resposta.resultado == 3) {
                             $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
     <p>Erro ao processar requisição - 005</p>');
-                        } 
+                        }
                     }
                 })
                 return false;
@@ -791,27 +875,27 @@ function trocarSenha() { //alterar a senha esquecida
 }
 
 function trocarImagem() {
-    $(document).ready(function() {
-        $("#btnAlterarImagem").click(function() {
+    $(document).ready(function () {
+        $("#btnAlterarImagem").click(function () {
             if ($("#form").valid()) {
                 $("#form").submit();
             }
         });
-        $("#btnExcluirImagem").click(function() {
+        $("#btnExcluirImagem").click(function () {
             $('#modalExcluir').modal({
                 closable: true,
                 transition: "fade up",
-                onDeny: function() {
+                onDeny: function () {
                     return true;
                 },
-                onApprove: function() {
+                onApprove: function () {
                     $("#hdnExcluir").val(1);
                     $("#arquivolabel").rules("remove");
                     $("#form").submit();
                 }
             }).modal('show');
         });
-        $.validator.addMethod('filesize', function(value, element, param) {
+        $.validator.addMethod('filesize', function (value, element, param) {
             // param = size (en bytes) 
             // element = element to validate (<input>)
             // value = value of the element (file name)
@@ -821,13 +905,13 @@ function trocarImagem() {
             ignore: [],
             errorClass: 'errorField',
             errorElement: 'div',
-            errorPlacement: function(error, element) {
+            errorPlacement: function (error, element) {
                 error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
             },
-            highlight: function(element, errorClass, validClass) {
+            highlight: function (element, errorClass, validClass) {
                 $(element).closest("div.field").addClass("error").removeClass("success");
             },
-            unhighlight: function(element, errorClass, validClass) {
+            unhighlight: function (element, errorClass, validClass) {
                 $(element).closest(".error").removeClass("error").addClass("success");
             }
         });
@@ -840,7 +924,7 @@ function trocarImagem() {
                     required: true
                 }
             },
-            submitHandler: function(form) {
+            submitHandler: function (form) {
                 form.submit();
             }
         });
@@ -848,13 +932,13 @@ function trocarImagem() {
 }
 
 function esqueciSenha() {
-    $(document).ready(function() {
-        $("#btnEnviar").click(function() {
+    $(document).ready(function () {
+        $("#btnEnviar").click(function () {
             if ($("#form").valid()) {
                 $("#form").submit();
             }
         });
-        
+
         $('#txtEmail').maxlength({
             alwaysShow: true,
             threshold: 50,
@@ -865,18 +949,18 @@ function esqueciSenha() {
             postText: ' caracteres permitidos.',
             validate: true
         });
-        
+
         $.validator.setDefaults({
             ignore: [],
             errorClass: 'errorField',
             errorElement: 'div',
-            errorPlacement: function(error, element) {
+            errorPlacement: function (error, element) {
                 error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
             },
-            highlight: function(element, errorClass, validClass) {
+            highlight: function (element, errorClass, validClass) {
                 $(element).closest("div.field").addClass("error").removeClass("success");
             },
-            unhighlight: function(element, errorClass, validClass) {
+            unhighlight: function (element, errorClass, validClass) {
                 $(element).closest(".error").removeClass("error").addClass("success");
             }
         });
@@ -895,7 +979,7 @@ function esqueciSenha() {
                     email: "Informe um email válido"
                 }
             },
-            submitHandler: function(form) {
+            submitHandler: function (form) {
                 form.submit();
             }
         });
@@ -905,17 +989,17 @@ function esqueciSenha() {
 }
 
 function alterarSenha() { //alterar a senha esquecida
-    $(document).ready(function() {
-        
+    $(document).ready(function () {
+
         $('#modalCancelar').modal({
-                closable: false,
-                transition: "fade up",
-                onDeny: function () {
-                    return true
-                }                
-        }) 
-        
-        $("#btnAlterar").click(function() {
+            closable: false,
+            transition: "fade up",
+            onDeny: function () {
+                return true
+            }
+        })
+
+        $("#btnAlterar").click(function () {
             if ($("#form").valid()) {
                 $("#form").submit();
             }
@@ -925,13 +1009,13 @@ function alterarSenha() { //alterar a senha esquecida
             ignore: [],
             errorClass: 'errorField',
             errorElement: 'div',
-            errorPlacement: function(error, element) {
+            errorPlacement: function (error, element) {
                 error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
             },
-            highlight: function(element, errorClass, validClass) {
+            highlight: function (element, errorClass, validClass) {
                 $(element).closest("div.field").addClass("error").removeClass("success");
             },
-            unhighlight: function(element, errorClass, validClass) {
+            unhighlight: function (element, errorClass, validClass) {
                 $(element).closest(".error").removeClass("error").addClass("success");
             }
         });
@@ -957,8 +1041,8 @@ function alterarSenha() { //alterar a senha esquecida
                     equalTo: "Por Favor digite a senha novamente"
                 }
             },
-            submitHandler: function() {
-               
+            submitHandler: function () {
+
                 $.ajax({
                     url: "index.php",
                     dataType: "json",
@@ -966,12 +1050,12 @@ function alterarSenha() { //alterar a senha esquecida
                     data: $('#form').serialize(),
                     beforeSend: function () {
                         $("#divBotoesAlterarSenha").hide();
-                        $("#divCamposAlterarSenha").hide();                       
+                        $("#divCamposAlterarSenha").hide();
                         $("#divRetorno").html("<div><div class='ui active inverted dimmer'><div class='ui text loader'>Processando. Aguarde...</div></div></div>");
                     },
                     success: function (resposta) {
                         $("#divRetorno").empty();
-                        
+
                         if (resposta.resultado == 0) {
                             $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
                             <p>Erro ao processar requisição. Tente novamente em alguns minutos - 000</p>');
@@ -993,10 +1077,10 @@ function alterarSenha() { //alterar a senha esquecida
     });
 }
 
-function fazerLogin() { 
-    $(document).ready(function() {
+function fazerLogin() {
+    $(document).ready(function () {
         $("#divUsuario").hide();
-        $("#btnLogin").click(function() {
+        $("#btnLogin").click(function () {
             if ($("#form").valid()) {
                 $("#form").submit();
             }
@@ -1006,13 +1090,13 @@ function fazerLogin() {
             ignore: [],
             errorClass: 'errorField',
             errorElement: 'div',
-            errorPlacement: function(error, element) {
+            errorPlacement: function (error, element) {
                 error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
             },
-            highlight: function(element, errorClass, validClass) {
+            highlight: function (element, errorClass, validClass) {
                 $(element).closest("div.field").addClass("error").removeClass("success");
             },
-            unhighlight: function(element, errorClass, validClass) {
+            unhighlight: function (element, errorClass, validClass) {
                 $(element).closest(".error").removeClass("error").addClass("success");
             }
         });
@@ -1040,28 +1124,28 @@ function fazerLogin() {
                     minlength: "Login deve possuir no mínimo 2 caracteres"
                 }
             },
-            submitHandler: function() {
-               
+            submitHandler: function () {
+
                 $.ajax({
                     url: "index.php",
                     dataType: "json",
                     type: "POST",
                     data: $('#form').serialize(),
-                    beforeSend: function () {                            
+                    beforeSend: function () {
                         $("#divRetorno").html("<div><div class='ui active inverted dimmer'>\n\
                         <div class='ui text loader'>Processando. Aguarde...</div></div></div>");
                     },
                     success: function (resposta) {
-                        
+
                         $("#divRetorno").empty();
-                        
-                        if (resposta.resultado == 1) {       
+
+                        if (resposta.resultado == 1) {
                             $("#divLoginCadastro").hide();
-                            $("#divUsuario").show();                           
+                            $("#divUsuario").show();
                             location.href = resposta.redirecionamento;
                         } else if (resposta.resultado == 2) {
                             $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-                            <p>Usuário ou Senha inválido</p>');                           
+                            <p>Usuário ou Senha inválido</p>');
                         }
                     }
                 })
@@ -1072,29 +1156,28 @@ function fazerLogin() {
 }
 
 function alterarUsuario() {
-    $(document).ready(function() {
-        
+    $(document).ready(function () {
+
         $('#modalConfirmar').modal({
-                closable: true,
-                transition: "fade up",
-                onDeny: function () {
-                    return true;
-                },
-                
-        })       
+            closable: true,
+            transition: "fade up",
+            onDeny: function () {
+                return true;
+            },
+        })
 
         /*validações*/
         $.validator.setDefaults({
             ignore: [],
             errorClass: 'errorField',
             errorElement: 'div',
-            errorPlacement: function(error, element) {
+            errorPlacement: function (error, element) {
                 error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
             },
-            highlight: function(element, errorClass, validClass) {
+            highlight: function (element, errorClass, validClass) {
                 $(element).closest("div.field").addClass("error").removeClass("success");
             },
-            unhighlight: function(element, errorClass, validClass) {
+            unhighlight: function (element, errorClass, validClass) {
                 $(element).closest(".error").removeClass("error").addClass("success");
             }
         });
@@ -1131,15 +1214,15 @@ function alterarUsuario() {
                     email: "Informe um email válido"
                 }
             },
-            submitHandler: function(form) {
+            submitHandler: function (form) {
                 form.submit();
             }
         });
         /*inicialização da página*/
         $('.ui.dropdown')
                 .dropdown({
-            on: 'hover'
-        });
+                    on: 'hover'
+                });
         if ($('#sltTipoUsuario').val() === "pf") {
             $("#linhaPJ1").hide();
             $("#linhaPJ2").hide();
@@ -1171,9 +1254,9 @@ function alterarUsuario() {
 }
 
 function telefone() {
-    $(document).ready(function() {
-        $("#btnAdicionarTelefone").click(function() {
-            $("#txtTel").rules("add", {
+    $(document).ready(function () {
+        $("#btnAdicionarTelefone").click(function () {
+            $("#sltTipotelefone").rules("add", {
                 required: true,
                 messages: {
                     required: "Campo obrigatório",
@@ -1185,12 +1268,25 @@ function telefone() {
                     required: "Campo obrigatório",
                 }
             });
-            $("#sltTipotelefone").rules("add", {
-                required: true,
-                messages: {
-                    required: "Campo obrigatório",
-                }
-            });
+            if ($("#sltTipotelefone").val() == "Fixo") {
+                $("#txtTel").rules("add", {
+                    required: true,
+                    minlength: 14,
+                    messages: {
+                        required: "Campo obrigatório",
+                        minlength: "Informe todos os números do telefone"
+                    }
+                });
+            } else {
+                $("#txtTel").rules("add", {
+                    required: true,
+                    minlength: 15,
+                    messages: {
+                        required: "Campo obrigatório",
+                        minlength: "Informe todos os números do telefone"
+                    }
+                });
+            }
             if (validarTelefone()) {
                 $("#dadosTelefone").append(
                         "<tr><td> <input type='hidden' id='hdnTipoTelefone[]' name='hdnTipoTelefone[]' value='" + $("#sltTipotelefone").val() + "'>" + $("#sltTipotelefone").val() + "</td>" +
@@ -1204,7 +1300,7 @@ function telefone() {
             $("#sltOperadora").rules("remove");
             $("#sltTipotelefone").rules("remove");
         });
-        $("#sltTipotelefone").change(function() {
+        $("#sltTipotelefone").change(function () {
             $("#txtTel").unmask();
             if ($(this).val() == "Fixo") {
                 $("#txtTel").mask('(00) 0000-0000');

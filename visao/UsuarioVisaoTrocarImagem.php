@@ -21,11 +21,13 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
     <div class="ui page grid main">
         <div class="column">
             <div class="ui large breadcrumb">
-                <a class="section" href="index.php">Início</a>
-                <i class="right chevron icon divider"></i>
-                <a class="section" href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
-                <i class="right chevron icon divider"></i>
-                <a class="active section">Alterar Imagem</a>
+                <div class="ui large breadcrumb">
+                    <a class="section" href="index.php">Início</a>
+                    <i class="right chevron icon divider"></i>
+                    <i class="block layout small icon"></i><a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
+                    <i class="right chevron icon divider"></i>
+                    <div class="active section"> <i class="small photo icon"></i>Alterar Imagem</div>
+                </div>
             </div>
         </div>
     </div>
@@ -66,7 +68,7 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
                 </div>
                 <div class="ui hidden  divider"></div>
                 <button class="ui blue button" type="button" id="btnAlterarImagem" disabled="disabled">Alterar Imagem!</button>
-                <button class="ui orange button" id="btnCancelar">Cancelar</button>
+                <button class="ui orange button" type="button" id="btnCancelar">Cancelar</button>
                 <button class="ui red button" id="btnExcluirImagem">Excluir Imagem</button>
                 <div class="ui hidden divider"></div>
             </form>

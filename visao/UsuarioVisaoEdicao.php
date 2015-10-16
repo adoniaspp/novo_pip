@@ -26,14 +26,21 @@ if ($item) {
             <div class="ui page grid main">
                 <div class="column">
                     <div class="ui large breadcrumb">
-                        <a class="section" href="index.php">Início</a>
-                        <i class="right chevron icon divider"></i>
-                        <a class="section" href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
-                        <i class="right chevron icon divider"></i>
-                        <a class="active section">Atualizar Cadastro</a>
+                        <div class="ui large breadcrumb">
+                            <a class="section" href="index.php">Início</a>
+                            <i class="right chevron icon divider"></i>
+                            <i class="block layout small icon"></i><a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
+                            <i class="right chevron icon divider"></i>
+                            <div class="active section"> 
+                                <i class="small icons">
+                                    <i class="user icon"></i>
+                                    <i class="corner write icon"></i>
+                                </i>Atualizar Cadastro</div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </div>            
+            
             <div class="ui hidden divider"></div>
             <div class="ui page grid main">
                 <div class="column">
@@ -55,13 +62,13 @@ if ($item) {
                             </div>
                             <div class="twelve wide required field">
                                 <label>E-mail</label>
-                                <input type="text" name="txtEmail" id="txtEmail" placeholder="Informe seu e-mail" value="<?php echo $usuario->getEmail() ?>">
+                                <input type="text" name="txtEmail" id="txtEmail" placeholder="Informe seu e-mail" value="<?php echo $usuario->getEmail() ?>" maxlength="100">
                             </div>
                         </div>
                         <div id="linhaPF" class="two fields">
                             <div class="required field">
                                 <label>Nome Completo</label>
-                                <input type="text" name="txtNome" id="txtNome" placeholder="Informe o seu nome" value="<?php echo $usuario->getNome() ?>">
+                                <input type="text" name="txtNome" id="txtNome" placeholder="Informe o seu nome" value="<?php echo $usuario->getNome() ?>" maxlength="100">
                             </div>
                             <div class="field">
                                 <label>CPF</label>
@@ -77,7 +84,7 @@ if ($item) {
                         <div id="linhaPJ1" class="two fields">
                             <div class="required field">
                                 <label>Nome da Empresa</label>
-                                <input type="text" name="txtNomeEmpresa" id="txtNomeEmpresa" placeholder="Informe o Nome da Empresa" value="<?php echo $usuario->getNome() ?>">
+                                <input type="text" name="txtNomeEmpresa" id="txtNomeEmpresa" placeholder="Informe o Nome da Empresa" value="<?php echo $usuario->getNome() ?>" maxlength="100">
                             </div>
                             <div class="field">
                                 <label>CNPJ</label>
@@ -94,7 +101,7 @@ if ($item) {
                                 if ($usuario->getTipousuario() == "pj") {
                                     echo $usuario->getEmpresa()->getRazaosocial();
                                 }
-                                ?>">
+                                ?>" maxlength="100">
                             </div>
                             <div class="required field">
                                 <label>Responsável</label>
@@ -102,7 +109,7 @@ if ($item) {
                                 if ($usuario->getTipousuario() == "pj") {
                                     echo $usuario->getEmpresa()->getResponsavel();
                                 }
-                                ?>">
+                                ?>" maxlength="100">
                             </div>                    
                             <div class="required field">
                                 <label>CPF do Responsável</label>
@@ -127,7 +134,7 @@ if ($item) {
                         <div class="five wide field"><div id="msgCEP"></div> </div>
                         </div>
                         <div id="divCEP" class="ui">
-                            <div class="three fields">
+                            <div class="three disabled fields">
                                 <div class="field">
                                     <label>Cidade</label>
                                     <input type="text" name="txtCidade" id="txtCidade" readonly="readonly" value="<?php echo $usuario->getEndereco()->getCidade()->getNome(); ?>">
@@ -142,7 +149,7 @@ if ($item) {
                                 </div>
                             </div>
                             <div class="two fields">
-                                <div class="field">
+                                <div class="disabled field">
                                     <label>Logradouro</label>
                                     <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly" value="<?php echo $usuario->getEndereco()->getLogradouro() ?>">
                                 </div>
@@ -225,7 +232,7 @@ if ($item) {
                             </tbody>
                         </table>
                         <button class="ui blue button" type="button" id="btnRegistrar">Atualizar</button>
-                        <button class="ui orange button" id="btnCancelar">Cancelar</button>
+                        <button class="ui orange button" type="button" id="btnCancelar">Cancelar</button>
                     </form>
                 </div>
             </div>

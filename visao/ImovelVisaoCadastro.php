@@ -7,8 +7,8 @@
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 <script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
 <script>
-    
-    cadastrarImovel();  
+
+    cadastrarImovel();
     esconderCamposInicio();
     mascarasFormUsuario();
     cancelar("Usuario", "meuPIP"); //caso estejam os dois parametros vazios, redirecionar para o index
@@ -16,7 +16,7 @@
     confirmarCadastroImovel();
     buscarCep();
     preco();
-    
+
 </script>
 
 <?php
@@ -26,20 +26,26 @@ Sessao::gerarToken();
 <div class="container">
     <div class="ui hidden divider"></div>
     <div class="ui page grid main">
-        <div class="column">          
+        <div class="column">
             <div class="ui large breadcrumb">
-                <a class="section" href="index.php">Início</a>
-                <i class="right chevron icon divider"></i>
-                <a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
-                <i class="right chevron icon divider"></i>
-                <a class="active section">Cadastrar Imóvel</a>
+                <div class="ui large breadcrumb">
+                    <a class="section" href="index.php">Início</a>
+                    <i class="right chevron icon divider"></i>
+                    <i class="block layout small icon"></i><a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
+                    <i class="right chevron icon divider"></i>
+                    <div class="active section"> 
+                        <i class="small icons">
+                            <i class="home icon"></i>
+                            <i class="corner add icon"></i>
+                        </i>Cadastrar Imóvel</div>
+                </div>
             </div>
         </div>
     </div>
     <div class="ui hidden divider"></div>
     <div class="ui page grid main">
         <div class="column">
-                <form id="form" class="ui form" action="index.php" method="post">
+            <form id="form" class="ui form" action="index.php" method="post">
                 <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Imovel"  />
                 <input type="hidden" id="hdnAcao" name="hdnAcao" value="cadastrar" />
                 <input type="hidden" id="hdnCEP" name="hdnCEP" />
@@ -62,71 +68,71 @@ Sessao::gerarToken();
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="four wide required field" id="divCondicao">
-                            <label>Condição</label>
-                            <div class="ui selection dropdown">
-                                <input type="hidden" name="sltCondicao" id="sltCondicao">
-                                <div class="default text">Condição</div>
-                                <i class="dropdown icon"></i>
-                                <div class="menu">
-                                    <div class="item" data-value="novo">Novo</div>
-                                    <div class="item" data-value="usado">Usado</div>
-                                </div>
+                        <label>Condição</label>
+                        <div class="ui selection dropdown">
+                            <input type="hidden" name="sltCondicao" id="sltCondicao">
+                            <div class="default text">Condição</div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <div class="item" data-value="novo">Novo</div>
+                                <div class="item" data-value="usado">Usado</div>
                             </div>
+                        </div>
                     </div>   
-                    
-                        <div class="three wide required field" id="divNumeroPlantas">
-                            <label>Número de Plantas</label>
-                            <div class="ui selection dropdown">
-                                <input type="hidden" name="sltNumeroPlantas" id="sltNumeroPlantas">
-                                <div class="default text">Número de Plantas</div>
-                                <i class="dropdown icon"></i>
-                                <div class="menu">
-                                    <?php 
-                                    for($plantas = 1; $plantas <=6; $plantas++){
-                                    echo "<div class='item' data-value='$plantas'>".$plantas."</div>";
-                                    }
-                                    ?>
-                                </div>
+
+                    <div class="three wide required field" id="divNumeroPlantas">
+                        <label>Número de Plantas</label>
+                        <div class="ui selection dropdown">
+                            <input type="hidden" name="sltNumeroPlantas" id="sltNumeroPlantas">
+                            <div class="default text">Número de Plantas</div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <?php
+                                for ($plantas = 1; $plantas <= 6; $plantas++) {
+                                    echo "<div class='item' data-value='$plantas'>" . $plantas . "</div>";
+                                }
+                                ?>
                             </div>
-                            
                         </div>
-                    
-                       <div id="divArea" class="three wide field">
-                                    <div class="field">
-                                        <label>Área(m2)</label>
-                                        <input type="text" name="txtArea" id="txtArea" placeholder="Informe a Área" maxlength="7">
-                                    </div>                                     
-                        </div>
-                   
-                </div>
-                <div class="fields" id="divPlantaUm"></div>
-                
-                <div class="row">
-                <div class="fields" id="divInfoApeCasa">
+
+                    </div>
+
+                    <div id="divArea" class="three wide field">
+                        <div class="field">
+                            <label>Área(m<sup>2</sup>)</label>
+                            <input type="text" name="txtArea" id="txtArea" placeholder="Informe a Área" maxlength="7">
+                        </div>                                     
+                    </div>
 
                 </div>
+                <div class="fields" id="divPlantaUm"></div>
+
+                <div class="row">
+                    <div class="fields" id="divInfoApeCasa">
+
+                    </div>
                 </div>
-                
+
                 <div class="fields">                
-                <div id="divInserePlanta">
-                    <span id="a"></span>
-                    <div class="exemplo"></div>
+                    <div id="divInserePlanta">
+                        <span id="a"></span>
+                        <div class="exemplo"></div>
+                    </div>
                 </div>
-                </div>
-                
+
                 <div class="one field" id="divDescricao">
                     <div class="field">
-                        <label>Identificar Este Imóvel Como:</label>
-                        <textarea maxlength="200" id="txtDescricao" name="txtIdentificacao" class="form-control" rows="2" cols="8"></textarea>
+                        <label>Identificar este imóvel como:</label>
+                        <textarea maxlength="200" id="txtDescricao" name="txtIdentificacao" rows="2" cols="8"></textarea>
                     </div>                    
                 </div>
-                
-                
-                
+
+
+
                 <div class="fields" id="divApartamento">
-                    
+
                     <div class="two required field" id="divAndares">
                         <label>Nº de Andares do Prédio</label>
                         <div class="ui selection dropdown">
@@ -134,32 +140,32 @@ Sessao::gerarToken();
                             <div class="default text">Andares</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
-                                <?php 
-                                for($andares = 1; $andares <=40; $andares++){
-                                echo "<div class='item' data-value='".$andares."'>".$andares."</div>";
+                                <?php
+                                for ($andares = 1; $andares <= 40; $andares++) {
+                                    echo "<div class='item' data-value='" . $andares . "'>" . $andares . "</div>";
                                 }
                                 ?>
                             </div>
                         </div>
                     </div> 
-                    
-                                        
+
+
                     <div class="two field" id="divUnidadesAndar">
                         <label>Unidades por Andar</label>
                         <div class="ui selection dropdown">
                             <input type="hidden" name="sltUnidadesAndar" id="sltUnidadesAndar">
-                            <div class="default text">Numero de Aptos</div>
+                            <div class="default text">Número de Aptos</div>
                             <i class="dropdown icon"></i>
                             <div class="menu" id="sltUnidadesAndar">
-                                <?php 
-                                for($unidadesAndar = 1; $unidadesAndar <=10; $unidadesAndar++){
-                                echo "<div class='item' data-value='".$unidadesAndar."'>".$unidadesAndar."</div>";
+                                <?php
+                                for ($unidadesAndar = 1; $unidadesAndar <= 10; $unidadesAndar++) {
+                                    echo "<div class='item' data-value='" . $unidadesAndar . "'>" . $unidadesAndar . "</div>";
                                 }
                                 ?>
                             </div>
                         </div>
                     </div>                    
-                    
+
                     <div class="two field" id="divNumeroTorres">
                         <label>Nº de Torres</label>
                         <div class="ui selection dropdown">
@@ -167,15 +173,15 @@ Sessao::gerarToken();
                             <div class="default text">Torres</div>
                             <i class="dropdown icon"></i>
                             <div class="menu" id="sltNumeroTorres">
-                                <?php 
-                                for($torres = 1; $torres <=10; $torres++){
-                                echo "<div class='item' data-value='".$torres."'>".$torres."</div>";
+                                <?php
+                                for ($torres = 1; $torres <= 10; $torres++) {
+                                    echo "<div class='item' data-value='" . $torres . "'>" . $torres . "</div>";
                                 }
                                 ?>
                             </div>
                         </div>
                     </div>   
-                    
+
                     <div class="two field" id="divAndar">
                         <label>Andar do Apartamento</label>
                         <div class="ui selection dropdown">
@@ -183,40 +189,40 @@ Sessao::gerarToken();
                             <div class="default text">Andar</div>
                             <i class="dropdown icon"></i>
                             <div class="menu" id="sltAndar">
-                                <?php 
-                                for($andar = 1; $andar <=40; $andar++){
-                                echo "<div class='item' data-value='".$andar."'>".$andar."</div>";
+                                <?php
+                                for ($andar = 1; $andar <= 40; $andar++) {
+                                    echo "<div class='item' data-value='" . $andar . "'>" . $andar . "</div>";
                                 }
                                 ?>
                             </div>
                         </div>
                     </div> 
-                    
+
                     <div class="three wide field" id="divUnidadesTotal">
-                    <div class="field">
-                        <label>Total de Unidades</label>                       
-                        <input type="text" name="txtTotalUnidades" id="txtTotalUnidades" placeholder="Total de Apartamentos" maxlength="3">
+                        <div class="field">
+                            <label>Total de Unidades</label>                       
+                            <input type="text" name="txtTotalUnidades" id="txtTotalUnidades" placeholder="Total de Apartamentos" maxlength="3">
                         </div>
                     </div>
-                    
+
                     <div id="divCondominio" class="one field">
-                    <div class=" field">
-                        <label>Condominio(R$)</label>
-                        <input type="text" name="txtCondominio" id="txtCondominio" placeholder="Valor do Condominio">
-                    </div>                                     
+                        <div class=" field">
+                            <label>Condominio(R$)</label>
+                            <input type="text" name="txtCondominio" id="txtCondominio" placeholder="Valor do Condominio">
+                        </div>                                     
                     </div>
-                    
+
                     <div class="ui checkbox" id="chkCobertura">
                         <input type="checkbox" name="chkCobertura" value="chkCobertura">
-                            <label>Está na Cobertura</label>
+                        <label>Está na Cobertura</label>
                     </div>
-                    
+
                     <div class="ui checkbox" id="chkSacada">
                         <input type="checkbox" name="chkSacada" value="chkSacada">
-                            <label>Possui Sacada</label>
+                        <label>Possui Sacada</label>
                     </div>
-                    
-                    
+
+
                 </div>
 
                 <div class="ui hidden divider"></div>
@@ -227,11 +233,11 @@ Sessao::gerarToken();
                     </div>
 
                 </div>       
-                
+
                 <div class="ui hidden divider"></div>
-                
+
                 <div id="divEndereco">
-                
+
                     <h3 class="ui dividing header">Endereço</h3>
 
                     <div class="fields">
@@ -248,7 +254,7 @@ Sessao::gerarToken();
 
 
                     <div id="divCEP" class="ui">
-                        <div class="three fields">
+                        <div class="three disabled fields">
                             <div class="field">
                                 <label>Cidade</label>
                                 <input type="text" name="txtCidade" id="txtCidade" readonly="readonly">
@@ -263,7 +269,7 @@ Sessao::gerarToken();
                             </div>
                         </div>
                         <div class="two fields">
-                            <div class="field">
+                            <div class="disabled field">
                                 <label>Logradouro</label>
                                 <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly">
                             </div>
@@ -277,13 +283,13 @@ Sessao::gerarToken();
                             </div>
                         </div>
                     </div>
-                
+
                 </div>
-                
+
                 <h3 class="ui dividing header">Confirmação de Cadastro</h3>
 
                 <a href='#' <button class="ui blue submit button" type="submit" id="btnCadastrar">Cadastrar</button> </a>
-                <button class="ui orange button" id="btnCancelar">Cancelar</button>
+                <button class="ui orange button" type="button" id="btnCancelar">Cancelar</button>
             </form>
         </div>
     </div>
@@ -337,5 +343,5 @@ Sessao::gerarToken();
 <script>
 
 
-    
+
 </script>
