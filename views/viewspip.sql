@@ -106,6 +106,33 @@ RIGHT JOIN bairro as b
 ON b.id = en.idbairro
 WHERE a.status = 'cadastrado';
 
+CREATE VIEW buscaAnuncioPredioComercial AS
+/*Imóvel - Ap*/
+SELECT a.id as idanuncio, a.finalidade, a.tituloanuncio, a.descricaoanuncio, 
+a.status, a.publicarmapa, a.publicarcontato, a.valormin, a.datahoracadastro,
+i.id as idimovel, i.condicao,
+ti.descricao as tipo,
+pc.area,
+en.cep, en.logradouro, en.numero, b.id as idbairro, b.nome as bairro, ci.id as idcidade, ci.nome as cidade, es.id as idestado, es.nome as estado, en.complemento,
+us.id, us.nome, us.tipousuario, us.email, us.foto
+FROM anuncio AS a RIGHT JOIN imovel as i
+ON a.idimovel = i.id
+LEFT JOIN usuario as us
+ON i.idusuario = us.id
+RIGHT JOIN tipoimovel as ti
+ON i.idtipoimovel = ti.id
+RIGHT JOIN prediocomercial as pc
+ON sl.idimovel = i.id
+RIGHT JOIN endereco as en
+ON en.id = i.idendereco
+RIGHT JOIN estado as es
+ON es.id = en.idestado
+RIGHT JOIN cidade as ci
+ON ci.id = en.idcidade
+RIGHT JOIN bairro as b
+ON b.id = en.idbairro
+WHERE a.status = 'cadastrado';
+
 CREATE VIEW buscaAnuncioTerreno AS
 /*Imóvel - Terreno*/
 SELECT a.id as idanuncio, a.finalidade, a.tituloanuncio, a.descricaoanuncio, a.datahoracadastro,
