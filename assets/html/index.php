@@ -10,15 +10,13 @@
 
 </script>
 
-<div class="ui hidden divider"></div>
-    
-    <div class="ui form" id="divBusca">
+<div class="ui form" id="divBusca">
        
         <div class="ui hidden divider"></div>
                                
             <div class="ui top attached tabular menu">
-                <a class="active item" data-tab="basico">Busca Básica</a>
-                <a class="item" data-tab="avancado">Busca Avançada</a>
+                <a class="active item" data-tab="basico"><i class="search icon"></i>Busca Básica</a>
+                <a class="item" data-tab="avancado"><i class="search icon"></i>Busca Avançada</a>
             </div>
             
             <div class="ui bottom attached active tab segment" data-tab="basico">
@@ -48,7 +46,7 @@
                         </div>
                     
                         <div class="five field">
-                        <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeFinalidade2.jpg">
+                        <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeFinalidade.jpg">
                         <label>Finalidade</label>
                         <div class="ui selection dropdown">
                             <input type="hidden" name="sltFinalidade" id="sltFinalidade">
@@ -158,7 +156,7 @@
                         </div>
                     </div>
                     <div class="five field">
-                        <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeFinalidade2.jpg">
+                        <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeFinalidade.jpg">
                         <label>Finalidade</label>
                         <div class="ui selection dropdown">
                             <input type="hidden" name="sltFinalidadeAvancado" id="sltFinalidadeAvancado">
@@ -179,7 +177,7 @@
                             <div class="default text">Cidade</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
-                                <div class="item" data-value="">Todas</div>
+                                <div class="item" data-value="">Todas as Cidades</div>
                                 <div class="item" data-value="1">Belém</div>
                                 <div class="item" data-value="2">Ananindeua</div>
                                 <div class="item" data-value="3">Marituba</div>
@@ -303,7 +301,7 @@
                     </div>
                     
                     <div class="five field" id="divUnidadesAndar">
-                        <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeAptoPorAndar.jpg">
+                        <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeAptoAndar.jpg">
                         <label>Apartamentos por Andar</label>
                         <div class="ui selection dropdown">
                             <input type="hidden" name="sltUnidadesAndar" id="sltUnidadesAndar">
@@ -476,8 +474,8 @@
 
     </div>
 
+<div class="ui hidden divider"></div>
 
-<div class="ui center aligned column page grid"></div>
 <div id="divOrdenacao" class="ui center aligned basic segment">
     <input type="hidden" id="hdnOrdTipoImovel" name="hdnOrdTipoImovel"/>
     <input type="hidden" id="hdnOrdValor" name="hdnOrdValor"/>
@@ -500,7 +498,63 @@
     </div>
 </div>
 
-<div class="ui red segment" id="divAnuncios"></div>
+<div class="ui basic segment" id="divAnuncios"></div>
+
+<div class="ui hidden divider"></div>
+<div class="ui divider"></div>
+<div class="ui hidden divider"></div>
+
+<div class="ui center aligned grid">
+      <div class="column"><i class="teal big help icon"></i>COMO FUNCIONA</div>
+  </div>
+
+<div class="ui center aligned equal width grid">
+  <div class="column"><i class="teal big add user icon"></i>1 - FAÇA SEU CADASTRO PARA ANUNCIAR
+      <br>
+      Cadastre seus dados (Nome, Endereço, Tipo de Pessoa, Telefone, Email, etc) e escolha um login
+      para ser sua identificação no PIP On-Line (Ex: www.piponline.com.br/joaosilva1980)
+  </div>
+  <div class="column"><i class="teal big edit icon"></i>2 - CADASTRE SEU IMÓVEL (Casa, Apartamentos, etc.)
+      <br>
+      Cadastre as características do imóvel (quartos, banheiros, garagens, área, etc).
+  </div>
+  <div class="column"><i class="teal big add to cart icon"></i>3 - COMPRE O ANUNCIO
+      <br>
+      Após cadastrar o imóvel, compre o anuncio para divulgar seu produto, escolhendo o melhor
+      para sua necessidade (1 mês de divulgação no site, 2 meses, etc.)
+  </div>
+</div>  
+
+<div class="ui hidden divider"></div>
+<div class="ui divider"></div>
+<div class="ui hidden divider"></div>
+
+<div class="ui center aligned grid">
+  <div class="column"><i class="teal big list icon"></i>VANTAGENS DO PIP-ONLINE</div>
+</div>
+
+<div class="ui left aligned equal width grid">
+  <div class="column">
+      <div class="ui bulleted list">
+        <div class="item">Cadastre vários imóveis e escolha quais anunciar </div>
+        <div class="item">Enviar anuncios por e-mail</div>
+        <div class="item">Envie dúvidas sobre os anuncios</div>
+        <div class="item">É vendedor? você tem sua área específica, bastando digitar seu login na barra de endereços</div>
+      </div>
+  </div>
+    <div class="column">
+      <div class="ui bulleted list">
+        <div class="item">Busca completa, inclusive na área do vendedor</div>
+        <div class="item">Reative anuncios expirados, sem necessidade de recadastrar o imóvel</div>
+        <div class="item">Compatível com dispositivos móveis (celular e tablet)</div>
+        <div class="item">Quer saber mais detalhes sobre mais vantagens? clique AQUI</div>
+      </div>  
+    </div>
+</div>
+      
+<div class="ui hidden divider"></div>
+<div class="ui divider"></div>
+<div class="ui hidden divider"></div>
 
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
 
