@@ -13,6 +13,7 @@ function listagemPlano() {
             if (parseInt(plano) > 0) {
                 $("#form").submit();
             } else {
+                alert("Escolha pelo menos um plano");
                 return false;
             }
         })

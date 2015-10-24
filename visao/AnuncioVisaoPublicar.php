@@ -314,7 +314,7 @@ if ($item) {
                     Ver detalhes
                 </div>
             </div>
-            <div class="ui animated fade orange button" id="btnAnterior1">
+            <div class="ui animated fade brown button" id="btnAnterior1">
                 <div class="visible content"><i class="arrow left icon"></i></div>
                 <div class="hidden content">
                     Anterior
@@ -464,7 +464,7 @@ if ($item) {
                             <input type="file" id="arquivo" name="files[]" multiple style="display: none">Adicionar fotos</label>
                     </div>
                     <button type="submit" class="ui blue button start">
-                        <i class="ui upload icon"></i>Enviar fotos
+                        <i class="ui upload icon"></i>Enviar tods as fotos
                     </button>
                     <button type="reset" class="ui yellow button cancel">
                         <i class="ui ban icon"></i>Cancelar o envio de todas
@@ -637,8 +637,8 @@ if ($item) {
 <div class="ui middle aligned stackable grid container">
     <div class="row">
         <div class="ui basic center aligned segment">
-            <div class="ui orange button" id="btnAnterior2"><i class="arrow left icon"></i> Anterior</div>
-            <div class="ui button" id="btnCancelar">Cancelar</div>
+            <div class="ui brown button" id="btnAnterior2"><i class="arrow left icon"></i> Anterior</div>
+            <div class="ui orange button" id="btnCancelar">Cancelar</div>
             <div class="ui blue button" id="btnProximo2">Próximo <i class="arrow right icon"></i></div>
         </div>
     </div>

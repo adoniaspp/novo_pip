@@ -16,71 +16,64 @@
         <script type="text/javascript" src="assets/js/cabecalho.js"></script>
         <script type="text/javascript" src="assets/libs/timeout-dialog/timeout-dialog.js"></script>
     </head>
+    <body>
 
-    <script>
-        $(document).ready(function () {
-<?php if (Sessao::verificarSessaoUsuario()) { ?>
-                exibirMeuPIP("SIM", "<?php echo ucfirst(strtolower(explode(" ", $_SESSION['nome'])[0])); ?>");
-                logout();
-<?php } else { ?>
-                exibirMeuPIP("NAO", "");
-<?php } ?>
-        })
-    </script>
+        <?php if (Sessao::verificarSessaoUsuario()) { ?>
+            <script>
+                $(document).ready(function () {
+                    logout();
+                })
+            </script>
+        <?php } ?>
 
-    <div class="container">  
-        <nav class="ui menu inverted navbar page grid" style="background-color: #ffffff" style="margin-bottom:300px">
-            <a href="<?php echo PIPURL; ?>/index.php"> <img src="<?php echo PIPURL; ?>/assets/imagens/logo.png" width="120px"/></a>
-
-            <div id="loginCadastro">
-                <div class="ui menu">
-                    <div class="item">
-                        <a href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=form&tipo=login"><div class="ui primary button" id="btnAcessar">LOGIN</div></a>
-                    </div>
-                    <div class="item">
-                        <a href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=form&tipo=cadastro"<div class="ui button">CADASTRAR-SE</div></a>
-                    </div>
+        <div class="ui container"> 
+            <div class="ui basic clearing segment">
+                <div class="ui left floated header">
+                    <a href="<?php echo PIPURL; ?>/index.php"> 
+                        <img  class="ui left floated  image"  src="<?php echo PIPURL; ?>/assets/imagens/logo.png" width="120px"/>
                 </div>
-            </div>
 
-            <div id="divUsuario" class="right menu hide" style="margin-left:800px; margin-top: -80px" style="display: none">
-                <form>
-                    <div class="ui center aligned compact segment" style="margin-bottom: 10px">
-                        <div id="divNome" style="margin-bottom: -10px"> </div>
-                        <div>
-                            <a href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=meuPIP" class="ui primary button"> <i class="block layout icon"></i> Meu PIP </a>
-                            <a id="btnLogout" href="#" class="ui red button"><i class="power icon"></i> Sair</a>  
+                <div class="ui right floated header">
+                    <?php if (Sessao::verificarSessaoUsuario()) { ?>
+                        <div class="ui center aligned compact segment">
+                            <div id="divNome"> <h3>Seja bem vindo, <?php echo ucfirst(strtolower(explode(" ", $_SESSION['nome'])[0])); ?></h3> </div>
+                            <div>
+                                <a href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=meuPIP" class="ui primary button"> <i class="block layout icon"></i> Meu PIP </a>
+                                <a id="btnLogout" href="#" class="ui red button"><i class="power icon"></i> Sair</a>  
+                            </div>
                         </div>
-                    </div>
-                </form>            
-            </div>
-
-
-
-            <div id="modalAlertaSessao" class="ui basic test small modal">                
-                <div class="ui icon header">
-                    <i class="warning sign icon"></i>
-                    ATENÇÃO: Seu tempo de sessão irá expirar
-                </div>
-                <div class="content">
-                    <p>Você será deslogado e redirecionado automaticamente para a página inicial em  <span id="timeout-countdown">60</span> segundos.</p>
-                </div>
-                <div class="actions">
-                    <div class="ui red basic cancel inverted button">
-                        <i class="remove icon"></i>
-                        Encerrar sessão
-                    </div>
-                    <div class="ui green ok inverted button">
-                        <i class="checkmark icon"></i>
-                        Desejo continuar logado!
-                    </div>
-                </div>
-                
-            </div>
-            <div id="modalAlertaLogout" class="ui basic test small modal">
-                <div class="ui icon header">
-                    <i class="sign out icon"></i>
-                    ATENÇÃO: Você foi deslogado
+                    <?php } else { ?>
+                        <a href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=form&tipo=login" class="ui primary button" id="btnAcessar">LOGIN</a>
+                        <a href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=form&tipo=cadastro" class="ui button">CADASTRAR-SE</a>
+                    <?php } ?>
                 </div>
             </div>
+        </div>
+
+        <div id="modalAlertaSessao" class="ui basic test small modal">                
+            <div class="ui icon header">
+                <i class="warning sign icon"></i>
+                ATENÇÃO: Seu tempo de sessão irá expirar
+            </div>
+            <div class="content">
+                <p>Você será deslogado e redirecionado automaticamente para a página inicial em  <span id="timeout-countdown">60</span> segundos.</p>
+            </div>
+            <div class="actions">
+                <div class="ui red basic cancel inverted button">
+                    <i class="remove icon"></i>
+                    Encerrar sessão
+                </div>
+                <div class="ui green ok inverted button">
+                    <i class="checkmark icon"></i>
+                    Desejo continuar logado!
+                </div>
+            </div>
+
+        </div>
+        <div id="modalAlertaLogout" class="ui basic test small modal">
+            <div class="ui icon header">
+                <i class="sign out icon"></i>
+                ATENÇÃO: Você foi deslogado por segurança devido a um longo período de inatividade
+            </div>
+        </div>
 
