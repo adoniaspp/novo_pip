@@ -1,0 +1,22 @@
+INFO - 2015-10-23 17:01:13 ::1  Inicio da Operação UsuarioCadastrar
+INFO - 2015-10-23 17:01:13 ::1  INSERT INTO endereco (id, cep, idestado, idcidade, idbairro, logradouro, numero, complemento) VALUES (67130020, 1, 2, 85, Travessa WE-02 (Cidade Nova I), 31, teste, )
+INFO - 2015-10-23 17:01:14 ::1  INSERT INTO usuario (id, tipousuario, nome, cpfcnpj, login, senha, status, datahoracadastro, datahoraalteracao, email, idendereco, foto) VALUES (pf, Adonias Pinheiro Pires, 933.270.216-00, adoniaspp, $2y$11$VjdpjfZzyDvOzArsXi9wXu4j/GJiwx3KaPFGKA2P/kjZGRtPE2S42, ativo, 23/10/2015 17:01:14, adoniaspp@gmail.com, 255, )
+INFO - 1969-12-31 21:00:00 ::1  INSERT INTO telefone (id, tipotelefone, operadora, numero, idusuario) VALUES (Fixo, Oi, (91) 3272-9977, 17, )
+INFO - 2015-10-23 17:01:15 ::1  Término da Operação UsuarioCadastrar
+INFO - 2015-10-23 17:01:26 ::1 adoniaspp login
+INFO - 2015-10-23 17:09:52 ::1 adoniaspp logout
+INFO - 2015-10-23 17:09:56 ::1 adoniaspp logout
+INFO - 2015-10-23 17:09:57 ::1 adoniaspp logout
+INFO - 2015-10-23 17:10:06 ::1 adoniaspp logout
+INFO - 2015-10-23 17:10:08 ::1 adoniaspp logout
+INFO - 2015-10-23 17:10:09 ::1 adoniaspp logout
+INFO - 2015-10-23 17:10:13 ::1  logout
+INFO - 2015-10-23 17:10:50 ::1 simoncartman login
+INFO - 2015-10-23 17:12:22 ::1 simoncartman INSERT INTO anuncio (id, idimovel, idanuncio, finalidade, tituloanuncio, descricaoanuncio, status, datahoracadastro, datahoraalteracao, datahoradesativacao, publicarmapa, publicarcontato, idusuarioplano, valormin) VALUES (124, 20151000124, Aluguel, sadsadasda, asdadasdsadasd, cadastrado, 2015/10/23 17:12:21, SIM, SIM, 3, 1500000, )
+INFO - 2015-10-23 17:12:22 ::1 simoncartman UPDATE usuarioplano SET (3, 4, utilizado, 2015-09-25 19:11:02, 10, )
+INFO - 2015-10-23 17:12:22 ::1 simoncartman INSERT INTO valor (id, idanuncio, idplanta, andarinicial, andarfinal, valor) VALUES (23, 55, 2, 2, 1500000, )
+INFO - 2015-10-23 17:13:19 ::1 simoncartman logout
+INFO - 2015-10-23 20:24:14 192.168.0.12 simoncartman login
+INFO - 2015-10-23 20:24:28 192.168.0.12 simoncartman login
+INFO - 2015-10-23 20:26:51 ::1 simoncartman logout
+INFO - 2015-10-23 20:26:53 ::1  logout

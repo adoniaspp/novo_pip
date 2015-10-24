@@ -56,7 +56,8 @@ function buscarAnuncio() {
             condicao: '',
             unidadesandar: '',
             area: '',
-            garagem: 'false'});
+            garagem: 'false',
+            page: 'index'});
 
 
         $("#btnBuscarAnuncio").on('click', function () {
@@ -183,7 +184,7 @@ function buscarAnuncioUsuario() {
                     }
             );
         });
-        
+
         $("input[name=sltCidadeAvancado]").change(function () {
             $("#defaultBairroAvancado").html("<option value=''>Procurando...</div>");
             $.post('index.php?hdnEntidade=Bairro&hdnAcao=selecionarBairro&idcidade=' + $('#sltCidadeAvancado').val(),
@@ -252,7 +253,7 @@ function buscarAnuncioUsuario() {
                 $('#load').removeClass("ui active inverted dimmer");
             }, 1000);
         });
-        
+
         $("#btnBuscarAnuncioUsuarioAvancado").on('click', function () {
             $("#load").addClass('ui active inverted dimmer');
             if ($('#sltTipoImovelAvancado').val() == "") {
@@ -261,7 +262,7 @@ function buscarAnuncioUsuario() {
                 tipoimovel = $('#sltTipoImovelAvancado').val()
             }
             ;
-            $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',            
+            $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
                 tipoImovel: tipoimovel,
                 valor: $('#sltValor').val(),
                 finalidade: $('#sltFinalidadeAvancado').val(),
@@ -275,14 +276,14 @@ function buscarAnuncioUsuario() {
                 area: $('#sltArea').val(),
                 diferencial: $('#carregarDiferenciais').val(),
                 id: $('#hdUsuario').val(),
-                garagem: $('#sltGaragem').val()},function () {
+                garagem: $('#sltGaragem').val()}, function () {
                 $("#load").addClass('ui active inverted dimmer');
             });
             setTimeout(function () {
                 $('#load').removeClass("ui active inverted dimmer");
             }, 1000);
         });
-        
+
     });
 }
 
@@ -729,7 +730,7 @@ function marcarMapa(logradouro, numero, bairro, tituloAnuncio, valor, finalidade
         $("#mapaGmapsBusca").gmap3({
             map: {
                 options: {
-                    center: [-1.37178665, -48.45176697],
+                    center: [-1.40339, -48.35259],
                     zoom: aprox,
                     draggable: true
                 }
@@ -798,9 +799,9 @@ function carregarDiferencial() {
 function inicio() {
 
     $(document).ready(function () {
-        
+
         $('.menu .item').tab();
-        
+
         $("#divValorVenda").hide();
         $("#divValorAluguel").hide();
         $("#divQuarto").hide();
@@ -823,7 +824,7 @@ function inicio() {
                 $("#divValorInicial").hide();
                 $("#divValorAluguel").hide();
                 $("#divValorVenda").show();
-                
+
 
             }
             if ($(this).val() == "aluguel") {
@@ -844,12 +845,12 @@ function inicio() {
         $("#sltTipoImovel").change(function () {
 
             switch ($(this).val()) {
-                
+
                 case "":
                     $("#divGaragem").hide();
                     $("#divCondicao").hide();
                     break;
-                
+
                 case "casa":
                     $("#divGaragem").show();
                     $("#divCondicao").show();
@@ -887,11 +888,11 @@ function inicio() {
         $("#sltTipoImovelAvancado").change(function () {
 
             $('#carregarDiferenciais').dropdown('restore defaults'); //resetar os diferenciais selecionados ao trocar o tipo    
-            
+
             switch ($(this).val()) {
-                
+
                 case "":
-                  
+
                     $("#divValorVenda").hide();
                     $("#divValorAluguel").hide();
                     $("#divQuarto").hide();
@@ -908,12 +909,12 @@ function inicio() {
                     $("#divGaragemAvancado").hide();
                     $("#divAndares").hide();
                     $("#divOutrasCaracteristicas").hide();
-                    $("#textoEspecifico").hide();    
+                    $("#textoEspecifico").hide();
                     $("#tabelaInicioBusca").show();
                     break;
 
                 case "casa":
-                    
+
                     $("#tabelaInicioBusca").hide();
                     $("#divAreaApartamento").hide();
                     $("#divUnidadesAndar").hide();
@@ -931,7 +932,7 @@ function inicio() {
                     break;
 
                 case "apartamento":
-                    
+
                     $("#tabelaInicioBusca").hide();
                     $("#divAreaCasaTerreno").hide();
                     $("#divAndares").hide();
@@ -949,7 +950,7 @@ function inicio() {
                     break;
 
                 case "apartamentoplanta":
-                    
+
                     $("#tabelaInicioBusca").hide();
                     $("#divCondicaoAvancado").hide();
                     $("#divAreaCasaTerreno").hide();
@@ -967,7 +968,7 @@ function inicio() {
                     break;
 
                 case "salacomercial":
-                    
+
                     $("#tabelaInicioBusca").hide();
                     $("#divQuarto").hide();
                     $("#divSuite").hide();
@@ -986,7 +987,7 @@ function inicio() {
                     break;
 
                 case "prediocomercial":
-                    
+
                     $("#tabelaInicioBusca").hide();
                     $("#divQuarto").hide();
                     $("#divCondicaoAvancado").hide();
@@ -995,7 +996,7 @@ function inicio() {
                     $("#divUnidadesAndar").hide();
                     $("#divAreaCasaTerreno").hide();
                     $("#divAreaApartamento").hide();
-                    $("#divAndares").hide();                   
+                    $("#divAndares").hide();
                     $("#textoEspecifico").hide();
                     $("#divBanheiro").hide();
                     $("#divArea").show();
@@ -1004,7 +1005,7 @@ function inicio() {
                     break;
 
                 case "terreno":
-                    
+
                     $("#tabelaInicioBusca").hide();
                     $("#divQuarto").hide();
                     $("#divCondicaoAvancado").hide();

@@ -1,35 +1,30 @@
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
+<script src="assets/libs/gmaps/gmap3.min.js"></script>
 
 <script>
     carregarAnuncio();
     
     <?php 
-    $item = $this->getItem();
-
+    $item = $this->getItem();          
     foreach ($item["anuncio"] as $buscaAnuncio){
-        
-    ?>
-        
-    marcarMapa("<?php echo $buscaAnuncio["logradouro"]?>", "<?php echo $buscaAnuncio["numero"]?>", "<?php echo $buscaAnuncio["bairro"]?>", "<?php echo $buscaAnuncio["tituloanuncio"]?>", "<?php echo $buscaAnuncio["valormin"]?>", "<?php echo $buscaAnuncio["finalidade"]?>", "600", "350", 11);    
+    if(!$item["page"])       {
+    ?> 
+    marcarMapa("<?php echo $buscaAnuncio["logradouro"]?>", "<?php echo $buscaAnuncio["numero"]?>", "<?php echo $buscaAnuncio["bairro"]?>", "<?php echo $buscaAnuncio["tituloanuncio"]?>", "<?php echo $buscaAnuncio["valormin"]?>", "<?php echo $buscaAnuncio["finalidade"]?>", "1000", "350", 11);    
     
     <?php 
+    }
     }
     ?>
  
 </script>
 <?php
 
-
-/*echo "<pre>";
-var_dump($item["anuncio"]);
-echo "</pre>";*/
-
 ?>
 
-<div class="ui center aligned column page grid">
-<div id="mapaGmapsBusca"></div>
+<div class="ui middle aligned stackable grid container">
+    <div id="mapaGmapsBusca"></div>
 </div>
 
 <div class="ui hidden divider"></div>
@@ -39,8 +34,9 @@ echo "</pre>";*/
     <input type="hidden" id="hdnAcao" name="hdnAcao" />
     <input type="hidden" id="hdnCodAnuncio" name="hdnCodAnuncio" />
     <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" />
-    <div class="ui center aligned three column page grid" id="resultadoBusca">
-        <div class="sixteen wide column">
+<!--    <div class="ui center aligned three column page grid" id="resultadoBusca">-->
+        <div class="ui middle aligned stackable grid container">
+        <div class="sixteen wide row">
             <?php if (count($item['anuncio']) > 0) { ?>
             <table id="tabela" class="ui very basic table stackable">
                 <thead>

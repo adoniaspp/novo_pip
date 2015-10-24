@@ -94,11 +94,13 @@ class AnuncioControle {
     }
 
     function buscarAnuncio($parametros) {
-        //var_dump($parametros); die();
+//        var_dump($parametros); die();
         $visao = new Template('ajax');
         $consultasAdHoc = new ConsultasAdHoc();
         $parametros["atributos"] = "*";
         $parametros["tabela"] = $parametros["tipoImovel"];
+        if($parametros["page"]) $page = TRUE; 
+        unset($parametros["page"]);
         unset($parametros["tipoImovel"]);
         unset($parametros["hdnEntidade"]);
         unset($parametros["hdnAcao"]);
@@ -109,6 +111,8 @@ class AnuncioControle {
             $visao->setItem("errosemresultadobusca");
             $visao->exibir('VisaoErrosGenerico.php');
         }
+        if($page) $listaAnuncio["page"] = TRUE;
+         
         $visao->setItem($listaAnuncio);
         $visao->exibir('AnuncioVisaoBusca.php');
     }

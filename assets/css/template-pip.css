@@ -5,6 +5,11 @@ body {
     padding-bottom: 10px;
     background-color: #ffffff
 }
+
+#form  .bootstrap-touchspin input {
+   width: 0%;
+   
+}
 /*
 .theme-dropdown .dropdown-menu {
     display: block;
