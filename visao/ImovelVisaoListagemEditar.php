@@ -8,26 +8,24 @@
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 
-<div class="container">
-    <div class="ui hidden divider"></div>
-    <div class="ui page grid main">
-        <div class="column">
+<div class="ui hidden divider"></div>
+<div class="ui page grid main">
+    <div class="column">
+        <div class="ui large breadcrumb">
             <div class="ui large breadcrumb">
-                <div class="ui large breadcrumb">
-                    <a class="section" href="index.php">Início</a>
-                    <i class="right chevron icon divider"></i>
-                    <i class="block layout small icon"></i><a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
-                    <i class="right chevron icon divider"></i>
-                    <div class="active section"><i class="list small icon"></i>Imóveis Cadastrados</div>
-                </div>
+                <a class="section" href="index.php">Início</a>
+                <i class="right chevron icon divider"></i>
+                <i class="block layout small icon"></i><a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
+                <i class="right chevron icon divider"></i>
+                <div class="active section"><i class="list small icon"></i>Imóveis Cadastrados</div>
             </div>
         </div>
     </div>
-    <div class="ui hidden divider"></div>
-    
-    <div class="ui page grid main">
-        
-        <table class="ui green table" id="tabela">
+</div>
+<div class="ui hidden divider"></div>
+<div class="ui middle aligned stackable grid container">
+    <div class="row">
+        <table class="ui green stackable table" id="tabela">
             <thead>
                 <tr>
                     <th class="three wide">Tipo</th>
@@ -74,7 +72,6 @@
                 </tr>         
             </tbody>
         </table>
-    </div>
     </div>
 </div>
 <div class="ui hidden divider"></div>  

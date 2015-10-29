@@ -152,16 +152,16 @@ if ($item) {
                     });
                 }
             } /*else {
-                //imagens do anuncio
-                console.log("uploading");
-                $('.ui.checkbox').checkbox();
-                $("p[class='error']").each(function () {
-                    var error = $(this).html();
-                    if (error !== "") {
-                        $(this).html('<div class="ui error message"><div class="header">Ocorreu um erro</div><p>' + error + '</p></div>');
-                    }
-                })
-            }*/
+             //imagens do anuncio
+             console.log("uploading");
+             $('.ui.checkbox').checkbox();
+             $("p[class='error']").each(function () {
+             var error = $(this).html();
+             if (error !== "") {
+             $(this).html('<div class="ui error message"><div class="header">Ocorreu um erro</div><p>' + error + '</p></div>');
+             }
+             })
+             }*/
         }).on('fileuploadsubmit', function (e, data) {
             data.formData = $("#fileupload").serializeArray();
         }).on('fileuploadalways', function (e, data) {
@@ -351,23 +351,27 @@ if ($item) {
                             <label>Plano</label>
                             <div class="ui selection dropdown">
                                 <input type="hidden" name="sltPlano" id="sltPlano">
-                                <div class="text">Escolha um plano</div>
                                 <i class="dropdown icon"></i>
-                                <div class="menu">                            
-                                    <?php
-                                    if ($item && count($item["usuarioPlano"]) > 0) {
+                                <?php
+                                if ($item && count($item["usuarioPlano"]) > 0) {
+                                    ?>
+                                    <div class="text">Escolha um plano</div>
+                                    <div class="menu">                            
+                                        <?php
                                         foreach ($item["usuarioPlano"] as $usuarioPlano) {
                                             ?>
                                             <div class="item" data-value="<?php echo $usuarioPlano->getId() ?>"><?php echo $usuarioPlano->getPlano()->getTitulo() . " (" . $usuarioPlano->getPlano()->getValidadepublicacao() . " dias) - Expira em: " . $usuarioPlano->DataExpiracao($usuarioPlano->getPlano()->getValidadeativacao()); ?></div>
                                             <?php
                                         }
-                                    } else {
                                         ?>
-                                        <div class="item">Você ainda não possui planos ativos.</div>
-                                        <?php
-                                    }
+                                    </div>
+                                    <?php
+                                } else {
                                     ?>
-                                </div>
+                                    <div class="text">Você ainda não possui planos ativos.</div>
+                                    <?php
+                                }
+                                ?>
                             </div>
                         </div>
                         <div class="eight wide required field">
@@ -464,15 +468,14 @@ if ($item) {
                             <input type="file" id="arquivo" name="files[]" multiple style="display: none">Adicionar fotos</label>
                     </div>
                     <button type="submit" class="ui blue button start">
-                        <i class="ui upload icon"></i>Enviar tods as fotos
+                        <i class="ui upload icon"></i>Enviar todas
                     </button>
                     <button type="reset" class="ui yellow button cancel">
                         <i class="ui ban icon"></i>Cancelar o envio de todas
                     </button>
                     <button type="button" class="ui red button delete">
-                        <i class="ui trash outline icon"></i>Excluir fotos selecionadas
+                        <i class="ui trash outline icon"></i>Excluir selecionadas
                     </button>
-                    <input type="checkbox" class="ui toggle checkbox">
                     <!-- The global file processing state -->
                     <span class="fileupload-process"></span>
 
@@ -488,6 +491,8 @@ if ($item) {
                 </div>
                 <!-- The table listing the files available for upload/download -->
                 <table role="presentation" class="ui form table"><tbody class="files"></tbody></table>
+                <div class="fileupload-buttonbar"><label class="ui basic black label"><input type="checkbox" class="ui toggle checkbox"><div class="detail">Selecionar Todas</div></label></div>
+                
                 <!-- The template to display files available for upload -->
                 <script id="template-upload" type="text/x-tmpl">
                     {% for (var i=0, file; file=o.files[i]; i++) { %}

@@ -21,7 +21,7 @@ function logout() {
 
 function timeoutSessao() {
     $.timeoutDialog({
-        timeout: 300,
+        timeout: 540,//9MINUTOS
         countdown: 60,
         div_modal_alerta: "modalAlertaSessao",
         div_modal_logout: "modalAlertaLogout",
