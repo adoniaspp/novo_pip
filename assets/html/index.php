@@ -36,7 +36,7 @@
                                 <div class="menu">
                                     <div class="item" data-value="">Todos</div>
                                     <div class="item" data-value="casa">Casa</div>
-                                    <div class="item" data-value="apartamentoplanta">Apartamento na Planta/Novo</div>
+                                    <div class="item" data-value="apartamentoplanta">Apartamento na Planta</div>
                                     <div class="item" data-value="apartamento">Apartamento</div>
                                     <div class="item" data-value="salacomercial">Sala Comercial</div>
                                     <div class="item" data-value="prediocomercial">Predio Comercial</div>

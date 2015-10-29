@@ -722,7 +722,9 @@ function inserirAnuncioModal() {
 function marcarMapa(logradouro, numero, bairro, tituloAnuncio, valor, finalidade, altura, largura, aprox) {
 
     $(document).ready(function () {
-
+        
+        
+        
         $("#mapaGmaps").hide();
 
         $("#mapaGmapsBusca").width(altura).height(largura).gmap3();
@@ -730,7 +732,7 @@ function marcarMapa(logradouro, numero, bairro, tituloAnuncio, valor, finalidade
         $("#mapaGmapsBusca").gmap3({
             map: {
                 options: {
-                    center: [-1.40339, -48.35259],
+                    center: [-1.38, -48.2],
                     zoom: aprox,
                     draggable: true
                 }
@@ -740,7 +742,7 @@ function marcarMapa(logradouro, numero, bairro, tituloAnuncio, valor, finalidade
                     {address: logradouro + ", " + numero + " - " + bairro, data: tituloAnuncio + " - R$ " + valor + "<br>" + "FInalidade: " + finalidade},
                 ],
                 options: {
-                    draggable: false
+                    draggable: true
                 },
                 events: {
                     mouseover: function (marker, event, context) {

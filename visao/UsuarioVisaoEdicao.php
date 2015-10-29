@@ -192,9 +192,23 @@ if ($item) {
                                 </div>
                             </div>
                             <div class="four wide required field">
-                                <label>Número</label>
+                                <label>(DDD) Número</label>
                                 <input type="text" name="txtTel" id="txtTel" placeholder="Informe o Número">
                             </div>
+                    
+                    
+                            <div class="four wide field">                   
+                            <div class="ui checkbox">
+                                <br/><br/>
+                                <label>Número WhatsApp</label>
+                                <input type="checkbox" name="chkWhatsApp" id="chkWhatsApp">                        
+                            </div>  
+                            <i class="large whatsapp icon"></i>
+
+                            </div>
+                            </div>
+                            
+                            <div class="fields">
                             <div class="center aligned column">
                                 <br>
                                 <div class="teal ui labeled icon button" id="btnAdicionarTelefone">
@@ -202,13 +216,15 @@ if ($item) {
                                     Adicionar Telefone
                                 </div>
                             </div>
-                        </div>
+                            </div>
+                        
                         <table class="ui compact celled blue table" id="tabelaTelefone">
                             <thead>
                                 <tr>
                                     <th>Tipo</th>
                                     <th>Operadora</th>
                                     <th>Número</th>
+                                    <th>Nº WhatsApp</th>
                                     <th>Opção</th>
                                 </tr>
                             </thead>
@@ -226,6 +242,12 @@ if ($item) {
                                         <td> <input type=hidden id="hdnTipoTelefone[]" name="hdnTipoTelefone[]" value="<?php echo $telefone->getTipotelefone() ?>"> <?php echo $telefone->getTipotelefone() ?> </td>
                                         <td> <input type=hidden id="hdnOperadora[]" name="hdnOperadora[]" value="<?php echo $telefone->getOperadora() ?>"> <?php echo $telefone->getOperadora() ?> </td>
                                         <td> <input type=hidden id="hdnTelefone[]" name="hdnTelefone[]" value="<?php echo $telefone->getNumero() ?>"> <?php echo $telefone->getNumero() ?> </td>
+                                        
+                                        <?php if($telefone->getWhatsApp()==""){?>                                       
+                                        <td> <input type='hidden' id='hdnWhatsApp[]' name='hdnWhatsApp[]'>NÃO INFORMADO </td>                                        
+                                        <?php } else {?>                                       
+                                        <td> <input type='hidden' id='hdnWhatsApp[]' name='hdnWhatsApp[]' value="<?php echo $telefone->getWhatsApp() ?>"> <?php echo $telefone->getWhatsApp() ?> </td>
+                                        <?php } ?>
                                         <td class='collapsing'> <div class='red ui icon button' onclick='excluirTelefone($(this))'><i class='trash icon'></i>Excluir</div></td>
                                     </tr>
         <?php } ?>     

@@ -187,6 +187,21 @@ Sessao::gerarToken();
                         <label>(DDD) Número</label>
                         <input type="text" name="txtTel" id="txtTel" placeholder="Informe o Número">
                     </div>
+                    
+                    
+                    <div class="four wide field">                   
+                    <div class="ui checkbox">
+                        <br/><br/>
+                        <label>Número WhatsApp</label>
+                        <input type="checkbox" name="chkWhatsApp" id="chkWhatsApp">                        
+                    </div>  
+                    <i class="large whatsapp icon"></i>
+                    
+                    </div>
+                
+                </div>    
+                    
+                <div class="fields">
                     <div class="center aligned column">
                         <br>
                         <div class="teal ui labeled icon button" id="btnAdicionarTelefone">
@@ -194,14 +209,16 @@ Sessao::gerarToken();
                             Adicionar Telefone
                         </div>
                     </div>
-                </div>
-                <table class="ui compact celled blue table" id="tabelaTelefone">
+                </div>    
+                
+           <table class="ui compact celled blue table" id="tabelaTelefone">
                     <thead>
                         <tr>
                             <th>Tipo</th>
                             <th>Operadora</th>
                             <th>Número</th>
-                            <th>Opção</th>
+                            <th>Nº WhatsApp</th>
+                            <th>Opção</th>                           
                         </tr>
                     </thead>
                     <tbody id="dadosTelefone"></tbody>
@@ -294,7 +311,7 @@ Sessao::gerarToken();
         </div>
     </div>
     <div class="actions">
-        <div class="ui red button">
+        <div class="ui red deny button">
             Não
         </div>
         <div class="ui positive right labeled icon button">

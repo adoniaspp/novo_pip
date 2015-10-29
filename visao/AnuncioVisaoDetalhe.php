@@ -4,6 +4,7 @@
 <script src="assets/libs/jquery/jquery.validate.min.js" type="text/javascript"></script>
 <script src="assets/libs/fotorama/fotorama.js"></script> 
 <script src="assets/js/buscaAnuncio.js"></script>
+<script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 <script src="assets/libs/gmaps/gmap3.min.js"></script>
 <script src="http://maps.google.com/maps/api/js?sensor=false&amp;language=pt"></script>
 
@@ -12,9 +13,19 @@ $item = $this->getItem();
 ?>
 
 <script>
-    marcarMapa("<?php echo $item["anuncio"][0]["logradouro"] ?>", "<?php echo $item["anuncio"][0]["numero"] ?>", "<?php echo $item["anuncio"][0]["bairro"] ?>", "<?php echo $item["anuncio"][0]["tituloanuncio"] ?>", "<?php echo $item["anuncio"][0]["valormin"] ?>", "<?php echo $item["anuncio"][0]["finalidade"] ?>", "500", "300", 10);
+    $(document).ready(function () {
+    $("#divValor").priceFormat({
+        prefix: 'R$ ',
+        centsSeparator: ',',
+        centsLimit: 0,
+        limit: 8,
+        thousandsSeparator: '.'
+        })
+    })
+    marcarMapa("<?php echo $item["anuncio"][0]["logradouro"] ?>", "<?php echo $item["anuncio"][0]["numero"] ?>", "<?php echo $item["anuncio"][0]["bairro"] ?>", "<?php echo $item["anuncio"][0]["tituloanuncio"] ?>", "<?php echo $item["anuncio"][0]["valormin"] ?>", "<?php echo $item["anuncio"][0]["finalidade"] ?>", "600", "300", 9);
     enviarDuvidaAnuncio();
-    slideAnuncio();
+    //slideAnuncio();
+    
 
 </script>
 
@@ -97,8 +108,8 @@ $item = $this->getItem();
                                 <label>Valor</label>
                                 <br>
                                 <div class="content">
-                                    <div class="sub header">
-                                        R$ <?php echo $item['anuncio'][0]['valormin'] ?>
+                                    <div class="sub header" id="divValor">
+                                        <?php echo $item['anuncio'][0]['valormin'] ?>
                                     </div>
                                 </div>
                             </div>
@@ -481,7 +492,12 @@ $item = $this->getItem();
                                         <?php
                                         foreach ($item['anuncio'][0]['telefone'] as $telefone) {
                                             ?>
+                                            
                                             <div class="description">
+                                                <?php if($telefone['whatsapp']=="SIM"){?>
+                                                
+                                                <i class="big whatsapp icon"></i>
+                                                <?php } ?>
                                                 <?php echo $telefone['numero'] ?> - <?php echo $telefone['operadora'] ?>
                                             </div>
                                             <?php

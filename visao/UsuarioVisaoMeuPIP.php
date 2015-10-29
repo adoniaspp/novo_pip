@@ -125,7 +125,9 @@ foreach ($imoveis as $qtdAnuncios) {
                             $array = $usuario[0]->getTelefone();
                         }
                         foreach ($array as $telefone) {
-                            $fones[] = $telefone->getOperadora() . " - " . $telefone->getNumero();
+                            if($telefone->getWhatsApp()=="SIM"){
+                                $fones[] = $telefone->getOperadora() . " - " . $telefone->getNumero() . "  <i class='big whatsapp icon'></i> ";
+                            }else $fones[] = $telefone->getOperadora() . " - " . $telefone->getNumero();
                         }
 
                         $fonesImplode = implode(" | ", $fones); //retirar a barra do último elemento

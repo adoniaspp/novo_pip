@@ -388,16 +388,6 @@ function cancelar(entidade, acao) {
 function confirmar() {
     $(document).ready(function () {
 
-        /*$('#btnCancelar').click(function() {
-         $('#modalCancelar').modal({
-         closable: true,
-         transition: "fade up",
-         onDeny: function() {
-         return true;
-         }
-         })
-         });*/
-
         $('#btnRegistrar').click(function () {
             validarTelefone();
             if ($("#form").valid()) {
@@ -454,13 +444,6 @@ function carregaDadosModal($div) {
                                   <div class='content'>\n\
                                     <div class='header'>CPF</div>" + $("#txtCPF").val() + "</div>\n\
                                 </div>");
-            /*if (jQuery.type($("#txtCPF").val()) !== "undefined") {
-             $div.append("<div class='item'>\n\
-             <div class='content'>\n\
-             <div class='header'>CPF</div>" 
-             + $("#txtCPF").val() + "</div>\n\
-             </div>");
-             }*/
             $div.append("</div>");
         } else {
             $div.append("<div class='ui horizontal list'>\n\
@@ -492,39 +475,7 @@ function carregaDadosModal($div) {
                                     <div class='header'>Razão Social</div>\n\
                                     " + $("#txtRazaoSocial").val() + "</div>\n\
                                 </div>\n\
-                        </div>");
-            /*if (jQuery.type($("#txtCNPJ").val()) !== "undefined") {
-             $div.append("<div class='item'>\n\
-             <div class='content'>\n\
-             <div class='header'>CNPJ</div>" + $("#txtCNPJ").val() + "</div>\n\
-             </div>");
-             $div.append("</div>");
-             //}
-             $div.append("<div class='ui horizontal list'>\n\
-             <div class='item'>\n\
-             <div class='content'>\n\
-             <div class='header'>Responsavel</div>\n\
-             "+ $('#txtResponsavel').val() +"\n\
-             </div></div>\n\
-             <div class='item'>\n\
-             <div class='content'>\n\
-             <div class='header'>CPF do Responsável</div>\n\
-             "+ $("#txtCPFResponsavel").val() + "</div>\n\
-             </div>\n\
-             <div class='item'>\n\
-             <div class='content'>\n\
-             <div class='header'>Razão Social</div>\n\
-             "+ $("#txtRazaoSocial").val() + "</div>\n\
-             </div>\n\
-             </div>");*/
-            /* $div.append("Tipo de Pessoa: " + "Jurídica" + "<br />");
-             $div.append("Empresa: " + $("#txtNomeEmpresa").val() + "<br />");
-             if (jQuery.type($("#txtCNPJ").val()) !== "undefined") {
-             $div.append("CNPJ: " + $("#txtCNPJ").val() + "<br />");
-             }
-             $div.append("Responsável: " + $("#txtResponsavel").val() + "<br />");
-             $div.append("CPF do Responsável: " + $("#txtCPFResponsavel").val() + "<br />");
-             $div.append("Razão Social: " + $("#txtRazaoSocial").val() + "<br />");*/
+                        </div>");  
         }
         if (jQuery.type($("#txtLogin").val()) !== "undefined") {
             $div.append("<div class='ui horizontal list'>\n\
@@ -552,7 +503,7 @@ function carregaDadosModal($div) {
                         <div class='ui horizontal list'>\n\
                             <div class='item'><div class='content'>\n\
                             <div class='header'>Telefone(s)</div></div>\n\
-                            </div></div>");
+                    </div></div>");
 
 
 
@@ -562,14 +513,16 @@ function carregaDadosModal($div) {
             var tipo = $($("input[name^='hdnTipoTelefone']")[valor]).val();
             var operadora = $($("input[name^='hdnOperadora']")[valor]).val();
             var numero = $($("input[name^='hdnTelefone']")[valor]).val();
+            var whatsapp = $($("input[name^='hdnWhatsApp']")[valor]).val();
 
-            linhas = linhas + "<tr><td>" + tipo + "</td><td>" + operadora + "</td><td>" + numero + "</td></tr>";
+            linhas = linhas + "<tr><td>" + tipo + "</td><td>" + operadora + "</td><td>" + numero + "</td><td>" + whatsapp + "</td></tr>";
         }
         $div.append("<table class='ui table'>\n\
                         <thead><tr>\n\
                         <th>Tipo</th>\n\
                         <th>Operadora</th>\n\
-                        <th>Número</th> \n\
+                        <th>Número</th> \n\\n\
+                        <th>Nº WhatsApp</th> \n\
                         </tr>\n\
                         </thead> \n\
                     <tbody>" + linhas + "</tbody></table>");
@@ -597,14 +550,6 @@ function carregaDadosModal($div) {
                                   <div class='content'>\n\
                                     <div class='header'>Endereço</div>" + endereco + "</div>\n\
                      </div></div>");
-
-        /*  $div.append("Logradouro: " + $("#txtLogradouro").val() + "<br />");
-         $div.append("Número: " + $("#txtNumero").val() + "<br />");
-         $div.append("Complemento: " + $("#txtComplemento").val() + "<br />");
-         $div.append("Bairro: " + $("#txtBairro").val() + "<br />");
-         $div.append("Cidade: " + $("#txtCidade").val() + "<br />");
-         $div.append("Estado: " + $("#txtEstado").val() + "<br />");
-         $div.append("CEP: " + $("#txtCEP").val() + "<br />");*/
 
     })
 }
@@ -1157,7 +1102,7 @@ function fazerLogin() {
 
 function alterarUsuario() {
     $(document).ready(function () {
-
+        $('.ui.checkbox').checkbox();
         $('#modalConfirmar').modal({
             closable: true,
             transition: "fade up",
@@ -1288,12 +1233,20 @@ function telefone() {
                 });
             }
             if (validarTelefone()) {
+                
+                if($("#chkWhatsApp").is(":checked")){
+                    $("#chkWhatsApp").val("SIM");
+                } else 
+                        {$("#chkWhatsApp").val("NÃO");}
+                
                 $("#dadosTelefone").append(
                         "<tr><td> <input type='hidden' id='hdnTipoTelefone[]' name='hdnTipoTelefone[]' value='" + $("#sltTipotelefone").val() + "'>" + $("#sltTipotelefone").val() + "</td>" +
                         "<td> <input type='hidden' id='hdnOperadora[]' name='hdnOperadora[]' value='" + $("#sltOperadora").val() + "'>" + $("#sltOperadora").val() + "</td>" +
                         "<td> <input type='hidden' id='hdnTelefone[]' name='hdnTelefone[]' value='" + $("#txtTel").val() + "'>" + $("#txtTel").val() + "</td>" +
+                        "<td> <input type='hidden' id='hdnWhatsApp[]' name='hdnWhatsApp[]' value='" + $("#chkWhatsApp").val() + "'>" + $("#chkWhatsApp").val() + "</td>" +
                         "<td class='collapsing'><div class='red ui icon button' onclick='excluirTelefone($(this))'><i class='trash icon'></i>Excluir</div></td></tr>");
                 $("#txtTel").val("");
+                $("#chkWhatsApp").attr("checked", false);  
                 $("#tabelaTelefone").show();
             }
             $("#txtTel").rules("remove");

@@ -216,7 +216,7 @@ class ConsultasAdHoc extends GenericoDAO {
         if (count($resultado['anuncio']) != 0) {
             $idsUsuarios = array_column($resultado['anuncio'], 'id');
             for ($i = 0; $i < count($idsUsuarios); $i++) {
-                $sth = $this->conexao->prepare("SELECT tipotelefone, operadora, numero FROM telefone WHERE idusuario = :idusuario");
+                $sth = $this->conexao->prepare("SELECT tipotelefone, operadora, numero, whatsapp FROM telefone WHERE idusuario = :idusuario");
                 $sth->bindValue(':idusuario', $idsUsuarios[$i]);
                 $sth->execute();
                 $usuario['telefone'] = $sth->fetchAll(PDO::FETCH_ASSOC);

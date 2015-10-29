@@ -49,14 +49,14 @@
     
     <div class="ui three column centered page grid">        
     
-     <div class="twelve wide column">
+     <div class="sixteen wide column">
         
       <div class="ui form segment">
           
         <div class="ui two stackable padded grid">
             <a class="ui teal ribbon label">Informações <?php if ($usuario->getTipoUsuario() == "pf") {
-                                echo "do Vendedor";
-                            } else echo "da Empresa"; ?></a> 
+                                echo "do Vendedor - Pessoa Física";
+                            } else echo "da Empresa - Pessoa Jurídica"; ?></a> 
             <div class="thirteen wide column">
                
                 <div class="fields">
@@ -68,27 +68,30 @@
                         <label>Endereço</label>
                         <?php echo $endereco . " - "; ?>
                         <?php echo strtoupper($cidadeEstado->getCidade()->getNome()) . ", " . strtoupper($cidadeEstado->getEstado()->getUf()); ?>
+                        
                     </div>
-
-                    <br>
+ 
                     <div class="six wide field">
-                        <label>Tipo de Pessoa</label>
-                       <?php if ($usuario->getTipoUsuario() == "pf") {
-                                echo "PESSOA FÍSICA";
-                            } else echo "PESSOA JURÍDICA"; ?>
-                      
+           
                       <label>Contato(s)</label>
                        <?php
                             if (is_array($usuario->getTelefone())) { //verifica se existe mais de um número de telefone cadastrado para o usuário                                 
                                 foreach ($usuario->getTelefone() as $anuncioTelefone) {
                                     ?>  
-                                    <?php echo strtoupper($anuncioTelefone->getOperadora()) . " - " . strtoupper($anuncioTelefone->getNumero())."<br />"; ?>				
+                                    
+                                    <?php echo strtoupper($anuncioTelefone->getOperadora()) . " - " . strtoupper($anuncioTelefone->getNumero()) ?>
+                                    <?php
+                                    if($anuncioTelefone->getWhatsApp()=="SIM"){ ?>
+                                    <i class="big whatsapp icon"></i>
+                                    <?php
+                                    }?>
+                                    <br/>
                                 <?php } ?>
-                            <?php } else echo strtoupper($usuario->getTelefone()->getOperadora()) . " - " . strtoupper($usuario->getTelefone()->getNumero()); ?>  
+                            <?php } else echo strtoupper($usuario->getTelefone()->getOperadora()) . " - " . strtoupper($usuario->getTelefone()->getNumero()); echo "<br/>"?>  
                       
                     </div>
                    
-                    <div class="four centered wide fields">
+                    <div class="four wide fields">
 
                         <?php if ($usuario->getFoto() != "") { ?>
                         <img width="120px" height="120px" src="<?php echo PIPURL ?>/fotos/usuarios/<?php echo $usuario->getFoto(); ?>" style="" >
@@ -114,12 +117,11 @@
     <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
     
     <div class="ui hidden divider"></div>
+    <div class="ui hidden divider"></div>
     
      <div class="ui center aligned column page grid">
-    <a class="ui big blue label">Imóveis <?php if($usuario->getTipoUsuario() == "pf"){echo "do Vendedor";} else echo "da Empresa";?></h4></a> 
+     <div class="ui big blue label">Anuncios <?php if($usuario->getTipoUsuario() == "pf"){echo "do Vendedor";} else echo "da Empresa";?></h4></div> 
      </div>
-    
-    <div class="ui hidden divider"></div>
     
     <div class="ui form" id="divBusca">
        
