@@ -146,24 +146,15 @@ class AnuncioControle {
         $visao->setItem($listarAnuncio);
         $visao->exibir('AnuncioVisaoDetalhe.php');
     }
+    
+    function detalharURL($parametros) {
 
-    function exibirAnuncioURL($parametros) {
-
-        $genericoDAO = new GenericoDAO();
-
-        $anuncio = $genericoDAO->consultar(new Anuncio(), true, array("idanuncio" => $parametros));
-        $usuario = $genericoDAO->consultar(new Usuario(), true, array("login" => $parametros));
-
-
-        if ($usuario <> NULL) {
-            return "usuario"; //se o usuário existir
-        }
-
-        if ($anuncio <> NULL) { //se o anuncio existir     
             $consultasAdHoc = new ConsultasAdHoc();
-            $imovel = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio[0]->getIdImovel()));
-            $endereco = $genericoDAO->consultar(new Endereco(), true, array("id" => $imovel[0]->getIdEndereco()));
-            $usuario = $genericoDAO->consultar(new Usuario(), true, array("id" => $imovel[0]->getIdUsuario()));
+            $anuncio = $consultasAdHoc->consultar(new Anuncio(), true, array("idanuncio" => $parametros["hdnCodAnuncio"]));
+            
+            $imovel = $consultasAdHoc->consultar(new Imovel(), true, array("id" => $anuncio[0]->getIdImovel()));
+            $endereco = $consultasAdHoc->consultar(new Endereco(), true, array("id" => $imovel[0]->getIdEndereco()));
+            $usuario = $consultasAdHoc->consultar(new Usuario(), true, array("id" => $imovel[0]->getIdUsuario()));
             $qtdAnuncios = count($consultasAdHoc->ConsultarAnunciosPorUsuario($imovel[0]->getIdUsuario(), null, "cadastrado"));
 
             $item["anuncio"] = $anuncio;
@@ -175,8 +166,33 @@ class AnuncioControle {
             $visao = new Template();
             $visao->setItem($item);
             $visao->exibir('AnuncioVisaoDetalheURL.php');
-        } elseif (!$usuario && !$anuncio) { //se nem o anuncio nem o usuário existirem
-            return false;
+    }
+
+    function exibirAnuncioURL($parametros) {
+
+        $genericoDAO = new GenericoDAO();
+
+        $anuncio = $genericoDAO->consultar(new Anuncio(), true, array("idanuncio" => $parametros));
+        $usuario = $genericoDAO->consultar(new Usuario(), true, array("login" => $parametros));
+
+
+        if ($usuario <> NULL) {
+            $this->buscarAnuncioCorretor(array("login"=> $parametros));//se o usuário existir
+        }
+
+        if ($anuncio <> NULL) { //se o anuncio existir     
+            $consultasAdHoc = new ConsultasAdHoc();
+          
+            $imovel = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio[0]->getIdImovel()));
+            
+            $this->detalhar(array("hdnTipoImovel"=>$imovel[0]->getTipoimovel()->getDescricao(),"hdnCodAnuncio"=>$anuncio[0]->getId()));
+
+        } if (!$usuario && !$anuncio) { //se nem o anuncio nem o usuário existirem
+            $item = "errousuarioouanuncio";
+            $pagina = "VisaoErrosGenerico.php";
+            $visao = new Template();
+            $visao->setItem($item);
+            $visao->exibir($pagina);
         }
     }
 
