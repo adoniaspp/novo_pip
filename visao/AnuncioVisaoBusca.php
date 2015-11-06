@@ -2,25 +2,27 @@
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 <script src="assets/libs/gmaps/gmap3.min.js"></script>
+<script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
+<script src="assets/libs/jquery/jquery.validate.min.js"></script>
 
 <script>
     carregarAnuncio();
-    
-    <?php 
-    $item = $this->getItem();          
-    foreach ($item["anuncio"] as $buscaAnuncio){
-    if(!$item["page"])       {
-    ?> 
-    marcarMapa("<?php echo $buscaAnuncio["logradouro"]?>", "<?php echo $buscaAnuncio["numero"]?>", "<?php echo $buscaAnuncio["bairro"]?>", "<?php echo $buscaAnuncio["tituloanuncio"]?>", "<?php echo $buscaAnuncio["valormin"]?>", "<?php echo $buscaAnuncio["finalidade"]?>", "1000", "350", 11);    
-    
-    <?php 
+    enviarEmail();
+
+<?php
+$item = $this->getItem();
+foreach ($item["anuncio"] as $buscaAnuncio) {
+    if (!$item["page"]) {
+        ?>
+            marcarMapa("<?php echo $buscaAnuncio["logradouro"] ?>", "<?php echo $buscaAnuncio["numero"] ?>", "<?php echo $buscaAnuncio["bairro"] ?>", "<?php echo $buscaAnuncio["tituloanuncio"] ?>", "<?php echo $buscaAnuncio["valormin"] ?>", "<?php echo $buscaAnuncio["finalidade"] ?>", "1000", "350", 11);
+
+        <?php
     }
-    }
-    ?>
- 
+}
+?>
+
 </script>
 <?php
-
 ?>
 
 <div class="ui middle aligned stackable grid container">
@@ -34,26 +36,29 @@
     <input type="hidden" id="hdnAcao" name="hdnAcao" />
     <input type="hidden" id="hdnCodAnuncio" name="hdnCodAnuncio" />
     <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" />
-<!--    <div class="ui center aligned three column page grid" id="resultadoBusca">-->
-        <div class="ui middle aligned stackable grid container">
+    <!--    <div class="ui center aligned three column page grid" id="resultadoBusca">-->
+    <div class="ui middle aligned stackable grid container">
         <div class="sixteen wide row">
             <?php if (count($item['anuncio']) > 0) { ?>
-            <table id="tabela" class="ui very basic table stackable">
-                <thead>
-                    <tr style="border: none !important">
-                        <th class="three wide"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    for ($crtl = 0; $crtl < count($item['anuncio']); $crtl++) {
-                        ?>
-                    <script>
-                        formatarValor("<?php echo $item['anuncio'][$crtl]['idanuncio']?>");
-                    </script>
+                <table id="tabela" class="ui very basic table stackable">
+                    <thead>
+                        <tr style="border: none !important">
+                            <th class="three wide"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        for ($crtl = 0; $crtl < count($item['anuncio']); $crtl++) {
+                            ?>
+                        <script>
+                            formatarValor("<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>");
+                        </script>
                         <tr style="width: 33%;float: left; border: none !important">
                             <td class="ui special cards" style="border: none !important">
-                                <div class="card" id="cartao<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">
+                                <div class="ui card" id="cartao<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">
+                                    <div class="content">
+                                        <div class="ui blue ribbon label">Anúncio <?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?></div>        
+                                    </div>
                                     <div class="dimmable image">
                                         <div class="ui inverted dimmer">
                                             <div class="content">
@@ -66,21 +71,22 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <?php 
-                            if($item['anuncio'][$crtl]['imagem']) {
-                            foreach ($item['anuncio'][$crtl]['imagem'] as $imagem) {                                                                
-                                if($imagem['destaque'] == 'SIM'){
+                                        <?php
+                                        if ($item['anuncio'][$crtl]['imagem']) {
+                                            foreach ($item['anuncio'][$crtl]['imagem'] as $imagem) {
+                                                if ($imagem['destaque'] == 'SIM') {
 //                                    var_dump($imagem['diretorio']);
 //                                    die();
-                                    ?>
-                                        <img style="height:200px; width: 290px;" src="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] .'/'. $imagem['nome'] ?>">
-                            <?php 
-                                }}
-                            }else{
-                                    ?>
-                                <img style="height:200px; width: 290px;" src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>">
-                               <?php 
-                                } ?>
+                                                    ?>
+                                                    <img src="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . '/' . $imagem['nome'] ?>">   
+                                                    <?php
+                                                }
+                                            }
+                                        } else {
+                                            ?>
+                                            <img style="height:200px; width: 290px;" src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>">
+                                        <?php }
+                                        ?>
                                     </div>
                                     <div class="content">
                                         <div class="description"><b><?php echo mb_substr($item['anuncio'][$crtl]['tituloanuncio'], 0, 32) . "..." ?></b></div>
@@ -104,8 +110,8 @@
                         <?php
                     }
                     ?>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
             <?php } ?>
         </div>
     </div>
@@ -118,4 +124,63 @@
 </div>
 <div id="load">
     <div class="ui text loader">Loading</div>
-</div>  
+</div> 
+
+<!-- Modal Para Abrir a Div do Enviar Anuncios por Email -->
+<div class="ui standart modal" id="modalEmail">
+    <i class="close icon"></i>
+    <div class="header">
+        Anuncios Selecionados: <div id="idAnunciosCabecalho"></div>
+    </div>
+    <div class="content" id="camposEmail">
+        <div class="description">
+            <div class="ui piled segment">
+                <p id="textoConfirmacao"></p>
+
+                <form class="ui form" id="formEmail" action="index.php" method="post">
+                    <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio"  />
+                    <input type="hidden" id="hdnAcao" name="hdnAcao" value="enviarEmail" />               
+
+                    <div class="field">
+                        <label>Seu Nome</label>
+                        <input name="txtNomeEmail" id="txtNomeEmail" placeholder="Digite Seu Nome" type="text" maxlength="50">
+                    </div>
+                    <div class="field">
+                        <label>Sua Mensagem</label>
+                        <textarea rows="2" id="txtMsgEmail" name="txtMsgEmail" maxlength="200"></textarea>
+                    </div>
+                    <div class="field">
+                        <label>E-mail de Destino</label>
+                        <input name="txtEmailEmail"  id="txtEmailEmail" placeholder="Digite o email" type="text" maxlength="50">
+                    </div>
+
+                    <div class="five wide field">
+                        <label>Digite o código abaixo:</label>
+                        <img id="captcha" src="../assets/libs/captcha/securimage/securimage_show.php" alt="CAPTCHA Image" />    
+                        <a href="#" onclick="document.getElementById('captcha').src = '../assets/libs/captcha/securimage/securimage_show.php?' + Math.random();
+                                return false">
+                            <img src="../assets/libs/captcha/securimage/images/refresh.png" height="32" width="32" alt="Trocar Imagem" onclick="this.blur()" align="bottom" border="0"></a>
+                        <input type="text" name="captcha_code" id="captcha_code" maxlength="6" />
+                    </div>
+
+                    <div id="idAnuncios"></div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <div id="divRetorno"></div>
+    <div class="actions">
+        <div  id="botaoCancelarEmail" class="ui red deny button">
+            Cancelar
+        </div>
+        <div  id="botaoEnviarEmail" class="ui positive right labeled icon button">
+            Enviar
+            <i class="checkmark icon"></i>
+        </div>
+        <div  id="botaoFecharEmail" class="ui red deny button">
+            Fechar
+        </div>
+    </div>
+</div>
