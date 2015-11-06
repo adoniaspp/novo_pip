@@ -16,7 +16,7 @@ Sessao::gerarToken();
 ?>
 
 <div class="ui hidden divider"></div>
-<div class="ui page grid main">
+<div class="ui middle aligned stackable grid container">
     <div class="column">
         <div class="ui large breadcrumb">
             <div class="ui large breadcrumb">

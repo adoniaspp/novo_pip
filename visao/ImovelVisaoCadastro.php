@@ -23,9 +23,7 @@
 Sessao::gerarToken();
 ?>
 
-<div class="container">
-    <div class="ui hidden divider"></div>
-    <div class="ui page grid main">
+    <div class="ui middle aligned stackable grid container">
         <div class="column">
             <div class="ui large breadcrumb">
                 <div class="ui large breadcrumb">
@@ -42,8 +40,8 @@ Sessao::gerarToken();
             </div>
         </div>
     </div>
-    <div class="ui hidden divider"></div>
-    <div class="ui page grid main">
+
+    <div class="ui middle aligned stackable grid container">
         <div class="column">
             <form id="form" class="ui form" action="index.php" method="post">
                 <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Imovel"  />
@@ -128,8 +126,6 @@ Sessao::gerarToken();
                         <textarea maxlength="200" id="txtDescricao" name="txtIdentificacao" rows="2" cols="8"></textarea>
                     </div>                    
                 </div>
-
-
 
                 <div class="fields" id="divApartamento">
 
@@ -222,7 +218,6 @@ Sessao::gerarToken();
                         <label>Possui Sacada</label>
                     </div>
 
-
                 </div>
 
                 <div class="ui hidden divider"></div>
@@ -293,8 +288,6 @@ Sessao::gerarToken();
             </form>
         </div>
     </div>
-    <div class="ui hidden divider"></div>
-</div>
 
 <div class="ui small modal" id="modalCancelar">
     <i class="close icon"></i>

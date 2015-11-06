@@ -39,7 +39,13 @@ if (sizeof($url) > 0 & $url[0] != "") { //verificar existe algo depois da barra 
         $anuncioControle = new AnuncioControle();
 
         if (!$anuncioControle->exibirAnuncioURL($verificaUsuario) && !$anuncioControle->exibirAnuncioURL($verificaAnuncio)) {
-            echo "erro";
+          
+            $item = "errousuarioouanuncio";
+            $pagina = "VisaoErrosGenerico.php";
+            $visao = new Template();
+            $visao->setItem($item);
+            $visao->exibir($pagina);
+            
         } elseif ($anuncioControle->exibirAnuncioURL($verificaUsuario) == "usuario") {
 
             $paginaCorretor = PIPURL . "/index.php?entidade=Anuncio&acao=buscarAnuncioCorretor&login=" . $url[0];

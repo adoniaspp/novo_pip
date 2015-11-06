@@ -1,6 +1,6 @@
 CREATE VIEW buscaAnuncioCasa AS
 /*Imóvel - Casa*/
-SELECT a.id as idanuncio, a.finalidade, a.tituloanuncio, a.descricaoanuncio, 
+SELECT a.id as idanuncio, a.idanuncio as idanuncioformatado, a.finalidade, a.tituloanuncio, a.descricaoanuncio, 
 a.status, a.publicarmapa, a.publicarcontato, a.valormin, a.datahoracadastro,
 i.id as idimovel, i.condicao,
 ti.descricao as tipo,
@@ -27,7 +27,7 @@ WHERE a.status = 'cadastrado';
 
 CREATE VIEW buscaAnuncioApartamentoPlanta AS
 /*Imóvel - ApNovo*/
-SELECT a.id as idanuncio, a.finalidade, a.tituloanuncio, a.descricaoanuncio, 
+SELECT a.id as idanuncio, a.idanuncio as idanuncioformatado, a.finalidade, a.tituloanuncio, a.descricaoanuncio, 
 a.status, a.publicarmapa, a.publicarcontato, a.valormin, a.datahoracadastro,
 i.id as idimovel, i.condicao,
 ti.descricao as tipo,
@@ -54,7 +54,7 @@ WHERE a.status = 'cadastrado';
 
 CREATE VIEW buscaAnuncioApartamento AS
 /*Imóvel - Ap*/
-SELECT a.id as idanuncio, a.finalidade, a.tituloanuncio, a.descricaoanuncio, 
+SELECT a.id as idanuncio, a.idanuncio as idanuncioformatado, a.finalidade, a.tituloanuncio, a.descricaoanuncio, 
 a.status, a.publicarmapa, a.publicarcontato, a.valormin, a.datahoracadastro,
 i.id as idimovel, i.condicao,
 ti.descricao as tipo,
@@ -81,7 +81,7 @@ WHERE a.status = 'cadastrado';
 
 CREATE VIEW buscaAnuncioSalaComercial AS
 /*Imóvel - Ap*/
-SELECT a.id as idanuncio, a.finalidade, a.tituloanuncio, a.descricaoanuncio, 
+SELECT a.id as idanuncio, a.idanuncio as idanuncioformatado, a.finalidade, a.tituloanuncio, a.descricaoanuncio, 
 a.status, a.publicarmapa, a.publicarcontato, a.valormin, a.datahoracadastro,
 i.id as idimovel, i.condicao,
 ti.descricao as tipo,
@@ -108,7 +108,7 @@ WHERE a.status = 'cadastrado';
 
 CREATE VIEW buscaAnuncioPredioComercial AS
 /*Imóvel - Ap*/
-SELECT a.id as idanuncio, a.finalidade, a.tituloanuncio, a.descricaoanuncio, 
+SELECT a.id as idanuncio, a.idanuncio as idanuncioformatado, a.finalidade, a.tituloanuncio, a.descricaoanuncio, 
 a.status, a.publicarmapa, a.publicarcontato, a.valormin, a.datahoracadastro,
 i.id as idimovel, i.condicao,
 ti.descricao as tipo,
@@ -135,7 +135,7 @@ WHERE a.status = 'cadastrado';
 
 CREATE VIEW buscaAnuncioTerreno AS
 /*Imóvel - Terreno*/
-SELECT a.id as idanuncio, a.finalidade, a.tituloanuncio, a.descricaoanuncio, a.datahoracadastro,
+SELECT a.id as idanuncio, a.idanuncio as idanuncioformatado, a.finalidade, a.tituloanuncio, a.descricaoanuncio, a.datahoracadastro,
 a.status, a.publicarmapa, a.publicarcontato, a.valormin,
 i.id as idimovel, i.condicao,
 ti.descricao as tipo,
@@ -162,7 +162,7 @@ WHERE a.status = 'cadastrado';
 
 CREATE VIEW buscaAnuncioTodos AS
 /*Imóvel - Terreno*/
-SELECT a.id as idanuncio, a.finalidade, a.tituloanuncio, a.descricaoanuncio, 
+SELECT a.id as idanuncio, a.idanuncio as idanuncioformatado, a.finalidade, a.tituloanuncio, a.descricaoanuncio, 
 a.status, a.publicarmapa, a.publicarcontato, a.valormin, a.datahoracadastro,
 i.id as idimovel, i.condicao,
 ti.descricao as tipo,

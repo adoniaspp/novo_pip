@@ -7,9 +7,7 @@
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 
-
-<div class="ui hidden divider"></div>
-<div class="ui page grid main">
+<div class="ui middle aligned stackable grid container">
     <div class="column">
         <div class="ui large breadcrumb">
             <div class="ui large breadcrumb">
@@ -22,7 +20,7 @@
         </div>
     </div>
 </div>
-<div class="ui hidden divider"></div>
+
 <div class="ui middle aligned stackable grid container">
     <div class="row">
         <table class="ui green stackable table" id="tabela">

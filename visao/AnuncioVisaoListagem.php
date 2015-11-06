@@ -24,24 +24,19 @@
 
 </script>
 
-<div class="ui hidden divider"></div>
-
-<div class="ui column doubling grid container">
-
-    <div class="ui hidden divider"></div>
-
-    <div class="ui large breadcrumb">
-        <a class="section" href="index.php">Início</a>
-        <i class="right chevron icon divider"></i>
-        <i class="block layout small icon"></i><a class="section" href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
-        <i class="right chevron icon divider"></i>
-        <a class="active section">Visualizar Anuncios</a>
+<div class="ui middle aligned stackable grid container">
+    <div class="column">
+        <div class="ui large breadcrumb">
+            <a class="section" href="index.php">Início</a>
+            <i class="right chevron icon divider"></i>
+            <i class="block layout small icon"></i><a class="section" href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
+            <i class="right chevron icon divider"></i>
+            <a class="active section">Visualizar Anuncios</a>
+        </div>
     </div>
-
-
-
-    <div class="ui hidden divider"></div>
-
+ </div>
+ 
+<div class="ui hidden divider"></div>
 
     <?php
     Sessao::gerarToken();
@@ -53,18 +48,19 @@
     if($totalAnunciosCadastrados < 1){      
     ?>
     
-    </div>
+   
     
     <div class="ui middle aligned stackable grid container">
     
-    <div class="row">
+    <div class="column">
+        
     <div class="ui info message">
         <div class="header">Mensagem</div>
         <ul class="list">
           <li>Você não possui mais anuncios ativos. Clique em voltar para retornar ao MEUPIP</li>
         </ul>
     </div>
-    </div>
+
 
    
     <div class="row">
@@ -76,9 +72,11 @@
     <div class="row"></div>     
         
     </div>   
-        
-    <?php } else { //caso exista ao menos 1 anuncio cadastrado, exibir o datatable?>
+    </div>    
 
+    <?php } else { //caso exista ao menos 1 anuncio cadastrado, exibir o datatable?>
+    <div class="ui middle aligned stackable grid container">
+    <div class="column">
     <table class="ui brown table" id="tabela">
         
         <thead>
@@ -123,6 +121,7 @@
         </tbody>
     </table>
 
+    </div>
 </div>
 
 <div class="ui hidden divider"></div>

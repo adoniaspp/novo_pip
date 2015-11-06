@@ -15,10 +15,8 @@ $tipoImagem = ($_SESSION["tipopessoa"] == "pf" ? "Imagem" : "Logomarca");
 $nomeUsuario = $this->getItem()->getNome();
 $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
 ?>
-<!-- HTML -->
-<div class="container">
-    <div class="ui hidden divider"></div>
-    <div class="ui page grid main">
+
+    <div class="ui middle aligned stackable grid container">
         <div class="column">
             <div class="ui large breadcrumb">
                 <div class="ui large breadcrumb">
@@ -31,8 +29,8 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
             </div>
         </div>
     </div>
-    <div class="ui hidden divider"></div>
-    <div class="ui page grid main">
+
+    <div class="ui middle aligned stackable grid container">
         <div class="column">
             <form id="form" class="ui form" action="index.php" method="post" enctype="multipart/form-data">
                 <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
@@ -74,7 +72,7 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
             </form>
         </div>
     </div>
-</div>
+
 <!-- MODAIS -->
 <div class="ui small modal" id="modalCancelar">
     <i class="close icon"></i>

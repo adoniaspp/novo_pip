@@ -134,218 +134,218 @@ if ($item) {
         }
         ?>
 
-        <div class="container">
-            <div class="ui hidden divider"></div>
-            <div class="ui page grid main">
-                <div class="column">
-                    <div class="ui large breadcrumb">
-                        <div class="ui large breadcrumb">
-                            <a class="section" href="index.php">Início</a>
-                            <i class="right chevron icon divider"></i>
-                            <i class="block layout small icon"></i><a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
-                            <i class="right chevron icon divider"></i>
-                            <i class="list small icon"></i><a href="index.php?entidade=Imovel&acao=listarEditar">Imóveis Cadastrados</a>
-                            <i class="right chevron icon divider"></i>
-                            <div class="active section"> 
-                                <i class="small icons">
-                                    <i class="home icon"></i>
-                                    <i class="corner write icon"></i>
-                                </i>Editar Imóvel</div>
-                        </div>
-                    </div>
-                </div>
+    <div class="ui middle aligned stackable grid container">
+    <div class="column">
+        <div class="ui large breadcrumb">
+            <div class="ui large breadcrumb">
+                <a class="section" href="index.php">Início</a>
+                <i class="right chevron icon divider"></i>
+                <i class="block layout small icon"></i><a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
+                <i class="right chevron icon divider"></i>
+                <i class="list small icon"></i><a href="index.php?entidade=Imovel&acao=listarEditar">Imóveis Cadastrados</a>
+                <i class="right chevron icon divider"></i>
+                <div class="active section"> 
+                    <i class="small icons">
+                        <i class="home icon"></i>
+                        <i class="corner write icon"></i>
+                    </i>Editar Imóvel</div>
             </div>
-            <div class="ui hidden divider"></div>
-            <div class="ui page grid main">
-                <div class="column">
-                    <form id="form" class="ui form" action="index.php" method="post">
-                        <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Imovel"  />
-                        <input type="hidden" id="hdnAcao" name="hdnAcao" value="editar" />
-                        <input type="hidden" id="hdnCEP" name="hdnCEP" value="<?php echo $imovel->getEndereco()->getCep() ?>"/>
-                        <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
-                        <h3 class="ui dividing header">Informações do Imóvel</h3>
-
-                        <div class="fields" id="divInfoBasicas">
-                            <div class="four wide field">
-                                <label>Tipo de Imóvel</label>
-                                <input type="hidden" name="sltTipo" id="sltTipo" value="<?php echo $imovel->getIdTipoImovel() ?>">
-                                <input type="hidden" name="sltNumeroPlantas" id="sltNumeroPlantas" value="<?php echo $totalPlantas ?>">
-        <?php echo $imovel->buscarTipoImovel($imovel->getIdTipoImovel()) ?>
-                            </div>
-
-                            <div class="three wide field" id="divNumeroPlantas"></div>
-
-                        </div>
-
-                        <div class="fields" id="divInfoApeCasa"></div>
-
-                        <div class="one field" id="divDescricao">
-                            <div class="field">
-                                <label>Identificar Este Imóvel Como:</label>
-                                <textarea maxlength="200" id="txtDescricao" name="txtIdentificacao" rows="2" cols="8" ><?php echo $imovel->getIdentificacao(); ?></textarea>
-                            </div>                    
-                        </div>
-
-                        <div class="fields" id="divApartamento">
-
-                            <div class="two field" id="divAndares">
-                                <label>Nº de Andares do Prédio</label>
-                                <div class="ui selection dropdown">
-                                    <input type="hidden" name="sltAndares" id="sltAndares"
-        <?php
-        if ($imovel->getApartamentoPlanta()) {
-            echo "value='" . $imovel->getApartamentoPlanta()->getAndares() . "'";
-        }
-        ?>>
-                                    <div class="default text">Andares</div>
-                                    <i class="dropdown icon"></i>
-                                    <div class="menu">
-                                    <?php
-                                           for ($andares = 1; $andares <= 40; $andares++) {
-                                               echo "<div class='item' data-value='" . $andares . "'>" . $andares . "</div>";
-                                           }
-                                           ?>
-                                    </div>
-                                </div>
-                            </div> 
-
-                            <div class="two field" id="divUnidadesAndar">
-                                <label>Unidades por Andar</label>
-                                <div class="ui selection dropdown">
-                                    <input type="hidden" name="sltUnidadesAndar" id="sltUnidadesAndar"
-
-        <?php
-        if ($imovel->getApartamento()) {
-            echo "value='" . $imovel->getApartamento()->getUnidadesAndar() . "'";
-        } else if ($imovel->getApartamentoPlanta()) {
-            echo "value='" . $imovel->getApartamentoPlanta()->getUnidadesAndar() . "'";
-        }
-        ?>
-
-                                           >
-                                    <div class="default text">Número de Aptos</div>
-                                    <i class="dropdown icon"></i>
-                                    <div class="menu" id="sltUnidadesAndar">
-        <?php
-        for ($unidadesAndar = 1; $unidadesAndar <= 10; $unidadesAndar++) {
-            echo "<div class='item' data-value='" . $unidadesAndar . "'>" . $unidadesAndar . "</div>";
-        }
-        ?>
-                                    </div>
-                                </div>
-                            </div>                    
-
-                            <div class="two field" id="divNumeroTorres">
-                                <label>Nº de Torres</label>
-                                <div class="ui selection dropdown">
-                                    <input type="hidden" name="sltNumeroTorres" id="sltNumeroTorres"
-        <?php
-        if ($imovel->getApartamentoPlanta()) {
-            echo "value='" . $imovel->getApartamentoPlanta()->getNumeroTorres() . "'";
-        }
-        ?>
-
-                                           >
-                                    <div class="default text">Torres</div>
-                                    <i class="dropdown icon"></i>
-                                    <div class="menu" id="sltNumeroTorres">
-        <?php
-        for ($torres = 1; $torres <= 10; $torres++) {
-            echo "<div class='item' data-value='" . $torres . "'>" . $torres . "</div>";
-        }
-        ?>
-                                    </div>
-                                </div>
-                            </div>   
-
-                            <div class="two field" id="divAndar">
-                                <label>Andar do Apartamento</label>
-                                <div class="ui selection dropdown">
-                                    <input type="hidden" name="sltAndar" id="sltAndar"
-        <?php
-        if ($imovel->getApartamento()) {
-            echo "value='" . $imovel->getApartamento()->getAndar() . "'";
-        }
-        ?>                                  
-                                           >       
-                                    <div class="default text">Andar</div>
-                                    <i class="dropdown icon"></i>
-                                    <div class="menu" id="sltAndar">
-        <?php
-        for ($andar = 1; $andar <= 40; $andar++) {
-            echo "<div class='item' data-value='" . $andar . "'>" . $andar . "</div>";
-        }
-        ?>
-                                    </div>
-                                </div>
-                            </div> 
-
-                        </div>
-
-                        <div class="ui hidden divider"></div>
-                        <div id="divDiferencial">
-
-                            <h3 class="ui dividing header">Diferencial do Imóvel</h3>
-                            <div id="chkDiferencial">              
-
-                            </div>
-
-                        </div>       
-
-                        <div class="ui hidden divider"></div>
-
-                        <div class="fields">
-                            <div class="five wide field">
-                                <div class="ui action left icon input">
-                                    <i class="search icon"></i>
-                                    <input type="text" name="txtCEP" id="txtCEP" placeholder="Informe o seu CEP..." value="<?php echo $imovel->getEndereco()->getCep() ?>">
-                                    <div class="ui teal button" id="btnCEP">Buscar CEP</div>
-                                </div>              
-                            </div>
-                            <div class="three wide field"><label>Não sabe o CEP? <a href="http://www.buscacep.correios.com.br/servicos/dnec/menuAction.do?Metodo=menuLogradouro" target="_blank">clique aqui</a></label></div>
-                            <div class="five wide field"><div id="msgCEP"></div> </div>
-                        </div>
-                        <div id="divCEP" class="ui">
-                            <div class="three disabled fields">
-                                <div class="field">
-                                    <label>Cidade</label>
-                                    <input type="text" name="txtCidade" id="txtCidade" readonly="readonly" value="<?php echo $imovel->getEndereco()->getCidade()->getNome() ?>">
-                                </div>
-                                <div class="two wide field">
-                                    <label>Estado</label>
-                                    <input type="text" name="txtEstado" id="txtEstado" readonly="readonly" value="<?php echo $imovel->getEndereco()->getEstado()->getUF() ?>">
-                                </div>
-                                <div class="field">
-                                    <label>Bairro</label>
-                                    <input type="text" name="txtBairro" id="txtBairro" readonly="readonly" value="<?php echo $imovel->getEndereco()->getBairro()->getNome() ?>">
-                                </div>
-                            </div>
-                            <div class="two fields">
-                                <div class="disabled field">
-                                    <label>Logradouro</label>
-                                    <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly" value="<?php echo $imovel->getEndereco()->getLogradouro() ?>">
-                                </div>
-                                <div class="three wide required field">
-                                    <label>Número</label>
-                                    <input type="text" name="txtNumero" id="txtNumero" placeholder="Informe o nº" maxlength="5" value="<?php echo $imovel->getEndereco()->getNumero() ?>">
-                                </div>
-                                <div class="field">
-                                    <label>Complemento</label>
-                                    <input type="text" name="txtComplemento" id="txtComplemento" placeholder="Complemento" maxlength="80" value="<?php echo $imovel->getEndereco()->getComplemento() ?>">
-                                </div>
-                            </div>
-                        </div>
-
-    <?php }
-} ?> 
-                <h3 class="ui dividing header">Confirmação de Alteração</h3>
-
-                <a href='#' <button class="ui blue submit button" type="submit" id="btnCadastrar" >Alterar</button></a>
-                <button class="ui orange button" id="btnCancelar">Cancelar</button>
-            </form>
         </div>
     </div>
+    </div>
+
+    <div class="ui middle aligned stackable grid container">
+    <div class="column">
+        <form id="form" class="ui form" action="index.php" method="post">
+            <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Imovel"  />
+            <input type="hidden" id="hdnAcao" name="hdnAcao" value="editar" />
+            <input type="hidden" id="hdnCEP" name="hdnCEP" value="<?php echo $imovel->getEndereco()->getCep() ?>"/>
+            <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
+            <h3 class="ui dividing header">Informações do Imóvel</h3>
+
+            <div class="fields" id="divInfoBasicas">
+                <div class="four wide field">
+                    <label>Tipo de Imóvel</label>
+                    <input type="hidden" name="sltTipo" id="sltTipo" value="<?php echo $imovel->getIdTipoImovel() ?>">
+                    <input type="hidden" name="sltNumeroPlantas" id="sltNumeroPlantas" value="<?php echo $totalPlantas ?>">
+    <?php echo $imovel->buscarTipoImovel($imovel->getIdTipoImovel()) ?>
+                </div>
+
+    <div class="three wide field" id="divNumeroPlantas"></div>
+
+    </div>
+
+    <div class="fields" id="divInfoApeCasa"></div>
+
+    <div class="one field" id="divDescricao">
+        <div class="field">
+            <label>Identificar Este Imóvel Como:</label>
+            <textarea maxlength="200" id="txtDescricao" name="txtIdentificacao" rows="2" cols="8" ><?php echo $imovel->getIdentificacao(); ?></textarea>
+        </div>                    
+    </div>
+
+    <div class="fields" id="divApartamento">
+
+        <div class="two field" id="divAndares">
+            <label>Nº de Andares do Prédio</label>
+            <div class="ui selection dropdown">
+                <input type="hidden" name="sltAndares" id="sltAndares"
+    <?php
+    if ($imovel->getApartamentoPlanta()) {
+        echo "value='" . $imovel->getApartamentoPlanta()->getAndares() . "'";
+    }
+    ?>>
+            <div class="default text">Andares</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+            <?php
+                   for ($andares = 1; $andares <= 40; $andares++) {
+                       echo "<div class='item' data-value='" . $andares . "'>" . $andares . "</div>";
+                   }
+                   ?>
+            </div>
+        </div>
+    </div> 
+
+    <div class="two field" id="divUnidadesAndar">
+        <label>Unidades por Andar</label>
+        <div class="ui selection dropdown">
+            <input type="hidden" name="sltUnidadesAndar" id="sltUnidadesAndar"
+
+    <?php
+    if ($imovel->getApartamento()) {
+        echo "value='" . $imovel->getApartamento()->getUnidadesAndar() . "'";
+    } else if ($imovel->getApartamentoPlanta()) {
+        echo "value='" . $imovel->getApartamentoPlanta()->getUnidadesAndar() . "'";
+    }
+    ?>
+
+           >
+    <div class="default text">Número de Aptos</div>
+    <i class="dropdown icon"></i>
+    <div class="menu" id="sltUnidadesAndar">
+        
+    <?php
+    for ($unidadesAndar = 1; $unidadesAndar <= 10; $unidadesAndar++) {
+        echo "<div class='item' data-value='" . $unidadesAndar . "'>" . $unidadesAndar . "</div>";
+    }
+    ?>
+            </div>
+        </div>
+    </div>                    
+
+    <div class="two field" id="divNumeroTorres">
+        <label>Nº de Torres</label>
+        <div class="ui selection dropdown">
+            <input type="hidden" name="sltNumeroTorres" id="sltNumeroTorres"
+    <?php
+    if ($imovel->getApartamentoPlanta()) {
+        echo "value='" . $imovel->getApartamentoPlanta()->getNumeroTorres() . "'";
+    }
+    ?>
+
+           >
+    <div class="default text">Torres</div>
+    <i class="dropdown icon"></i>
+    <div class="menu" id="sltNumeroTorres">
+        
+    <?php
+    for ($torres = 1; $torres <= 10; $torres++) {
+        echo "<div class='item' data-value='" . $torres . "'>" . $torres . "</div>";
+    }
+    ?>
+            </div>
+        </div>
+    </div>   
+
+    <div class="two field" id="divAndar">
+        <label>Andar do Apartamento</label>
+        <div class="ui selection dropdown">
+            <input type="hidden" name="sltAndar" id="sltAndar"
+    <?php
+    if ($imovel->getApartamento()) {
+        echo "value='" . $imovel->getApartamento()->getAndar() . "'";
+    }
+    ?>                                  
+                                       >       
+    <div class="default text">Andar</div>
+    <i class="dropdown icon"></i>
+    <div class="menu" id="sltAndar">
+        
+    <?php
+    for ($andar = 1; $andar <= 40; $andar++) {
+        echo "<div class='item' data-value='" . $andar . "'>" . $andar . "</div>";
+    }
+    ?>
+                </div>
+            </div>
+        </div> 
+
+    </div>
+
     <div class="ui hidden divider"></div>
+    <div id="divDiferencial">
+
+        <h3 class="ui dividing header">Diferencial do Imóvel</h3>
+        <div id="chkDiferencial">              
+
+        </div>
+
+    </div>       
+
+    <div class="ui hidden divider"></div>
+
+    <div class="fields">
+        <div class="five wide field">
+            <div class="ui action left icon input">
+                <i class="search icon"></i>
+                <input type="text" name="txtCEP" id="txtCEP" placeholder="Informe o seu CEP..." value="<?php echo $imovel->getEndereco()->getCep() ?>">
+                <div class="ui teal button" id="btnCEP">Buscar CEP</div>
+            </div>              
+        </div>
+        <div class="three wide field"><label>Não sabe o CEP? <a href="http://www.buscacep.correios.com.br/servicos/dnec/menuAction.do?Metodo=menuLogradouro" target="_blank">clique aqui</a></label></div>
+        <div class="five wide field"><div id="msgCEP"></div> </div>
+    </div>
+    <div id="divCEP" class="ui">
+        <div class="three disabled fields">
+            <div class="field">
+                <label>Cidade</label>
+                <input type="text" name="txtCidade" id="txtCidade" readonly="readonly" value="<?php echo $imovel->getEndereco()->getCidade()->getNome() ?>">
+            </div>
+            <div class="two wide field">
+                <label>Estado</label>
+                <input type="text" name="txtEstado" id="txtEstado" readonly="readonly" value="<?php echo $imovel->getEndereco()->getEstado()->getUF() ?>">
+            </div>
+            <div class="field">
+                <label>Bairro</label>
+                <input type="text" name="txtBairro" id="txtBairro" readonly="readonly" value="<?php echo $imovel->getEndereco()->getBairro()->getNome() ?>">
+            </div>
+        </div>
+        <div class="two fields">
+            <div class="disabled field">
+                <label>Logradouro</label>
+                <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly" value="<?php echo $imovel->getEndereco()->getLogradouro() ?>">
+            </div>
+            <div class="three wide required field">
+                <label>Número</label>
+                <input type="text" name="txtNumero" id="txtNumero" placeholder="Informe o nº" maxlength="5" value="<?php echo $imovel->getEndereco()->getNumero() ?>">
+            </div>
+            <div class="field">
+                <label>Complemento</label>
+                <input type="text" name="txtComplemento" id="txtComplemento" placeholder="Complemento" maxlength="80" value="<?php echo $imovel->getEndereco()->getComplemento() ?>">
+            </div>
+        </div>
+    </div>
+
+    <?php }
+    } ?> 
+                    
+            <h3 class="ui dividing header">Confirmação de Alteração</h3>
+
+            <a href='#' <button class="ui blue submit button" type="submit" id="btnCadastrar" >Alterar</button></a>
+            <button class="ui orange button" id="btnCancelar">Cancelar</button>
+        </form>
+    </div>
 </div>
 
 <div class="ui small modal" id="modalCancelar">

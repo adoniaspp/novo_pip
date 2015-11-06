@@ -1,11 +1,31 @@
 function esconderResposta(){
     
     $(document).ready(function () {
-     
+        $('.ui.dropdown')
+                .dropdown({
+                    on: 'hover'
+                });
         $("div[id^='divResposta']").hide();
         
     })
     
+}
+
+function ordemInicio() {
+
+    $(document).ready(function () {
+        $("#sltOrdenacao").change(function () {
+
+            $('#divMensagemMaior').load("UsuarioVisaoMinhasMensagens.php", {hdnEntidade: 'Mensagem', hdnAcao: 'buscarAnuncio',
+
+                ordem: $(this).val()}, function () {
+                
+            });
+            setTimeout(function () {
+                $('#load').removeClass("ui active inverted dimmer");
+            }, 1000);
+        })
+    });
 }
 
 function exibirDivResposta(divResposta){
