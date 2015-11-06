@@ -27,28 +27,40 @@ $url = explode("/", $parte2);
 
 array_shift($url);
 if (sizeof($url) > 0 & $url[0] != "") { //verificar existe algo depois da barra digitada e se não está vazio
+
     // print "É Maior <br>"; 
     //echo "Array: " . $url[2];
     if ($url[0] == "index.php") { //verificar se existe algo depois da barra. Se for index.php, redirecionar para o inicio
-        //echo "index.php";
+
         $parametros = $_REQUEST;
         $controle = new Controle($parametros);
+        
     } else { //verificar se o usuário ou anuncio foi digitado
-        $verificaUsuario = $url[0];
-        $verificaAnuncio = $url[0];
-        $anuncioControle = new AnuncioControle();
 
-        if (!$anuncioControle->exibirAnuncioURL($verificaUsuario) && !$anuncioControle->exibirAnuncioURL($verificaAnuncio)) {
-            echo "erro";
-        } elseif ($anuncioControle->exibirAnuncioURL($verificaUsuario) == "usuario") {
+        $verificaUsuarioAnuncio = $url[0];
+        $anuncioControle = new AnuncioControle();
+        $anuncioControle->exibirAnuncioURL($verificaUsuarioAnuncio);
+        /*
+        if (!$anuncioControle->exibirAnuncioURL($verificaUsuarioAnuncio)) {
+
+            $item = "errousuarioouanuncio";
+            $pagina = "VisaoErrosGenerico.php";
+            $visao = new Template();
+            $visao->setItem($item);
+            $visao->exibir($pagina);
+            
+        } elseif ($anuncioControle->exibirAnuncioURL($verificaUsuarioAnuncio) == "usuario") {
 
             $paginaCorretor = PIPURL . "/index.php?entidade=Anuncio&acao=buscarAnuncioCorretor&login=" . $url[0];
+             echo $paginaCorretor;
             header("location: $paginaCorretor");
         } else {
 
-            $paginaAnuncio = PIPURL . "/index.php?entidade=Anuncio&acao=detalhar&hdnCodAnuncio=" . $url[0];
+            $paginaAnuncio = PIPURL . "/index.php?entidade=Anuncio&acao=detalharURL&hdnCodAnuncio=" . $url[0];
+            echo $paginaAnuncio; 
             header("location: $paginaAnuncio");
         }
+         */
     }
 } else {
     //echo "nada";

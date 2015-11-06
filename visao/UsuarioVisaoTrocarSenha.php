@@ -9,10 +9,7 @@
 <?php
 Sessao::gerarToken();
 ?>
-<!-- HTML -->
-<div class="container">
-    <div class="ui hidden divider"></div>
-    <div class="ui page grid main">
+    <div class="ui middle aligned stackable grid container">
         <div class="column">
             <div class="ui large breadcrumb">
                 <div class="ui large breadcrumb">
@@ -20,13 +17,13 @@ Sessao::gerarToken();
                     <i class="right chevron icon divider"></i>
                     <i class="block layout small icon"></i><a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
                     <i class="right chevron icon divider"></i>
-                    <div class="active section"> <i class="small privacy icon"></i>Alterar Senha</div>
+                    <div class="active section"> <i class="small privacy icon"></i>Trocar Senha</div>
                 </div>
             </div>
         </div>
     </div>   
-    <div class="ui hidden divider"></div>
-    <div class="ui page grid main">
+
+    <div class="ui middle aligned stackable grid container">
         <div class="column">
             <form id="form" class="ui form" action="index.php" method="post">
                 <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
@@ -71,7 +68,6 @@ Sessao::gerarToken();
         </div>
 
     </div>
-</div>
 
 <!-- MODAIS -->
 <div class="ui small modal" id="modalCancelar">

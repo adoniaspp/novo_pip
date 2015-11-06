@@ -11,11 +11,16 @@ switch ($item) {
     case "errohashemail":
     case "erroanuncioinativo":
     case "erroemailNaoEncontrado":
-    case "errosemresultadobusca"
+    case "errosemresultadobusca":
+    case "errousuarioouanuncio":
         ?>
-                $('#divColuna').attr('class', 'ten wide column');
-                var img = $("<i>", {class: "huge warning icon"}, "</i>");
-                $('#divimg').append(img).parent().attr('class', 'red row');
+        $('#divColuna').append("<div class='ui compact negative icon message'>\n\
+                                 <i class='remove icon'></i>\n\
+                                 <div class='content'>\n\
+                                     <div class='header'>Atenção</div><div id='divMensagemAtencao'></div>\n\
+                                 </div>\n\
+                               </div>\n\
+                               <div class='ui hidden divider'></div>");        
         <?php
         break;
     case "sucessotrocarimagem":
@@ -26,10 +31,14 @@ switch ($item) {
     case "sucessoedicaousuario":
     case "sucessoedicaoimovel":
     case "sucessoenvioemail":
-        ?>
-                $('#divColuna').attr('class', 'ten wide column');
-                var img = $("<i>", {class: "huge checkmark icon"}, "</i>");
-                $('#divimg').append(img).parent().attr('class', 'green row');
+        ?>  
+        $('#divColuna').append("<div class='ui compact success icon message'>\n\
+                                 <i class='checkmark icon'></i>\n\
+                                 <div class='content'>\n\
+                                     <div class='header'>Sucesso</div><div id='divMensagemSucesso'></div>\n\
+                                 </div>\n\
+                             </div>");
+
         <?php
         break;
 }
@@ -48,72 +57,130 @@ switch ($item) {
                 switch ($item) {
                     case "errobanco":
                         ?>
-                        <h2>Desculpe, não foi possível realizar a operação!</h2>
-                        <h3>Tente novamente em alguns minutos.</h3>
+                        <script>
+                        $(document).ready(function() {
+                        $('#divMensagemAtencao').html("Desculpe, não foi possível realizar a operação. Tente novamente em alguns minutos.");
+                        })
+                        </script>
                         <?php
                         break;
                     case "erroemail":
                         ?>
-                        <h2>Desculpe, não foi possível realizar a operação!</h2>
-                        <h3>Falha no envio de e-mail.</h3>
+                        <script>
+                        $(document).ready(function() {
+                        $('#divMensagemAtencao').html("Desculpe, não foi possível realizar a operação. Falha no envio de e-mail");
+                        })
+                        </script>
                         <?php
                         break;
                     case "errotrocasenha":
                         ?>
-                        <h2>Desculpe, não foi possível realizar a operação!</h2>
-                        <h3>A Senha atual está incorreta.</h3>
+                        <script>
+                        $(document).ready(function() {
+                        $('#divMensagemAtencao').html("Desculpe, não foi possível realizar a operação. A Senha atual está incorreta.");
+                        })
+                        </script>
                         <?php
                         break;
                     case "errolink":
                         ?>
-                        <h2>Esse link é inválido ou já foi utilizado para troca de senha.</h2>
+                        <script>
+                        $(document).ready(function() {
+                        $('#divMensagemAtencao').html("Esse link é inválido ou já foi utilizado para troca de senha.");
+                        })
+                        </script>
                         <?php
                         break;
                     case "errotoken":
                         ?>
-                        <h2>Ops! Não podemos processar sua requisição. <br>Tente novamente.</h2>
+                        <script>
+                        $(document).ready(function() {
+                        $('#divMensagemAtencao').html("Ops! Não podemos processar sua requisição. Tente novamente.");
+                        })
+                        </script>
                         <?php
                         break;
                     case "errohashemail":
                         ?>
-                        <h2>Ops! O link desse anuncio não é válido. <br>Tente novamente.</h2>
+                        <script>
+                        $(document).ready(function() {
+                        $('#divMensagemAtencao').html("Ops! O link desse anuncio não é válido. Tente novamente.");
+                        })
+                        </script>
                         <?php
                         break;
                     case "erroanuncioinativo":
                         ?>
-                        <h2>Ops! Esse anuncio não é mais válido. <br>Obrigado pelo acesso</h2>
+                        <script>
+                        $(document).ready(function() {
+                        $('#divMensagemAtencao').html("Ops! Esse anuncio não é mais válido. Obrigado pelo acesso");
+                        })
+                        </script>
                         <?php
                         break;
                     case "erroemailNaoEncontrado":
                         ?>
-                        <h2>E-mail não encontrado. Faça seu cadastro.</h2>
+                        <script>
+                        $(document).ready(function() {
+                        $('#divMensagemAtencao').html("E-mail não encontrado. Faça seu cadastro.");
+                        })
+                        </script>
+                        <?php
+                        break;
+                    case "errousuarioouanuncio":
+                        ?>
+                        <script>
+                        $(document).ready(function() {
+                        $('#divMensagemAtencao').html("Vendedor ou Anúncio não encontrado");
+                        })
+                        </script>
                         <?php
                         break;
                     case "sucessocadastrousuario":
                         ?>
-                        <h2>A sua conta de usuário foi criada com sucesso!</h2>
-                        <h3>Digite seu login e sua senha para logar no site. </h3>
+                        <script>
+                        $(document).ready(function() {
+                        $('#divMensagemSucesso').html("Sua conta de usuário foi criada. \n\
+                            Digite seu login e sua senha para logar no site.");
+                        })
+                        </script>
                         <?php
                         break;
                     case "sucessotrocarimagem":
                         ?>
-                        <h2>A sua <?php echo ($_SESSION["tipopessoa"] == "pf" ? "Imagem" : "Logomarca"); ?> foi alterada com sucesso!</h2>
+                        <script>
+                        $(document).ready(function() {
+                        $('#divMensagemSucesso').html("Sua "<?php echo ($_SESSION["tipopessoa"] == "pf" ? "Imagem" : "Logomarca");?> " foi alterada com sucesso");
+                        })
+                        </script>                       
                         <?php
                         break;
                     case "sucessoalterarsenha":
                         ?>
-                        <h2>A sua senha foi alterada com sucesso!</h2>
+                        <script>
+                        $(document).ready(function() {
+                        $('#divMensagemSucesso').html("Senha Alterada com Sucesso");
+                        })
+                        </script>
                         <?php
                         break;
                     case "sucessoedicaousuario":
                         ?>
-                        <h2>O cadastro foi atualizado com sucesso!</h2>
+                        <script>
+                        $(document).ready(function() {
+                        $('#divMensagemSucesso').html("Alterações Realizadas com Sucesso");
+                        })
+                        </script>
                         <?php
                         break;
                     case "sucessoenvioemail":
                         ?>
-                        <h2>Em breve você receberá um e-mail para realizar a alteração de sua senha!</h2>
-                        <h3>Caso não tenha recebido o e-mail, verifique também a sua caixa de SPAM.</h3>
+                        <script>
+                        $(document).ready(function() {
+                        $('#divMensagemSucesso').html("Em breve você receberá um e-mail para realizar a alteração de sua senha\n\
+                                Caso não tenha recebido o e-mail, verifique também a sua caixa de SPAM.");
+                        })
+                        </script>
                         <?php
                         break;
                     case "sucessocadastroimovel":
@@ -149,9 +216,9 @@ switch ($item) {
                         <?php
                         break;
                     case "errosemresultadobusca":
-                        ?>
+                        ?>                      
                         <br>
-                        <h2>Nenhum imóvel encontrado</h2>
+                        <h2>Nenhum imóvel encontradoooo</h2>
                         <?php
                         break;
                 }
