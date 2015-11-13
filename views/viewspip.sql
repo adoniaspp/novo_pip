@@ -11,19 +11,18 @@ FROM anuncio AS a RIGHT JOIN imovel as i
 ON a.idimovel = i.id
 LEFT JOIN usuario as us
 ON i.idusuario = us.id
-RIGHT JOIN tipoimovel as ti
+LEFT JOIN tipoimovel as ti
 ON i.idtipoimovel = ti.id
 RIGHT JOIN casa as ca
 ON ca.idimovel = i.id
-RIGHT JOIN endereco as en
+LEFT JOIN endereco as en
 ON en.id = i.idendereco
-RIGHT JOIN estado as es
+LEFT JOIN estado as es
 ON es.id = en.idestado
-RIGHT JOIN cidade as ci
+LEFT JOIN cidade as ci
 ON ci.id = en.idcidade
-RIGHT JOIN bairro as b
-ON b.id = en.idbairro
-WHERE a.status = 'cadastrado';
+LEFT JOIN bairro as b
+ON b.id = en.idbairro;
 
 CREATE VIEW buscaAnuncioApartamentoPlanta AS
 /*Imóvel - ApNovo*/
@@ -38,19 +37,18 @@ FROM anuncio AS a RIGHT JOIN imovel as i
 ON a.idimovel = i.id
 LEFT JOIN usuario as us
 ON i.idusuario = us.id
-RIGHT JOIN tipoimovel as ti
+LEFT JOIN tipoimovel as ti
 ON i.idtipoimovel = ti.id
 RIGHT JOIN apartamentoplanta as app
 ON app.idimovel = i.id
-RIGHT JOIN endereco as en
+LEFT JOIN endereco as en
 ON en.id = i.idendereco
-RIGHT JOIN estado as es
+LEFT JOIN estado as es
 ON es.id = en.idestado
-RIGHT JOIN cidade as ci
+LEFT JOIN cidade as ci
 ON ci.id = en.idcidade
-RIGHT JOIN bairro as b
-ON b.id = en.idbairro
-WHERE a.status = 'cadastrado';
+LEFT JOIN bairro as b
+ON b.id = en.idbairro;
 
 CREATE VIEW buscaAnuncioApartamento AS
 /*Imóvel - Ap*/
@@ -65,19 +63,18 @@ FROM anuncio AS a RIGHT JOIN imovel as i
 ON a.idimovel = i.id
 LEFT JOIN usuario as us
 ON i.idusuario = us.id
-RIGHT JOIN tipoimovel as ti
+LEFT JOIN tipoimovel as ti
 ON i.idtipoimovel = ti.id
 RIGHT JOIN apartamento as ap
 ON ap.idimovel = i.id
-RIGHT JOIN endereco as en
+LEFT JOIN endereco as en
 ON en.id = i.idendereco
-RIGHT JOIN estado as es
+LEFT JOIN estado as es
 ON es.id = en.idestado
-RIGHT JOIN cidade as ci
+LEFT JOIN cidade as ci
 ON ci.id = en.idcidade
-RIGHT JOIN bairro as b
-ON b.id = en.idbairro
-WHERE a.status = 'cadastrado';
+LEFT JOIN bairro as b
+ON b.id = en.idbairro;
 
 CREATE VIEW buscaAnuncioSalaComercial AS
 /*Imóvel - Ap*/
@@ -92,19 +89,18 @@ FROM anuncio AS a RIGHT JOIN imovel as i
 ON a.idimovel = i.id
 LEFT JOIN usuario as us
 ON i.idusuario = us.id
-RIGHT JOIN tipoimovel as ti
+LEFT JOIN tipoimovel as ti
 ON i.idtipoimovel = ti.id
 RIGHT JOIN salacomercial as sl
 ON sl.idimovel = i.id
-RIGHT JOIN endereco as en
+LEFT JOIN endereco as en
 ON en.id = i.idendereco
-RIGHT JOIN estado as es
+LEFT JOIN estado as es
 ON es.id = en.idestado
-RIGHT JOIN cidade as ci
+LEFT JOIN cidade as ci
 ON ci.id = en.idcidade
-RIGHT JOIN bairro as b
-ON b.id = en.idbairro
-WHERE a.status = 'cadastrado';
+LEFT JOIN bairro as b
+ON b.id = en.idbairro;
 
 CREATE VIEW buscaAnuncioPredioComercial AS
 /*Imóvel - Ap*/
@@ -119,19 +115,18 @@ FROM anuncio AS a RIGHT JOIN imovel as i
 ON a.idimovel = i.id
 LEFT JOIN usuario as us
 ON i.idusuario = us.id
-RIGHT JOIN tipoimovel as ti
+LEFT JOIN tipoimovel as ti
 ON i.idtipoimovel = ti.id
 RIGHT JOIN prediocomercial as pc
 ON pc.idimovel = i.id
-RIGHT JOIN endereco as en
+LEFT JOIN endereco as en
 ON en.id = i.idendereco
-RIGHT JOIN estado as es
+LEFT JOIN estado as es
 ON es.id = en.idestado
-RIGHT JOIN cidade as ci
+LEFT JOIN cidade as ci
 ON ci.id = en.idcidade
-RIGHT JOIN bairro as b
-ON b.id = en.idbairro
-WHERE a.status = 'cadastrado';
+LEFT JOIN bairro as b
+ON b.id = en.idbairro;
 
 CREATE VIEW buscaAnuncioTerreno AS
 /*Imóvel - Terreno*/
@@ -146,19 +141,18 @@ FROM anuncio AS a RIGHT JOIN imovel as i
 ON a.idimovel = i.id
 LEFT JOIN usuario as us
 ON i.idusuario = us.id
-RIGHT JOIN tipoimovel as ti
+LEFT JOIN tipoimovel as ti
 ON i.idtipoimovel = ti.id
 RIGHT JOIN terreno as t
 ON t.idimovel = i.id
-RIGHT JOIN endereco as en
+LEFT JOIN endereco as en
 ON en.id = i.idendereco
-RIGHT JOIN estado as es
+LEFT JOIN estado as es
 ON es.id = en.idestado
-RIGHT JOIN cidade as ci
+LEFT JOIN cidade as ci
 ON ci.id = en.idcidade
-RIGHT JOIN bairro as b
-ON b.id = en.idbairro
-WHERE a.status = 'cadastrado';
+LEFT JOIN bairro as b
+ON b.id = en.idbairro;
 
 CREATE VIEW buscaAnuncioTodos AS
 /*Imóvel - Terreno*/

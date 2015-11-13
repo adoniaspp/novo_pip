@@ -20,6 +20,7 @@ class Anuncio {
         
     protected $imovel;
     protected $usuarioplano;
+    protected $historicoaluguelvenda;
     
     function getId() {
         return $this->id;
@@ -29,7 +30,7 @@ class Anuncio {
         return $this->idimovel;
     }
 
-    function getIdAnuncio() {
+    function getIdanuncio() {
         return $this->idanuncio;
     }
 
@@ -85,6 +86,10 @@ class Anuncio {
         return $this->usuarioplano;
     }
 
+    function getHistoricoaluguelvenda() {
+        return $this->historicoaluguelvenda;
+    }
+
     function setId($id) {
         $this->id = $id;
     }
@@ -93,7 +98,7 @@ class Anuncio {
         $this->idimovel = $idimovel;
     }
 
-    function setIdAnuncio($idanuncio) {
+    function setIdanuncio($idanuncio) {
         $this->idanuncio = $idanuncio;
     }
 
@@ -149,6 +154,11 @@ class Anuncio {
         $this->usuarioplano = $usuarioplano;
     }
 
+    function setHistoricoaluguelvenda($historicoaluguelvenda) {
+        $this->historicoaluguelvenda = $historicoaluguelvenda;
+    }
+
+    
             
     public function cadastrar($parametros) {
         $this->setIdImovel($_SESSION["anuncio"]["idimovel"]);

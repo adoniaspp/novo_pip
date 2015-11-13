@@ -174,7 +174,7 @@ foreach ($imoveis as $qtdAnuncios) {
                     <div type="button"  class="ui green button">
                         <i class="edit icon"></i> Alterar Imóvel
                     </div></a> 
-                <a href="index.php?entidade=Imovel&acao=listarDados" class="spaced">
+                <a href="index.php?entidade=Imovel&acao=listar" class="spaced">
                     <div type="button" class="ui green button">
                         <i class="list icon"></i> Visualizar Meus Imóveis
                     </div></a> 
@@ -309,7 +309,7 @@ foreach ($imoveis as $qtdAnuncios) {
             <i class="announcement icon"></i>
             <div class="content">
                 Meus Anúncios
-                <div class="sub header">Gerencie seus anúncios. Você pode cadastar, visualizar, reativar ou ler suas mensagens </div>
+                <div class="sub header">Gerencie seus anúncios. Você pode cadastar, visualizar ou reativar anuncios, além de ler suas mensagens </div>
             </div>
         </h2>
     </div>
@@ -333,7 +333,7 @@ foreach ($imoveis as $qtdAnuncios) {
                         </div></a> 
                     <a href="index.php?entidade=Anuncio&acao=listarFinalizado" class="spaced">
                         <div type="button" class="ui brown button">
-                            <i class="thumbs outline up icon"></i>  Visualizar Anúncios Finalizados
+                            <i class="thumbs outline up icon"></i>  Visualizar Anúncios Não Ativos
                         </div></a>
                     <a href="index.php?entidade=Usuario&acao=listarMensagem" class="spaced">
                         <div type="button" class="ui brown button">

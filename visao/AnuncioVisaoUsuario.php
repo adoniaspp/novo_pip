@@ -22,7 +22,6 @@
     <?php 
     
     $item = $this->getItem();
-    
     $usuario = $item["usuario"][0];
     $cidadeEstado = $item["cidadeEstado"][0];
     $anuncios = $item["anuncio"];
@@ -62,7 +61,7 @@
                 <div class="fields">
                     
                     <div class="eight wide field">
-                            
+                        <input type="hidden" id="hdUsuario" name="hdUsuario" value="<?php echo $usuario->getId();?>"  
                         <label>Nome</label>
                         <?php echo strtoupper($usuario->getNome()); ?> <br />
                         <label>Endereço</label>

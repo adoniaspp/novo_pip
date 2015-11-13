@@ -3,7 +3,7 @@
 class ConsultasAdHoc extends GenericoDAO {
 
     public function buscaAnuncios($parametros) {
-        //var_dump($parametros); die();
+        
         unset($parametros['predicados']['atributos']);
         unset($parametros['predicados']['tabela']);
         $crtlPred = true;
@@ -106,6 +106,11 @@ class ConsultasAdHoc extends GenericoDAO {
             $sql = $sql . ' AND quarto >= 5 ';
         }
 
+        if($parametros["idanuncio"] == null){
+            
+            $sql = $sql . " AND status = 'cadastrado' ";
+            
+        }
         
         if ($ordem) {
 
@@ -122,8 +127,8 @@ class ConsultasAdHoc extends GenericoDAO {
             }
 
         }
-         //       var_dump($sql);
-         //       die();
+                //var_dump($sql);
+                //die();
         $statement = $this->conexao->prepare($sql);
         
         if ($diferencial != NULL) {
