@@ -213,30 +213,8 @@ class ImovelControle {
         if (Sessao::verificarSessaoUsuario()) {
             $imovel = new Imovel();
             $genericoDAO = new GenericoDAO();
-            $listaImoveis = $genericoDAO->consultar($imovel, true, array("idusuario" => $_SESSION['idusuario']));
-
-            #verificar a melhor forma de tratar o blindado recursivo
-            foreach ($listaImoveis as $selecionarImovel) {
-                $selecionarEndereco = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarImovel->getIdEndereco()));
-                $selecionarImovel->setEndereco($selecionarEndereco[0]);
-
-                $listarImovel[] = $selecionarImovel;
-            }
-
-
-            //visao
-            $visao = new Template();
-            $visao->setItem($listarImovel);
-            $visao->exibir('ImovelVisaoListagem.php');
-        }
-    }
-
-    function listarDados() {
-        if (Sessao::verificarSessaoUsuario()) {
-            $imovel = new Imovel();
-            $genericoDAO = new GenericoDAO();
             $consultarAD = new ConsultasAdHoc();
-            $listaImoveis = $genericoDAO->consultar($imovel, true, array("idusuario" => $_SESSION['idusuario']));
+            $listaImoveis = $genericoDAO->consultar($imovel, true, array("idusuario" => $_SESSION['idusuario'], "status" => "cadastrado"));
 
             #verificar a melhor forma de tratar o blindado recursivo
             foreach ($listaImoveis as $selecionarImovel) {
@@ -254,7 +232,7 @@ class ImovelControle {
 
             $visao = new Template();
             $visao->setItem($listarImovel);
-            $visao->exibir('ImovelVisaoListagemDados.php');
+            $visao->exibir('ImovelVisaoListagem.php');
         }
     }
 
@@ -263,7 +241,7 @@ class ImovelControle {
             $imovel = new Imovel();
             $genericoDAO = new GenericoDAO();
             $consultarAD = new ConsultasAdHoc();
-            $listaImoveis = $genericoDAO->consultar($imovel, true, array("idusuario" => $_SESSION['idusuario']));
+            $listaImoveis = $genericoDAO->consultar($imovel, true, array("idusuario" => $_SESSION['idusuario'], "status" => "cadastrado"));
 
             #verificar a melhor forma de tratar o blindado recursivo
             foreach ($listaImoveis as $selecionarImovel) {
@@ -516,24 +494,25 @@ class ImovelControle {
             $visao->exibir('UsuarioVisaoLogin.php');
         }
     }
-    
+
     function excluir($parametro) {
-        $imovel = new Imovel();
         $genericoDAO = new GenericoDAO();
         $genericoDAO->iniciarTransacao();
-        $selecionarImovel = $genericoDAO->consultar($imovel, false, array ("id" => $parametro['hdnImovel']));
-        $excluirImovel = $genericoDAO->excluir($imovel, $selecionarImovel[0]->getId());
-        if($excluirImovel){
-             $genericoDAO->commit();
-             $genericoDAO->fecharConexao();
-             echo json_encode(array("resultado" => 1));
-             
-        }else {
-             $genericoDAO->rollback();
-             $genericoDAO->fecharConexao();
-             echo json_encode(array("resultado" => 0));
+
+        $imovel = new Imovel();
+        $selecionarImovel = $genericoDAO->consultar($imovel, false, array("id" => $parametro['hdnImovel']));
+        $imovel = $selecionarImovel[0];
+        $imovel->excluir($imovel);
+        $idImovel = $genericoDAO->editar($imovel);
+        if ($idImovel) {
+            $genericoDAO->commit();
+            $genericoDAO->fecharConexao();
+            echo json_encode(array("resultado" => 1));
+        } else {
+            $genericoDAO->rollback();
+            $genericoDAO->fecharConexao();
+            echo json_encode(array("resultado" => 0));
         }
     }
-
 
 }

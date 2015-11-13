@@ -517,8 +517,8 @@ function cadastrarImovel() {
                     required: true,
                     minlength: 5
                 },
-                 txtCEP:{
-                   required: true
+                txtCEP: {
+                    required: true
                 },
                 txtNumero: {
                     required: true
@@ -595,11 +595,11 @@ function mostrarCamposEdicaoCasa(tipoImovel,
         $("#divAndar").hide();
         $("#divUnidadesAndar").hide();
         $("#divNumeroTorres").hide();
-        
+
         $("#sltAndares").rules("remove");
-        
+
         $("#sltAndar").rules("remove");
-        
+
         var condicao = "<div class='four wide required field' id='divCondicao'>\n\
                              <label>Condição</label><div class='ui selection dropdown'>\n\
                              <input type='hidden' name='sltCondicao' id='sltCondicao' value='" + parametroCondicao + "'> \n\
@@ -643,7 +643,7 @@ function mostrarCamposEdicaoApartamento(tipoImovel,
         parametroCondominio) {
 
     $(document).ready(function () {
-            
+
         exibirDiferencialEdicao();
         preco();
         $("#divNumeroPlantas").hide();
@@ -651,9 +651,9 @@ function mostrarCamposEdicaoApartamento(tipoImovel,
         $("#divAndar").show();
         $("#divUnidadesAndar").show();
         $("#divNumeroTorres").hide();
-        
+
         $("#sltAndares").rules("remove");
-        
+
         var condicao = "<div class='four wide required field' id='divCondicao'>\n\
                              <label>Condição</label><div class='ui selection dropdown'>\n\
                              <input type='hidden' name='sltCondicao' id='sltCondicao' value='" + parametroCondicao + "'> \n\
@@ -746,9 +746,9 @@ function mostrarCamposEdicaoSalaComercial(tipoImovel,
         $("#divAndar").hide();
         $("#divUnidadesAndar").hide();
         $("#divNumeroTorres").hide();
-        
+
         $("#sltAndares").rules("remove");
-        
+
         var condicao = "<div class='four wide required field' id='divCondicao'>\n\
                              <label>Condição</label><div class='ui selection dropdown'>\n\
                              <input type='hidden' name='sltCondicao' id='sltCondicao' value='" + parametroCondicao + "'> \n\
@@ -794,9 +794,9 @@ function mostrarCamposEdicaoPredioComercial(tipoImovel, parametroArea) {
         $("#divUnidadesAndar").hide();
         $("#divCondicao").hide();
         $("#divNumeroTorres").hide();
-        
+
         $("#sltAndares").rules("remove");
-        
+
         var area = "<div id='divArea' class='three wide field'>\n\
                              <div class='field'><label>Área(m<sup>2</sup>)</label>\n\
                              <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='7' value='" + parametroArea + "'>\n\
@@ -816,9 +816,9 @@ function mostrarCamposEdicaoTerreno(tipoImovel, parametroArea) {
         $("#divAndar").hide();
         $("#divUnidadesAndar").hide();
         $("#divNumeroTorres").hide();
-        
+
         $("#sltAndares").rules("remove");
-        
+
         var area = "<div id='divArea' class='three wide field'>\n\
                              <div class='field'><label>Área(m<sup>2</sup>)</label>\n\
                              <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='7' value='" + parametroArea + "'>\n\
@@ -910,7 +910,7 @@ function campos(parametroQuarto,
                             <div class='item' data-value='4'>4</div>\n\
                             <div class='item' data-value='5'>5 ou mais</div>\n\
                             </div></div></div>";
-    
+
     var garagem = "<div class='four wide required field' id='divGaragem'><label>Vagas de Garagem</label>\n\
                             <div class='ui selection dropdown'>\n\
                             <input type='hidden' name='sltGaragem' id='sltGaragem' value='" + parametroGaragem + "'>\n\
@@ -924,10 +924,10 @@ function campos(parametroQuarto,
                             <div class='item' data-value='5'>5 ou mais</div>\n\
                            </div></div></div>";
     /*
-    var area = "<div id='divArea' class='three wide field'>\n\
-                             <div class='field'><label>Área(m<sup>2</sup>)</label>\n\
-                             <input type='text' name='txtArea[]' id='txtArea' placeholder='Informe a Área' maxlength='7' value='" + parametroArea + "'>\n\
-                        </div></div>";*/
+     var area = "<div id='divArea' class='three wide field'>\n\
+     <div class='field'><label>Área(m<sup>2</sup>)</label>\n\
+     <input type='text' name='txtArea[]' id='txtArea' placeholder='Informe a Área' maxlength='7' value='" + parametroArea + "'>\n\
+     </div></div>";*/
 
     if (parametroQuarto !== null) {
         $("#divInfoApeCasa").append(quarto);
@@ -1047,30 +1047,30 @@ function camposPlantas(parametroQuarto,
     }
 }
 
- function confirmarCadastroImovel() {
-   $(document).ready(function () {
-       $('#btnCadastrar').click(function () {
-           if ($("#form").valid()) {
-               if ($("#hdnCEP").val() != "") {
+function confirmarCadastroImovel() {
+    $(document).ready(function () {
+        $('#btnCadastrar').click(function () {
+            if ($("#form").valid()) {
+                if ($("#hdnCEP").val() != "") {
 
-                   carregaDadosModalImovel($("#textoConfirmacao"));
-                   $('#modalConfirmar').modal({
-                       closable: true,
-                       transition: "fade up",
-                       onDeny: function () {
-                           return true;
-                       },
-                       onApprove: function () {
-                           $("#form").submit();
-                       }
-                   }).modal('show');
-               } else {
-                   $("#msgCEP").html(criarAlerta("red", "<i class=\"red warning sign icon\"></i> \n\
+                    carregaDadosModalImovel($("#textoConfirmacao"));
+                    $('#modalConfirmar').modal({
+                        closable: true,
+                        transition: "fade up",
+                        onDeny: function () {
+                            return true;
+                        },
+                        onApprove: function () {
+                            $("#form").submit();
+                        }
+                    }).modal('show');
+                } else {
+                    $("#msgCEP").html(criarAlerta("red", "<i class=\"red warning sign icon\"></i> \n\
                    Primeiro fa&ccedil;a a busca do CEP"));
-               }
-           }
-       })
-   })
+                }
+            }
+        })
+    })
 }
 
 function carregaDadosModalImovel($div) {
@@ -1374,7 +1374,6 @@ function exibirDiferencialEdicao() {
     })
 }
 
-
 function tipoImovel(tipo) {
     switch (tipo) {
         case "1":
@@ -1398,3 +1397,52 @@ function tipoImovel(tipo) {
     }
 }
 
+function formExcluirImovel(imovel, token, tipo) {
+    $(document).ready(function () {
+        $('.coupled.modal').modal({
+            allowMultiple: false
+        });
+        $("#hdnImovel").val(imovel);
+        $("#hdnToken").val(token);
+        $('.first.modal .description').html('<h2 class="ui center aligned header red">ATENÇÃO: Deseja excluir o imóvel ' + tipo + '?</h2>');
+        //$('.second.modal').modal('attach events', '.first.modal .primary');
+        $('.second.modal').modal({
+            closable: false,
+            onApprove: function () {
+                window.location.reload();
+                ;
+            }
+        });
+        $('.first.modal').modal('attach events', '.first.modal .orange', 'hide');
+        $('.first.modal').modal('show');
+        console.log('formExcluirImovel');
+    })
+}
+
+function excluirImovel() {
+    $(document).ready(function () {
+        console.log('excluirImovel');
+        console.log($('#form'));
+        $.ajax({
+            url: "index.php",
+            dataType: "json",
+            type: "POST",
+            data: $('#form').serialize(),
+            beforeSend: function () {
+                $(".first.modal .content").html("<div class='ui active inverted dimmer'><div class='ui text loader'>Processando. Aguarde...</div></div>");
+            },
+            success: function (resposta) {
+                $(".first.modal .content .dimmer").remove();
+                $("#hdnImovel").val("");
+                $("#hdnToken").val("");
+                if (resposta.resultado == 1) {
+                    $('.second.modal').modal('show');
+                    $('.second.modal .content').html('<div class="ui positive message"><div class="header">Exclusão realizada com sucesso!</div></div>');
+
+                } else {
+                    $('.second.modal .content').html('<div class="ui negative message"><div class="header">Houve um erro na exclusão!</div></div>');
+                }
+            }
+        })
+    })
+}

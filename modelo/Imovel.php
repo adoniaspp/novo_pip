@@ -10,6 +10,8 @@ class Imovel {
     private $idendereco;
     private $condicao;
     private $identificacao;
+    private $status;
+    private $datahoraexclusao;
     protected $anuncio;
     protected $endereco;
     protected $casa;
@@ -52,6 +54,14 @@ class Imovel {
 
     function getIdentificacao() {
         return $this->identificacao;
+    }
+
+    function getStatus() {
+        return $this->status;
+    }
+
+    function getDatahoraexclusao() {
+        return $this->datahoraexclusao;
     }
 
     function getAnuncio() {
@@ -130,6 +140,14 @@ class Imovel {
         $this->identificacao = $identificacao;
     }
 
+    function setStatus($status) {
+        $this->status = $status;
+    }
+
+    function setDatahoraexclusao($datahoraexclusao) {
+        $this->datahoraexclusao = $datahoraexclusao;
+    }
+
     function setAnuncio($anuncio) {
         $this->anuncio = $anuncio;
     }
@@ -174,8 +192,7 @@ class Imovel {
         $this->imoveldiferencial = $imoveldiferencial;
     }
 
-    
-        
+            
     public function Referencia() {
 
         return substr($this->getDatahoracadastro(), 0, -15) . substr($this->getDatahoracadastro(), 5, 2) . str_pad($this->getId(), 5, "0", STR_PAD_LEFT);
@@ -209,7 +226,6 @@ class Imovel {
     function cadastrar($parametros, $idendereco) {
         $imovel = new Imovel();
         $imovel->setIdtipoimovel($parametros['sltTipo']);  
-        $imovel->setDatahoraalteracao("");
         $imovel->setDatahoracadastro(date("Y/m/d H:i:s"));
         $imovel->setIdendereco($idendereco);          
         $imovel->setIdusuario($_SESSION["idusuario"]);       
@@ -219,6 +235,7 @@ class Imovel {
             else $imovel->setCondicao($parametros['sltCondicao']);
        
         $imovel->setIdentificacao($parametros['txtIdentificacao']);
+        $imovel->setStatus("cadastrado");
         return $imovel;
     }
 
@@ -235,7 +252,13 @@ class Imovel {
             $imovel->setCondicao("nenhuma");}
             else $imovel->setCondicao($parametros['sltCondicao']);
         $imovel->setIdentificacao($parametros['txtIdentificacao']);
+        $imovel->setStatus("cadastrado");
         return $imovel;
+    }
+    
+    function excluir($imovel){
+        $imovel->setStatus("excluido");
+        $imovel->setDatahoraexclusao(date("Y/m/d H:i:s"));
     }
 }
 

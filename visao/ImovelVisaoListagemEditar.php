@@ -54,15 +54,16 @@
 
                         echo "<td> <a href='#' class='ui green button' id='detalhes" . $imovel->getId() . "' ><i class='ui home icon'></i>Detalhes</a>";
 
-                        if (count($imovel->getAnuncio()) > 0 && verificaAnuncioAtivo($imovel->getAnuncio())) {
-                            echo '<div class="ui compact positive message"><i class="large icons"><i class="announcement  icon"></i><i class="corner checkmark icon"></i></i> Anúncio Ativo</div>';
+                        if (count($imovel->getAnuncio()) > 0) {
+                            if (verificaAnuncioAtivo($imovel->getAnuncio())) {
+                                $mensagemAnuncio = "Imóvel possui anúncio ativo";
+                            } else {
+                                $mensagemAnuncio = "Imóvel possui anúncio";
+                            }
+                            echo '<div class="ui compact negative message"><i class="large icons"><i class="large red dont icon"></i><i class="black trash icon"></i></i><i class="large icons"><i class="large red dont icon"></i><i class="black edit icon"></i></i>' . $mensagemAnuncio . '</div>';
                         } else {
                             echo "<a href=index.php?entidade=Imovel&acao=selecionar&id=" . $imovel->getId() . '&token=' . $_SESSION['token'] . "  id='editar" . $imovel->getId() . "' class='ui teal button'><i class='ui edit icon'></i>Editar</a>";
-                            if (count($imovel->getAnuncio()) > 0) {
-                                echo"<div class='ui compact message'>Imóvel possui anúncio. Não é possível excluir</div>";
-                            } else {
-                                echo "<a href=index.php?entidade=Imovel&acao=excluir&id=" . $imovel->getId() . '&token=' . $_SESSION['token'] . " id='excluir" . $imovel->getId() . "' class='ui red button'><i class='ui trash icon'></i>Excluir</a>";
-                            }
+                            echo "<button type='button' class='ui button red' onclick='formExcluirImovel(" . $imovel->getId() . ",\"" . $_SESSION['token'] . "\",\"" . $imovel->buscarTipoImovel($imovel->getIdTipoImovel()) . "\")'><i class='ui trash icon'></i>Excluir</button>";
                         }
 
                         echo "</td>";
@@ -73,7 +74,41 @@
         </table>
     </div>
 </div>
-<div class="ui hidden divider"></div>  
+<div class="ui hidden divider"></div> 
+
+<div class="ui first coupled modal">
+
+    <div class="header">
+        Excluir Imóvel
+    </div>
+    <div class="image content">
+        <div class="description"></div>
+    </div>
+    <div class="actions">
+        <form id="form" action="index.php" method="POST">
+            <input type="hidden" id="hdnImovel" name="hdnImovel" class="hdnImovel" value="" />
+            <input type="hidden" id="hdnToken" name="hdnToken" class="hdnToken" value="" />
+            <input type="hidden" id="hdnEntidade" name="hdnEntidade" class="hdnEntidade" value="imovel" />
+            <input type="hidden" id="hdnAcao" name="hdnAcao" class="hdnAcao" value="excluir" />
+        </form>
+        <div class="ui orange button">Não</div>
+        <div class="ui primary button" onclick="excluirImovel()">Sim</div>
+    </div>
+
+</div>
+<div class="ui small second coupled modal">
+    <div class="header">
+        Excluir Imóvel
+    </div>
+    <div class="content">
+    </div>
+    <div class="actions">
+        <div class="ui ok button">
+            <i class="checkmark icon"></i>
+            Ok
+        </div>
+    </div>
+</div>
 
 <?php
 include_once "/modal/ImovelListagemModal.php";
@@ -105,5 +140,6 @@ function verificaAnuncioAtivo($listaAnuncios) {
                 {"orderable": false, "targets": 3}
             ]
         });
+
     })
 </script>

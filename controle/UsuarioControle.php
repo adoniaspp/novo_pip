@@ -530,8 +530,8 @@ class UsuarioControle {
             $itemMeuPIP = array();
             $itemMeuPIP["usuarioPlano"] = $listarUsuarioPlano;
             $itemMeuPIP["usuario"] = $usuario;
-            $itemMeuPIP["imovel"] = is_array($genericoDAO->consultar(new Imovel(), true, array("idusuario" => $_SESSION['idusuario'])));
-            $itemMeuPIP["imovelCadastrado"] = $genericoDAO->consultar(new Imovel(), true, array("idusuario" => $_SESSION['idusuario']));
+            $itemMeuPIP["imovel"] = is_array($genericoDAO->consultar(new Imovel(), true, array("idusuario" => $_SESSION['idusuario'], "status" => "cadastrado")));
+            $itemMeuPIP["imovelCadastrado"] = $genericoDAO->consultar(new Imovel(), true, array("idusuario" => $_SESSION['idusuario'], "status" => "cadastrado"));
             $itemMeuPIP["anuncio"] = count($consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario']) > 0);
             $itemMeuPIP["mensagem"] = $genericoDAO->consultar(new Mensagem(), false, array("idusuario" => $_SESSION['idusuario']));
             //visao
