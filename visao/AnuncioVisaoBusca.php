@@ -2,25 +2,27 @@
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 <script src="assets/libs/gmaps/gmap3.min.js"></script>
+<script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
+<script src="assets/libs/jquery/jquery.validate.min.js"></script>
 
 <script>
     carregarAnuncio();
-    
-    <?php 
-    $item = $this->getItem();          
-    foreach ($item["anuncio"] as $buscaAnuncio){
-    if(!$item["page"])       {
-    ?> 
-    marcarMapa("<?php echo $buscaAnuncio["logradouro"]?>", "<?php echo $buscaAnuncio["numero"]?>", "<?php echo $buscaAnuncio["bairro"]?>", "<?php echo $buscaAnuncio["tituloanuncio"]?>", "<?php echo $buscaAnuncio["valormin"]?>", "<?php echo $buscaAnuncio["finalidade"]?>", "1000", "350", 11);    
-    
-    <?php 
+    enviarEmail();
+
+<?php
+$item = $this->getItem();
+foreach ($item["anuncio"] as $buscaAnuncio) {
+    if (!$item["page"]) {
+        ?>
+            marcarMapa("<?php echo $buscaAnuncio["logradouro"] ?>", "<?php echo $buscaAnuncio["numero"] ?>", "<?php echo $buscaAnuncio["bairro"] ?>", "<?php echo $buscaAnuncio["tituloanuncio"] ?>", "<?php echo $buscaAnuncio["valormin"] ?>", "<?php echo $buscaAnuncio["finalidade"] ?>", "1000", "350", 11);
+
+        <?php
     }
-    }
-    ?>
- 
+}
+?>
+
 </script>
 <?php
-
 ?>
 
 <div class="ui middle aligned stackable grid container">
@@ -28,6 +30,7 @@
 </div>
 
 <div class="ui hidden divider"></div>
+
 
 <form id="form" action="index.php" method="post" target='_blank'>
     <input type="hidden" id="hdnEntidade" name="hdnEntidade"  />
@@ -55,7 +58,15 @@
                         <td class="ui special cards" style="border: none !important">
                             <div class="ui stackable card" id="cartao<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">
                                 <div class="content">
-                                    <div class="ui blue ribbon label">Anúncio <?php echo $item['anuncio'][$crtl]['idanuncioformatado']?></div>        
+                                    <?php             
+                                    if($item['anuncio'][$crtl]['finalidade'] == "Venda") { 
+                                        echo "<div class='ui blue ribbon label'> Venda </div>";
+                                    }else{
+                                        echo "<div class='ui green ribbon label'> Aluguel </div>";
+                                    }
+?>
+                                    
+                                    
                                 </div>
                                 <div class="dimmable image">
                                     <div class="ui inverted dimmer">
@@ -90,11 +101,13 @@
                                     
                                     <?php echo mb_substr($item['anuncio'][$crtl]['tituloanuncio'], 0, 32) . "..." ?></b></div>
 
-                                    <div class="description">Tipo - 
+                                    <div class="description"> 
 
                                         <?php 
-
-                                        if($item['anuncio'][$crtl]['tipo'] == "apartamentoplanta"){
+                                        if($item['anuncio'][$crtl]['tipo'] == "prediocomercial"){
+                                            echo "Prédio Comercial";
+                                        }else if
+                                        ($item['anuncio'][$crtl]['tipo'] == "apartamentoplanta"){
                                             echo "Apartamento na Planta";
                                         }
                                         else
@@ -104,6 +117,8 @@
                                         <br />
                                         <span id="spanValor<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>"> 
                                         <?php echo $item['anuncio'][$crtl]['valormin'] ?> </span>
+                                        <br />
+                                        Cod. <?php echo $item['anuncio'][$crtl]['idanuncioformatado']?>
                                     </div>
                                 </div>
                                 <div class="extra content">      
@@ -133,3 +148,61 @@
 <div id="load">
     <div class="ui text loader">Loading</div>
 </div>  
+<!-- Modal Para Abrir a Div do Enviar Anuncios por Email -->
+<div class="ui standart modal" id="modalEmail">
+    <i class="close icon"></i>
+    <div class="header">
+        Anuncios Selecionados: <div id="idAnunciosCabecalho"></div>
+    </div>
+    <div class="content" id="camposEmail">
+        <div class="description">
+            <div class="ui piled segment">
+                <p id="textoConfirmacao"></p>
+
+                <form class="ui form" id="formEmail" action="index.php" method="post">
+                    <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio"  />
+                    <input type="hidden" id="hdnAcao" name="hdnAcao" value="enviarEmail" />               
+
+                    <div class="field">
+                        <label>Seu Nome</label>
+                        <input name="txtNomeEmail" id="txtNomeEmail" placeholder="Digite Seu Nome" type="text" maxlength="50">
+                    </div>
+                    <div class="field">
+                        <label>Sua Mensagem</label>
+                        <textarea rows="2" id="txtMsgEmail" name="txtMsgEmail" maxlength="200"></textarea>
+                    </div>
+                    <div class="field">
+                        <label>E-mail de Destino</label>
+                        <input name="txtEmailEmail"  id="txtEmailEmail" placeholder="Digite o email" type="text" maxlength="50">
+                    </div>
+
+                    <div class="five wide field">
+                        <label>Digite o código abaixo:</label>
+                        <img id="captcha" src="../assets/libs/captcha/securimage/securimage_show.php" alt="CAPTCHA Image" />    
+                        <a href="#" onclick="document.getElementById('captcha').src = '../assets/libs/captcha/securimage/securimage_show.php?' + Math.random();
+                                return false">
+                            <img src="../assets/libs/captcha/securimage/images/refresh.png" height="32" width="32" alt="Trocar Imagem" onclick="this.blur()" align="bottom" border="0"></a>
+                        <input type="text" name="captcha_code" id="captcha_code" maxlength="6" />
+                    </div>
+
+                    <div id="idAnuncios"></div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <div id="divRetorno"></div>
+    <div class="actions">
+        <div  id="botaoCancelarEmail" class="ui red deny button">
+            Cancelar
+        </div>
+        <div  id="botaoEnviarEmail" class="ui positive right labeled icon button">
+            Enviar
+            <i class="checkmark icon"></i>
+        </div>
+        <div  id="botaoFecharEmail" class="ui red deny button">
+            Fechar
+        </div>
+    </div>
+</div>

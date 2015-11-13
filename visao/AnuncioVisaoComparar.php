@@ -1,5 +1,8 @@
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="assets/libs/lightbox/lightbox.css">
+<script src="assets/libs/lightbox/lightbox.min.js"></script>
+<script src="assets/js/imagemComparar.js"></script>
 
 <?php
 $item = $this->getItem();
@@ -11,7 +14,7 @@ $item = $this->getItem();
         <div class="two wide column"></div>
         <div class="ten wide column">
             <table class="ui compact celled definition table" id="tabela">
-                
+
                 <thead>
                     <tr>
                         <th></th>
@@ -32,7 +35,7 @@ $item = $this->getItem();
                         ?>
                         <tr>
                             <td class="collapsing">
-                                
+
                                 <?php echo $anuncio['tituloanuncio'] ?>
                             </td>
                             <td><?php echo 'R$' . $anuncio['valormin'] ?></td>
@@ -69,38 +72,39 @@ $item = $this->getItem();
                             </td>
                             <td><?php echo $anuncio['bairro'] ?></td>
                             <td><?php echo ucfirst($anuncio['condicao']) ?></td>
-                            
+
                             <td>
                                 <?php
-                                if($anuncio['imagem']) {
-                            foreach ($anuncio['imagem'] as $imagem) {                                                                
-                                if($imagem['destaque'] == 'SIM'){
-//                                    var_dump($imagem['diretorio']);
-//                                    die();
+                                if ($anuncio['imagem']) {
+                                    foreach ($anuncio['imagem'] as $imagem) {
+                                        if ($imagem['destaque'] == 'SIM') {
+                                            ?>
+                                            <a href="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . '/' . $imagem['nome'] ?>" data-lightbox="image-1" data-title="My caption" >
+                                                <img style="height:80px; width: 100px;" src="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . '/' . $imagem['nome'] ?>">
+                                            </a>
+                                            <?php
+                                        }
+                                    }
+                                } else {
                                     ?>
-                                        <img style="height:80px; width: 100px;" src="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] .'/'. $imagem['nome'] ?>">
-                            <?php 
-                                }}
-                            }else{
-                                    ?>
-                                <img style="height:80px; width: 100px;" src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>">
-                               <?php 
-                                } ?>
+                                    <a href="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" data-lightbox="image-1" data-title="My caption" >
+                                        <img style="height:80px; width: 100px;" src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>">
+                                    </a>
+                                    <?php }
+                                ?>
                             </td>
                         </tr>
-                    <?php } ?>
+<?php } ?>
 
                 </tbody>
 
             </table>       
         </div>
-        <div class="three wide column">
-            
-        </div>
-        </div>   
-        
-    <br>
+
     </div>   
+
+    <br>
+</div>   
 
 
 </div>
@@ -122,19 +126,19 @@ function minMax($parametros, $coluna) {
 ?>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         var table = $('#tabela').DataTable({
             "language": {
                 "url": "assets/libs/datatables/js/Portuguese-Brasil.json",
             },
             "searching": false,
-            "paging":   false,
+            "paging": false,
             "info": false,
             "columnDefs": [
-                {"orderable": false, "targets": [ 6, 7, 8, 9 ]}
-            ]            
+                {"orderable": false, "targets": [6, 7, 8, 9]}
+            ]
         });
-        $('#tabela tbody').on('click', 'tr', function() {
+        $('#tabela tbody').on('click', 'tr', function () {
             if ($(this).hasClass('selected')) {
                 $(this).removeClass('selected');
             }
@@ -144,6 +148,6 @@ function minMax($parametros, $coluna) {
             }
         });
 
-        
+
     })
 </script>

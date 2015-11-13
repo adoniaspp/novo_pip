@@ -45,7 +45,7 @@ $item = $this->getItem();
                             </div>
                         </div>
 
-                        <div class="fotorama" data-allowfullscreen="true" data-nav="thumbs" data-fit="cover" data-width="700" data-ratio="700/467" data-max-width="100%">                            
+                        <div class="fotorama" data-allowfullscreen="native" data-nav="thumbs" data-fit="cover" data-width="700" data-ratio="700/467" data-max-width="100%">                            
                             <?php
                             if ($item['anuncio'][0]['imagem']) {
                                 foreach ($item['anuncio'][0]['imagem'] as $imagem) {
