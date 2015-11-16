@@ -81,7 +81,7 @@
                                     <?php echo strtoupper($anuncioTelefone->getOperadora()) . " - " . strtoupper($anuncioTelefone->getNumero()) ?>
                                     <?php
                                     if($anuncioTelefone->getWhatsApp()=="SIM"){ ?>
-                                    <i class="big whatsapp icon"></i>
+                                    <i class="large green whatsapp icon"></i>
                                     <?php
                                     }?>
                                     <br/>

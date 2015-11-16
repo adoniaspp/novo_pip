@@ -126,7 +126,7 @@ foreach ($imoveis as $qtdAnuncios) {
                         }
                         foreach ($array as $telefone) {
                             if($telefone->getWhatsApp()=="SIM"){
-                                $fones[] = $telefone->getOperadora() . " - " . $telefone->getNumero() . "  <i class='big whatsapp icon'></i> ";
+                                $fones[] = $telefone->getOperadora() . " - " . $telefone->getNumero() . "  <i class='large green whatsapp icon'></i> ";
                             }else $fones[] = $telefone->getOperadora() . " - " . $telefone->getNumero();
                         }
 

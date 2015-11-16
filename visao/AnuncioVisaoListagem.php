@@ -3,7 +3,9 @@
 <script src="assets/libs/jquery/jquery.validate.min.js" type="text/javascript"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
+<script src="assets/libs/datatables/js/dataTables.fixedColumns.min.js"></script>
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/fixedColumns.dataTables.min.css">
 <script src="assets/js/anuncio.js"></script>
 
 <script>
@@ -82,6 +84,7 @@
         <thead>
             <tr>
                 <th>ID Anuncio</th>
+                <th>Tipo</th>
                 <th>Finalidade</th>
                 <th>Titulo</th>
                 <th>Descrição</th> 
@@ -94,9 +97,49 @@
             <?php
             if ($item) {
                 foreach ($item["listaAnuncio"] as $anuncio) {
+                    
+                    switch ($anuncio->getImovel()->getIdTipoImovel()){
+                                
+                                case 1: $tipoImovel = "casa"; break;
+                                case 2: $tipoImovel = "apartamentoplanta"; break;
+                                case 3: $tipoImovel = "apartamento"; break;
+                                case 4: $tipoImovel = "salacomercial"; break;
+                                case 5: $tipoImovel = "prediocomercial"; break;
+                                case 6: $tipoImovel = "terreno"; break;
+                                
+                            }
+                    
                     ?>
                     <tr>
-                        <td><?php echo $anuncio->getIdAnuncio() ?></td>
+                        <td>                           
+                        <form id="form" action="index.php" method="post" target='_blank'>
+                            <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio" />
+                            <input type="hidden" id="hdnAcao" name="hdnAcao" value="detalhar"/>
+                            <input type="hidden" id="hdnCodAnuncio" name="hdnCodAnuncio" value="<?php echo $anuncio->getId() ?>"/>
+                            <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" value="<?php echo $tipoImovel ?>"/>
+               
+                            
+                            <button class="ui labeled icon button">
+                            <i class="zoom icon"></i>
+                            <?php echo $anuncio->getIdAnuncio(); ?>
+                            </button>
+                        
+                        </form>     
+                        </td>
+                        <td><?php 
+                        
+                        switch ($anuncio->getImovel()->getIdTipoImovel()){
+                                
+                                case 1: echo "Casa"; break;
+                                case 2: echo "Apartamento na Planta"; break;
+                                case 3: echo "Apartamento"; break;
+                                case 4: echo "Sala Comercial"; break;
+                                case 5: echo "Prédio Comercial"; break;
+                                case 6: echo "Terreno"; break;
+                                
+                            }  
+                        
+                        ?></td>
                         <td><?php echo $anuncio->getFinalidade(); ?></td>
                         <td><?php echo $anuncio->getTituloAnuncio(); ?></td>
                         <td><?php echo $anuncio->getDescricaoAnuncio(); ?></td>

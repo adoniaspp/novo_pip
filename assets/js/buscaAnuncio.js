@@ -1,6 +1,6 @@
 function buscarAnuncio() {
     $(document).ready(function () {
-
+    
         $("#divCaracteristicas").hide();
         $("#divValor").hide();
 
@@ -61,7 +61,9 @@ function buscarAnuncio() {
 
 
         $("#btnBuscarAnuncio").on('click', function () {
-
+            
+            $("#divOrdenacao").show(); //mostrar a ordenação, caso esteja oculta quando a buscar não retornar nada
+            
             $("#load").addClass('ui active inverted dimmer');
             if ($('#sltTipoImovel').val() == "") {
                 tipoimovel = "todos"
@@ -1030,6 +1032,7 @@ function inicio() {
 function ordemInicio() {
 
     $(document).ready(function () {
+     
         $("#sltOrdenacao").change(function () {
             $("#load").addClass('ui active inverted dimmer');
             if ($('#hdnOrdTipoImovel').val() == "") {

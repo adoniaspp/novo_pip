@@ -32,10 +32,33 @@ $item = $this->getItem();
 <div class="ui hidden divider"></div>
 
 <div class="ui middle aligned stackable grid container">
+    
+    <?php if($item["anuncio"][0]["status"] == "finalizado" || $item["anuncio"][0]["status"] == "expirado") {
+    ?>
+    <div class="row">
+        <div class="center aligned column">
+          <div class="ui negative message">           
+            <div class="header">
+              Atenção
+            </div>
+            Este seu anuncio não está mais ativo, e não pode ser visualizado por outros usuários.
+          </div>  
+        </div>
+    </div>
+     
+    <?php } ?>        
     <div class="row">
     <div class="column">
     <div class="ui segment">
-                <a class="ui blue ribbon label">Detalhes - Anuncio <?php echo $item['anuncio'][0]['idanuncioformatado']?></a>
+        
+        <?php             
+            if($item['anuncio'][0]['finalidade'] == "Venda") { 
+                echo "<div class='ui blue ribbon label'> Venda </div>";
+            }else{
+                echo "<div class='ui green ribbon label'> Aluguel </div>";
+            }
+        ?>
+                
                 <div class="ui stackable two column padded grid">
                     <div class="column">  
                         <div class="ui blue dividing header">
@@ -273,7 +296,11 @@ $item = $this->getItem();
                     </div>
                 </div> 
             </div>
-        </div>     
+            <div class="item"> 
+                <div class="ui large teal horizontal label">Cód. Anuncio - <?php echo $item['anuncio'][0]['idanuncioformatado'] ?></div>
+                </div> 
+            </div>  
+        
         </div> 
     </div>
 
@@ -494,15 +521,19 @@ $item = $this->getItem();
                                             ?>
                                             
                                             <div class="description">
-                                                <?php if($telefone['whatsapp']=="SIM"){?>
                                                 
-                                                <i class="big whatsapp icon"></i>
+                                                <?php echo $telefone['numero'] ?> - <?php echo $telefone['operadora'] ?>                    
+                                                <?php if($telefone['whatsapp']=="SIM"){?>                        
+                                                <i class="large green whatsapp icon"></i>
                                                 <?php } ?>
-                                                <?php echo $telefone['numero'] ?> - <?php echo $telefone['operadora'] ?>
+                                                
                                             </div>
                                             <?php
                                         }
                                         ?>
+                                        
+                                        <?php if($item['anuncio'][0]['status'] == "cadastrado"){ ?>
+                                        
                                         <div class="extra">
 
                                             <button class="ui right floated primary button" id="btnDuvida">
@@ -511,6 +542,9 @@ $item = $this->getItem();
                                             </button>
 
                                         </div>
+                                        
+                                        <?php } ?>
+                                        
                                     </div>
                                 </div>
                             </div>                                

@@ -14,7 +14,7 @@ switch ($item) {
     case "errosemresultadobusca":
     case "errousuarioouanuncio":
         ?>
-        $('#divColuna').append("<div class='ui compact negative icon message'>\n\
+        $('#divColuna').append("<div class='ui negative icon message'>\n\
                                  <i class='remove icon'></i>\n\
                                  <div class='content'>\n\
                                      <div class='header'>Atenção</div><div id='divMensagemAtencao'></div>\n\
@@ -32,7 +32,7 @@ switch ($item) {
     case "sucessoedicaoimovel":
     case "sucessoenvioemail":
         ?>  
-        $('#divColuna').append("<div class='ui compact success icon message'>\n\
+        $('#divColuna').append("<div class='ui success icon message'>\n\
                                  <i class='checkmark icon'></i>\n\
                                  <div class='content'>\n\
                                      <div class='header'>Sucesso</div><div id='divMensagemSucesso'></div>\n\
@@ -46,7 +46,7 @@ switch ($item) {
     });
 </script>
 
-<div class="ui page menu grid">
+<div class="ui basic page menu grid">
     <div class="ui two column  center aligned  grid"> 
         <div>
             <div class="one wide column" id="divimg"> <br>
@@ -217,8 +217,12 @@ switch ($item) {
                         break;
                     case "errosemresultadobusca":
                         ?>                      
-                        <br>
-                        <h2>Nenhum imóvel encontradoooo</h2>
+                        <script>
+                        $(document).ready(function() {
+                        $('#divMensagemAtencao').html("Nenhum Anuncio Encontrado");
+                        $("#divOrdenacao").hide();
+                        })
+                        </script>
                         <?php
                         break;
                 }

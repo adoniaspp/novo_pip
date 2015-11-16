@@ -134,20 +134,21 @@ class AnuncioControle {
         unset($parametros["tabela_length"]);
         unset($parametros["selecionarAnuncio"]);
         unset($parametros["listaAnuncio"]);
+        
         $parametros["predicados"] = $parametros;
         
         $parametros["sessaoUsuario"] = $_SESSION["idusuario"];
         
         $idAnuncio = $genericoDAO->consultar(new Anuncio(), false, array("id" => $parametros["idanuncio"]));
-        
+       
         $idUsuarioPlano = $genericoDAO->consultar(new UsuarioPlano(), false, array("id" => $idAnuncio[0]->getIdUsuarioPlano()));
         
         $idUsuarioAnuncio = $genericoDAO->consultar(new Usuario(), false, array("id" => $idUsuarioPlano[0]->getIdUsuario()));
-   
+        
         $parametros["idUsuario"] = $idUsuarioAnuncio[0]->getId();
 
         $listarAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
-       
+        
         if($listarAnuncio["anuncio"][0]["status"]!= "cadastrado" && 
                 $parametros["sessaoUsuario"] != $parametros["idUsuario"]){
             
@@ -161,10 +162,10 @@ class AnuncioControle {
             
         } else{
         
-        $usuarioQtdAnuncio = count($consultasAdHoc->ConsultarAnunciosPorUsuario($parametros["idUsuario"]));
-        
-        $listarAnuncio["qtdAnuncios"] = $usuarioQtdAnuncio;
+        $usuarioQtdAnuncio = count($consultasAdHoc->ConsultarAnunciosPorUsuario($parametros["idUsuario"], null, 'cadastrado'));
 
+        $listarAnuncio["qtdAnuncios"] = $usuarioQtdAnuncio;
+        
         $listarAnuncio["loginUsuario"] = $parametros["idUsuario"];
       
         $visao->setItem($listarAnuncio);

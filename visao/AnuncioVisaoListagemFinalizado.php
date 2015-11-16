@@ -99,8 +99,8 @@
                 switch ($anuncio->getImovel()->getIdTipoImovel()){
                                 
                                 case 1: $tipoImovel = "casa"; break;
-                                case 2: $tipoImovel = "apartamento"; break;
-                                case 3: $tipoImovel = "apartamentoplanta"; break;
+                                case 2: $tipoImovel = "apartamentoplanta"; break;
+                                case 3: $tipoImovel = "apartamento"; break;
                                 case 4: $tipoImovel = "salacomercial"; break;
                                 case 5: $tipoImovel = "prediocomercial"; break;
                                 case 6: $tipoImovel = "terreno"; break;
@@ -132,7 +132,7 @@
                             <?php echo $anuncio->getIdAnuncio(); ?>
                             </button>
                         
-                         </form>                       
+                        </form>                       
                         
                         </td>
                         <td><?php 
@@ -172,12 +172,12 @@
                     
                     switch ($anuncio->getImovel()->getIdTipoImovel()){
                                 
-                                case 1: $tipoImovel = "casa";
-                                case 2: $tipoImovel = "apartamento";
-                                case 3: $tipoImovel = "apartamentoplanta";
-                                case 4: $tipoImovel = "salacomercial";
-                                case 5: $tipoImovel = "prediocomercial";
-                                case 6: $tipoImovel = "terreno";
+                                case 1: $tipoImovel = "casa"; break;
+                                case 2: $tipoImovel = "apartamentoplanta"; break;
+                                case 3: $tipoImovel = "apartamento"; break;
+                                case 4: $tipoImovel = "salacomercial"; break;
+                                case 5: $tipoImovel = "prediocomercial"; break;
+                                case 6: $tipoImovel = "terreno"; break;
                                 
                             }
                     ?>
@@ -193,7 +193,7 @@
                             <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio" />
                             <input type="hidden" id="hdnAcao" name="hdnAcao" value="detalhar"/>
                             <input type="hidden" id="hdnCodAnuncio" name="hdnCodAnuncio" value="<?php echo $anuncio->getId() ?>"/>
-                            <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" value="<?php echo "casa"//$tipoImovel ?>"/>
+                            <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" value="<?php echo $tipoImovel ?>"/>
                             
                             <button class="ui labeled icon button">
                             <i class="zoom icon"></i>
