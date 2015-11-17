@@ -514,22 +514,32 @@ class AnuncioControle {
     }
 
     function buscarAnuncioCorretor($parametros) {
+
         $visao = new Template();
         $emailanuncio = new EmailAnuncio();
         $usuario = new Usuario();
         $genericoDAO = new GenericoDAO();
-        $selecionarAnuncioUsuario = $genericoDAO->consultar($usuario, true, array("login" => $parametros["login"]));
+        
+        $selecionarAnuncioUsuario = $genericoDAO->consultar($usuario, true, array("id" => $parametros["login"]));
+        
+        if($selecionarAnuncioUsuario == null){
+            
+            $selecionarAnuncioUsuario = $genericoDAO->consultar($usuario, true, array("login" => $parametros["login"]));
+        }
+
         if (!$selecionarAnuncioUsuario) {
             //verifica se o usuario existe na base ou se está inativo
             $visao->setItem("errousuarioinativo");
             $visao->exibir('VisaoErrosGenerico.php');
         } else {
             $item["usuario"] = $genericoDAO->consultar(new Usuario(), false, array("id" => $selecionarAnuncioUsuario[0]->getId()));
+
             $statusUsuario = $item["usuario"] = $genericoDAO->consultar(new Usuario(), false, array("id" => $selecionarAnuncioUsuario[0]->getId()));
             $verificarStatus = $selecionarAnuncioUsuario[0]->getStatus();
+            
             //$verificarStatus = $statusUsuario[0]->getStatus();
             $id = $selecionarAnuncioUsuario[0]->getId();
-            //echo "DSJDKJSKDJASJD".$id;
+
             if ($verificarStatus == 'ativo') {
 
                 $consultasAdHoc = new ConsultasAdHoc();

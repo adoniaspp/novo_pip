@@ -41,7 +41,7 @@ $item = $this->getItem();
             <div class="header">
               Atenção
             </div>
-            Este seu anuncio não está mais ativo, e não pode ser visualizado por outros usuários.
+            Este seu anuncio não está mais ativo, não podendo mais ser visualizado por outros usuários.
           </div>  
         </div>
     </div>
@@ -497,11 +497,13 @@ $item = $this->getItem();
             <div class="ui segment">
                 <?php if ($item["qtdAnuncios"] >= 2) {
             ?>
-
+            
+             <?php if($item['anuncio'][0]['status'] == "cadastrado"){ ?>
             <div class="ui message">
                 Este vendedor possui <?php echo $item["qtdAnuncios"] ?> anuncios cadastrados. Clique <a href='index.php?entidade=Anuncio&acao=buscarAnuncioCorretor&login=<?php echo $item["loginUsuario"] ?>' target="_blank">AQUI</a> para visualizá-los
             </div>
-
+            <?php } ?>
+                
             <?php } ?>
             
             <div class="ui hidden divider"></div>
