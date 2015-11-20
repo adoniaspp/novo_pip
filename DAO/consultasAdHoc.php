@@ -280,7 +280,7 @@ class ConsultasAdHoc extends GenericoDAO {
         return $resultado;
     }
 
-    public function ConsultarAnunciosPorUsuario($idUsuario, $idAnuncio = null, $statusAnuncio = null) {
+    public function ConsultarAnunciosPorUsuario($idUsuario, $idAnuncio = null, $statusAnuncio = null, $finalidade = null) {
         $sql = "SELECT a.* "
                 . " FROM anuncio a"
                 . " JOIN usuarioplano up ON up.id = a.idusuarioplano"
@@ -291,6 +291,8 @@ class ConsultasAdHoc extends GenericoDAO {
             $sql .= " AND a.id = :idAnuncio ";
         if ($statusAnuncio != null)
             $sql .= " AND a.status = :statusAnuncio ";
+        if ($finalidade != null)
+            $sql .= " AND a.finalidade = :finalidade ";
 
         $sql .= " ORDER BY a.ID DESC";
         $statement = $this->conexao->prepare($sql);
@@ -300,6 +302,8 @@ class ConsultasAdHoc extends GenericoDAO {
             $statement->bindParam(':idAnuncio', $idAnuncio);
         if ($statusAnuncio != null)
             $statement->bindParam(':statusAnuncio', $statusAnuncio);
+        if ($finalidade != null)
+            $statement->bindParam(':finalidade', $finalidade);
 
         $statement->execute();
         $resultado = $statement->fetchAll(PDO::FETCH_CLASS, "Anuncio");

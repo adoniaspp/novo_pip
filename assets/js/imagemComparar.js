@@ -1,6 +1,5 @@
 
 $(document).ready(function () {
-    alert('oi');
     lightbox.option
             ({
                 'resizeDuration': 200,
