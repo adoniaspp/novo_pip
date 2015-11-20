@@ -31,7 +31,7 @@
             <i class="right chevron icon divider"></i>
             <i class="block layout small icon"></i><a class="section" href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
             <i class="right chevron icon divider"></i>
-            <a class="active section">Visualizar Anuncios Não Ativos</a>
+            <a class="active section">Visualizar Anúncios Não Ativos</a>
         </div>
     </div>
  </div>
@@ -48,7 +48,7 @@
     $totalAnunciosFinalizados = count($item["listaAnuncioFinalizado"]);
     $totalAnunciosExpirados = count($item["listaAnuncioExpirado"]);
     
-    if($totalAnunciosFinalizados < 1 || $totalAnunciosExpirados < 1){      
+    if($totalAnunciosFinalizados < 1 && $totalAnunciosExpirados < 1){      
     ?>
   
     <div class="ui middle aligned stackable grid container">
@@ -58,7 +58,7 @@
     <div class="ui warning compact message">
         <div class="header">Atenção</div>
         <ul class="list">
-          <li>Você não possui anuncios não ativos. Clique em voltar para retornar ao MEUPIP</li>
+          <li>Você não possui anúncios não ativos. Clique em voltar para retornar ao MEUPIP</li>
         </ul>
     </div>
  
@@ -81,7 +81,7 @@
         
         <thead>
             <tr>
-                <th>Cod. Anuncio</th>
+                <th>Cód. Anúncio</th>
                 <th>Tipo</th>
                 <th>Finalidade</th>
                 <th>Titulo</th>

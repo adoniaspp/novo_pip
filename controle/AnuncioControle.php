@@ -99,7 +99,8 @@ class AnuncioControle {
         $consultasAdHoc = new ConsultasAdHoc();
         $parametros["atributos"] = "*";
         $parametros["tabela"] = $parametros["tipoImovel"];
-        if($parametros["page"]) $page = TRUE; 
+        if ($parametros["page"])
+            $page = TRUE;
         unset($parametros["page"]);
         unset($parametros["tipoImovel"]);
         unset($parametros["hdnEntidade"]);
@@ -111,14 +112,15 @@ class AnuncioControle {
             $visao->setItem("errosemresultadobusca");
             $visao->exibir('VisaoErrosGenerico.php');
         }
-        if($page) $listaAnuncio["page"] = TRUE;
-         
+        if ($page)
+            $listaAnuncio["page"] = TRUE;
+
         $visao->setItem($listaAnuncio);
         $visao->exibir('AnuncioVisaoBusca.php');
     }
 
     function detalhar($parametros) {
-        
+
         $genericoDAO = new GenericoDAO();
         $parametros["idanuncio"] = $parametros["hdnCodAnuncio"];
         unset($parametros["hdnCodAnuncio"]);
@@ -134,43 +136,40 @@ class AnuncioControle {
         unset($parametros["tabela_length"]);
         unset($parametros["selecionarAnuncio"]);
         unset($parametros["listaAnuncio"]);
-        
+
         $parametros["predicados"] = $parametros;
-        
+
         $parametros["sessaoUsuario"] = $_SESSION["idusuario"];
-        
+
         $idAnuncio = $genericoDAO->consultar(new Anuncio(), false, array("id" => $parametros["idanuncio"]));
-       
+
         $idUsuarioPlano = $genericoDAO->consultar(new UsuarioPlano(), false, array("id" => $idAnuncio[0]->getIdUsuarioPlano()));
-        
+
         $idUsuarioAnuncio = $genericoDAO->consultar(new Usuario(), false, array("id" => $idUsuarioPlano[0]->getIdUsuario()));
-        
+
         $parametros["idUsuario"] = $idUsuarioAnuncio[0]->getId();
 
         $listarAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
-        
-        if($listarAnuncio["anuncio"][0]["status"]!= "cadastrado" && 
-                $parametros["sessaoUsuario"] != $parametros["idUsuario"]){
-            
-            
-                $item = "errousuarioouanuncio";
-                $pagina = "VisaoErrosGenerico.php";
-                $visao = new Template();
-                $visao->setItem($item);
-                $visao->exibir($pagina);
-            
-            
-        } else{
-        
-        $usuarioQtdAnuncio = count($consultasAdHoc->ConsultarAnunciosPorUsuario($parametros["idUsuario"], null, 'cadastrado'));
 
-        $listarAnuncio["qtdAnuncios"] = $usuarioQtdAnuncio;
-        
-        $listarAnuncio["loginUsuario"] = $parametros["idUsuario"];
-      
-        $visao->setItem($listarAnuncio);
-        $visao->exibir('AnuncioVisaoDetalhe.php');
-        
+        if ($listarAnuncio["anuncio"][0]["status"] != "cadastrado" &&
+                $parametros["sessaoUsuario"] != $parametros["idUsuario"]) {
+
+
+            $item = "errousuarioouanuncio";
+            $pagina = "VisaoErrosGenerico.php";
+            $visao = new Template();
+            $visao->setItem($item);
+            $visao->exibir($pagina);
+        } else {
+
+            $usuarioQtdAnuncio = count($consultasAdHoc->ConsultarAnunciosPorUsuario($parametros["idUsuario"], null, 'cadastrado'));
+
+            $listarAnuncio["qtdAnuncios"] = $usuarioQtdAnuncio;
+
+            $listarAnuncio["loginUsuario"] = $parametros["idUsuario"];
+
+            $visao->setItem($listarAnuncio);
+            $visao->exibir('AnuncioVisaoDetalhe.php');
         }
     }
 
@@ -183,16 +182,15 @@ class AnuncioControle {
 
 
         if ($usuario <> NULL) {
-            $this->buscarAnuncioCorretor(array("login"=> $parametros));//se o usuário existir
+            $this->buscarAnuncioCorretor(array("login" => $parametros)); //se o usuário existir
         }
 
         if ($anuncio <> NULL) { //se o anuncio existir     
             $consultasAdHoc = new ConsultasAdHoc();
-          
-            $imovel = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio[0]->getIdImovel()));
-            
-            $this->detalhar(array("hdnTipoImovel"=>$imovel[0]->getTipoimovel()->getDescricao(),"hdnCodAnuncio"=>$anuncio[0]->getId()));
 
+            $imovel = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio[0]->getIdImovel()));
+
+            $this->detalhar(array("hdnTipoImovel" => $imovel[0]->getTipoimovel()->getDescricao(), "hdnCodAnuncio" => $anuncio[0]->getId()));
         } if (!$usuario && !$anuncio) { //se nem o anuncio nem o usuário existirem
             $item = "errousuarioouanuncio";
             $pagina = "VisaoErrosGenerico.php";
@@ -279,34 +277,34 @@ class AnuncioControle {
             $visao->exibir('AnuncioVisaoListagem.php');
         }
     }
-    
+
     function listarFinalizado() {
-        
+
         if (Sessao::verificarSessaoUsuario()) {
             $anuncio = new Anuncio();
             $genericoDAO = new GenericoDAO();
             $consultasAdHoc = new ConsultasAdHoc();
-            
+
             $listaAnuncio = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, 'finalizado');
             foreach ($listaAnuncio as $anuncio) {
-                
-                $imovel  = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio->getIdImovel()));
+
+                $imovel = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio->getIdImovel()));
                 $historico = $genericoDAO->consultar(new HistoricoAluguelVenda(), false, array("idanuncio" => $anuncio->getId()));
                 $anuncio->setHistoricoaluguelvenda($historico[0]);
-              
+
                 $anuncio->setImovel($imovel[0]);
                 $listarAnuncios[] = $anuncio;
             }
-            
+
             $listaAnuncioExpirado = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, 'expirado');
             foreach ($listaAnuncioExpirado as $anuncio) {
-                
-                $expirado  = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio->getIdImovel()));               
-              
+
+                $expirado = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio->getIdImovel()));
+
                 $anuncio->setImovel($expirado[0]);
                 $listarAnunciosExpirados[] = $anuncio;
             }
-      
+
             //visao
             $visao = new Template();
             $item["listaAnuncioFinalizado"] = $listarAnuncios;
@@ -348,7 +346,8 @@ class AnuncioControle {
                         //traz todas as plantas
                         $plantas = $genericoDAO->consultar(new Imovel(), true, array("id" => $_SESSION["anuncio"]["idimovel"]));
                         $plantas = $plantas[0]->getPlanta();
-                        if(is_object($plantas)) $plantas = array($plantas);
+                        if (is_object($plantas))
+                            $plantas = array($plantas);
                         //itera para cada planta
                         foreach ($plantas as $planta) {
                             $valor->setIdplanta($planta->getId());
@@ -369,7 +368,7 @@ class AnuncioControle {
                             }
                             //imagens das plantas
                             $sessaoImagemPlanta = $_SESSION["imagemPlanta"][$planta->getOrdemplantas()];
-                            if(isset($sessaoImagemPlanta)){
+                            if (isset($sessaoImagemPlanta)) {
                                 $planta->setImagemdiretorio($sessaoImagemPlanta["diretorio"]);
                                 $planta->setImagemnome($sessaoImagemPlanta["name"]);
                                 $planta->setImagemtamanho($sessaoImagemPlanta["size"]);
@@ -487,18 +486,14 @@ class AnuncioControle {
                 case 4://sala comercial
                 case 5://predio comercial
                 case 6://terreno
-                    $valorMinimo = $parametros["txtValor"];
+                    $valorMinimo = $this->limpaValor($parametros["txtValor"]);
                     break;
                 case 2://apartamento na planta
                     $plantas = array("hdnValor0", "hdnValor1", "hdnValor2", "hdnValor3", "hdnValor4", "hdnValor5");
                     $menor = array();
                     foreach ($plantas as $planta) {
                         if (isset($parametros[$planta])) {
-                            $minimo = min($parametros[$planta]);
-                            $minimo = str_replace("R$", "", $minimo);
-                            $minimo = str_replace(".", "", $minimo);
-                            $minimo = str_replace(",", ".", $minimo);
-                            $minimo = trim($minimo);
+                            $minimo = $this->limpaValor(min($parametros[$planta]));
                             if ((float) $minimo > 0) {
                                 $menor[] = $minimo;
                             }
@@ -513,17 +508,25 @@ class AnuncioControle {
         $anuncio->setValormin($valorMinimo);
     }
 
+    private function limpaValor($valor) {
+        $valor = str_replace("R$", "", $valor);
+        $valor = str_replace(".", "", $valor);
+        $valor = str_replace(",", ".", $valor);
+        $valor = trim($valor);
+        return $valor;
+    }
+
     function buscarAnuncioCorretor($parametros) {
 
         $visao = new Template();
         $emailanuncio = new EmailAnuncio();
         $usuario = new Usuario();
         $genericoDAO = new GenericoDAO();
-        
+
         $selecionarAnuncioUsuario = $genericoDAO->consultar($usuario, true, array("id" => $parametros["login"]));
-        
-        if($selecionarAnuncioUsuario == null){
-            
+
+        if ($selecionarAnuncioUsuario == null) {
+
             $selecionarAnuncioUsuario = $genericoDAO->consultar($usuario, true, array("login" => $parametros["login"]));
         }
 
@@ -536,7 +539,7 @@ class AnuncioControle {
 
             $statusUsuario = $item["usuario"] = $genericoDAO->consultar(new Usuario(), false, array("id" => $selecionarAnuncioUsuario[0]->getId()));
             $verificarStatus = $selecionarAnuncioUsuario[0]->getStatus();
-            
+
             //$verificarStatus = $statusUsuario[0]->getStatus();
             $id = $selecionarAnuncioUsuario[0]->getId();
 

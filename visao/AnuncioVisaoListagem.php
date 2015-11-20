@@ -33,7 +33,7 @@
             <i class="right chevron icon divider"></i>
             <i class="block layout small icon"></i><a class="section" href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
             <i class="right chevron icon divider"></i>
-            <a class="active section">Visualizar Anuncios</a>
+            <a class="active section">Visualizar Anúncios</a>
         </div>
     </div>
  </div>
@@ -59,7 +59,7 @@
     <div class="ui info message">
         <div class="header">Mensagem</div>
         <ul class="list">
-          <li>Você não possui mais anuncios ativos. Clique em voltar para retornar ao MEUPIP</li>
+          <li>Você não possui mais anúncios ativos. Clique em voltar para retornar ao MEUPIP</li>
         </ul>
     </div>
 
@@ -83,7 +83,7 @@
         
         <thead>
             <tr>
-                <th>ID Anuncio</th>
+                <th>Cód. Anúncio</th>
                 <th>Tipo</th>
                 <th>Finalidade</th>
                 <th>Titulo</th>
@@ -183,7 +183,7 @@
 <div class="ui basic modal" id="modalFinalizar<?php echo $anuncio->getId() ?>">
                     
                     <div class="header">
-                        ATENÇÃO: Ao Finalizar Negócio, o anuncio não será mais visualizado, deixando de existir!
+                        ATENÇÃO: Ao Finalizar Negócio, o anúncio não será mais visualizado, deixando de existir!
                     </div>
                     <div class="content" id="camposFinalizar<?php echo $anuncio->getId() ?>">
                         
@@ -213,7 +213,7 @@
                                   </div>
 
                                     <div class="field">
-                                        <label>Se desejar, escreva detalhes da finalização de seu anuncio</label>
+                                        <label>Se desejar, escreva detalhes da finalização de seu anúncio</label>
                                         <textarea rows="2" id="txtFinalizar<?php echo $anuncio->getId() ?>" name="txtFinalizar" maxlength="200"></textarea>
                                     </div>
 
@@ -224,7 +224,7 @@
                     </div>
                     <div id="divRetorno<?php echo $anuncio->getId() ?>"></div>
                     <div class="actions">
-                        <div  id="botaoCancelarFinalizar<?php echo $anuncio->getId() ?>" class="ui red deny button">
+                        <div  id="botaoCancelarFinalizar<?php echo $anuncio->getId() ?>" class="ui orange deny button">
                             Cancelar
                         </div>
                         <div  id="botaoEnviarFinalizar<?php echo $anuncio->getId() ?>" class="ui positive right labeled icon button">
