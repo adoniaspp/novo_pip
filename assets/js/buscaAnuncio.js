@@ -568,14 +568,26 @@ function enviarEmail() {
     });
 }
 
+function inserirValidacao(){
+    $(document).ready(function () { 
+    if($("#hdnFinalidade").val() == "Venda" ){
+               
+                $("#txtProposta").rules("add", {
+                    minLenght: 4,
+                    maxLenght: 7
+                });
+            }
+     });
+}
 
 function enviarDuvidaAnuncio() {
-    $(document).ready(function () {
-
+    $(document).ready(function () {     
+        
         $("#botaoFecharDuvida").hide();
 
         $('#btnDuvida').click(function () {
-
+       
+            
             $('#txtNomeDuvida').maxlength({
                 alwaysShow: true,
                 threshold: 50,
@@ -663,6 +675,7 @@ function enviarDuvidaAnuncio() {
                     txtEmailDuvida: {
                         email: "Informe um email válido"
                     },
+                    
                     captcha_code: {
                         remote: "Código Inválido"
                     },

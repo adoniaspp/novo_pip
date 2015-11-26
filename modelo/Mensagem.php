@@ -9,108 +9,118 @@ class Mensagem {
     private $email;
     private $telefone;
     private $mensagem;
+    private $proposta;
     private $status;
     private $datahora;
     protected $usuario;
     protected $anuncio;
     protected $respostamensagem; #Utilizado somente para recuperar a resposta
 
-    public function getRespostamensagem() {
-        return $this->respostamensagem;
-    }
-
-    public function setRespostamensagem($respostamensagem) {
-        $this->respostamensagem = $respostamensagem;
-    }
-
-    public function getId() {
+    function getId() {
         return $this->id;
     }
 
-    public function getIdanuncio() {
+    function getIdanuncio() {
         return $this->idanuncio;
     }
 
-    public function getIdusuario() {
+    function getIdusuario() {
         return $this->idusuario;
     }
 
-    public function getNome() {
+    function getNome() {
         return $this->nome;
     }
 
-    public function getEmail() {
+    function getEmail() {
         return $this->email;
     }
 
-    public function getTelefone() {
+    function getTelefone() {
         return $this->telefone;
     }
 
-    public function getMensagem() {
+    function getMensagem() {
         return $this->mensagem;
     }
 
-    public function getStatus() {
+    function getProposta() {
+        return $this->proposta;
+    }
+
+    function getStatus() {
         return $this->status;
     }
 
-    public function getDatahora() {
+    function getDatahora() {
         return $this->datahora;
     }
 
-    public function getUsuario() {
+    function getUsuario() {
         return $this->usuario;
     }
 
-    public function getAnuncio() {
+    function getAnuncio() {
         return $this->anuncio;
     }
 
-    public function setId($id) {
+    function getRespostamensagem() {
+        return $this->respostamensagem;
+    }
+
+    function setId($id) {
         $this->id = $id;
     }
 
-    public function setIdanuncio($idanuncio) {
+    function setIdanuncio($idanuncio) {
         $this->idanuncio = $idanuncio;
     }
 
-    public function setIdusuario($idusuario) {
+    function setIdusuario($idusuario) {
         $this->idusuario = $idusuario;
     }
 
-    public function setNome($nome) {
+    function setNome($nome) {
         $this->nome = $nome;
     }
 
-    public function setEmail($email) {
+    function setEmail($email) {
         $this->email = $email;
     }
 
-    public function setTelefone($telefone) {
+    function setTelefone($telefone) {
         $this->telefone = $telefone;
     }
 
-    public function setMensagem($mensagem) {
+    function setMensagem($mensagem) {
         $this->mensagem = $mensagem;
     }
 
-    public function setStatus($status) {
+    function setProposta($proposta) {
+        $this->proposta = $proposta;
+    }
+
+    function setStatus($status) {
         $this->status = $status;
     }
 
-    public function setDatahora($datahora) {
+    function setDatahora($datahora) {
         $this->datahora = $datahora;
     }
 
-    public function setUsuario($usuario) {
+    function setUsuario($usuario) {
         $this->usuario = $usuario;
     }
 
-    public function setAnuncio($anuncio) {
+    function setAnuncio($anuncio) {
         $this->anuncio = $anuncio;
     }
 
+    function setRespostamensagem($respostamensagem) {
+        $this->respostamensagem = $respostamensagem;
+    }
+
+    
     function cadastrar($parametros) {
 
         $mensagem = new Mensagem();
@@ -118,6 +128,7 @@ class Mensagem {
         $mensagem->setEmail($parametros['txtEmailDuvida']);
         $mensagem->setTelefone("");
         $mensagem->setMensagem($parametros['txtMsgDuvida']);
+        $mensagem->setProposta($parametros['txtProposta']);
         $mensagem->setStatus("NOVA");
         $mensagem->setDatahora(date('d/m/Y H:i:s'));
         $mensagem->setIdanuncio($parametros['hdnAnuncio']);

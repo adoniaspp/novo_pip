@@ -200,7 +200,7 @@ if ($item) {
                         <label>Número WhatsApp</label>
                         <input type="checkbox" name="chkWhatsApp" id="chkWhatsApp">                        
                     </div>  
-                    <i class="large whatsapp icon"></i>
+                    <i class="large green whatsapp icon"></i>
 
                     </div>
                     </div>

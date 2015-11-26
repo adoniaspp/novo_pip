@@ -671,10 +671,36 @@ class AnuncioControle {
             echo json_encode(array("resultado" => 0));
         }
     }
+    
+    
+    function listarReativarAluguel() {
+       if (Sessao::verificarSessaoUsuario()) {
+           $anuncio = new Anuncio();
+           $genericoDAO = new GenericoDAO();
+           $consultasAdHoc = new ConsultasAdHoc();
 
+           $listaAnuncioExpirado = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, 'expirado', 'Aluguel');
+           foreach ($listaAnuncioExpirado as $anuncio) {
+
+               $expirado = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio->getIdImovel()));
+
+               $anuncio->setImovel($expirado[0]);
+               $listarAnunciosExpirados[] = $anuncio;
+           }
+           $item["listaPlanos"] = $planos = $genericoDAO->consultar(new UsuarioPlano(), false, array("idusuario" => $_SESSION['idusuario'], "status" => "ativo"));
+           
+           //visao
+           $visao = new Template();
+           $item["listaAnuncioExpirado"] = $listarAnunciosExpirados;
+           $visao->setItem($item);
+           $visao->exibir('AnuncioVisaoListagemExpiradoAluguel.php');
+       }
+   }
+    
     function enviarDuvidaAnuncio($parametros) {
 // if (Sessao::verificarToken($parametros)) {
-
+        $txtProposta = $this->limpaValor($parametros["txtProposta"]);
+        $parametros["txtProposta"] = $txtProposta;
         $genericoDAO = new GenericoDAO();
         $genericoDAO->iniciarTransacao();
         $mensagem = new Mensagem();

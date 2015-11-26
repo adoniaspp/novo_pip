@@ -4,29 +4,22 @@
 <script src="assets/libs/jquery/jquery.validate.min.js" type="text/javascript"></script>
 <script src="assets/libs/fotorama/fotorama.js"></script> 
 <script src="assets/js/buscaAnuncio.js"></script>
+<script src="assets/js/anuncio.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 <script src="assets/libs/gmaps/gmap3.min.js"></script>
 <script src="http://maps.google.com/maps/api/js?sensor=false&amp;language=pt"></script>
+
 
 <?php
 $item = $this->getItem();
 ?>
 
 <script>
-    $(document).ready(function () {
-    $("#divValor").priceFormat({
-        prefix: 'R$ ',
-        centsSeparator: ',',
-        centsLimit: 0,
-        limit: 8,
-        thousandsSeparator: '.'
-        })
-    })
-    marcarMapa("<?php echo $item["anuncio"][0]["logradouro"] ?>", "<?php echo $item["anuncio"][0]["numero"] ?>", "<?php echo $item["anuncio"][0]["bairro"] ?>", "<?php echo $item["anuncio"][0]["tituloanuncio"] ?>", "<?php echo $item["anuncio"][0]["valormin"] ?>", "<?php echo $item["anuncio"][0]["finalidade"] ?>", "600", "300", 9);
+    inserirValidacao();
     enviarDuvidaAnuncio();
-    //slideAnuncio();
+    formatarDetalhe();
+    marcarMapa("<?php echo $item["anuncio"][0]["logradouro"] ?>", "<?php echo $item["anuncio"][0]["numero"] ?>", "<?php echo $item["anuncio"][0]["bairro"] ?>", "<?php echo $item["anuncio"][0]["tituloanuncio"] ?>", "<?php echo $item["anuncio"][0]["valormin"] ?>", "<?php echo $item["anuncio"][0]["finalidade"] ?>", "600", "300", 9);
     
-
 </script>
 
 <div class="ui hidden divider"></div>
@@ -539,7 +532,7 @@ $item = $this->getItem();
                                         <div class="extra">
 
                                             <button class="ui right floated primary button" id="btnDuvida">
-                                                Envie uma mensagem
+                                                Enviar Mensagem/Proposta
                                                 <i class="right mail outline icon"></i>
                                             </button>
 
@@ -562,7 +555,7 @@ $item = $this->getItem();
 <div class="ui standart modal" id="modalDuvidaAnuncio">
     <i class="close icon"></i>
     <div class="header">
-        Envie sua dúvida
+        Envie sua mensagem/proposta
     </div>
     <div class="content" id="camposDuvida">
         <div class="description">
@@ -583,6 +576,14 @@ $item = $this->getItem();
                         <label>E-mail para contato</label>
                         <input name="txtEmailDuvida"  id="txtEmailDuvida" placeholder="Digite seu email" type="text" maxlength="50">
                     </div>
+                    <div class="field">
+                        <label>Proposta de <?php if($item['anuncio'][0]['finalidade'] == "Venda"){echo "venda";} else echo "aluguel" ?> R$ (Digite o valor se quiser fazer uma proposta ao vendedor)</label>
+                        <input type="hidden" value="<?php echo $item['anuncio'][0]['finalidade']?>" id="hdnFinalidade" name="hdnFinalidade">
+                        <div class="three wide field" id="divProposta">
+                        <input name="txtProposta" id="txtProposta" type="text" maxlength="12" size="12"> 
+                        </div>
+                    </div>
+                    
                     <div class="field">
                         <label>Escreva sua dúvida</label>
                         <textarea rows="2" id="txtMsgDuvida" name="txtMsgDuvida" maxlength="200"></textarea>

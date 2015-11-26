@@ -1,4 +1,5 @@
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function () {
@@ -15,6 +16,7 @@
 
     })
 </script>
+
 <style>
     .spaced > .button {
         margin-bottom: 1em;
@@ -34,6 +36,7 @@ foreach ($imoveis as $qtdAnuncios) {
     }
 }
 ?>
+
 
 <!-- HTML -->
 <div class="ui column doubling grid container">
@@ -226,7 +229,39 @@ foreach ($imoveis as $qtdAnuncios) {
                     }
                 }
                 ?>
+                
+               
+    <script>
+      google.load('visualization', '1.0', {'packages':['corechart']});
+      google.setOnLoadCallback(desenharGrafico);
 
+      function desenharGrafico() {
+
+        var dados = new google.visualization.DataTable();
+        dados.addColumn('string', 'Tipo Imóvel');
+        dados.addColumn('number', 'Quantidade');
+        
+        dados.addRows([
+          ['Casa', <?php echo $casa?>],
+          ['Apartamento', <?php echo $ap ?>],
+          ['Apartamento na Planta', <?php echo $apPlanta ?>],
+          ['Sala Comercial', <?php echo $sala ?>],
+          ['Prédio Comercial', <?php echo $predio ?>],
+          ['Terreno', <?php echo $terreno ?>]
+        ]);
+
+        var config = {
+            'title':'Total de Imóveis',
+            'width':700,
+            'height':300,
+            'is3D': true
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('area_grafico'));
+        chart.draw(dados, config);
+      }
+    </script>
+    
                 <table class="ui green celled fixed table">
                     <thead>
                         <tr>
@@ -295,7 +330,13 @@ foreach ($imoveis as $qtdAnuncios) {
         <?php
     }
     ?>
-
+    
+    <div class="row">
+        <div class="column">
+            <div id="area_grafico"></div>
+        </div>
+    </div>
+    
     <div class="row">
         <div class="column">
             <h3 class="ui dividing header"></h3>
@@ -323,10 +364,10 @@ foreach ($imoveis as $qtdAnuncios) {
                         <i class="add icon"></i> Publicar Anúncio
                     </div></a>         
                 <?php if ($item['anuncio']) { ?>
-                    <a href="index.php?entidade=Anuncio&acao=listarReativar" class="spaced">
-                        <div type="button" class="ui brown button">
-                            <i class="refresh icon"></i>  Reativar Anúncios (aluguel)
-                        </div></a>
+                    <a href="index.php?entidade=Anuncio&acao=listarReativarAluguel" class="spaced">
+                       <div type="button" class="ui brown button">
+                           <i class="refresh icon"></i>  Reativar Anúncios (aluguel)
+                       </div></a>
                     <a href="index.php?entidade=Anuncio&acao=listarAtivo" class="spaced">
                         <div type="button" class="ui brown button">
                             <i class="list icon"></i> Visualizar Anúncios Ativos

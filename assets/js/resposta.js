@@ -69,3 +69,15 @@ function responderMensagem(botaoResponder){
         });
     })
 }
+
+function formatarValorProposta(valor){
+    $(document).ready(function () {
+        $("#txtProposta"+valor).priceFormat({
+                prefix: 'R$ ',
+                centsSeparator: ',',
+                centsLimit: 0,
+                limit: 12,
+                thousandsSeparator: '.'
+        })
+    })
+}

@@ -543,6 +543,98 @@ function validarValor(validacao) {
     })
 }
 
+
+
+
+function validarValorProposta(validacao) {
+    $(document).ready(function () {
+
+        if (validacao) {
+            $.validator.addMethod("verificaValor", function (value, element) {
+                var validacao = false;
+                if ($("#txtProposta").val() != "") {
+                    var valor = parseInt($("#txtProposta").unmask());
+                    switch ($('#hdnFinalidade').val()) {
+                        case "Aluguel":
+                            if (!isNaN(valor)) {
+                                if (valor > 100) {
+                                    validacao = true;
+                                }
+                            }
+                            break;
+                        case "Venda":
+                            if (!isNaN(valor)) {
+                                if (valor > 1000) {
+                                    validacao = true;
+                                }
+                            }
+                            break;
+                    }
+                } else {
+                    validacao = true;
+                }
+                return this.optional(element) || validacao;
+            }, 'Informe um valor mínimo.');
+
+            $("#txtProposta").rules("add", {
+                verificaValor: true,
+                required: function (element) {
+                    return $("#txtProposta").val();
+                }
+            });
+
+            $("#txtProposta").val(function () {
+                if ($(this).val() != "") {
+                    $("#divInformarValor").show();
+                } else {
+                    $("#divInformarValor").hide();
+                }
+            })
+        }
+
+    })
+}
+
+ function reativar(botao) {
+    $(document).ready(function () {
+        
+        $("#dadosAnuncio"+botao).hide();
+        
+        $('#btnReativar'+botao).click(function () {
+           $('#modalReativar'+botao).modal({
+               closable: false,
+               transition: "fade up",
+               onDeny: function () {
+               },
+               onApprove: function () {
+                   $("#formReativar"+botao).submit();
+                   return false; //deixar o modal fixo
+               }
+           }).modal('show');   
+        })
+    })
+   
+}
+
+function formatarDetalhe(){
+$(document).ready(function () {
+    $("#divValor").priceFormat({
+        prefix: 'R$ ',
+        centsSeparator: ',',
+        centsLimit: 0,
+        limit: 8,
+        thousandsSeparator: '.'
+        })
+    $("#txtProposta").priceFormat({
+        prefix: 'R$ ',
+        centsSeparator: ',',
+        centsLimit: 0,
+        limit: 12,
+        thousandsSeparator: '.'
+        })    
+    })
+}
+
 function formatarValor(vetor){
     $("#tdValor"+vetor).priceFormat({
             prefix: 'R$ ',

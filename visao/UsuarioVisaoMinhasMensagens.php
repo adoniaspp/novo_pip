@@ -2,6 +2,7 @@
 <script src="assets/libs/jquery/jquery.validate.min.js"></script>
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
+<script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 <!-- JS -->
 <script src="assets/js/usuario.js"></script>
 <script src="assets/js/resposta.js"></script>
@@ -9,10 +10,11 @@
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 
 <script>
-    esconderResposta();
+    esconderResposta();    
 </script>
 <?php
 Sessao::gerarToken();
+
 ?>
 
 <div class="ui hidden divider"></div>
@@ -29,6 +31,7 @@ Sessao::gerarToken();
         </div>
     </div>
 </div>
+
 <div class="ui hidden divider"></div>
 <div class="ui middle aligned stackable grid container">
     <div class="one column">
@@ -41,13 +44,27 @@ Sessao::gerarToken();
             <tbody>
 
                 <?php
+                
                 foreach ($this->getItem() as $mensagem) {
-                    ?>
+                    
+                    switch ($mensagem->getAnuncio()->getImovel()->getIdTipoImovel()){
+
+                        case 1: $tipoImovel = "casa"; break;
+                        case 2: $tipoImovel = "apartamentoplanta"; break;
+                        case 3: $tipoImovel = "apartamento"; break;
+                        case 4: $tipoImovel = "salacomercial"; break;
+                        case 5: $tipoImovel = "prediocomercial"; break;
+                        case 6: $tipoImovel = "terreno"; break;
+
+                    }
+                    
+                ?>
 
                 <script>
                     exibirDivResposta(<?php echo $mensagem->getId(); ?>);
                     responderMensagem(<?php echo $mensagem->getId(); ?>);
                     ocultarResposta(<?php echo $mensagem->getId(); ?>);
+                    
                     $(document).ready(function () {
 
                         $("#form<?php echo $mensagem->getId(); ?>").submit(function () {
@@ -92,24 +109,38 @@ Sessao::gerarToken();
                     });
 
                 </script>    
-
+                
                 <tr style="border: none !important">
                     <td style="border: none !important; width: 500px"> 
-
+                        
+                        <form id="formAnuncio<?php echo $mensagem->getId() ?>" class="ui form" action="index.php" method="post" target="_blank">
+                            <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio"  />
+                            <input type="hidden" id="hdnAcao" name="hdnAcao" value="detalhar" />
+                            <input type="hidden" id="hdnCodAnuncio" name="hdnCodAnuncio" value="<?php echo $mensagem->getAnuncio()->getId() ?>"/>
+                            <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" value="<?php echo $tipoImovel ?>"/>
+                            
+                            <div>
+                            
+                                <button class="ui labeled icon button">
+                                    <i class="zoom icon"></i>
+                                    <?php echo "Detalhes do Anuncio ".$mensagem->getAnuncio()->getIdAnuncio(); ?>
+                                </button>
+                                
+                            </div>    
+                            
+                            <br/>
+                            
+                        </form>
+                        
                         <form id="form<?php echo $mensagem->getId() ?>" class="ui form" action="index.php" method="post">
                             <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
                             <input type="hidden" id="hdnAcao" name="hdnAcao" value="responderMensagem" />
                             <input type="hidden" id="hdnMensagem" name="hdnMensagem" value="<?php echo $mensagem->getId(); ?>" />
                             <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
 
-
-
                             <div id="divMensagem<?php echo (string) $mensagem->getId() ?>">                   
 
                                 <div class="field">
-                                    <div>
-                                        <label>Anuncio <?php echo $mensagem->getIdAnuncio() . " - " . $mensagem->getAnuncio()->getTituloAnuncio(); ?></label>
-                                    </div>
 
                                     <div class="ui info icon message" style="width: 90%">   
                                         <i class="mail icon"></i>
@@ -118,7 +149,23 @@ Sessao::gerarToken();
                                             <?php echo $mensagem->getMensagem() ?>
                                         </div>
                                     </div>
-
+                                    
+                                    
+                                    <?php if($mensagem->getProposta() != 0) {?>
+                                    
+                                    <script>
+                                    formatarValorProposta(<?php echo $mensagem->getId(); ?>);
+                                    </script>
+                                    
+                                    <div class="ui positive icon message" style="width: 30%">   
+                                        <i class="dollar green icon"></i>
+                                        <div class="content">                                           
+                                            <div class="header">Proposta do comprador</div>
+                                            <label id="txtProposta<?php echo $mensagem->getId() ?>" name="txtProposta"><?php echo $mensagem->getProposta() ?></label>
+                                        </div>
+                                    </div>
+                                    <?php }?>
+                                    
                                     <div>
                                         <label>Enviado em <?php echo substr($mensagem->getDataHora(), 0, 10) ?> 
                                             as <?php echo substr($mensagem->getDataHora(), 10, -3) ?> por 
