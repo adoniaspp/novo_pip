@@ -68,7 +68,7 @@ if ($item) {
                 minFileSize: 'Arquivo muito pequeno (0 MB)'
             }
         }).on('fileuploadadd', function (e, data) {
-            console.log("adicionando foto");
+            //console.log("adicionando foto");
             //metodo para testar de qual upload esta vindo a imagem
             //se for apartamento na planta
             if (data.paramName.substring(0, 14) === "attachmentName") {
@@ -115,7 +115,7 @@ if ($item) {
                                 processData: false,
                                 cache: false,
                                 success: function (resposta) {
-                                    console.log(resposta);
+                                    //console.log(resposta);
                                     if (resposta.resultado === 1) {
                                         alert("Imagem da planta " + (parseInt(ordemPlanta) + 1) + " foi carregada com sucesso");
                                     } else {
@@ -165,7 +165,7 @@ if ($item) {
         }).on('fileuploadsubmit', function (e, data) {
             data.formData = $("#fileupload").serializeArray();
         }).on('fileuploadalways', function (e, data) {
-            console.log('completou');
+            //console.log('completou');
             $('.ui.checkbox').checkbox();
             $("p[class='error']").each(function () {
                 var error = $(this).html();
@@ -174,7 +174,7 @@ if ($item) {
                 }
             })
         }).on('fileuploadfail', function (e, data) {
-            console.log('cancelando');
+            //console.log('cancelando');
             //# metodo para testar de qual upload esta vindo a imagem
             var input = data.fileInput[0];
             //#se for apartamento na planta
@@ -216,6 +216,10 @@ if ($item) {
         stepsSemPlanta();
         validarValor(true);
 <?php } ?>
+    $(document).ready(function () {
+        $('#chkValor').parent().checkbox('set checked');
+        $("#divInformarValor").show();
+    })
 </script>
 
 <div class="ui column doubling grid container">
@@ -492,7 +496,7 @@ if ($item) {
                 <!-- The table listing the files available for upload/download -->
                 <table role="presentation" class="ui form table"><tbody class="files"></tbody></table>
                 <div class="fileupload-buttonbar"><label class="ui basic black label"><input type="checkbox" class="ui toggle checkbox"><div class="detail">Selecionar Todas</div></label></div>
-                
+
                 <!-- The template to display files available for upload -->
                 <script id="template-upload" type="text/x-tmpl">
                     {% for (var i=0, file; file=o.files[i]; i++) { %}
