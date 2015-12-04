@@ -504,22 +504,22 @@ function validarValor(validacao) {
                 var validacao = false;
                 if ($("#chkValor").parent().checkbox('is checked')) {
                     var valor = parseInt($("#txtValor").unmask());
-                    switch ($('#sltFinalidade').parent().dropdown('get value')) {
-                        case "Aluguel":
+//                    switch ($('#sltFinalidade').parent().dropdown('get value')) {
+//                        case "Aluguel":
                             if (!isNaN(valor)) {
                                 if (valor > 100) {
                                     validacao = true;
                                 }
                             }
-                            break;
-                        case "Venda":
-                            if (!isNaN(valor)) {
-                                if (valor > 1000) {
-                                    validacao = true;
-                                }
-                            }
-                            break;
-                    }
+//                            break;
+//                        case "Venda":
+//                            if (!isNaN(valor)) {
+//                                if (valor > 1000) {
+//                                    validacao = true;
+//                                }
+//                            }
+//                            break;
+                    
                 } else {
                     validacao = true;
                 }
@@ -611,6 +611,7 @@ function reativar(botao) {
                     return false; //deixar o modal fixo
                 },
                 onShow: function () {
+                    $("#btnFecharReativar").hide();
                     $("#sltPlano").dropdown('restore defaults');
                     $("#dadosAnuncio" + botao).hide();
                     $('#sltPlano').dropdown({
@@ -631,6 +632,80 @@ function reativar(botao) {
                 }
             }).modal('show');
 
+            $.validator.setDefaults({
+                ignore: [],
+                errorClass: 'errorField',
+                errorElement: 'div',
+                errorPlacement: function (error, element) {
+                    error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).closest("div.field").addClass("error").removeClass("success");
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).closest(".error").removeClass("error").addClass("success");
+                }
+            });
+
+            $.validator.messages.required = 'Campo obrigatório';
+
+            $("#formReativar" + botao).validate({
+                onkeyup: false,
+                focusInvalid: true,
+                rules: {
+                    sltPlano: {
+                        required: true
+                    },                
+                    txtTitulo: {
+                        required: true
+                    },
+                    txtDescricao: {
+                        required: true
+                    },
+                    
+                },
+                messages: {
+                    sltPlano: {
+                        email: "Escolha um Plano"
+                    },
+                    txtTitulo: {
+                        remote: "Informe o Titulo do Anúncio"
+                    },
+                    txtDescricao: {
+                        remote: "Informe a Descrição do Anúncio"
+                    },
+                },  
+                submitHandler: function (form) {
+                    $.ajax({
+                        url: "index.php",
+                        dataType: "json",
+                        type: "POST",
+                        data: $("#formReativar" + botao).serialize(),
+                        beforeSend: function () {
+                            $("#btnReativar").hide();
+                            $("#btnCancelarReativar").hide();
+                            $("#camposAnuncio").hide();
+                            $("#divRetorno").html("<div><div class='ui active inverted dimmer'>\n\
+                        <div class='ui text loader'>Enviando mensagem. Aguarde...</div></div></div>");
+                        },
+                        success: function (resposta) {
+                            $("#divRetorno").empty();
+                            $("#btnCancelarReativar").hide();
+                            $("#btnFecharReativar").show();
+                            if (resposta.resultado == 1) {
+                                $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
+                        <p>Anuncio Reativado com Sucesso </p>');
+//                                $("#btnDuvida").attr("disabled", "disabled");
+
+                            } else {
+                                $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
+                        <h2 class="ui header">Tente novamente mais tarde. Houve um erro no processamento.</h2></div>');
+                            }
+                        }
+                    })
+                    return false;
+                }
+            })
 
         })
     })

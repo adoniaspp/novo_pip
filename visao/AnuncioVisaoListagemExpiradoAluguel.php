@@ -187,6 +187,7 @@ foreach ($item["listaAnuncioExpirado"] as $anuncio) {
 <script>
     reativar(<?php echo $anuncio->getId() ?>);
     formatarValor(<?php echo $anuncio->getId() ?>);
+    validarValor(true);
 </script>
 
 <!-- Modal do Reativar Aluguel -->
@@ -195,7 +196,7 @@ foreach ($item["listaAnuncioExpirado"] as $anuncio) {
     <div class="header">
         Informações Básicas 
     </div>
-    <div class="content" id="camposEmail">
+    <div class="content" id="camposAnuncio">
         <div class="description">
             <!--                        <div class="ui piled segment">-->
             <p id="textoConfirmacao"></p>
@@ -301,12 +302,15 @@ foreach ($item["listaAnuncioExpirado"] as $anuncio) {
 
     <div id="divRetorno"></div>
     <div class="actions">
-        <div  id="botaoCancelarEmail" class="ui orange deny button">
+        <div  id="btnCancelarReativar" class="ui orange deny button">
             Cancelar
         </div>
-        <div  id="botaoEnviarEmail" class="ui positive right labeled icon button">
+        <div  id="btnReativar" class="ui positive right labeled icon button">
             Reativar
             <i class="checkmark icon"></i>
+        </div>
+        <div  id="btnFecharReativar" class="ui red deny button">
+            Fechar
         </div>
     </div>
 </div>
