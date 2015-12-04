@@ -21,6 +21,28 @@
  *  @license   http://www.apache.org/licenses/LICENSE-2.0
  */
 
-require_once PIPROOT . '/assets/libs/PagSeguroLibrary/PagSeguroLibrary.class.php';
+abstract class PagSeguroAcceptedPayments
+{
 
-PagSeguroLibrary::init();
+    /**
+     * @return mixed
+     */
+    abstract public function getName();
+
+    /**
+     * @param $name
+     * @return mixed
+     */
+    abstract public function setName($name);
+
+    /**
+     * @return mixed
+     */
+    abstract public function getGroup();
+
+    /**
+     * @param $group
+     * @return mixed
+     */
+    abstract public function setGroup($group);
+}

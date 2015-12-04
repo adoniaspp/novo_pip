@@ -21,6 +21,28 @@
  *  @license   http://www.apache.org/licenses/LICENSE-2.0
  */
 
-require_once PIPROOT . '/assets/libs/PagSeguroLibrary/PagSeguroLibrary.class.php';
+/***
+ * Class PagSeguroSessionnParser
+ */
+class PagSeguroSessionParser extends PagSeguroServiceParser
+{
 
-PagSeguroLibrary::init();
+    /***
+     * @param $str_xml
+     * @return PagSeguroSession
+     */
+    public static function readResult($str_xml)
+    {
+
+        $parser = new PagSeguroXmlParser($str_xml);
+        $data = $parser->getResult('session');
+
+        $session = new PagSeguroSession();
+
+        if (isset($data['id'])) {
+            $session->setId($data['id']);
+        }
+
+        return $session;
+    }
+}

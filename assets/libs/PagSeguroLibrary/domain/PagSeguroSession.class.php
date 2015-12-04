@@ -21,6 +21,46 @@
  *  @license   http://www.apache.org/licenses/LICENSE-2.0
  */
 
-require_once PIPROOT . '/assets/libs/PagSeguroLibrary/PagSeguroLibrary.class.php';
+/***
+ * Class PagSeguroSession
+ * Represents a PagSeguro Direct Payment Get Session
+ */
+class PagSeguroSession
+{
 
-PagSeguroLibrary::init();
+    /***
+     * Session id
+     */
+    private $id;
+
+    /***
+     * @return session id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /***
+     * Sets the session id
+     *
+     * @param string id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /***
+     * @return String a string that represents the current object
+     */
+    public function toString()
+    {
+        $session = array();
+        $session['id'] = $this->id;
+
+        $session = "Session: " . var_export($session, true);
+
+        return $session;
+    }
+}

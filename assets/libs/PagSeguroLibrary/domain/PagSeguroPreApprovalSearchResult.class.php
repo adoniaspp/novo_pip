@@ -21,6 +21,30 @@
  *  @license   http://www.apache.org/licenses/LICENSE-2.0
  */
 
-require_once PIPROOT . '/assets/libs/PagSeguroLibrary/PagSeguroLibrary.class.php';
+/***
+ * Represents a page of pre approval returned by the pre approval search service
+ */
+class PagSeguroPreApprovalSearchResult extends PagSeguroSearchResult
+{
 
-PagSeguroLibrary::init();
+    /***
+     * Pre Approval summaries in this page
+     */
+    private $preApprovals;
+
+    /**
+     * @return mixed
+     */
+    public function getPreApprovals()
+    {
+        return $this->preApprovals;
+    }
+
+    /**
+     * @param array $preApprovals
+     */
+    public function setPreApprovals(array $preApprovals)
+    {
+        $this->preApprovals = $preApprovals;
+    }
+}
