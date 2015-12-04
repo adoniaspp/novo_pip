@@ -1,17 +1,19 @@
 function cancelar(entidade, acao) {
-    $(document).ready(function() {
+    $(document).ready(function () {
 
-        $('#btnCancelar').click(function() {
+        $('#btnCancelar').click(function () {
             $('#modalCancelar').modal({
                 closable: true,
                 transition: "fade up",
-                onDeny: function() {
+                onDeny: function () {
                     return true;
                 },
-                onApprove: function() {
-                    if (entidade === "" && acao === ""){
-                        location.href = "index.php";}
-                    else location.href = "index.php?entidade="+entidade+"&acao="+acao;
+                onApprove: function () {
+                    if (entidade === "" && acao === "") {
+                        location.href = "index.php";
+                    }
+                    else
+                        location.href = "index.php?entidade=" + entidade + "&acao=" + acao;
                 }
             }).modal('show');
         })
@@ -595,155 +597,172 @@ function validarValorProposta(validacao) {
     })
 }
 
- function reativar(botao) {
+function reativar(botao) {
     $(document).ready(function () {
-        
-        $("#dadosAnuncio"+botao).hide();
-        
-        $('#btnReativar'+botao).click(function () {
-           $('#modalReativar'+botao).modal({
-               closable: false,
-               transition: "fade up",
-               onDeny: function () {
-               },
-               onApprove: function () {
-                   $("#formReativar"+botao).submit();
-                   return false; //deixar o modal fixo
-               }
-           }).modal('show');   
+
+        $('#btnReativar' + botao).click(function () {
+            $('#modalReativar' + botao).modal({
+                closable: false,
+                transition: "fade up",
+                onDeny: function () {
+                },
+                onApprove: function () {
+                    $("#formReativar" + botao).submit();
+                    return false; //deixar o modal fixo
+                },
+                onShow: function () {
+                    $("#sltPlano").dropdown('restore defaults');
+                    $("#dadosAnuncio" + botao).hide();
+                    $('#sltPlano').dropdown({
+                        on: 'hover'
+                    });
+                    $("#chkValor").parent().checkbox('set checked');
+                    $('#sltPlano').change(function () {
+                        $("#dadosAnuncio" + botao).show();
+                        $("#chkValor").change(function () {
+                            if ($(this).parent().checkbox('is checked')) {
+                                $("#divInformarValor").show();
+                            } else {
+                                $("#divInformarValor").hide();
+                            }
+                        })
+                    })
+
+                }
+            }).modal('show');
+
+
         })
     })
-   
+
 }
 
-function formatarDetalhe(){
-$(document).ready(function () {
-    $("#divValor").priceFormat({
-        prefix: 'R$ ',
-        centsSeparator: ',',
-        centsLimit: 0,
-        limit: 8,
-        thousandsSeparator: '.'
-        })
-    $("#txtProposta").priceFormat({
-        prefix: 'R$ ',
-        centsSeparator: ',',
-        centsLimit: 0,
-        limit: 12,
-        thousandsSeparator: '.'
-        })    
-    })
-}
-
-function formatarValor(vetor){
-    $("#tdValor"+vetor).priceFormat({
+function formatarDetalhe() {
+    $(document).ready(function () {
+        $("#divValor").priceFormat({
             prefix: 'R$ ',
             centsSeparator: ',',
             centsLimit: 0,
             limit: 8,
             thousandsSeparator: '.'
         })
+        $("#txtProposta").priceFormat({
+            prefix: 'R$ ',
+            centsSeparator: ',',
+            centsLimit: 0,
+            limit: 12,
+            thousandsSeparator: '.'
+        })
+    })
+}
+
+function formatarValor(vetor) {
+    $("#tdValor" + vetor).priceFormat({
+        prefix: 'R$ ',
+        centsSeparator: ',',
+        centsLimit: 0,
+        limit: 8,
+        thousandsSeparator: '.'
+    })
 }
 
 function finalizar(botao) {
     $(document).ready(function () {
-        
+
         $('.ui.radio.checkbox')
-            .checkbox()
-        ;
-        
-        $("#radioSucesso"+botao).select(function () {
+                .checkbox()
+                ;
+
+        $("#radioSucesso" + botao).select(function () {
             $(this).valid();
         })
-        
-        $("#botaoFecharFinalizar"+botao).hide();
-       
-        $('#btnFinalizar'+botao).click(function () {
-        
-        $('#txtFinalizar'+botao).maxlength({
-            alwaysShow: true,
-            threshold: 100,
-            warningClass: "ui small green circular label",
-            limitReachedClass: "ui small red circular label",
-            separator: ' de ',
-            preText: 'Voc&ecirc; digitou ',
-            postText: ' caracteres permitidos.',
-            validate: true
-        });
-        
-        $('#modalFinalizar'+botao).modal({
+
+        $("#botaoFecharFinalizar" + botao).hide();
+
+        $('#btnFinalizar' + botao).click(function () {
+
+            $('#txtFinalizar' + botao).maxlength({
+                alwaysShow: true,
+                threshold: 100,
+                warningClass: "ui small green circular label",
+                limitReachedClass: "ui small red circular label",
+                separator: ' de ',
+                preText: 'Voc&ecirc; digitou ',
+                postText: ' caracteres permitidos.',
+                validate: true
+            });
+
+            $('#modalFinalizar' + botao).modal({
                 closable: false,
                 transition: "fade up",
                 onDeny: function () {
                 },
                 onApprove: function () {
-                    $("#formFinalizar"+botao).submit();
+                    $("#formFinalizar" + botao).submit();
                     return false; //deixar o modal fixo
                 }
-            }).modal('show');     
-        
-        $.validator.setDefaults({
-            ignore: [],
-            errorClass: 'errorField',
-            errorElement: 'div',
-            errorPlacement: function (error, element) {
-                error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
-            },
-            highlight: function (element, errorClass, validClass) {
-                $(element).closest("div.field").addClass("error").removeClass("success");
-            },
-            unhighlight: function (element, errorClass, validClass) {
-                $(element).closest(".error").removeClass("error").addClass("success");
-            }
-        });
-        
-        $.validator.messages.required = 'Campo obrigatório';
-        $('#formFinalizar'+botao).validate({
+            }).modal('show');
 
-            focusInvalid: true,
-            rules: {              
-                radioSucesso: {
-                    required: true
+            $.validator.setDefaults({
+                ignore: [],
+                errorClass: 'errorField',
+                errorElement: 'div',
+                errorPlacement: function (error, element) {
+                    error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).closest("div.field").addClass("error").removeClass("success");
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).closest(".error").removeClass("error").addClass("success");
                 }
-            },
+            });
 
-            submitHandler: function (form) {
-                $.ajax({
-                    url: "index.php",
-                    dataType: "json",
-                    type: "POST",
-                    data: $('#formFinalizar'+botao).serialize(),
-                    beforeSend: function () {
-                        $("#botaoFecharFinalizar"+botao).hide();
-                        $("#botaoCancelarFinalizar"+botao).hide();
-                        $("#camposFinalizar"+botao).hide();
-                        $("#divRetorno"+botao).html("<div><div class='ui active inverted dimmer'>\n\
-                        <div class='ui text loader'>Aguarde...</div></div></div>");
-                    },
-                    success: function (resposta) {
-                        $("#divRetorno"+botao).empty();
-                        $("#botaoCancelarFinalizar"+botao).hide();
-                        $("#botaoEnviarFinalizar"+botao).hide();                         
-                        $("#botaoFecharFinalizar"+botao).show();
-                        //ao clicar no botão de fechar, o conteúdo será atualizado para retirar o último negócio finalizado
-                        $("#botaoFecharFinalizar"+botao).click(function() {
-                        window.location = "index.php?entidade=Anuncio&acao=listarAtivo";
-                        });
-                        
-                        if (resposta.resultado == 1) {
-                            $("#divRetorno"+botao).html('<div class="ui inverted green center aligned segment">\n\
-                        <p>Obrigado por fazer negócio no PIP OnLine</p>');
-                            
-                        } else {
-                            $("#divRetorno"+botao).html('<div class="ui inverted red center aligned segment">\n\
-                        <h2 class="ui header">Tente novamente mais tarde. Houve um erro no processamento.</h2></div>');
-                        }
+            $.validator.messages.required = 'Campo obrigatório';
+            $('#formFinalizar' + botao).validate({
+                focusInvalid: true,
+                rules: {
+                    radioSucesso: {
+                        required: true
                     }
-                })
-                return false;
-            }
-        })
+                },
+                submitHandler: function (form) {
+                    $.ajax({
+                        url: "index.php",
+                        dataType: "json",
+                        type: "POST",
+                        data: $('#formFinalizar' + botao).serialize(),
+                        beforeSend: function () {
+                            $("#botaoFecharFinalizar" + botao).hide();
+                            $("#botaoCancelarFinalizar" + botao).hide();
+                            $("#camposFinalizar" + botao).hide();
+                            $("#divRetorno" + botao).html("<div><div class='ui active inverted dimmer'>\n\
+                        <div class='ui text loader'>Aguarde...</div></div></div>");
+                        },
+                        success: function (resposta) {
+                            $("#divRetorno" + botao).empty();
+                            $("#botaoCancelarFinalizar" + botao).hide();
+                            $("#botaoEnviarFinalizar" + botao).hide();
+                            $("#botaoFecharFinalizar" + botao).show();
+                            //ao clicar no botão de fechar, o conteúdo será atualizado para retirar o último negócio finalizado
+                            $("#botaoFecharFinalizar" + botao).click(function () {
+                                window.location = "index.php?entidade=Anuncio&acao=listarAtivo";
+                            });
 
-       })
-   })
+                            if (resposta.resultado == 1) {
+                                $("#divRetorno" + botao).html('<div class="ui inverted green center aligned segment">\n\
+                        <p>Obrigado por fazer negócio no PIP OnLine</p>');
+
+                            } else {
+                                $("#divRetorno" + botao).html('<div class="ui inverted red center aligned segment">\n\
+                        <h2 class="ui header">Tente novamente mais tarde. Houve um erro no processamento.</h2></div>');
+                            }
+                        }
+                    })
+                    return false;
+                }
+            })
+
+        })
+    })
 }

@@ -1,5 +1,6 @@
 <?php
 
+
 trait Log {
 
     public function log($mensagem) {
@@ -18,7 +19,24 @@ trait Log {
             $data = date('d-m-Y');
             $data .= ' '.date('H:i:s'); 
         }
-        Logger::configure('configuracao/logsConfig.php');
+        Logger::configure(array(
+        'rootLogger' => array(
+            'appenders' => array('default'),
+        ),
+        'appenders' => array(
+            'default' => array(
+                'class' => 'LoggerAppenderFile',
+                'layout' => array(
+                    'class' => 'LoggerLayoutSimple'
+                ),
+                'params' => array(
+                	'file' => 'logs/' . date('Y/m/d') . '.log',
+                	'append' => true
+                )
+            )
+        )
+    )              
+        );        
         $logger = Logger::getLogger("main");
         $logger->info($data . " " . $_SERVER["REMOTE_ADDR"] . " " . $_SESSION["login"] . " " . $mensagem);
     }

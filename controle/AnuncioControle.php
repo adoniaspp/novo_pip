@@ -687,7 +687,7 @@ class AnuncioControle {
                $anuncio->setImovel($expirado[0]);
                $listarAnunciosExpirados[] = $anuncio;
            }
-           $item["listaPlanos"] = $planos = $genericoDAO->consultar(new UsuarioPlano(), false, array("idusuario" => $_SESSION['idusuario'], "status" => "ativo"));
+           $item["listaPlanos"] = $planos = $genericoDAO->consultar(new UsuarioPlano(), true, array("idusuario" => $_SESSION['idusuario'], "status" => "ativo"));
            
            //visao
            $visao = new Template();
