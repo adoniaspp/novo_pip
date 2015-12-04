@@ -21,6 +21,20 @@
  *  @license   http://www.apache.org/licenses/LICENSE-2.0
  */
 
-require_once PIPROOT . '/assets/libs/PagSeguroLibrary/PagSeguroLibrary.class.php';
+/***
+ * Class PagSeguroRefundParser
+ */
+class PagSeguroRefundParser extends PagSeguroServiceParser
+{
 
-PagSeguroLibrary::init();
+    /**
+     * @param $str_xml
+     * @return null|string
+     */
+    public static function readSuccessXml($str_xml)
+    {
+        $parser = new PagSeguroXmlParser($str_xml);
+        return $parser->getResult('result');
+
+    }
+}

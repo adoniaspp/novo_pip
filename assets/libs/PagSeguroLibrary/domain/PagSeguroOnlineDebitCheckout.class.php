@@ -21,6 +21,46 @@
  *  @license   http://www.apache.org/licenses/LICENSE-2.0
  */
 
-require_once PIPROOT . '/assets/libs/PagSeguroLibrary/PagSeguroLibrary.class.php';
+/***
+ * CreditCard Checkout information
+ */
+class PagSeguroOnlineDebitCheckout
+{
+    
+    /***
+     * @var bankName
+     */
+    private $bankName;
 
-PagSeguroLibrary::init();
+    /***
+     * Initializes a new instance of the PagSeguroOnlineDebitCheckout class
+     * @param array $data
+     */
+    public function __construct(array $data = null)
+    {
+
+        if ($data) {
+            if (isset($data['bankName'])) {
+                $this->setBankName($data['bankName']);
+            }
+        }
+        
+    }
+
+    /***
+     * Sets the bank name
+     * @param String $name
+     */
+    public function setBankName($name)
+    {
+        $this->bankName = $name;
+    }
+
+    /***
+     * @return string bank name
+     */
+    public function getBankName()
+    {
+        return $this->bankName;
+    }
+}

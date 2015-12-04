@@ -9,6 +9,7 @@ date_default_timezone_set("America/Belem");
 define(PIPROOT, dirname(__FILE__));
 define(PIPURL, str_replace('\\', '/', "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER["SCRIPT_NAME"])));
 define(TEMPOTOKEN, 600); // 10 minutos
+
 ####INCLUDES##################################
 include_once 'configuracao/Template.php';
 include_once 'controle/Controle.php';
@@ -16,7 +17,7 @@ include_once 'configuracao/Sessao.php';
 include_once 'assets/mailer/class.phpmailer.php';
 include_once 'assets/mailer/class.smtp.php';
 include_once 'configuracao/Email.php';
-include_once './controle/AnuncioControle.php';
+include_once 'controle/AnuncioControle.php';
 
 ####INDEX#####################################
 Sessao::criarSessaoUsuario();

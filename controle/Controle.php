@@ -41,9 +41,13 @@ class Controle {
         }
         //vem do formulario
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
-            $entidade = $parametros['hdnEntidade'];
-            $acao = $parametros['hdnAcao'];
-            if ($entidade != "" && $acao != "") {
+            $entidade = (isset($parametros['hdnEntidade']) && trim($parametros['hdnEntidade']) !== "" ? trim($parametros['hdnEntidade']) : null);
+            $acao = (isset($parametros['hdnAcao']) && trim($parametros['hdnAcao']) !== "" ? trim($parametros['hdnAcao']) : null);
+
+            $code = (isset($parametros['notificationCode']) && trim($parametros['notificationCode']) !== "" ? trim($parametros['notificationCode']) : null);
+            $type = (isset($parametros['notificationType']) && trim($parametros['notificationType']) !== "" ? trim($parametros['notificationType']) : null);
+            ##### do nosso site
+            if ($entidade && $acao) {
                 if (is_file(PIPROOT . '/controle/' . $entidade . "Controle.php")) {
                     include_once ($entidade . "Controle.php");
                     $classe = $entidade . "Controle";
@@ -51,6 +55,27 @@ class Controle {
                     $controle->$acao($parametros);
                 } else {
                     Template::error404();
+                }
+                ##### do pagseguro    
+            } elseif ($code && $type) {
+                require_once PIPROOT . "/controle/PagSeguroControle.php";
+                $pagSeguroControle = new PagSeguroControle();
+                $notificationType = new PagSeguroNotificationType($type);
+                $strType = $notificationType->getTypeFromValue();
+
+                switch ($strType) {
+                    case 'TRANSACTION':
+                        $pagSeguroControle::transactionNotification($code);
+                        break;
+                    case 'APPLICATION_AUTHORIZATION':
+                        $pagSeguroControle::authorizationNotification($code);
+                        break;
+                    case 'PRE_APPROVAL':
+                        $pagSeguroControle::preApprovalNotification($code);
+                        break;
+                    default:
+                    //gera log
+                    //LogPagSeguro::error("Unknown notification type [" . $notificationType->getValue() . "]");
                 }
             } else {
                 Template::error404();

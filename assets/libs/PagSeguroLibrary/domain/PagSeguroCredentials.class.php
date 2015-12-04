@@ -21,6 +21,19 @@
  *  @license   http://www.apache.org/licenses/LICENSE-2.0
  */
 
-require_once PIPROOT . '/assets/libs/PagSeguroLibrary/PagSeguroLibrary.class.php';
+/***
+ * Abstract class that represents a PagSeguro credential
+ */
+abstract class PagSeguroCredentials
+{
 
-PagSeguroLibrary::init();
+    /***
+     * @return array a map of name value pairs that compose this set of credentials
+     */
+    abstract public function getAttributesMap();
+
+    /***
+     * @return string a string that represents the current object
+     */
+    abstract public function toString();
+}

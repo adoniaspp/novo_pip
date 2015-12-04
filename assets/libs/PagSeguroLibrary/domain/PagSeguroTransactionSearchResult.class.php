@@ -21,6 +21,33 @@
  *  @license   http://www.apache.org/licenses/LICENSE-2.0
  */
 
-require_once PIPROOT . '/assets/libs/PagSeguroLibrary/PagSeguroLibrary.class.php';
+/***
+ * Represents a page of transactions returned by the transaction search service
+ */
+class PagSeguroTransactionSearchResult extends PagSeguroSearchResult
+{
 
-PagSeguroLibrary::init();
+    /***
+     * Transaction summaries in this page
+     */
+    private $transactions;
+
+    /***
+     * @return PagSeguroTransactionSummary the transaction summaries in this page
+     * @see PagSeguroTransactionSummary
+     */
+    public function getTransactions()
+    {
+        return $this->transactions;
+    }
+
+    /***
+     * Sets the transaction summaries in this page
+     *
+     * @param array $transactions
+     */
+    public function setTransactions(array $transactions)
+    {
+        $this->transactions = $transactions;
+    }
+}

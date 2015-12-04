@@ -11,7 +11,6 @@ include_once 'modelo/Bairro.php';
 include_once 'modelo/Empresa.php';
 include_once 'DAO/GenericoDAO.php';
 include_once 'DAO/ConsultasAdHoc.php';
-include_once 'configuracao/PagSeguroLibrary.php';
 
 class UsuarioPlanoControle {
 
@@ -82,7 +81,9 @@ class UsuarioPlanoControle {
                 $genericoDAO = new GenericoDAO();
                 $genericoDAO->iniciarTransacao();
                 //echo "<pre>"; print_r($_SESSION); //die();
-                $paymentRequest = new PagSeguroPaymentRequest();
+                require_once 'PagSeguroControle.php';
+                $pagSeguroControle = new PagSeguroControle();
+                $paymentRequest = $pagSeguroControle->paymentRequest();
                 foreach ($_SESSION["usuarioPlano"]["planos"] as $id => $qtd) {
                     $usuarioPlano = new UsuarioPlano();
                     $usuarioPlano->cadastrar($id);
@@ -110,11 +111,11 @@ class UsuarioPlanoControle {
                 if (count($usuario->getTelefone()) == 1) {
                     $telefone = $usuario->getTelefone();
                     $ddd = substr($telefone->getNumero(), 1, 2);
-                    $numero = str_replace("-", "", substr($telefone->getNumero(), 4, 10));
+                    $numero = trim(str_replace("-", "", substr($telefone->getNumero(), 4, 12)));
                 } elseif (count($usuario->getTelefone()) > 1) {
                     $telefone = array_shift($usuario->getTelefone());
                     $ddd = substr($telefone->getNumero(), 1, 2);
-                    $numero = str_replace("-", "", substr($telefone->getNumero(), 4, 10));
+                    $numero = trim(str_replace("-", "", substr($telefone->getNumero(), 4, 12)));
                 } else {
                     $ddd = "";
                     $numero = "";
@@ -124,26 +125,16 @@ class UsuarioPlanoControle {
                 //$postalCode,$street,$number,$complement,$district,$city,$state,$country
                 $endereco = array_shift($genericoDAO->consultar(new Endereco(), true, array("id" => $usuario->getIdendereco())));
                 $paymentRequest->setShippingAddress($endereco->getCep(), $endereco->getLogradouro(), $endereco->getNumero(), $endereco->getComplemento(), $endereco->getBairro()->getNome(), $endereco->getCidade()->getNome(), $endereco->getEstado()->getUf(), "BRA");
-
-                $paymentRequest->setCurrency("BRL");
-                $paymentRequest->setShippingType(3); //nao especificar
-
-                $paymentRequest->setReference("#" . implode("_", $arrayCadastroReferencia));
-
-                $paymentRequest->setMaxAge(172800); // 2 dias 
-                $paymentRequest->setMaxUses(15); // 15 vezes
-
-                $paymentRequest->setRedirectURL("http://www.piponline.com.br");
+                //codigo de referencia para poder recuperar o pedido
+                $referenciaDoPedido = "#PIPCODE." . implode(".", $arrayCadastroReferencia);
+                $paymentRequest->setReference($referenciaDoPedido);
 
                 $genericoDAO->commit();
-
+                LogPagSeguro::info('Pedido '. $referenciaDoPedido . ' gerado com sucesso!');
                 $credentials = PagSeguroConfig::getAccountCredentials();
-
                 // fazendo a requisição a API do PagSeguro pra obter a URL de pagamento  
                 $redirecionamento = $paymentRequest->register($credentials);
-
                 //echo "<pre>";print_r($redirecionamento);die();
-
                 Sessao::desconfigurarVariavelSessao("usuarioPlano");
                 //$redirecionamento = new UsuarioPlanoControle();
                 //$redirecionamento->listar();
