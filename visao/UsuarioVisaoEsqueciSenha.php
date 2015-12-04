@@ -15,9 +15,8 @@ Sessao::gerarToken();
 </script>
 
 <!-- HTML -->
-<div class="container">
-    <div class="ui hidden divider"></div>
-    <div class="ui page grid main">
+
+    <div class="ui column doubling grid container">
         <div class="column">
             <div class="ui large breadcrumb">
                 <a class="section" href="index.php">Início</a>
@@ -26,8 +25,8 @@ Sessao::gerarToken();
             </div>
         </div>
     </div>
-    <div class="ui page grid main">
-        <div class="column">
+    <div class="ui middle aligned stackable grid container">
+        <div class="row">
             <form id="form" class="ui form" action="index.php" method="post" enctype="multipart/form-data">
                 <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
                 <input type="hidden" id="hdnAcao" name="hdnAcao" value="esquecersenha" />
@@ -52,4 +51,3 @@ Sessao::gerarToken();
             
         </div>        
     </div>
-</div>

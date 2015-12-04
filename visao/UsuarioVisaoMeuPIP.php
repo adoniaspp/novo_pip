@@ -24,6 +24,12 @@
 </style>
 <?php
 $item = $this->getItem();
+
+/*
+echo "<pre>";
+var_dump($item);
+echo "</pre>";
+*/
 $usuario = $item["usuario"];
 $imoveis = $item["imovelCadastrado"];
 $mensagens = $item["mensagem"];
@@ -197,11 +203,17 @@ foreach ($imoveis as $qtdAnuncios) {
             <div class="ui horizontal segments">
 
                 <?php
+                $casaAnuncio = 0;
                 $casa = 0;
+                $apAnuncio = 0;
                 $ap = 0;
+                $apPlantaAnuncio = 0;
                 $apPlanta = 0;
+                $salaAnuncio = 0;
                 $sala = 0;
+                $predioAnuncio = 0;
                 $predio = 0;
+                $terrenoAnuncio = 0;
                 $terreno = 0;
 
                 $cadastrado = 0;
@@ -209,25 +221,44 @@ foreach ($imoveis as $qtdAnuncios) {
                 foreach ($imoveis as $imovel) {
                     switch ($imovel->getIdTipoImovel()) {
                         case 1:
+                            if(count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado"){
+                                $casaAnuncio = $casaAnuncio +1;
+                            }
                             $casa = $casa + 1;
                             break;
                         case 2:
+                            if(count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado"){
+                                $apAnuncio = $apAnuncio +1;
+                            }
                             $ap = $ap + 1;
                             break;
                         case 3:
+                            if(count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado"){
+                                $apPlantaAnuncio = $apPlantaAnuncio +1;
+                            }
                             $apPlanta = $apPlanta + 1;
                             break;
                         case 4:
-                            $sala = $sala + 1;
+                            if(count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado"){
+                                $salaAnuncio = $salaAnuncio +1;
+                            }
+                            $sala = $sala + 1;                           
                             break;
                         case 5:
+                            if(count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado"){
+                                $predioAnuncio = $predioAnuncio +1;
+                            }
                             $predio = $predio + 1;
                             break;
                         case 6:
+                            if(count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado"){
+                                $terrenoAnuncio = $terrenoAnuncio +1;
+                            }
                             $terreno = $terreno + 1;
                             break;
                     }
                 }
+                
                 ?>
                 
                
@@ -418,6 +449,7 @@ foreach ($imoveis as $qtdAnuncios) {
                 ?>
 
                 <?php if ($totalAnuncios > 0) { ?>
+               
                     <div class="ui horizontal segments">       
                         <table class="ui brown celled fixed table">
                             <thead>
@@ -526,6 +558,76 @@ foreach ($imoveis as $qtdAnuncios) {
                 <?php } ?>
             </div>
         </div>
+    
+        
+        <div class="row">         
+            <div class="column">
+                <table class="ui brown celled fixed table">
+                    <thead>
+                        <tr>
+                            <th colspan="6">Você possui
+                                <?php
+                                if ($anuncioAtivo > 1) {
+                                    echo $anuncioAtivo . " anúncios ativos";
+                                } else {
+                                    echo " 1 anúncio ativo";
+                                }
+                                ?>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="ui center aligned"><?php
+                                if ($casaAnuncio > 1) {
+                                    echo "Casas";
+                                } else
+                                    echo "Casa";
+                                ?></th>
+                            <th class="ui center aligned"><?php
+                                if ($apAnuncio > 1) {
+                                    echo "Apartamentos";
+                                } else
+                                    echo "Apartamento";
+                                ?></th>
+                            <th class="ui center aligned"><?php
+                                if ($apPlantaAnuncio > 1) {
+                                    echo "Apartamentos na Planta";
+                                } else
+                                    echo "Apartamento na Planta";
+                                ?></th>
+                            <th class="ui center aligned"><?php
+                                if ($salaAnuncio > 1) {
+                                    echo "Salas Comerciais";
+                                } else
+                                    echo "Sala Comercial";
+                                ?></th>
+                            <th class="ui center aligned"><?php
+                                if ($predioAnuncio > 1) {
+                                    echo "Prédios Comerciais";
+                                } else
+                                    echo "Prédio Comercial";
+                                ?></th>
+                            <th class="ui center aligned"><?php
+                                if ($terrenoAnuncio > 1) {
+                                    echo "Terrenos";
+                                } else
+                                    echo "Terreno";
+                                ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><?php echo $casaAnuncio; ?></td>
+                            <td><?php echo $apAnuncio; ?></td>
+                            <td><?php echo $apPlantaAnuncio; ?></td>
+                            <td><?php echo $salaAnuncio; ?></td>
+                            <td><?php echo $predioAnuncio; ?></td>
+                            <td><?php echo $terrenoAnuncio; ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>  
+        </div> 
+    
     <?php } ?>
 
     <div class="row">

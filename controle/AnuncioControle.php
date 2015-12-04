@@ -20,6 +20,7 @@ include_once 'modelo/Bairro.php';
 include_once 'DAO/GenericoDAO.php';
 include_once 'DAO/ConsultasAdHoc.php';
 include_once 'modelo/Mensagem.php';
+include_once 'modelo/RespostaMensagem.php';
 include_once 'modelo/AnuncioClique.php';
 include_once 'modelo/EmailAnuncio.php';
 include_once 'modelo/SalaComercial.php';
@@ -167,8 +168,23 @@ class AnuncioControle {
             $listarAnuncio["qtdAnuncios"] = $usuarioQtdAnuncio;
 
             $listarAnuncio["loginUsuario"] = $parametros["idUsuario"];
-
+            
+            $mensagem = $consultasAdHoc->consultar(new Mensagem(), true, array("idanuncio" => $parametros["idanuncio"]));
+            
+            $listarAnuncio["qtdMensagem"] = count($mensagem);
+            
+            $selecionarMensagem = new Mensagem();
+            
+            foreach ($mensagem as $mensagens) {
+                $idMensagem = rand();
+                $_SESSION["mensagem"][$idMensagem] = $mensagens->getId();
+                $mensagens->setId($idMensagem);
+            }
+           
+            $listarAnuncio["mensagem"] = $mensagem;
+            
             $visao->setItem($listarAnuncio);
+            
             $visao->exibir('AnuncioVisaoDetalhe.php');
         }
     }
@@ -191,6 +207,8 @@ class AnuncioControle {
             $imovel = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio[0]->getIdImovel()));
 
             $this->detalhar(array("hdnTipoImovel" => $imovel[0]->getTipoimovel()->getDescricao(), "hdnCodAnuncio" => $anuncio[0]->getId()));
+        
+            
         } if (!$usuario && !$anuncio) { //se nem o anuncio nem o usuário existirem
             $item = "errousuarioouanuncio";
             $pagina = "VisaoErrosGenerico.php";
@@ -654,7 +672,7 @@ class AnuncioControle {
       </tr></table></td>
     </tr></table><table class="row callout" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: block; padding: 0px;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td class="wrapper last" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; position: relative; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 10px 0px 20px;" align="left" valign="top">
     <table class="twelve columns" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 580px; margin: 0 auto; padding: 0;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td class="panel" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #ECF8FF; margin: 0; padding: 10px; border: 1px solid #b9e5ff;" align="left" bgcolor="#ECF8FF" valign="top">
-    <p style="color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; text-align: left; line-height: 19px; font-size: 14px; margin: 0 0 10px; padding: 0;" align="left">Acesse agora esse imóvel <a href="http://localhost/PIP/index.php?entidade=Anuncio&amp;acao=verficahashemail&amp;id=' . $selecionaremailanuncio->getHash() . '" style="color: #2ba6cb; text-decoration: none;">Clique Aqui! »</a></p>
+    <p style="color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; text-align: left; line-height: 19px; font-size: 14px; margin: 0 0 10px; padding: 0;" align="left">Acesse agora esse imóvel <a href= ' . PIPURL . 'index.php?entidade=Anuncio&amp;acao=verficahashemail&amp;id=' . $selecionaremailanuncio->getHash() . ' style="color: #2ba6cb; text-decoration: none;">Clique Aqui! »</a></p>
     </td>
     <td class="expander" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; visibility: hidden; width: 0px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0;" align="left" valign="top"></td>
     </tr></table></td>
@@ -695,6 +713,46 @@ class AnuncioControle {
            $visao->setItem($item);
            $visao->exibir('AnuncioVisaoListagemExpiradoAluguel.php');
        }
+   }
+    
+   function reativar($parametros) {
+
+       if (Sessao::verificarSessaoUsuario()) {
+
+           if (Sessao::verificarToken($parametros)) {
+
+               $genericoDAO = new GenericoDAO();
+               $genericoDAO->iniciarTransacao();
+               $entidadeAnuncio = new Anuncio();
+               $selecionarAnuncio = $genericoDAO->consultar($entidadeAnuncio, false, array("id" => $parametros["hdnAnuncio"]));
+               $entidadeAnuncio = $selecionarAnuncio[0];
+               $entidadeAnuncio->setStatus('cadastrado');
+               $entidadeAnuncio->setDatahoraalteracao(date('d/m/Y H:i:s'));
+               $entidadeAnuncio->setTituloanuncio($parametros["txtTitulo"]);
+               $entidadeAnuncio->setDescricaoanuncio($parametros["txtDescricao"]);
+               $entidadeAnuncio->setPublicarmapa($parametros["chkMapa"]);
+               $entidadeAnuncio->setPublicarcontato($parametros["chkContato"]);
+               if ($parametros["chkValor"] == 'SIM') {
+                   $entidadeAnuncio->setValormin($parametros["txtValor"]);
+               }
+               $entidadeUsuarioPlano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $parametros["sltPlano"]));
+               $entidadeUsuarioPlano = $entidadeUsuarioPlano[0];
+               if (($entidadeUsuarioPlano->getPlano()->getTitulo() != "infinity" && $_SESSION["tipopessoa"] == "pj") || $_SESSION["tipopessoa"] == "pf") {
+                   //se o plano nao eh infinity e nem eh uma empresa, entao atualiza o status do usuarioplano
+                   $entidadeUsuarioPlano->setStatus("utilizado");                    
+               }
+               if($genericoDAO->editar($entidadeAnuncio) && $genericoDAO->editar($entidadeUsuarioPlano)){
+                   $genericoDAO->commit();
+                   $genericoDAO->fecharConexao();
+                   echo json_encode(array("resultado" => 1));
+               }else{
+                   $genericoDAO->rollback();
+                   $genericoDAO->fecharConexao();
+                   echo json_encode(array("resultado" => 0));
+               }
+           }
+       }
+
    }
     
     function enviarDuvidaAnuncio($parametros) {
@@ -757,6 +815,45 @@ class AnuncioControle {
                 }
             }
         }
+    }
+    
+    function verficaHashEmail($parametros) {
+        //echo "<pre>";var_dump($parametros); echo "</pre>"; die();
+        $visao = new Template();
+        $emailanuncio = new EmailAnuncio();
+        $anuncio = new Anuncio();
+        $genericoDAO = new GenericoDAO();
+        
+        $selecionarEmailAnuncio = $genericoDAO->consultar($emailanuncio, false, array("hash" => $parametros["id"]));
+        
+        if(!$selecionarEmailAnuncio){ //verifica se o hash é valido
+            $visao->setItem("errohashemail");
+            $visao->exibir('VisaoErrosGenerico.php');
+        }
+        
+        elseif($selecionarEmailAnuncio){ //caso o hash seja válido
+            
+            $verificarAtivo = $genericoDAO->consultar($anuncio, true, array("id" => $selecionarEmailAnuncio[0]->getIdAnuncio()));
+      
+            if ($verificarAtivo[0]->getStatus() != "cadastrado") { //verificar se o anuncio não está expirado ou finalizado
+
+                $item = "errousuarioouanuncio";
+                $visao = new Template();
+                $visao->setItem($item);
+                $visao->exibir("VisaoErrosGenerico.php");
+
+                } elseif($verificarAtivo[0]->getStatus() == "cadastrado"){
+
+                    $tipoImovel = new TipoImovel();
+
+                    $tipo = $tipoImovel->retornaDescricaoTipo($verificarAtivo[0]->getImovel()->getIdTipoImovel());
+
+                    $this->detalhar(array("hdnTipoImovel" => $tipo, "hdnCodAnuncio" => $verificarAtivo[0]->getId()));
+
+                }
+            
+        }
+        
     }
 
 }

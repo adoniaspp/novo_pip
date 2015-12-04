@@ -8,13 +8,13 @@
 
 <script>
  
-    $(document).ready(function() {        
+    //$(document).ready(function() {        
         inicio();
         buscarAnuncioUsuario();
         carregarAnuncioUsuario();      
         enviarEmail();      
         carregarDiferencial();
-    })
+    //})
 </script>
 
 <div class="container"> 
@@ -148,7 +148,7 @@
                                 <div class="menu">
                                     <div class="item" data-value="">Todos</div>
                                     <div class="item" data-value="casa">Casa</div>
-                                    <div class="item" data-value="apartamentoplanta">Apartamento na Planta/Novo</div>
+                                    <div class="item" data-value="apartamentoplanta">Apartamento na Planta</div>
                                     <div class="item" data-value="apartamento">Apartamento</div>
                                     <div class="item" data-value="salacomercial">Sala Comercial</div>
                                     <div class="item" data-value="prediocomercial">Predio Comercial</div>
@@ -232,7 +232,7 @@
                 <div class="row">
                     <div class="ui center aligned basic segment">
                         <div class="five field">
-                            <div class="teal ui icon button" id="btnBuscarAnuncio">
+                            <div class="teal ui icon button" id="btnBuscarAnuncioUsuario">
                             <i class="search icon"></i> 
                             Filtrar
                             </div>
@@ -413,7 +413,7 @@
                     </div>
                     
                     <div class="five field" id="divUnidadesAndar">
-                        <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeAptoPorAndar.jpg">
+                        <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeAptoAndar.jpg">
                         <label>Apartamentos por Andar</label>
                         <div class="ui selection dropdown">
                             <input type="hidden" name="sltUnidadesAndar" id="sltUnidadesAndar">

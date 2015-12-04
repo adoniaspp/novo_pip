@@ -7,11 +7,8 @@
 </script>
 <!-- HTML -->
 <?php Sessao::gerarToken(); ?>
-<div class="container">
-    <div class="ui hidden divider"></div>
-    <div class="ui page grid main"></div>
-    <div class="ui hidden divider"></div>
-    <div class="ui page grid main">
+
+    <div class="ui column doubling grid container">
         <div class="column">
             <form id="form" class="ui form" action="index.php" method="post">
                 <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
@@ -45,4 +42,3 @@
             </form>
         </div>
     </div>
-</div>

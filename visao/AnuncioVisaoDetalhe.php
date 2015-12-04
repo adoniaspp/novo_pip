@@ -5,17 +5,27 @@
 <script src="assets/libs/fotorama/fotorama.js"></script> 
 <script src="assets/js/buscaAnuncio.js"></script>
 <script src="assets/js/anuncio.js"></script>
+<script src="assets/js/resposta.js"></script>
+<script src="assets/js/usuario.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 <script src="assets/libs/gmaps/gmap3.min.js"></script>
 <script src="http://maps.google.com/maps/api/js?sensor=false&amp;language=pt"></script>
 
+<script>
+    esconderResposta();    
+</script>
 
 <?php
 $item = $this->getItem();
+
+/*echo "<pre>";
+var_dump($item);
+echo "</pre>";*/
+
 ?>
 
 <script>
-    inserirValidacao();
+    //inserirValidacao();
     enviarDuvidaAnuncio();
     formatarDetalhe();
     marcarMapa("<?php echo $item["anuncio"][0]["logradouro"] ?>", "<?php echo $item["anuncio"][0]["numero"] ?>", "<?php echo $item["anuncio"][0]["bairro"] ?>", "<?php echo $item["anuncio"][0]["tituloanuncio"] ?>", "<?php echo $item["anuncio"][0]["valormin"] ?>", "<?php echo $item["anuncio"][0]["finalidade"] ?>", "600", "300", 9);
@@ -550,6 +560,201 @@ $item = $this->getItem();
             
     </div>
     
+    <?php if(Sessao::verificarSessaoUsuario()){
+        
+            if($_SESSION["idusuario"] == $item["loginUsuario"]){
+                
+                
+    ?>
+    
+    <script>
+    esconderResposta();    
+    </script>
+    
+    <div class="row">
+         
+        <div class="column">
+        
+            <div class="ui segment">
+                <?php if ($item["qtdMensagem"] > 1) {
+            ?>
+                
+            <?php } ?>
+                
+                    <div class="ui brown ribbon label"><?php if($item["qtdMensagem"] == 1)
+                        {echo "1 mensagem para esse anúncio";}  
+                            else echo $item["qtdMensagem"]." mensagens para esse anúncio";?>
+                    </div>
+                
+                    <div class="ui hidden divider"></div>
+                
+                    <div>
+                        
+                       <?php foreach ($item["mensagem"] as $mensagem) { ?>
+                        
+                    <script>
+                    exibirDivResposta(<?php echo $mensagem->getId(); ?>);
+                    responderMensagem(<?php echo $mensagem->getId(); ?>);
+                    ocultarResposta(<?php echo $mensagem->getId(); ?>);
+                    
+                    $(document).ready(function () {
+
+                        $("#form<?php echo $mensagem->getId(); ?>").submit(function () {
+
+                            $("#form<?php echo $mensagem->getId(); ?>").validate();
+                            $("#txtResposta<?php echo $mensagem->getId(); ?>").rules("add", {
+                                required: true,
+                                minlength: 2,
+                                messages: {
+                                    required: "Campo Obrigatório",
+                                    minlength: "Digite ao menos 2 caracteres"
+                                }
+                            });
+
+                            if (($("#txtResposta<?php echo $mensagem->getId(); ?>").valid())) {
+                                $.ajax({
+                                    url: "index.php",
+                                    dataType: "json",
+                                    type: "POST",
+                                    data: $('#form' + <?php echo $mensagem->getId(); ?>).serialize(),
+                                    beforeSend: function () {
+                                        $("#divRetorno" + <?php echo $mensagem->getId(); ?>).html("<div><div class='ui active inverted dimmer'>\n\
+                    <div class='ui text loader'>Processando. Aguarde...</div></div></div>");
+
+                                        $("#divCamposResposta" + <?php echo $mensagem->getId(); ?>).hide();
+
+                                    },
+                                    success: function (resposta) {
+                                        $("#divRetorno" + <?php echo $mensagem->getId(); ?>).empty();
+                                        if (resposta.resultado == 0) {
+                                            $("#divRetorno" + <?php echo $mensagem->getId(); ?>).html('<div class="ui compact red message"><div class="header">Erro ao responder. Tente novamente em alguns minutos - 000.</div></div>');
+                                        } else if (resposta.resultado == 1) {
+                                            $("#btnResponderMensagem" + <?php echo $mensagem->getId(); ?>).hide();
+                                            $("#divRetorno" + <?php echo $mensagem->getId(); ?>).html('<div class="ui compact green message"><div class="header">Resposta enviada</div></div>');
+                                        }
+                                    }
+                                })
+                            }
+                            return false;
+
+                        });
+                    });
+
+                </script> 
+                        
+                    <form id="form<?php echo $mensagem->getId() ?>" class="ui form" action="index.php" method="post">
+                            <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
+                            <input type="hidden" id="hdnAcao" name="hdnAcao" value="responderMensagem" />
+                            <input type="hidden" id="hdnMensagem" name="hdnMensagem" value="<?php echo $mensagem->getId(); ?>" />
+                            <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
+                
+                        <div id="divMensagem<?php echo (string) $mensagem->getId() ?>">                   
+
+                                <div class="field">
+
+                                    <div class="ui info icon message" style="width: 90%">   
+                                        <i class="mail icon"></i>
+                                        <div class="content">
+                                            <div class="header">Mensagem</div>
+                                            <?php echo $mensagem->getMensagem() ?>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    <?php if($mensagem->getProposta() != 0) {?>
+                                    
+                                    <script>
+                                    formatarValorProposta(<?php echo $mensagem->getId(); ?>);
+                                    </script>
+                                    
+                                    <div class="ui positive icon message" style="width: 30%">   
+                                        <i class="dollar green icon"></i>
+                                        <div class="content">                                           
+                                            <div class="header">Proposta do comprador</div>
+                                            <label id="txtProposta<?php echo $mensagem->getId() ?>" name="txtProposta"><?php echo $mensagem->getProposta() ?></label>
+                                        </div>
+                                    </div>
+                                    <?php }?>
+                                    
+                                    <div>
+                                        <label>Enviado em <?php echo substr($mensagem->getDataHora(), 0, 10) ?> 
+                                            as <?php echo substr($mensagem->getDataHora(), 10, -3) ?> por 
+
+                                            <?php
+                                            if ($mensagem->getNome() == "") {
+                                                echo "Anônimo";
+                                            } else
+                                                echo $mensagem->getNome();
+                                            ?>
+
+                                        </label>    
+                                    </div>
+
+                                </div>                                       
+
+                                <?php
+                                if ($mensagem->getStatus() != "RESPONDIDO") {
+                                    ?>
+
+                                    <div id="divCamposResposta<?php echo $mensagem->getId() ?>" style="width: 90%">
+
+                                        <label id="laberResponder<?php echo $mensagem->getId() ?>">
+                                            <a href="#<?php echo $mensagem->getId() ?>" id="responder<?php echo $mensagem->getId(); ?>">Responder</a>
+                                        </label>
+
+                                        <div class="required field"  id="divResposta<?php echo $mensagem->getId(); ?>">
+                                            <label>Digite a resposta</label>
+                                            <textarea rows="2" cols="5" name="txtResposta" id="txtResposta<?php echo $mensagem->getId(); ?>" maxlength="200"></textarea>     
+
+                                            <div class="ui hidden divider"></div>       
+
+                                            <div id="divBotoesMensagem">
+                                                <button class="ui blue button" type="submit" id="btnResponderMensagem<?php echo $mensagem->getId() ?>">Responder</button>
+                                                <button class="ui orange button" type="button" id="btnCancelarMensagem<?php echo $mensagem->getId() ?>">Cancelar</button>
+                                            </div>    
+
+                                        </div>
+
+                                    </div>     
+                                <?php } else { ?>  
+
+                                    <div id="divMsgRespondida<?php echo $mensagem->getId() ?>">
+
+                                    </div>
+                                    <label>Sua resposta:</label>
+
+
+                                    <i class="forward mail icon"></i>
+                                    <?php echo $mensagem->getRespostaMensagem()->getResposta() ?>
+
+                                    <div class="ui hidden divider"></div>
+
+                                    <label>Respondido em <?php echo substr($mensagem->getRespostaMensagem()->getDataHora(), 0, 10) ?> 
+                                        as <?php echo substr($mensagem->getRespostaMensagem()->getDataHora(), 10, -3) ?>
+                                    </label>          
+
+                                <?php } ?>  
+
+                            </div>  
+                            
+                            <div class="ui hidden divider"></div>
+                            <div id="divRetorno<?php echo $mensagem->getId() ?>"></div>               
+                            <div class="ui hidden divider"></div>
+                            
+                            </form>
+                            
+                            <div class="ui divider"></div>
+                        
+                         <?php } ?>
+                        
+                    </div>
+                </div>
+
+    </div>
+    
+     
+    <?PHP } } ?>
+     </div>
 </div>
 
 <div class="ui standart modal" id="modalDuvidaAnuncio">

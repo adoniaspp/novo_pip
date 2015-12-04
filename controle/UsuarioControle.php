@@ -574,13 +574,17 @@ class UsuarioControle {
     }
 
     public function responderMensagem($parametros) {
-
+        /*echo "<pre>";
+        var_dump($_SESSION);
+        echo "</pre>"; die();*/
         $genericoDAO = new GenericoDAO();
         $genericoDAO->iniciarTransacao();
         $respostaMensagem = new RespostaMensagem();
 
         $entidadeRespostaMensagem = $respostaMensagem->cadastrar($parametros);
-
+        /*echo "<pre>";
+        var_dump($entidadeRespostaMensagem);
+        echo "</pre>"; */
         $resultadoRespostaMensagem = $genericoDAO->cadastrar($entidadeRespostaMensagem);
 
         $entidadeMensagem = $genericoDAO->consultar(new Mensagem(), true, array("id" => $_SESSION["mensagem"][$parametros["hdnMensagem"]]));

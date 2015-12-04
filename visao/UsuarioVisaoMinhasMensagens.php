@@ -98,7 +98,7 @@ Sessao::gerarToken();
                                             $("#divRetorno" + <?php echo $mensagem->getId(); ?>).html('<div class="ui compact red message"><div class="header">Erro ao responder. Tente novamente em alguns minutos - 000.</div></div>');
                                         } else if (resposta.resultado == 1) {
                                             $("#btnResponderMensagem" + <?php echo $mensagem->getId(); ?>).hide();
-                                            $("#divRetorno" + <?php echo $mensagem->getId(); ?>).html('<div class="ui compact green message"><div class="header">Resposta enviada.</div></div>');
+                                            $("#divRetorno" + <?php echo $mensagem->getId(); ?>).html('<div class="ui compact green message"><div class="header">Resposta enviada</div></div>');
                                         }
                                     }
                                 })
