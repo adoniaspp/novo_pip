@@ -22,7 +22,14 @@ class Controle {
         if ($_SERVER['REQUEST_METHOD'] === "GET") {
             $entidade = (isset($parametros['entidade'])) ? $parametros['entidade'] : "";
             $acao = (isset($parametros['acao'])) ? $parametros['acao'] : "";
-            if ($entidade == "" && $acao == "") {
+            $transacaoPagSeguro = (isset($parametros['paytransaction_id_1'])) ? $parametros['paytransaction_id_1'] : "";
+            if ($transacaoPagSeguro != "") {
+                if($_SESSION["idusuario"] != ""){
+                    //incluir chamada do comprar planos
+                } else {
+                    self::index();    
+                }
+            } elseif ($entidade == "" && $acao == "") {
                 self::index();
             } else {
                 if (is_file(PIPROOT . '/controle/' . $entidade . "Controle.php")) {
@@ -65,13 +72,13 @@ class Controle {
 
                 switch ($strType) {
                     case 'TRANSACTION':
-                        $pagSeguroControle::transactionNotification($code);
+                        $pagSeguroControle->transactionNotification($code);
                         break;
                     case 'APPLICATION_AUTHORIZATION':
-                        $pagSeguroControle::authorizationNotification($code);
+                        $pagSeguroControle->authorizationNotification($code);
                         break;
                     case 'PRE_APPROVAL':
-                        $pagSeguroControle::preApprovalNotification($code);
+                        $pagSeguroControle->preApprovalNotification($code);
                         break;
                     default:
                     //gera log
