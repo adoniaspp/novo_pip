@@ -150,7 +150,7 @@ switch ($item) {
                         ?>
                         <script>
                         $(document).ready(function() {
-                        $('#divMensagemSucesso').html("Sua "<?php echo ($_SESSION["tipopessoa"] == "pf" ? "Imagem" : "Logomarca");?> " foi alterada com sucesso");
+                        $('#divMensagemSucesso').html("Imagem alterada com sucesso");
                         })
                         </script>                       
                         <?php

@@ -37,24 +37,25 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
                 <input type="hidden" id="hdnAcao" name="hdnAcao" value="trocarimagem" />
                 <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
                 <input type="hidden" id="hdnExcluir" name="hdnExcluir" value="0" />
-                <h3 class="ui dividing header" >Foto / Logomarca</h3>
+                <div class="ui dividing header"></div>
                 <div class="ui two column center aligned relaxed fitted stackable grid" style="position: relative">
                     <div class="column">
                         <div class="ui header center aligned"><?php echo $tipoImagem; ?>  Atual</div>
-                        <div class="ui small image right aligned ">
+                        
                             <?php if ($this->getItem()->getFoto() != "") { ?>
+                            <div class="ui small image right aligned ">
                                 <img src="<?php echo $enderecoImagem; ?>" alt="<?php echo $nomeUsuario; ?>">
-
+                            </div>    
                             <?php } else { ?>
-                                <img src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" alt="<?php echo $nomeUsuario; ?>">
+                                <img src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" alt="<?php echo $nomeUsuario; ?>" width="247" height="200">
                             <?php } ?>
-                        </div>
+                        
                     </div>
 
                     <div class="center aligned column">
                         <div class="ui header"><?php echo $tipoImagem; ?>  Nova</div>
                           
-                        <img id="uploadPreview" src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" width="155" height="140"/><br />
+                        <img id="uploadPreview" src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" width="247" height="200"/><br />
                     
                     <div>   
                         
@@ -67,17 +68,39 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
                 <div class="ui hidden  divider"></div>
                 <button class="ui blue button" type="button" id="btnAlterarImagem" disabled="disabled">Alterar Imagem!</button>
                 <button class="ui orange button" type="button" id="btnCancelar">Cancelar</button>
-                <button class="ui red button" id="btnExcluirImagem">Excluir Imagem</button>
+                <button class="ui red button" type="button" id="btnExcluirImagem">Excluir Imagem</button>
                 <div class="ui hidden divider"></div>
             </form>
         </div>
     </div>
 
 <!-- MODAIS -->
+
+<div class="ui small modal" id="modalAlterar">
+    <i class="close icon"></i>
+    <div class="ui header">
+        Alterar imagem
+    </div>
+    <div class="content">
+        <div class="description">
+            <div class="ui header">Confirmar a troca da imagem?</div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui red deny button">
+            Não
+        </div>
+        <div class="ui positive right labeled icon button">
+            Sim
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
+
 <div class="ui small modal" id="modalCancelar">
     <i class="close icon"></i>
     <div class="header">
-        Cancelar
+        Cancelar Troca
     </div>
     <div class="content">
         <div class="description">
@@ -101,7 +124,7 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
     </div>
     <div class="content">
         <div class="description">
-            <div class="ui red header">Deseja realmente Excluir a sua foto?</div>
+            <div class="ui header">Deseja realmente excluir?</div>
         </div>
     </div>
     <div class="actions">

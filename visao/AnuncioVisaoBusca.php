@@ -22,8 +22,6 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
 ?>
 
 </script>
-<?php
-?>
 
 <div class="ui middle aligned stackable grid container">
     <div id="mapaGmapsBusca"></div>
@@ -54,8 +52,8 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                 <script>
                     formatarValor("<?php echo $item['anuncio'][$crtl]['idanuncio']?>");
                 </script>
-                    <tr style="width: 33%;float: left; border: none !important">
-                        <td class="ui special cards" style="border: none !important">
+                    <tr style="width: 25%; float: left; border: none !important">
+                        <td class="ui special cards" style="width: 90%; border: none !important">
                             <div class="ui stackable card" id="cartao<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">
                                 <div class="content">
                                     <?php             
@@ -87,12 +85,12 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
 //                                    var_dump($imagem['diretorio']);
 //                                    die();
                                 ?>
-                                    <img style="height:200px; width: 290px;" src="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] .'/'. $imagem['nome'] ?>">
+                                    <img style="height:200px; width: 247px;" src="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] .'/'. $imagem['nome'] ?>">
                         <?php 
                             }}
                         }else{
                                 ?>
-                            <img style="height:200px; width: 290px;" src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>">
+                            <img style="height:200px; width: 247px;" src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>">
                            <?php 
                             } ?>
                                 </div>

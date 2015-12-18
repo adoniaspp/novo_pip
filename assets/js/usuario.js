@@ -821,10 +821,22 @@ function trocarSenha() { //alterar a senha esquecida
 
 function trocarImagem() {
     $(document).ready(function () {
-        $("#btnAlterarImagem").click(function () {
-            if ($("#form").valid()) {
+        
+        $("#btnAlterarImagem").click(function () {           
+            $('#modalAlterar').modal({
+                closable: true,
+                transition: "fade up",
+                onDeny: function () {
+                    return true;
+                },
+                onApprove: function () {
+                    $("#form").submit();
+                }
+            }).modal('show');
+            
+            /*if ($("#form").valid()) {
                 $("#form").submit();
-            }
+            }*/
         });
         $("#btnExcluirImagem").click(function () {
             $('#modalExcluir').modal({
@@ -835,7 +847,7 @@ function trocarImagem() {
                 },
                 onApprove: function () {
                     $("#hdnExcluir").val(1);
-                    $("#arquivolabel").rules("remove");
+                    //$("#arquivolabel").rules("remove");
                     $("#form").submit();
                 }
             }).modal('show');

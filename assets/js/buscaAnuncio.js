@@ -302,7 +302,7 @@ function carregarAnuncio() { //valor = quantidade de anuncios
         $('.ui.checkbox')
                 .checkbox({
                     beforeChecked: function () { //ao clicar no anuncio, marcar de vermelho                                               
-                        var NumeroMaximo = 2;
+                        var NumeroMaximo = 5;
                         if ($("input[name^='listaAnuncio']").length >= NumeroMaximo) {
                             alert('Selecione no máximo ' + NumeroMaximo + ' imóveis para a comparação');
                             return false;
@@ -362,8 +362,8 @@ function carregarAnuncio() { //valor = quantidade de anuncios
             "language": {
                 "url": "assets/libs/datatables/js/Portuguese-Brasil.json",
             },
-            "pageLength": 6,
-            "lengthMenu": [[6, 12, 18, 24, -1], [6, 12, 18, 24, "Todos"]],
+            "pageLength": 8,
+            "lengthMenu": [8, 16, 24, 32, "Todos"],
             "stateSave": true,
             "bSort": false
         });

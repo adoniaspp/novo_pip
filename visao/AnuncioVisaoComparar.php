@@ -1,17 +1,32 @@
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" type="text/css" href="assets/libs/lightbox/lightbox.css">
+<script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 <script src="assets/libs/lightbox/lightbox.min.js"></script>
 <script src="assets/js/imagemComparar.js"></script>
+<script src="assets/js/buscaAnuncio.js"></script>
 
 <?php
 $item = $this->getItem();
 ?>     
-
-<div class="container">
-
-    <div class="ui three column padded grid">
-        <div class="two wide column"></div>
+<div class="ui column doubling grid container">
+    <div class="row">
+        <div class="column">
+            <div class="ui large breadcrumb">
+                <a class="section" href="index.php">Início</a>
+                <i class="right chevron icon divider"></i>
+                <a class="active section">Comparar Anuncios</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+      <div class="ui info message">
+        Veja abaixo os anúncios escolhidos por você para comparação
+      </div>  
+    </div>
+    
+    <div class="row">
         <div class="ten wide column">
             <table class="ui compact celled definition table" id="tabela">
 
@@ -27,18 +42,24 @@ $item = $this->getItem();
                         <th>Bairro</th>
                         <th>Condição</th>
                         <th>Foto</th>
+                        <th>Ver Detalhes</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
                     foreach ($item as $anuncio) {
                         ?>
+                    <script>
+                        $(document).ready(function () {
+                        formatarValor(<?php echo $anuncio['idanuncio']?>);
+                        })
+                    </script>
                         <tr>
                             <td class="collapsing">
 
                                 <?php echo $anuncio['tituloanuncio'] ?>
                             </td>
-                            <td><?php echo 'R$' . $anuncio['valormin'] ?></td>
+                            <td id="spanValor<?php echo $anuncio['idanuncio']?>"><?php echo 'R$' . $anuncio['valormin'] ?></td>
                             <td>
                                 <?php
                                 echo minMax($anuncio, 'area') . 'm<sup>2</sup>';
@@ -93,6 +114,22 @@ $item = $this->getItem();
                                     <?php }
                                 ?>
                             </td>
+                            <td>
+                                
+                                <form id="form" action="index.php" method="post" target='_blank'>
+                                <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio" />
+                                <input type="hidden" id="hdnAcao" name="hdnAcao" value="detalhar"/>
+                                <input type="hidden" id="hdnCodAnuncio" name="hdnCodAnuncio" value="<?php echo $anuncio['idanuncio'] ?>"/>
+                                <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" value="<?php echo $anuncio['tipo'] ?>"/>
+                                
+                                <button class="ui labeled icon button">
+                                    <i class="zoom icon"></i>
+                                    <?php echo $anuncio['idanuncioformatado']; ?>
+                                </button>
+                                
+                                </form>
+                                
+                            </td>
                         </tr>
 <?php } ?>
 
@@ -102,10 +139,6 @@ $item = $this->getItem();
         </div>
 
     </div>   
-
-    <br>
-</div>   
-
 
 </div>
 
@@ -135,7 +168,7 @@ function minMax($parametros, $coluna) {
             "paging": false,
             "info": false,
             "columnDefs": [
-                {"orderable": false, "targets": [6, 7, 8, 9]}
+                {"orderable": false, "targets": [9, 10]}
             ]
         });
         $('#tabela tbody').on('click', 'tr', function () {
