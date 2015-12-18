@@ -163,7 +163,7 @@ class AnuncioControle {
             $visao->exibir($pagina);
         } else {
 
-            $usuarioQtdAnuncio = count($consultasAdHoc->ConsultarAnunciosPorUsuario($parametros["idUsuario"], null, 'cadastrado'));
+            $usuarioQtdAnuncio = count($consultasAdHoc->ConsultarAnunciosPorUsuario($parametros["idUsuario"], null, array('cadastrado')));
 
             $listarAnuncio["qtdAnuncios"] = $usuarioQtdAnuncio;
 
@@ -282,7 +282,7 @@ class AnuncioControle {
             $anuncio = new Anuncio();
             $genericoDAO = new GenericoDAO();
             $consultasAdHoc = new ConsultasAdHoc();
-            $listaAnuncio = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, 'cadastrado');
+            $listaAnuncio = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, array('cadastrado'));
             foreach ($listaAnuncio as $anuncio) {
                 $imovel = $genericoDAO->consultar(new Imovel(), false, array("id" => $anuncio->getIdImovel()));
                 $anuncio->setImovel($imovel[0]);
@@ -303,7 +303,7 @@ class AnuncioControle {
             $genericoDAO = new GenericoDAO();
             $consultasAdHoc = new ConsultasAdHoc();
 
-            $listaAnuncio = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, 'finalizado');
+            $listaAnuncio = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, array('finalizado'));
             foreach ($listaAnuncio as $anuncio) {
 
                 $imovel = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio->getIdImovel()));
@@ -314,7 +314,7 @@ class AnuncioControle {
                 $listarAnuncios[] = $anuncio;
             }
 
-            $listaAnuncioExpirado = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, 'expirado');
+            $listaAnuncioExpirado = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, array('expirado'));
             foreach ($listaAnuncioExpirado as $anuncio) {
 
                 $expirado = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio->getIdImovel()));
@@ -697,11 +697,13 @@ class AnuncioControle {
            $genericoDAO = new GenericoDAO();
            $consultasAdHoc = new ConsultasAdHoc();
 
-           $listaAnuncioExpirado = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, 'expirado', 'Aluguel');
+           $listaAnuncioExpirado = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, array('expirado', 'finalizado'), 'Aluguel');
            foreach ($listaAnuncioExpirado as $anuncio) {
 
                $expirado = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio->getIdImovel()));
-
+               $historico = $genericoDAO->consultar(new HistoricoAluguelVenda(), false, array("idanuncio" => $anuncio->getId()));
+               $anuncio->setHistoricoaluguelvenda($historico[0]);
+               
                $anuncio->setImovel($expirado[0]);
                $listarAnunciosExpirados[] = $anuncio;
            }

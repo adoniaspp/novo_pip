@@ -692,6 +692,9 @@ function reativar(botao) {
                             $("#divRetorno").empty();
                             $("#btnCancelarReativar").hide();
                             $("#btnFecharReativar").show();
+                            $("#botaoFecharReativar" + botao).click(function () {
+                                window.location = "index.php?entidade=Anuncio&acao=listarReativarAluguel";
+                            });
                             if (resposta.resultado == 1) {
                                 $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
                         <p>Anuncio Reativado com Sucesso </p>');

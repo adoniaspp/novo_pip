@@ -43,8 +43,6 @@ Sessao::gerarToken();
 
 $item = $this->getItem();
 
-//var_dump($item);
-
 $totalAnunciosExpirados = count($item["listaAnuncioExpirado"]);
 
 if ($totalAnunciosFinalizados < 1 && $totalAnunciosExpirados < 1) {
@@ -156,7 +154,11 @@ if ($totalAnunciosFinalizados < 1 && $totalAnunciosExpirados < 1) {
                 <td id="tdValor<?php echo $anuncio->getId(); ?>"><?php echo $anuncio->getValorMin(); ?></td>
                 <td><?php echo $anuncio->getDataHoraCadastro(); ?></td>
                 <td> <?php
-                    echo "<i class='large remove circle red icon'></i>Expirado em " . $anuncio->getDataHoraDesativacao();
+                    if($anuncio->getStatus() == 'finalizado'){
+                        echo "<i class='large thumbs up red icon'></i>Finalizado em " . $anuncio->getHistoricoAluguelVenda()->getDatahora();
+                    }else{
+                        echo "<i class='large remove circle red icon'></i>Expirado em " . $anuncio->getDataHoraDesativacao();
+                    }
                     ?>
                 </td>
                 <td><?php echo "<a id='btnReativar" . $anuncio->getId() . "' class='ui green button'><i class='thumbs up icon'></i>Reativar Anúncio</a>" ?></td>
@@ -180,8 +182,6 @@ if ($totalAnunciosFinalizados < 1 && $totalAnunciosExpirados < 1) {
 <?php
 if ($item) {
 foreach ($item["listaAnuncioExpirado"] as $anuncio) {
-//            print_r($anuncio);
-//            die();
 ?>
 
 <script>
