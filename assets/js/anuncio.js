@@ -688,17 +688,17 @@ function reativar(botao) {
                         type: "POST",
                         data: $("#formReativar" + botao).serialize(),
                         beforeSend: function () {
-                            $("#btnReativar").hide();
-                            $("#btnCancelarReativar").hide();
-                            $("#camposAnuncio").hide();
-                            $("#divRetorno").html("<div><div class='ui active inverted dimmer'>\n\
+                            $("#btnReativar" + botao).hide();
+                            $("#btnCancelarReativar" + botao).hide();
+                            $("#camposAnuncio" + botao).hide();
+                            $("#divRetorno" + botao).html("<div><div class='ui active inverted dimmer'>\n\
                         <div class='ui text loader'>Enviando mensagem. Aguarde...</div></div></div>");
                         },
                         success: function (resposta) {
-                            $("#divRetorno").empty();
-                            $("#btnCancelarReativar").hide();
-                            $("#btnFecharReativar").show();
-                            $("#botaoFecharReativar" + botao).click(function () {
+                            $("#divRetorno" + botao).empty();
+                            $("#btnCancelarReativar" + botao).hide();
+                            $("#btnFecharReativar" + botao).show();
+                            $("#btnFecharReativar" + botao).click(function () {
                                 window.location = "index.php?entidade=Anuncio&acao=listarReativarAluguel";
                             });
                             if (resposta.resultado == 1) {

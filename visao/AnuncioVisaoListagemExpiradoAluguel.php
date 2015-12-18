@@ -184,7 +184,7 @@ if ($totalAnunciosFinalizados < 1 && $totalAnunciosExpirados < 1) {
             <script>
                 reativar(<?php echo $anuncio->getId() ?>);
                 formatarValor(<?php echo $anuncio->getId() ?>);
-                validarValor(true);
+//                validarValor(true);
             </script>
 
             <!-- Modal do Reativar Aluguel -->
@@ -297,7 +297,7 @@ if ($totalAnunciosFinalizados < 1 && $totalAnunciosExpirados < 1) {
                     </div>
                 </div>
 
-                <div id="divRetorno"></div>
+                <div id="divRetorno"<?php echo $anuncio->getId() ?>></div>
                 <div class="actions">
                     <div  id="btnCancelarReativar<?php echo $anuncio->getId() ?>" class="ui orange deny button">
                         Cancelar
