@@ -506,11 +506,11 @@ function validarValor(validacao) {
                     var valor = parseInt($("#txtValor").unmask());
 //                    switch ($('#sltFinalidade').parent().dropdown('get value')) {
 //                        case "Aluguel":
-                            if (!isNaN(valor)) {
-                                if (valor > 100) {
-                                    validacao = true;
-                                }
-                            }
+                    if (!isNaN(valor)) {
+                        if (valor > 100) {
+                            validacao = true;
+                        }
+                    }
 //                            break;
 //                        case "Venda":
 //                            if (!isNaN(valor)) {
@@ -519,7 +519,7 @@ function validarValor(validacao) {
 //                                }
 //                            }
 //                            break;
-                    
+
                 } else {
                     validacao = true;
                 }
@@ -599,7 +599,10 @@ function validarValorProposta(validacao) {
 
 function reativar(botao) {
     $(document).ready(function () {
-
+        $('.ui.dropdown')
+                .dropdown({
+                    on: 'hover'
+                });
         $('#btnReativar' + botao).click(function () {
             $('#modalReativar' + botao).modal({
                 closable: false,
@@ -611,20 +614,24 @@ function reativar(botao) {
                     return false; //deixar o modal fixo
                 },
                 onShow: function () {
-                    $("#btnFecharReativar").hide();
-                    $("#sltPlano").dropdown('restore defaults');
+                    $("#btnFecharReativar" + botao).hide();
+                    $("#sltPlano" + botao).dropdown('restore defaults');
                     $("#dadosAnuncio" + botao).hide();
-                    $('#sltPlano').dropdown({
-                        on: 'hover'
+                    $('#txtValor' + botao).priceFormat({
+                        prefix: 'R$ ',
+                        centsSeparator: ',',
+                        centsLimit: 0,
+                        limit: 8,
+                        thousandsSeparator: '.'
                     });
-                    $("#chkValor").parent().checkbox('set checked');
-                    $('#sltPlano').change(function () {
+                    $("#chkValor" + botao).parent().checkbox('set checked');
+                    $("#sltPlano" + botao).change(function () {
                         $("#dadosAnuncio" + botao).show();
-                        $("#chkValor").change(function () {
+                        $("#chkValor" + botao).change(function () {
                             if ($(this).parent().checkbox('is checked')) {
-                                $("#divInformarValor").show();
+                                $("#divInformarValor" + botao).show();
                             } else {
-                                $("#divInformarValor").hide();
+                                $("#divInformarValor" + botao).hide();
                             }
                         })
                     })
@@ -655,14 +662,13 @@ function reativar(botao) {
                 rules: {
                     sltPlano: {
                         required: true
-                    },                
+                    },
                     txtTitulo: {
                         required: true
                     },
                     txtDescricao: {
                         required: true
                     },
-                    
                 },
                 messages: {
                     sltPlano: {
@@ -674,7 +680,7 @@ function reativar(botao) {
                     txtDescricao: {
                         remote: "Informe a Descrição do Anúncio"
                     },
-                },  
+                },
                 submitHandler: function (form) {
                     $.ajax({
                         url: "index.php",

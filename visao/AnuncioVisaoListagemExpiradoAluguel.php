@@ -46,278 +46,275 @@ $item = $this->getItem();
 $totalAnunciosExpirados = count($item["listaAnuncioExpirado"]);
 
 if ($totalAnunciosFinalizados < 1 && $totalAnunciosExpirados < 1) {
-?>
+    ?>
 
-<div class="ui middle aligned stackable grid container">
+    <div class="ui middle aligned stackable grid container">
 
-    <div class="column">
+        <div class="column">
 
-        <div class="ui warning compact message">
-            <div class="header">Atenção</div>
-            <ul class="list">
-                <li>Você não possui anúncios do tipo aluguel expirados. Clique em voltar para retornar ao MEUPIP</li>
-            </ul>
-        </div>
+            <div class="ui warning compact message">
+                <div class="header">Atenção</div>
+                <ul class="list">
+                    <li>Você não possui anúncios do tipo aluguel expirados. Clique em voltar para retornar ao MEUPIP</li>
+                </ul>
+            </div>
 
-        <div class="row">
-            <a href="index.php?entidade=Usuario&acao=meuPIP">
-                <button class="ui orange button">Voltar</button>
-            </a>
-        </div>
+            <div class="row">
+                <a href="index.php?entidade=Usuario&acao=meuPIP">
+                    <button class="ui orange button">Voltar</button>
+                </a>
+            </div>
 
-        <div class="row"></div>     
+            <div class="row"></div>     
 
-    </div>   
-</div>    
+        </div>   
+    </div>    
 
 <?php } else { //caso exista ao menos 1 anuncio cadastrado, exibir o datatable?>
-<div class="ui middle aligned stackable grid container">
-    <div class="column">
+    <div class="ui middle aligned stackable grid container">
+        <div class="column">
 
-        <table class="ui brown table" id="tabela">
+            <table class="ui brown table" id="tabela">
 
-            <thead>
-                <tr>
-                    <th>Cód. Anúncio</th>
-                    <th>Tipo</th>
-                    <th>Titulo</th>
-                    <th>Descrição</th> 
-                    <th>Valor</th>
-                    <th>Data Cadastro</th>
-                    <th>Status</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                if ($item) {
-                foreach ($item["listaAnuncioExpirado"] as $anuncio) {
+                <thead>
+                    <tr>
+                        <th>Cód. Anúncio</th>
+                        <th>Tipo</th>
+                        <th>Titulo</th>
+                        <th>Descrição</th> 
+                        <th>Valor</th>
+                        <th>Data Cadastro</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if ($item) {
+                        foreach ($item["listaAnuncioExpirado"] as $anuncio) {
 
-                switch ($anuncio->getImovel()->getIdTipoImovel()) {
+                            switch ($anuncio->getImovel()->getIdTipoImovel()) {
 
-                case 1: $tipoImovel = "casa";
-                break;
-                case 2: $tipoImovel = "apartamentoplanta";
-                break;
-                case 3: $tipoImovel = "apartamento";
-                break;
-                case 4: $tipoImovel = "salacomercial";
-                break;
-                case 5: $tipoImovel = "prediocomercial";
-                break;
-                case 6: $tipoImovel = "terreno";
-                break;
-                }
-                ?>
-            <script>
-                $(document).ready(function () {
-                    formatarValor(<?php echo $anuncio->getId() ?>);
-                })
-            </script>
-            <tr>
-                <td>
+                                case 1: $tipoImovel = "casa";
+                                    break;
+                                case 2: $tipoImovel = "apartamentoplanta";
+                                    break;
+                                case 3: $tipoImovel = "apartamento";
+                                    break;
+                                case 4: $tipoImovel = "salacomercial";
+                                    break;
+                                case 5: $tipoImovel = "prediocomercial";
+                                    break;
+                                case 6: $tipoImovel = "terreno";
+                                    break;
+                            }
+                            ?>
+                       
+                        <tr>
+                            <td>
 
-                    <form id="form" action="index.php" method="post" target='_blank'>
-                        <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio" />
-                        <input type="hidden" id="hdnAcao" name="hdnAcao" value="detalhar"/>
-                        <input type="hidden" id="hdnCodAnuncio" name="hdnCodAnuncio" value="<?php echo $anuncio->getId() ?>"/>
-                        <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" value="<?php echo $tipoImovel ?>"/>
+                                <form id="form" action="index.php" method="post" target='_blank'>
+                                    <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio" />
+                                    <input type="hidden" id="hdnAcao" name="hdnAcao" value="detalhar"/>
+                                    <input type="hidden" id="hdnCodAnuncio" name="hdnCodAnuncio" value="<?php echo $anuncio->getId() ?>"/>
+                                    <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" value="<?php echo $tipoImovel ?>"/>
 
-                        <button class="ui labeled icon button">
-                            <i class="zoom icon"></i>
-                            <?php echo $anuncio->getIdAnuncio(); ?>
-                        </button>                   
+                                    <button class="ui labeled icon button">
+                                        <i class="zoom icon"></i>
+                                        <?php echo $anuncio->getIdAnuncio(); ?>
+                                    </button>                   
 
-                    </form>
+                                </form>
 
-                </td>
-                <td><?php
-                    switch ($anuncio->getImovel()->getIdTipoImovel()) {
+                            </td>
+                            <td><?php
+                                switch ($anuncio->getImovel()->getIdTipoImovel()) {
 
-                    case 1: echo "Casa";
-                    break;
-                    case 2: echo "Apartamento na Planta";
-                    break;
-                    case 3: echo "Apartamento";
-                    break;
-                    case 4: echo "Sala Comercial";
-                    break;
-                    case 5: echo "Prédio Comercial";
-                    break;
-                    case 6: echo "Terreno";
-                    break;
-                    }
-                    ?>
-                </td>
-                <td><?php echo $anuncio->getTituloAnuncio(); ?></td>
-                <td><?php echo $anuncio->getDescricaoAnuncio(); ?></td>
-                <td id="tdValor<?php echo $anuncio->getId(); ?>"><?php echo $anuncio->getValorMin(); ?></td>
-                <td><?php echo $anuncio->getDataHoraCadastro(); ?></td>
-                <td> <?php
-                    if($anuncio->getStatus() == 'finalizado'){
-                        echo "<i class='large thumbs up red icon'></i>Finalizado em " . $anuncio->getHistoricoAluguelVenda()->getDatahora();
-                    }else{
-                        echo "<i class='large remove circle red icon'></i>Expirado em " . $anuncio->getDataHoraDesativacao();
-                    }
-                    ?>
-                </td>
-                <td><?php echo "<a id='btnReativar" . $anuncio->getId() . "' class='ui green button'><i class='thumbs up icon'></i>Reativar Anúncio</a>" ?></td>
-
-            </tr>
-
-            <?php
-            }
-            }
-            ?>           
-
-            </tbody>
-        </table>
-
-    </div>
-</div>
-
-<div class="ui hidden divider"></div>
-
-
-<?php
-if ($item) {
-foreach ($item["listaAnuncioExpirado"] as $anuncio) {
-?>
-
-<script>
-    reativar(<?php echo $anuncio->getId() ?>);
-    formatarValor(<?php echo $anuncio->getId() ?>);
-    validarValor(true);
-</script>
-
-<!-- Modal do Reativar Aluguel -->
-<div class="ui standart modal" id="modalReativar<?php echo $anuncio->getId() ?>">
-    <i class="close icon"></i>
-    <div class="header">
-        Informações Básicas 
-    </div>
-    <div class="content" id="camposAnuncio">
-        <div class="description">
-            <!--                        <div class="ui piled segment">-->
-            <p id="textoConfirmacao"></p>
-            <form class="ui form" id="formReativar<?php echo $anuncio->getId() ?>" action="index.php" method="post">
-                <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio"  />
-                <input type="hidden" id="hdnAcao" name="hdnAcao" value="reativar" />  
-                <input type="hidden" id="hdnAnuncio" name="hdnAnuncio" value="<?php echo $anuncio->getId() ?>" />
-                <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
-
-                <!--                <h3 class="ui dividing header">Informações Básicas</h3>-->
-                <div class="ui form segment">
-                    <div class="fields">
-
-                        <div class="eight wide required field">
-                            <label>Plano</label>
-                            <div class="ui selection dropdown" id='sltPlano'>
-                                <input type="hidden" name="sltPlano" id="sltPlano">
-                                <i class="dropdown icon"></i>
-                                <?php
-                                if ($item && count($item["listaPlanos"]) > 0) {
-                                ?>
-                                <div class="text">Escolha um plano</div>
-                                <div class="menu">                            
-                                    <?php
-                                    foreach ($item["listaPlanos"] as $usuarioPlano) {
-                                    ?>
-                                    <div class="item" data-value="<?php echo $usuarioPlano->getId() ?>"><?php echo $usuarioPlano->getPlano()->getTitulo() . " (" . $usuarioPlano->getPlano()->getValidadepublicacao() . " dias) - Expira em: " . $usuarioPlano->DataExpiracao($usuarioPlano->getPlano()->getValidadeativacao()); ?></div>
-                                    <?php
-                                    }
-                                    ?>
-                                </div>
-                                <?php
-                                } else {
-                                ?>
-                                <div class="text">Você ainda não possui planos ativos.</div>
-                                <?php
+                                    case 1: echo "Casa";
+                                        break;
+                                    case 2: echo "Apartamento na Planta";
+                                        break;
+                                    case 3: echo "Apartamento";
+                                        break;
+                                    case 4: echo "Sala Comercial";
+                                        break;
+                                    case 5: echo "Prédio Comercial";
+                                        break;
+                                    case 6: echo "Terreno";
+                                        break;
                                 }
                                 ?>
-                            </div>
-                        </div>
-                        <div class="eight wide required field">
-                            <div class="ui orange dividing header">
-                                <i class="add to cart icon"></i>
-                                <div class="content">
-                                    Comprar planos!
-                                    <div class="sub header">  <a href="index.php?entidade=Plano&acao=listar"> Para anunciar é preciso ter planos ativos! </a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="dadosAnuncio<?php echo $anuncio->getId() ?>">
-                        <div class="fields">
-                            <div class="twelve wide required field">
-                                <label>Título do Anúncio</label>
-                                <input name="txtTitulo" id="txtTitulo" type="text" placeholder="Informe o Título" maxlength="50" value="<?php echo $anuncio->getTituloAnuncio() ?>">
-                            </div>
-                        </div>
-                        <div class="required field">
-                            <label>Descrição</label>
-                            <textarea name="txtDescricao" id="txtDescricao" placeholder="Informe uma Descrição do Imóvel" maxlength="150" ><?php echo $anuncio->getDescricaoAnuncio() ?></textarea>
-                        </div>
-                        <div class="three fields">
-                            <div class="field">
-                                <div class="ui toggle checkbox">
-                                    <input name="chkValor" id="chkValor" type="checkbox" value="SIM">
-                                    <label>Deseja informar um valor para o imóvel?</label>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <div class="ui toggle checkbox">
-                                    <?php if ($anuncio->getPublicarMapa() == 'SIM'){ ?>
-                                    <input name="chkMapa" id="chkMapa" type="checkbox" value="SIM" checked="checked">
-                                    <?php }else{ ?>
-                                    <input name="chkMapa" id="chkMapa" type="checkbox" value="SIM">
-                                    <?php } ?>
+                            </td>
+                            <td><?php echo $anuncio->getTituloAnuncio(); ?></td>
+                            <td><?php echo $anuncio->getDescricaoAnuncio(); ?></td>
+                            <td id="tdValor<?php echo $anuncio->getId(); ?>"><?php echo $anuncio->getValorMin(); ?></td>
+                            <td><?php echo $anuncio->getDataHoraCadastro(); ?></td>
+                            <td> <?php
+                                if ($anuncio->getStatus() == 'finalizado') {
+                                    echo "<i class='large thumbs up red icon'></i>Finalizado em " . $anuncio->getHistoricoAluguelVenda()->getDatahora();
+                                } else {
+                                    echo "<i class='large remove circle red icon'></i>Expirado em " . $anuncio->getDataHoraDesativacao();
+                                }
+                                ?>
+                            </td>
+                            <td><?php echo "<a id='btnReativar" . $anuncio->getId() . "' class='ui green button'><i class='thumbs up icon'></i>Reativar Anúncio</a>" ?></td>
 
-                                    <label>Exibir o mapa do endereço?</label>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <div class="ui toggle checkbox">
-                                    <?php if ($anuncio->getPublicarContato() == 'SIM'){ ?>
-                                    <input name="chkContato" id="chkContato" type="checkbox" value="SIM" checked="checked">
-                                    <?php }else{ ?>
-                                    <input name="chkContato" id="chkContato" type="checkbox" value="SIM">
-                                    <?php } ?>
-                                    <label>Exibir suas informações de contato?</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="one fields" id="divInformarValor">
-                            <div class="field">
-                                <label>Valor (não informar os centavos)</label>
-                                <input name="txtValor" id="txtValor" class="txtValor" placeholder="Valor do Imóvel" value="<?php echo $anuncio->getValorMin() ?>" >
-                            </div>
-                        </div>
-                    </div>        
+                        </tr>
+
+                        <?php
+                    }
+                }
+                ?>           
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <div class="ui hidden divider"></div>
+
+
+    <?php
+    if ($item) {
+        foreach ($item["listaAnuncioExpirado"] as $anuncio) {
+
+            ?>
+
+            <script>
+                reativar(<?php echo $anuncio->getId() ?>);
+                formatarValor(<?php echo $anuncio->getId() ?>);
+                validarValor(true);
+            </script>
+
+            <!-- Modal do Reativar Aluguel -->
+            <div class="ui standart modal" id="modalReativar<?php echo $anuncio->getId() ?>">
+                <i class="close icon"></i>
+                <div class="header">
+                    Informações Básicas 
                 </div>
-            </form>
-            <!--                    </div>-->
-        </div>
-    </div>
+                <div class="content" id="camposAnuncio">
+                    <div class="description">
+                        <!--                        <div class="ui piled segment">-->
+                        <p id="textoConfirmacao"></p>
+                        <form class="ui form" id="formReativar<?php echo $anuncio->getId() ?>" action="index.php" method="post">
+                            <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio"  />
+                            <input type="hidden" id="hdnAcao" name="hdnAcao" value="reativar" />  
+                            <input type="hidden" id="hdnAnuncio" name="hdnAnuncio" value="<?php echo $anuncio->getId() ?>" />
+                            <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
 
-    <div id="divRetorno"></div>
-    <div class="actions">
-        <div  id="btnCancelarReativar" class="ui orange deny button">
-            Cancelar
-        </div>
-        <div  id="btnReativar" class="ui positive right labeled icon button">
-            Reativar
-            <i class="checkmark icon"></i>
-        </div>
-        <div  id="btnFecharReativar" class="ui red deny button">
-            Fechar
-        </div>
-    </div>
-</div>
+                            <!--                <h3 class="ui dividing header">Informações Básicas</h3>-->
+                            <div class="ui form segment">
+                                <div class="fields">
 
-<?php
-}
-}
-?>
+                                    <div class="eight wide required field">
+                                        <label>Plano</label>
+                                        <div class="ui selection dropdown" id='sltPlano<?php echo $anuncio->getId() ?>'>
+                                            <input type="hidden" name="sltPlano" id="sltPlano">
+                                            <i class="dropdown icon"></i>
+                                            <?php
+                                            if ($item && count($item["listaPlanos"]) > 0) {
+                                                ?>
+                                                <div class="text">Escolha um plano</div>
+                                                <div class="menu">                            
+                                                    <?php
+                                                    foreach ($item["listaPlanos"] as $usuarioPlano) {
+                                                        ?>
+                                                        <div class="item" data-value="<?php echo $usuarioPlano->getId() ?>"><?php echo $usuarioPlano->getPlano()->getTitulo() . " (" . $usuarioPlano->getPlano()->getValidadepublicacao() . " dias) - Expira em: " . $usuarioPlano->DataExpiracao($usuarioPlano->getPlano()->getValidadeativacao()); ?></div>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </div>
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <div class="text">Você ainda não possui planos ativos.</div>
+                                                <?php
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <div class="eight wide required field">
+                                        <div class="ui orange dividing header">
+                                            <i class="add to cart icon"></i>
+                                            <div class="content">
+                                                Comprar planos!
+                                                <div class="sub header">  <a href="index.php?entidade=Plano&acao=listar"> Para anunciar é preciso ter planos ativos! </a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="dadosAnuncio<?php echo $anuncio->getId() ?>">
+                                    <div class="fields">
+                                        <div class="twelve wide required field">
+                                            <label>Título do Anúncio</label>
+                                            <input name="txtTitulo" id="txtTitulo<?php echo $anuncio->getId() ?>" type="text" placeholder="Informe o Título" maxlength="50" value="<?php echo $anuncio->getTituloAnuncio() ?>">
+                                        </div>
+                                    </div>
+                                    <div class="required field">
+                                        <label>Descrição</label>
+                                        <textarea name="txtDescricao" id="txtDescricao<?php echo $anuncio->getId() ?>" placeholder="Informe uma Descrição do Imóvel" maxlength="150" ><?php echo $anuncio->getDescricaoAnuncio() ?></textarea>
+                                    </div>
+                                    <div class="three fields">
+                                        <div class="field">
+                                            <div class="ui toggle checkbox">
+                                                <input name="chkValor" id="chkValor<?php echo $anuncio->getId() ?>" type="checkbox" value="SIM">
+                                                <label>Deseja informar um valor para o imóvel?</label>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <div class="ui toggle checkbox">
+                                                <?php if ($anuncio->getPublicarMapa() == 'SIM') { ?>
+                                                    <input name="chkMapa" id="chkMapa" type="checkbox" value="SIM" checked="checked">
+                                                <?php } else { ?>
+                                                    <input name="chkMapa" id="chkMapa" type="checkbox" value="SIM">
+                                                <?php } ?>
+
+                                                <label>Exibir o mapa do endereço?</label>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <div class="ui toggle checkbox">
+                                                <?php if ($anuncio->getPublicarContato() == 'SIM') { ?>
+                                                    <input name="chkContato" id="chkContato" type="checkbox" value="SIM" checked="checked">
+                                                <?php } else { ?>
+                                                    <input name="chkContato" id="chkContato" type="checkbox" value="SIM">
+                                                <?php } ?>
+                                                <label>Exibir suas informações de contato?</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="one fields" id="divInformarValor<?php echo $anuncio->getId() ?>">
+                                        <div class="field">
+                                            <label>Valor (não informar os centavos)</label>
+                                            <input name="txtValor" id="txtValor<?php echo $anuncio->getId() ?>" class="txtValor" placeholder="Valor do Imóvel" value="<?php echo $anuncio->getValorMin() ?>" >
+                                        </div>
+                                    </div>
+                                </div>        
+                            </div>
+                        </form>
+                        <!--                    </div>-->
+                    </div>
+                </div>
+
+                <div id="divRetorno"></div>
+                <div class="actions">
+                    <div  id="btnCancelarReativar<?php echo $anuncio->getId() ?>" class="ui orange deny button">
+                        Cancelar
+                    </div>
+                    <div  id="btnReativar<?php echo $anuncio->getId() ?>" class="ui positive right labeled icon button">
+                        Reativar
+                        <i class="checkmark icon"></i>
+                    </div>
+                    <div  id="btnFecharReativar<?php echo $anuncio->getId() ?>" class="ui red deny button">
+                        Fechar
+                    </div>
+                </div>
+            </div>
+
+            <?php
+        }
+    }
+    ?>
 
 <?php } //fim do else, caso haja anuncios ativos  ?> 
