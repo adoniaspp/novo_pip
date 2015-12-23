@@ -193,7 +193,7 @@ if ($totalAnunciosFinalizados < 1 && $totalAnunciosExpirados < 1) {
                 <div class="header">
                     Informações Básicas 
                 </div>
-                <div class="content" id="camposAnuncio">
+                <div class="content" id="camposAnuncio<?php echo $anuncio->getId() ?>">
                     <div class="description">
                         <!--                        <div class="ui piled segment">-->
                         <p id="textoConfirmacao"></p>
@@ -297,12 +297,12 @@ if ($totalAnunciosFinalizados < 1 && $totalAnunciosExpirados < 1) {
                     </div>
                 </div>
 
-                <div id="divRetorno"<?php echo $anuncio->getId() ?>></div>
+                <div id="divRetorno<?php echo $anuncio->getId() ?>"></div>
                 <div class="actions">
                     <div  id="btnCancelarReativar<?php echo $anuncio->getId() ?>" class="ui orange deny button">
                         Cancelar
                     </div>
-                    <div  id="btnReativar<?php echo $anuncio->getId() ?>" class="ui positive right labeled icon button">
+                    <div  id="btnReativarModal<?php echo $anuncio->getId() ?>" class="ui positive right labeled icon button">
                         Reativar
                         <i class="checkmark icon"></i>
                     </div>

@@ -604,39 +604,41 @@ function reativar(botao) {
                     on: 'hover'
                 });
         $('#btnReativar' + botao).click(function () {
+            
+            $("#btnFecharReativar" + botao).hide();
+            $("#sltPlano" + botao).dropdown('restore defaults');
+            $("#dadosAnuncio" + botao).hide();
+            $('#txtValor' + botao).priceFormat({
+                prefix: 'R$ ',
+                centsSeparator: ',',
+                centsLimit: 0,
+                limit: 8,
+                thousandsSeparator: '.'
+            });
+            $("#chkValor" + botao).parent().checkbox('set checked');
+            $("#sltPlano" + botao).change(function () {
+                $('.ui.modal').modal('refresh');
+                $("#dadosAnuncio" + botao).show();
+                $("#chkValor" + botao).change(function () {
+                    if ($(this).parent().checkbox('is checked')) {
+                        $("#divInformarValor" + botao).show();
+                    } else {
+                        $("#divInformarValor" + botao).hide();
+                    }
+                })
+            })
+            
             $('#modalReativar' + botao).modal({
-                closable: false,
+                closable: true,
                 transition: "fade up",
+                observeChanges: true,
                 onDeny: function () {
                 },
                 onApprove: function () {
                     $("#formReativar" + botao).submit();
                     return false; //deixar o modal fixo
                 },
-                onShow: function () {
-                    $("#btnFecharReativar" + botao).hide();
-                    $("#sltPlano" + botao).dropdown('restore defaults');
-                    $("#dadosAnuncio" + botao).hide();
-                    $('#txtValor' + botao).priceFormat({
-                        prefix: 'R$ ',
-                        centsSeparator: ',',
-                        centsLimit: 0,
-                        limit: 8,
-                        thousandsSeparator: '.'
-                    });
-                    $("#chkValor" + botao).parent().checkbox('set checked');
-                    $("#sltPlano" + botao).change(function () {
-                        $("#dadosAnuncio" + botao).show();
-                        $("#chkValor" + botao).change(function () {
-                            if ($(this).parent().checkbox('is checked')) {
-                                $("#divInformarValor" + botao).show();
-                            } else {
-                                $("#divInformarValor" + botao).hide();
-                            }
-                        })
-                    })
-
-                }
+                
             }).modal('show');
 
             $.validator.setDefaults({
@@ -688,7 +690,7 @@ function reativar(botao) {
                         type: "POST",
                         data: $("#formReativar" + botao).serialize(),
                         beforeSend: function () {
-                            $("#btnReativar" + botao).hide();
+                            $("#btnReativarModal" + botao).hide();
                             $("#btnCancelarReativar" + botao).hide();
                             $("#camposAnuncio" + botao).hide();
                             $("#divRetorno" + botao).html("<div><div class='ui active inverted dimmer'>\n\
@@ -696,19 +698,18 @@ function reativar(botao) {
                         },
                         success: function (resposta) {
                             $("#divRetorno" + botao).empty();
-                            $("#btnCancelarReativar" + botao).hide();
                             $("#btnFecharReativar" + botao).show();
+//                            window.location = "index.php?entidade=Anuncio&acao=listarReativarAluguel";
                             $("#btnFecharReativar" + botao).click(function () {
                                 window.location = "index.php?entidade=Anuncio&acao=listarReativarAluguel";
                             });
                             if (resposta.resultado == 1) {
-                                $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
-                        <p>Anuncio Reativado com Sucesso </p>');
-//                                $("#btnDuvida").attr("disabled", "disabled");
+                                $("#divRetorno" + botao).html('<div class="ui positive message">\n\
+                        <div class="header">Anuncio Reativado com Sucesso </div></div>');
 
                             } else {
-                                $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-                        <h2 class="ui header">Tente novamente mais tarde. Houve um erro no processamento.</h2></div>');
+                                $("#divRetorno" + botao).html('<div class="ui negative message">\n\
+                        <div class="header">Tente novamente mais tarde.</div> <p>Houve um erro no processamento.</p></div>');
                             }
                         }
                     })
@@ -717,6 +718,7 @@ function reativar(botao) {
             })
 
         })
+        
     })
 
 }

@@ -754,7 +754,6 @@ class AnuncioControle {
                }
            }
        }
-
    }
     
     function enviarDuvidaAnuncio($parametros) {
