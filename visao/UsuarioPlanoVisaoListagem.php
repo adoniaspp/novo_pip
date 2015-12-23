@@ -1,5 +1,7 @@
 <link href="assets/libs/touchspin/jquery.bootstrap-touchspin.css" rel="stylesheet" type="text/css" media="all">
 <script src="assets/libs/touchspin/jquery.bootstrap-touchspin.js"></script>
+<link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
+<script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 <script src="assets/js/plano.js"></script>
 <script>
     listagemPlano();
@@ -28,7 +30,7 @@ Sessao::gerarToken();
                 <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="UsuarioPlano" />
                 <input type="hidden" id="hdnAcao" name="hdnAcao" value="confirmar" />
                 <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
-                <h3 class="ui dividing header">Comprar!</h3>
+                <h3 class="ui dividing header">Comprar Planos</h3>
                 <table class="ui compact celled orange table">
                     <thead>
                         <tr>
@@ -86,7 +88,7 @@ Sessao::gerarToken();
                     <?php
                 } else {
                     ?>
-                    <table class="ui compact celled orange table">
+                    <table class="ui orange stackable table" id="tabela">
                         <thead>
                             <tr>
                                 <th>Plano</th>

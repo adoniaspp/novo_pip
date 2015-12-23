@@ -1,5 +1,15 @@
 function listagemPlano() {
     $(document).ready(function () {
+         $('#tabela').DataTable({
+            "language": {
+                "url": "assets/libs/datatables/js/Portuguese-Brasil.json",
+            },
+            "order": [2, "desc"],
+            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
+            "stateSave": true,
+            "searching": false
+        });
+        
         $("input[name^='spnPlano']").TouchSpin({buttondown_class: "orange", buttonup_class: "orange"}).change(
                 function () {
                     $("#txtTotalPreco").val(PrecoTotal());
