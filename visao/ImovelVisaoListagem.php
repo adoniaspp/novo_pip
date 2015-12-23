@@ -8,56 +8,67 @@
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 
 <div class="ui middle aligned stackable grid container">
-    <div class="column">
-        <div class="ui large breadcrumb">
+    <div class="row">
+        <div class="column">
             <div class="ui large breadcrumb">
-                <a class="section" href="index.php">Início</a>
-                <i class="right chevron icon divider"></i>
-                <i class="block layout small icon"></i><a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
-                <i class="right chevron icon divider"></i>
-                <div class="active section"><i class="list small icon"></i>Visualizar meus imóveis</div>
+                <div class="ui large breadcrumb">
+                    <a class="section" href="index.php">Início</a>
+                    <i class="right chevron icon divider"></i>
+                    <i class="block layout small icon"></i><a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
+                    <i class="right chevron icon divider"></i>
+                    <div class="active section"><i class="list small icon"></i>Visualizar meus imóveis</div>
+                </div>
             </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="column">
+            <div class="ui message">
+                <p>Veja seus imóveis já cadastrados abaixo</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <table class="ui green stackable table" id="tabela">
+                <thead>
+                    <tr>
+                        <th class="three wide">Tipo</th>
+                        <th class="five wide">Descrição</th>
+                        <th class="three wide">Data Cadastro</th>
+                        <th class="five wide">Detalhes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach ($this->getItem() as $imovel) {
+                        echo "<tr>";
+
+                        echo $imovel->buscarTipoImovel($imovel->getIdTipoImovel()) . "</td>";
+
+                        if (trim($imovel->getIdentificacao()) == "") {
+                            $descricao = "<h4 class='ui red header'>Não Informado</h4>";
+                        } else {
+                            $descricao = $imovel->getIdentificacao();
+                        }
+
+                        echo "<td>" . $descricao . "</td>";
+
+                        echo "<td>" . $imovel->getDatahoracadastro() . "</td>";
+
+                        echo "<td><a href='#' class='ui green button' id='detalhes" . $imovel->getId() . "' ><i class='ui home icon'></i>Detalhes</a>";
+
+                        echo "</tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 
-<div class="ui middle aligned stackable grid container">
-    <div class="row">
-        <table class="ui green stackable table" id="tabela">
-            <thead>
-                <tr>
-                    <th class="three wide">Tipo</th>
-                    <th class="five wide">Descrição</th>
-                    <th class="three wide">Data Cadastro</th>
-                    <th class="five wide">Detalhes</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                foreach ($this->getItem() as $imovel) {
-                    echo "<tr>";
-
-                    echo $imovel->buscarTipoImovel($imovel->getIdTipoImovel()) . "</td>";
-
-                    if (trim($imovel->getIdentificacao()) == "") {
-                        $descricao = "<h4 class='ui red header'>Não Informado</h4>";
-                    } else {
-                        $descricao = $imovel->getIdentificacao();
-                    }
-
-                    echo "<td>" . $descricao . "</td>";
-
-                    echo "<td>" . $imovel->getDatahoracadastro() . "</td>";
-
-                    echo "<td><a href='#' class='ui green button' id='detalhes" . $imovel->getId() . "' ><i class='ui home icon'></i>Detalhes</a>";
-
-                    echo "</tr>";
-                }
-                ?>
-            </tbody>
-        </table>
-    </div>
-</div>
 <div class="ui hidden divider"></div>  
 
 <?php

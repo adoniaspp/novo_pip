@@ -23,7 +23,8 @@
 Sessao::gerarToken();
 ?>
 
-    <div class="ui middle aligned stackable grid container">
+<div class="ui middle aligned stackable grid container">
+    <div class="row">
         <div class="column">
             <div class="ui large breadcrumb">
                 <div class="ui large breadcrumb">
@@ -39,7 +40,18 @@ Sessao::gerarToken();
                 </div>
             </div>
         </div>
+    </div>    
+    
+    <div class="row">
+        <div class="column">
+            <div class="ui message">
+                <p>Faça o cadastro do imóvel que deseja vender, informando as caracteristicas básicas (quartos, banheiros,
+                tamanho, diferenciais, etc)</p>
+            </div>
+        </div>
     </div>
+
+</div>
 
     <div class="ui middle aligned stackable grid container">
         <div class="column">

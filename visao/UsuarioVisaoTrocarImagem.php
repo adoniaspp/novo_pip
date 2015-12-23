@@ -16,7 +16,8 @@ $nomeUsuario = $this->getItem()->getNome();
 $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
 ?>
 
-    <div class="ui middle aligned stackable grid container">
+<div class="ui middle aligned stackable grid container">
+    <div class="row">
         <div class="column">
             <div class="ui large breadcrumb">
                 <div class="ui large breadcrumb">
@@ -29,6 +30,17 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
             </div>
         </div>
     </div>
+        
+    <div class="row">
+        <div class="column">
+            <div class="ui message">
+                <p>Troque <?php if($tipoImagem != "pf"){echo "sua imagem ";} else echo "seu logotipo"; ?>, 
+                selecionando a nova. Se desejar, faça a exclusão</p>
+            </div>
+        </div>
+    </div>
+        
+</div>
 
     <div class="ui middle aligned stackable grid container">
         <div class="column">

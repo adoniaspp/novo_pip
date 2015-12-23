@@ -27,16 +27,30 @@
 </script>
 
 <div class="ui middle aligned stackable grid container">
-    <div class="column">
-        <div class="ui large breadcrumb">
-            <a class="section" href="index.php">Início</a>
-            <i class="right chevron icon divider"></i>
-            <i class="block layout small icon"></i><a class="section" href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
-            <i class="right chevron icon divider"></i>
-            <a class="active section">Visualizar Anúncios</a>
+    <div class="row">
+        <div class="column">
+            <div class="ui large breadcrumb">
+                <a class="section" href="index.php">Início</a>
+                <i class="right chevron icon divider"></i>
+                <i class="block layout small icon"></i><a class="section" href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
+                <i class="right chevron icon divider"></i>
+                <a class="active section">Visualizar Anúncios</a>
+            </div>
         </div>
     </div>
- </div>
+    
+    <div class="row">
+        <div class="column">
+            <div class="ui message">
+                <p>Veja os detalhes do anúncio, clicando no código. 
+                Se você conseguiu negociar seu anúncio ou não deseja que ele continue ativo por outro motivo, clique
+                em "Finalizar Negócio"
+                </p>
+            </div>
+        </div>
+    </div>
+    
+</div>
  
 <div class="ui hidden divider"></div>
 

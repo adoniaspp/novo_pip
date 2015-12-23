@@ -25,15 +25,30 @@
 </script>
 
 <div class="ui middle aligned stackable grid container">
-    <div class="column">
-        <div class="ui large breadcrumb">
-            <a class="section" href="index.php">Início</a>
-            <i class="right chevron icon divider"></i>
-            <i class="block layout small icon"></i><a class="section" href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
-            <i class="right chevron icon divider"></i>
-            <a class="active section">Visualizar Anúncios Não Ativos</a>
+    <div class="row">
+        <div class="column">
+            <div class="ui large breadcrumb">
+                <a class="section" href="index.php">Início</a>
+                <i class="right chevron icon divider"></i>
+                <i class="block layout small icon"></i><a class="section" href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
+                <i class="right chevron icon divider"></i>
+                <a class="active section">Visualizar Anúncios Não Ativos</a>
+            </div>
         </div>
     </div>
+    
+    <div class="row">
+        <div class="column">
+            <div class="ui message">
+                <p>
+                    Abaixo estão os anúncios <strong>finalizados</strong> por você e os <strong>expirados</strong> 
+                    (finalizados automaticamente pelo sistema devido ao prazo do anúncio).
+                    Clique no códido ao lado de cada anúncio para mais detalhes
+                </p>
+            </div>
+        </div>
+    </div>
+    
  </div>
  
 <div class="ui hidden divider"></div>

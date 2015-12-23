@@ -9,69 +9,79 @@
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 
 <div class="ui middle aligned stackable grid container">
-    <div class="column">
-        <div class="ui large breadcrumb">
+    <div class="row">
+        <div class="column">
             <div class="ui large breadcrumb">
-                <a class="section" href="index.php">Início</a>
-                <i class="right chevron icon divider"></i>
-                <i class="block layout small icon"></i><a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
-                <i class="right chevron icon divider"></i>
-                <div class="active section"><i class="list small icon"></i>Imóveis Cadastrados</div>
+                <div class="ui large breadcrumb">
+                    <a class="section" href="index.php">Início</a>
+                    <i class="right chevron icon divider"></i>
+                    <i class="block layout small icon"></i><a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
+                    <i class="right chevron icon divider"></i>
+                    <div class="active section"><i class="list small icon"></i>Imóveis Cadastrados</div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="ui hidden divider"></div>
-<div class="ui middle aligned stackable grid container">
+    
     <div class="row">
-        <table class="ui green stackable table" id="tabela">
-            <thead>
-                <tr>
-                    <th class="three wide">Tipo</th>
-                    <th class="five wide">Descrição</th>
-                    <th class="three wide">Data Cadastro</th>
-                    <th class="five wide">Operações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                Sessao::gerarToken();
-                foreach ($this->getItem() as $imovel) {
-                    ?>
-                    <tr>        
+        <div class="column">
+            <div class="ui message">
+                <p>Escolha um imóvel para edição. <strong>ATENÇÃO</strong>: Imóvel com anúncio ativo não pode ser editado, nem excluído</p>
+            </div>
+        </div>
+    </div>
+    
+        <div class="row">
+            <div class="column">
+                <table class="ui green stackable table" id="tabela">
+                    <thead>
+                        <tr>
+                            <th class="three wide">Tipo</th>
+                            <th class="five wide">Descrição</th>
+                            <th class="three wide">Data Cadastro</th>
+                            <th class="five wide">Operações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         <?php
-                        echo $imovel->buscarTipoImovel($imovel->getIdTipoImovel());
+                        Sessao::gerarToken();
+                        foreach ($this->getItem() as $imovel) {
+                            ?>
+                            <tr>        
+                                <?php
+                                echo $imovel->buscarTipoImovel($imovel->getIdTipoImovel());
 
-                        if (trim($imovel->getIdentificacao()) == "") {
-                            $descricao = "<h4 class='ui red header'>Não Informado</h4>";
-                        } else {
-                            $descricao = $imovel->getIdentificacao();
-                        }
+                                if (trim($imovel->getIdentificacao()) == "") {
+                                    $descricao = "<h4 class='ui red header'>Não Informado</h4>";
+                                } else {
+                                    $descricao = $imovel->getIdentificacao();
+                                }
 
-                        echo "<td>" . $descricao . "</td>";
+                                echo "<td>" . $descricao . "</td>";
 
-                        echo "<td>" . $imovel->getDatahoracadastro() . "</td>";
+                                echo "<td>" . $imovel->getDatahoracadastro() . "</td>";
 
-                        echo "<td> <a href='#' class='ui green button' id='detalhes" . $imovel->getId() . "' ><i class='ui home icon'></i>Detalhes</a>";
+                                echo "<td> <a href='#' class='ui green button' id='detalhes" . $imovel->getId() . "' ><i class='ui home icon'></i>Detalhes</a>";
 
-                        if (count($imovel->getAnuncio()) > 0) {
-                            if (verificaAnuncioAtivo($imovel->getAnuncio())) {
-                                $mensagemAnuncio = "Imóvel possui anúncio ativo";
-                            } else {
-                                $mensagemAnuncio = "Imóvel possui anúncio";
+                                if (count($imovel->getAnuncio()) > 0) {
+                                    if (verificaAnuncioAtivo($imovel->getAnuncio())) {
+                                        $mensagemAnuncio = "Imóvel possui anúncio ativo";
+                                    } else {
+                                        $mensagemAnuncio = "Imóvel possui anúncio";
+                                    }
+                                    echo '<div class="ui compact negative message"><i class="large icons"><i class="large red dont icon"></i><i class="black trash icon"></i></i><i class="large icons"><i class="large red dont icon"></i><i class="black edit icon"></i></i>' . $mensagemAnuncio . '</div>';
+                                } else {
+                                    echo "<a href=index.php?entidade=Imovel&acao=selecionar&id=" . $imovel->getId() . '&token=' . $_SESSION['token'] . "  id='editar" . $imovel->getId() . "' class='ui teal button'><i class='ui edit icon'></i>Editar</a>";
+                                    echo "<button type='button' class='ui button red' onclick='formExcluirImovel(" . $imovel->getId() . ",\"" . $_SESSION['token'] . "\",\"" . $imovel->buscarTipoImovel($imovel->getIdTipoImovel()) . "\")'><i class='ui trash icon'></i>Excluir</button>";
+                                }
+
+                                echo "</td>";
                             }
-                            echo '<div class="ui compact negative message"><i class="large icons"><i class="large red dont icon"></i><i class="black trash icon"></i></i><i class="large icons"><i class="large red dont icon"></i><i class="black edit icon"></i></i>' . $mensagemAnuncio . '</div>';
-                        } else {
-                            echo "<a href=index.php?entidade=Imovel&acao=selecionar&id=" . $imovel->getId() . '&token=' . $_SESSION['token'] . "  id='editar" . $imovel->getId() . "' class='ui teal button'><i class='ui edit icon'></i>Editar</a>";
-                            echo "<button type='button' class='ui button red' onclick='formExcluirImovel(" . $imovel->getId() . ",\"" . $_SESSION['token'] . "\",\"" . $imovel->buscarTipoImovel($imovel->getIdTipoImovel()) . "\")'><i class='ui trash icon'></i>Excluir</button>";
-                        }
-
-                        echo "</td>";
-                    }
-                    ?>                    
-                </tr>         
-            </tbody>
-        </table>
+                            ?>                    
+                        </tr>         
+                    </tbody>
+                </table>
+        </div>
     </div>
 </div>
 <div class="ui hidden divider"></div> 

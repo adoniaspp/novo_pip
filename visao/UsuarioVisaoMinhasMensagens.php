@@ -17,19 +17,32 @@ Sessao::gerarToken();
 
 ?>
 
-<div class="ui hidden divider"></div>
 <div class="ui middle aligned stackable grid container">
-    <div class="column">
-        <div class="ui large breadcrumb">
+    <div class="row">
+        <div class="column">
             <div class="ui large breadcrumb">
-                <a class="section" href="index.php">Início</a>
-                <i class="right chevron icon divider"></i>
-                <i class="block layout small icon"></i><a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
-                <i class="right chevron icon divider"></i>
-                <div class="active section"><i class="list small icon"></i>Minhas Mensagens</div>
+                <div class="ui large breadcrumb">
+                    <a class="section" href="index.php">Início</a>
+                    <i class="right chevron icon divider"></i>
+                    <i class="block layout small icon"></i><a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
+                    <i class="right chevron icon divider"></i>
+                    <div class="active section"><i class="list small icon"></i>Minhas Mensagens</div>
+                </div>
             </div>
         </div>
     </div>
+    
+    <div class="row">
+        <div class="column">
+            <div class="ui message">
+                <p>
+                    Veja as mensagens enviadas para seus anúncios e responda-as para o rementente. As respostas 
+                    são enviadas diretamente para o e-mail de quem fez a pergunta 
+                </p>
+            </div>
+        </div>
+    </div>
+    
 </div>
 
 <div class="ui hidden divider"></div>

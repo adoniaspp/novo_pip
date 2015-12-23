@@ -9,7 +9,8 @@
 <?php
 Sessao::gerarToken();
 ?>
-    <div class="ui middle aligned stackable grid container">
+<div class="ui middle aligned stackable grid container">
+    <div class="row">
         <div class="column">
             <div class="ui large breadcrumb">
                 <div class="ui large breadcrumb">
@@ -21,7 +22,17 @@ Sessao::gerarToken();
                 </div>
             </div>
         </div>
-    </div>   
+     </div>   
+    
+    <div class="row">
+        <div class="column">
+            <div class="ui message">
+                <p>Para trocar a senha, digite a senha atual e depois confirme a nova senha</p>
+            </div>
+        </div>
+    </div>
+
+</div>   
 
     <div class="ui middle aligned stackable grid container">
         <div class="column">
@@ -29,7 +40,7 @@ Sessao::gerarToken();
                 <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
                 <input type="hidden" id="hdnAcao" name="hdnAcao" value="trocarSenha" />
                 <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
-                <h3 class="ui dividing header">Preencha os campos abaixo para alterar sua senha</h3>
+                <h3 class="ui dividing header">Preencha os campos abaixo para trocar sua senha</h3>
                 <div class="three fields" id="divCamposTrocaSenha">
                     <div class="required field">
                         <label>Senha atual</label>
