@@ -11,8 +11,7 @@ function cancelar(entidade, acao) {
                 onApprove: function () {
                     if (entidade === "" && acao === "") {
                         location.href = "index.php";
-                    }
-                    else
+                    } else
                         location.href = "index.php?entidade=" + entidade + "&acao=" + acao;
                 }
             }).modal('show');
@@ -108,20 +107,46 @@ function cadastrarAnuncio() {
                         $("div[id^='step']").hide();
                         $("#step6").show();
                         if (resposta.resultado == 1) {
-                            $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
-    <h2 class="ui header">Publicado!</h2>\n\
-    <p>O cadastro de seu anúncio foi concluído com sucesso. </p>\n\
-    <p>Em breve você receberá um e-mail confirmando a publicação do mesmo. </p>\n\n\
-    <p><a href="index.php?entidade=Anuncio&acao=listarCadastrar" class="ui brown button"><i class="ui add icon"></i>Cadastrar outro anúncio?</a> </p>\n\n\
-    <p><a href="index.php?entidade=UsuarioPlano&amp;acao=listar" class="ui orange button"><i class="ui add icon"></i>Comprar mais planos!</a></p>\n\
-    <p>Compartilhe no <span class="ui facebook button"> <i class="facebook square icon"></i> Facebook </span></p>\n\
-    </div>');
-                            $('button').attr('disabled', 'disabled');
+                            $("#divRetorno").html("\n\
+                                <div class='row'><div class='column'>\n\
+                                    <div class='ui success icon message'>\n\
+                                        <i class='checkmark icon'></i>\n\
+                                        <div class='content'>\n\
+                                            <div class='header'>Sucesso</div>Seu anúncio com o código " + resposta.idanuncio + " foi cadastrado com sucesso e já pode ser visualizado em nosso site.\n\
+                                               Se desejar, escolha uma das opções abaixo</div>\n\
+                                        </div>\n\
+                                    </div>\n\
+                                </div></div><div class='ui hidden divider'></div>\n\
+                                    <div class='row'><div class='column'>\n\
+                                        <a target='_blank' href='index.php?entidade=Anuncio&acao=fimCadastroAnuncio&hdnCodAnuncio=" + resposta.id + "&hdnTipo=" + resposta.tipoImovel + "'>\n\
+                                            <button type='button'  class='ui brown button'>\n\
+                                                Visualizar Anúncio\n\
+                                            </button></a>\n\
+                                        </a>\n\
+                                        <a href='index.php?entidade=Anuncio&acao=listarCadastrar'>\n\
+                                            <button type='button'  class='ui green button'>\n\
+                                            <i class='announcement icon'></i><i class='add icon'></i>\n\
+                                                Cadastrar Novo Anúncio\n\
+                                            </button>\n\
+                                        </a>\n\
+                                        <a href='index.php?entidade=Usuario&acao=MeuPIP'>\n\
+                                            <button type='button'  class='ui blue button'>\n\
+                                                Retornar ao Meu PIP\n\
+                                            </button>\n\
+                                        </a>\n\
+                                    </div></div>\n\
+                                </div>");
+                            $('#botaoDetalhesImovel').hide();
+                            $('#divTextoPublicacao').html("Anúncio Publicado Com Sucesso");
+
                         } else {
-                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-    <h2 class="ui header">Tente novamente mais tarde!</h2>\n\
-    <p>Houve um erro no processamento de cadastro. </p>\n\
-    </div>');
+                            $("#divRetorno").html("<div class='ui warning icon message'>\n\
+                                 <i class='checkmark icon'></i>\n\
+                                 <div class='content'>\n\
+                                     <div class='header'>Erro ao Cadastrar</div>Ocorreu um erro ao cadastrar o anúncio. \n\
+                                    Tente novamente em alguns minutos</div>\n\
+                                 </div>\n\
+                             </div>");
                             $('button').removeAttr('disabled');
                         }
                     }
@@ -129,6 +154,142 @@ function cadastrarAnuncio() {
                 return false;
             }
         })
+
+
+// UPLOAD FOTOS
+        $('#fileupload').fileupload({
+            dropZone: null,
+            pasteZone: null,
+            autoUpload: false,
+            url: 'index.php?upload=1',
+            maxNumberOfFiles: 5,
+            maxFileSize: 3000000,
+            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+            disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator && navigator.userAgent),
+            imageMaxWidth: 800,
+            imageMaxHeight: 800,
+            imageCrop: true,
+            loadImageFileTypes: /^image\/(gif|jpeg|png)$/,
+            imageType: 'image/jpg',
+            imageForceResize: true,
+            loadImageMaxFileSize: 2,
+            messages: {
+                maxNumberOfFiles: 'Quantidade máxima de fotos atingida (5 fotos)',
+                acceptFileTypes: 'Arquivo não permitido. Apenas imagens (gif, jpeg, png)',
+                maxFileSize: 'Arquivo muito grande (3 MB)',
+                minFileSize: 'Arquivo muito pequeno (0 MB)'
+            }
+        }).on('fileuploadadd', function (e, data) {
+            //console.log("adicionando foto");
+            //metodo para testar de qual upload esta vindo a imagem
+            //se for apartamento na planta
+            if (data.paramName.substring(0, 14) === "attachmentName") {
+                //fazer a validacao do arquivo
+                //#configuracao de variaveis
+                var EXTENSOES_PERMITIDAS = '.jpg .jpeg .png .gif';
+                var TAMANHO_MAXIMO = 3; // MB
+                var labelArquivo = data.files[0].name;
+                var postfix = labelArquivo.substr(labelArquivo.lastIndexOf('.'));
+                var ordemPlanta = data.paramName.substring(14, 15);
+                var imagemPreview = $("#uploadPreview" + ordemPlanta);
+                var tamanhoArquivo = data.files[0].size;
+                var FOTO_PADRAO = "assets/imagens/logo.png";
+                var sucesso;
+                sucesso = true;
+                //validacao tipo arquivo
+                if (EXTENSOES_PERMITIDAS.indexOf(postfix.toLowerCase()) > -1) {
+                    //validacao tamanho
+                    if (tamanhoArquivo > 1024 * 1024 * TAMANHO_MAXIMO) {
+                        alert('Tamanho máximo da imagem:' + TAMANHO_MAXIMO + ' MB');
+                        $(imagemPreview).attr("src", FOTO_PADRAO);
+                        sucesso = false;
+                    } else {
+                        //mostrar preview da foto
+                        var oFReader = new FileReader();
+                        oFReader.readAsDataURL(data.fileInput[0].files[0]);
+                        oFReader.onload = function (oFREvent) {
+                            $(imagemPreview).attr("src", oFREvent.target.result);
+                            var novoFormulario = new FormData();
+                            $.each(data.fileInput[0].files, function (i, file) {
+                                novoFormulario.append(data.paramName, file);
+                            });
+                            novoFormulario.append("hdnEntidade", "Anuncio");
+                            novoFormulario.append("hdnAcao", "cadastrarAnuncioImagemPlanta");
+                            novoFormulario.append("ordem", ordemPlanta);
+                            novoFormulario.append("hdnToken", $("#hdnToken").val());
+
+                            $.ajax({
+                                url: "index.php",
+                                dataType: "json",
+                                type: "POST",
+                                data: novoFormulario,
+                                contentType: false,
+                                processData: false,
+                                cache: false,
+                                success: function (resposta) {
+                                    //console.log(resposta);
+                                    if (resposta.resultado === 1) {
+                                        alert("Imagem da planta " + (parseInt(ordemPlanta) + 1) + " foi carregada com sucesso");
+                                    } else {
+                                        alert(resposta.retorno);
+                                        $(imagemPreview).attr("src", FOTO_PADRAO);
+                                    }
+                                }
+                            })
+                        }
+                    }
+                } else {
+                    alert('Tipo de arquivo inválido. São aceitos os tipos:' + EXTENSOES_PERMITIDAS);
+                    $(imagemPreview).attr("src", FOTO_PADRAO);
+                    sucesso = false;
+                }
+                e.preventDefault();//nao mostrar no template do fileupload
+
+                if (!sucesso) {
+                    //falha cria formulario e envia erro
+                    var novoFormulario = new FormData();
+                    novoFormulario.append("hdnEntidade", "Anuncio");
+                    novoFormulario.append("hdnAcao", "apagarImagemPlanta");
+                    novoFormulario.append("ordem", ordemPlanta);
+                    novoFormulario.append("hdnToken", $("#hdnToken").val());
+                    $.ajax({
+                        url: "index.php",
+                        type: "POST",
+                        data: novoFormulario,
+                        contentType: false,
+                        processData: false,
+                        cache: false,
+                        success: function () {
+                        }
+                    });
+                }
+            }
+        }).on('fileuploadsubmit', function (e, data) {
+            data.formData = $("#fileupload").serializeArray();
+        }).on('fileuploadalways', function (e, data) {
+            //console.log('completou');
+            $('.ui.checkbox').checkbox();
+            $("p[class='error']").each(function () {
+                var error = $(this).html();
+                if (error !== "") {
+                    //$(this).html('<div class="ui error message"><div class="header">Ocorreu um erro</div><p>' + error + '</p></div>');
+                }
+            })
+        }).on('fileuploadfail', function (e, data) {
+            //console.log('cancelando');
+            //# metodo para testar de qual upload esta vindo a imagem
+            var input = data.fileInput[0];
+            //#se for apartamento na planta
+            if ($(input).attr("name") == "attachmentName[]") {
+                $($('#fileupload  .cancel ')[parseInt(data.context[0].rowIndex) + 1]).click();
+            }
+        });
+
+        $('.special.cards .image').dimmer({
+            on: 'hover'
+        });
+        timeoutSessao();
+// FIM UPLOAD FOTOS
 
     });
 }
@@ -141,7 +302,7 @@ function stepsSemPlanta() {
         $("#step4").hide();
         $("#step5").hide();
         $("#step6").hide();
-        $("#divInformarValor").hide();
+        $('#chkValor').parent().checkbox('set checked');
         $("div[id^='btnAnterior']").hide();
         $("#sltPlano").change(function () {
             $(this).valid();
@@ -182,8 +343,7 @@ function stepsSemPlanta() {
                     $("div[id^='btnProximo']").hide();
                     $("div[id^='btnAnterior']").hide();
                     $("#btnCancelar").hide();
-                }
-                else
+                } else
                     $("div[id^='btnProximo']").show();
             }
         })
@@ -266,7 +426,10 @@ function stepsComPlanta() {
         $("#step4").hide();
         $("#step5").hide();
         $("#step6").hide();
+        $("#divValor").hide();
         $("#divInformarValor").hide();
+        $("#thValor").hide();
+        $("#tdValor").hide();
         $("div[id^='btnAnterior']").hide();
         $("#sltPlano").change(function () {
             $(this).valid();
@@ -294,8 +457,7 @@ function stepsComPlanta() {
                     $("div[id^='btnProximo']").hide();
                     $("div[id^='btnAnterior']").hide();
                     $("#btnCancelar").hide();
-                }
-                else
+                } else
                     $("div[id^='btnProximo']").show();
             }
         })
@@ -350,10 +512,7 @@ function validarStepComPlanta() {
             $("#tdFinalidade").html($('#sltFinalidade').parent().find(".selected").html());
             $("#tdTitulo").html($("#txtTitulo").val());
             $("#tdDescricao").html($("#txtDescricao").val());
-            $("#tdValor").html(
-                    (typeof ($("input[name=chkValor]:checked").val()) === "undefined" ? "Não Informado" : $("#txtValor").val())
-
-                    );
+            //$("#tdValor").html((typeof ($("input[name=chkValor]:checked").val()) === "undefined" ? "Não Informado" : $("#txtValor").val()));
             $("#tdMapa").html((typeof ($("input[name=chkMapa]:checked").val()) === "undefined" ? "Não" : "Sim"));
             $("#tdContato").html((typeof ($("input[name=chkContato]:checked").val()) === "undefined" ? "Não" : "Sim"));
 
@@ -416,7 +575,7 @@ function planta() {
             $(txtValor).rules("add", {
                 required: true
             });
-            var validacao = validarPlanta(sltAndarInicial, sltAndarFinal, txtValor, ordemPlanta);
+            var validacao = validarPlanta(sltAndarInicial, sltAndarFinal, txtValor);
             if (validacao) {
                 var tbody = "#dadosPlanta_" + ordemPlanta;
                 $(tbody).append(
@@ -440,51 +599,11 @@ function planta() {
     })
 }
 
-function validarPlanta(sltAndarInicial, sltAndarFinal, txtValor, ordemPlanta) {
+function validarPlanta(sltAndarInicial, sltAndarFinal, txtValor) {
     var sucesso = $(sltAndarInicial).valid() & $(sltAndarFinal).valid() & $(txtValor).valid();
-    /*
-     if (sucesso) {
-     var tbody = "#dadosPlanta_" + ordemPlanta;
-     var linhas = $(tbody).children();
-     if (linhas.length === 0) {
-     sucesso = true;
-     }
-     else {
-     var arrayIntervalo = [];
-     $(linhas).each(function () {
-     var inputs;
-     inputs = $(this).find("input");
-     var andarInicial = inputs[0];
-     var andarFinal = inputs[1];
-     arrayIntervalo = gerarNumerosIntervalos($(andarInicial).val(), $(andarFinal).val(), arrayIntervalo);
-     })
-     Array.prototype.duplicates = function () {
-     return this.filter(function (x, y, k) {
-     return y === k.lastIndexOf(x);
-     });
-     }
-     var andaresAdicionados = arrayIntervalo.duplicates();
-     if (andaresAdicionados.indexOf(parseInt($(sltAndarInicial).val())) < 0 && andaresAdicionados.indexOf(parseInt($(sltAndarFinal).val())) < 0) {
-     sucesso = true;
-     } else {
-     sucesso = false;
-     alert("ERRO: Não é permitido adicionar o mesmo andar");
-     }
-     }
-     }
-     */
     return sucesso;
 }
-/*
- function gerarNumerosIntervalos(inicial, final, array) {
- inicial = parseInt(inicial);
- final = parseInt(final);
- for ($i = inicial; $i <= final; $i++) {
- array.push($i);
- }
- return array;
- }
- */
+
 function excluirPlanta(element) {
     $(document).ready(function () {
         var linha = element.parent().parent();
@@ -545,9 +664,6 @@ function validarValor(validacao) {
     })
 }
 
-
-
-
 function validarValorProposta(validacao) {
     $(document).ready(function () {
 
@@ -604,10 +720,8 @@ function reativar(botao) {
                     on: 'hover'
                 });
         $('#btnReativar' + botao).click(function () {
-            
             $("#btnFecharReativar" + botao).hide();
             $("#sltPlano" + botao).dropdown('restore defaults');
-            $("#dadosAnuncio" + botao).hide();
             $('#txtValor' + botao).priceFormat({
                 prefix: 'R$ ',
                 centsSeparator: ',',
@@ -616,17 +730,13 @@ function reativar(botao) {
                 thousandsSeparator: '.'
             });
             $("#chkValor" + botao).parent().checkbox('set checked');
-            $("#sltPlano" + botao).change(function () {
-                $('.ui.modal').modal('refresh');
-                $("#dadosAnuncio" + botao).show();
-                $("#chkValor" + botao).change(function () {
+            $("#chkValor" + botao).change(function () {
                     if ($(this).parent().checkbox('is checked')) {
                         $("#divInformarValor" + botao).show();
                     } else {
                         $("#divInformarValor" + botao).hide();
                     }
                 })
-            })
             
             $('#modalReativar' + botao).modal({
                 closable: true,
@@ -851,4 +961,152 @@ function finalizar(botao) {
 
         })
     })
+}
+
+function alterarValor(valor) {
+
+    $('#btnMostrarValor' + valor).click(function () {
+
+        $('#modalMostrarValorAnuncio' + valor).modal({
+            closable: false,
+            transition: "fade up"
+        }).modal('show');
+
+    })
+
+    $('#btnAlterarValor' + valor).click(function () {
+
+        $('#botaoFecharAlterarValor' + valor).hide();
+
+        $("#divValorAtual" + valor).priceFormat({
+            prefix: 'Valor Atual: R$ ',
+            centsSeparator: ',',
+            centsLimit: 0,
+            limit: 8,
+            thousandsSeparator: '.'
+        })
+
+        $("#hdnValorAtual" + valor).priceFormat({
+            prefix: '',
+            centsSeparator: ',',
+            centsLimit: 0,
+            limit: 8,
+            thousandsSeparator: '.'
+        })
+
+        $("#txtNovoValor" + valor).priceFormat({
+            prefix: '',
+            centsSeparator: ',',
+            centsLimit: 0,
+            limit: 8,
+            thousandsSeparator: '.'
+        })
+
+        $('#modalAlterarValorAnuncio' + valor).modal({
+            closable: false,
+            transition: "fade up",
+            onDeny: function () {
+            },
+            onApprove: function () {
+                $("#formAlterarValorAnuncio" + valor).submit();
+                return false; //deixar o modal fixo
+            }
+        }).modal('show');
+
+        $.validator.setDefaults({
+            ignore: [],
+            errorClass: 'errorField',
+            errorElement: 'div',
+            errorPlacement: function (error, element) {
+                error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).closest("div.field").addClass("error").removeClass("success");
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).closest(".error").removeClass("error").addClass("success");
+            }
+        });
+
+        //método adicionado para verificar se o novo valor é igual ao valor atual
+        $.validator.addMethod("valorDiferente", function (value, element) {
+            var valorAntigo = $('#hdnValorAtual' + valor).val();
+            var valorNovo = $('#txtNovoValor' + valor).val();
+            return valorAntigo != valorNovo
+        },
+                "O Novo Valor não pode ser igual ao Valor Atual");
+
+        $.validator.messages.required = 'Campo obrigatório';
+
+        $('#formAlterarValorAnuncio' + valor).validate({
+            onkeyup: false,
+            focusInvalid: true,
+            rules: {
+                txtNovoValor: {
+                    required: true,
+                    minlength: 3,
+                    valorDiferente: true
+                }
+            },
+            messages: {
+                txtNovoValor: {
+                    minlength: "Digite ao menos 3 números"
+                },
+            },
+            submitHandler: function (form) {
+                $.ajax({
+                    url: "index.php",
+                    dataType: "json",
+                    type: "POST",
+                    data: $('#formAlterarValorAnuncio' + valor).serialize(),
+                    beforeSend: function () {
+                        $("#camposNovoValor" + valor).html("<div><div class='ui active inverted dimmer'>\n\
+                        <div class='ui text loader'>Enviando mensagem. Aguarde...</div></div></div>");
+                    },
+                    success: function (resposta) {
+
+                        $("#camposNovoValor" + valor).html("");
+                        $("#botaoCancelaAlterarValor" + valor).hide();
+                        $("#botaoAlterarValor" + valor).hide();
+                        $("#botaoFecharAlterarValor" + valor).show();
+
+                        if (resposta.resultado == 1) {
+                            $("#divRetornoNovoValor" + valor).html("<div class='ui success message'>\n\
+                                    <div class='content'><div class='header'>Sucesso</div>Novo Valor R$" + resposta.novoValor + " cadastrado com sucesso\n\
+                                </div></div>");
+
+                            $("#botaoFecharAlterarValor" + valor).click(function () {
+                                window.location.reload();
+                            })
+
+                        }
+
+                        if (resposta.resultado == 2) {
+                            $("#divRetornoNovoValor" + valor).html("<div class='ui negative message'>\n\
+                                    <div class='content'><div class='header'>Erro</div>Ocorreu um erro ao \n\
+                                    cadastrar. Tente novamente em alguns minutos (Cód. 002)\n\
+                                </div></div>");
+
+                        }
+
+                        if (resposta.resultado == 3) { //caso o usuário não esteja logado
+
+                            location.href = "index.php?entidade=Usuario&acao=form&tipo=login";
+
+                        }
+
+                        if (resposta.resultado == 0) {
+                            $("#divRetornoNovoValor" + valor).html("<div class='ui negative message'>\n\
+                                    <div class='content'><div class='header'>Erro</div>\n\
+                                Ocorreu um erro ao cadastrar. Tente novamente em alguns minutos\n\
+                                </div></div>");
+                        }
+                    }
+                })
+                return false;
+            }
+        })
+
+    })
+
 }
