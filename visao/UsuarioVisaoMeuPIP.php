@@ -55,7 +55,7 @@ foreach ($imoveis as $qtdAnuncios) {
     <div class="row">
         <div class="column">
             <div class="ui message">
-                <p>No Meu PIP, faça a administração de seus dados, imóveis, anúncios, mensagens e suas compras</p>
+                <p>No Meu PIP, faça a administração de seus dados, imóveis, anúncios, mensagens e seus planos</p>
             </div>    
         </div>
     </div>
@@ -259,21 +259,6 @@ foreach ($imoveis as $qtdAnuncios) {
                             break;
                         case 2:
                             if(count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado"){
-                                $apAnuncio = $apAnuncio +1;
-                            }
-                            
-                            if(count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado"
-                                    && $imovel->getAnuncio()->getFinalidade() == "Aluguel"){
-                                $apAnuncioAluguel = $apAnuncioAluguel + 1;
-                            } else if(count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado"
-                                    && $imovel->getAnuncio()->getFinalidade() == "Venda"){
-                                $apAnuncioVenda = $apAnuncioVenda + 1;
-                                    }
-                                    
-                            $ap = $ap + 1;
-                            break;
-                        case 3:
-                            if(count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado"){
                                 $apPlantaAnuncio = $apPlantaAnuncio +1;
                             }
                             
@@ -286,6 +271,21 @@ foreach ($imoveis as $qtdAnuncios) {
                                     }
                                     
                             $apPlanta = $apPlanta + 1;
+                            break;
+                        case 3:
+                            if(count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado"){
+                                $apAnuncio = $apAnuncio +1;
+                            }
+                            
+                            if(count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado"
+                                    && $imovel->getAnuncio()->getFinalidade() == "Aluguel"){
+                                $apAnuncioAluguel = $apAnuncioAluguel + 1;
+                            } else if(count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado"
+                                    && $imovel->getAnuncio()->getFinalidade() == "Venda"){
+                                $apAnuncioVenda = $apAnuncioVenda + 1;
+                                    }
+                            $ap = $ap + 1;       
+                            
                             break;
                         case 4:
                             if(count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado"){

@@ -58,35 +58,32 @@
 
     $item = $this->getItem();
     
-    //var_dump($item);
-    
     $totalAnunciosFinalizados = count($item["listaAnuncioFinalizado"]);
+    
     $totalAnunciosExpirados = count($item["listaAnuncioExpirado"]);
     
     if($totalAnunciosFinalizados < 1 && $totalAnunciosExpirados < 1){      
     ?>
   
-    <div class="ui middle aligned stackable grid container">
-    
-    <div class="column">
-        
-    <div class="ui warning compact message">
-        <div class="header">Atenção</div>
-        <ul class="list">
-          <li>Você não possui anúncios não ativos. Clique em voltar para retornar ao MEUPIP</li>
-        </ul>
-    </div>
- 
+<div class="ui middle aligned stackable grid container">
     <div class="row">
-    <a href="index.php?entidade=Usuario&acao=meuPIP">
-    <button class="ui orange button">Voltar</button>
-    </a>
+        <div class="column">
+            <div class="ui warning message">
+                <div class="header">Atenção</div>
+                <ul class="list">
+                  Você não possui anúncios não ativos. Clique em voltar para retornar ao MEUPIP
+                </ul>
+            </div>
+
+            <div class="row">
+            <a href="index.php?entidade=Usuario&acao=meuPIP">
+            <button class="ui orange button">Voltar</button>
+            </a>
+            </div>
+
+        </div>   
     </div>
-    
-    <div class="row"></div>     
-        
-    </div>   
-    </div>    
+</div>    
 
     <?php } else { //caso exista ao menos 1 anuncio cadastrado, exibir o datatable?>
     <div class="ui middle aligned stackable grid container">
@@ -255,4 +252,4 @@
 
 <div class="ui hidden divider"></div>
 
-<?php } //fim do else, caso haja anuncios ativos?> 
+<?php } //fim do else, caso haja anuncios finalizados ou expirados?> 

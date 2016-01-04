@@ -35,7 +35,7 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
         <div class="column">
             <div class="ui message">
                 <p>Troque <?php if($tipoImagem != "pf"){echo "sua imagem ";} else echo "seu logotipo"; ?>, 
-                selecionando a nova. Se desejar, faça a exclusão</p>
+                selecionando a nova e depois clique em "Alterar Imagem". Se desejar, faça a exclusão da atual</p>
             </div>
         </div>
     </div>
@@ -78,7 +78,7 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
                     </div>
                 </div>
                 <div class="ui hidden  divider"></div>
-                <button class="ui blue button" type="button" id="btnAlterarImagem" disabled="disabled">Alterar Imagem!</button>
+                <button class="ui blue button" type="button" id="btnAlterarImagem" disabled="disabled">Alterar Imagem</button>
                 <button class="ui orange button" type="button" id="btnCancelar">Cancelar</button>
                 <button class="ui red button" type="button" id="btnExcluirImagem">Excluir Imagem</button>
                 <div class="ui hidden divider"></div>

@@ -41,185 +41,15 @@ if ($item) {
 <script src="assets/libs/fileupload/cors/jquery.xdr-transport.js"></script>
 <![endif]-->
 <script>
-    /*jslint unparam: true, regexp: true */
-    /*global window, $ */
-    $(function () {
-
-        $('#fileupload').fileupload({
-            dropZone: null,
-            pasteZone: null,
-            autoUpload: false,
-            url: 'index.php?upload=1',
-            maxNumberOfFiles: 5,
-            maxFileSize: 3000000,
-            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-            disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator && navigator.userAgent),
-            imageMaxWidth: 800,
-            imageMaxHeight: 800,
-            imageCrop: true,
-            loadImageFileTypes: /^image\/(gif|jpeg|png)$/,
-            imageType: 'image/jpg',
-            imageForceResize: true,
-            loadImageMaxFileSize: 2,
-            messages: {
-                maxNumberOfFiles: 'Quantidade máxima de fotos atingida (5 fotos)',
-                acceptFileTypes: 'Arquivo não permitido. Apenas imagens (gif, jpeg, png)',
-                maxFileSize: 'Arquivo muito grande (3 MB)',
-                minFileSize: 'Arquivo muito pequeno (0 MB)'
-            }
-        }).on('fileuploadadd', function (e, data) {
-            //console.log("adicionando foto");
-            //metodo para testar de qual upload esta vindo a imagem
-            //se for apartamento na planta
-            if (data.paramName.substring(0, 14) === "attachmentName") {
-                //fazer a validacao do arquivo
-                //#configuracao de variaveis
-                var EXTENSOES_PERMITIDAS = '.jpg .jpeg .png .gif';
-                var TAMANHO_MAXIMO = 3; // MB
-                var labelArquivo = data.files[0].name;
-                var postfix = labelArquivo.substr(labelArquivo.lastIndexOf('.'));
-                var ordemPlanta = data.paramName.substring(14, 15);
-                var imagemPreview = $("#uploadPreview" + ordemPlanta);
-                var tamanhoArquivo = data.files[0].size;
-                var FOTO_PADRAO = "<?php echo PIPURL . "assets/imagens/logo.png"; ?>";
-                var sucesso;
-                sucesso = true;
-                //validacao tipo arquivo
-                if (EXTENSOES_PERMITIDAS.indexOf(postfix.toLowerCase()) > -1) {
-                    //validacao tamanho
-                    if (tamanhoArquivo > 1024 * 1024 * TAMANHO_MAXIMO) {
-                        alert('Tamanho máximo da imagem:' + TAMANHO_MAXIMO + ' MB');
-                        $(imagemPreview).attr("src", FOTO_PADRAO);
-                        sucesso = false;
-                    } else {
-                        //mostrar preview da foto
-                        var oFReader = new FileReader();
-                        oFReader.readAsDataURL(data.fileInput[0].files[0]);
-                        oFReader.onload = function (oFREvent) {
-                            $(imagemPreview).attr("src", oFREvent.target.result);
-                            var novoFormulario = new FormData();
-                            $.each(data.fileInput[0].files, function (i, file) {
-                                novoFormulario.append(data.paramName, file);
-                            });
-                            novoFormulario.append("hdnEntidade", "Anuncio");
-                            novoFormulario.append("hdnAcao", "cadastrarAnuncioImagemPlanta");
-                            novoFormulario.append("ordem", ordemPlanta);
-                            novoFormulario.append("hdnToken", $("#hdnToken").val());
-
-                            $.ajax({
-                                url: "index.php",
-                                dataType: "json",
-                                type: "POST",
-                                data: novoFormulario,
-                                contentType: false,
-                                processData: false,
-                                cache: false,
-                                success: function (resposta) {
-                                    //console.log(resposta);
-                                    if (resposta.resultado === 1) {
-                                        alert("Imagem da planta " + (parseInt(ordemPlanta) + 1) + " foi carregada com sucesso");
-                                    } else {
-                                        alert(resposta.retorno);
-                                        $(imagemPreview).attr("src", FOTO_PADRAO);
-                                    }
-                                }
-                            })
-                        }
-                    }
-                } else {
-                    alert('Tipo de arquivo inválido. São aceitos os tipos:' + EXTENSOES_PERMITIDAS);
-                    $(imagemPreview).attr("src", FOTO_PADRAO);
-                    sucesso = false;
-                }
-                e.preventDefault();//nao mostrar no template do fileupload
-
-                if (!sucesso) {
-                    //falha cria formulario e envia erro
-                    var novoFormulario = new FormData();
-                    novoFormulario.append("hdnEntidade", "Anuncio");
-                    novoFormulario.append("hdnAcao", "apagarImagemPlanta");
-                    novoFormulario.append("ordem", ordemPlanta);
-                    novoFormulario.append("hdnToken", $("#hdnToken").val());
-                    $.ajax({
-                        url: "index.php",
-                        type: "POST",
-                        data: novoFormulario,
-                        contentType: false,
-                        processData: false,
-                        cache: false,
-                        success: function () {
-                        }
-                    });
-                }
-            } /*else {
-             //imagens do anuncio
-             console.log("uploading");
-             $('.ui.checkbox').checkbox();
-             $("p[class='error']").each(function () {
-             var error = $(this).html();
-             if (error !== "") {
-             $(this).html('<div class="ui error message"><div class="header">Ocorreu um erro</div><p>' + error + '</p></div>');
-             }
-             })
-             }*/
-        }).on('fileuploadsubmit', function (e, data) {
-            data.formData = $("#fileupload").serializeArray();
-        }).on('fileuploadalways', function (e, data) {
-            //console.log('completou');
-            $('.ui.checkbox').checkbox();
-            $("p[class='error']").each(function () {
-                var error = $(this).html();
-                if (error !== "") {
-                    //$(this).html('<div class="ui error message"><div class="header">Ocorreu um erro</div><p>' + error + '</p></div>');
-                }
-            })
-        }).on('fileuploadfail', function (e, data) {
-            //console.log('cancelando');
-            //# metodo para testar de qual upload esta vindo a imagem
-            var input = data.fileInput[0];
-            //#se for apartamento na planta
-            if ($(input).attr("name") == "attachmentName[]") {
-                $($('#fileupload  .cancel ')[parseInt(data.context[0].rowIndex) + 1]).click();
-            }
-        })
-
-
-        /*
-         // Load existing files:
-         $('#fileupload').addClass('fileupload-processing');
-         $.ajax({
-         url: "index.php",
-         dataType: 'json',
-         context: $('#fileupload')[0],
-         data: {"anuncio": <?php echo ($item["anuncio"]->getId() != "" ? $item["anuncio"]->getId() : "0" ); ?>, "entidade": "Anuncio", "acao": "reativarAnuncioImagem"}
-         }).always(function() {
-         $(this).removeClass('fileupload-processing');
-         }).done(function(result) {
-         console.log(result);
-         $(this).fileupload('option', 'done').call(this, $.Event('done'), {result: result});
-         });*/
-        $('.special.cards .image').dimmer({
-            on: 'hover'
-        });
-        timeoutSessao();
-    });
-
-</script>
-
-<script>
     cadastrarAnuncio();
     cancelar('Anuncio', 'listarCadastrar');
 <?php if ($tipoImovel == "apartamentoplanta") { ?>
         stepsComPlanta();
-        validarValor(false);
+//        validarValor(false);
 <?php } else { ?>
         stepsSemPlanta();
         validarValor(true);
 <?php } ?>
-    $(document).ready(function () {
-        $('#chkValor').parent().checkbox('set checked');
-        $("#divInformarValor").show();
-    })
 </script>
 
 <div class="ui column doubling grid container">
@@ -311,13 +141,15 @@ if ($item) {
 <div class="ui middle aligned stackable grid container">
     <div class="row">
         <!--NAVEGAÇÃO-->
-        <div class="ui basic right aligned segment">
-            <div class="ui animated fade green button" id="detalhes<?php echo $idImovel; ?>">
-                <div class="visible content"><i class="home icon"></i> <?php echo ucfirst($tipoImovel) ?></div>
-                <div class="hidden content">
-                    Ver detalhes
+        <div class="ui basic right aligned segment" id="botaoDetalhesImovel">
+            
+                <div class="ui animated fade green button" id="detalhes<?php echo $idImovel; ?>">
+                    <div class="visible content"><i class="home icon"></i> <?php echo ucfirst($tipoImovel) ?></div>
+                    <div class="hidden content">
+                        Ver detalhes
+                    </div>
                 </div>
-            </div>
+             
             <div class="ui animated fade brown button" id="btnAnterior1">
                 <div class="visible content"><i class="arrow left icon"></i></div>
                 <div class="hidden content">
@@ -418,7 +250,7 @@ if ($item) {
                         <textarea name="txtDescricao" id="txtDescricao" placeholder="Informe uma Descrição do Imóvel" maxlength="150"></textarea>
                     </div>
                     <div class="three fields">
-                        <div class="field">
+                        <div class="field" id="divValor">
                             <div class="ui toggle checkbox">
                                 <input name="chkValor" id="chkValor" type="checkbox" value="SIM">
                                 <label>Deseja informar um valor para o imóvel?</label>
@@ -601,7 +433,7 @@ if ($item) {
                                     <th>Finalidade</th>
                                     <th>Título</th>
                                     <th>Descrição</th>
-                                    <th>Valor</th>
+                                    <th id="thValor">Valor</th>
                                     <th>Exibir Mapa?</th>
                                     <th>Exibir Contato?</th>
                                 </tr>
@@ -629,18 +461,26 @@ if ($item) {
                     </div>               
                 </div>
             </div>
-
+            
             <!--PUBLICAÇÃO-->
-            <div class="sixteen wide column" id="step6">
-                <h3 class="ui dividing header">Publicação</h3>
-                <div class="ui segment" id="divRetorno">
-                    <p></p>
-                </div>
+            <div class="ui middle aligned stackable grid container" id="step6">
+                
+                <h3 class="ui dividing header" id="divTextoPublicacao">Publicação</h3>
+                
             </div>
 
         </div>
     </div>
 </form>
+
+<div class="ui hidden divider"></div><div class="ui hidden divider"></div>
+
+<div class="ui middle aligned stackable grid container">
+    <div id="divRetorno">
+        <p></p>
+    </div>
+</div>
+
 <div class="ui hidden divider"></div>
 <!--NAVEGAÇÃO-->
 <div class="ui middle aligned stackable grid container">

@@ -104,9 +104,12 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                         <?php 
                                         if($item['anuncio'][$crtl]['tipo'] == "prediocomercial"){
                                             echo "Prédio Comercial";
-                                        }else if
+                                        } else if
                                         ($item['anuncio'][$crtl]['tipo'] == "apartamentoplanta"){
                                             echo "Apartamento na Planta";
+                                        } else if
+                                        ($item['anuncio'][$crtl]['tipo'] == "salacomercial"){
+                                            echo "Sala Comercial";
                                         }
                                         else
                                         echo ucfirst($item['anuncio'][$crtl]['tipo']) ?>
