@@ -1404,8 +1404,7 @@ function formExcluirImovel(imovel, token, tipo) {
         });
         $("#hdnImovel").val(imovel);
         $("#hdnToken").val(token);
-        $('.first.modal .description').html('<h2 class="ui center aligned header red">ATENÇÃO: Deseja excluir o imóvel ' + tipo + '?</h2>');
-        //$('.second.modal').modal('attach events', '.first.modal .primary');
+        $('.first.modal .description').html('<h3 class="ui center aligned header">Confirmar a exclusão do imóvel ' + tipo + '?</h3>');
         $('.second.modal').modal({
             closable: false,
             onApprove: function () {
