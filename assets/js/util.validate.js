@@ -125,19 +125,20 @@ function gerarNumerosIntervalos(inicial, final, array) {
                 'Formato do CNPJ não é válido' : 'Digite um CNPJ válido';
     });
     $.validator.addMethod("validaAndar", function (value, element, ordemPlanta) {
-        //console.log(value);
         if (value == "") {
             return true;
         }
+        //pegar a tabela de plantas
         var tbody = "#dadosPlanta_" + ordemPlanta;
-        //console.log(tbody);
         var linhas = $(tbody).children();
-        //console.log(linhas);
+        //se nao tem andares adicionados tudo ok, caso tenha inicia validacao a saber se ja tem algum andar adicionado
         if (linhas.length === 0) {
             return true;
         }
         else {
+            //cria array auxiliar
             var arrayIntervalo = [];
+            //para cada linha da tabela alimenta o array, para cada elemento os numeros do intervalo correspondente
             $(linhas).each(function () {
                 var inputs;
                 inputs = $(this).find("input");
@@ -146,14 +147,15 @@ function gerarNumerosIntervalos(inicial, final, array) {
                 var andarFinal = inputs[1];
                 arrayIntervalo = gerarNumerosIntervalos($(andarInicial).val(), $(andarFinal).val(), arrayIntervalo);
             })
+            //metodo para remover elementos duplicados do array
             Array.prototype.duplicates = function () {
                 return this.filter(function (x, y, k) {
                     return y === k.lastIndexOf(x);
                 });
             }
-            //console.log(arrayIntervalo);
+            //remove elementos duplicados
             var andaresAdicionados = arrayIntervalo.duplicates();
-            //console.log(andaresAdicionados.indexOf(parseInt(value)));
+            //verifica se o valor do elemento validado (andar) estiver contido nos elementos ja adicionados 
             if (andaresAdicionados.indexOf(parseInt(value)) < 0) {
                 return true;
             } else {

@@ -1118,7 +1118,7 @@ function carregaDadosModalImovel($div) {
             var arr = [];
             $("input[type^='checkbox']:checked").parent().find("#diferencial").each(function ()
             {
-                arr.push($(this).html())
+                arr.push($(this).html().trim());
             });
 
             //retira a vírgula do último elemento
@@ -1201,7 +1201,7 @@ function carregaDadosModalImovel($div) {
                     var suite = $($("input[name^='sltSuite']")[valor]).val();
                     var garagem = $($("input[name^='sltGaragem']")[valor]).val();
                     if ($($("input[name^='txtArea[]']")[valor]).val() == "") {
-                        areaPlanta = "<h4 class='ui red header'>Não Informadoooooo</h4>";
+                        areaPlanta = "<h4 class='ui red header'>Não Informado</h4>";
                     } else
                         areaPlanta = $($("input[name^='txtArea[]']")[valor]).val();
 
