@@ -1,3 +1,12 @@
+<?php
+
+include_once 'configuracao/cookies.php';
+
+Cookies::consultarPreferencias();
+
+?>
+
+
 <script src="assets/js/buscaAnuncio.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 
