@@ -15,7 +15,7 @@
     })
 </script>
 
-<div class="ui column doubling grid container">
+<div class="ui middle aligned stackable grid container">
     <div class="row">
         <div class="column">
             <div class="ui large breadcrumb">
@@ -38,6 +38,38 @@
         </div>
     </div>
 
+    <?php
+    
+    $item = $this->getItem();
+
+    if($item == null){
+    
+    ?>    
+        
+    
+            <div class="row">
+                <div class="column">
+                    <div class="ui warning message">
+                        <div class="header">Atenção</div>
+                        <ul class="list">
+                          Você não possui imóveis cadastrados ou eles já estão com anúncios ativo. Clique em voltar para retornar ao MEUPIP
+                        </ul>
+                    </div>
+
+                    <div class="row">
+                    <a href="index.php?entidade=Usuario&acao=meuPIP">
+                    <button class="ui orange button">Voltar</button>
+                    </a>
+                    </div>
+
+                </div>   
+            </div>
+       
+    
+    <?php
+    echo "</div>"; } else { //caso haja algum imóvel sem anúncio ativo
+    ?>
+    
     <div class="row">
         <div class="column">
             <table class="ui brown stackable table" id="tabela">
@@ -83,20 +115,27 @@
 
 <div class="ui hidden divider"></div>  
 
-<?php
-include_once "/modal/ImovelListagemModal.php";
 
-function verificaAnuncioAtivo($listaAnuncios) {
-    $temAnuncioAtivo = false;
-    if (count($listaAnuncios) > 1) {
-        foreach ($listaAnuncios as $anuncio) {
-            if ($anuncio->getStatus() == "cadastrado")
+
+<?php
+
+} //fim do else, caso exista algum imóvel a ser publicado
+
+    include_once "/modal/ImovelListagemModal.php";
+
+    function verificaAnuncioAtivo($listaAnuncios) {
+        $temAnuncioAtivo = false;
+        if (count($listaAnuncios) > 1) {
+            foreach ($listaAnuncios as $anuncio) {
+                if ($anuncio->getStatus() == "cadastrado")
+                    $temAnuncioAtivo = true;
+            }
+        } else {
+            if ($listaAnuncios->getStatus() == "cadastrado")
                 $temAnuncioAtivo = true;
         }
-    } else {
-        if ($listaAnuncios->getStatus() == "cadastrado")
-            $temAnuncioAtivo = true;
+        return $temAnuncioAtivo;
     }
-    return $temAnuncioAtivo;
-}
+    
+
 ?>

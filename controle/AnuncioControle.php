@@ -30,6 +30,7 @@ include_once 'modelo/TipoImovel.php';
 include_once 'modelo/Valor.php';
 include_once 'modelo/ImovelDiferencial.php';
 include_once 'modelo/Diferencial.php';
+include_once 'modelo/NovoValorAnuncio.php';
 
 class AnuncioControle {
 
@@ -95,7 +96,7 @@ class AnuncioControle {
     }
 
     function buscarAnuncio($parametros) {
-//        var_dump($parametros); die();
+
         $visao = new Template('ajax');
         $consultasAdHoc = new ConsultasAdHoc();
         $parametros["atributos"] = "*";
@@ -108,7 +109,7 @@ class AnuncioControle {
         unset($parametros["hdnAcao"]);
         $parametros["predicados"] = $parametros;
         $listaAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
-        //var_dump($listaAnuncio); die();
+
         if (count($listaAnuncio['anuncio']) == 0) {
             $visao->setItem("errosemresultadobusca");
             $visao->exibir('VisaoErrosGenerico.php');
@@ -121,7 +122,7 @@ class AnuncioControle {
     }
 
     function detalhar($parametros) {
-
+        
         $genericoDAO = new GenericoDAO();
         $parametros["idanuncio"] = $parametros["hdnCodAnuncio"];
         unset($parametros["hdnCodAnuncio"]);
@@ -286,9 +287,24 @@ class AnuncioControle {
             foreach ($listaAnuncio as $anuncio) {
                 $imovel = $genericoDAO->consultar(new Imovel(), false, array("id" => $anuncio->getIdImovel()));
                 $anuncio->setImovel($imovel[0]);
+                
+                $novoValor = $genericoDAO->consultar(new NovoValorAnuncio(), false, array("idanuncio" => $anuncio->getId()));
+                //caso haja mais de um valor alterado do anúncio, inserir no array 
+                
+                    
+                    foreach($novoValor as $nValor){
+
+                        $nValor = $genericoDAO->consultar(new NovoValorAnuncio(), false, array("idanuncio" => $anuncio->getId()));
+                        $anuncio->setNovovaloranuncio($nValor);
+
+                    }
+                    
+                
+             
                 $listarAnuncios[] = $anuncio;
+                
             }
-            //visao
+
             $visao = new Template();
             $item["listaAnuncio"] = $listarAnuncios;
             $visao->setItem($item);
@@ -307,13 +323,13 @@ class AnuncioControle {
             foreach ($listaAnuncio as $anuncio) {
 
                 $imovel = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio->getIdImovel()));
+                $anuncio->setImovel($imovel[0]);
                 $historico = $genericoDAO->consultar(new HistoricoAluguelVenda(), false, array("idanuncio" => $anuncio->getId()));
                 $anuncio->setHistoricoaluguelvenda($historico[0]);
-
-                $anuncio->setImovel($imovel[0]);
+              
                 $listarAnuncios[] = $anuncio;
             }
-
+            die();
             $listaAnuncioExpirado = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, array('expirado'));
             foreach ($listaAnuncioExpirado as $anuncio) {
 
@@ -348,7 +364,16 @@ class AnuncioControle {
                     $entidadeAnuncio = $anuncio->cadastrar($parametros);
                     $this->verificaValorMinimo($entidadeAnuncio, $parametros);
                     $idAnuncio = $genericoDAO->cadastrar($entidadeAnuncio);
-
+                    
+                    //dados do anúncio para serem enviados via ajax, após a publicação
+                    $dadosAnuncio = $genericoDAO->consultar(new Anuncio, true, array("id" => $idAnuncio));
+                   
+                    $tipoImovel = new TipoImovel();
+                    
+                    $tipo = $dadosAnuncio[0]->getImovel()->getIdTipoImovel();
+                    
+                    $retornaTipoImovel = $tipoImovel->retornaDescricaoTipo($tipo);
+                    
                     $entidadeUsuarioPlano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $parametros["sltPlano"]));
                     $entidadeUsuarioPlano = $entidadeUsuarioPlano[0];
                     if (($entidadeUsuarioPlano->getPlano()->getTitulo() != "infinity" && $_SESSION["tipopessoa"] == "pj") || $_SESSION["tipopessoa"] == "pf") {
@@ -409,7 +434,7 @@ class AnuncioControle {
                         Sessao::desconfigurarVariavelSessao("anuncio");
                         Sessao::desconfigurarVariavelSessao("imagemAnuncio");
                         Sessao::desconfigurarVariavelSessao("imagemPlanta");
-                        echo json_encode(array("resultado" => 1));
+                        echo json_encode(array("resultado" => 1, "idanuncio" => $dadosAnuncio[0]->getIdAnuncio(), "id" =>$dadosAnuncio[0]->getId(), "tipoImovel" => $retornaTipoImovel));
                     } else {
                         $genericoDAO->rollback();
                         echo json_encode(array("resultado" => 0));
@@ -819,7 +844,7 @@ class AnuncioControle {
     }
     
     function verficaHashEmail($parametros) {
-        //echo "<pre>";var_dump($parametros); echo "</pre>"; die();
+
         $visao = new Template();
         $emailanuncio = new EmailAnuncio();
         $anuncio = new Anuncio();
@@ -852,6 +877,76 @@ class AnuncioControle {
                     $this->detalhar(array("hdnTipoImovel" => $tipo, "hdnCodAnuncio" => $verificarAtivo[0]->getId()));
 
                 }
+            
+        }
+        
+    }
+    
+    function fimCadastroAnuncio($parametros){
+        $this->detalhar(array("hdnTipoImovel" => $parametros["hdnTipo"], "hdnCodAnuncio" => $parametros["hdnCodAnuncio"]));
+    }
+    
+    function alterarValor($parametros){
+        
+        if (Sessao::verificarSessaoUsuario()) {
+
+            if (Sessao::verificarToken($parametros)) {
+
+                $genericoDAO = new GenericoDAO();
+                
+                $novoValor = new NovoValorAnuncio();
+                //setar os valores do objeto para edição
+                $consultarValorInativar = $genericoDAO->consultar($novoValor, false, array("idanuncio" => $parametros["hdnAnuncio"]));
+                //transformar de array para um único valor
+                
+                if($consultarValorInativar != null){ //setar a classe ValorNovo apenas se já existir valor
+                    
+                    $consultarValorInativar = $consultarValorInativar[0];
+                    //setar apenas os campos que se quer editar
+                    $setarInativacao = $novoValor->inativarValor($consultarValorInativar);
+                    
+                    $genericoDAO->iniciarTransacao();
+                    //passar o objeto para edição
+                    $inativar = $genericoDAO->editar($setarInativacao);
+                    
+                } else { //caso não exista um valor novo já cadastrado
+                    
+                    $genericoDAO->iniciarTransacao();
+                    
+                    $inativar = true;
+                    
+                    }
+          
+                $entidade = $novoValor->cadastrar($parametros);
+
+                $resultadoNovoValor = $genericoDAO->cadastrar($entidade);
+
+                if ($inativar && $resultadoNovoValor) {
+                    
+                    $genericoDAO->commit();
+                    
+                    echo json_encode(array("resultado" => 1, "novoValor" => $parametros["txtNovoValor"]));
+                  
+                    } else {
+
+                        echo json_encode(array("resultado" => 0));
+
+                        $genericoDAO->rollback();
+                    }
+             
+                $genericoDAO->fecharConexao();
+                
+            } else {
+                    
+                    echo json_encode(array("resultado" => 2)); //erro de token
+
+                }
+                
+                
+                
+        } else { //caso o usuário não esteja logado
+            
+            echo json_encode(array("resultado" => 3));
             
         }
         

@@ -3,7 +3,7 @@
     <head>
         <title>PIP - Procure Im&oacute;veis Pai D'Egua</title> 
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">        
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">         
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <!-- JQUERY --> 
         <script src="<?php echo PIPURL; ?>/assets/libs/jquery/jquery-2.1.3.min.js"></script> 
@@ -12,6 +12,7 @@
         <script src="<?php echo PIPURL; ?>/assets/libs/semantic-ui/semantic.min.js"></script> 
         <!-- Template PIP -->
         <link href="<?php echo PIPURL; ?>/assets/css/template-pip.css" rel="stylesheet" type="text/css" />
+        <link rel="shortcut icon" href="http://www.pipbeta.com.br/assets/imagens/favicon.ico" type="image/x-icon"/>
         <!-- Scripts -->
         <script type="text/javascript" src="assets/js/cabecalho.js"></script>
         <script type="text/javascript" src="assets/libs/timeout-dialog/timeout-dialog.js"></script>

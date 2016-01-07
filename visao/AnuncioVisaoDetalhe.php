@@ -1,4 +1,11 @@
-<!-- fotorama.css & fotorama.js. -->
+<?php
+
+include_once 'configuracao/cookies.php';
+
+Cookies::configurarPreferencias($this->getItem());
+
+?>
+
 <link  href="assets/libs/fotorama/fotorama.css" rel="stylesheet">
 <script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
 <script src="assets/libs/jquery/jquery.validate.min.js" type="text/javascript"></script>
@@ -120,9 +127,15 @@ echo "</pre>";*/
                                         <?php
                                         if ($item['anuncio'][0]['tipo'] == 'apartamentoplanta') {
                                             echo 'Apto na planta';
-                                        } else {
-                                            echo ucfirst($item['anuncio'][0]['tipo']);
-                                        }
+                                        } else if ($item['anuncio'][0]['tipo'] == 'salacomercial'){
+                                            echo 'Sala Comercial';
+                                        } else if ($item['anuncio'][0]['tipo'] == 'prediocomercial'){
+                                            echo 'Prédio Comercial';
+                                        } else if ($item['anuncio'][0]['tipo'] == 'apartamento'){
+                                            echo 'Apartamento';
+                                        } else if ($item['anuncio'][0]['tipo'] == 'casa'){
+                                            echo 'Casa';
+                                        } else echo 'Terreno';
                                         ?>
                                     </div>
                                 </div>

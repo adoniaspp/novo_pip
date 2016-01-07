@@ -18,7 +18,7 @@
             "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
             "stateSave": true,
             "columnDefs": [
-                {"orderable": false, "targets": 6}
+                {"orderable": false, "targets": 6}, {"orderable": false, "targets": 7}, {"orderable": false, "targets": 8}
             ]
         });
 
@@ -43,7 +43,7 @@
         <div class="column">
             <div class="ui message">
                 <p>Veja os detalhes do anúncio, clicando no código. 
-                Se você conseguiu negociar seu anúncio ou não deseja que ele continue ativo por outro motivo, clique
+                Se você conseguiu negociar seu anúncio ou não deseja que ele continue ativo por algum motivo, clique
                 em "Finalizar Negócio"
                 </p>
             </div>
@@ -56,39 +56,36 @@
 
     <?php
     Sessao::gerarToken();
-
-    $item = $this->getItem();
-    
+   
+    $item = $this->getItem();    
+    /*
+    echo "<pre>";
+    var_dump($item);
+    echo "</pre>";
+   */
     $totalAnunciosCadastrados = count($item["listaAnuncio"]);
     
     if($totalAnunciosCadastrados < 1){      
     ?>
-    
    
-    
-    <div class="ui middle aligned stackable grid container">
-    
-    <div class="column">
-        
-    <div class="ui info message">
-        <div class="header">Mensagem</div>
-        <ul class="list">
-          <li>Você não possui mais anúncios ativos. Clique em voltar para retornar ao MEUPIP</li>
-        </ul>
-    </div>
-
-
-   
+<div class="ui middle aligned stackable grid container">
     <div class="row">
-    <a href="index.php?entidade=Usuario&acao=meuPIP">
-    <button class="ui orange button">Voltar</button>
-    </a>
+        <div class="column">
+            <div class="ui warning message">
+                <div class="header">Mensagem</div>
+                <ul class="list">
+                  Você não possui anúncios ativos. Clique em voltar para retornar ao MEUPIP
+                </ul>
+            </div>
+
+            <div class="row">
+            <a href="index.php?entidade=Usuario&acao=meuPIP">
+            <button class="ui orange button">Voltar</button>
+            </a>
+            </div> 
+        </div>   
     </div>
-    
-    <div class="row"></div>     
-        
-    </div>   
-    </div>    
+</div>    
 
     <?php } else { //caso exista ao menos 1 anuncio cadastrado, exibir o datatable?>
     <div class="ui middle aligned stackable grid container">
@@ -104,6 +101,8 @@
                 <th>Descrição</th> 
                 <th>Valor</th>
                 <th>Status</th>
+                <th></th>
+                <th></th>
                 <th></th>
             </tr>
         </thead>
@@ -157,7 +156,26 @@
                         <td><?php echo $anuncio->getFinalidade(); ?></td>
                         <td><?php echo $anuncio->getTituloAnuncio(); ?></td>
                         <td><?php echo $anuncio->getDescricaoAnuncio(); ?></td>
-                        <td id="tdValor<?php echo $anuncio->getId(); ?>"><?php echo $anuncio->getValorMin(); ?></td>
+                        <td id="tdValor<?php echo $anuncio->getId(); ?>">
+                            <?php 
+                            
+                            if($anuncio->getNovoValorAnuncio() != null){
+                                                                
+                                 foreach($anuncio->getNovoValorAnuncio() as $nValor){
+
+                                    if($nValor->getStatus() == "ativo"){
+                                        
+                                        echo $nValor->getNovoValor();   
+                                        
+                                    }                         
+                                    
+                                 }    
+          
+                            } else echo $anuncio->getValorMin();  
+                          
+                            ?>
+                 
+                        </td>
                         <td> <?php
                                 if ($anuncio->getStatus() == "cadastrado") {
                                     echo "Publicado em " . $anuncio->getDataHoraCadastro();
@@ -167,8 +185,19 @@
                                 ?>
                         </td>
 
-                        <td><?php echo "<a id='btnFinalizar" . $anuncio->getId() . "' class='ui red button'><i class='thumbs up icon'></i>Finalizar Negócio</a>" ?></td>
+                        <td><?php echo "<a id='btnFinalizar" . $anuncio->getId() . "' class='ui red button'><i class='thumbs up icon'></i>Finalizar Negócio</a>"?>
+                        </td>
+                        <td><?php echo "<a id='btnAlterarValor" . $anuncio->getId() . "' class='ui blue button'><i class='ui edit icon'></i>Alterar Valor</a>" ?>
+                        </td>
+                        <td>
+                            <?php 
+                        
+                            if($anuncio->getNovoValorAnuncio() != null){
+                                echo "<a id='btnMostrarValor" . $anuncio->getId() . "' class='ui green button'>Valores Antigos</a>";
+                            }
 
+                            ?>
+                        </td>
                     </tr>
 
                 <?php
@@ -189,9 +218,160 @@
         ?>
 
 <script>
+  alterarValor(<?php echo $anuncio->getId() ?>);
   finalizar(<?php echo $anuncio->getId() ?>);
   formatarValor(<?php echo $anuncio->getId() ?>);
+  
 </script>
+
+
+<div class="ui standart modal" id="modalMostrarValorAnuncio<?php echo $anuncio->getId() ?>">
+    <div class="header">
+        Valores Antigos
+    </div>
+    <div class="content" id="camposMostrarValor<?php echo $anuncio->getId() ?>">
+        <div class="description">
+            Valor(es) já cadastrado(s) para este anúncio:
+        </div>
+        
+        <table class='ui table'>
+                        <thead>
+                            <tr>
+                                <th>Valor</th>
+                                <th>Data/Hora Cadastro</th>
+                                <th>Data/Hora Inativação</th>
+                            </tr>
+                        </thead>
+         <tbody>   
+        
+        <?php
+   
+        $contador = 0;
+        
+        if($anuncio->getNovoValorAnuncio() != null){
+        
+            foreach($anuncio->getNovoValorAnuncio() as $valorContador){
+
+                 if($valorContador->getStatus() == "inativo"){
+
+                     $contador = $contador + 1;
+
+                 }                   
+
+             } 
+             
+             if($contador > 0){
+                 
+                 foreach($anuncio->getNovoValorAnuncio() as $nValor){
+                 
+                    if($nValor->getStatus() == "inativo"){
+                        
+                        echo "<tr><td>".$nValor->getNovoValor()."</td><td>".$nValor->getDataHoraCadastro()."</td><td>".$nValor->getDataHoraInativacao()."</td></tr>"; 
+                                        
+                    }
+                 }
+             }
+
+        } 
+        
+        echo "<tr><td>".$anuncio->getValorMin()."</td><td>".$anuncio->getDataHoraCadastro()."</td><td>".$anuncio->getDataHoraCadastro()."</td></tr>"; 
+        
+        ?>
+        </tbody>
+        </table>
+    </div>
+    
+    <div class="actions">
+        <div  id="botaoFecharMostrarValor<?php echo $anuncio->getId(); ?>" class="ui red deny button">
+            Fechar
+        </div>
+    </div>
+</div>
+
+
+<div class="ui standart modal" id="modalAlterarValorAnuncio<?php echo $anuncio->getId() ?>">
+    <div class="header">
+        Alterar Valor
+    </div>
+    <div class="content" id="camposNovoValor<?php echo $anuncio->getId() ?>">
+        <div class="description">
+
+                <p id="textoConfirmacao"></p>
+
+                <form class="ui form" id="formAlterarValorAnuncio<?php echo $anuncio->getId() ?>" action="index.php" method="post">
+                    <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio"  />
+                    <input type="hidden" id="hdnAcao" name="hdnAcao" value="alterarValor" />  
+                    <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
+                    <input type="hidden" id="hdnAnuncio" name="hdnAnuncio" value="<?php echo $anuncio->getId() ?>" />
+                    <input type="hidden" id="hdnValorAtual<?php echo $anuncio->getId() ?>"
+                           name="hdnValorAtual" 
+                           value="<?php 
+                           
+                           if($anuncio->getNovoValorAnuncio() != null){
+                                                                
+                                 foreach($anuncio->getNovoValorAnuncio() as $nValor){
+
+                                    if($nValor->getStatus() == "ativo"){
+                                        
+                                        echo $nValor->getNovoValor();   
+                                        
+                                    }                      
+                                     
+                                 }                               
+                                
+                            } else echo $anuncio->getValorMin();  
+                           
+                           ?>"/>    
+                    
+                    <div class="ui message">
+                        <p>Digite o novo valor para seu anúncio. <strong>ATENÇÃO:</strong> O valor atual será substituido pelo novo
+                        </p>
+                    </div>
+                    
+                    <div class="field" id="divValorAtual<?php echo $anuncio->getId(); ?>">
+                    
+                        <?php if($anuncio->getNovoValorAnuncio() != null){
+                                                                
+                                 foreach($anuncio->getNovoValorAnuncio() as $nValor){
+                                     
+                                    if($nValor->getStatus() == "ativo"){
+                                        
+                                        echo $nValor->getNovoValor();   
+                                        
+                                    } 
+                                 
+                                 }                               
+                                
+                            } else echo $anuncio->getValorMin();   ?>         
+                        
+                    </div>
+                    
+                    <div class="three wide field" id="divNovoValor<?php echo $anuncio->getId(); ?>">
+                        <label>Novo Valor</label>
+                        <input name="txtNovoValor"  id="txtNovoValor<?php echo $anuncio->getId(); ?>" placeholder="Novo Valor" type="text" maxlength="12">
+                    </div>
+                    
+
+                </form>
+
+        </div>
+    </div>
+    
+    <div id="divRetornoNovoValor<?php echo $anuncio->getId(); ?>"></div>
+    
+    <div class="actions">
+        <div  id="botaoCancelaAlterarValor<?php echo $anuncio->getId(); ?>" class="ui orange deny button">
+            Cancelar
+        </div>
+        <div  id="botaoAlterarValor<?php echo $anuncio->getId(); ?>" class="ui positive right labeled icon button">
+            Alterar Valor
+            <i class="checkmark icon"></i>
+        </div>
+        <div  id="botaoFecharAlterarValor<?php echo $anuncio->getId(); ?>" class="ui red deny button">
+            Fechar
+        </div>
+    </div>
+</div>
 
 <!-- Modal do Finalizar Negócio-->    
 <div class="ui basic modal" id="modalFinalizar<?php echo $anuncio->getId() ?>">

@@ -240,9 +240,6 @@ class Imovel {
     }
 
     function editar($parametros) {
-        /*echo "<pre>";
-        var_dump($_SESSION);
-        echo "</pre>";*/
 
         $imovel = new Imovel();
         $imovel->setId($_SESSION["imovel"]["id"]);

@@ -26,7 +26,8 @@
     <div class="row">
         <div class="column">
             <div class="ui message">
-                <p>Escolha um imóvel para edição. <strong>ATENÇÃO</strong>: Imóvel com anúncio ativo não pode ser editado, nem excluído</p>
+                <p>Escolha um imóvel para edição. <strong>ATENÇÃO</strong>: Imóvel com anúncio ativo 
+                não pode ser editado, nem excluído (exclua o anúncio expirado ou finalizado para fazer a edição do imóvel)</p>
             </div>
         </div>
     </div>
@@ -61,15 +62,15 @@
 
                                 echo "<td>" . $imovel->getDatahoracadastro() . "</td>";
 
-                                echo "<td> <a href='#' class='ui green button' id='detalhes" . $imovel->getId() . "' ><i class='ui home icon'></i>Detalhes</a>";
+                                echo "<td> <a href='#' class='ui green button' id='detalhes" . $imovel->getId() . "' ></i>Detalhes</a>";
 
                                 if (count($imovel->getAnuncio()) > 0) {
                                     if (verificaAnuncioAtivo($imovel->getAnuncio())) {
-                                        $mensagemAnuncio = "Imóvel possui anúncio ativo";
+                                        $mensagemAnuncio = "Possui Anúncio Ativo";
                                     } else {
-                                        $mensagemAnuncio = "Imóvel possui anúncio";
+                                        $mensagemAnuncio = "Possui Anúncio";
                                     }
-                                    echo '<div class="ui compact negative message"><i class="large icons"><i class="large red dont icon"></i><i class="black trash icon"></i></i><i class="large icons"><i class="large red dont icon"></i><i class="black edit icon"></i></i>' . $mensagemAnuncio . '</div>';
+                                    echo '<div class="ui compact negative message">' . $mensagemAnuncio . '</div>';
                                 } else {
                                     echo "<a href=index.php?entidade=Imovel&acao=selecionar&id=" . $imovel->getId() . '&token=' . $_SESSION['token'] . "  id='editar" . $imovel->getId() . "' class='ui teal button'><i class='ui edit icon'></i>Editar</a>";
                                     echo "<button type='button' class='ui button red' onclick='formExcluirImovel(" . $imovel->getId() . ",\"" . $_SESSION['token'] . "\",\"" . $imovel->buscarTipoImovel($imovel->getIdTipoImovel()) . "\")'><i class='ui trash icon'></i>Excluir</button>";

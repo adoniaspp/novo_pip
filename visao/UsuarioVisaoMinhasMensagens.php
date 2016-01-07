@@ -45,6 +45,48 @@ Sessao::gerarToken();
     
 </div>
 
+<?php
+    Sessao::gerarToken();
+
+    $item = $this->getItem();
+    
+    $totalMensagem = 0;
+    
+    foreach ($this->getItem() as $mensagem) {
+        
+        if($mensagem->getId()){           
+            
+            $totalMensagem = $totalMensagem + 1;        
+            
+        }
+            
+    }
+    
+    if($totalMensagem < 1){      
+        
+    ?>
+ 
+<div class="ui middle aligned stackable grid container">
+    <div class="row">
+        <div class="column">
+            <div class="ui warning message">
+                <div class="header">Atenção</div>
+                <ul class="list">
+                  Você não possui mensagens. Clique em voltar para retornar ao MEUPIP
+                </ul>
+            </div>
+
+            <div class="row">
+            <a href="index.php?entidade=Usuario&acao=meuPIP">
+            <button class="ui orange button">Voltar</button>
+            </a>
+            </div> 
+        </div>   
+    </div>
+</div>    
+
+    <?php } else { //caso exista alguma mensagem?>
+
 <div class="ui hidden divider"></div>
 <div class="ui middle aligned stackable grid container">
     <div class="one column">
@@ -257,6 +299,8 @@ Sessao::gerarToken();
         </table>
     </div>
 </div>
+
+<?php } //fim do else, caso haja alguma mensagem ?> 
 
 <script>
     $(document).ready(function () {

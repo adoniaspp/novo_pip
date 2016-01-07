@@ -141,7 +141,7 @@ switch ($item) {
                         <script>
                         $(document).ready(function() {
                         $('#divMensagemSucesso').html("Sua conta de usuário foi criada. \n\
-                            Digite seu login e sua senha para logar no site.");
+                            Clique em 'Login' e digite seu login e sua senha para entrar no site.");
                         })
                         </script>
                         <?php
@@ -185,18 +185,46 @@ switch ($item) {
                         break;
                     case "sucessocadastroimovel":
                         ?>
-                        <h2>O imóvel foi cadastrado com sucesso!</h2>
-                        <h3>O que deseja fazer? </h3> 
-                        <a href="index.php?entidade=Anuncio&acao=listarCadastrar">
-                            <button type="button"  class="ui brown button">
-                                <i class="announcement icon"></i><i class="add icon"></i> Publicar Anúncios
-                            </button>
-                        </a> 
-                        <a href="index.php?entidade=Imovel&acao=form">
-                            <button type="button"  class="ui inverted button">
-                                <i class="home icon"></i><i class="add icon"></i> Cadastrar Outro Imóvel
-                            </button>
-                        </a>         
+                        
+                        <script>
+                        $(document).ready(function() {
+                        $('#divMensagemSucesso').html("Imóvel cadastrado com sucesso. Se desejar, escolha\n\
+                                uma das opções acima");
+                        })
+                        </script>
+                        
+                        
+                        <div class="ui middle aligned stackable grid container">
+                            <div class="row">
+                                <div class="column">                                  
+
+                                    <div class="row">
+                                        
+                                        <a href="index.php?entidade=Anuncio&acao=listarCadastrar">
+                                            <button type="button"  class="ui brown button">
+                                                <i class="announcement icon"></i><i class="add icon"></i> 
+                                                Publicar Anúncio
+                                            </button>
+                                        </a>
+                                        
+                                        <a href="index.php?entidade=Imovel&acao=form">
+                                            <button type="button"  class="ui green button">
+                                                <i class="add icon"></i>Cadastrar Outro Imóvel
+                                            </button>
+                                        </a> 
+                                        
+                                        <a href="index.php?entidade=Usuario&acao=MeuPIP">
+                                            <button type="button"  class="ui blue button">
+                                                <i class="home icon"></i>Retornar ao Meu PIP
+                                            </button>
+                                        </a>
+                                        
+                                    </div>
+
+                                </div>   
+                            </div>
+                        </div>   
+                    
                         <?php
                         break;
                     case "sucessoedicaoimovel":

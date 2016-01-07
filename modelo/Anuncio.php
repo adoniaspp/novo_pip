@@ -17,10 +17,11 @@ class Anuncio {
     private $publicarcontato;
     private $idusuarioplano;
     private $valormin;
-        
+ 
     protected $imovel;
     protected $usuarioplano;
     protected $historicoaluguelvenda;
+    protected $novovaloranuncio;
     
     function getId() {
         return $this->id;
@@ -88,6 +89,10 @@ class Anuncio {
 
     function getHistoricoaluguelvenda() {
         return $this->historicoaluguelvenda;
+    }
+
+    function getNovovaloranuncio() {
+        return $this->novovaloranuncio;
     }
 
     function setId($id) {
@@ -158,8 +163,10 @@ class Anuncio {
         $this->historicoaluguelvenda = $historicoaluguelvenda;
     }
 
-    
-            
+    function setNovovaloranuncio($novovaloranuncio) {
+        $this->novovaloranuncio = $novovaloranuncio;
+    }
+               
     public function cadastrar($parametros) {
         $this->setIdImovel($_SESSION["anuncio"]["idimovel"]);
         

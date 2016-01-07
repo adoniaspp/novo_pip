@@ -45,8 +45,8 @@ Sessao::gerarToken();
     <div class="row">
         <div class="column">
             <div class="ui message">
-                <p>Faça o cadastro do imóvel que deseja vender, informando as caracteristicas básicas (quartos, banheiros,
-                tamanho, diferenciais, etc)</p>
+                <p>Cadastre o imóvel que deseja vender, informando as caracteristicas básicas (quartos, banheiros,
+                    tamanho, diferenciais, etc). Escolha primeiramente o <strong>Tipo</strong> que deseja cadastrar</p>
             </div>
         </div>
     </div>
