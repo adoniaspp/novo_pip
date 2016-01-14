@@ -31,6 +31,7 @@ include_once 'modelo/Valor.php';
 include_once 'modelo/ImovelDiferencial.php';
 include_once 'modelo/Diferencial.php';
 include_once 'modelo/NovoValorAnuncio.php';
+include_once 'modelo/MapaImovel.php';
 
 class AnuncioControle {
 
@@ -181,7 +182,24 @@ class AnuncioControle {
                 $_SESSION["mensagem"][$idMensagem] = $mensagens->getId();
                 $mensagens->setId($idMensagem);
             }
-           
+            
+            $valores = $genericoDAO->consultar(new NovoValorAnuncio, false, array("idanuncio" => $parametros["idanuncio"]));
+            
+            foreach($valores as $nValor){
+
+                        $nValor = $genericoDAO->consultar(new NovoValorAnuncio(), false, array("idanuncio" => $parametros["idanuncio"]));
+                        $listarAnuncio["novoValor"] = $nValor;
+
+                    }
+            
+            $mapaNovo = $genericoDAO->consultar(new MapaImovel(), false, array("idanuncio" => $parametros["idanuncio"]));      
+                  
+            if($mapaNovo != null){
+                
+                $listarAnuncio["mapaImovel"] = $mapaNovo;
+                
+            }          
+         
             $listarAnuncio["mensagem"] = $mensagem;
             
             $visao->setItem($listarAnuncio);
@@ -329,7 +347,7 @@ class AnuncioControle {
               
                 $listarAnuncios[] = $anuncio;
             }
-            die();
+            //die();
             $listaAnuncioExpirado = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, array('expirado'));
             foreach ($listaAnuncioExpirado as $anuncio) {
 
@@ -428,8 +446,27 @@ class AnuncioControle {
                             $idImagem = $genericoDAO->cadastrar($entidadeImagem);
                         }
                     }
+                    
+                    $statusMapa = false;
+                    
+                    //cadastro da latitude e longitude se houver alteração no mapa
+                    if($parametros["hdnLatitude"] != "" && $parametros["hdnLongitude"] != ""){
+                        
+                        $mapaImovel = new MapaImovel();
+                        $cadastrarMapa = $mapaImovel->cadastrar($parametros, $idAnuncio);
+                        
+                        $statusCadastroMapa = $genericoDAO->cadastrar($cadastrarMapa);
+                        
+                        if($statusCadastroMapa) {
+                            
+                            $statusMapa = true;
+                            
+                        }
+                        
+                    } else $statusMapa = true;
                     //visao
-                    if ($idAnuncio) {
+                    if ($idAnuncio && $statusMapa) {
+                      
                         $genericoDAO->commit();
                         Sessao::desconfigurarVariavelSessao("anuncio");
                         Sessao::desconfigurarVariavelSessao("imagemAnuncio");
@@ -560,7 +597,7 @@ class AnuncioControle {
     }
 
     function buscarAnuncioCorretor($parametros) {
-
+        
         $visao = new Template();
         $emailanuncio = new EmailAnuncio();
         $usuario = new Usuario();

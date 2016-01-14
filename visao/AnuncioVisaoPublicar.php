@@ -1,8 +1,10 @@
 <?php
 //Sessao::gerarToken();
 $item = $this->getItem();
-//echo "<pre>";
-//print_r($item);die();
+/*echo "<pre>";
+print_r($item);
+echo "</pre>";
+//die();*/
 if ($item) {
     foreach ($item["imovel"] as $objImovel) {
         $idImovel = $objImovel->getId();
@@ -16,6 +18,9 @@ if ($item) {
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/js/anuncio.js"></script>
+<script src="assets/js/buscaAnuncio.js"></script>
+<script src="assets/libs/gmaps/gmap3.min.js"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=false&amp;language=pt"></script>
 <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
 <script src="assets/libs/fileupload/vendor/jquery.ui.widget.js"></script>
 <!-- The Templates plugin is included to render the upload/download listings -->
@@ -276,6 +281,56 @@ if ($item) {
                         </div>
                     </div>
                 </div>
+                
+                <h3 class="ui dividing header">Verificar Localização do Imóvel</h3>
+                <div class="ui form segment">
+                    
+                    <script>
+                    marcarMapaPublicarAnuncio("<?php echo $objImovel->getEndereco()->getLogradouro() ?>", "<?php echo $objImovel->getEndereco()->getNumero() ?>", "<?php echo $objImovel->getEndereco()->getBairro()->getNome() ?>", "<?php echo $objImovel->getEndereco()->getCidade()->getNome() ?>", "<?php echo $objImovel->getEndereco()->getEstado()->getUf() ?>", "<?php echo "" ?>", "<?php echo "" ?>", "<?php echo "" ?>", "600", "300", 11);
+                    </script>
+                    
+                    <div class="ui negative message">
+                        <div class="header">
+                          ATENÇÃO
+                        </div>
+                        Verifique se o endereço cadastrado está correto no mapa. Se não estiver, mova o marcador.
+                        Arraste o mapa e/ou aumente o zoom com o mouse, caso queira
+                      </div>
+                    
+                    <div class="fields">
+                        
+                        <input type="hidden" id="hdnEnderecoMapa" name="hdnEnderecoMapa" 
+                               value="<?php echo $objImovel->getEndereco()->getLogradouro().", ".$objImovel->getEndereco()->getNumero().", ".$objImovel->getEndereco()->getBairro()->getNome() ?>" />
+                        <div id="mapaGmapsBusca"></div>
+                        <input type="hidden" id="hdnLatitude" name="hdnLatitude" value="" />
+                        <input type="hidden" id="hdnLongitude" name="hdnLongitude" value="" />
+                        
+                    </div>
+                    
+                    
+                       <div class="ui message">
+                        <div class="header">
+                          Endereço do Imóvel
+                        </div>
+                        <?php
+                        if ($objImovel->getEndereco()->getNumero() != "" && $objImovel->getEndereco()->getComplemento() != "") {
+                            $endereco = $objImovel->getEndereco()->getLogradouro() . ", " . $objImovel->getEndereco()->getNumero() . ", " . $objImovel->getEndereco()->getComplemento();
+                        } elseif ($objImovel->getEndereco()->getNumero() != "" && $objImovel->getEndereco()->getComplemento() == "") {
+                            $endereco = $objImovel->getEndereco()->getLogradouro() . ", " . $objImovel->getEndereco()->getNumero();
+                        } elseif ($objImovel->getEndereco()->getNumero() == "" && $objImovel->getEndereco()->getComplemento() == "") {
+                            $endereco = $objImovel->getEndereco()->getLogradouro();
+                        } elseif ($objImovel->getEndereco()->getNumero() == "" && $objImovel->getEndereco()->getComplemento() != "") {
+                            $endereco = $objImovel->getEndereco()->getLogradouro() . ", " . $objImovel->getEndereco()->getComplemento();
+                        }
+                        
+                        echo $endereco;
+                        
+                        ?>
+                      </div> 
+                    
+          
+                </div>
+                
             </div>
 
             <?php

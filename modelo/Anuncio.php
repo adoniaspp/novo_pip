@@ -22,7 +22,8 @@ class Anuncio {
     protected $usuarioplano;
     protected $historicoaluguelvenda;
     protected $novovaloranuncio;
-    
+    protected $mapaimovel;
+            
     function getId() {
         return $this->id;
     }
@@ -93,6 +94,10 @@ class Anuncio {
 
     function getNovovaloranuncio() {
         return $this->novovaloranuncio;
+    }
+
+    function getMapaimovel() {
+        return $this->mapaimovel;
     }
 
     function setId($id) {
@@ -166,7 +171,12 @@ class Anuncio {
     function setNovovaloranuncio($novovaloranuncio) {
         $this->novovaloranuncio = $novovaloranuncio;
     }
-               
+
+    function setMapaimovel($mapaimovel) {
+        $this->mapaimovel = $mapaimovel;
+    }
+
+                   
     public function cadastrar($parametros) {
         $this->setIdImovel($_SESSION["anuncio"]["idimovel"]);
         

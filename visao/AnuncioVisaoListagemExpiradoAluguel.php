@@ -16,7 +16,7 @@
             "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
             "stateSave": true,
             "columnDefs": [
-                {"width": "20%", "orderable": false, "targets": 6}
+                {"width": "20%", "orderable": false, "targets": 5}
             ]
         });
 
@@ -56,8 +56,7 @@ if (count($item["listaPlanos"]) == 0) {
     ?>
     <div class="row">
         <div class="column">
-            <div class="ui warning message">               
-                <i class="close icon"></i>                  
+            <div class="ui warning message">                          
                 Atenção! Você não possui um plano ativo para reativar seu anúncio. Não perca tempo! Compre agora um novo plano clicando <a href="index.php?entidade=Plano&acao=listar">AQUI</a>.                
             </div>
         </div>
@@ -110,7 +109,6 @@ if ($totalAnunciosFinalizados < 1 && $totalAnunciosExpirados < 1) {
                         <th>Cód. Anúncio</th>
                         <th>Tipo</th>
                         <th>Titulo</th>
-                        <th>Descrição</th> 
                         <th>Valor</th>
                         <th>Data Cadastro</th>
                         <th>Status</th>
@@ -175,22 +173,21 @@ if ($totalAnunciosFinalizados < 1 && $totalAnunciosExpirados < 1) {
             ?>
                                 </td>
                                 <td><?php echo $anuncio->getTituloAnuncio(); ?></td>
-                                <td><?php echo $anuncio->getDescricaoAnuncio(); ?></td>
                                 <td id="tdValor<?php echo $anuncio->getId(); ?>"><?php echo $anuncio->getValorMin(); ?></td>
                                 <td><?php echo $anuncio->getDataHoraCadastro(); ?></td>
                                 <td> <?php
                         if ($anuncio->getStatus() == 'finalizado') {
-                            echo "<i class='large thumbs up red icon'></i>Finalizado em " . $anuncio->getHistoricoAluguelVenda()->getDatahora();
+                            echo "<i class='thumbs up red icon'></i>Finalizado em " . $anuncio->getHistoricoAluguelVenda()->getDatahora();
                         } else {
-                            echo "<i class='large remove circle red icon'></i>Expirado em " . $anuncio->getDataHoraDesativacao();
+                            echo "<i class='remove circle red icon'></i>Expirado em " . $anuncio->getDataHoraDesativacao();
                         }
             ?>
                                 </td>
                                 <td><?php
                         if (count($item["listaPlanos"]) > 0) {
-                            echo "<a id='btnReativar" . $anuncio->getId() . "' class='ui green button'><i class='thumbs up icon'></i>Reativar Anúncio</a>";
+                            echo "<a id='btnReativar" . $anuncio->getId() . "' class='ui small green button'><i class='refresh icon'></i>Reativar Anúncio</a>";
                         } else {
-                            echo "<a id='btnReativar" . $anuncio->getId() . "' class='ui disabled button'><i class='thumbs up icon'></i>Reativar Anúncio</a>";
+                            echo "<a id='btnReativar" . $anuncio->getId() . "' class='ui small disabled button'><i class='refresh icon'></i>Reativar Anúncio</a>";
                         }
             ?></td>
                             </tr>

@@ -18,7 +18,7 @@
             "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
             "stateSave": true,
             "columnDefs": [
-                {"orderable": false, "targets": 6}, {"orderable": false, "targets": 7}, {"orderable": false, "targets": 8}
+                {"orderable": false, "targets": 5}, {"orderable": false, "targets": 6}, {"orderable": false, "targets": 7}
             ]
         });
 
@@ -42,9 +42,9 @@
     <div class="row">
         <div class="column">
             <div class="ui message">
-                <p>Veja os detalhes do anúncio, clicando no código. 
+                <p>Veja os detalhes do anúncio clicando no código. 
                 Se você conseguiu negociar seu anúncio ou não deseja que ele continue ativo por algum motivo, clique
-                em "Finalizar Negócio"
+                em "Finalizar Negócio". Caso queria mudar o valor, clique em "Alterar Valor"
                 </p>
             </div>
         </div>
@@ -97,10 +97,8 @@
                 <th>Cód. Anúncio</th>
                 <th>Tipo</th>
                 <th>Finalidade</th>
-                <th>Titulo</th>
-                <th>Descrição</th> 
                 <th>Valor</th>
-                <th>Status</th>
+                <th>Data Publicação</th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -154,8 +152,6 @@
                         
                         ?></td>
                         <td><?php echo $anuncio->getFinalidade(); ?></td>
-                        <td><?php echo $anuncio->getTituloAnuncio(); ?></td>
-                        <td><?php echo $anuncio->getDescricaoAnuncio(); ?></td>
                         <td id="tdValor<?php echo $anuncio->getId(); ?>">
                             <?php 
                             
@@ -178,35 +174,36 @@
                         </td>
                         <td> <?php
                                 if ($anuncio->getStatus() == "cadastrado") {
-                                    echo "Publicado em " . $anuncio->getDataHoraCadastro();
+                                    echo $anuncio->getDataHoraCadastro();
                                 } elseif ($anuncio->getStatus() == "finalizado") {
                                     echo "Finalizado em: " . $anuncio->getHistoricoAluguelVenda()->getDatahora();
                                 }
                                 ?>
                         </td>
 
-                        <td><?php echo "<a id='btnFinalizar" . $anuncio->getId() . "' class='ui red button'><i class='thumbs up icon'></i>Finalizar Negócio</a>"?>
+                        <td><?php echo "<a id='btnFinalizar" . $anuncio->getId() . "' class='ui small red button'>Finalizar Negócio</a>"?>
                         </td>
-                        <td><?php echo "<a id='btnAlterarValor" . $anuncio->getId() . "' class='ui blue button'><i class='ui edit icon'></i>Alterar Valor</a>" ?>
+                        <td><?php echo "<a id='btnAlterarValor" . $anuncio->getId() . "' class='ui small blue button'>Alterar Valor</a>" ?>
                         </td>
                         <td>
                             <?php 
                         
                             if($anuncio->getNovoValorAnuncio() != null){
-                                echo "<a id='btnMostrarValor" . $anuncio->getId() . "' class='ui green button'>Valores Antigos</a>";
+                                echo "<a id='btnMostrarValor" . $anuncio->getId() . "' class='ui small green button'>Valores Antigos</a>";
                             }
 
                             ?>
                         </td>
+                    
                     </tr>
-
-                <?php
-            }
+                    
+               <?php
+            } 
         }
         ?>
         </tbody>
+        
     </table>
-
     </div>
 </div>
 
@@ -221,7 +218,6 @@
   alterarValor(<?php echo $anuncio->getId() ?>);
   finalizar(<?php echo $anuncio->getId() ?>);
   formatarValor(<?php echo $anuncio->getId() ?>);
-  
 </script>
 
 
@@ -247,35 +243,85 @@
         <?php
    
         $contador = 0;
+        $menorId = array();
         
         if($anuncio->getNovoValorAnuncio() != null){
-        
-            foreach($anuncio->getNovoValorAnuncio() as $valorContador){
 
-                 if($valorContador->getStatus() == "inativo"){
+            foreach($anuncio->getNovoValorAnuncio() as $valorContador){
+             
+            ?>
+            
+            <script>
+            formatarValorCampos(<?php echo $valorContador->getId() ?>);
+            </script>
+            
+            <?php
+
+                 if($valorContador->getStatus() == "inativo"){ //traz todos os valores que estão inativos
 
                      $contador = $contador + 1;
-
-                 }                   
+                     
+                     $menorId[] = $valorContador->getId(); //insere em um array para depois buscar o menor
+                     
+                 }           
 
              } 
              
+             $menor = min($menorId); //busca o id mais antigo cadastrado dos inativos. Primeiro valor alterado
+             
+             foreach($anuncio->getNovoValorAnuncio() as $valorPrimeiro){
+
+                 if ($valorPrimeiro->getId() == $menor) {
+                     
+                     //primeiro valor alterado para inserir a data da inativação do valor original
+                     $primeiroValorAlterado = $valorPrimeiro->getDataHoraCadastro();
+                     
+                 }
+
+             }
+             
              if($contador > 0){
-                 
+          
                  foreach($anuncio->getNovoValorAnuncio() as $nValor){
+                     
+                    ?>
+            
+                    <script>
+                    formatarValorUnico(<?php echo $nValor->getId() ?>);
+                    </script>
+
+                    <?php
                  
                     if($nValor->getStatus() == "inativo"){
                         
-                        echo "<tr><td>".$nValor->getNovoValor()."</td><td>".$nValor->getDataHoraCadastro()."</td><td>".$nValor->getDataHoraInativacao()."</td></tr>"; 
+                        echo "<tr><td id='formatarValorJS".$nValor->getId()."'>".$nValor->getNovoValor()."</td><td>".$nValor->getDataHoraCadastro()."</td><td>".$nValor->getDataHoraInativacao()."</td></tr>"; 
                                         
                     }
                  }
              }
+             
+             if($contador == 0){ //caso exista apenas 1 valor trocado, ou seja, ele está ativo
+        
+                 foreach($anuncio->getNovoValorAnuncio() as $nValor){
+                     
+                 ?>
+            
+                 <script>
+                 formatarValorUnico(<?php echo $nValor->getId() ?>);
+                 </script>
+                 
+                 <?php                
+                     
+                     $primeiroValorAlterado = $nValor->getDataHoraCadastro();
+                     
+                 }             
+                 
+             }
+            //buscar da tabela anúncio o valor original cadastrado. A data da inativação é quando foi cadastrado o primeiro novo valor                    
+            echo "<tr><td id='formatarValorUnicoJS".$nValor->getId()."'>".$anuncio->getValorMin()."</td><td>".$anuncio->getDataHoraCadastro()."</td><td>".$primeiroValorAlterado."</td></tr>";  
 
         } 
-        
-        echo "<tr><td>".$anuncio->getValorMin()."</td><td>".$anuncio->getDataHoraCadastro()."</td><td>".$anuncio->getDataHoraCadastro()."</td></tr>"; 
-        
+      
         ?>
         </tbody>
         </table>

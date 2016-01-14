@@ -62,6 +62,8 @@ class NovoValorAnuncio {
         
         $novoValor = new NovoValorAnuncio();
         
+        $parametros["txtNovoValor"] = str_replace(".", "", $parametros["txtNovoValor"]);
+        
         $novoValor->setIdanuncio($parametros["hdnAnuncio"]);
         $novoValor->setNovovalor($parametros["txtNovoValor"]);
         $novoValor->setDatahoracadastro(date("Y/m/d H:i:s"));
@@ -73,8 +75,7 @@ class NovoValorAnuncio {
     }
     
     public function inativarValor($objeto){
-        
-        //$objeto->setId($parametros["id"]);
+
         $objeto->setDatahorainativacao(date("Y/m/d H:i:s"));
         $objeto->setStatus("inativo");
         

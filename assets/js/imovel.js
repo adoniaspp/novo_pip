@@ -381,7 +381,7 @@ function esconderCamposInicio() {
                     var banheiro = "<div class='four wide required field'><label>Banheiro(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltBanheiro[]' id='sltBanheiro" + contador + "'><div class='default text'>Banheiro(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
                     var suite = "<div class='four wide required field'><label>Suite(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltSuite[]' id='sltSuite" + contador + "'><div class='default text'>Suite(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
                     var garagem = "<div class='four wide required field'><label>Vagas de Garagem</label><div class='ui selection dropdown'><input type='hidden' name='sltGaragem[]' id='sltGaragem" + contador + "'><div class='default text'>Vaga(s) de Garagem</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
-                    var area = "<div id='divAreaPlanta' class='four wide field'><div class='field'><label>Área(m<sup>2</sup>)</label><input type='text' name='txtArea[]' id='txtArea" + contador + "' maxlength='7' placeholder='Área'></div></div>";
+                    var area = "<div id='divAreaPlanta' class='four wide field'><div class='field'><label>Área (m<sup>2</sup>)</label><input type='text' name='txtArea[]' id='txtArea" + contador + "' maxlength='7' placeholder='Área'></div></div>";
 
                     $("#divInfoApeCasa" + contador).append(quarto);
                     $("#divInfoApeCasa" + contador).append(banheiro);
@@ -612,7 +612,7 @@ function mostrarCamposEdicaoCasa(tipoImovel,
                              </div> </div>";
 
         var area = "<div id='divArea' class='three wide field'>\n\
-                             <div class='field'><label>Área(m<sup>2</sup>)</label>\n\
+                             <div class='field'><label>Área (m<sup>2</sup>)</label>\n\
                              <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='7' value='" + parametroArea + "'>\n\
                         </div></div>";
 
@@ -666,7 +666,7 @@ function mostrarCamposEdicaoApartamento(tipoImovel,
                              </div> </div>";
 
         var area = "<div id='divArea' class='three wide field'>\n\
-                             <div class='field'><label>Área(m<sup>2</sup>)</label>\n\
+                             <div class='field'><label>Área (m<sup>2</sup>)</label>\n\
                              <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='7' value='" + parametroArea + "'>\n\
                         </div></div>";
 
@@ -761,7 +761,7 @@ function mostrarCamposEdicaoSalaComercial(tipoImovel,
                              </div> </div>";
 
         var area = "<div id='divArea' class='three wide field'>\n\
-                             <div class='field'><label>Área(m<sup>2</sup>)</label>\n\
+                             <div class='field'><label>Área (m<sup>2</sup>)</label>\n\
                              <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='7' value='" + parametroArea + "'>\n\
                         </div></div>";
 
@@ -798,7 +798,7 @@ function mostrarCamposEdicaoPredioComercial(tipoImovel, parametroArea) {
         $("#sltAndares").rules("remove");
 
         var area = "<div id='divArea' class='three wide field'>\n\
-                             <div class='field'><label>Área(m<sup>2</sup>)</label>\n\
+                             <div class='field'><label>Área (m<sup>2</sup>)</label>\n\
                              <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='7' value='" + parametroArea + "'>\n\
                         </div></div>";
 
@@ -820,7 +820,7 @@ function mostrarCamposEdicaoTerreno(tipoImovel, parametroArea) {
         $("#sltAndares").rules("remove");
 
         var area = "<div id='divArea' class='three wide field'>\n\
-                             <div class='field'><label>Área(m<sup>2</sup>)</label>\n\
+                             <div class='field'><label>Área (m<sup>2</sup>)</label>\n\
                              <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='7' value='" + parametroArea + "'>\n\
                         </div></div>";
 
@@ -1012,7 +1012,7 @@ function camposPlantas(parametroQuarto,
                            </div></div></div>";
 
     var area = "<div id='divArea' class='three wide field'>\n\
-                             <div class='field'><label>Área(m<sup>2</sup>)</label>\n\
+                             <div class='field'><label>Área (m<sup>2</sup>)</label>\n\
                              <input type='text' name='txtArea[]' id='txtArea" + parametroOrdem + "' placeholder='Informe a Área' maxlength='7' value='" + parametroArea + "'>\n\
                         </div></div>";
 

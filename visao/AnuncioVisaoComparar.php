@@ -21,8 +21,10 @@ $item = $this->getItem();
     </div>
     
     <div class="row">
-      <div class="ui info message">
-        Veja abaixo os anúncios escolhidos por você para comparação
+      <div class="column">  
+        <div class="ui info message">
+          Veja abaixo os anúncios escolhidos por você para comparação
+        </div> 
       </div>  
     </div>
     

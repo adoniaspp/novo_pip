@@ -23,19 +23,38 @@ Cookies::configurarPreferencias($this->getItem());
 </script>
 
 <?php
+
 $item = $this->getItem();
-
-/*echo "<pre>";
+/*
+echo "<pre>";
 var_dump($item);
-echo "</pre>";*/
+echo "</pre>";
+*/
 
+$latitude  = "";
+$longitude = "";
+
+if($item["mapaImovel"]){
+
+    foreach ($item["mapaImovel"] as $mapa){
+
+        $latitude = $mapa->getLatitude();
+        $longitude = $mapa->getLongitude();
+    }
+    
+}
 ?>
 
 <script>
     //inserirValidacao();
     enviarDuvidaAnuncio();
     formatarDetalhe();
-    marcarMapa("<?php echo $item["anuncio"][0]["logradouro"] ?>", "<?php echo $item["anuncio"][0]["numero"] ?>", "<?php echo $item["anuncio"][0]["bairro"] ?>", "<?php echo $item["anuncio"][0]["tituloanuncio"] ?>", "<?php echo $item["anuncio"][0]["valormin"] ?>", "<?php echo $item["anuncio"][0]["finalidade"] ?>", "600", "300", 9);
+    
+    marcarMapa("<?php echo $item["anuncio"][0]["logradouro"] ?>", "<?php echo $item["anuncio"][0]["numero"] ?>", 
+               "<?php echo $item["anuncio"][0]["bairro"] ?>", "<?php echo $item["anuncio"][0]["cidade"] ?>",
+               "<?php echo $item["anuncio"][0]["estado"] ?>", "<?php echo $item["anuncio"][0]["tituloanuncio"] ?>",
+               "<?php echo $item["anuncio"][0]["valormin"] ?>", "<?php echo $item["anuncio"][0]["finalidade"] ?>",
+               "<?php echo $latitude ?>", "<?php echo $longitude ?>", "600", "300", 9);
     
 </script>
 
@@ -148,13 +167,33 @@ echo "</pre>";*/
                                 <br>
                                 <div class="content">
                                     <div class="sub header" id="divValor">
-                                        <?php echo $item['anuncio'][0]['valormin'] ?>
+                                        
+                                        <?php 
+                                        //verificar se existe um novo valor já cadastrado
+                                        if($item["novoValor"] != null){
+                                            
+                                            foreach ($item["novoValor"] as $valorMin){
+                                                
+                                                if($valorMin->getStatus() == "ativo"){
+                                                    
+                                                    $valorAnuncio = $valorMin->getNovoValor();
+                                                    
+                                                }
+                                                
+                                            }
+                                          //senao, exibir o valor original do anúncio
+                                        } else $valorAnuncio = $item['anuncio'][0]['valormin'];
+                                        
+                                        ?>
+                                        
+                                        
+                                        <?php echo $valorAnuncio ?>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                                <div class="ui divider"></div>
+                    <div class="ui divider"></div>
                     <div class="ui stackable three column padded grid">
                         <?php if ($item['anuncio'][0]['tipo'] == 'apartamentoplanta') { ?>
                             <div class="column">
@@ -240,19 +279,7 @@ echo "</pre>";*/
                                 </div>
                             </div>
                         <?php } ?> 
-                        <?php if ($item['anuncio'][0]['tipo'] == 'salacomercial') { ?>
-                            <div class="column">
-                                <div class="ui tiny header">
-                                    <i class="privacy icon"></i>
-                                    <div class="content">
-                                        Condomínio
-                                        <div class="sub header">
-                                            <?php echo $item['anuncio'][0]['condominio'] ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php } ?>
+                        
                     </div>
                     <?php if ($item['anuncio'][0]['tipo'] != 'terreno') { ?>
                     <div class="ui divider"></div>
@@ -299,8 +326,27 @@ echo "</pre>";*/
                                     </div>
                                 </div>
                             </div>
-                        <?php } ?>       
-                    </div>
+                        <?php } ?>     
+                        
+                        <?php if ($item['anuncio'][0]['tipo'] == 'salacomercial' || $item['anuncio'][0]['tipo'] == 'apartamento') { ?>
+
+                                <div class="column">
+                                    <div class="ui tiny header">
+                                        <i class="privacy icon"></i>
+                                        <div class="content">
+                                            Condomínio
+                                            <div class="sub header" id="divValorCondominio">
+                                                <?php echo $item['anuncio'][0]['condominio'] ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                        <?php } ?>
+                        
+                        </div>
+                        
+                    
                     <?php } ?>    
                     <div class="ui divider"></div>                              
                             
@@ -312,17 +358,72 @@ echo "</pre>";*/
                     </div>
                 </div> 
             </div>
-            <div class="item"> 
-                <div class="ui large teal horizontal label">Cód. Anuncio - <?php echo $item['anuncio'][0]['idanuncioformatado'] ?></div>
+                <div class="item"> 
+                    <div class="ui large teal horizontal label">Cód. Anuncio - 
+                        <?php echo $item['anuncio'][0]['idanuncioformatado'] ?>
+                    </div>
                 </div> 
+        
+                <?php if($item["novoValor"] != null){ ?>
+        
+                <div class="ui hidden divider"></div>
+                
+                <div class="item"> 
+                    <div class="ui orange horizontal label">HISTÓRICO DE VALOR</div>
+                        <?php 
+                        $contador = 0;
+                        foreach ($item["novoValor"] as $novoValor){
+                       
+                            $contador = $contador + 1;
+                            if($contador == 1){
+                                
+                                ?>
+            
+                                <script>
+                                formatarValorUnico(<?php echo $novoValor->getId() ?>);
+                                </script>
+
+                                <?php  
+                                
+                                echo "<span id='formatarValorUnicoJS".$novoValor->getId()."'>".$novoValor->getNovoValor()."</span>&nbsp;&nbsp;&nbsp;&nbsp";
+                            }
+                            else {
+                                
+                                ?>
+            
+                                <script>
+                                formatarValorCampos(<?php echo $novoValor->getId() ?>);
+                                </script>
+
+                                <?php
+                                
+                                echo "<strike id='formatarValorJS".$novoValor->getId()."'>".$novoValor->getNovoValor()."</strike>&nbsp;&nbsp;&nbsp;&nbsp";
+                            }
+                        }
+                        
+                        ?>
+            
+                                <script>
+                                formatarValorUnico(<?php echo $item['anuncio'][0]['id'] ?>);
+                                </script>
+
+                                <?php
+                        
+                        echo "<strike id='formatarValorUnicoJS".$item['anuncio'][0]['id']."'>".$item['anuncio'][0]['valormin']."</strike>&nbsp;&nbsp;&nbsp;&nbsp";
+                        ?>
+                    
+                </div>
+                
+                <?php } ?>
+                
             </div>  
         
         </div> 
     </div>
 
-    <div class="row">
-
     <?php if ($item['anuncio'][0]['tipo'] == 'apartamentoplanta') { ?>
+    
+    <div class="row">  
         <div class="column">
         <div class="ui segment">
             <a class="ui yellow ribbon label">Planta(s)</a>
@@ -418,13 +519,13 @@ echo "</pre>";*/
                         
                     </div>
                 </div>
-        </div>
-        <?php } ?>
-    
+        </div>   
     </div>
     
-    <div class="row">
+    <?php } ?>
+    
     <?php if ($item['anuncio'][0]['diferenciais']) { ?>
+    <div class="row">   
             <div class="column">
                 <div class="ui segment">
                     <a class="ui black ribbon label">Diferenciais</a>
@@ -446,9 +547,9 @@ echo "</pre>";*/
                         </div>
                     </div>
                 </div>
-            </div>
-        <?php } ?>    
+            </div>         
     </div>
+    <?php } ?>  
     
     <div class="row">
         <div class="column">

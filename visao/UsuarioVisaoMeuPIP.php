@@ -457,7 +457,7 @@ foreach ($imoveis as $qtdAnuncios) {
             <i class="announcement icon"></i>
             <div class="content">
                 Meus Anúncios
-                <div class="sub header">Gerencie seus anúncios. Você pode cadastar, visualizar ou reativar anuncios, além de ler suas mensagens </div>
+                <div class="sub header">Gerencie seus anúncios. Você pode cadastar, visualizar, finalizar ou reativar anuncios, além de ler suas mensagens </div>
             </div>
         </h2>
     </div>
@@ -555,7 +555,7 @@ foreach ($imoveis as $qtdAnuncios) {
                 <?php if ($totalAnuncios > 0) { ?>
                
                     <div class="ui horizontal segments">       
-                        <table class="ui brown celled structured fixed table">
+                        <table class="ui striped brown celled structured fixed table">
                             <thead>
                                 <tr>                                   
                                     <th colspan="4">Você possui <?php
@@ -689,7 +689,7 @@ foreach ($imoveis as $qtdAnuncios) {
         
         <div class="row">         
             <div class="column">
-                <table class="ui brown celled fixed table">
+                <table class="ui striped brown celled fixed table">
                     <thead>
                         <tr>
                             <th colspan="7">Você possui
@@ -820,7 +820,7 @@ foreach ($imoveis as $qtdAnuncios) {
                 } else {
                     ?> 
 
-                    <table class="ui orange stackable table" id="tabela">
+                    <table class="ui striped orange stackable table" id="tabela">
                         <thead>
                             <tr>
                                 <th>Plano</th>

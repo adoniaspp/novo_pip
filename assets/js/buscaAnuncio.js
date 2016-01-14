@@ -734,17 +734,18 @@ function inserirAnuncioModal() {
 
 }
 
-function marcarMapa(logradouro, numero, bairro, tituloAnuncio, valor, finalidade, altura, largura, aprox) {
+function marcarMapa(logradouro, numero, bairro, cidade, estado, tituloAnuncio, valor, finalidade, latitude, longitude, altura, largura, aprox) {
 
     $(document).ready(function () {
-        
-        
-        
+       
         $("#mapaGmaps").hide();
 
         $("#mapaGmapsBusca").width(altura).height(largura).gmap3();
-
+      
+        if(latitude == "" && longitude == ""){
+        
         $("#mapaGmapsBusca").gmap3({
+
             map: {
                 options: {
                     center: [-1.38, -48.2],
@@ -754,7 +755,7 @@ function marcarMapa(logradouro, numero, bairro, tituloAnuncio, valor, finalidade
             },
             marker: {
                 values: [
-                    {address: logradouro + ", " + numero + " - " + bairro, data: tituloAnuncio + " - R$ " + valor + "<br>" + "FInalidade: " + finalidade},
+                    {address: logradouro + ", " + numero + ", " + bairro + ", " + cidade + ", " + estado, data: tituloAnuncio + " - R$ " + valor + "<br>" + "Finalidade: " + finalidade},
                 ],
                 options: {
                     draggable: true
@@ -783,6 +784,122 @@ function marcarMapa(logradouro, numero, bairro, tituloAnuncio, valor, finalidade
                     }
                 }
             }
+        });
+        
+        } else {
+            
+            $("#mapaGmapsBusca").gmap3({
+
+            map: {
+                options: {
+                    center: [-1.38, -48.2],
+                    zoom: aprox,
+                    draggable: true
+                }
+            },
+            marker: {
+                values: [
+                    {latLng:[latitude, longitude], data: tituloAnuncio + " - R$ " + valor + "<br>" + "Finalidade: " + finalidade},
+                ],
+                options: {
+                    draggable: true
+                },
+                events: {
+                    mouseover: function (marker, event, context) {
+                        var map = $(this).gmap3("get"),
+                                infowindow = $(this).gmap3({get: {name: "infowindow"}});
+                        if (infowindow) {
+                            infowindow.open(map, marker);
+                            infowindow.setContent(context.data);
+                        } else {
+                            $(this).gmap3({
+                                infowindow: {
+                                    anchor: marker,
+                                    options: {content: context.data}
+                                }
+                            });
+                        }
+                    },
+                    mouseout: function () {
+                        var infowindow = $(this).gmap3({get: {name: "infowindow"}});
+                        if (infowindow) {
+                            infowindow.close();
+                        }
+                    }
+                }
+            }
+        });
+            
+        }
+        
+    });
+
+}
+
+function marcarMapaPublicarAnuncio(logradouro, numero, bairro, cidade, estado, tituloAnuncio, valor, finalidade, altura, largura, aprox) {
+
+    $(document).ready(function () {
+       
+        $("#mapaGmaps").hide();
+
+        $("#mapaGmapsBusca").width(altura).height(largura).gmap3();
+      
+        $("#mapaGmapsBusca").gmap3({
+            
+            map: {
+                options: {
+                    center: [-1.28, -48.6],
+                    zoom: aprox,
+                    draggable: true
+                }
+            },
+            marker: {
+                values: [{
+                        address: logradouro + ", " + numero + ", " + bairro + ", "+ cidade + "," + estado, 
+                        data: "Arraste o marcador, caso necessário, para o endereço correto"/*,
+                        lat: logradouro + ", " + numero + ", " + bairro + ", "+ cidade + "," + estado,
+                        lng: logradouro + ", " + numero + ", " + bairro + ", "+ cidade + "," + estado*/
+                    },
+                ],
+                options: {
+                    draggable: true
+                },
+                events: {
+                    mouseover: function (marker, event, context) {
+                        var map = $(this).gmap3("get"),
+                                infowindow = $(this).gmap3({get: {name: "infowindow"}});
+                        if (infowindow) {
+                            infowindow.open(map, marker);
+                            infowindow.setContent(context.data);
+                        } else {
+                            $(this).gmap3({
+                                infowindow: {
+                                    anchor: marker,
+                                    options: {content: context.data}
+                                }
+                            });
+                        }
+                    },
+                    mouseout: function () {
+                        var infowindow = $(this).gmap3({get: {name: "infowindow"}});
+                        if (infowindow) {
+                            infowindow.close();
+                        }
+                    },
+                    dragend: function(map, event){
+                         var myLatLng = event.latLng;
+                         var lat = myLatLng.lat();
+                         var lng = myLatLng.lng();
+                         
+                         $("#hdnLatitude").val(lat);
+                         $("#hdnLongitude").val(lng);
+                         
+                         //alert($("#hdnLatitude").val()+$("#hdnLongitude").val());
+                         
+                    }
+                }
+            }        
+            
         });
 
     });

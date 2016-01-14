@@ -111,7 +111,7 @@ Sessao::gerarToken();
 
                     <div id="divArea" class="three wide field">
                         <div class="field">
-                            <label>Área(m<sup>2</sup>)</label>
+                            <label>Área (m<sup>2</sup>)</label>
                             <input type="text" name="txtArea" id="txtArea" placeholder="Informe a Área" maxlength="7">
                         </div>                                     
                     </div>

@@ -70,7 +70,7 @@
                                     } else {
                                         $mensagemAnuncio = "Possui Anúncio";
                                     }
-                                    echo '<div class="ui compact negative message">' . $mensagemAnuncio . '</div>';
+                                    echo '<div class="ui small compact negative message">' . $mensagemAnuncio . '</div>';
                                 } else {
                                     echo "<a href=index.php?entidade=Imovel&acao=selecionar&id=" . $imovel->getId() . '&token=' . $_SESSION['token'] . "  id='editar" . $imovel->getId() . "' class='ui teal button'><i class='ui edit icon'></i>Editar</a>";
                                     echo "<button type='button' class='ui button red' onclick='formExcluirImovel(" . $imovel->getId() . ",\"" . $_SESSION['token'] . "\",\"" . $imovel->buscarTipoImovel($imovel->getIdTipoImovel()) . "\")'><i class='ui trash icon'></i>Excluir</button>";

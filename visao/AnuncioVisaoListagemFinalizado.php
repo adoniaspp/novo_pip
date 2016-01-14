@@ -97,7 +97,6 @@
                 <th>Tipo</th>
                 <th>Finalidade</th>
                 <th>Titulo</th>
-                <th>Descrição</th> 
                 <th>Valor</th>
                 <th>Data Cadastro</th>
                 <th></th>
@@ -163,7 +162,6 @@
                         ?></td>
                         <td><?php echo $anuncio->getFinalidade(); ?></td>
                         <td><?php echo $anuncio->getTituloAnuncio(); ?></td>
-                        <td><?php echo $anuncio->getDescricaoAnuncio(); ?></td>
                         <td id="tdValor<?php echo $anuncio->getId(); ?>"><?php echo $anuncio->getValorMin(); ?></td>
                         <td><?php echo $anuncio->getDataHoraCadastro(); ?></td>
                         <td> <?php
@@ -228,7 +226,6 @@
                         </td>
                         <td><?php echo $anuncio->getFinalidade(); ?></td>
                         <td><?php echo $anuncio->getTituloAnuncio(); ?></td>
-                        <td><?php echo $anuncio->getDescricaoAnuncio(); ?></td>
                         <td id="tdValor<?php echo $anuncio->getId(); ?>"><?php echo $anuncio->getValorMin(); ?></td>
                         <td><?php echo $anuncio->getDataHoraCadastro(); ?></td>
                         <td> <?php                                

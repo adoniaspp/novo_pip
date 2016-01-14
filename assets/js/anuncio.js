@@ -849,6 +849,13 @@ function formatarDetalhe() {
             limit: 12,
             thousandsSeparator: '.'
         })
+        $("#divValorCondominio").priceFormat({
+            prefix: 'R$ ',
+            centsSeparator: ',',
+            centsLimit: 0,
+            limit: 12,
+            thousandsSeparator: '.'
+        })       
     })
 }
 
@@ -859,6 +866,32 @@ function formatarValor(vetor) {
         centsLimit: 0,
         limit: 8,
         thousandsSeparator: '.'
+    })
+}
+
+function formatarValorCampos(vetor) {
+    $(document).ready(function () {
+        $("#formatarValorJS"+vetor).priceFormat({
+            prefix: 'R$ ',
+            centsSeparator: ',',
+            centsLimit: 0,
+            limit: 8,
+            thousandsSeparator: '.'
+        })
+        
+    })
+}
+
+function formatarValorUnico(valor) {
+    $(document).ready(function () {
+        $("#formatarValorUnicoJS"+valor).priceFormat({
+            prefix: 'R$ ',
+            centsSeparator: ',',
+            centsLimit: 0,
+            limit: 8,
+            thousandsSeparator: '.'
+        })
+        
     })
 }
 
@@ -968,7 +1001,7 @@ function alterarValor(valor) {
     $('#btnMostrarValor' + valor).click(function () {
 
         $('#modalMostrarValorAnuncio' + valor).modal({
-            closable: false,
+            closable: true,
             transition: "fade up"
         }).modal('show');
 
@@ -1086,7 +1119,10 @@ function alterarValor(valor) {
                                     <div class='content'><div class='header'>Erro</div>Ocorreu um erro ao \n\
                                     cadastrar. Tente novamente em alguns minutos (Cód. 002)\n\
                                 </div></div>");
-
+                            
+                            $("#botaoFecharAlterarValor" + valor).click(function () {
+                                window.location.reload();
+                            })
                         }
 
                         if (resposta.resultado == 3) { //caso o usuário não esteja logado
@@ -1100,6 +1136,9 @@ function alterarValor(valor) {
                                     <div class='content'><div class='header'>Erro</div>\n\
                                 Ocorreu um erro ao cadastrar. Tente novamente em alguns minutos\n\
                                 </div></div>");
+                            $("#botaoFecharAlterarValor" + valor).click(function () {
+                                window.location.reload();
+                            })
                         }
                     }
                 })
