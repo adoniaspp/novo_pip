@@ -134,18 +134,18 @@ function gerarNumerosIntervalos(inicial, final, array) {
         //se nao tem andares adicionados tudo ok, caso tenha inicia validacao a saber se ja tem algum andar adicionado
         if (linhas.length === 0) {
             return true;
-        }
-        else {
+        } else {
+            //##VERIFICA SE O ELEMENTO VALIDADO ESTA CONTIDO NAS LINHAS QUE JA EXISTEM
             //cria array auxiliar
-            var arrayIntervalo = [];
+            var arrayIntervaloContido = [];
             //para cada linha da tabela alimenta o array, para cada elemento os numeros do intervalo correspondente
             $(linhas).each(function () {
                 var inputs;
                 inputs = $(this).find("input");
-                //console.log(inputs);
                 var andarInicial = inputs[0];
                 var andarFinal = inputs[1];
-                arrayIntervalo = gerarNumerosIntervalos($(andarInicial).val(), $(andarFinal).val(), arrayIntervalo);
+                //gera numeros do intervalo
+                arrayIntervaloContido = gerarNumerosIntervalos($(andarInicial).val(), $(andarFinal).val(), arrayIntervaloContido);
             })
             //metodo para remover elementos duplicados do array
             Array.prototype.duplicates = function () {
@@ -154,13 +154,29 @@ function gerarNumerosIntervalos(inicial, final, array) {
                 });
             }
             //remove elementos duplicados
-            var andaresAdicionados = arrayIntervalo.duplicates();
+            var andaresAdicionados = arrayIntervaloContido.duplicates();
             //verifica se o valor do elemento validado (andar) estiver contido nos elementos ja adicionados 
-            if (andaresAdicionados.indexOf(parseInt(value)) < 0) {
-                return true;
-            } else {
+            if (andaresAdicionados.indexOf(parseInt(value)) >= 0) {
                 return false;
             }
+
+            //##VERIFICA SE O ELEMENTO VALIDADO CONTEM AS LINHAS QUE JA EXISTEM
+            //busca o elemento pai com todos os inputs com base o elemento atual
+            var elementoPai = $(element).parent().parent().parent();
+            //carrega os inputs
+            var inputs = $(elementoPai).find("input");
+            //cria array auxiliar
+            var arrayIntervaloContem = [];
+            //gera numeros do intervalo
+            arrayIntervaloContem = gerarNumerosIntervalos($(inputs[0]).val(), $(inputs[1]).val(), arrayIntervaloContem);
+            //verifica se o intervalo dos elementos validados contem algum andar ja adicionado
+            for (i = 0; i < (andaresAdicionados.length); i++) {
+                if (arrayIntervaloContem.indexOf(parseInt(andaresAdicionados[i])) >= 0) {
+                    return false;
+                }
+            }
+            return true;
+
         }
     }, function (type, element) {
         return 'Não é permitido adicionar o mesmo andar';

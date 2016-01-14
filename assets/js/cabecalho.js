@@ -32,7 +32,7 @@ function timeoutSessao() {
         sign_out_button_text: "Não, desejo sair",
         keep_alive_url: "index.php",
         logout_url: "index.php",
-        logout_redirect_url: "index.php",
+        logout_redirect_url: "index.php?entidade=Usuario&acao=form&tipo=login",
         restart_on_yes: true,
         dialog_width: 300
     });

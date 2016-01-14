@@ -1,10 +1,10 @@
 <?php
 //Sessao::gerarToken();
 $item = $this->getItem();
-/*echo "<pre>";
-print_r($item);
-echo "</pre>";
-//die();*/
+/* echo "<pre>";
+  print_r($item);
+  echo "</pre>";
+  //die(); */
 if ($item) {
     foreach ($item["imovel"] as $objImovel) {
         $idImovel = $objImovel->getId();
@@ -50,7 +50,7 @@ if ($item) {
     cancelar('Anuncio', 'listarCadastrar');
 <?php if ($tipoImovel == "apartamentoplanta") { ?>
         stepsComPlanta();
-//        validarValor(false);
+    //        validarValor(false);
 <?php } else { ?>
         stepsSemPlanta();
         validarValor(true);
@@ -147,14 +147,14 @@ if ($item) {
     <div class="row">
         <!--NAVEGAÇÃO-->
         <div class="ui basic right aligned segment" id="botaoDetalhesImovel">
-            
-                <div class="ui animated fade green button" id="detalhes<?php echo $idImovel; ?>">
-                    <div class="visible content"><i class="home icon"></i> <?php echo ucfirst($tipoImovel) ?></div>
-                    <div class="hidden content">
-                        Ver detalhes
-                    </div>
+
+            <div class="ui animated fade green button" id="detalhes<?php echo $idImovel; ?>">
+                <div class="visible content"><i class="home icon"></i> <?php echo ucfirst($tipoImovel) ?></div>
+                <div class="hidden content">
+                    Ver detalhes
                 </div>
-             
+            </div>
+
             <div class="ui animated fade brown button" id="btnAnterior1">
                 <div class="visible content"><i class="arrow left icon"></i></div>
                 <div class="hidden content">
@@ -240,337 +240,340 @@ if ($item) {
                                 <i class="dropdown icon"></i>
                                 <input name="sltFinalidade" id="sltFinalidade" type="hidden">
                                 <div class="menu">
-                                    <div class="item" data-value="Aluguel">Aluguel</div>
-                                    <div class="item" data-value="Venda">Venda</div>
+                                        <?php
+                                        if ($tipoImovel != "apartamentoplanta") {
+                                        ?>
+                                        <div class="item" data-value="Aluguel">Aluguel</div>
+                                        <?php } ?>       
+                                        <div class="item" data-value="Venda">Venda</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="twelve wide required field">
+                                <label>Título do Anúncio</label>
+                                <input name="txtTitulo" id="txtTitulo" type="text" placeholder="Informe o Título" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="required field">
+                            <label>Descrição</label>
+                            <textarea name="txtDescricao" id="txtDescricao" placeholder="Informe uma Descrição do Imóvel" maxlength="150"></textarea>
+                        </div>
+                        <div class="three fields">
+                            <div class="field" id="divValor">
+                                <div class="ui toggle checkbox">
+                                    <input name="chkValor" id="chkValor" type="checkbox" value="SIM">
+                                    <label>Deseja informar um valor para o imóvel?</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui toggle checkbox">
+                                    <input name="chkMapa" id="chkMapa" type="checkbox" value="SIM">
+                                    <label>Exibir o mapa do endereço?</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui toggle checkbox">
+                                    <input name="chkContato" id="chkContato" type="checkbox" value="SIM">
+                                    <label>Exibir suas informações de contato?</label>
                                 </div>
                             </div>
                         </div>
-                        <div class="twelve wide required field">
-                            <label>Título do Anúncio</label>
-                            <input name="txtTitulo" id="txtTitulo" type="text" placeholder="Informe o Título" maxlength="50">
-                        </div>
-                    </div>
-                    <div class="required field">
-                        <label>Descrição</label>
-                        <textarea name="txtDescricao" id="txtDescricao" placeholder="Informe uma Descrição do Imóvel" maxlength="150"></textarea>
-                    </div>
-                    <div class="three fields">
-                        <div class="field" id="divValor">
-                            <div class="ui toggle checkbox">
-                                <input name="chkValor" id="chkValor" type="checkbox" value="SIM">
-                                <label>Deseja informar um valor para o imóvel?</label>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="ui toggle checkbox">
-                                <input name="chkMapa" id="chkMapa" type="checkbox" value="SIM">
-                                <label>Exibir o mapa do endereço?</label>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="ui toggle checkbox">
-                                <input name="chkContato" id="chkContato" type="checkbox" value="SIM">
-                                <label>Exibir suas informações de contato?</label>
+                        <div class="one fields" id="divInformarValor">
+                            <div class="field">
+                                <label>Valor (não informar os centavos)</label>
+                                <input name="txtValor" id="txtValor" class="txtValor" placeholder="Valor do Imóvel" >
                             </div>
                         </div>
                     </div>
-                    <div class="one fields" id="divInformarValor">
-                        <div class="field">
-                            <label>Valor (não informar os centavos)</label>
-                            <input name="txtValor" id="txtValor" class="txtValor" placeholder="Valor do Imóvel" >
-                        </div>
-                    </div>
-                </div>
-                
-                <h3 class="ui dividing header">Verificar Localização do Imóvel</h3>
-                <div class="ui form segment">
-                    
-                    <script>
-                    marcarMapaPublicarAnuncio("<?php echo $objImovel->getEndereco()->getLogradouro() ?>", "<?php echo $objImovel->getEndereco()->getNumero() ?>", "<?php echo $objImovel->getEndereco()->getBairro()->getNome() ?>", "<?php echo $objImovel->getEndereco()->getCidade()->getNome() ?>", "<?php echo $objImovel->getEndereco()->getEstado()->getUf() ?>", "<?php echo "" ?>", "<?php echo "" ?>", "<?php echo "" ?>", "600", "300", 11);
-                    </script>
-                    
-                    <div class="ui negative message">
-                        <div class="header">
-                          ATENÇÃO
-                        </div>
-                        Verifique se o endereço cadastrado está correto no mapa. Se não estiver, mova o marcador.
-                        Arraste o mapa e/ou aumente o zoom com o mouse, caso queira
-                      </div>
-                    
-                    <div class="fields">
-                        
-                        <input type="hidden" id="hdnEnderecoMapa" name="hdnEnderecoMapa" 
-                               value="<?php echo $objImovel->getEndereco()->getLogradouro().", ".$objImovel->getEndereco()->getNumero().", ".$objImovel->getEndereco()->getBairro()->getNome() ?>" />
-                        <div id="mapaGmapsBusca"></div>
-                        <input type="hidden" id="hdnLatitude" name="hdnLatitude" value="" />
-                        <input type="hidden" id="hdnLongitude" name="hdnLongitude" value="" />
-                        
-                    </div>
-                    
-                    
-                       <div class="ui message">
-                        <div class="header">
-                          Endereço do Imóvel
-                        </div>
-                        <?php
-                        if ($objImovel->getEndereco()->getNumero() != "" && $objImovel->getEndereco()->getComplemento() != "") {
-                            $endereco = $objImovel->getEndereco()->getLogradouro() . ", " . $objImovel->getEndereco()->getNumero() . ", " . $objImovel->getEndereco()->getComplemento();
-                        } elseif ($objImovel->getEndereco()->getNumero() != "" && $objImovel->getEndereco()->getComplemento() == "") {
-                            $endereco = $objImovel->getEndereco()->getLogradouro() . ", " . $objImovel->getEndereco()->getNumero();
-                        } elseif ($objImovel->getEndereco()->getNumero() == "" && $objImovel->getEndereco()->getComplemento() == "") {
-                            $endereco = $objImovel->getEndereco()->getLogradouro();
-                        } elseif ($objImovel->getEndereco()->getNumero() == "" && $objImovel->getEndereco()->getComplemento() != "") {
-                            $endereco = $objImovel->getEndereco()->getLogradouro() . ", " . $objImovel->getEndereco()->getComplemento();
-                        }
-                        
-                        echo $endereco;
-                        
-                        ?>
-                      </div> 
-                    
-          
-                </div>
-                
-            </div>
 
-            <?php
-            if ($tipoImovel == "apartamentoplanta") {
-                ?>
-                <!--PLANTAS-->                 
-                <div class="sixteen wide column" id="step3">
-                    <h3 class="ui dividing header">Informações Adicionais</h3>
-                    <?php include_once 'AnuncioVisaoInformacoesAdicionais.php'; ?>
+                    <h3 class="ui dividing header">Verificar Localização do Imóvel</h3>
+                    <div class="ui form segment">
+
+                        <script>
+                            marcarMapaPublicarAnuncio("<?php echo $objImovel->getEndereco()->getLogradouro() ?>", "<?php echo $objImovel->getEndereco()->getNumero() ?>", "<?php echo $objImovel->getEndereco()->getBairro()->getNome() ?>", "<?php echo $objImovel->getEndereco()->getCidade()->getNome() ?>", "<?php echo $objImovel->getEndereco()->getEstado()->getUf() ?>", "<?php echo "" ?>", "<?php echo "" ?>", "<?php echo "" ?>", "600", "300", 11);
+                        </script>
+
+                        <div class="ui negative message">
+                            <div class="header">
+                                ATENÇÃO
+                            </div>
+                            Verifique se o endereço cadastrado está correto no mapa. Se não estiver, mova o marcador.
+                            Arraste o mapa e/ou aumente o zoom com o mouse, caso queira
+                        </div>
+
+                        <div class="fields">
+
+                            <input type="hidden" id="hdnEnderecoMapa" name="hdnEnderecoMapa" 
+                                   value="<?php echo $objImovel->getEndereco()->getLogradouro() . ", " . $objImovel->getEndereco()->getNumero() . ", " . $objImovel->getEndereco()->getBairro()->getNome() ?>" />
+                            <div id="mapaGmapsBusca"></div>
+                            <input type="hidden" id="hdnLatitude" name="hdnLatitude" value="" />
+                            <input type="hidden" id="hdnLongitude" name="hdnLongitude" value="" />
+
+                        </div>
+
+
+                        <div class="ui message">
+                            <div class="header">
+                                Endereço do Imóvel
+                            </div>
+                            <?php
+                            if ($objImovel->getEndereco()->getNumero() != "" && $objImovel->getEndereco()->getComplemento() != "") {
+                                $endereco = $objImovel->getEndereco()->getLogradouro() . ", " . $objImovel->getEndereco()->getNumero() . ", " . $objImovel->getEndereco()->getComplemento();
+                            } elseif ($objImovel->getEndereco()->getNumero() != "" && $objImovel->getEndereco()->getComplemento() == "") {
+                                $endereco = $objImovel->getEndereco()->getLogradouro() . ", " . $objImovel->getEndereco()->getNumero();
+                            } elseif ($objImovel->getEndereco()->getNumero() == "" && $objImovel->getEndereco()->getComplemento() == "") {
+                                $endereco = $objImovel->getEndereco()->getLogradouro();
+                            } elseif ($objImovel->getEndereco()->getNumero() == "" && $objImovel->getEndereco()->getComplemento() != "") {
+                                $endereco = $objImovel->getEndereco()->getLogradouro() . ", " . $objImovel->getEndereco()->getComplemento();
+                            }
+
+                            echo $endereco;
+                            ?>
+                        </div> 
+
+
+                    </div>
+
                 </div>
+
                 <?php
-            }
-            ?>
-            <!--FOTOS-->
-            <div class="sixteen wide column" id="step4">
-                <h3 class="ui dividing header">Fotos</h3>
-                <!-- Redirect browsers with JavaScript disabled to the origin page -->
-                <noscript><input type="hidden" name="redirect" value="index.php"></noscript>
-                <h4 class="ui header"> Adicione nessa etapa as fotos para o anúncio</h4>
-                <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-                <div class="fileupload-buttonbar">
-                    <!-- The fileinput-button span is used to style the file input field as button -->
-                    <div class="ui action input">
-                        <label class="ui green icon labeled button fileinput-button">
-                            <i class="ui large add icon"></i>
-                            <input type="file" id="arquivo" name="files[]" multiple style="display: none">Adicionar fotos</label>
+                if ($tipoImovel == "apartamentoplanta") {
+                    ?>
+                    <!--PLANTAS-->                 
+                    <div class="sixteen wide column" id="step3">
+                        <h3 class="ui dividing header">Informações Adicionais</h3>
+                        <?php include_once 'AnuncioVisaoInformacoesAdicionais.php'; ?>
                     </div>
-                    <button type="submit" class="ui blue button start">
-                        <i class="ui upload icon"></i>Enviar todas
-                    </button>
-                    <button type="reset" class="ui yellow button cancel">
-                        <i class="ui ban icon"></i>Cancelar o envio de todas
-                    </button>
-                    <button type="button" class="ui red button delete">
-                        <i class="ui trash outline icon"></i>Excluir selecionadas
-                    </button>
-                    <!-- The global file processing state -->
-                    <span class="fileupload-process"></span>
-
-                    <!-- The global progress state -->
-                    <div class="column fileupload-progress fade">
-                        <!-- The global progress bar -->
-                        <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                            <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+                    <?php
+                }
+                ?>
+                <!--FOTOS-->
+                <div class="sixteen wide column" id="step4">
+                    <h3 class="ui dividing header">Fotos</h3>
+                    <!-- Redirect browsers with JavaScript disabled to the origin page -->
+                    <noscript><input type="hidden" name="redirect" value="index.php"></noscript>
+                    <h4 class="ui header"> Adicione nessa etapa as fotos para o anúncio</h4>
+                    <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+                    <div class="fileupload-buttonbar">
+                        <!-- The fileinput-button span is used to style the file input field as button -->
+                        <div class="ui action input">
+                            <label class="ui green icon labeled button fileinput-button">
+                                <i class="ui large add icon"></i>
+                                <input type="file" id="arquivo" name="files[]" multiple style="display: none">Adicionar fotos</label>
                         </div>
-                        <!-- The extended global progress state -->
-                        <div class="progress-extended">&nbsp;</div>
+                        <button type="submit" class="ui blue button start">
+                            <i class="ui upload icon"></i>Enviar todas
+                        </button>
+                        <button type="reset" class="ui yellow button cancel">
+                            <i class="ui ban icon"></i>Cancelar o envio de todas
+                        </button>
+                        <button type="button" class="ui red button delete">
+                            <i class="ui trash outline icon"></i>Excluir selecionadas
+                        </button>
+                        <!-- The global file processing state -->
+                        <span class="fileupload-process"></span>
+
+                        <!-- The global progress state -->
+                        <div class="column fileupload-progress fade">
+                            <!-- The global progress bar -->
+                            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+                            </div>
+                            <!-- The extended global progress state -->
+                            <div class="progress-extended">&nbsp;</div>
+                        </div>
                     </div>
+                    <!-- The table listing the files available for upload/download -->
+                    <table role="presentation" class="ui form table"><tbody class="files"></tbody></table>
+                    <div class="fileupload-buttonbar"><label class="ui basic black label"><input type="checkbox" class="ui toggle checkbox"><div class="detail">Selecionar Todas</div></label></div>
+
+                    <!-- The template to display files available for upload -->
+                    <script id="template-upload" type="text/x-tmpl">
+                        {% for (var i=0, file; file=o.files[i]; i++) { %}
+                        <tr class="template-upload fade">
+                        <td>
+                        <span class="preview"></span>
+                        </td>
+                        <td>
+                        <p class="name">{%=file.name%}</p>
+                        <p class="error"></p>
+                        </td>
+                        <td>
+                        <input type="text" id="txtLegenda[{%=file.name%}]" name="txtLegenda[{%=file.name%}]" placeholder="Informe a Legenda" class="ui input legenda"/>
+                        </td>    
+                        <td>
+                        <p class="size">Processing...</p>
+                        <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                        <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+                        </div>
+                        </td>
+                        <td>
+                        {% if (!i && !o.options.autoUpload) { %}
+                        <button class="ui blue button start" disabled>
+                        <i class="ui upload icon"></i>Enviar
+                        </button>
+                        {% } %}
+                        {% if (!i) { %}
+                        <button class="ui yellow button cancel">
+                        <i class="ui ban icon"></i>Cancelar
+                        </button>
+                        {% } %}
+                        </td>
+                        </tr>
+                        {% } %}
+                    </script>
+                    <!-- The template to display files available for download -->
+                    <script id="template-download" type="text/x-tmpl">
+                        {% for (var i=0, file; file=o.files[i]; i++) { %}
+                        <tr class="template-download fade">
+                        <td style="vertical-align: middle;">
+                        <input type="checkbox" name="delete" value="1" class="ui toggle checkbox">
+                        </td>
+                        <td style="vertical-align: middle;">
+                        <span class="preview">
+                        {% if (file.thumbnailUrl) { %}
+                        <a href="#" title="{%=file.name%}" download="{%=file.name%}"><img src="{%=file.thumbnailUrl%}"></a>
+                        {% } %}
+                        </span>
+                        </td>
+                        <td style="vertical-align: middle;">
+                        <p class="name">
+                        {% if (file.url) { %}
+                        {%=file.name%}
+                        {% } else { %}
+                        <span>{%=file.name%}</span>
+                        {% } %}
+                        </p>
+                        {% if (file.error) { %}
+                        <div class="ui error message"><div class="header">Ocorreu um erro</div><p class="error"> {%=file.error%} </p></div>
+                        {% } %}
+                        </td>
+                        <td style="vertical-align: middle;">
+                        <span class="legenda">{%=file.legenda%}</span>
+                        </td>
+                        <td style="vertical-align: middle;">
+                        <span class="size">{%=o.formatFileSize(file.size)%}</span>
+                        </td>
+                        <td style="vertical-align: middle;">
+                        {% if (file.deleteUrl) { %}
+                        <button type="button" class="ui red button delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+                        <i class="ui trash outline icon"></i>Excluir
+                        </button>
+                        {% } else { %}
+                        <button type="reset" class="ui yellow button cancel">
+                        <i class="ui ban icon"></i>Cancelar
+                        </button>
+                        {% } %}
+                        </td>
+                        {% if (file.url) { %}
+                        <td style="vertical-align: middle;">
+                        <div class="ui toggle checkbox">
+                        <input type="radio" name="rdbDestaque" value="{%=file.name%}">
+                        <label>Foto Destaque?</label>
+                        </div>
+                        </td>
+                        {% } %}
+                        </tr>
+                        {% } %}
+                    </script>
+
                 </div>
-                <!-- The table listing the files available for upload/download -->
-                <table role="presentation" class="ui form table"><tbody class="files"></tbody></table>
-                <div class="fileupload-buttonbar"><label class="ui basic black label"><input type="checkbox" class="ui toggle checkbox"><div class="detail">Selecionar Todas</div></label></div>
 
-                <!-- The template to display files available for upload -->
-                <script id="template-upload" type="text/x-tmpl">
-                    {% for (var i=0, file; file=o.files[i]; i++) { %}
-                    <tr class="template-upload fade">
-                    <td>
-                    <span class="preview"></span>
-                    </td>
-                    <td>
-                    <p class="name">{%=file.name%}</p>
-                    <p class="error"></p>
-                    </td>
-                    <td>
-                    <input type="text" id="txtLegenda[{%=file.name%}]" name="txtLegenda[{%=file.name%}]" placeholder="Informe a Legenda" class="ui input legenda"/>
-                    </td>    
-                    <td>
-                    <p class="size">Processing...</p>
-                    <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                    <div class="progress-bar progress-bar-success" style="width:0%;"></div>
-                    </div>
-                    </td>
-                    <td>
-                    {% if (!i && !o.options.autoUpload) { %}
-                    <button class="ui blue button start" disabled>
-                    <i class="ui upload icon"></i>Enviar
-                    </button>
-                    {% } %}
-                    {% if (!i) { %}
-                    <button class="ui yellow button cancel">
-                    <i class="ui ban icon"></i>Cancelar
-                    </button>
-                    {% } %}
-                    </td>
-                    </tr>
-                    {% } %}
-                </script>
-                <!-- The template to display files available for download -->
-                <script id="template-download" type="text/x-tmpl">
-                    {% for (var i=0, file; file=o.files[i]; i++) { %}
-                    <tr class="template-download fade">
-                    <td style="vertical-align: middle;">
-                    <input type="checkbox" name="delete" value="1" class="ui toggle checkbox">
-                    </td>
-                    <td style="vertical-align: middle;">
-                    <span class="preview">
-                    {% if (file.thumbnailUrl) { %}
-                    <a href="#" title="{%=file.name%}" download="{%=file.name%}"><img src="{%=file.thumbnailUrl%}"></a>
-                    {% } %}
-                    </span>
-                    </td>
-                    <td style="vertical-align: middle;">
-                    <p class="name">
-                    {% if (file.url) { %}
-                    {%=file.name%}
-                    {% } else { %}
-                    <span>{%=file.name%}</span>
-                    {% } %}
-                    </p>
-                    {% if (file.error) { %}
-                    <div class="ui error message"><div class="header">Ocorreu um erro</div><p class="error"> {%=file.error%} </p></div>
-                    {% } %}
-                    </td>
-                    <td style="vertical-align: middle;">
-                    <span class="legenda">{%=file.legenda%}</span>
-                    </td>
-                    <td style="vertical-align: middle;">
-                    <span class="size">{%=o.formatFileSize(file.size)%}</span>
-                    </td>
-                    <td style="vertical-align: middle;">
-                    {% if (file.deleteUrl) { %}
-                    <button type="button" class="ui red button delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
-                    <i class="ui trash outline icon"></i>Excluir
-                    </button>
-                    {% } else { %}
-                    <button type="reset" class="ui yellow button cancel">
-                    <i class="ui ban icon"></i>Cancelar
-                    </button>
-                    {% } %}
-                    </td>
-                    {% if (file.url) { %}
-                    <td style="vertical-align: middle;">
-                    <div class="ui toggle checkbox">
-                    <input type="radio" name="rdbDestaque" value="{%=file.name%}">
-                    <label>Foto Destaque?</label>
-                    </div>
-                    </td>
-                    {% } %}
-                    </tr>
-                    {% } %}
-                </script>
-
-            </div>
-
-            <!--CONFIRMAÇÃO-->
-            <div class="sixteen wide column" id="step5">
-                <h3 class="ui dividing header">Confirmação</h3>
-                <div class="ui segment">
-                    <div class="ui stackable ">
-                        <table class="ui tablet stackable purple table">
-                            <thead>
-                                <tr>
-                                    <th>Plano</th>
-                                    <th>Finalidade</th>
-                                    <th>Título</th>
-                                    <th>Descrição</th>
-                                    <th id="thValor">Valor</th>
-                                    <th>Exibir Mapa?</th>
-                                    <th>Exibir Contato?</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="center aligned">
-                                    <td id="tdPlano"></td>
-                                    <td id="tdFinalidade"></td>
-                                    <td id="tdTitulo"></td>
-                                    <td id="tdDescricao"></td>
-                                    <td id="tdValor"></td>
-                                    <td id="tdMapa"></td>
-                                    <td id="tdContato"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="ui form">
-                            <textarea readonly="true"><?php include_once 'assets/txt/termo.php'; ?></textarea>
-                        </div>
-                        <div class="ui warning message ">
-                            Aceito os termos do contrato e reconheço como verdadeiras as informações constantes nesse anuncio e desde logo,
-                            responsabiliza-se integralmente pela veracidade e exatidão das informações aqui fornecidas, sob pena de incorrer nas sanções
-                            previstas no art. 299 do Decreto Lei 2848/40 (Código Penal). 
+                <!--CONFIRMAÇÃO-->
+                <div class="sixteen wide column" id="step5">
+                    <h3 class="ui dividing header">Confirmação</h3>
+                    <div class="ui segment">
+                        <div class="ui stackable ">
+                            <table class="ui tablet stackable purple table">
+                                <thead>
+                                    <tr>
+                                        <th>Plano</th>
+                                        <th>Finalidade</th>
+                                        <th>Título</th>
+                                        <th>Descrição</th>
+                                        <th id="thValor">Valor</th>
+                                        <th>Exibir Mapa?</th>
+                                        <th>Exibir Contato?</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="center aligned">
+                                        <td id="tdPlano"></td>
+                                        <td id="tdFinalidade"></td>
+                                        <td id="tdTitulo"></td>
+                                        <td id="tdDescricao"></td>
+                                        <td id="tdValor"></td>
+                                        <td id="tdMapa"></td>
+                                        <td id="tdContato"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="ui form">
+                                <textarea readonly="true"><?php include_once 'assets/txt/termo.php'; ?></textarea>
+                            </div>
+                            <div class="ui warning message ">
+                                Aceito os termos do contrato e reconheço como verdadeiras as informações constantes nesse anuncio e desde logo,
+                                responsabiliza-se integralmente pela veracidade e exatidão das informações aqui fornecidas, sob pena de incorrer nas sanções
+                                previstas no art. 299 do Decreto Lei 2848/40 (Código Penal). 
+                            </div>               
                         </div>               
-                    </div>               
+                    </div>
                 </div>
+
+                <!--PUBLICAÇÃO-->
+                <div class="ui middle aligned stackable grid container" id="step6">
+
+                    <h3 class="ui dividing header" id="divTextoPublicacao">Publicação</h3>
+
+                </div>
+
             </div>
-            
-            <!--PUBLICAÇÃO-->
-            <div class="ui middle aligned stackable grid container" id="step6">
-                
-                <h3 class="ui dividing header" id="divTextoPublicacao">Publicação</h3>
-                
+        </div>
+    </form>
+
+    <div class="ui hidden divider"></div><div class="ui hidden divider"></div>
+
+    <div class="ui middle aligned stackable grid container">
+        <div id="divRetorno">
+            <p></p>
+        </div>
+    </div>
+
+    <div class="ui hidden divider"></div>
+    <!--NAVEGAÇÃO-->
+    <div class="ui middle aligned stackable grid container">
+        <div class="row">
+            <div class="ui basic center aligned segment">
+                <div class="ui brown button" id="btnAnterior2"><i class="arrow left icon"></i> Anterior</div>
+                <div class="ui orange button" id="btnCancelar">Cancelar</div>
+                <div class="ui blue button" id="btnProximo2">Próximo <i class="arrow right icon"></i></div>
             </div>
-
         </div>
     </div>
-</form>
 
-<div class="ui hidden divider"></div><div class="ui hidden divider"></div>
-
-<div class="ui middle aligned stackable grid container">
-    <div id="divRetorno">
-        <p></p>
-    </div>
-</div>
-
-<div class="ui hidden divider"></div>
-<!--NAVEGAÇÃO-->
-<div class="ui middle aligned stackable grid container">
-    <div class="row">
-        <div class="ui basic center aligned segment">
-            <div class="ui brown button" id="btnAnterior2"><i class="arrow left icon"></i> Anterior</div>
-            <div class="ui orange button" id="btnCancelar">Cancelar</div>
-            <div class="ui blue button" id="btnProximo2">Próximo <i class="arrow right icon"></i></div>
+    <!-- MODAIS -->
+    <div class="ui small modal" id="modalCancelar">
+        <i class="close icon"></i>
+        <div class="header">
+            Cancelar
+        </div>
+        <div class="content">
+            <div class="description">
+                <div class="ui header">Deseja realmente cancelar e perder as informações não gravadas?</div>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui red deny button">
+                Não
+            </div>
+            <div class="ui positive right labeled icon button">
+                Sim
+                <i class="checkmark icon"></i>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- MODAIS -->
-<div class="ui small modal" id="modalCancelar">
-    <i class="close icon"></i>
-    <div class="header">
-        Cancelar
-    </div>
-    <div class="content">
-        <div class="description">
-            <div class="ui header">Deseja realmente cancelar e perder as informações não gravadas?</div>
-        </div>
-    </div>
-    <div class="actions">
-        <div class="ui red deny button">
-            Não
-        </div>
-        <div class="ui positive right labeled icon button">
-            Sim
-            <i class="checkmark icon"></i>
-        </div>
-    </div>
-</div>
-
-<?php
-$this->setItem($item["imovel"]);
-include_once "/modal/ImovelListagemModal.php";
-?>
+    <?php
+    $this->setItem($item["imovel"]);
+    include_once "/modal/ImovelListagemModal.php";
+    ?>

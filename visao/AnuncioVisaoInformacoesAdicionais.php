@@ -1,8 +1,10 @@
 <p>Para cada planta informe o valor (não informar os centavos) por andar inicial e final.</p>
 <?php
 $plantas = $item["imovel"][0]->getPlanta();
+echo '<input id="hdnPlantas" type="hidden" value="'.count($plantas).'">';
 if(is_object($plantas)) $plantas = array($plantas);
 $andares = $item["imovel"][0]->getApartamentoPlanta()->getAndares();
+echo '<input id="hdnAndares" type="hidden" value="'.$andares.'">';
 foreach ($plantas as $planta) {
     $tipoAndar = array('Inicial', 'Final');
     ?>

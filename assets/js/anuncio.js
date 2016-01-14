@@ -438,6 +438,7 @@ function stepsComPlanta() {
         $("#sltFinalidade").change(function () {
             $(this).valid();
         })
+        $("#sltFinalidade").parent().dropdown('set selected', "Venda");
 
         $("div[id^='btnProximo']").click(function () {
             if (validarStepComPlanta()) {
@@ -494,7 +495,7 @@ function validarStepComPlanta() {
             validacao = (($("#sltFinalidade").valid() & $("#txtTitulo").valid() & $("#txtDescricao").valid() & $("#txtValor").valid()));
             break;
         case 3:
-            validacao = true;
+            validacao = validarTodosAndaresInformados();
             break;
         case 4:
             validacao = true;
@@ -525,6 +526,46 @@ function validarStepComPlanta() {
             break;
     }
     //console.log(validacao);
+    return validacao;
+
+}
+
+function validarTodosAndaresInformados() {
+    //bool validacao true
+    var validacao = true;
+    //variavel da qtd total de plantas
+    var qtdPlantas = $("#hdnPlantas").val();
+    //variavel da qtd total de andares
+    var qtdAndares = $("#hdnAndares").val();
+    //percorre todas as plantas
+    for (i = 0; i < (qtdPlantas - 1); i++) {
+        //para cada planta coletará os andares iniciais e finais a saber se tem todos cadastrados
+        var hdnAndarInicial = "hdnAndarInicial" + i + "[]";
+        var inicial = $("input[name='" + hdnAndarInicial + "']");
+        var hdnAndarFinal = "hdnAndarFinal" + i + "[]";
+        var final = $("input[name='" + hdnAndarFinal + "']");
+        //verifica se tem andares cadastrados para essa planta
+        //se tiver faz a validacao para cada andar
+        if (inicial.length > 0) {
+            var arrayAndaresIntervaloInicialFinal = [];
+            for (j = 0; j < (inicial.length); j++) {
+                arrayAndaresIntervaloInicialFinal = gerarNumerosIntervalos($(inicial[j]).val(), $(final[j]).val(), arrayAndaresIntervaloInicialFinal);
+            }
+             //metodo para remover elementos duplicados do array
+            Array.prototype.duplicates = function () {
+                return this.filter(function (x, y, k) {
+                    return y === k.lastIndexOf(x);
+                });
+            }
+            //remove elementos duplicados
+            var andaresAdicionados = arrayAndaresIntervaloInicialFinal.duplicates();
+            //verifica se a quantidade de andares eh a mesma
+            if(andaresAdicionados.length != qtdAndares){
+                alert("É obrigatório informar todos os valores por andar, se desejar informar valores para uma planta");
+                return false;
+            }
+        }
+    }
     return validacao;
 
 }
@@ -731,13 +772,13 @@ function reativar(botao) {
             });
             $("#chkValor" + botao).parent().checkbox('set checked');
             $("#chkValor" + botao).change(function () {
-                    if ($(this).parent().checkbox('is checked')) {
-                        $("#divInformarValor" + botao).show();
-                    } else {
-                        $("#divInformarValor" + botao).hide();
-                    }
-                })
-            
+                if ($(this).parent().checkbox('is checked')) {
+                    $("#divInformarValor" + botao).show();
+                } else {
+                    $("#divInformarValor" + botao).hide();
+                }
+            })
+
             $('#modalReativar' + botao).modal({
                 closable: true,
                 transition: "fade up",
@@ -748,7 +789,6 @@ function reativar(botao) {
                     $("#formReativar" + botao).submit();
                     return false; //deixar o modal fixo
                 },
-                
             }).modal('show');
 
             $.validator.setDefaults({
@@ -828,7 +868,7 @@ function reativar(botao) {
             })
 
         })
-        
+
     })
 
 }
@@ -855,7 +895,7 @@ function formatarDetalhe() {
             centsLimit: 0,
             limit: 12,
             thousandsSeparator: '.'
-        })       
+        })
     })
 }
 
@@ -871,27 +911,27 @@ function formatarValor(vetor) {
 
 function formatarValorCampos(vetor) {
     $(document).ready(function () {
-        $("#formatarValorJS"+vetor).priceFormat({
+        $("#formatarValorJS" + vetor).priceFormat({
             prefix: 'R$ ',
             centsSeparator: ',',
             centsLimit: 0,
             limit: 8,
             thousandsSeparator: '.'
         })
-        
+
     })
 }
 
 function formatarValorUnico(valor) {
     $(document).ready(function () {
-        $("#formatarValorUnicoJS"+valor).priceFormat({
+        $("#formatarValorUnicoJS" + valor).priceFormat({
             prefix: 'R$ ',
             centsSeparator: ',',
             centsLimit: 0,
             limit: 8,
             thousandsSeparator: '.'
         })
-        
+
     })
 }
 
@@ -1119,7 +1159,7 @@ function alterarValor(valor) {
                                     <div class='content'><div class='header'>Erro</div>Ocorreu um erro ao \n\
                                     cadastrar. Tente novamente em alguns minutos (Cód. 002)\n\
                                 </div></div>");
-                            
+
                             $("#botaoFecharAlterarValor" + valor).click(function () {
                                 window.location.reload();
                             })
