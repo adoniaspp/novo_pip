@@ -141,12 +141,19 @@ class ConsultasAdHoc extends GenericoDAO {
                 $imovel['imagem'] = $sth->fetchAll(PDO::FETCH_ASSOC);
                 if (count($imovel['imagem']) > 0) {
                     $resultado['anuncio'][$i]['imagem'] = ($imovel['imagem']);
-//                if (count($imovel['imagem']) > 0) {
-//                    $j = 0;
-//                    foreach ($imovel['imagem'] as $imagemImovel) {
-//                        $imagem['img' . $j] = $imagemImovel['diretorio'];
-//                        $resultado['anuncio'][$i] = array_merge($imagem, $resultado['anuncio'][$i]);
-//                        $j++;
+                }
+            }
+        }
+        /* Valores do anuncio */
+        if (count($resultado['anuncio']) != 0) {
+            $idsAnuncios = array_column($resultado['anuncio'], 'idanuncio');
+            for ($i = 0; $i < count($idsAnuncios); $i++) {
+                $sth = $this->conexao->prepare("SELECT novovalor, status FROM novovaloranuncio WHERE idanuncio = :idanuncio");
+                $sth->bindValue(':idanuncio', $idsAnuncios[$i]);
+                $sth->execute();
+                $imovel['valores'] = $sth->fetchAll(PDO::FETCH_ASSOC);
+                if (count($imovel['valores']) > 0) {
+                    $resultado['anuncio'][$i]['valores'] = ($imovel['valores']);
                 }
             }
         }
@@ -161,15 +168,6 @@ class ConsultasAdHoc extends GenericoDAO {
                 $imovel['diferenciais'] = $sth->fetchAll(PDO::FETCH_ASSOC);
                 if (count($imovel['diferenciais']) > 0) {
                     $resultado['anuncio'][$i]['diferenciais'] = ($imovel['diferenciais']);
-//                if (count($imovel['diferenciais']) > 0) {
-//                    foreach ($imovel['diferenciais'] as $diferenciais){
-//                        $diferenciaisList = $diferenciais['descricao'];
-//                    }
-//                    echo '<pre>';
-//                    print_r($diferenciais);
-//                    die();
-//                    $resultado['anuncio'][$i]['diferenciais'] = ($imovel['diferenciais']);
-//                }
                 }
             }
 //            echo '<pre>';
@@ -245,9 +243,9 @@ class ConsultasAdHoc extends GenericoDAO {
                 }
             }
         }
-//        echo '<pre>';
-//        print_r($resultado['anuncio']);
-//        die();
+        echo '<pre>';
+        print_r($resultado['anuncio']);
+        die();
         return $resultado;
     }
 

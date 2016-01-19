@@ -1,191 +1,367 @@
-CREATE VIEW buscaAnuncioCasa AS
-/*Imóvel - Casa*/
-SELECT a.id as idanuncio, a.idanuncio as idanuncioformatado, a.finalidade, a.tituloanuncio, a.descricaoanuncio, 
-a.status, a.publicarmapa, a.publicarcontato, a.valormin, a.datahoracadastro,
-i.id as idimovel, i.condicao,
-ti.descricao as tipo,
-ca.quarto, ca.banheiro, ca.suite, ca.garagem, ca.area,
-en.cep, en.logradouro, en.numero, b.id as idbairro, b.nome as bairro, ci.id as idcidade, ci.nome as cidade, es.id as idestado, es.nome as estado, en.complemento,
-us.id, us.nome, us.tipousuario, us.email, us.foto
-FROM anuncio AS a RIGHT JOIN imovel as i
-ON a.idimovel = i.id
-LEFT JOIN usuario as us
-ON i.idusuario = us.id
-LEFT JOIN tipoimovel as ti
-ON i.idtipoimovel = ti.id
-RIGHT JOIN casa as ca
-ON ca.idimovel = i.id
-LEFT JOIN endereco as en
-ON en.id = i.idendereco
-LEFT JOIN estado as es
-ON es.id = en.idestado
-LEFT JOIN cidade as ci
-ON ci.id = en.idcidade
-LEFT JOIN bairro as b
-ON b.id = en.idbairro;
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `buscaanuncioapartamento` AS
+    SELECT 
+        `a`.`id` AS `idanuncio`,
+        `a`.`idanuncio` AS `idanuncioformatado`,
+        `a`.`finalidade` AS `finalidade`,
+        `a`.`tituloanuncio` AS `tituloanuncio`,
+        `a`.`descricaoanuncio` AS `descricaoanuncio`,
+        `a`.`status` AS `status`,
+        `a`.`publicarmapa` AS `publicarmapa`,
+        `a`.`publicarcontato` AS `publicarcontato`,
+        `a`.`valormin` AS `valormin`,
+        `a`.`datahoracadastro` AS `datahoracadastro`,
+        `i`.`id` AS `idimovel`,
+        `i`.`condicao` AS `condicao`,
+        `ti`.`descricao` AS `tipo`,
+        `ap`.`quarto` AS `quarto`,
+        `ap`.`suite` AS `suite`,
+        `ap`.`banheiro` AS `banheiro`,
+        `ap`.`garagem` AS `garagem`,
+        `ap`.`area` AS `area`,
+        `ap`.`sacada` AS `sacada`,
+        `ap`.`unidadesandar` AS `unidadesandar`,
+        `ap`.`andar` AS `andar`,
+        `ap`.`condominio` AS `condominio`,
+        `ap`.`cobertura` AS `cobertura`,
+        `en`.`cep` AS `cep`,
+        `en`.`logradouro` AS `logradouro`,
+        `en`.`numero` AS `numero`,
+        `b`.`id` AS `idbairro`,
+        `b`.`nome` AS `bairro`,
+        `ci`.`id` AS `idcidade`,
+        `ci`.`nome` AS `cidade`,
+        `es`.`id` AS `idestado`,
+        `es`.`nome` AS `estado`,
+        `en`.`complemento` AS `complemento`,
+        `mi`.`latitude` AS `latitude`,
+        `mi`.`longitude` AS `longitude`,
+        `us`.`id` AS `id`,
+        `us`.`nome` AS `nome`,
+        `us`.`tipousuario` AS `tipousuario`,
+        `us`.`email` AS `email`,
+        `us`.`foto` AS `foto`
+    FROM
+        (((((`apartamento` `ap`
+        LEFT JOIN ((((`imovel` `i`
+        LEFT JOIN `anuncio` `a` ON ((`a`.`idimovel` = `i`.`id`)))
+        LEFT JOIN `mapaimovel` `mi` ON ((`mi`.`idanuncio` = `a`.`id`)))
+        LEFT JOIN `usuario` `us` ON ((`i`.`idusuario` = `us`.`id`)))
+        LEFT JOIN `tipoimovel` `ti` ON ((`i`.`idtipoimovel` = `ti`.`id`))) ON ((`ap`.`idimovel` = `i`.`id`)))
+        LEFT JOIN `endereco` `en` ON ((`en`.`id` = `i`.`idendereco`)))
+        LEFT JOIN `estado` `es` ON ((`es`.`id` = `en`.`idestado`)))
+        LEFT JOIN `cidade` `ci` ON ((`ci`.`id` = `en`.`idcidade`)))
+        LEFT JOIN `bairro` `b` ON ((`b`.`id` = `en`.`idbairro`)))
 
-CREATE VIEW buscaAnuncioApartamentoPlanta AS
-/*Imóvel - ApNovo*/
-SELECT a.id as idanuncio, a.idanuncio as idanuncioformatado, a.finalidade, a.tituloanuncio, a.descricaoanuncio, 
-a.status, a.publicarmapa, a.publicarcontato, a.valormin, a.datahoracadastro,
-i.id as idimovel, i.condicao,
-ti.descricao as tipo,
-app.id as idapartamento, app.andares, app.unidadesandar, totalunidades, numerotorres,
-en.cep, en.logradouro, en.numero, b.id as idbairro, b.nome as bairro, ci.id as idcidade, ci.nome as cidade, es.id as idestado, es.nome as estado, en.complemento,
-us.id, us.nome, us.tipousuario, us.email, us.foto
-FROM anuncio AS a RIGHT JOIN imovel as i
-ON a.idimovel = i.id
-LEFT JOIN usuario as us
-ON i.idusuario = us.id
-LEFT JOIN tipoimovel as ti
-ON i.idtipoimovel = ti.id
-RIGHT JOIN apartamentoplanta as app
-ON app.idimovel = i.id
-LEFT JOIN endereco as en
-ON en.id = i.idendereco
-LEFT JOIN estado as es
-ON es.id = en.idestado
-LEFT JOIN cidade as ci
-ON ci.id = en.idcidade
-LEFT JOIN bairro as b
-ON b.id = en.idbairro;
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `buscaanuncioapartamento` AS
+    SELECT 
+        `a`.`id` AS `idanuncio`,
+        `a`.`idanuncio` AS `idanuncioformatado`,
+        `a`.`finalidade` AS `finalidade`,
+        `a`.`tituloanuncio` AS `tituloanuncio`,
+        `a`.`descricaoanuncio` AS `descricaoanuncio`,
+        `a`.`status` AS `status`,
+        `a`.`publicarmapa` AS `publicarmapa`,
+        `a`.`publicarcontato` AS `publicarcontato`,
+        `a`.`valormin` AS `valormin`,
+        `a`.`datahoracadastro` AS `datahoracadastro`,
+        `i`.`id` AS `idimovel`,
+        `i`.`condicao` AS `condicao`,
+        `ti`.`descricao` AS `tipo`,
+        `ap`.`quarto` AS `quarto`,
+        `ap`.`suite` AS `suite`,
+        `ap`.`banheiro` AS `banheiro`,
+        `ap`.`garagem` AS `garagem`,
+        `ap`.`area` AS `area`,
+        `ap`.`sacada` AS `sacada`,
+        `ap`.`unidadesandar` AS `unidadesandar`,
+        `ap`.`andar` AS `andar`,
+        `ap`.`condominio` AS `condominio`,
+        `ap`.`cobertura` AS `cobertura`,
+        `en`.`cep` AS `cep`,
+        `en`.`logradouro` AS `logradouro`,
+        `en`.`numero` AS `numero`,
+        `b`.`id` AS `idbairro`,
+        `b`.`nome` AS `bairro`,
+        `ci`.`id` AS `idcidade`,
+        `ci`.`nome` AS `cidade`,
+        `es`.`id` AS `idestado`,
+        `es`.`nome` AS `estado`,
+        `en`.`complemento` AS `complemento`,
+        `mi`.`latitude` AS `latitude`,
+        `mi`.`longitude` AS `longitude`,
+        `us`.`id` AS `id`,
+        `us`.`nome` AS `nome`,
+        `us`.`tipousuario` AS `tipousuario`,
+        `us`.`email` AS `email`,
+        `us`.`foto` AS `foto`
+    FROM
+        (((((`apartamento` `ap`
+        LEFT JOIN ((((`imovel` `i`
+        LEFT JOIN `anuncio` `a` ON ((`a`.`idimovel` = `i`.`id`)))
+        LEFT JOIN `mapaimovel` `mi` ON ((`mi`.`idanuncio` = `a`.`id`)))
+        LEFT JOIN `usuario` `us` ON ((`i`.`idusuario` = `us`.`id`)))
+        LEFT JOIN `tipoimovel` `ti` ON ((`i`.`idtipoimovel` = `ti`.`id`))) ON ((`ap`.`idimovel` = `i`.`id`)))
+        LEFT JOIN `endereco` `en` ON ((`en`.`id` = `i`.`idendereco`)))
+        LEFT JOIN `estado` `es` ON ((`es`.`id` = `en`.`idestado`)))
+        LEFT JOIN `cidade` `ci` ON ((`ci`.`id` = `en`.`idcidade`)))
+        LEFT JOIN `bairro` `b` ON ((`b`.`id` = `en`.`idbairro`)))
 
-CREATE VIEW buscaAnuncioApartamento AS
-/*Imóvel - Ap*/
-SELECT a.id as idanuncio, a.idanuncio as idanuncioformatado, a.finalidade, a.tituloanuncio, a.descricaoanuncio, 
-a.status, a.publicarmapa, a.publicarcontato, a.valormin, a.datahoracadastro,
-i.id as idimovel, i.condicao,
-ti.descricao as tipo,
-ap.quarto, ap.suite, ap.banheiro, ap.garagem, ap.area, ap.sacada, ap.unidadesandar, ap.andar, ap.condominio, ap.cobertura,
-en.cep, en.logradouro, en.numero, b.id as idbairro, b.nome as bairro, ci.id as idcidade, ci.nome as cidade, es.id as idestado, es.nome as estado, en.complemento,
-us.id, us.nome, us.tipousuario, us.email, us.foto
-FROM anuncio AS a RIGHT JOIN imovel as i
-ON a.idimovel = i.id
-LEFT JOIN usuario as us
-ON i.idusuario = us.id
-LEFT JOIN tipoimovel as ti
-ON i.idtipoimovel = ti.id
-RIGHT JOIN apartamento as ap
-ON ap.idimovel = i.id
-LEFT JOIN endereco as en
-ON en.id = i.idendereco
-LEFT JOIN estado as es
-ON es.id = en.idestado
-LEFT JOIN cidade as ci
-ON ci.id = en.idcidade
-LEFT JOIN bairro as b
-ON b.id = en.idbairro;
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `buscaanunciocasa` AS
+    SELECT 
+        `a`.`id` AS `idanuncio`,
+        `a`.`idanuncio` AS `idanuncioformatado`,
+        `a`.`finalidade` AS `finalidade`,
+        `a`.`tituloanuncio` AS `tituloanuncio`,
+        `a`.`descricaoanuncio` AS `descricaoanuncio`,
+        `a`.`status` AS `status`,
+        `a`.`publicarmapa` AS `publicarmapa`,
+        `a`.`publicarcontato` AS `publicarcontato`,
+        `a`.`valormin` AS `valormin`,
+        `a`.`datahoracadastro` AS `datahoracadastro`,
+        `i`.`id` AS `idimovel`,
+        `i`.`condicao` AS `condicao`,
+        `ti`.`descricao` AS `tipo`,
+        `ca`.`quarto` AS `quarto`,
+        `ca`.`banheiro` AS `banheiro`,
+        `ca`.`suite` AS `suite`,
+        `ca`.`garagem` AS `garagem`,
+        `ca`.`area` AS `area`,
+        `en`.`cep` AS `cep`,
+        `en`.`logradouro` AS `logradouro`,
+        `en`.`numero` AS `numero`,
+        `b`.`id` AS `idbairro`,
+        `b`.`nome` AS `bairro`,
+        `ci`.`id` AS `idcidade`,
+        `ci`.`nome` AS `cidade`,
+        `es`.`id` AS `idestado`,
+        `es`.`nome` AS `estado`,
+        `en`.`complemento` AS `complemento`,
+        `mi`.`latitude` AS `latitude`,
+        `mi`.`longitude` AS `longitude`,
+        `us`.`id` AS `id`,
+        `us`.`nome` AS `nome`,
+        `us`.`tipousuario` AS `tipousuario`,
+        `us`.`email` AS `email`,
+        `us`.`foto` AS `foto`
+    FROM
+        (((((`casa` `ca`
+        LEFT JOIN ((((`imovel` `i`
+        LEFT JOIN `anuncio` `a` ON ((`a`.`idimovel` = `i`.`id`)))
+        LEFT JOIN `mapaimovel` `mi` ON ((`mi`.`idanuncio` = `a`.`id`)))
+        LEFT JOIN `usuario` `us` ON ((`i`.`idusuario` = `us`.`id`)))
+        LEFT JOIN `tipoimovel` `ti` ON ((`i`.`idtipoimovel` = `ti`.`id`))) ON ((`ca`.`idimovel` = `i`.`id`)))
+        LEFT JOIN `endereco` `en` ON ((`en`.`id` = `i`.`idendereco`)))
+        LEFT JOIN `estado` `es` ON ((`es`.`id` = `en`.`idestado`)))
+        LEFT JOIN `cidade` `ci` ON ((`ci`.`id` = `en`.`idcidade`)))
+        LEFT JOIN `bairro` `b` ON ((`b`.`id` = `en`.`idbairro`)))
 
-CREATE VIEW buscaAnuncioSalaComercial AS
-/*Imóvel - Ap*/
-SELECT a.id as idanuncio, a.idanuncio as idanuncioformatado, a.finalidade, a.tituloanuncio, a.descricaoanuncio, 
-a.status, a.publicarmapa, a.publicarcontato, a.valormin, a.datahoracadastro,
-i.id as idimovel, i.condicao,
-ti.descricao as tipo,
-sl.area, sl.banheiro, sl.garagem, sl.condominio,
-en.cep, en.logradouro, en.numero, b.id as idbairro, b.nome as bairro, ci.id as idcidade, ci.nome as cidade, es.id as idestado, es.nome as estado, en.complemento,
-us.id, us.nome, us.tipousuario, us.email, us.foto
-FROM anuncio AS a RIGHT JOIN imovel as i
-ON a.idimovel = i.id
-LEFT JOIN usuario as us
-ON i.idusuario = us.id
-LEFT JOIN tipoimovel as ti
-ON i.idtipoimovel = ti.id
-RIGHT JOIN salacomercial as sl
-ON sl.idimovel = i.id
-LEFT JOIN endereco as en
-ON en.id = i.idendereco
-LEFT JOIN estado as es
-ON es.id = en.idestado
-LEFT JOIN cidade as ci
-ON ci.id = en.idcidade
-LEFT JOIN bairro as b
-ON b.id = en.idbairro;
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `buscaanuncioprediocomercial` AS
+    SELECT 
+        `a`.`id` AS `idanuncio`,
+        `a`.`idanuncio` AS `idanuncioformatado`,
+        `a`.`finalidade` AS `finalidade`,
+        `a`.`tituloanuncio` AS `tituloanuncio`,
+        `a`.`descricaoanuncio` AS `descricaoanuncio`,
+        `a`.`status` AS `status`,
+        `a`.`publicarmapa` AS `publicarmapa`,
+        `a`.`publicarcontato` AS `publicarcontato`,
+        `a`.`valormin` AS `valormin`,
+        `a`.`datahoracadastro` AS `datahoracadastro`,
+        `i`.`id` AS `idimovel`,
+        `i`.`condicao` AS `condicao`,
+        `ti`.`descricao` AS `tipo`,
+        `pc`.`area` AS `area`,
+        `en`.`cep` AS `cep`,
+        `en`.`logradouro` AS `logradouro`,
+        `en`.`numero` AS `numero`,
+        `b`.`id` AS `idbairro`,
+        `b`.`nome` AS `bairro`,
+        `ci`.`id` AS `idcidade`,
+        `ci`.`nome` AS `cidade`,
+        `es`.`id` AS `idestado`,
+        `es`.`nome` AS `estado`,
+        `en`.`complemento` AS `complemento`,
+        `mi`.`latitude` AS `latitude`,
+        `mi`.`longitude` AS `longitude`,
+        `us`.`id` AS `id`,
+        `us`.`nome` AS `nome`,
+        `us`.`tipousuario` AS `tipousuario`,
+        `us`.`email` AS `email`,
+        `us`.`foto` AS `foto`
+    FROM
+        (((((`prediocomercial` `pc`
+        LEFT JOIN ((((`imovel` `i`
+        LEFT JOIN `anuncio` `a` ON ((`a`.`idimovel` = `i`.`id`)))
+        LEFT JOIN `mapaimovel` `mi` ON ((`mi`.`idanuncio` = `a`.`id`)))
+        LEFT JOIN `usuario` `us` ON ((`i`.`idusuario` = `us`.`id`)))
+        LEFT JOIN `tipoimovel` `ti` ON ((`i`.`idtipoimovel` = `ti`.`id`))) ON ((`pc`.`idimovel` = `i`.`id`)))
+        LEFT JOIN `endereco` `en` ON ((`en`.`id` = `i`.`idendereco`)))
+        LEFT JOIN `estado` `es` ON ((`es`.`id` = `en`.`idestado`)))
+        LEFT JOIN `cidade` `ci` ON ((`ci`.`id` = `en`.`idcidade`)))
+        LEFT JOIN `bairro` `b` ON ((`b`.`id` = `en`.`idbairro`)))
 
-CREATE VIEW buscaAnuncioPredioComercial AS
-/*Imóvel - Ap*/
-SELECT a.id as idanuncio, a.idanuncio as idanuncioformatado, a.finalidade, a.tituloanuncio, a.descricaoanuncio, 
-a.status, a.publicarmapa, a.publicarcontato, a.valormin, a.datahoracadastro,
-i.id as idimovel, i.condicao,
-ti.descricao as tipo,
-pc.area,
-en.cep, en.logradouro, en.numero, b.id as idbairro, b.nome as bairro, ci.id as idcidade, ci.nome as cidade, es.id as idestado, es.nome as estado, en.complemento,
-us.id, us.nome, us.tipousuario, us.email, us.foto
-FROM anuncio AS a RIGHT JOIN imovel as i
-ON a.idimovel = i.id
-LEFT JOIN usuario as us
-ON i.idusuario = us.id
-LEFT JOIN tipoimovel as ti
-ON i.idtipoimovel = ti.id
-RIGHT JOIN prediocomercial as pc
-ON pc.idimovel = i.id
-LEFT JOIN endereco as en
-ON en.id = i.idendereco
-LEFT JOIN estado as es
-ON es.id = en.idestado
-LEFT JOIN cidade as ci
-ON ci.id = en.idcidade
-LEFT JOIN bairro as b
-ON b.id = en.idbairro;
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `buscaanunciosalacomercial` AS
+    SELECT 
+        `a`.`id` AS `idanuncio`,
+        `a`.`idanuncio` AS `idanuncioformatado`,
+        `a`.`finalidade` AS `finalidade`,
+        `a`.`tituloanuncio` AS `tituloanuncio`,
+        `a`.`descricaoanuncio` AS `descricaoanuncio`,
+        `a`.`status` AS `status`,
+        `a`.`publicarmapa` AS `publicarmapa`,
+        `a`.`publicarcontato` AS `publicarcontato`,
+        `a`.`valormin` AS `valormin`,
+        `a`.`datahoracadastro` AS `datahoracadastro`,
+        `i`.`id` AS `idimovel`,
+        `i`.`condicao` AS `condicao`,
+        `ti`.`descricao` AS `tipo`,
+        `sl`.`area` AS `area`,
+        `sl`.`banheiro` AS `banheiro`,
+        `sl`.`garagem` AS `garagem`,
+        `sl`.`condominio` AS `condominio`,
+        `en`.`cep` AS `cep`,
+        `en`.`logradouro` AS `logradouro`,
+        `en`.`numero` AS `numero`,
+        `b`.`id` AS `idbairro`,
+        `b`.`nome` AS `bairro`,
+        `ci`.`id` AS `idcidade`,
+        `ci`.`nome` AS `cidade`,
+        `es`.`id` AS `idestado`,
+        `es`.`nome` AS `estado`,
+        `en`.`complemento` AS `complemento`,
+        `mi`.`latitude` AS `latitude`,
+        `mi`.`longitude` AS `longitude`,
+        `us`.`id` AS `id`,
+        `us`.`nome` AS `nome`,
+        `us`.`tipousuario` AS `tipousuario`,
+        `us`.`email` AS `email`,
+        `us`.`foto` AS `foto`
+    FROM
+        (((((`salacomercial` `sl`
+        LEFT JOIN ((((`imovel` `i`
+        LEFT JOIN `anuncio` `a` ON ((`a`.`idimovel` = `i`.`id`)))
+        LEFT JOIN `mapaimovel` `mi` ON ((`mi`.`idanuncio` = `a`.`id`)))
+        LEFT JOIN `usuario` `us` ON ((`i`.`idusuario` = `us`.`id`)))
+        LEFT JOIN `tipoimovel` `ti` ON ((`i`.`idtipoimovel` = `ti`.`id`))) ON ((`sl`.`idimovel` = `i`.`id`)))
+        LEFT JOIN `endereco` `en` ON ((`en`.`id` = `i`.`idendereco`)))
+        LEFT JOIN `estado` `es` ON ((`es`.`id` = `en`.`idestado`)))
+        LEFT JOIN `cidade` `ci` ON ((`ci`.`id` = `en`.`idcidade`)))
+        LEFT JOIN `bairro` `b` ON ((`b`.`id` = `en`.`idbairro`)))
 
-CREATE VIEW buscaAnuncioTerreno AS
-/*Imóvel - Terreno*/
-SELECT a.id as idanuncio, a.idanuncio as idanuncioformatado, a.finalidade, a.tituloanuncio, a.descricaoanuncio, a.datahoracadastro,
-a.status, a.publicarmapa, a.publicarcontato, a.valormin,
-i.id as idimovel, i.condicao,
-ti.descricao as tipo,
-t.area,
-en.cep, en.logradouro, en.numero, b.id as idbairro, b.nome as bairro, ci.id as idcidade, ci.nome as cidade, es.id as idestado, es.nome as estado, en.complemento,
-us.id, us.nome, us.tipousuario, us.email, us.foto
-FROM anuncio AS a RIGHT JOIN imovel as i
-ON a.idimovel = i.id
-LEFT JOIN usuario as us
-ON i.idusuario = us.id
-LEFT JOIN tipoimovel as ti
-ON i.idtipoimovel = ti.id
-RIGHT JOIN terreno as t
-ON t.idimovel = i.id
-LEFT JOIN endereco as en
-ON en.id = i.idendereco
-LEFT JOIN estado as es
-ON es.id = en.idestado
-LEFT JOIN cidade as ci
-ON ci.id = en.idcidade
-LEFT JOIN bairro as b
-ON b.id = en.idbairro;
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `buscaanuncioterreno` AS
+    SELECT 
+        `a`.`id` AS `idanuncio`,
+        `a`.`idanuncio` AS `idanuncioformatado`,
+        `a`.`finalidade` AS `finalidade`,
+        `a`.`tituloanuncio` AS `tituloanuncio`,
+        `a`.`descricaoanuncio` AS `descricaoanuncio`,
+        `a`.`datahoracadastro` AS `datahoracadastro`,
+        `a`.`status` AS `status`,
+        `a`.`publicarmapa` AS `publicarmapa`,
+        `a`.`publicarcontato` AS `publicarcontato`,
+        `a`.`valormin` AS `valormin`,
+        `i`.`id` AS `idimovel`,
+        `i`.`condicao` AS `condicao`,
+        `ti`.`descricao` AS `tipo`,
+        `t`.`area` AS `area`,
+        `en`.`cep` AS `cep`,
+        `en`.`logradouro` AS `logradouro`,
+        `en`.`numero` AS `numero`,
+        `b`.`id` AS `idbairro`,
+        `b`.`nome` AS `bairro`,
+        `ci`.`id` AS `idcidade`,
+        `ci`.`nome` AS `cidade`,
+        `es`.`id` AS `idestado`,
+        `es`.`nome` AS `estado`,
+        `en`.`complemento` AS `complemento`,
+        `mi`.`latitude` AS `latitude`,
+        `mi`.`longitude` AS `longitude`,
+        `us`.`id` AS `id`,
+        `us`.`nome` AS `nome`,
+        `us`.`tipousuario` AS `tipousuario`,
+        `us`.`email` AS `email`,
+        `us`.`foto` AS `foto`
+    FROM
+        (((((`terreno` `t`
+        LEFT JOIN ((((`imovel` `i`
+        LEFT JOIN `anuncio` `a` ON ((`a`.`idimovel` = `i`.`id`)))
+        LEFT JOIN `mapaimovel` `mi` ON ((`mi`.`idanuncio` = `a`.`id`)))
+        LEFT JOIN `usuario` `us` ON ((`i`.`idusuario` = `us`.`id`)))
+        LEFT JOIN `tipoimovel` `ti` ON ((`i`.`idtipoimovel` = `ti`.`id`))) ON ((`t`.`idimovel` = `i`.`id`)))
+        LEFT JOIN `endereco` `en` ON ((`en`.`id` = `i`.`idendereco`)))
+        LEFT JOIN `estado` `es` ON ((`es`.`id` = `en`.`idestado`)))
+        LEFT JOIN `cidade` `ci` ON ((`ci`.`id` = `en`.`idcidade`)))
+        LEFT JOIN `bairro` `b` ON ((`b`.`id` = `en`.`idbairro`)))
 
-CREATE VIEW buscaAnuncioTodos AS
-/*Imóvel - Terreno*/
-SELECT a.id as idanuncio, a.idanuncio as idanuncioformatado, a.finalidade, a.tituloanuncio, a.descricaoanuncio, 
-a.status, a.publicarmapa, a.publicarcontato, a.valormin, a.datahoracadastro,
-i.id as idimovel, i.condicao,
-ti.descricao as tipo,
-en.cep, en.logradouro, en.numero, b.id as idbairro, b.nome as bairro, ci.id as idcidade, ci.nome as cidade, es.id as idestado, es.nome as estado, en.complemento,
-us.id, us.nome, us.tipousuario, us.email, us.foto
-FROM anuncio AS a RIGHT JOIN imovel as i
-ON a.idimovel = i.id
-LEFT JOIN usuario as us
-ON i.idusuario = us.id
-RIGHT JOIN tipoimovel as ti
-ON i.idtipoimovel = ti.id
-RIGHT JOIN endereco as en
-ON en.id = i.idendereco
-RIGHT JOIN estado as es
-ON es.id = en.idestado
-RIGHT JOIN cidade as ci
-ON ci.id = en.idcidade
-RIGHT JOIN bairro as b
-ON b.id = en.idbairro
-WHERE a.status = 'cadastrado';
-
-
-
-
-
-
-
-
-
-
-
-
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `buscaanunciotodos` AS
+    SELECT 
+        `a`.`id` AS `idanuncio`,
+        `a`.`idanuncio` AS `idanuncioformatado`,
+        `a`.`finalidade` AS `finalidade`,
+        `a`.`tituloanuncio` AS `tituloanuncio`,
+        `a`.`descricaoanuncio` AS `descricaoanuncio`,
+        `a`.`status` AS `status`,
+        `a`.`publicarmapa` AS `publicarmapa`,
+        `a`.`publicarcontato` AS `publicarcontato`,
+        `a`.`valormin` AS `valormin`,
+        `a`.`datahoracadastro` AS `datahoracadastro`,
+        `i`.`id` AS `idimovel`,
+        `i`.`condicao` AS `condicao`,
+        `ti`.`descricao` AS `tipo`,
+        `en`.`cep` AS `cep`,
+        `en`.`logradouro` AS `logradouro`,
+        `en`.`numero` AS `numero`,
+        `b`.`id` AS `idbairro`,
+        `b`.`nome` AS `bairro`,
+        `ci`.`id` AS `idcidade`,
+        `ci`.`nome` AS `cidade`,
+        `es`.`id` AS `idestado`,
+        `es`.`nome` AS `estado`,
+        `en`.`complemento` AS `complemento`,
+        `mi`.`latitude` AS `latitude`,
+        `mi`.`longitude` AS `longitude`,
+        `us`.`id` AS `id`,
+        `us`.`nome` AS `nome`,
+        `us`.`tipousuario` AS `tipousuario`,
+        `us`.`email` AS `email`,
+        `us`.`foto` AS `foto`
+    FROM
+        (`bairro` `b`
+        LEFT JOIN (`cidade` `ci`
+        LEFT JOIN (`estado` `es`
+        LEFT JOIN (`endereco` `en`
+        LEFT JOIN (`tipoimovel` `ti`
+        LEFT JOIN (((`imovel` `i`
+        LEFT JOIN `anuncio` `a` ON ((`a`.`idimovel` = `i`.`id`)))
+        LEFT JOIN `mapaimovel` `mi` ON ((`mi`.`idanuncio` = `a`.`id`)))
+        LEFT JOIN `usuario` `us` ON ((`i`.`idusuario` = `us`.`id`))) ON ((`i`.`idtipoimovel` = `ti`.`id`))) ON ((`en`.`id` = `i`.`idendereco`))) ON ((`es`.`id` = `en`.`idestado`))) ON ((`ci`.`id` = `en`.`idcidade`))) ON ((`b`.`id` = `en`.`idbairro`)))
+    WHERE
+        (`a`.`status` = 'cadastrado')
