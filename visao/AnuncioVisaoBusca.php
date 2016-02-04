@@ -14,7 +14,14 @@ $item = $this->getItem();
 foreach ($item["anuncio"] as $buscaAnuncio) {
     if (!$item["page"]) {
         ?>
-            marcarMapa("<?php echo $buscaAnuncio["logradouro"] ?>", "<?php echo $buscaAnuncio["numero"] ?>", "<?php echo $buscaAnuncio["bairro"] ?>", "<?php echo $buscaAnuncio["cidade"] ?>", "<?php echo $buscaAnuncio["estado"] ?>", "<?php echo $buscaAnuncio["tituloanuncio"] ?>", "<?php echo $buscaAnuncio["valormin"] ?>", "<?php echo $buscaAnuncio["finalidade"] ?>", "", "", "1000", "350", 11);
+            marcarMapa("<?php echo $buscaAnuncio["logradouro"] ?>", 
+            "<?php echo $buscaAnuncio["numero"] ?>", 
+            "<?php echo $buscaAnuncio["bairro"] ?>", 
+            "<?php echo $buscaAnuncio["cidade"] ?>", 
+            "<?php echo $buscaAnuncio["estado"] ?>", 
+            "<?php echo $buscaAnuncio["tituloanuncio"] ?>", 
+            "<?php echo $buscaAnuncio["valormin"] ?>", 
+            "<?php echo $buscaAnuncio["finalidade"] ?>", "", "", "100%", "350", 11);
 
         <?php
     }
