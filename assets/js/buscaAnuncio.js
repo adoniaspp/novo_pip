@@ -789,7 +789,6 @@ function marcarMapa(logradouro, numero, bairro, cidade, estado, tituloAnuncio, v
 
             map: {
                 options: {
-                    center: [-1.38, -48.2],
                     zoom: aprox,
                     draggable: true
                 }

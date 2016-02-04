@@ -6,8 +6,8 @@ class Cookies {
 
     public static function consultarPreferencias() {
         if (isset($_COOKIE['pip'])) {
-            var_dump($_COOKIE['pip']);
-            die();
+            //var_dump($_COOKIE['pip']);
+            //die();
         }
         return false;
     }
