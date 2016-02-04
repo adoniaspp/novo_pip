@@ -19,8 +19,8 @@ if ($item) {
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/js/anuncio.js"></script>
 <script src="assets/js/buscaAnuncio.js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js"></script>
 <script src="assets/libs/gmaps/gmap3.min.js"></script>
-<script src="http://maps.google.com/maps/api/js?sensor=false&amp;language=pt"></script>
 <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
 <script src="assets/libs/fileupload/vendor/jquery.ui.widget.js"></script>
 <!-- The Templates plugin is included to render the upload/download listings -->
@@ -290,7 +290,7 @@ if ($item) {
                     <div class="ui form segment">
 
                         <script>
-                            marcarMapaPublicarAnuncio("<?php echo $objImovel->getEndereco()->getLogradouro() ?>", "<?php echo $objImovel->getEndereco()->getNumero() ?>", "<?php echo $objImovel->getEndereco()->getBairro()->getNome() ?>", "<?php echo $objImovel->getEndereco()->getCidade()->getNome() ?>", "<?php echo $objImovel->getEndereco()->getEstado()->getUf() ?>", "<?php echo "" ?>", "<?php echo "" ?>", "<?php echo "" ?>", "600", "300", 11);
+                            marcarMapaPublicarAnuncio("<?php echo $objImovel->getEndereco()->getLogradouro() ?>", "<?php echo $objImovel->getEndereco()->getNumero() ?>", "<?php echo $objImovel->getEndereco()->getBairro()->getNome() ?>", "<?php echo $objImovel->getEndereco()->getCidade()->getNome() ?>", "<?php echo $objImovel->getEndereco()->getEstado()->getUf() ?>", "<?php echo "" ?>", "<?php echo "" ?>", "<?php echo "" ?>", "100%", "300", 16);
                         </script>
 
                         <div class="ui negative message">

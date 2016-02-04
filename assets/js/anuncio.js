@@ -345,6 +345,8 @@ function stepsSemPlanta() {
                     $("#btnCancelar").hide();
                 } else
                     $("div[id^='btnProximo']").show();
+                $("#mapaGmapsBusca").width("100%").height(300).gmap3({trigger:"resize"});
+                $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({get:"marker"}).getPosition());
             }
         })
 
@@ -368,6 +370,8 @@ function stepsSemPlanta() {
                 $("div[id^='btnAnterior']").show();
             else
                 $("div[id^='btnAnterior']").hide();
+            $("#mapaGmapsBusca").width("100%").height(300).gmap3({trigger:"resize"});
+            $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({get:"marker"}).getPosition());
         })
     })
 }
@@ -460,6 +464,8 @@ function stepsComPlanta() {
                     $("#btnCancelar").hide();
                 } else
                     $("div[id^='btnProximo']").show();
+                $("#mapaGmapsBusca").width("100%").height(300).gmap3({trigger:"resize"});
+                $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({get:"marker"}).getPosition());
             }
         })
 
@@ -478,6 +484,8 @@ function stepsComPlanta() {
                 $("div[id^='btnAnterior']").show();
             else
                 $("div[id^='btnAnterior']").hide();
+            $("#mapaGmapsBusca").width("100%").height(300).gmap3({trigger:"resize"});
+            $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({get:"marker"}).getPosition());
         })
     })
 }
