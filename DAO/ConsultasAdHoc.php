@@ -243,9 +243,9 @@ class ConsultasAdHoc extends GenericoDAO {
                 }
             }
         }
-        echo '<pre>';
+        /*echo '<pre>';
         print_r($resultado['anuncio']);
-        die();
+        die();*/
         return $resultado;
     }
 

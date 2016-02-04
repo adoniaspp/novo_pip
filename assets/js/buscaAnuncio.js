@@ -737,8 +737,6 @@ function inserirAnuncioModal() {
 function marcarMapa(logradouro, numero, bairro, cidade, estado, tituloAnuncio, valor, finalidade, latitude, longitude, altura, largura, aprox) {
 
     $(document).ready(function () {
-       
-        $("#mapaGmaps").hide();
 
         $("#mapaGmapsBusca").width(altura).height(largura).gmap3();
       
@@ -748,7 +746,6 @@ function marcarMapa(logradouro, numero, bairro, cidade, estado, tituloAnuncio, v
 
             map: {
                 options: {
-                    center: [-1.38, -48.2],
                     zoom: aprox,
                     draggable: true
                 }
@@ -831,16 +828,18 @@ function marcarMapa(logradouro, numero, bairro, cidade, estado, tituloAnuncio, v
         });
             
         }
-        
+        setTimeout(function(){ 
+        $("#mapaGmapsBusca").width("100%").height(300).gmap3({trigger:"resize"});
+        $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({get:"marker"}).getPosition());}, 500);
     });
+    
+     
 
 }
 
 function marcarMapaPublicarAnuncio(logradouro, numero, bairro, cidade, estado, tituloAnuncio, valor, finalidade, altura, largura, aprox) {
 
     $(document).ready(function () {
-       
-        $("#mapaGmaps").hide();
 
         $("#mapaGmapsBusca").width(altura).height(largura).gmap3();
       
@@ -848,7 +847,6 @@ function marcarMapaPublicarAnuncio(logradouro, numero, bairro, cidade, estado, t
             
             map: {
                 options: {
-                    center: [-1.28, -48.6],
                     zoom: aprox,
                     draggable: true
                 }

@@ -15,22 +15,17 @@ Cookies::configurarPreferencias($this->getItem());
 <script src="assets/js/resposta.js"></script>
 <script src="assets/js/usuario.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js"></script>
 <script src="assets/libs/gmaps/gmap3.min.js"></script>
-<script src="http://maps.google.com/maps/api/js?sensor=false&amp;language=pt"></script>
-
-<script>
-    esconderResposta();    
-</script>
 
 <?php
 
 $item = $this->getItem();
 /*
 echo "<pre>";
-var_dump($item);
+var_dump($item["mensagem"]);
 echo "</pre>";
-*/
-
+die();*/
 $latitude  = "";
 $longitude = "";
 
@@ -49,385 +44,269 @@ if($item["mapaImovel"]){
     //inserirValidacao();
     enviarDuvidaAnuncio();
     formatarDetalhe();
-    
+     
     marcarMapa("<?php echo $item["anuncio"][0]["logradouro"] ?>", "<?php echo $item["anuncio"][0]["numero"] ?>", 
                "<?php echo $item["anuncio"][0]["bairro"] ?>", "<?php echo $item["anuncio"][0]["cidade"] ?>",
                "<?php echo $item["anuncio"][0]["estado"] ?>", "<?php echo $item["anuncio"][0]["tituloanuncio"] ?>",
                "<?php echo $item["anuncio"][0]["valormin"] ?>", "<?php echo $item["anuncio"][0]["finalidade"] ?>",
-               "<?php echo $latitude ?>", "<?php echo $longitude ?>", "600", "300", 9);
-    
+               "<?php echo $latitude ?>", "<?php echo $longitude ?>", "100%", "300", 16);
+
 </script>
 
-<div class="ui hidden divider"></div>
-
+<?php if($item["anuncio"][0]["status"] == "finalizado" || $item["anuncio"][0]["status"] == "expirado") { ?>
 <div class="ui middle aligned stackable grid container">
-    
-    <?php if($item["anuncio"][0]["status"] == "finalizado" || $item["anuncio"][0]["status"] == "expirado") {
-    ?>
-    <div class="row">
-        <div class="center aligned column">
-          <div class="ui negative message">           
+    <div class="sixteen wide field">
+        <div class="ui negative message">
             <div class="header">
               Atenção
             </div>
             Este seu anuncio não está mais ativo, não podendo mais ser visualizado por outros usuários.
-          </div>  
-        </div>
+          </div>
     </div>
-     
-    <?php } ?>        
-    <div class="row">
+</div>
+<?php } ?>
+
+<div class="ui middle aligned stackable grid container">
+  
     <div class="column">
-    <div class="ui segment">
-        
-        <?php             
-            if($item['anuncio'][0]['finalidade'] == "Venda") { 
-                echo "<div class='ui blue ribbon label'> Venda </div>";
-            }else{
-                echo "<div class='ui green ribbon label'> Aluguel </div>";
-            }
-        ?>
-                
-                <div class="ui stackable two column padded grid">
-                    <div class="column">  
-                        <div class="ui blue dividing header">
-<!--                            <i class="file image outline icon"></i>-->
-                            <div class="content">
-                                Fotos
-                            </div>
-                        </div>
-
-                        <div class="fotorama" data-allowfullscreen="native" data-nav="thumbs" data-fit="cover" data-width="700" data-ratio="700/467" data-max-width="100%">                            
-                            <?php
-                            if ($item['anuncio'][0]['imagem']) {
-                                foreach ($item['anuncio'][0]['imagem'] as $imagem) {
-                                    ?>
-                                    <a href="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . '/' . $imagem['nome'] ?>" data-caption="<?php echo $imagem['legenda'] ?>" data-thumb="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . '/' . 'thumbnail/' . $imagem['nome'] ?>"></a>
-                                    <?php
-                                }
-                            } else {
-                                ?>
-                                <a href="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" data-thumb=" <?php echo PIPURL . "/assets/imagens/thumbnail/foto_padrao.png" ?>"></a>
-                            <?php }
-                            ?>
-                        </div>
-                        <!--<div class="ui info message">
-                        <p> <?php echo $item['anuncio'][0]['descricaoanuncio'] ?></p>
-                        </div>-->
-                    </div>
-                    <div class="column">
-                        <div class="ui blue dividing header">
-<!--                            <i class="file image outline icon"></i>-->
-                            <div class="content">
-                                Informações Gerais
-                            </div>
-                        </div>
-
-                    <div class="ui equal width grid"> 
-                        <div class="column">
-                            <div class="ui tiny header">
-                                <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeFinalidade.jpg">
-                                <label>Finalidade</label>
-                                <br>
-                                <div class="content">                                               
-                                    <div class="sub header">
-                                        <?php echo $item['anuncio'][0]['finalidade'] ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="column">
-                            <div class="ui tiny header">
-                                <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeCasa.jpg">                     
-                                <label>Imóvel</label>
-                                <br>
-                                <div class="content">
-                                    <div class="sub header">
-                                        <?php
-                                        if ($item['anuncio'][0]['tipo'] == 'apartamentoplanta') {
-                                            echo 'Apto na planta';
-                                        } else if ($item['anuncio'][0]['tipo'] == 'salacomercial'){
-                                            echo 'Sala Comercial';
-                                        } else if ($item['anuncio'][0]['tipo'] == 'prediocomercial'){
-                                            echo 'Prédio Comercial';
-                                        } else if ($item['anuncio'][0]['tipo'] == 'apartamento'){
-                                            echo 'Apartamento';
-                                        } else if ($item['anuncio'][0]['tipo'] == 'casa'){
-                                            echo 'Casa';
-                                        } else echo 'Terreno';
-                                        ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="column">
-                            <div class="ui tiny header">
-                                <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeValor.jpg">
-                                <label>Valor</label>
-                                <br>
-                                <div class="content">
-                                    <div class="sub header" id="divValor">
-                                        
-                                        <?php 
-                                        //verificar se existe um novo valor já cadastrado
-                                        if($item["novoValor"] != null){
-                                            
-                                            foreach ($item["novoValor"] as $valorMin){
-                                                
-                                                if($valorMin->getStatus() == "ativo"){
-                                                    
-                                                    $valorAnuncio = $valorMin->getNovoValor();
-                                                    
-                                                }
-                                                
-                                            }
-                                          //senao, exibir o valor original do anúncio
-                                        } else $valorAnuncio = $item['anuncio'][0]['valormin'];
-                                        
-                                        ?>
-                                        
-                                        
-                                        <?php echo $valorAnuncio ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ui divider"></div>
-                    <div class="ui stackable three column padded grid">
-                        <?php if ($item['anuncio'][0]['tipo'] == 'apartamentoplanta') { ?>
-                            <div class="column">
-                                <div class="ui tiny header">
-                                    <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeAndaresApto.jpg">
-                                    <label>Nº de Andares</label>
-                                    <br>
-                                    <div class="content">
-                                        Andares
-                                        <div class="sub header">
-                                            <?php echo $item['anuncio'][0]['andares'] ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column">
-                                <div class="ui tiny header">
-                                    <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeAptoAndarDetalhes.jpg">
-                                    <label>Apto(s) por Andar</label>
-                                    <br>
-                                    <div class="content">
-                                        <div class="sub header">
-                                            <?php echo $item['anuncio'][0]['unidadesandar'] ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column">
-                                <div class="ui tiny header">
-                                    <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeTotalUnidades.jpg">
-                                    <label>Total de Unidades</label>
-                                    <br>
-                                    <div class="content">                  
-                                        <div class="sub header">
-                                            <?php echo $item['anuncio'][0]['totalunidades'] ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php } ?>
-                        <?php
-                        if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'] != 'terreno' &&
-                                $item['anuncio'][0]['tipo'] != 'apartamentoplanta') {
-                            ?>
-                            <div class="column">
-                                <div class="ui tiny header">
-                                    <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeQuarto.jpg">
-                                    <label>Quarto(s)</label>
-                                    <br>
-                                    <div class="content">
-                                        <div class="sub header">
-                                            <?php echo $item['anuncio'][0]['quarto'] ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php } ?>
-                        <?php if ($item['anuncio'][0]['tipo'] != 'terreno' && $item['anuncio'][0]['tipo'] != 'apartamentoplanta') { ?>
-                            <div class="column">
-                                <div class="ui tiny header">
-                                    <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeBanheiro.jpg">
-                                    <label>Banheiro(s)</label>
-                                    <br>
-                                    <div class="content">
-                                        <div class="sub header">
-                                            <?php echo $item['anuncio'][0]['banheiro'] ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php } ?> 
-                        <?php if ($item['anuncio'][0]['tipo'] != 'apartamentoplanta') { ?>
-                            <div class="column">
-                                <div class="ui tiny header">
-                                    <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeArea.jpg">
-                                    <label>Área m<sup>2</sup></label>
-                                    <br>
-                                    <div class="content">
-                                        <div class="sub header">
-                                            <?php echo $item['anuncio'][0]['area']?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php } ?> 
-                        
-                    </div>
-                    <?php if ($item['anuncio'][0]['tipo'] != 'terreno') { ?>
-                    <div class="ui divider"></div>
-                    <div class="ui stackable three column padded grid">
-                        <?php if ($item['anuncio'][0]['tipo'] == 'apartamentoplanta') { ?>
-                            <div class="column">
-                                <div class="ui tiny header">
-                                    <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeNumeroTorres.jpg">
-                                    <label>Número de Torres</label>
-                                    <br>
-                                    <div class="content">
-                                        <div class="sub header">
-                                            <?php echo $item['anuncio'][0]['numerotorres'] ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php } ?>
-                        <?php if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'] != 'apartamentoplanta') { ?>
-                            <div class="column">
-                                <div class="ui tiny header">
-                                    <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeQuarto.jpg">
-                                    <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeBanheiro.jpg">
-                                    <label>Suite(s)</label>
-                                    <br>
-                                    <div class="content">
-                                        <div class="sub header">
-                                            <?php echo $item['anuncio'][0]['suite'] ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php } ?>
-                        <?php if ($item['anuncio'][0]['tipo'] != 'apartamentoplanta') { ?>
-                            <div class="column">
-                                <div class="ui tiny header">
-                                    <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeGaragem.jpg">
-                                    <label>Garagem(ns)</label>
-                                    <br>
-                                    <div class="content">
-                                        <div class="sub header">
-                                            <?php echo $item['anuncio'][0]['garagem'] ?> 
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php } ?>     
-                        
-                        <?php if ($item['anuncio'][0]['tipo'] == 'salacomercial' || $item['anuncio'][0]['tipo'] == 'apartamento') { ?>
-
-                                <div class="column">
-                                    <div class="ui tiny header">
-                                        <i class="privacy icon"></i>
-                                        <div class="content">
-                                            Condomínio
-                                            <div class="sub header" id="divValorCondominio">
-                                                <?php echo $item['anuncio'][0]['condominio'] ?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                        <?php } ?>
-                        
-                        </div>
-                        
-                    
-                    <?php } ?>    
-                    <div class="ui divider"></div>                              
-                            
-                    <div class="sixteen wide column"> 
-                        <div class="ui info message">
-                            <div class="header"><?php echo $item['anuncio'][0]['tituloanuncio'] ?></div>
-                            <p><?php echo $item['anuncio'][0]['descricaoanuncio'] ?></p>
-                        </div>
-                    </div>
-                </div> 
+        <form id="form" class="ui form">
+            <div class="ui dividing header"><div class="ui large teal label">Informações Básicas</div></div>
+            
+            <div class="sixteen wide column"> 
+                <div class="ui info message">
+                    <div class="header"><?php echo $item['anuncio'][0]['tituloanuncio'] ?></div>
+                    <p><?php echo $item['anuncio'][0]['descricaoanuncio'] ?></p>
+                </div>
             </div>
-                <div class="item"> 
-                    <div class="ui large teal horizontal label">Cód. Anuncio - 
-                        <?php echo $item['anuncio'][0]['idanuncioformatado'] ?>
-                    </div>
-                </div> 
-        
-                <?php if($item["novoValor"] != null){ ?>
-        
-                <div class="ui hidden divider"></div>
+            
+            <div class="ui hidden divider"></div> 
+            
+            <div class="fields">          
                 
-                <div class="item"> 
-                    <div class="ui orange horizontal label">HISTÓRICO DE VALOR</div>
-                        <?php 
-                        $contador = 0;
-                        foreach ($item["novoValor"] as $novoValor){
-                       
-                            $contador = $contador + 1;
-                            if($contador == 1){
-                                
-                                ?>
-            
-                                <script>
-                                formatarValorUnico(<?php echo $novoValor->getId() ?>);
-                                </script>
+            <div class="four wide field">
+                <div class="ui header">
+                    <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeFinalidade.jpg">
+                    <label>Finalidade</label>
+                    <br>
+                    <div class="content">                                               
+                        <div class="sub header">
+                            <?php echo $item['anuncio'][0]['finalidade'] ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                                <?php  
-                                
-                                echo "<span id='formatarValorUnicoJS".$novoValor->getId()."'>".$novoValor->getNovoValor()."</span>&nbsp;&nbsp;&nbsp;&nbsp";
-                            }
-                            else {
-                                
-                                ?>
-            
-                                <script>
-                                formatarValorCampos(<?php echo $novoValor->getId() ?>);
-                                </script>
+            <div class="four wide field">
+                <div class="ui header">
+                    <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeCasa.jpg">                     
+                    <label>Imóvel</label>
+                    <br>
+                    <div class="content">
+                        <div class="sub header">
+                            <?php
+                            if ($item['anuncio'][0]['tipo'] == 'apartamentoplanta') {
+                                echo 'Apto na planta';
+                            } else if ($item['anuncio'][0]['tipo'] == 'salacomercial'){
+                                echo 'Sala Comercial';
+                            } else if ($item['anuncio'][0]['tipo'] == 'prediocomercial'){
+                                echo 'Prédio Comercial';
+                            } else if ($item['anuncio'][0]['tipo'] == 'apartamento'){
+                                echo 'Apartamento';
+                            } else if ($item['anuncio'][0]['tipo'] == 'casa'){
+                                echo 'Casa';
+                            } else echo 'Terreno';
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                                <?php
-                                
-                                echo "<strike id='formatarValorJS".$novoValor->getId()."'>".$novoValor->getNovoValor()."</strike>&nbsp;&nbsp;&nbsp;&nbsp";
-                            }
-                        }
-                        
-                        ?>
-            
-                                <script>
-                                formatarValorUnico(<?php echo $item['anuncio'][0]['id'] ?>);
-                                </script>
+            <div class="four wide field">
+                <div class="ui header">
+                    <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeValor.jpg">
+                    <label>Valor</label>
+                    <br>
+                    <div class="content">
+                        <div class="sub header" id="divValor">
 
-                                <?php
-                        
-                        echo "<strike id='formatarValorUnicoJS".$item['anuncio'][0]['id']."'>".$item['anuncio'][0]['valormin']."</strike>&nbsp;&nbsp;&nbsp;&nbsp";
-                        ?>
-                    
+                            <?php 
+                            //verificar se existe um novo valor já cadastrado
+                            if($item["novoValor"] != null){
+
+                                foreach ($item["novoValor"] as $valorMin){
+
+                                    if($valorMin->getStatus() == "ativo"){
+
+                                        $valorAnuncio = $valorMin->getNovoValor();
+
+                                    }
+
+                                }
+                              //senao, exibir o valor original do anúncio
+                            } else $valorAnuncio = $item['anuncio'][0]['valormin'];
+
+                            ?>
+
+                            <?php echo $valorAnuncio ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <?php if ($item['anuncio'][0]['tipo'] != 'apartamentoplanta') { ?>
+            <div class="four wide field">
+                <div class="ui header">
+                    <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeArea.jpg">
+                    <label>Área m<sup>2</sup></label>
+                    <br>
+                    <div class="content">
+                        <div class="sub header">
+                            <?php echo $item['anuncio'][0]['area']?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="four wide field">
+                <div class="ui header">
+                    <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeCondicao.jpg">
+                    <label>Condição</label>
+                    <br>
+                    <div class="content">
+                        <div class="sub header">
+                            <?php if($item['anuncio'][0]['condicao'] == "usado"){
+                                echo "Usado";
+                            } else echo "Novo";?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php } ?> 
+
+        </div>
+            
+        <div class="fields">  
+            <?php
+            if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'] != 'terreno' &&
+                $item['anuncio'][0]['tipo'] != 'apartamentoplanta' && $item['anuncio'][0]['tipo'] != 'prediocomercial') {
+            ?>
+                <div class="four wide field">
+                    <div class="ui header">
+                        <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeQuarto.jpg">
+                        <label>Quarto(s)</label>
+                        <br>
+                        <div class="content">
+                            <div class="sub header">
+                                <?php echo $item['anuncio'][0]['quarto'] ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
+            <?php if ($item['anuncio'][0]['tipo'] != 'terreno' && 
+                      $item['anuncio'][0]['tipo'] != 'apartamentoplanta' &&
+                      $item['anuncio'][0]['tipo'] != 'prediocomercial') { ?>
+                <div class="four wide field">
+                    <div class="ui header">
+                        <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeBanheiro.jpg">
+                        <label>Banheiro(s)</label>
+                        <br>
+                        <div class="content">
+                            <div class="sub header">
+                                <?php echo $item['anuncio'][0]['banheiro'] ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?> 
+            <?php
+            if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'] != 'terreno' &&
+                $item['anuncio'][0]['tipo'] != 'apartamentoplanta' && $item['anuncio'][0]['tipo'] != 'prediocomercial') {
+            ?>   
+            <div class="four wide field">
+                <div class="ui header">
+                    <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeQuarto.jpg">
+                    <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeBanheiro.jpg">
+                    <label>Suite(s)</label>
+                    <br>
+                    <div class="content">
+                        <div class="sub header">
+                            <?php echo $item['anuncio'][0]['suite'] ?>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+                
+            <div class="eight wide field">
+                <div class="ui header">
+                    <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeGaragem.jpg">
+                    <label>Garagem(ns)</label>
+                    <br>
+                    <div class="content">
+                        <div class="sub header">
+                            <?php echo $item['anuncio'][0]['garagem'] ?> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <?php } ?>     
+            </div>
+            
+            <?php
+            if ($item['anuncio'][0]['tipo'] == 'apartamento') {
+            ?>
+            <div class="fields">
+                
+                <div class="four wide field">
+                    <div class="ui header">
+                        <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeAptoAndarDetalhes.jpg">
+                        <label>Apto(s) por Andar</label>
+                        <br>
+                        <div class="content">
+                            <div class="sub header">
+                                <?php echo $item['anuncio'][0]['unidadesandar'] ?>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
-                <?php } ?>
+                <div class="four wide field">
+                    <div class="ui header">
+                        <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeAptoAndarDetalhes.jpg">
+                        <label>Andar do Apto</label>
+                        <br>
+                        <div class="content">
+                            <div class="sub header">
+                                <?php echo $item['anuncio'][0]['andar'] ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
-            </div>  
+                <div class="twelve wide field">
+                    <div class="ui header">
+                        <i class="privacy icon"></i>
+                        <div class="content">
+                            Condomínio
+                            <div class="sub header" id="divValorCondominio">
+                                <?php echo $item['anuncio'][0]['condominio'] ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <?php } ?>
         
-        </div> 
-    </div>
-
-    <?php if ($item['anuncio'][0]['tipo'] == 'apartamentoplanta') { ?>
-    
-    <div class="row">  
-        <div class="column">
-        <div class="ui segment">
-            <a class="ui yellow ribbon label">Planta(s)</a>
-                <div class="ui stackable one column padded grid">
+            <?php
+            if ($item['anuncio'][0]['tipo'] == 'apartamentoplanta') {
+            ?>
+            
+            <div class="ui dividing header"><div class="ui large yellow label">Informações da Planta</div></div>
+            <div class="fields">
+                
                 <div class="ui styled fluid accordion">
                         <?php
                         foreach ($item['anuncio'][0]['plantas'] as $planta) {
@@ -515,107 +394,95 @@ if($item["mapaImovel"]){
                             <?php
                         }
                         ?>
-                    </div>      
-                        
-                    </div>
-                </div>
-        </div>   
-    </div>
-    
-    <?php } ?>
-    
-    <?php if ($item['anuncio'][0]['diferenciais']) { ?>
-    <div class="row">   
-            <div class="column">
-                <div class="ui segment">
-                    <a class="ui black ribbon label">Diferenciais</a>
-                    <div class="ui stackable one column padded grid">
-                        <div class="column">
-                            <div class="ui three column stackable grid container"> 
-
-                                <?php foreach ($item['anuncio'][0]['diferenciais'] as $diferenciais) { ?>
-                                    <div class="column">  
-                                        <div class="ui tiny header">
-                                            <div class="content">
-                                                <li><?php echo $diferenciais['descricao'] ?></li>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-
+                    </div> 
+                
+            </div>    
+            <div class="ui hidden divider"></div>
+            <?php } ?>
+            
+            <?php if ($item['anuncio'][0]['diferenciais']) { ?>
+            
+            <div class="ui dividing header"><div class="ui large black label">Diferenciais</div></div>
+            <div class="fields">
+                
+                <?php foreach ($item['anuncio'][0]['diferenciais'] as $diferenciais) { ?>
+                    <div class="twelve wide field">
+                        <div class="ui tiny header">
+                            <div class="content">
+                                <li><?php echo $diferenciais['descricao'] ?></li>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>         
-    </div>
-    <?php } ?>  
-    
-    <div class="row">
-        <div class="column">
-           <div class="ui segment">
-                <a class="ui green ribbon label">Localização</a>
-                <div class="ui stackable two column padded grid">
-                    
-                    <div class="column">
-                    <div class="ui center aligned column page grid">
-                    
-                            <div id="mapaGmapsBusca"></div>
-                    </div>
-                    </div>
-                    
-                    <div class="five wide column">               
-                        <div class="ui middle aligned selection list">
-                            <div class="item">                                
-                                <div class="content">
-                                    <div class="header">Endereço</div>
-                                    <?php echo $item['anuncio'][0]['logradouro'].", ".$item['anuncio'][0]['numero'] ?>
-                                </div>
-                            </div>
-                            <?php if ($item['anuncio'][0]['complemento'] != "") { ?>  
-                                <div class="item">                                
-                                    <div class="content">
-                                        <div class="header">Complemento</div>
-                                        <?php echo $item['anuncio'][0]['complemento'] ?>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                            <div class="item">                                
-                                <div class="content">
-                                    <div class="header">Bairro</div>
-                                    <?php echo $item['anuncio'][0]['bairro'] ?>
-                                </div>
-                            </div>
-                            <div class="item">                                
-                                <div class="content">
-                                    <div class="header">Cidade</div>
-                                    <?php echo $item['anuncio'][0]['cidade'] ?>
-                                </div>
-                            </div>
-                            <div class="item">                                
-                                <div class="content">
-                                    <div class="header">Estado</div>
-                                    <?php echo $item['anuncio'][0]['estado'] ?>
-                                </div>
-                            </div>
-                            
-                        </div>                       
-                    </div>
-                    
-                </div>
-            </div> 
-        </div>
-    </div>
-
-    <div class="row">
-        
-        <div class="column">
-         
-            <div class="ui segment">
-                <?php if ($item["qtdAnuncios"] >= 2) {
-            ?>
+                <?php } ?>
+                
+            </div>    
+            <div class="ui hidden divider"></div>
+            <?php } ?>
             
-             <?php if($item['anuncio'][0]['status'] == "cadastrado"){ ?>
+            <div class="ui dividing header"><div class="ui large green label">Localização</div></div>
+            
+            <div class="fields">
+                <div id="mapaGmapsBusca"></div>
+            </div>    
+                <div class="sixteen wide field">
+                    <div class="ui message">
+                        <div class="header">
+                          Endereço
+                        </div>
+                        <?php
+                        if ($item['anuncio'][0]['numero'] != "" && $item['anuncio'][0]['complemento'] != "") {
+                            $item['anuncio'][0]['logradouro'] . ", " . $item['anuncio'][0]['numero'] . ", " . $item['anuncio'][0]['complemento'];
+                        } elseif ($item['anuncio'][0]['numero'] != "" && $item['anuncio'][0]['complemento'] == "") {
+                            $endereco = $item['anuncio'][0]['logradouro'] . ", " . $item['anuncio'][0]['numero'];
+                        } elseif ($item['anuncio'][0]['numero'] == "" && $item['anuncio'][0]['complemento'] == "") {
+                            $endereco = $item['anuncio'][0]['logradouro'];
+                        } elseif ($item['anuncio'][0]['numero'] == "" && $item['anuncio'][0]['complemento'] != "") {
+                            $endereco = $item['anuncio'][0]['logradouro'] . ", " . $item['anuncio'][0]['complemento'];
+                        }
+
+                        echo $endereco;
+
+                        ?>
+                      </div>
+                </div>
+            
+            <div class="ui hidden divider"></div>
+            
+            
+            <div class="ui dividing header"><div class="ui large blue label">Foto(s) do Anúncio</div></div>
+            
+            <div class="ui stackable two column centered grid">
+            
+                <div class="column"> 
+
+                <div class="fotorama" data-allowfullscreen="native" data-nav="thumbs" data-width="100%" data-ratio="800/600">                            
+                                <?php
+                                if ($item['anuncio'][0]['imagem']) {
+                                    foreach ($item['anuncio'][0]['imagem'] as $imagem) {
+                                        ?>
+                                        <a href="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . '/' . $imagem['nome'] ?>" data-caption="<?php echo $imagem['legenda'] ?>" data-thumb="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . '/' . 'thumbnail/' . $imagem['nome'] ?>"></a>
+                                        <?php
+                                    }
+                                } else {
+                                    ?>
+                                    <a href="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" data-thumb=" <?php echo PIPURL . "/assets/imagens/thumbnail/foto_padrao.png" ?>"></a>
+                                <?php }
+                                ?>
+                            </div>
+                            <!--<div class="ui info message">
+                            <p> <?php echo $item['anuncio'][0]['descricaoanuncio'] ?></p>
+                            </div>-->
+
+                </div>
+            
+            </div>            
+     
+            <div class="ui hidden divider"></div>
+            <div class="ui dividing header"><div class="ui large red label">Contato(s)</div></div>
+            
+            <?php if ($item["qtdAnuncios"] >= 2) { ?>
+            
+            <?php if($item['anuncio'][0]['status'] == "cadastrado"){ ?>
             <div class="ui message">
                 Este vendedor possui <?php echo $item["qtdAnuncios"] ?> anuncios cadastrados. Clique <a href='index.php?entidade=Anuncio&acao=buscarAnuncioCorretor&login=<?php echo $item["loginUsuario"] ?>' target="_blank">AQUI</a> para visualizá-los
             </div>
@@ -623,252 +490,239 @@ if($item["mapaImovel"]){
                 
             <?php } ?>
             
-            <div class="ui hidden divider"></div>
-                
-                    <a class="ui red ribbon label">Contatos</a>
-                    <div class="ui stackable one column padded grid">
-                        <div class="column"> 
-                            <div class="ui relaxed divided items">
-                                <div class="item">
-                                    <div class="ui small image">
-                                        <img style="height:150px; width: 220px;" src="<?php echo PIPURL . "fotos/usuarios/" . $item['anuncio'][0]['foto'] ?>">
-                                    </div>
-                                    <div class="content">
-                                        <a class="header"><?php echo $item['anuncio'][0]['nome'] ?></a>
-                                        <?php
-                                        foreach ($item['anuncio'][0]['telefone'] as $telefone) {
-                                            ?>
-                                            
-                                            <div class="description">
-                                                
-                                                <?php echo $telefone['numero'] ?> - <?php echo $telefone['operadora'] ?>                    
-                                                <?php if($telefone['whatsapp']=="SIM"){?>                        
-                                                <i class="large green whatsapp icon"></i>
-                                                <?php } ?>
-                                                
-                                            </div>
-                                            <?php
-                                        }
-                                        ?>
-                                        
-                                        <?php if($item['anuncio'][0]['status'] == "cadastrado"){ ?>
-                                        
-                                        <div class="extra">
+            <div class="ui relaxed divided items">
+                <div class="item">
+                    <div class="ui small image">
+                        <img style="height:150px; width: 220px;" src="<?php echo PIPURL . "fotos/usuarios/" . $item['anuncio'][0]['foto'] ?>">
+                    </div>
+                    <div class="content">
+                        <a class="header"><?php echo $item['anuncio'][0]['nome'] ?></a>
+                        <?php
+                        foreach ($item['anuncio'][0]['telefone'] as $telefone) {
+                            ?>
 
-                                            <button class="ui right floated primary button" id="btnDuvida">
-                                                Enviar Mensagem/Proposta
-                                                <i class="right mail outline icon"></i>
-                                            </button>
+                            <div class="description">
 
-                                        </div>
-                                        
-                                        <?php } ?>
-                                        
-                                    </div>
-                                </div>
-                            </div>                                
+                                <?php echo $telefone['numero'] ?> - <?php echo $telefone['operadora'] ?>                    
+                                <?php if($telefone['whatsapp']=="SIM"){?>                        
+                                <i class="large green whatsapp icon"></i>
+                                <?php } ?>
+
+                            </div>
+                            <?php
+                        }
+                        ?>
+
+                        <?php if($item['anuncio'][0]['status'] == "cadastrado"){ ?>
+
+                        <div class="extra">
+
+                            <button type="button" class="ui right floated primary button" id="btnDuvida">
+                                Enviar Mensagem/Proposta
+                                <i class="right mail outline icon"></i>
+                            </button>
+
                         </div>
+
+                        <?php } ?>
+
                     </div>
                 </div>
-        </div>
+            </div>
             
-    </div>
-    
-    <?php if(Sessao::verificarSessaoUsuario()){
+        </form>
+        
+        
+        <?php if(Sessao::verificarSessaoUsuario()){
         
             if($_SESSION["idusuario"] == $item["loginUsuario"]){
                 
-                
-    ?>
-    
-    <script>
-    esconderResposta();    
-    </script>
-    
-    <div class="row">
-         
-        <div class="column">
-        
-            <div class="ui segment">
-                <?php if ($item["qtdMensagem"] > 1) {
+                if($item["qtdMensagem"] >= 1){
+
             ?>
-                
-            <?php } ?>
-                
-                    <div class="ui brown ribbon label"><?php if($item["qtdMensagem"] == 1)
-                        {echo "1 mensagem para esse anúncio";}  
-                            else echo $item["qtdMensagem"]." mensagens para esse anúncio";?>
-                    </div>
-                
-                    <div class="ui hidden divider"></div>
-                
-                    <div>
-                        
-                       <?php foreach ($item["mensagem"] as $mensagem) { ?>
-                        
-                    <script>
-                    exibirDivResposta(<?php echo $mensagem->getId(); ?>);
-                    responderMensagem(<?php echo $mensagem->getId(); ?>);
-                    ocultarResposta(<?php echo $mensagem->getId(); ?>);
-                    
-                    $(document).ready(function () {
+            
+        <div class="ui dividing header"><div class="ui large brown label">Mensagem(ns) do Anúncio</div></div>
+        
+            <script>
+            esconderResposta();    
+            </script>
 
-                        $("#form<?php echo $mensagem->getId(); ?>").submit(function () {
+            <div class="row">
 
-                            $("#form<?php echo $mensagem->getId(); ?>").validate();
-                            $("#txtResposta<?php echo $mensagem->getId(); ?>").rules("add", {
-                                required: true,
-                                minlength: 2,
-                                messages: {
-                                    required: "Campo Obrigatório",
-                                    minlength: "Digite ao menos 2 caracteres"
-                                }
+                <div class="column">
+
+                    <div class="ui segment">
+
+                            <div class="ui hidden divider"></div>
+
+                            <div>
+
+                            <?php foreach ($item["mensagem"] as $mensagem) { ?>
+
+                            <script>
+                            exibirDivResposta(<?php echo $mensagem->getId(); ?>);
+                            responderMensagem(<?php echo $mensagem->getId(); ?>);
+                            ocultarResposta(<?php echo $mensagem->getId(); ?>);
+
+                            $(document).ready(function () {
+
+                                $("#form<?php echo $mensagem->getId(); ?>").submit(function () {
+
+                                    $("#form<?php echo $mensagem->getId(); ?>").validate();
+                                    $("#txtResposta<?php echo $mensagem->getId(); ?>").rules("add", {
+                                        required: true,
+                                        minlength: 2,
+                                        messages: {
+                                            required: "Campo Obrigatório",
+                                            minlength: "Digite ao menos 2 caracteres"
+                                        }
+                                    });
+
+                                    if (($("#txtResposta<?php echo $mensagem->getId(); ?>").valid())) {
+                                        $.ajax({
+                                            url: "index.php",
+                                            dataType: "json",
+                                            type: "POST",
+                                            data: $('#form' + <?php echo $mensagem->getId(); ?>).serialize(),
+                                            beforeSend: function () {
+                                                $("#divRetorno" + <?php echo $mensagem->getId(); ?>).html("<div><div class='ui active inverted dimmer'>\n\
+                            <div class='ui text loader'>Processando. Aguarde...</div></div></div>");
+
+                                                $("#divCamposResposta" + <?php echo $mensagem->getId(); ?>).hide();
+
+                                            },
+                                            success: function (resposta) {
+                                                $("#divRetorno" + <?php echo $mensagem->getId(); ?>).empty();
+                                                if (resposta.resultado == 0) {
+                                                    $("#divRetorno" + <?php echo $mensagem->getId(); ?>).html('<div class="ui compact red message"><div class="header">Erro ao responder. Tente novamente em alguns minutos - 000.</div></div>');
+                                                } else if (resposta.resultado == 1) {
+                                                    $("#btnResponderMensagem" + <?php echo $mensagem->getId(); ?>).hide();
+                                                    $("#divRetorno" + <?php echo $mensagem->getId(); ?>).html('<div class="ui compact green message"><div class="header">Resposta enviada</div></div>');
+                                                }
+                                            }
+                                        })
+                                    }
+                                    return false;
+
+                                });
                             });
 
-                            if (($("#txtResposta<?php echo $mensagem->getId(); ?>").valid())) {
-                                $.ajax({
-                                    url: "index.php",
-                                    dataType: "json",
-                                    type: "POST",
-                                    data: $('#form' + <?php echo $mensagem->getId(); ?>).serialize(),
-                                    beforeSend: function () {
-                                        $("#divRetorno" + <?php echo $mensagem->getId(); ?>).html("<div><div class='ui active inverted dimmer'>\n\
-                    <div class='ui text loader'>Processando. Aguarde...</div></div></div>");
+                        </script> 
 
-                                        $("#divCamposResposta" + <?php echo $mensagem->getId(); ?>).hide();
+                            <form id="form<?php echo $mensagem->getId() ?>" class="ui form" action="index.php" method="post">
+                                    <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
+                                    <input type="hidden" id="hdnAcao" name="hdnAcao" value="responderMensagem" />
+                                    <input type="hidden" id="hdnMensagem" name="hdnMensagem" value="<?php echo $mensagem->getId(); ?>" />
+                                    <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
 
-                                    },
-                                    success: function (resposta) {
-                                        $("#divRetorno" + <?php echo $mensagem->getId(); ?>).empty();
-                                        if (resposta.resultado == 0) {
-                                            $("#divRetorno" + <?php echo $mensagem->getId(); ?>).html('<div class="ui compact red message"><div class="header">Erro ao responder. Tente novamente em alguns minutos - 000.</div></div>');
-                                        } else if (resposta.resultado == 1) {
-                                            $("#btnResponderMensagem" + <?php echo $mensagem->getId(); ?>).hide();
-                                            $("#divRetorno" + <?php echo $mensagem->getId(); ?>).html('<div class="ui compact green message"><div class="header">Resposta enviada</div></div>');
-                                        }
-                                    }
-                                })
-                            }
-                            return false;
+                                <div id="divMensagem<?php echo (string) $mensagem->getId() ?>">                   
 
-                        });
-                    });
+                                        <div class="field">
 
-                </script> 
-                        
-                    <form id="form<?php echo $mensagem->getId() ?>" class="ui form" action="index.php" method="post">
-                            <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
-                            <input type="hidden" id="hdnAcao" name="hdnAcao" value="responderMensagem" />
-                            <input type="hidden" id="hdnMensagem" name="hdnMensagem" value="<?php echo $mensagem->getId(); ?>" />
-                            <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
-                
-                        <div id="divMensagem<?php echo (string) $mensagem->getId() ?>">                   
-
-                                <div class="field">
-
-                                    <div class="ui info icon message" style="width: 90%">   
-                                        <i class="mail icon"></i>
-                                        <div class="content">
-                                            <div class="header">Mensagem</div>
-                                            <?php echo $mensagem->getMensagem() ?>
-                                        </div>
-                                    </div>
-                                    
-                                    
-                                    <?php if($mensagem->getProposta() != 0) {?>
-                                    
-                                    <script>
-                                    formatarValorProposta(<?php echo $mensagem->getId(); ?>);
-                                    </script>
-                                    
-                                    <div class="ui positive icon message" style="width: 30%">   
-                                        <i class="dollar green icon"></i>
-                                        <div class="content">                                           
-                                            <div class="header">Proposta do comprador</div>
-                                            <label id="txtProposta<?php echo $mensagem->getId() ?>" name="txtProposta"><?php echo $mensagem->getProposta() ?></label>
-                                        </div>
-                                    </div>
-                                    <?php }?>
-                                    
-                                    <div>
-                                        <label>Enviado em <?php echo substr($mensagem->getDataHora(), 0, 10) ?> 
-                                            as <?php echo substr($mensagem->getDataHora(), 10, -3) ?> por 
-
-                                            <?php
-                                            if ($mensagem->getNome() == "") {
-                                                echo "Anônimo";
-                                            } else
-                                                echo $mensagem->getNome();
-                                            ?>
-
-                                        </label>    
-                                    </div>
-
-                                </div>                                       
-
-                                <?php
-                                if ($mensagem->getStatus() != "RESPONDIDO") {
-                                    ?>
-
-                                    <div id="divCamposResposta<?php echo $mensagem->getId() ?>" style="width: 90%">
-
-                                        <label id="laberResponder<?php echo $mensagem->getId() ?>">
-                                            <a href="#<?php echo $mensagem->getId() ?>" id="responder<?php echo $mensagem->getId(); ?>">Responder</a>
-                                        </label>
-
-                                        <div class="required field"  id="divResposta<?php echo $mensagem->getId(); ?>">
-                                            <label>Digite a resposta</label>
-                                            <textarea rows="2" cols="5" name="txtResposta" id="txtResposta<?php echo $mensagem->getId(); ?>" maxlength="200"></textarea>     
-
-                                            <div class="ui hidden divider"></div>       
-
-                                            <div id="divBotoesMensagem">
-                                                <button class="ui blue button" type="submit" id="btnResponderMensagem<?php echo $mensagem->getId() ?>">Responder</button>
-                                                <button class="ui orange button" type="button" id="btnCancelarMensagem<?php echo $mensagem->getId() ?>">Cancelar</button>
-                                            </div>    
-
-                                        </div>
-
-                                    </div>     
-                                <?php } else { ?>  
-
-                                    <div id="divMsgRespondida<?php echo $mensagem->getId() ?>">
-
-                                    </div>
-                                    <label>Sua resposta:</label>
+                                            <div class="ui info icon message" style="width: 90%">   
+                                                <i class="mail icon"></i>
+                                                <div class="content">
+                                                    <div class="header">Mensagem</div>
+                                                    <?php echo $mensagem->getMensagem() ?>
+                                                </div>
+                                            </div>
 
 
-                                    <i class="forward mail icon"></i>
-                                    <?php echo $mensagem->getRespostaMensagem()->getResposta() ?>
+                                            <?php if($mensagem->getProposta() != 0) {?>
+
+                                            <script>
+                                            formatarValorProposta(<?php echo $mensagem->getId(); ?>);
+                                            </script>
+
+                                            <div class="ui positive icon message" style="width: 30%">   
+                                                <i class="dollar green icon"></i>
+                                                <div class="content">                                           
+                                                    <div class="header">Proposta do comprador</div>
+                                                    <label id="txtProposta<?php echo $mensagem->getId() ?>" name="txtProposta"><?php echo $mensagem->getProposta() ?></label>
+                                                </div>
+                                            </div>
+                                            <?php }?>
+
+                                            <div>
+                                                <label>Enviado em <?php echo substr($mensagem->getDataHora(), 0, 10) ?> 
+                                                    as <?php echo substr($mensagem->getDataHora(), 10, -3) ?> por 
+
+                                                    <?php
+                                                    if ($mensagem->getNome() == "") {
+                                                        echo "Anônimo";
+                                                    } else
+                                                        echo $mensagem->getNome();
+                                                    ?>
+
+                                                </label>    
+                                            </div>
+
+                                        </div>                                       
+
+                                        <?php
+                                        if ($mensagem->getStatus() != "RESPONDIDO") {
+                                        ?>
+
+                                            <div id="divCamposResposta<?php echo $mensagem->getId() ?>" style="width: 90%">
+
+                                                <label id="laberResponder<?php echo $mensagem->getId() ?>">
+                                                    <a href="#<?php echo $mensagem->getId() ?>" id="responder<?php echo $mensagem->getId(); ?>">Responder</a>
+                                                </label>
+
+                                                <div class="required field"  id="divResposta<?php echo $mensagem->getId(); ?>">
+                                                    <label>Digite a resposta</label>
+                                                    <textarea rows="2" cols="5" name="txtResposta" id="txtResposta<?php echo $mensagem->getId(); ?>" maxlength="200"></textarea>     
+
+                                                    <div class="ui hidden divider"></div>       
+
+                                                    <div id="divBotoesMensagem">
+                                                        <button class="ui blue button" type="submit" id="btnResponderMensagem<?php echo $mensagem->getId() ?>">Responder</button>
+                                                        <button class="ui orange button" type="button" id="btnCancelarMensagem<?php echo $mensagem->getId() ?>">Cancelar</button>
+                                                    </div>    
+
+                                                </div>
+
+                                            </div>     
+                                        <?php } else { ?>  
+
+                                            <div id="divMsgRespondida<?php echo $mensagem->getId() ?>">
+
+                                            </div>
+                                            <label>Sua resposta:</label>
+
+
+                                            <i class="forward mail icon"></i>
+                                            <?php echo $mensagem->getRespostaMensagem()->getResposta() ?>
+
+                                            <div class="ui hidden divider"></div>
+
+                                            <label>Respondido em <?php echo substr($mensagem->getRespostaMensagem()->getDataHora(), 0, 10) ?> 
+                                                as <?php echo substr($mensagem->getRespostaMensagem()->getDataHora(), 10, -3) ?>
+                                            </label>          
+
+                                        <?php } ?>  
+
+                                    </div>  
 
                                     <div class="ui hidden divider"></div>
+                                    <div id="divRetorno<?php echo $mensagem->getId() ?>"></div>               
+                                    <div class="ui hidden divider"></div>
 
-                                    <label>Respondido em <?php echo substr($mensagem->getRespostaMensagem()->getDataHora(), 0, 10) ?> 
-                                        as <?php echo substr($mensagem->getRespostaMensagem()->getDataHora(), 10, -3) ?>
-                                    </label>          
+                                    </form>
 
-                                <?php } ?>  
+                                    <div class="ui divider"></div>
 
-                            </div>  
-                            
-                            <div class="ui hidden divider"></div>
-                            <div id="divRetorno<?php echo $mensagem->getId() ?>"></div>               
-                            <div class="ui hidden divider"></div>
-                            
-                            </form>
-                            
-                            <div class="ui divider"></div>
-                        
-                         <?php } ?>
-                        
-                    </div>
-                </div>
+                                 <?php } ?>
 
+                            </div>
+                        </div>
+
+            </div>
+
+
+            <?php } } }?>
+             </div>
     </div>
-    
-     
-    <?PHP } } ?>
-     </div>
 </div>
 
 <div class="ui standart modal" id="modalDuvidaAnuncio">
