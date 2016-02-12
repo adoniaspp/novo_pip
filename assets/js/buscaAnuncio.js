@@ -5,21 +5,17 @@ function buscarAnuncio() {
         $("#divValor").hide();
 
         $("input[name=sltCidade]").change(function () {
-            $("#defaultBairro").html("<option value=''>Procurando...</div>");
             $.post('index.php?hdnEntidade=Bairro&hdnAcao=selecionarBairro&idcidade=' + $('#sltCidade').val(),
                     function (resposta) {
-                        $("#defaultBairro").html("Selecione o Bairro");
-                        $("#menuBairro").html(resposta);
+                        $("#sltBairro").html(resposta);
                     }
             );
         });
 
         $("input[name=sltCidadeAvancado]").change(function () {
-            $("#defaultBairroAvancado").html("<option value=''>Procurando...</div>");
             $.post('index.php?hdnEntidade=Bairro&hdnAcao=selecionarBairro&idcidade=' + $('#sltCidadeAvancado').val(),
                     function (resposta) {
-                        $("#defaultBairroAvancado").html("Selecione o Bairro");
-                        $("#menuBairroAvancado").html(resposta);
+                        $("#sltBairroAvancado").html(resposta);
                     }
             );
         });
@@ -414,7 +410,8 @@ function confirmarEmail() {
             $("input[type^='checkbox']:checked").each(function ()
             {
                 $("#idAnuncios").append("<input type='hidden' name='anunciosSelecionados[]' value='" + $(this).val() + "'>");
-                arr.push($(this).val())
+                var codigos = $( "input[name^='hdnCodAnuncio']" );
+                arr.push($(this).parent().parent().parent().find(codigos).val());
             });
 
             //retira a vírgula do último elemento
@@ -929,7 +926,7 @@ function marcarMapaIndividual(logradouro, numero, bairro, cidade, estado, titulo
         }
         setTimeout(function(){ 
         $("#mapaGmapsBusca").width("100%").height(300).gmap3({trigger:"resize"});
-        $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({get:"marker"}).getPosition());}, 500);
+        $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({get:"marker"}).getPosition());}, 1000);
     });
     
      

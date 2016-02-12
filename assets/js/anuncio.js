@@ -863,7 +863,7 @@ function reativar(botao) {
                             });
                             if (resposta.resultado == 1) {
                                 $("#divRetorno" + botao).html('<div class="ui positive message">\n\
-                        <div class="header">Anuncio Reativado com Sucesso </div></div>');
+                        <div class="header">Anúncio Reativado com Sucesso </div></div>');
 
                             } else {
                                 $("#divRetorno" + botao).html('<div class="ui negative message">\n\

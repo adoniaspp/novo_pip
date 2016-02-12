@@ -15,7 +15,7 @@ $item = $this->getItem();
             <div class="ui large breadcrumb">
                 <a class="section" href="index.php">Início</a>
                 <i class="right chevron icon divider"></i>
-                <a class="active section">Comparar Anuncios</a>
+                <a class="active section">Comparar Anúncios</a>
             </div>
         </div>
     </div>
