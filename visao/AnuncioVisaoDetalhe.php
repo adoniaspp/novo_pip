@@ -55,7 +55,7 @@ if($item["mapaImovel"]){
 
 <?php if($item["anuncio"][0]["status"] == "finalizado" || $item["anuncio"][0]["status"] == "expirado") { ?>
 <div class="ui middle aligned stackable grid container">
-    <div class="sixteen wide field">
+    <div class="sixteen column">
         <div class="ui negative message">
             <div class="header">
               Atenção
@@ -121,7 +121,43 @@ if($item["mapaImovel"]){
                 </div>
             </div>
 
+            <?php if ($item['anuncio'][0]['tipo'] != 'apartamentoplanta') { ?>
             <div class="four wide field">
+                <div class="ui header">
+                    <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeArea.jpg">
+                    <label>Área m<sup>2</sup></label>
+                    <br>
+                    <div class="content">
+                        <div class="sub header">
+                            <?php echo $item['anuncio'][0]['area']?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="four wide field">
+                <div class="ui header">
+                    <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeCondicao.jpg">
+                    <label>Condição</label>
+                    <br>
+                    <div class="content">
+                        <div class="sub header">
+                            <?php if($item['anuncio'][0]['condicao'] == "usado"){
+                                echo "Usado";
+                            } else echo "Novo";?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <?php } ?> 
+
+        </div>
+        
+        <?php if ($item['anuncio'][0]['tipo'] != 'apartamentoplanta') { ?>    
+        
+        <div class="fields">    
+             <div class="four wide field">
                 <div class="ui header">
                     <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeValor.jpg">
                     <label>Valor</label>
@@ -151,40 +187,9 @@ if($item["mapaImovel"]){
                         </div>
                     </div>
                 </div>
-            </div>
-
-
-            <?php if ($item['anuncio'][0]['tipo'] != 'apartamentoplanta') { ?>
-            <div class="four wide field">
-                <div class="ui header">
-                    <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeArea.jpg">
-                    <label>Área m<sup>2</sup></label>
-                    <br>
-                    <div class="content">
-                        <div class="sub header">
-                            <?php echo $item['anuncio'][0]['area']?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="four wide field">
-                <div class="ui header">
-                    <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeCondicao.jpg">
-                    <label>Condição</label>
-                    <br>
-                    <div class="content">
-                        <div class="sub header">
-                            <?php if($item['anuncio'][0]['condicao'] == "usado"){
-                                echo "Usado";
-                            } else echo "Novo";?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <?php } ?> 
-
+            </div>   
         </div>
+        <?php } ?>    
             
         <div class="fields">  
             <?php
@@ -423,28 +428,30 @@ if($item["mapaImovel"]){
             
             <div class="fields">
                 <div id="mapaGmapsBusca"></div>
-            </div>    
-                <div class="sixteen wide field">
-                    <div class="ui message">
-                        <div class="header">
-                          Endereço
-                        </div>
-                        <?php
-                        if ($item['anuncio'][0]['numero'] != "" && $item['anuncio'][0]['complemento'] != "") {
-                            $item['anuncio'][0]['logradouro'] . ", " . $item['anuncio'][0]['numero'] . ", " . $item['anuncio'][0]['complemento'];
-                        } elseif ($item['anuncio'][0]['numero'] != "" && $item['anuncio'][0]['complemento'] == "") {
-                            $endereco = $item['anuncio'][0]['logradouro'] . ", " . $item['anuncio'][0]['numero'];
-                        } elseif ($item['anuncio'][0]['numero'] == "" && $item['anuncio'][0]['complemento'] == "") {
-                            $endereco = $item['anuncio'][0]['logradouro'];
-                        } elseif ($item['anuncio'][0]['numero'] == "" && $item['anuncio'][0]['complemento'] != "") {
-                            $endereco = $item['anuncio'][0]['logradouro'] . ", " . $item['anuncio'][0]['complemento'];
-                        }
+            </div>
+            
+            <div class="ui hidden divider"></div>
+            <div class="sixteen wide field">
+                <div class="ui message">
+                    <div class="header">
+                      Endereço
+                    </div>
+                    <?php
+                    if ($item['anuncio'][0]['numero'] != "" && $item['anuncio'][0]['complemento'] != "") {
+                        $item['anuncio'][0]['logradouro'] . ", " . $item['anuncio'][0]['numero'] . ", " . $item['anuncio'][0]['complemento'];
+                    } elseif ($item['anuncio'][0]['numero'] != "" && $item['anuncio'][0]['complemento'] == "") {
+                        $endereco = $item['anuncio'][0]['logradouro'] . ", " . $item['anuncio'][0]['numero'];
+                    } elseif ($item['anuncio'][0]['numero'] == "" && $item['anuncio'][0]['complemento'] == "") {
+                        $endereco = $item['anuncio'][0]['logradouro'];
+                    } elseif ($item['anuncio'][0]['numero'] == "" && $item['anuncio'][0]['complemento'] != "") {
+                        $endereco = $item['anuncio'][0]['logradouro'] . ", " . $item['anuncio'][0]['complemento'];
+                    }
 
-                        echo $endereco;
+                    echo $endereco;
 
-                        ?>
-                      </div>
-                </div>
+                    ?>
+                  </div>
+            </div>
             
             <div class="ui hidden divider"></div>
             
@@ -492,9 +499,29 @@ if($item["mapaImovel"]){
             
             <div class="ui relaxed divided items">
                 <div class="item">
+                    
+                    <?php 
+                    
+                    if($item['anuncio'][0]['foto'] !=""){
+                    
+                    ?>
+                    
                     <div class="ui small image">
                         <img style="height:150px; width: 220px;" src="<?php echo PIPURL . "fotos/usuarios/" . $item['anuncio'][0]['foto'] ?>">
                     </div>
+                    
+                    <?php 
+                    
+                    } else { ?>
+                    
+                    <img src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" class="img-circle" width="220px" height="150px">
+                
+                    <?php
+                        
+                    }
+                    
+                    ?>
+                    
                     <div class="content">
                         <a class="header"><?php echo $item['anuncio'][0]['nome'] ?></a>
                         <?php

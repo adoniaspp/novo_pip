@@ -17,9 +17,7 @@
     //})
 </script>
 
-<div class="container"> 
-     
-    <?php 
+<?php 
     
     $item = $this->getItem();
     $usuario = $item["usuario"][0];
@@ -44,83 +42,136 @@
                     }
     
     ?>
-    
-    
-    <div class="ui three column centered page grid">        
-    
-     <div class="sixteen wide column">
-        
-      <div class="ui form segment">
-          
-        <div class="ui two stackable padded grid">
-            <a class="ui teal ribbon label">Informações <?php if ($usuario->getTipoUsuario() == "pf") {
-                                echo "do Vendedor - Pessoa Física";
-                            } else echo "da Empresa - Pessoa Jurídica"; ?></a> 
-            <div class="thirteen wide column">
-               
-                <div class="fields">
+
+<div class="ui middle aligned stackable grid container">
+ 
+        <div class="column">
+            
+            <form id="form" class="ui form">
+       
+            <div class="ui dividing header">
+                
+                <div class="ui large teal label">Informações do Vendedor</div>
                     
-                    <div class="eight wide field">
-                        <input type="hidden" id="hdUsuario" name="hdUsuario" value="<?php echo $usuario->getId();?>"  
-                        <label>Nome</label>
-                        <?php echo strtoupper($usuario->getNome()); ?> <br />
-                        <label>Endereço</label>
+            </div>
+            
+            <div class="fields">    
+            
+            <div class="five wide field">
+
+                <?php if ($usuario->getFoto() != "") { ?>
+                    <img width="220px" height="120px" src="<?php echo PIPURL ?>/fotos/usuarios/<?php echo $usuario->getFoto(); ?>" style="" >
+
+                    <?php } else { ?>
+                        <img src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" class="img-circle" width="120px" height="120px">
+                    <?php } ?>
+
+            </div>    
+         
+            
+            <div class="six wide field">
+                <div class="ui header">
+                    <input type="hidden" id="hdUsuario" name="hdUsuario" value="<?php echo $usuario->getId();?>" 
+                    <label><?php if ($usuario->getTipoUsuario() == "pf") {
+                                echo "Nome";
+                            } else echo "Empresa"; ?>
+                    </label>
+                    <br>
+                    <div class="content">                                               
+                        <div class="sub header">
+                            <?php echo strtoupper($usuario->getNome()); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+            <div class="five wide field">
+                <div class="ui header">
+                    <label>Tipo de Pessoa</label>
+                    <br>
+                    <div class="content">                                               
+                        <div class="sub header">
+                            <?php if ($usuario->getTipoUsuario() == "pf") {
+                                echo "Pessoa Física";
+                            } else echo "Pessoa Jurídica"; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="nine wide field">
+                <div class="ui header">
+                    <label><?php if ($usuario->getTipoUsuario() == "pf") {
+                                echo "Endereço";
+                            } else echo "Localização"; ?>
+                    </label>
+                    <br>
+                    <div class="content">                                               
+                        <div class="sub header">
                         <?php echo $endereco . " - "; ?>
                         <?php echo strtoupper($cidadeEstado->getCidade()->getNome()) . ", " . strtoupper($cidadeEstado->getEstado()->getUf()); ?>
-                        
+                        </div>
                     </div>
- 
-                    <div class="six wide field">
-           
-                      <label>Contato(s)</label>
-                       <?php
-                            if (is_array($usuario->getTelefone())) { //verifica se existe mais de um número de telefone cadastrado para o usuário                                 
-                                foreach ($usuario->getTelefone() as $anuncioTelefone) {
-                                    ?>  
-                                    
-                                    <?php echo strtoupper($anuncioTelefone->getOperadora()) . " - " . strtoupper($anuncioTelefone->getNumero()) ?>
-                                    <?php
-                                    if($anuncioTelefone->getWhatsApp()=="SIM"){ ?>
-                                    <i class="large green whatsapp icon"></i>
-                                    <?php
-                                    }?>
-                                    <br/>
-                                <?php } ?>
-                            <?php } else echo strtoupper($usuario->getTelefone()->getOperadora()) . " - " . strtoupper($usuario->getTelefone()->getNumero()); echo "<br/>"?>  
-                      
-                    </div>
-                   
-                    <div class="four wide fields">
-
-                        <?php if ($usuario->getFoto() != "") { ?>
-                        <img width="120px" height="120px" src="<?php echo PIPURL ?>/fotos/usuarios/<?php echo $usuario->getFoto(); ?>" style="" >
-
-                        <?php } else { ?>
-                            <img src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" class="img-circle" width="120px" height="120px">
-                        <?php } ?>
-
                 </div>
-                    
-                </div>    
+            </div>  
                 
+            </form>    
                 
-                
-                </div>
-                
-          </div>
         </div>
-      </div>
+         
+           
+    
+        <div class="ui dividing header">
+                
+                <div class="ui large orange label">Contato(s)</div>
+                    
+        </div>
+                
+        
+            <div class="fields">
+                
+                <div class="six wide field">
+                    
+                    
+                    <?php
+                        $quantidade = count($usuario->getTelefone());
+                        if ($quantidade == 1) {
+                            $array = array($usuario->getTelefone());
+                        } else {
+                            $array = $usuario->getTelefone();
+                        }
+                        foreach ($array as $telefone) {
+                            if($telefone->getWhatsApp()=="SIM"){
+                                $fones[] = $telefone->getOperadora() . " - " . $telefone->getNumero() . "  <i class='large green whatsapp icon'></i> ";
+                            }else $fones[] = $telefone->getOperadora() . " - " . $telefone->getNumero();
+                        }
+
+                        $fonesImplode = implode(" | ", $fones); //retirar a barra do último elemento
+
+                        echo $fonesImplode;
+                        ?>
+     
+                    </div>
+                          
+            </div>
+           
+            
+    </div>      
+    
+</div>
+
+
+<div class="ui middle aligned stackable grid container">
+ 
+    <div class="column">
+
+    <div class="ui hidden divider"></div>
+    
+    <div class="ui dividing header">
+                
+        <div class="ui large blue label">Anúncio(s) <?php if($usuario->getTipoUsuario() == "pf"){echo "do Vendedor";} else echo "da Empresa";?></div> 
+                    
     </div>
-    
-    
-    <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-    
-    <div class="ui hidden divider"></div>
-    <div class="ui hidden divider"></div>
-    
-     <div class="ui center aligned column page grid">
-     <div class="ui big blue label">Anuncios <?php if($usuario->getTipoUsuario() == "pf"){echo "do Vendedor";} else echo "da Empresa";?></h4></div> 
-     </div>
     
     <div class="ui form" id="divBusca">
        
@@ -322,8 +373,12 @@
                             </div>
                         </div>
                     </div>    
+               
+                    </div>      
                     
-                    <div class="five field" id="divValorVenda">
+                    <div class="fields">
+                        
+                        <div class="five field" id="divValorVenda">
                         <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeValor.jpg">
                         <label>Valor</label>
                         <div class="ui selection dropdown">
@@ -367,9 +422,9 @@
                                 <div class='item' data-value=1000000>Mais de R$10.000</div>
                             </div>
                         </div>
-                    </div>     
-                 
-                    </div>      
+                    </div> 
+                        
+                    </div>    
                     
                 </div>
                 
@@ -591,7 +646,7 @@
     <div class="ui segment" id="divAnuncios"></div> <!-- Exibe os resultados dos anuncios-->
        
 </div>
-
+</div>
 <script>
   /*  $(document).ready(function() {
     $('[id^=btnAnuncioModal]').click(function() {
@@ -633,59 +688,6 @@
 
 
 <!-- Modal Para Abrir a Div do Enviar Anuncios por Email -->
-<div class="ui standart modal" id="modalEmail">
-    <i class="close icon"></i>
-    <div class="header">
-        Anuncios Selecionados: <div id="idAnunciosCabecalho"></div>
-    </div>
-    <div class="content" id="camposEmail">
-        <div class="description">
-            <div class="ui piled segment">
-                <p id="textoConfirmacao"></p>
-               
-                <form class="ui form" id="formEmail" action="index.php" method="post">
-                <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio"  />
-                <input type="hidden" id="hdnAcao" name="hdnAcao" value="enviarEmail" />               
-                
-                    <div class="field">
-                        <label>Seu Nome</label>
-                        <input name="txtNomeEmail" id="txtNomeEmail" placeholder="Digite Seu Nome" type="text" maxlength="50">
-                    </div>
-                    <div class="field">
-                        <label>Sua Mensagem</label>
-                        <textarea rows="2" id="txtMsgEmail" name="txtMsgEmail" maxlength="200"></textarea>
-                    </div>
-                    <div class="field">
-                        <label>E-mail de Destino</label>
-                        <input name="txtEmailEmail"  id="txtEmailEmail" placeholder="Digite o email" type="text" maxlength="50">
-                    </div>
-                
-                    <div class="five wide field">
-                        <label>Digite o código abaixo:</label>
-                        <img id="captcha" src="../assets/libs/captcha/securimage/securimage_show.php" alt="CAPTCHA Image" />    
-                        <a href="#" onclick="document.getElementById('captcha').src = '../assets/libs/captcha/securimage/securimage_show.php?' + Math.random(); return false">
-                        <img src="../assets/libs/captcha/securimage/images/refresh.png" height="32" width="32" alt="Trocar Imagem" onclick="this.blur()" align="bottom" border="0"></a>
-                        <input type="text" name="captcha_code" id="captcha_code" maxlength="6" />
-                    </div>
-                    
-                <div id="idAnuncios"></div>
-                
-                </form>
-               
-            </div>
-            </div>
-        </div>
-    <div id="divRetorno"></div>
-    <div class="actions">
-        <div  id="botaoCancelarEmail" class="ui red deny button">
-            Cancelar
-        </div>
-        <div  id="botaoEnviarEmail" class="ui positive right labeled icon button">
-            Enviar
-        <i class="checkmark icon"></i>
-        </div>
-        <div  id="botaoFecharEmail" class="ui red deny button">
-            Fechar
-        </div>
-    </div>
-</div>
+<?php
+include_once "/modal/AnuncioEnviarEmailModal.php";
+?>
