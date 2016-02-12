@@ -410,7 +410,7 @@ function confirmarEmail() {
             $("input[type^='checkbox']:checked").each(function ()
             {
                 $("#idAnuncios").append("<input type='hidden' name='anunciosSelecionados[]' value='" + $(this).val() + "'>");
-                var codigos = $( "input[name^='hdnCodAnuncio']" );
+                var codigos = $( "input[name^='hdnCodAnuncioFormatado']" );
                 arr.push($(this).parent().parent().parent().find(codigos).val());
             });
 

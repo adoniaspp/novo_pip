@@ -127,7 +127,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                         <?php echo $item['anuncio'][$crtl]['valormin'] ?> </span>
                                         <br />
                                         Cod. <?php echo $item['anuncio'][$crtl]['idanuncioformatado']?>
-                                        <input type="hidden" name="hdnCodAnuncio[]" value="<?php echo $item['anuncio'][$crtl]['idanuncioformatado']?>" />
+                                        <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $item['anuncio'][$crtl]['idanuncioformatado']?>" />
                                     </div>
                                 </div>
                                 <div class="extra content">      

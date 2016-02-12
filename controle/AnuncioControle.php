@@ -123,7 +123,7 @@ class AnuncioControle {
     }
 
     function detalhar($parametros) {
-        
+
         $genericoDAO = new GenericoDAO();
         $parametros["idanuncio"] = $parametros["hdnCodAnuncio"];
         unset($parametros["hdnCodAnuncio"]);
@@ -139,6 +139,7 @@ class AnuncioControle {
         unset($parametros["tabela_length"]);
         unset($parametros["selecionarAnuncio"]);
         unset($parametros["listaAnuncio"]);
+        unset($parametros["hdnCodAnuncioFormatado"]);
 
         $parametros["predicados"] = $parametros;
 
@@ -248,6 +249,8 @@ class AnuncioControle {
         unset($parametros["listaAnuncio"]);
         unset($parametros["hdnCodAnuncio"]);
         unset($parametros["hdnTipoImovel"]);
+        unset($parametros["hdnCodAnuncioFormatado"]);
+        
         foreach ($idsAnuncio as $idanuncio) {
             $item["anuncio"] = $genericoDAO->consultar(new Anuncio(), false, array("id" => $idanuncio));
             $item["imovel"] = $genericoDAO->consultar(new Imovel(), true, array("id" => $item["anuncio"][0]->getIdimovel()));
