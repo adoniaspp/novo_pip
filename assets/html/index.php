@@ -88,13 +88,9 @@ Cookies::consultarPreferencias();
                         <div class="five field">
                             <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeBairro.jpg">
                             <label>Bairro</label>
-                            <div class="ui selection dropdown">
-                                <input type="hidden" name="sltBairro" id="sltBairro">
-                                <div class="default text" id="defaultBairro">Selecione a Cidade</div>
-                                <i class="dropdown icon"></i>
-                                <div class="menu" id="menuBairro">
-                                </div>
-                            </div>
+                            <select multiple="" class="ui search dropdown"  name="sltBairro" id="sltBairro">    
+                                <option value="">Selecione a Cidade</option>   
+                            </select>
                         </div>
                         
                         <div class="five field" id="divCondicao">
@@ -194,16 +190,12 @@ Cookies::consultarPreferencias();
                         </div>
                     </div>
                     <div class="five field">
-                        <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeBairro.jpg">
-                        <label>Bairro</label>
-                        <div class="ui selection dropdown">
-                            <input type="hidden" name="sltBairroAvancado" id="sltBairroAvancado">
-                            <div class="default text" id="defaultBairroAvancado">Selecione a Cidade</div>
-                            <i class="dropdown icon"></i>
-                            <div class="menu" id="menuBairroAvancado">
-                            </div>
+                            <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeBairro.jpg">
+                            <label>Bairro</label>
+                            <select multiple="" class="ui search dropdown"  name="sltBairroAvancado" id="sltBairroAvancado">    
+                                <option value="">Selecione a Cidade</option>   
+                            </select>
                         </div>
-                    </div>
                         
                     <div class="five field" id="divCondicaoAvancado">
                         <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeCondicao.jpg">
@@ -459,7 +451,7 @@ Cookies::consultarPreferencias();
                         <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeQuadra.jpg">
                         <img class="ui mini left floated image" src="../../assets/imagens/icones/iconePiscina.jpg">
                         <label>Diferenciais</label>
-                        <select multiple="" class="ui dropdown"  name="carregarDiferenciais" id="carregarDiferenciais">    
+                        <select multiple="" class="ui search dropdown"  name="carregarDiferenciais" id="carregarDiferenciais">    
                         <option value="" >Indiferente</option>   
                         </select>
                     </div>
