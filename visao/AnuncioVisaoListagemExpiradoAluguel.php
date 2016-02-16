@@ -8,7 +8,11 @@
 
 <script>
     $(document).ready(function () {
-
+$("span[class='ui small grey button']")
+ .popup({
+   
+  })
+;
         $('#tabela').DataTable({
             "language": {
                 "url": "assets/libs/datatables/js/Portuguese-Brasil.json",
@@ -187,7 +191,7 @@ if ($totalAnunciosFinalizados < 1 && $totalAnunciosExpirados < 1) {
                         if (count($item["listaPlanos"]) > 0) {
                             echo "<a id='btnReativar" . $anuncio->getId() . "' class='ui small green button'><i class='refresh icon'></i>Reativar Anúncio</a>";
                         } else {
-                            echo "<a id='btnReativar" . $anuncio->getId() . "' class='ui small disabled button'><i class='refresh icon'></i>Reativar Anúncio</a>";
+                            echo "<span class='ui small grey button' data-content='Você precisa adquirir um plano para poder reativar este anúncio' data-variation='inverted'><i class='refresh icon'></i>Reativar Anúncio</span>";
                         }
             ?></td>
                             </tr>
