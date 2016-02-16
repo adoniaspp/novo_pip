@@ -43,12 +43,12 @@
     
     ?>
 
+<form class="ui form">
+    
 <div class="ui middle aligned stackable grid container">
- 
+
         <div class="column">
-            
-            <form id="form" class="ui form">
-       
+   
             <div class="ui dividing header">
                 
                 <div class="ui large teal label">Informações do Vendedor</div>
@@ -115,7 +115,7 @@
                 </div>
             </div>  
                 
-            </form>    
+               
                 
         </div>
          
@@ -160,6 +160,7 @@
     
 </div>
 
+</form> 
 
 <div class="ui middle aligned stackable grid container">
  
