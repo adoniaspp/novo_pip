@@ -70,7 +70,7 @@ if($item["mapaImovel"]){
   
     <div class="column">
         <form id="form" class="ui form">
-            <div class="ui dividing header"><div class="ui large teal label">Informações Básicas</div></div>
+            <div class="ui dividing header"><div class="ui big teal label">Informações Básicas</div></div>
             
             <div class="sixteen wide column"> 
                 <div class="ui info message">
@@ -78,6 +78,62 @@ if($item["mapaImovel"]){
                     <p><?php echo $item['anuncio'][0]['descricaoanuncio'] ?></p>
                 </div>
             </div>
+            
+            
+            
+            <?php if($item["novoValor"] != null){ ?>
+        
+                <div class="ui hidden divider"></div>
+                
+                <div class="item"> 
+                    <div class="ui dividing header"><div class="ui big orange label">Valor do Anúncio</div></div>
+                        <?php 
+                        $contador = 0;
+                        foreach ($item["novoValor"] as $novoValor){
+                       
+                            $contador = $contador + 1;
+                            if($contador == 1){
+                                
+                                ?>
+            
+                                <script>
+                                formatarValorUnico(<?php echo $novoValor->getId() ?>);
+                                </script>
+
+                                <?php  
+                                
+                                echo "<div class='ui big label'><span id='formatarValorUnicoJS".$novoValor->getId()."'>".$novoValor->getNovoValor()."</div></span>&nbsp;&nbsp;&nbsp;&nbsp";
+                            }
+                            else {
+                                
+                                ?>
+            
+                                <script>
+                                formatarValorCampos(<?php echo $novoValor->getId() ?>);
+                                </script>
+
+                                <?php
+                                
+                                echo "<div class='ui big label'><strike id='formatarValorJS".$novoValor->getId()."'>".$novoValor->getNovoValor()."</div></strike>&nbsp;&nbsp;&nbsp;&nbsp";
+                            }
+                        }
+                        
+                        ?>
+            
+                                <script>
+                                formatarValorUnico(<?php echo $item['anuncio'][0]['id'] ?>);
+                                </script>
+
+                                <?php
+                        
+                        echo "<div class='ui big label'><strike id='formatarValorUnicoJS".$item['anuncio'][0]['id']."'>".$item['anuncio'][0]['valormin']."</strike></div>&nbsp;&nbsp;&nbsp;&nbsp";
+                        ?>
+                    
+                </div>
+                
+                <?php } ?>
+            
+            
             
             <div class="ui hidden divider"></div> 
             
@@ -88,9 +144,10 @@ if($item["mapaImovel"]){
                     <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeFinalidade.jpg">
                     <label>Finalidade</label>
                     <br>
-                    <div class="content">                                               
+                    <div class="content">    
+                        
                         <div class="sub header">
-                            <?php echo $item['anuncio'][0]['finalidade'] ?>
+                            <?php echo "<font size = '4' color = 'maroon'>".$item['anuncio'][0]['finalidade']."</font>"; ?>
                         </div>
                     </div>
                 </div>
@@ -104,17 +161,20 @@ if($item["mapaImovel"]){
                     <div class="content">
                         <div class="sub header">
                             <?php
+                            
+                            $fonte = "<font size = '4' color = 'maroon'>";
+                            
                             if ($item['anuncio'][0]['tipo'] == 'apartamentoplanta') {
-                                echo 'Apto na planta';
+                                echo $fonte.'Apto na planta'."</font>";
                             } else if ($item['anuncio'][0]['tipo'] == 'salacomercial'){
-                                echo 'Sala Comercial';
+                                echo $fonte.'Sala Comercial'."</font>";
                             } else if ($item['anuncio'][0]['tipo'] == 'prediocomercial'){
-                                echo 'Prédio Comercial';
+                                echo $fonte.'Prédio Comercial'."</font>";
                             } else if ($item['anuncio'][0]['tipo'] == 'apartamento'){
-                                echo 'Apartamento';
+                                echo $fonte.'Apartamento'."</font>";
                             } else if ($item['anuncio'][0]['tipo'] == 'casa'){
-                                echo 'Casa';
-                            } else echo 'Terreno';
+                                echo $fonte.'Casa'."</font>";
+                            } else echo $fonte.'Terreno'."</font>";
                             ?>
                         </div>
                     </div>
@@ -129,7 +189,7 @@ if($item["mapaImovel"]){
                     <br>
                     <div class="content">
                         <div class="sub header">
-                            <?php echo $item['anuncio'][0]['area']?>
+                            <?php echo "<font size = '4' color = 'maroon'>".$item['anuncio'][0]['area']."</font>"?>
                         </div>
                     </div>
                 </div>
@@ -143,8 +203,8 @@ if($item["mapaImovel"]){
                     <div class="content">
                         <div class="sub header">
                             <?php if($item['anuncio'][0]['condicao'] == "usado"){
-                                echo "Usado";
-                            } else echo "Novo";?>
+                                echo "<font size = '4' color = 'maroon'>"."Usado"."</font>";
+                            } else echo "<font size = '4' color = 'maroon'>"."Novo"."</font>";?>
                         </div>
                     </div>
                 </div>
@@ -155,40 +215,7 @@ if($item["mapaImovel"]){
         </div>
         
         <?php if ($item['anuncio'][0]['tipo'] != 'apartamentoplanta') { ?>    
-        
-        <div class="fields">    
-             <div class="four wide field">
-                <div class="ui header">
-                    <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeValor.jpg">
-                    <label>Valor</label>
-                    <br>
-                    <div class="content">
-                        <div class="sub header" id="divValor">
-
-                            <?php 
-                            //verificar se existe um novo valor já cadastrado
-                            if($item["novoValor"] != null){
-
-                                foreach ($item["novoValor"] as $valorMin){
-
-                                    if($valorMin->getStatus() == "ativo"){
-
-                                        $valorAnuncio = $valorMin->getNovoValor();
-
-                                    }
-
-                                }
-                              //senao, exibir o valor original do anúncio
-                            } else $valorAnuncio = $item['anuncio'][0]['valormin'];
-
-                            ?>
-
-                            <?php echo $valorAnuncio ?>
-                        </div>
-                    </div>
-                </div>
-            </div>   
-        </div>
+               
         <?php } ?>    
             
         <div class="fields">  
@@ -203,7 +230,7 @@ if($item["mapaImovel"]){
                         <br>
                         <div class="content">
                             <div class="sub header">
-                                <?php echo $item['anuncio'][0]['quarto'] ?>
+                                <?php echo "<font size = '4' color = 'maroon'>".$item['anuncio'][0]['quarto']."</font>" ?>
                             </div>
                         </div>
                     </div>
@@ -219,7 +246,7 @@ if($item["mapaImovel"]){
                         <br>
                         <div class="content">
                             <div class="sub header">
-                                <?php echo $item['anuncio'][0]['banheiro'] ?>
+                                <?php echo "<font size = '4' color = 'maroon'>".$item['anuncio'][0]['banheiro']."</font>" ?>
                             </div>
                         </div>
                     </div>
@@ -237,7 +264,7 @@ if($item["mapaImovel"]){
                     <br>
                     <div class="content">
                         <div class="sub header">
-                            <?php echo $item['anuncio'][0]['suite'] ?>
+                            <?php echo "<font size = '4' color = 'maroon'>".$item['anuncio'][0]['suite']."</font>" ?>
                         </div>
                     </div>
                 </div>
@@ -250,7 +277,7 @@ if($item["mapaImovel"]){
                     <br>
                     <div class="content">
                         <div class="sub header">
-                            <?php echo $item['anuncio'][0]['garagem'] ?> 
+                            <?php echo "<font size = '4' color = 'maroon'>".$item['anuncio'][0]['garagem']."</font>" ?> 
                         </div>
                     </div>
                 </div>
@@ -271,7 +298,7 @@ if($item["mapaImovel"]){
                         <br>
                         <div class="content">
                             <div class="sub header">
-                                <?php echo $item['anuncio'][0]['unidadesandar'] ?>
+                                <?php echo "<font size = '4' color = 'maroon'>".$item['anuncio'][0]['unidadesandar']."</font>" ?>
                             </div>
                         </div>
                     </div>
@@ -284,7 +311,7 @@ if($item["mapaImovel"]){
                         <br>
                         <div class="content">
                             <div class="sub header">
-                                <?php echo $item['anuncio'][0]['andar'] ?>
+                                <?php echo "<font size = '4' color = 'maroon'>".$item['anuncio'][0]['andar']."</font>" ?>
                             </div>
                         </div>
                     </div>
@@ -296,7 +323,7 @@ if($item["mapaImovel"]){
                         <div class="content">
                             Condomínio
                             <div class="sub header" id="divValorCondominio">
-                                <?php echo $item['anuncio'][0]['condominio'] ?>
+                                <?php echo "<font size = '4' color = 'maroon'>".$item['anuncio'][0]['condominio']."</font>" ?>
                             </div>
                         </div>
                     </div>
@@ -309,7 +336,7 @@ if($item["mapaImovel"]){
             if ($item['anuncio'][0]['tipo'] == 'apartamentoplanta') {
             ?>
             
-            <div class="ui dividing header"><div class="ui large yellow label">Informações da Planta</div></div>
+            <div class="ui dividing header"><div class="ui big yellow label">Informações da Planta</div></div>
             <div class="fields">
                 
                 <div class="ui styled fluid accordion">
@@ -318,7 +345,7 @@ if($item["mapaImovel"]){
                             ?>
                             <div class="active title">
                                 <i class="dropdown icon"></i>
-                                <?php echo $planta['tituloplanta'] ?>
+                                <?php echo "<font size = '4' color = 'maroon'>".$planta['tituloplanta']."</font>" ?>
                             </div>
                             <div class="active content">
                                 <div class="ui six column stackable grid container"> 
@@ -407,7 +434,7 @@ if($item["mapaImovel"]){
             
             <?php if ($item['anuncio'][0]['diferenciais']) { ?>
             
-            <div class="ui dividing header"><div class="ui large black label">Diferenciais</div></div>
+            <div class="ui dividing header"><div class="ui big black label">Diferenciais</div></div>
             <div class="fields">
                 
                 <?php foreach ($item['anuncio'][0]['diferenciais'] as $diferenciais) { ?>
@@ -424,7 +451,7 @@ if($item["mapaImovel"]){
             <div class="ui hidden divider"></div>
             <?php } ?>
             
-            <div class="ui dividing header"><div class="ui large green label">Localização</div></div>
+            <div class="ui dividing header"><div class="ui big green label">Localização</div></div>
             
             <div class="fields">
                 <div id="mapaGmapsBusca"></div>
@@ -456,7 +483,7 @@ if($item["mapaImovel"]){
             <div class="ui hidden divider"></div>
             
             
-            <div class="ui dividing header"><div class="ui large blue label">Foto(s) do Anúncio</div></div>
+            <div class="ui dividing header"><div class="ui big blue label">Foto(s) do Anúncio</div></div>
             
             <div class="ui stackable two column centered grid">
             
@@ -485,7 +512,7 @@ if($item["mapaImovel"]){
             </div>            
      
             <div class="ui hidden divider"></div>
-            <div class="ui dividing header"><div class="ui large red label">Contato(s)</div></div>
+            <div class="ui dividing header"><div class="ui big red label">Contato(s)</div></div>
             
             <?php if ($item["qtdAnuncios"] >= 2) { ?>
             
@@ -568,7 +595,7 @@ if($item["mapaImovel"]){
 
             ?>
             
-        <div class="ui dividing header"><div class="ui large brown label">Mensagem(ns) do Anúncio</div></div>
+        <div class="ui dividing header"><div class="ui big brown label">Mensagem(ns) do Anúncio</div></div>
         
             <script>
             esconderResposta();    

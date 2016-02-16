@@ -155,7 +155,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
     </div>
 </div>
 <div id="load">
-    <div class="ui text loader">Loading</div>
+    <div class="ui text loader">Carregando...</div>
 </div>  
 <!-- Modal Para Abrir a Div do Enviar Anuncios por Email -->
 <?php

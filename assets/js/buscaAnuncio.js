@@ -52,11 +52,12 @@ function buscarAnuncio() {
             condicao: '',
             unidadesandar: '',
             area: '',
+            id: $('#hdUsuario').val(),
             garagem: 'false',
             page: 'index'});
 
 
-        $("#btnBuscarAnuncio").on('click', function () {
+        $("#btnBuscarAnuncioBasico").on('click', function () {
             
             $("#divOrdenacao").show(); //mostrar a ordenação, caso esteja oculta quando a buscar não retornar nada
             
@@ -79,6 +80,7 @@ function buscarAnuncio() {
                 condicao: $('#sltCondicao').val(),
                 unidadesandar: $('#sltUnidadesAndar').val(),
                 area: $('#sltArea').val(),
+                id: $('#hdUsuario').val(),
                 diferencial: $('#carregarDiferenciais').val(),
                 garagem: $('#checkgaragem').parent().checkbox('is checked')}, function () {
                 $("#load").addClass('ui active inverted dimmer');
@@ -90,7 +92,7 @@ function buscarAnuncio() {
 
 
         $("#btnBuscarAnuncioAvancado").on('click', function () {
-
+            
             $("#load").addClass('ui active inverted dimmer');
             if ($('#sltTipoImovelAvancado').val() == "") {
                 tipoimovel = "todos"
@@ -110,6 +112,7 @@ function buscarAnuncio() {
                 condicao: $('#sltCondicaoAvancado').val(),
                 unidadesandar: $('#sltUnidadesAndar').val(),
                 area: $('#sltArea').val(),
+                id: $('#hdUsuario').val(),
                 diferencial: $('#carregarDiferenciais').val(),
                 garagem: $('#sltGaragem').val()},
             function () {
@@ -124,6 +127,7 @@ function buscarAnuncio() {
     });
 }
 
+/*
 function buscarAnuncioUsuario() {
     $(document).ready(function () {
 
@@ -212,7 +216,7 @@ function buscarAnuncioUsuario() {
             on: 'hover'
         });
 
-        /*Criar uma view especifica para tela inicial*/
+
         $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
             tipoImovel: 'todos',
             valor: '',
@@ -283,7 +287,7 @@ function buscarAnuncioUsuario() {
         });
 
     });
-}
+}*/
 
 function carregarAnuncio() { //valor = quantidade de anuncios
 
