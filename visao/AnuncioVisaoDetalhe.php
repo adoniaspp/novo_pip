@@ -131,9 +131,23 @@ if($item["mapaImovel"]){
                     
                 </div>
                 
-                <?php } ?>
-            
-            
+                <?php } else {?>
+                
+                <script>
+                formatarValorUnico(<?php echo $item['anuncio'][0]['id'] ?>);
+                </script>
+                
+                <div class="ui hidden divider"></div>
+                
+                <div class="item"> 
+                    <div class="ui dividing header"><div class="ui big orange label">Valor do Anúncio</div></div>
+                </div>
+                
+                <br>
+                
+                <?php 
+                echo "<div class='ui big label'><span id='formatarValorUnicoJS".$item['anuncio'][0]['id']."'>".$item['anuncio'][0]['valormin']."</span></div>&nbsp;&nbsp;&nbsp;&nbsp";
+                } ?>
             
             <div class="ui hidden divider"></div> 
             
