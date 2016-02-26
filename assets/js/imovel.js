@@ -31,13 +31,10 @@ function esconderCamposInicio() {
             required: true
         });
 
+        //ao mudar o tipo do imovel
         $("#sltTipo").change(function () {
             $(this).valid();
-        })
-
-        $("#sltTipo").change(function () {
-
-
+            //chama os diferencias por tipo de imovel
             $.ajax({
                 url: "index.php",
                 type: "POST",
@@ -52,17 +49,9 @@ function esconderCamposInicio() {
                             .checkbox();
                 }
             })
-
-
-            $("input[id^='slt']").each(function () {
-                $(this).rules("remove");
-
-            });
-
-
-
+            //remove todas as regras do validate
             $("#txtCEP").rules("remove");
-
+            //resetar os valores default dos dropdown e campos textos
             $('#sltNumeroPlantas').parent().dropdown('restore defaults');
             $('#sltCondicao').parent().dropdown('restore defaults');
             $('#sltQuarto').parent().dropdown('restore defaults');
@@ -72,29 +61,35 @@ function esconderCamposInicio() {
             $('#sltAndares').parent().dropdown('restore defaults');
             $("#txtArea").val("");
             $("#txtDescricao").val("");
-
+            //mostra a area
             mostrarArea();
-
+            //adiciona novamente a regra do CEP o validate
             $("#txtCEP").rules("add", {
                 required: true
             });
-
+            //verificar o tipo do imovel escolhido
             if ($(this).val() == "1") { //casa
-
-                $("#divInfoApeCasa").empty();
-
+                //chama a funcao de carregamento da casa/apartamento/sala comercial
                 mostrarDivInfoApeCasa();
+                //esconde as div de apartamento e planta
                 $("#divApartamento").hide();
                 $("#divNumeroPlantas").hide();
                 $("#divInserePlanta").hide();
                 $("#divPlantaUm").hide();
                 $("#divAndar").hide();
+                //exibe as informacoes de casa
                 $("#divInfoBasicas").show();
                 $("#divInfoApeCasa").show();
                 $("#divDescricao").show();
                 $("#divEndereco").show();
                 $("#divCondicao").show();
-
+                //adiciona as regras do validate     
+                $("input[id^='txtPlanta']").each(function () {
+                    $(this).rules("remove");
+                });
+                $("input[id^='slt']").each(function () {
+                    $(this).rules("remove");
+                });
                 $("#sltCondicao").rules("add", {
                     required: true
                 });
@@ -110,40 +105,35 @@ function esconderCamposInicio() {
                 $("#sltGaragem").rules("add", {
                     required: true
                 });
-
                 $("#sltCondicao").change(function () {
                     $(this).valid();
                 })
-
                 $("#sltQuarto").change(function () {
                     $(this).valid();
                 })
-
                 $("#sltSuite").change(function () {
                     $(this).valid();
                 })
-
                 $("#sltBanheiro").change(function () {
                     $(this).valid();
                 })
-
                 $("#sltGaragem").change(function () {
                     $(this).valid();
                 })
 
             } else if ($(this).val() == "2") {  //apartamento na planta
-
+                //limpa a div de carregamento
                 $("#divInfoApeCasa").empty();
-
+                //chama funcao de carregar as plantas
                 mostrarPlantas();
-                mostrarDivInfoApeCasa()
-
+                //exibe as divs de planta
                 $("#divNumeroPlantas").show();
                 $("#divAreaPlanta").show();
                 $("#divNumeroTorres").show();
                 $("#divAndares").show();
                 $("#divUnidadesTotal").show();
                 $("#divUnidadesAndar").show();
+                //esconde as
                 $("#divInserePlanta").hide();
                 $("#divPlantaUm").hide();
                 $("#divInfoBasicas").hide();
@@ -158,12 +148,6 @@ function esconderCamposInicio() {
                 $("#divArea").hide();
                 $("#divInfoApeCasa").hide();
                 $("#divAndar").hide();
-
-                $("#sltCondicao").rules("remove");
-
-                $("#sltNumeroPlantas").rules("add", {
-                    required: true
-                });
 
             } else if ($(this).val() == "3") { //apartamento novo ou usado 
 
@@ -188,6 +172,13 @@ function esconderCamposInicio() {
                 $("#divCondominio").show();
                 $("#chkCobertura").show();
                 $("#chkSacada").show();
+
+                $("input[id^='txtPlanta']").each(function () {
+                    $(this).rules("remove");
+                });
+                $("input[id^='slt']").each(function () {
+                    $(this).rules("remove");
+                });
 
                 $("#sltCondicao").rules("add", {
                     required: true
@@ -247,6 +238,13 @@ function esconderCamposInicio() {
                 $("#divDescricao").show();
                 $("#divEndereco").show();
 
+                $("input[id^='txtPlanta']").each(function () {
+                    $(this).rules("remove");
+                });
+                $("input[id^='slt']").each(function () {
+                    $(this).rules("remove");
+                });
+
                 $("#sltCondicao").rules("add", {
                     required: true
                 });
@@ -283,6 +281,13 @@ function esconderCamposInicio() {
                 $("#divApartamento").hide();
                 $("#divDescricao").show();
                 $("#divEndereco").show();
+                
+                $("input[id^='txtPlanta']").each(function () {
+                    $(this).rules("remove");
+                });
+                $("input[id^='slt']").each(function () {
+                    $(this).rules("remove");
+                });
 
             } else if ($(this).val() == "6") { //terreno
                 mostrarDivInfoApeCasa()
@@ -296,7 +301,13 @@ function esconderCamposInicio() {
                 $("#divAreaPlanta").hide();
                 $("#divDescricao").show();
                 $("#divEndereco").show();
-
+                
+                $("input[id^='txtPlanta']").each(function () {
+                    $(this).rules("remove");
+                });
+                $("input[id^='slt']").each(function () {
+                    $(this).rules("remove");
+                });
             }
 
 
@@ -310,13 +321,14 @@ function esconderCamposInicio() {
 
     function mostrarPlantas() {
         $(document).ready(function () {
-
+            //define a regra caso altere a quantidade de plantas
             $("#sltNumeroPlantas").change(function () {
+                //limpa a div de carregamento
                 $("#divInfoApeCasa").empty();
+                //valida o campo para remover a marcação de erro, se houver
                 $(this).valid();
+                //se for mais de 1 
                 if ($(this).val() >= "1") {
-
-
                     $("#divInserePlanta").show();
                     $("#divAreaApeNovo").show();
                     $("#divPlantaUm").show();
@@ -419,6 +431,40 @@ function esconderCamposInicio() {
                     on: 'hover'
                 })
 
+
+                $("#sltCondicao").rules("remove");
+
+                $("#sltNumeroPlantas").rules("add", {
+                    required: true
+                });
+
+                $("#sltAndares").change(function () {
+                    $(this).valid();
+                })
+                $("#sltAndares").rules("add", {
+                    required: true
+                });
+
+                $("input[name^='txtPlanta[]']").each(function () {
+                    $(this).rules("add", {required: true});
+                })
+                $("input[name^='sltQuarto[]']").each(function () {
+                    $(this).rules("add", {required: true});
+                })
+                $("input[name^='sltBanheiro[]']").each(function () {
+                    $(this).rules("add", {required: true});
+                })
+                $("input[name^='sltSuite[]']").each(function () {
+                    $(this).rules("add", {required: true});
+                })
+                $("input[name^='sltGaragem[]']").each(function () {
+                    $(this).rules("add", {required: true});
+                })
+                $("input[name^='txtArea[]']").each(function () {
+                    $(this).rules("add", {maxlength: 7,
+                        minlength: 2});
+                })
+
             })
 
         }
@@ -428,9 +474,9 @@ function esconderCamposInicio() {
 
 function mostrarDivInfoApeCasa() {
     $(document).ready(function () {
-
+        //limpa o que tiver na div de carregamento
         $("#divInfoApeCasa").empty();
-
+        //se o tipo escolhido for casa ou apartamento, carrega os campos basicos: quarto, banheiro, suite e garagem
         if ($("#sltTipo").val() == "1" || $("#sltTipo").val() == "3") {
             var quarto = "<div class='four wide required field'><label>Quarto(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltQuarto' id='sltQuarto'><div class='default text'>Quarto(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
             var banheiro = "<div class='four wide required field'><label>Banheiro(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltBanheiro' id='sltBanheiro'><div class='default text'>Banheiro(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
@@ -462,10 +508,8 @@ function mostrarDivInfoApeCasa() {
             })
 
         }
-
+        //se o tipo escolhido for sala comercial, carrega os campos basicos: banheiro e garagem
         else if ($("#sltTipo").val() == "4") {
-
-
 
             var banheiro = "<div class='four wide required field'><label>Banheiro(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltBanheiro' id='sltBanheiro'><div class='default text'>Banheiro(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
             var garagem = "<div class='four wide required field'><label>Vagas de Garagem</label><div class='ui selection dropdown'><input type='hidden' name='sltGaragem' id='sltGaragem'><div class='default text'>Vaga(s) de Garagem</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
@@ -482,11 +526,6 @@ function mostrarDivInfoApeCasa() {
             })
 
         }
-
-        else {
-            $("#divInfoApeCasa").empty();
-        }
-
     })
 
 }
@@ -512,69 +551,9 @@ function cadastrarImovel() {
         $('#form').validate({
             onkeyup: false,
             focusInvalid: true,
-            rules: {
-                txtPlanta: {
-                    required: true,
-                    minlength: 5
-                },
-                txtCEP: {
-                    required: true
-                },
-                txtNumero: {
-                    required: true
-                },
-                txtArea: {
-                    maxlength: 7,
-                    minlength: 2
-                },
-                txtTotalUnidades: {
-                    digits: true,
-                    minlength: 2
-                },
-                "txtPlanta[]": {
-                    required: true
-                },
-                "sltQuarto[]": {
-                    required: true
-                },
-                "sltBanheiro[]": {
-                    required: true
-                },
-                "sltSuite[]": {
-                    required: true
-                },
-                "sltGaragem[]": {
-                    required: true
-                },
-                "txtArea[]": {
-                    maxlength: 7,
-                    minlength: 2
-                },
-                "sltAndares": {
-                    required: true
-                },
-            },
-            messages: {
-                txtPlanta: {
-                    required: "Campo Obrigatorio",
-                    minlength: "Digite ao menos 2 números"
-                },
-                txtArea: {
-                    minlength: "Digite ao menos 2 números"
-                },
-                "txtArea[]": {
-                    digits: "Digite Somente Números",
-                    minlength: "Digite ao menos 2 números"
-                },
-                txtTotalUnidades: {
-                    digits: "Digite Somente Números",
-                    minlength: "Digite ao menos 2 números"
-                },
-            },
             submitHandler: function (form) {
                 form.submit();
             }
-
         });
 
     });
@@ -1295,17 +1274,11 @@ function carregaDadosModalImovel($div) {
         var endereco;
         if ($("#txtNumero").val() !== "" && $("#txtComplemento").val() !== "") {
             endereco = $("#txtLogradouro").val() + ", " + $("#txtNumero").val() + ", " + $("#txtComplemento").val();
-        }
-
-        else if ($("#txtNumero").val() !== "" && $("#txtComplemento").val() === "") {
+        } else if ($("#txtNumero").val() !== "" && $("#txtComplemento").val() === "") {
             endereco = $("#txtLogradouro").val() + ", " + $("#txtNumero").val();
-        }
-
-        else if ($("#txtNumero").val() === "" && $("#txtComplemento").val() === "") {
+        } else if ($("#txtNumero").val() === "" && $("#txtComplemento").val() === "") {
             endereco = $("#txtLogradouro").val();
-        }
-
-        else if ($("#txtNumero").val() === "" && $("#txtComplemento").val() !== "") {
+        } else if ($("#txtNumero").val() === "" && $("#txtComplemento").val() !== "") {
             endereco = $("#txtLogradouro").val() + ", " + $("#txtComplemento").val();
         }
 

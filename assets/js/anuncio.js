@@ -113,7 +113,7 @@ function cadastrarAnuncio() {
                                         <i class='checkmark icon'></i>\n\
                                         <div class='content'>\n\
                                             <div class='header'>Sucesso</div>Seu anúncio com o código " + resposta.idanuncio + " foi cadastrado com sucesso e já pode ser visualizado em nosso site.\n\
-                                               Se desejar, escolha uma das opções abaixo</div>\n\
+                                               Se desejar, escolha uma das opções abaixo:</div>\n\
                                         </div>\n\
                                     </div>\n\
                                 </div></div><div class='ui hidden divider'></div>\n\

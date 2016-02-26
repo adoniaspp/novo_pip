@@ -185,7 +185,7 @@ switch ($item) {
                     <script>
                         $(document).ready(function () {
                             $('#divMensagemSucesso').html("Imóvel cadastrado com sucesso. Se desejar, escolha\n\
-                            uma das opções acima");
+                            uma das opções acima.");
                         })
                     </script>
 
