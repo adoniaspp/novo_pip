@@ -21,11 +21,7 @@ Cookies::configurarPreferencias($this->getItem());
 <?php
 
 $item = $this->getItem();
-/*
-echo "<pre>";
-var_dump($item["mensagem"]);
-echo "</pre>";
-die();*/
+
 $latitude  = "";
 $longitude = "";
 
@@ -72,14 +68,24 @@ if($item["mapaImovel"]){
         <form id="form" class="ui form">
             <div class="ui dividing header"><div class="ui big teal label">Informações Básicas</div></div>
             
+            <div class="row">
+            
             <div class="sixteen wide column"> 
                 <div class="ui info message">
                     <div class="header"><?php echo $item['anuncio'][0]['tituloanuncio'] ?></div>
                     <p><?php echo $item['anuncio'][0]['descricaoanuncio'] ?></p>
+                    
+                    <p><font size = '4'>- Código do Anúncio: <?php echo $item['anuncio'][0]['idanuncioformatado']?> </font></p>
+                   
+                    
+                                      
                 </div>
             </div>
-            
-            
+                
+            </div>    
+
+                
+
             
             <?php if($item["novoValor"] != null){ ?>
         
@@ -336,9 +342,11 @@ if($item["mapaImovel"]){
                         <i class="privacy icon"></i>
                         <div class="content">
                             Condomínio
-                            <div class="sub header" id="divValorCondominio">
-                                <?php echo "<font size = '4' color = 'maroon'>".$item['anuncio'][0]['condominio']."</font>" ?>
+
+                            <div class="sub header" id="divValorCondominio" style="font-size: medium ;color: maroon">
+                                <?php echo $item['anuncio'][0]['condominio'] ?>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -479,13 +487,13 @@ if($item["mapaImovel"]){
                     </div>
                     <?php
                     if ($item['anuncio'][0]['numero'] != "" && $item['anuncio'][0]['complemento'] != "") {
-                        $item['anuncio'][0]['logradouro'] . ", " . $item['anuncio'][0]['numero'] . ", " . $item['anuncio'][0]['complemento'];
+                        $endereco = $item['anuncio'][0]['logradouro'] . " - ".$item['anuncio'][0]['bairro'].", " . $item['anuncio'][0]['numero'] . ", " . $item['anuncio'][0]['complemento'];
                     } elseif ($item['anuncio'][0]['numero'] != "" && $item['anuncio'][0]['complemento'] == "") {
-                        $endereco = $item['anuncio'][0]['logradouro'] . ", " . $item['anuncio'][0]['numero'];
+                        $endereco = $item['anuncio'][0]['logradouro'] . " - ".$item['anuncio'][0]['bairro']. ", " . $item['anuncio'][0]['numero'];
                     } elseif ($item['anuncio'][0]['numero'] == "" && $item['anuncio'][0]['complemento'] == "") {
-                        $endereco = $item['anuncio'][0]['logradouro'];
+                        $endereco = $item['anuncio'][0]['logradouro'] . " - ".$item['anuncio'][0]['bairro'];
                     } elseif ($item['anuncio'][0]['numero'] == "" && $item['anuncio'][0]['complemento'] != "") {
-                        $endereco = $item['anuncio'][0]['logradouro'] . ", " . $item['anuncio'][0]['complemento'];
+                        $endereco = $item['anuncio'][0]['logradouro'] . " - ".$item['anuncio'][0]['bairro']. ", " . $item['anuncio'][0]['complemento'];
                     }
 
                     echo $endereco;

@@ -26,8 +26,8 @@ class TipoImovel {
         
         switch ($parametro){
             case 1: return "casa"; break;
-            case 2: return "apartamento"; break;
-            case 3: return "apartamentoplanta"; break;
+            case 2: return "apartamentoplanta"; break;
+            case 3: return "apartamento"; break;            
             case 4: return "salacomercial"; break;
             case 5: return "prediocomercial"; break;
             case 6: return "terreno"; break;

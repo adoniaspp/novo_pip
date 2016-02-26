@@ -56,12 +56,12 @@ class TipoImovelDiferencialControle {
                                 case "casa":
                                      $parametros["sltTipoImovel"] = 1; 
                                      break;
-                                case "apartamento":
+                                case "apartamentoplanta":
                                      $parametros["sltTipoImovel"] = 2; 
                                      break;
-                                case "apartamentoplanta":
+                                case "apartamento":
                                      $parametros["sltTipoImovel"] = 3; 
-                                     break;
+                                     break;                               
                                 case "salacomercial":
                                      $parametros["sltTipoImovel"] = 4; 
                                      break;
