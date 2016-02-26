@@ -105,10 +105,7 @@ class ConsultasAdHoc extends GenericoDAO {
                 $sql = $sql . ' ASC ';
             }
         }
-        //var_dump($sql);
-        //die();
         $statement = $this->conexao->prepare($sql);
-
         if ($diferencial != NULL) {
             foreach ($diferencial as $valor) {
                 if (count($diferencial) == 1) {
@@ -121,7 +118,7 @@ class ConsultasAdHoc extends GenericoDAO {
             }
         }
         foreach ($parametros['predicados'] as $chave => $valor) {
-            if (count($valor) == 1) {
+            if (!is_array($valor)) {
                 $statement->bindValue($chave . '_' . 0, $valor);
             } else {
                 foreach ($valor as $k => $v) {
@@ -243,14 +240,14 @@ class ConsultasAdHoc extends GenericoDAO {
                 }
             }
         }
-        /*echo '<pre>';
-        print_r($resultado['anuncio']);
-        die();*/
+        /* echo '<pre>';
+          print_r($resultado['anuncio']);
+          die(); */
         return $resultado;
     }
 
     public function ConsultarAnunciosPorUsuario($idUsuario, $idAnuncio = null, $statusAnuncio = null, $finalidade = null) {
-        $allow = $statusAnuncio;       
+        $allow = $statusAnuncio;
         $sql = "SELECT a.* "
                 . " FROM anuncio a"
                 . " JOIN usuarioplano up ON up.id = a.idusuarioplano"
@@ -274,7 +271,7 @@ class ConsultasAdHoc extends GenericoDAO {
             $sql .= " AND a.finalidade = :finalidade ";
         $sql .= " ORDER BY a.ID DESC";
         $statement = $this->conexao->prepare($sql);
-        
+
         $statement->bindParam(':idUsuario', $idUsuario);
         if ($idAnuncio != null)
             $statement->bindParam(':idAnuncio', $idAnuncio);
