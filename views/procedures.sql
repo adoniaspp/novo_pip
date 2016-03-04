@@ -1,6 +1,10 @@
 CREATE DEFINER=`root`@`localhost` PROCEDURE `limparbase`()
 BEGIN
  SET FOREIGN_KEY_CHECKS=0;
+
+truncate table preferencia;
+truncate table mapaimovel;
+truncate table novovaloranuncio;
 truncate table valor;
 truncate table planta;
 truncate table apartamentoplanta;

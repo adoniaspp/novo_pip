@@ -428,9 +428,10 @@ function confirmar() {
 function carregaDadosModal($div) {
     $(document).ready(function () {
         $div.html("");
+        var dadosModal = "";
         if ($("#sltTipoUsuario").val() === "pf")
         {
-            $div.append("<div class='ui horizontal list'>\n\
+            dadosModal = dadosModal + "<div class='ui horizontal list'>\n\
                                 <div class='item'>\n\
                                   <div class='content'>\n\
                                     <div class='header'>Tipo de Pessoa</div>\n\
@@ -443,10 +444,9 @@ function carregaDadosModal($div) {
                                 <div class='item'>\n\
                                   <div class='content'>\n\
                                     <div class='header'>CPF</div>" + $("#txtCPF").val() + "</div>\n\
-                                </div>");
-            $div.append("</div>");
+                                </div>";
         } else {
-            $div.append("<div class='ui horizontal list'>\n\
+            dadosModal = dadosModal + "<div class='ui horizontal list'>\n\
                                 <div class='item'>\n\
                                   <div class='content'>\n\
                                     <div class='header'>Tipo de Pessoa</div>\n\
@@ -474,19 +474,19 @@ function carregaDadosModal($div) {
                                   <div class='content'>\n\
                                     <div class='header'>Razão Social</div>\n\
                                     " + $("#txtRazaoSocial").val() + "</div>\n\
-                                </div>\n\
-                        </div>");  
+                                </div>";
         }
         if (jQuery.type($("#txtLogin").val()) !== "undefined") {
-            $div.append("<div class='ui horizontal list'>\n\
-                                <div class='item'>\n\
+            dadosModal = dadosModal + "<div class='item'>\n\
                                   <div class='content'>\n\
                                     <div class='header'>Login</div>\n\
                                     " + $('#txtLogin').val() + "\n\
-                                </div></div>\n\
-                        </div>");
+                                </div></div>";
         }
-
+        
+        dadosModal = dadosModal + "</div>";
+        $div.append(dadosModal);
+        
         $div.append("<div class='ui dividing header'></div>\n\
                      <div class='ui horizontal list'>\n\
                                 <div class='item'>\n\
@@ -502,8 +502,7 @@ function carregaDadosModal($div) {
         $div.append("<div class='ui hidden divider'></div>\n\
                         <div class='ui horizontal list'>\n\
                             <div class='item'><div class='content'>\n\
-                            <div class='header'>Telefone(s)</div></div>\n\
-                    </div></div>");
+                            <div class='header'>Telefone(s)</div></div></div></div>");
 
 
 
@@ -521,7 +520,7 @@ function carregaDadosModal($div) {
                         <thead><tr>\n\
                         <th>Tipo</th>\n\
                         <th>Operadora</th>\n\
-                        <th>Número</th> \n\\n\
+                        <th>Número</th> \n\
                         <th>Nº WhatsApp</th> \n\
                         </tr>\n\
                         </thead> \n\
@@ -646,27 +645,19 @@ function buscarEmail() {
                         $("#divRetorno").empty();
 
                         if (resposta.resultado == 0) {
-                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-                            <p>E-mail informado n&atilde;o encontrado. Faça seu cadastro!</p>');
+                            $("#divRetorno").html('<div class="ui negative message"><a href="?entidade=Usuario&acao=form&tipo=cadastro" class="header">O e-mail informado n&atilde;o foi encontrado. Faça seu cadastro.</a></div>');
                             $("#divEnviarEmail").show();
                         } else if (resposta.resultado == 1) {
                             $("#txtEmail").attr("readonly", "readonly");
-                            $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
-    <p>Informações para troca da senha foram enviados para o email informado.</p>');
+                            $("#divRetorno").html('<div class="ui positive message"><div class="header">As orientações para troca da senha foram encaminhadas para o email informado.</div></div>');
                         } else if (resposta.resultado == 2) {
-                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-    <p>Erro ao processar requisição - 002</p>');
-                        }
-                        else if (resposta.resultado == 3) {
-                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-    <p>Erro ao enviar email. Tente novamente em alguns minutos.</p>');
-                        }
-                        else if (resposta.resultado == 4) {
-                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-    <p>Erro ao processar requisição - 004.</p>');
+                            $("#divRetorno").html('<div class="ui negative message"><div>Erro ao processar requisição - 002.</div></div>');
+                        } else if (resposta.resultado == 3) {
+                            $("#divRetorno").html('<div class="ui negative message"><div>Erro ao enviar email. Tente novamente em alguns minutos.</div></div>');
+                        } else if (resposta.resultado == 4) {
+                            $("#divRetorno").html('<div class="ui negative message"><div>Erro ao processar requisição - 004.</div></div>');
                         } else {
-                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-    <p>Erro ao processar requisição - 005</p>');
+                            $("#divRetorno").html('<div class="ui negative message"><div>Erro ao processar requisição - 005.</div></div>');
                         }
                     }
                 })
@@ -797,19 +788,15 @@ function trocarSenha() { //alterar a senha esquecida
                         $("#divRetorno").empty();
 
                         if (resposta.resultado == 0) {
-                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-                            <p>Erro ao processar requisição. Tente novamente em alguns minutos - 000</p>');
+                            $("#divRetorno").html('<div class="ui negative message"><div>Erro ao processar requisição. Tente novamente em alguns minutos - 000.</div></div>');
                         } else if (resposta.resultado == 1) {
                             $("#divCamposTrocaSenha").hide();
                             $("#divBotoesTrocarSenha").hide();
-                            $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
-    <p>Senha alterada com sucesso</p>');
+                            $("#divRetorno").html('<div class="ui positive message"><div>Senha alterada com sucesso.</div></div>');
                         } else if (resposta.resultado == 2) {
-                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-    <p>A senha atual está incorreta. Tente novamente.</p>');
+                            $("#divRetorno").html('<div class="ui negative message"><div>A senha atual está incorreta. Tente novamente.</div></div>');
                         } else if (resposta.resultado == 3) {
-                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-    <p>Erro ao processar requisição - 005</p>');
+                            $("#divRetorno").html('<div class="ui negative message"><div>Erro ao processar requisição - 005.</div></div>');
                         }
                     }
                 })
@@ -1014,17 +1001,14 @@ function alterarSenha() { //alterar a senha esquecida
                         $("#divRetorno").empty();
 
                         if (resposta.resultado == 0) {
-                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-                            <p>Erro ao processar requisição. Tente novamente em alguns minutos - 000</p>');
+                            $("#divRetorno").html('<div class="ui negative message"><div>Erro ao processar requisição. Tente novamente em alguns minutos - 000.</div></div>');
                             $("#divBotoesAlterarSenha").show();
                             $("#divCamposAlterarSenha").show();
                         } else if (resposta.resultado == 1) {
                             $("#txtEmail").attr("readonly", "readonly");
-                            $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
-    <p>Senha alterada com sucesso</p>');
+                            $("#divRetorno").html('<div class="ui positive message"><div>Senha alterada com sucesso.</div></div>');
                         } else {
-                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-    <p>Erro ao processar requisição - 005</p>');
+                            $("#divRetorno").html('<div class="ui negative message"><div>Erro ao processar requisição - 005.</div></div>');
                         }
                     }
                 })
@@ -1101,8 +1085,7 @@ function fazerLogin() {
                             $("#divUsuario").show();
                             location.href = resposta.redirecionamento;
                         } else if (resposta.resultado == 2) {
-                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-                            <p>Usuário ou Senha inválido</p>');
+                            $("#divRetorno").html('<div class="ui negative message"><div>Usuário e/ou Senha inválido.</div></div>');
                         }
                     }
                 })
