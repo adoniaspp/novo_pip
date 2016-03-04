@@ -6,6 +6,7 @@
 <script src="assets/libs/jquery/jquery.validate.min.js"></script>
 
 <script>
+    Cookies::consultarPreferencias();
     carregarAnuncio();
     enviarEmail();
 

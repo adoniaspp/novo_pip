@@ -5,7 +5,12 @@ include_once 'controle/PreferenciaControle.php';
 class Cookies {
 
     public static function consultarPreferencias() {
+//        $idsanuncio = array();
         if (isset($_COOKIE['pip'])) {
+//            foreach ($_COOKIE['pip'] as $nome => $valor) {
+//                array_push($idsanuncio, $valor);
+//            }
+            
             //var_dump($_COOKIE['pip']);
             //die();
         }

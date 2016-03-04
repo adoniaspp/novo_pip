@@ -1,3 +1,12 @@
+<script src="assets/js/buscaAnuncio.js"></script>
+<script src="assets/libs/jquery/jquery.validate.min.js"></script>
+<script src="assets/js/util.validate.js"></script>
+
+
+<script>
+validarArea(true);
+</script>
+
 <div class="ui form" id="divBusca">
        
     <div class="ui hidden divider"></div>
@@ -371,9 +380,9 @@
                         <label>Área m<sup>2</sup></label>
                         <br>
                         <div class="fields">
-                        <div class="five wide field" id="minArea">
+                        <div class="seven wide field" id="minArea">
                         <div class="ui fluid search selection dropdown">
-                            <input type="hidden" name="sltArea" id="sltArea">
+                            <input type="hidden" name="sltArea" id="sltAreaMin">
                             <div class="default text">Mínimo</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
@@ -388,9 +397,9 @@
                             </div>
                         </div>
                         </div>
-                        <div class="five wide field" id="maxArea">
+                        <div class="seven wide field" id="maxArea">
                         <div class="ui fluid search selection dropdown">
-                            <input type="hidden" name="sltArea" id="sltArea">
+                            <input type="hidden" name="sltArea" id="sltAreaMax">
                             <div class="default text">Máximo</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
@@ -408,7 +417,7 @@
                         </div>
                     </div>
                     
-                    <div class="five field" id="divAreaCasaTerreno">
+<!--                    <div class="five field" id="divAreaCasaTerreno">
                         <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeArea.jpg">
                         <label>Área m<sup>2</sup></label>
                         <div class="ui selection dropdown">
@@ -428,7 +437,7 @@
                                 <div class='item' data-value=240>Mais de 500 m<sup>2</sup></div>
                             </div>
                         </div>
-                    </div>  
+                    </div>  -->
                     
                     <div class="five field" id="divDiferencial">
                         <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeQuadra.jpg">
