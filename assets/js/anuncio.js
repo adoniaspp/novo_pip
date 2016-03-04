@@ -1197,3 +1197,33 @@ function alterarValor(valor) {
     })
 
 }
+
+function exibirTextoEspecifico(tipo){
+    
+    $(document).ready(function () {
+    
+            switch (tipo) {
+
+                case "":
+                    $("#tabelaInicioBusca").show();
+                    break;
+
+                case "casa":
+                    $("#textoEspecifico").html("<div class='ui teal large label'>Detalhes da Casa</div>");
+                    break;
+
+                case "apartamento":
+                    $("#textoEspecifico").html("<div class='ui teal large label'>Detalhes do Apartamento</div>");
+                    break;
+
+                case "apartamentoplanta":
+                    $("#textoEspecifico").html("<div class='ui teal large label'>Detalhes da Apartamento na Planta</di>");
+                    break;
+
+                case "salacomercial":
+                    $("#textoEspecifico").html("<div class='ui teal large label'>Detalhes da Sala Comercial</div>");
+                    break;
+            }
+
+        })
+}

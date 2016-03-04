@@ -36,6 +36,7 @@ foreach ($imoveis as $qtdAnuncios) {
         $totalAnuncios = $totalAnuncios + 1;
     }
 }
+
 ?>
 
 <!-- HTML -->
@@ -497,7 +498,7 @@ foreach ($imoveis as $qtdAnuncios) {
 
     </div>
 
-    <?php if ($item['anuncio']) { ?>
+    <?php if ($totalAnuncios > 0) { ?>
         <div class="row">
             <div class="eight wide column"> 
                 <?php

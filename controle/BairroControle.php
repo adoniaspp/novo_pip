@@ -14,6 +14,8 @@ class BairroControle {
         
        $listarBairros = $genericoDAO->consultar($bairro, true, array("idcidade" => $parametros["idcidade"]));
        
+       sort($listarBairros); //colocar em ordem crescente pelo nome
+       
        foreach ($listarBairros as $valor){
             echo "<option value='".$valor->getId()."' name='sltBairro[]'>".$valor->getNome()."</option>";
        }

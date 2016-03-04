@@ -40,6 +40,7 @@ if($item["mapaImovel"]){
     //inserirValidacao();
     enviarDuvidaAnuncio();
     formatarDetalhe();
+    exibirTextoEspecifico("<?php echo $item['anuncio'][0]['tipo'] ?>");
      
     marcarMapaIndividual("<?php echo $item["anuncio"][0]["logradouro"] ?>", "<?php echo $item["anuncio"][0]["numero"] ?>", 
                "<?php echo $item["anuncio"][0]["bairro"] ?>", "<?php echo $item["anuncio"][0]["cidade"] ?>",
@@ -234,6 +235,8 @@ if($item["mapaImovel"]){
 
         </div>
         
+        <div class="ui horizontal divider"><div id="textoEspecifico"></div></div>     
+            
         <?php if ($item['anuncio'][0]['tipo'] != 'apartamentoplanta') { ?>    
                
         <?php } ?>    
@@ -487,9 +490,9 @@ if($item["mapaImovel"]){
                     </div>
                     <?php
                     if ($item['anuncio'][0]['numero'] != "" && $item['anuncio'][0]['complemento'] != "") {
-                        $endereco = $item['anuncio'][0]['logradouro'] . " - ".$item['anuncio'][0]['bairro'].", " . $item['anuncio'][0]['numero'] . ", " . $item['anuncio'][0]['complemento'];
+                        $endereco = $item['anuncio'][0]['logradouro'].", " . $item['anuncio'][0]['numero']. " - ".$item['anuncio'][0]['bairro']. ", " . $item['anuncio'][0]['complemento'];
                     } elseif ($item['anuncio'][0]['numero'] != "" && $item['anuncio'][0]['complemento'] == "") {
-                        $endereco = $item['anuncio'][0]['logradouro'] . " - ".$item['anuncio'][0]['bairro']. ", " . $item['anuncio'][0]['numero'];
+                        $endereco = $item['anuncio'][0]['logradouro']. ", " . $item['anuncio'][0]['numero']. " - ".$item['anuncio'][0]['bairro'];
                     } elseif ($item['anuncio'][0]['numero'] == "" && $item['anuncio'][0]['complemento'] == "") {
                         $endereco = $item['anuncio'][0]['logradouro'] . " - ".$item['anuncio'][0]['bairro'];
                     } elseif ($item['anuncio'][0]['numero'] == "" && $item['anuncio'][0]['complemento'] != "") {

@@ -318,9 +318,9 @@ if ($item) {
                             </div>
                             <?php
                             if ($objImovel->getEndereco()->getNumero() != "" && $objImovel->getEndereco()->getComplemento() != "") {
-                                $endereco = $objImovel->getEndereco()->getLogradouro() ." - ".$objImovel->getEndereco()->getBairro()->getNome(). ", " . $objImovel->getEndereco()->getNumero() . ", " . $objImovel->getEndereco()->getComplemento();
+                                $endereco = $objImovel->getEndereco()->getLogradouro(). ", " . $objImovel->getEndereco()->getNumero()." - ".$objImovel->getEndereco()->getBairro()->getNome(). ", " . $objImovel->getEndereco()->getComplemento();
                             } elseif ($objImovel->getEndereco()->getNumero() != "" && $objImovel->getEndereco()->getComplemento() == "") {
-                                $endereco = $objImovel->getEndereco()->getLogradouro() ." - ".$objImovel->getEndereco()->getBairro()->getNome(). ", " . $objImovel->getEndereco()->getNumero();
+                                $endereco = $objImovel->getEndereco()->getLogradouro(). ", " . $objImovel->getEndereco()->getNumero()." - ".$objImovel->getEndereco()->getBairro()->getNome();
                             } elseif ($objImovel->getEndereco()->getNumero() == "" && $objImovel->getEndereco()->getComplemento() == "") {
                                 $endereco = $objImovel->getEndereco()->getLogradouro() ." - ".$objImovel->getEndereco()->getBairro()->getNome();
                             } elseif ($objImovel->getEndereco()->getNumero() == "" && $objImovel->getEndereco()->getComplemento() != "") {
