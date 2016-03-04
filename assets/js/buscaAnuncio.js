@@ -5,6 +5,7 @@ function buscarAnuncio() {
         $("#divValor").hide();
 
         $("input[name=sltCidade]").change(function () {
+            $("#sltBairro").dropdown('clear');
             $.post('index.php?hdnEntidade=Bairro&hdnAcao=selecionarBairro&idcidade=' + $('#sltCidade').val(),
                     function (resposta) {
                         $("#sltBairro").html(resposta);
@@ -13,6 +14,7 @@ function buscarAnuncio() {
         });
 
         $("input[name=sltCidadeAvancado]").change(function () {
+            $("#sltBairro").dropdown('clear');
             $.post('index.php?hdnEntidade=Bairro&hdnAcao=selecionarBairro&idcidade=' + $('#sltCidadeAvancado').val(),
                     function (resposta) {
                         $("#sltBairroAvancado").html(resposta);
@@ -79,7 +81,8 @@ function buscarAnuncio() {
                 suite: $('#sltSuites').val(),
                 condicao: $('#sltCondicao').val(),
                 unidadesandar: $('#sltUnidadesAndar').val(),
-                area: $('#sltArea').val(),
+                areaMin: $('#sltAreaMin').val(),
+                areaMax: $('#sltAreaMax').val(),
                 id: $('#hdUsuario').val(),
                 diferencial: $('#carregarDiferenciais').val(),
                 garagem: $('#checkgaragem').parent().checkbox('is checked')}, function () {
@@ -1285,4 +1288,51 @@ function ordemInicio() {
             }, 1000);
         })
     });
+}
+
+function validarArea(validacao) {
+//    $(document).ready(function () {
+//
+//        if (validacao) {
+//            $.validator.addMethod("verificaArea", function (value, element) {
+//                var validacao = false;
+//                if ($("#sltAreaMin").val() == "" && $("#sltAreaMax").val() != "") {
+//                    validacao = true;
+//                }
+//                if ($("#sltAreaMax").val() != "" && $("#sltAreaMax").val() == "") {
+//                    validacao = true;
+//                }
+//                return this.optional(element) || validacao;
+//            }, 'Informe um valor.');
+//
+//            $("#sltAreaMin").rules("add", {
+//                verificaArea: true
+////                required: function (element) {
+////                    return $("#chkValor").parent().checkbox('is checked');
+////                }
+//            });
+//            $("#sltAreaMax").rules("add", {
+//                verificaArea: true
+////                required: function (element) {
+////                    return $("#chkValor").parent().checkbox('is checked');
+////                }
+//            });
+//        }
+//        
+//        if ("#hdnMsgDuvida") {
+//                $("#txtMsgEmail").rules("add", {
+//                    required: true
+//                });
+//            }
+////if ($("#sltAreaMin").val() != "" && $("#sltAreaMax").val() == ""){
+////                    var valor = parseInt($("#txtValor").unmask());
+////                    if (!isNaN(valor)) {
+////                        if (valor > 100) {
+////                            validacao = true;
+////                        }
+////                    }
+////                } else {
+////                    validacao = true;
+////                }
+//    })
 }
