@@ -6,13 +6,11 @@
 <script src="assets/libs/jquery/jquery.validate.min.js"></script>
 
 <script>
+    Cookies::consultarPreferencias();
     carregarAnuncio();
     enviarEmail();
 
 <?php
-include_once 'configuracao/cookies.php';
-Cookies::consultarPreferencias();
-
 $item = $this->getItem();
 foreach ($item["anuncio"] as $buscaAnuncio) {
     if (!$item["page"]) {
