@@ -21,7 +21,6 @@
         });
 
     })
-
 </script>
 
 <div class="ui middle aligned stackable grid container">
@@ -122,9 +121,21 @@
             
             
             <script> 
-            $(document).ready(function () {
-            formatarValor(<?php echo $anuncio->getId() ?>);
-            })
+            
+                $(document).ready(function () { 
+                
+                <?php if($anuncio->getNovoValorAnuncio() != ""){?>   
+                       
+                formatarValor(<?php echo $anuncio->getNovoValorAnuncio()->getId(); ?>); 
+                
+                <?php } else { ?>
+
+                formatarValor(<?php echo $anuncio->getId(); ?>);
+                
+                <?php        
+                }        
+                ?>
+                })
             </script>
             
                     <tr>
@@ -162,7 +173,7 @@
                         ?></td>
                         <td><?php echo $anuncio->getFinalidade(); ?></td>
                         <td><?php echo $anuncio->getTituloAnuncio(); ?></td>
-                        <td id="tdValor<?php echo $anuncio->getId(); ?>"><?php echo $anuncio->getValorMin(); ?></td>
+                        <td id="tdValor<?php if($anuncio->getNovoValorAnuncio() != ""){ echo $anuncio->getNovoValorAnuncio()->getId();} else echo $anuncio->getId(); ?>"><?php if($anuncio->getNovoValorAnuncio() != ""){ echo $anuncio->getNovoValorAnuncio()->getNovoValor(); } else echo $anuncio->getValorMin(); ?></td>
                         <td><?php echo $anuncio->getDataHoraCadastro(); ?></td>
                         <td> <?php
                                echo "<i class='large thumbs up red icon'></i>Finalizado em " . $anuncio->getHistoricoAluguelVenda()->getDatahora();

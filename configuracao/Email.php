@@ -18,6 +18,11 @@ class Email {
 //                    $mail->Body = "<br> <h1>Teste de envio</h1> <br>";
 //                    $mail->AltBody = 'Conteudo sem HTML para editores que não suportam, sim, existem alguns';
                     
+                    //verificar se existe anexo, ou seja, se está sendo usada a função de enviar anuncios por PDF
+                    if($dadosEmail['nomeArquivo'] != ""){
+                    $mail->AddAttachment($dadosEmail['nomeArquivo']);
+                    }
+                    
                     $mail->IsSMTP();
                     $mail->SMTPAuth = true;
                     $mail->Host = "ssl://smtp.googlemail.com";

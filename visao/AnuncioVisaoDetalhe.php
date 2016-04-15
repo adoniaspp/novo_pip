@@ -463,7 +463,7 @@ if($item["mapaImovel"]){
                     <div class="twelve wide field">
                         <div class="ui tiny header">
                             <div class="content">
-                                <li><?php echo $diferenciais['descricao'] ?></li>
+                                 <i class="large green checkmark icon"></i><?php echo $diferenciais['descricao'] ?>
                             </div>
                         </div>
                     </div>
