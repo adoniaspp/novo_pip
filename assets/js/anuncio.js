@@ -600,7 +600,7 @@ function planta() {
                     return ordemPlanta
                 },
                 max: function () {
-                    return $(sltAndarFinal).val();
+                    return parseInt($(sltAndarFinal).val());
                 },
                 messages: {
                     max: "Andar Inicial deve ser Maior ou Igual ao Andar Final"
@@ -613,7 +613,7 @@ function planta() {
                     return ordemPlanta
                 },
                 min: function () {
-                    return $(sltAndarInicial).val();
+                    return parseInt($(sltAndarInicial).val());
                 },
                 messages: {
                     min: "Andar Inicial deve ser Maior ou Igual ao Andar Final"
