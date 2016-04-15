@@ -352,16 +352,20 @@ VIEW `buscaanunciotodos` AS
         `us`.`nome` AS `nome`,
         `us`.`tipousuario` AS `tipousuario`,
         `us`.`email` AS `email`,
-        `us`.`foto` AS `foto`
+        `us`.`foto` AS `foto`,
+        `nv`.`novovalor` AS `novovalor`,
+        ((((`nv`.`novovalor` - `a`.`valormin`) / `a`.`valormin`) * 100) * -(1)) AS `percentual`
     FROM
         (`bairro` `b`
-        LEFT JOIN (`cidade` `ci`
-        LEFT JOIN (`estado` `es`
-        LEFT JOIN (`endereco` `en`
-        LEFT JOIN (`tipoimovel` `ti`
-        LEFT JOIN (((`imovel` `i`
-        LEFT JOIN `anuncio` `a` ON ((`a`.`idimovel` = `i`.`id`)))
+        LEFT JOIN ((((((((`anuncio` `a`
+        LEFT JOIN `imovel` `i` ON ((`a`.`idimovel` = `i`.`id`)))
+        LEFT JOIN `novovaloranuncio` `nv` ON ((`a`.`id` = `nv`.`idanuncio`)))
         LEFT JOIN `mapaimovel` `mi` ON ((`mi`.`idanuncio` = `a`.`id`)))
-        LEFT JOIN `usuario` `us` ON ((`i`.`idusuario` = `us`.`id`))) ON ((`i`.`idtipoimovel` = `ti`.`id`))) ON ((`en`.`id` = `i`.`idendereco`))) ON ((`es`.`id` = `en`.`idestado`))) ON ((`ci`.`id` = `en`.`idcidade`))) ON ((`b`.`id` = `en`.`idbairro`)))
+        LEFT JOIN `usuario` `us` ON ((`i`.`idusuario` = `us`.`id`)))
+        LEFT JOIN `tipoimovel` `ti` ON ((`i`.`idtipoimovel` = `ti`.`id`)))
+        LEFT JOIN `endereco` `en` ON ((`en`.`id` = `i`.`idendereco`)))
+        LEFT JOIN `estado` `es` ON ((`es`.`id` = `en`.`idestado`)))
+        LEFT JOIN `cidade` `ci` ON ((`ci`.`id` = `en`.`idcidade`))) ON ((`b`.`id` = `en`.`idbairro`)))
     WHERE
-        (`a`.`status` = 'cadastrado')
+        ((`a`.`status` = 'cadastrado')
+            OR (`nv`.`status` = 'ativo'))
