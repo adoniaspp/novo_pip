@@ -3,6 +3,9 @@
     <div class="header">
         Anúncios Selecionados: <div id="idAnunciosCabecalho"></div>
     </div>
+    
+    <div class="ui visible message" id="divMsg"></div>
+    
     <div class="content" id="camposEmail">
         <div class="description">
             <div class="ui piled segment">
@@ -10,10 +13,10 @@
 
                 <form class="ui form" id="formEmail" action="index.php" method="post">
                     <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio"  />
-                    <input type="hidden" id="hdnAcao" name="hdnAcao" value="enviarEmail" />               
+                    <input class="emailPDF" type="hidden" id="hdnAcao" name="hdnAcao" value="enviarEmail" />               
 
                     <div class="field">
-                        <label>Seu Nome</label>
+                        <label id="labelNome">Seu Nome</label>
                         <input name="txtNomeEmail" id="txtNomeEmail" placeholder="Digite Seu Nome" type="text" maxlength="50">
                     </div>
                     <div class="field">

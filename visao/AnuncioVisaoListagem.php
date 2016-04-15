@@ -10,7 +10,9 @@
 
 <script>
     $(document).ready(function () {
-
+        
+        exibirEmailPDFListaAnuncio();
+        
         $('#tabela').DataTable({
             "language": {
                 "url": "assets/libs/datatables/js/Portuguese-Brasil.json",
@@ -62,7 +64,7 @@
     echo "<pre>";
     var_dump($item);
     echo "</pre>";
-   */
+    */
     $totalAnunciosCadastrados = count($item["listaAnuncio"]);
     
     if($totalAnunciosCadastrados < 1){      
@@ -122,19 +124,27 @@
                     
                     ?>
                     <tr>
-                        <td>                           
+                        
+                        <td>                          
+                            
                         <form id="form" action="index.php" method="post" target='_blank'>
                             <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio" />
                             <input type="hidden" id="hdnAcao" name="hdnAcao" value="detalhar"/>
                             <input type="hidden" id="hdnCodAnuncio" name="hdnCodAnuncio" value="<?php echo $anuncio->getId() ?>"/>
                             <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" value="<?php echo $tipoImovel ?>"/>
-               
+                            
+                            <div class="ui checkbox">
+                                <input type="checkbox" tabindex="0" class="hidden" name="chkAnuncio[]" 
+                                       id="chkAnuncio<?php echo $anuncio->getId(); ?>" 
+                                        value="<?php echo $anuncio->getId(); ?>">
+                                <label></label>
+                            </div>
                             
                             <button class="ui labeled icon button">
                             <i class="zoom icon"></i>
                             <?php echo $anuncio->getIdAnuncio(); ?>
                             </button>
-                        
+                            <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $anuncio->getIdAnuncio()?>" />
                         </form>     
                         </td>
                         <td><?php 
@@ -205,6 +215,13 @@
         
     </table>
     </div>
+
+</div>
+
+<div class="ui one column centered grid">
+    <div class="four column centered row">
+        <div id="divEmailPDF"></div>  
+    </div>
 </div>
 
 <div class="ui hidden divider"></div>
@@ -218,6 +235,7 @@
   alterarValor(<?php echo $anuncio->getId() ?>);
   finalizar(<?php echo $anuncio->getId() ?>);
   formatarValor(<?php echo $anuncio->getId() ?>);
+  
 </script>
 
 
@@ -325,6 +343,9 @@
         ?>
         </tbody>
         </table>
+        
+       
+        
     </div>
     
     <div class="actions">
@@ -333,6 +354,7 @@
         </div>
     </div>
 </div>
+
 
 
 <div class="ui standart modal" id="modalAlterarValorAnuncio<?php echo $anuncio->getId() ?>">
@@ -419,6 +441,8 @@
     </div>
 </div>
 
+
+
 <!-- Modal do Finalizar Negócio-->    
 <div class="ui basic modal" id="modalFinalizar<?php echo $anuncio->getId() ?>">
                     
@@ -484,3 +508,7 @@
 ?>
 
 <?php } //fim do else, caso haja anuncios ativos?> 
+
+<?php
+include_once "/modal/AnuncioEnviarEmailModal.php";
+?>

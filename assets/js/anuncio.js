@@ -600,7 +600,7 @@ function planta() {
                     return ordemPlanta
                 },
                 max: function () {
-                    return $(sltAndarFinal).val();
+                    return parseInt($(sltAndarFinal).val());
                 },
                 messages: {
                     max: "Andar Inicial deve ser Maior ou Igual ao Andar Final"
@@ -613,7 +613,7 @@ function planta() {
                     return ordemPlanta
                 },
                 min: function () {
-                    return $(sltAndarInicial).val();
+                    return parseInt($(sltAndarInicial).val());
                 },
                 messages: {
                     min: "Andar Inicial deve ser Maior ou Igual ao Andar Final"
@@ -908,6 +908,10 @@ function formatarDetalhe() {
 }
 
 function formatarValor(vetor) {
+    
+    $('.ui.checkbox')
+        .checkbox();
+    
     $("#tdValor" + vetor).priceFormat({
         prefix: 'R$ ',
         centsSeparator: ',',
@@ -940,6 +944,191 @@ function formatarValorUnico(valor) {
             thousandsSeparator: '.'
         })
 
+    })
+}
+
+function exibirEmailPDFListaAnuncio(){
+    
+    $(document).ready(function () {
+        
+        var selecionado = 0;
+      
+        $('.ui.checkbox')
+        .checkbox({
+            beforeChecked: function () { //ao clicar no anuncio, marcar de vermelho   
+            console.log(selecionado);
+                var NumeroMaximo = 5;
+                if ($("input[name^='listaAnuncio']").length >= NumeroMaximo) {
+                    //console.log(selecionado);
+                    alert('Selecione no máximo ' + NumeroMaximo + ' anúncios');
+                    return false;
+                } else {
+                    $('#hdnTipoImovel').after('<input type="hidden" name="listaAnuncio[]" id=anuncio_' + $(this).val() + ' value=' + $(this).val() + '>');
+                    selecionado = selecionado + 1;
+                    var botaoEmailPDF = ("<div class='ui buttons'>\n\
+                        <button class='ui button' id='btnEmail'>Enviar Por Email</button>\n\
+                            <div class='or' data-text='ou'></div>\n\
+                        <button class='ui positive button' id='btnEmailPDF'>Enviar Por Email - PDF</button>\n\
+                        </div>");
+                    if (selecionado == 1) {
+                        $("#divEmailPDF").append(botaoEmailPDF);
+                        confirmarEmail();
+                    }
+                }
+            },
+            onUnchecked: function () { //ao desmarcar o anuncio
+                $('#anuncio_' + $(this).val()).remove();
+                selecionado = selecionado - 1;
+                if (selecionado == 0) {
+                    $("#divEmailPDF").empty();
+                }
+
+            }}
+        );
+    
+    })
+    
+}
+
+function confirmarEmail() {
+    $(document).ready(function () {
+        
+        $('#btnEmailPDF').click(function () {
+            
+            $("#divMsg").empty();
+            
+            $("#txtNomeEmail").hide();
+            $("#labelNome").hide();  
+            
+            $('.emailPDF').attr('value', 'enviarEmailPDF'); //alterar o método para enviarEmailPDF 
+            
+            $("#divMsg").append("Preencha os campos abaixo para enviar para o email desejado os anúncios selecidados em PDF");
+            
+            $('#modalEmail').modal({
+                
+                closable: true,
+                transition: "fade up",
+                onDeny: function () {
+                },
+                onApprove: function () {
+                    $("#formEmail").submit();
+                    return false; //deixar o modal fixo
+                }
+            }).modal('show');
+            
+            $.validator.setDefaults({
+                ignore: [],
+                errorClass: 'errorField',
+                errorElement: 'div',
+                errorPlacement: function (error, element) {
+                    error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).closest("div.field").addClass("error").removeClass("success");
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).closest(".error").removeClass("error").addClass("success");
+                }
+            });
+
+            $.validator.messages.required = 'Campo obrigatório';
+            $('#formEmail').validate({
+                onkeyup: false,
+                focusInvalid: true,
+                rules: {
+                    txtEmailEmail: {
+                        required: true,
+                        email: true
+                    },
+                    txtMsgEmail: {
+                        required: true
+                    },
+                    captcha_code: {
+                        required: true,
+                        remote:
+                                {
+                                    url: "index.php",
+                                    dataType: "json",
+                                    type: "POST",
+                                    data: {
+                                        hdnEntidade: "Usuario",
+                                        hdnAcao: "validarCaptcha"
+                                    }
+                                }
+                    }
+                },
+                messages: {
+                    txtEmailEmail: {
+                        email: "Informe um email válido"
+                    },
+                    
+                    captcha_code: {
+                        remote: "Código Inválido"
+                    },
+                },
+                submitHandler: function (form) {
+                    $.ajax({
+                        url: "index.php",
+                        dataType: "json",
+                        type: "POST",
+                        data: $('#formEmail').serialize(),
+                        beforeSend: function () {
+                            $("#botaoEnviarEmail").hide();
+                            $("#botaoCancelarEmail").hide();
+                            $("#camposEmail").hide();
+                            $("#divRetorno").html("<div><div class='ui active inverted dimmer'>\n\
+                        <div class='ui text loader'>Enviando. Aguarde...</div></div></div>");
+                        },
+                        success: function (resposta) {
+                            $("#divRetorno").empty();
+                            $("#botaoCancelarEmail").hide();
+                            $("#botaoFecharEmail").show();
+                            if (resposta.resultado == 1) {
+                                $("#divRetorno").html('<div class="ui positive message">\n\
+                        <div class="header">Sucesso</div><p>Email enviado com sucesso</p></div>');
+                                //$("#btnDuvida").attr("disabled", "disabled");
+
+                            } else {
+                                $("#divRetorno").html('<div class="ui negative message">\n\
+                        <div class="header">Erro</div><p>Erro ao enviar. Tente novamente em alguns minutos</p></div>');
+                            }
+                        }
+                    })
+                    return false;
+                }
+            })
+            
+            /*if ("#hdnMsgDuvida") {
+                $("#txtMsgEmail").rules("add", {
+                    required: true
+                });
+            }*/
+            $("#camposEmail").show();
+            $("#botaoEnviarEmail").show();
+            $("#botaoCancelarEmail").show();
+            $("#botaoFecharEmail").hide();
+            $("#divRetorno").empty();
+
+            $("#idAnuncios").empty();
+            $("#idAnunciosCabecalho").empty();
+
+            var arr = [];
+            $("input[type^='checkbox']:checked").each(function ()
+            {
+                $("#idAnuncios").append("<input type='hidden' name='anunciosSelecionados[]' value='" + $(this).val() + "'>");
+                var codigos = $( "input[name^='hdnCodAnuncioFormatado']" );
+                arr.push($(this).parent().parent().parent().find(codigos).val());
+            });
+
+            //retira a vírgula do último elemento
+            var anuncios = arr.join(", ");
+
+            $("#idAnunciosCabecalho").append("<div class='ui horizontal list'>\n\
+                                        <div class='item'>\n\
+                                        <div class='content'>" + anuncios + "</div>\n\
+                         </div>\n\
+                         </div>");          
+        })
     })
 }
 

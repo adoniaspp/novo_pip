@@ -32,6 +32,7 @@ include_once 'modelo/ImovelDiferencial.php';
 include_once 'modelo/Diferencial.php';
 include_once 'modelo/NovoValorAnuncio.php';
 include_once 'modelo/MapaImovel.php';
+include_once 'assets/libs/tcpdf/tcpdf.php';
 
 class AnuncioControle {
 
@@ -140,6 +141,7 @@ class AnuncioControle {
         unset($parametros["selecionarAnuncio"]);
         unset($parametros["listaAnuncio"]);
         unset($parametros["hdnCodAnuncioFormatado"]);
+        unset($parametros["chkAnuncio"]);
 
         $parametros["predicados"] = $parametros;
 
@@ -346,11 +348,14 @@ class AnuncioControle {
                 $imovel = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio->getIdImovel()));
                 $anuncio->setImovel($imovel[0]);
                 $historico = $genericoDAO->consultar(new HistoricoAluguelVenda(), false, array("idanuncio" => $anuncio->getId()));
-                $anuncio->setHistoricoaluguelvenda($historico[0]);
-              
+                $anuncio->setHistoricoaluguelvenda($historico[0]);             
+                //valores alterados
+                $valorAlterado = $genericoDAO->consultar(new NovoValorAnuncio, false, array("idanuncio" => $anuncio->getId(), "status" => "ativo"));
+                $anuncio->setNovovaloranuncio($valorAlterado[0]);
+                //fim dos valores alterados
                 $listarAnuncios[] = $anuncio;
             }
-            //die();
+      
             $listaAnuncioExpirado = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, array('expirado'));
             foreach ($listaAnuncioExpirado as $anuncio) {
 
@@ -755,6 +760,213 @@ class AnuncioControle {
         }
     }
     
+    function enviarEmailPDF($parametros) {
+
+        $genericoDAO = new GenericoDAO();
+        $genericoDAO->iniciarTransacao();
+        $dadosEmail['destino'] = $parametros['txtEmailEmail'];
+        $dadosEmail['contato'] = "PIP-Online";
+        $dadosEmail['assunto'] = utf8_decode("PIP-Online - Selecionou imóvel(is) para você");
+
+        $dadosEmail['msg'] .= 'Veja o(s) imóvel(is) indicados para você por ' . $_SESSION['nome'] . ':<br><br>';
+
+        $dadosEmail['msg'] .= 'Mensagem: ' . $parametros['txtMsgEmail'] . "<br><br>";
+
+        //Utilizado se for envio de e-mail para o correto através da tela de detalhes 
+        if ($parametros['hdnAnuncio']) {
+            $parametros['anunciosSelecionados'] = array($parametros['hdnAnuncio']);
+            
+        }
+        
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+        $pdf->SetAuthor('PIP ONLINE');
+
+        $pdf->SetHeaderData("", "", "PIP ON-LINE", 
+                "PIP ON-LINE - Imóveis Fáceis", array(0,64,255), array(0,64,128));
+        $pdf->setFooterData(array(0,64,0), array(0,64,128));
+
+        $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+        if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+            require_once(dirname(__FILE__).'/lang/eng.php');
+            $pdf->setLanguageArray($l);
+        }
+
+        $pdf->setFontSubsetting(true);
+
+        $pdf->SetFont('times', '', 14, '', true);
+
+        $pdf->AddPage();
+
+        $pdf->setTextShadow(array('enabled'=>true, 'depth_w'=>0.2, 'depth_h'=>0.2, 
+            'color'=>array(196,196,196), 'opacity'=>1, 'blend_mode'=>'Normal'));
+        
+        $pdf->setFontSubsetting(true);
+
+        $imovel = new Imovel();
+        
+        $contadorPaginas = 0;
+        
+        $numeroAnuncios = count($parametros['anunciosSelecionados']);
+        
+        foreach ($parametros['anunciosSelecionados'] as $idanuncio) {    
+            
+            $contadorPaginas = $contadorPaginas + 1;
+            
+            $item["anuncio"] = $genericoDAO->consultar(new Anuncio(), true, array("id" => $idanuncio));
+            
+            $item["imovel"] = $genericoDAO->consultar(new Imovel(), true, array("id" => $item["anuncio"][0]->getIdImovel()));
+           
+            $item["endereco"] = $genericoDAO->consultar(new Endereco(), true, array("id" => $item["imovel"][0]->getIdEndereco()));
+            
+            $item["imagem"] = $genericoDAO->consultar(new Imagem(), true, array("idanuncio" => $idanuncio, "destaque" => "SIM"));
+
+            $emailanuncio = new EmailAnuncio();
+
+            $selecionaremailanuncio = $emailanuncio->cadastrar($idanuncio);
+
+            $idemailanuncio = $genericoDAO->cadastrar($selecionaremailanuncio);
+ 
+            $html = "Código: ".$item["anuncio"][0]->getIdAnuncio()
+                    ."<br>Tipo: ".$imovel->tipoImovelRetornar($item["imovel"][0]->getIdTipoImovel())
+                    ."<br>"."Finalidade: ".$item["anuncio"][0]->getFinalidade();
+                            
+            if($item["imovel"][0]->getCondicao() != "nenhuma"){
+                $html = $html."<br>Condição: ".ucfirst($item["imovel"][0]->getCondicao()."<br>");
+            } else $html = $html."<br>";
+            
+            if($item["imovel"][0]->getCasa() != null){
+                $html = $html."Quarto(s): ".$item["imovel"][0]->getCasa()->getQuarto()."<br>"
+                             ."Banheiro(s): ".$item["imovel"][0]->getCasa()->getBanheiro()."<br>"
+                             ."Suite(s): ".$item["imovel"][0]->getCasa()->getSuite()."<br>"
+                             ."Vaga(s) de Garagem: ".$item["imovel"][0]->getCasa()->getGaragem()."<br>"
+                             ."Área: ".$item["imovel"][0]->getCasa()->getArea()." m<sup>2</sup><br>";
+            } 
+            
+            else if($item["imovel"][0]->getSalaComercial() != null){
+                $html = $html."Banheiro(s): "
+                            .$item["imovel"][0]->getSalaComercial()->getBanheiro()."<br>Vaga(s) de Garagem: "
+                            .$item["imovel"][0]->getSalaComercial()->getGaragem()."<br>";
+            } 
+            
+            else if($item["imovel"][0]->getApartamento() != null){
+                $html = $html."Quarto(s): ".$item["imovel"][0]->getApartamento()->getQuarto()."<br>"
+                             ."Banheiro(s): ".$item["imovel"][0]->getApartamento()->getBanheiro()."<br>"
+                             ."Suite(s): ".$item["imovel"][0]->getApartamento()->getSuite()."<br>"
+                             ."Vaga(s) de Garagem: ".$item["imovel"][0]->getApartamento()->getGaragem()."<br>"
+                             ."Unidade(s) por Andar: ".$item["imovel"][0]->getApartamento()->getUnidadesAndar()."<br>"
+                             ."Andar do Apartamento: ".$item["imovel"][0]->getApartamento()->getAndar()."º <br>"
+                             ."Condominio: R($) ".$item["imovel"][0]->getApartamento()->getCondominio()."<br>"
+                             ."Está na Cobertura: ".$item["imovel"][0]->getApartamento()->getCobertura()."<br>"
+                             ."Área: ".$item["imovel"][0]->getApartamento()->getArea()." m<sup>2</sup><br>";
+            }
+            
+            else if($item["imovel"][0]->getApartamentoPlanta() != null){
+                $html = $html."Andares: ".$item["imovel"][0]->getApartamentoPlanta()->getAndares()."<br>"
+                             ."Unidade(s) por Andar: ".$item["imovel"][0]->getApartamentoPlanta()->getUnidadesAndar()."<br>"
+                             ."Total de Unidades: ".$item["imovel"][0]->getApartamentoPlanta()->getTotalUnidades()."<br>"
+                             ."Número de Torres: ".$item["imovel"][0]->getApartamentoPlanta()->getNumeroTorres()."<br>";
+            
+                //foreach ($item["imovel"][0]->getPlanta() as $planta){
+                
+                if(is_array($item["imovel"][0]->getPlanta())){
+                    
+                    $html = $html."<br>";
+                    
+                    foreach ($item["imovel"][0]->getPlanta() as $planta){
+                        
+                        $ordem = ($planta->getOrdemPlantas() + 1); //apenas para não aparecer a planta "zero"
+                        
+                        $html = $html."<strong>Planta ".$ordem."</strong> : ".$planta->getTituloPlanta()."<br>"
+                            ."Quarto(s): ".$planta->getQuarto()."<br>"
+                            ."Banheiro(s): ".$planta->getBanheiro()."<br>"
+                            ."Suite(s): ".$planta->getSuite()."<br>"
+                            ."Vaga(s) de Garagem: ".$planta->getGaragem()."<br>"
+                            ."Area: ".$planta->getArea()." m<sup>2</sup><br>";
+                        
+                    }
+                    
+                }
+                
+                else{
+                
+                    $html = $html."Planta: ".$item["imovel"][0]->getPlanta()->getTituloPlanta()."<br>"
+                            ."Quarto(s): ".$item["imovel"][0]->getPlanta()->getQuarto()."<br>"
+                            ."Banheiro(s): ".$item["imovel"][0]->getPlanta()->getBanheiro()."<br>"
+                            ."Suite(s): ".$item["imovel"][0]->getPlanta()->getSuite()."<br>"
+                            ."Vaga(s) de Garagem: ".$item["imovel"][0]->getPlanta()->getGaragem()."<br>"
+                            ."Area: ".$item["imovel"][0]->getPlanta()->getArea()."<br>";
+                }   
+                //}
+            }
+            else if($item["imovel"][0]->getPredioComercial() != null){
+                $html = $html."Área: ".$item["imovel"][0]->getPredioComercial()->getArea()." m<sup>2</sup><br><br><br><br>";
+            }
+            
+            else if($item["imovel"][0]->getTerreno() != null){
+                $html = $html."Área: ".$item["imovel"][0]->getTerreno()->getArea()." m<sup>2</sup><br><br><br><br>";
+            }          
+            
+            if(count($item["imagem"]) > 0){
+                $pdf->Image(PIPROOT."/fotos/imoveis/".$item["imagem"][0]->getDiretorio()
+                    ."/".$item["imagem"][0]->getNome(), 135, "", 60, 45, '', '', '', true, 150, '', false, false, 1, false, false, false);
+            } else{
+                $pdf->Image(PIPROOT."/assets/imagens/foto_padrao.png", 135, "", 60, 45, '', '', '', true, 150, '', false, false, 1, false, false, false);
+                
+            }
+
+            $pdf->writeHTMLCell(125, 0, '', '', $html, 0, 1, 0, true, '', true);
+            
+            $htmlEndereco = "Endereço: "                            
+                            .$item["endereco"][0]->getLogradouro() .', Nº ' . $item["endereco"][0]->getNumero() 
+                            . ', ' . $item["endereco"][0]->getBairro()->getNome() 
+                            . ', ' . $item["endereco"][0]->getCidade()->getNome()."<br>";
+            
+            $pdf->writeHTMLCell("", 0, '', '', $htmlEndereco, 0, 1, 0, true, '', true);
+            
+            $htmlDetalhes = 'Para mais detalhes sobre esse anúncio, clique '. '<a href="'.PIPURL.$item["anuncio"][0]->getIdAnuncio()
+                    .'" target=" _blank">AQUI</a><p>';
+            
+            $pdf->writeHTMLCell("", 0, '', '', $htmlDetalhes, 0, 1, 0, true, '', true);
+            
+            $pdf->writeHTMLCell("", 0, '', '', "<hr>", 0, 1, 0, true, '', true);
+            
+            if($contadorPaginas < $numeroAnuncios){ //adicionar quebra de página ao final do anúncio
+                $pdf->AddPage();
+            }
+            
+        }
+        
+        $pdf->Output(PIPROOT.'/pdf/'."anunciosEscolhidos".$_SESSION["login"]
+                .date("is").".pdf", 'F');
+
+        $dadosEmail["nomeArquivo"] = PIPROOT.'/pdf/'."anunciosEscolhidos".$_SESSION["login"]
+                .date("is").".pdf";
+        
+        //die();
+        
+        if (Email::enviarEmail($dadosEmail)) {
+            $genericoDAO->commit();
+            $genericoDAO->fecharConexao();
+            echo json_encode(array("resultado" => 1));
+        } else {
+            $genericoDAO->rollback();
+            $genericoDAO->fecharConexao();
+            echo json_encode(array("resultado" => 0));
+        }
+    }
     
     function listarReativarAluguel() {
        if (Sessao::verificarSessaoUsuario()) {

@@ -223,6 +223,29 @@ class Imovel {
                         }
     }
     
+    function tipoImovelRetornar($tipo){
+        switch ($tipo) {
+                        case "1":
+                        return  "Casa";
+                        break;
+                        case "2":
+                        return "Apartamento na Planta";
+                        break;
+                        case "3":
+                        return "Apartamento";
+                        break;
+                        case "4": 
+                        return "Sala Comercial";
+                        break;
+                        case "5":
+                        return "Prédio Comercial";
+                        break;
+                        case "6":
+                        return "Terreno";
+                        break;
+                        }
+    }
+    
     function cadastrar($parametros, $idendereco) {
         $imovel = new Imovel();
         $imovel->setIdtipoimovel($parametros['sltTipo']);  
