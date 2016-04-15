@@ -60,7 +60,7 @@ CREATE
     ALGORITHM = UNDEFINED 
     DEFINER = `root`@`localhost` 
     SQL SECURITY DEFINER
-VIEW `buscaanuncioapartamento` AS
+VIEW `buscaanuncioapartamentoplanta` AS
     SELECT 
         `a`.`id` AS `idanuncio`,
         `a`.`idanuncio` AS `idanuncioformatado`,
@@ -75,16 +75,11 @@ VIEW `buscaanuncioapartamento` AS
         `i`.`id` AS `idimovel`,
         `i`.`condicao` AS `condicao`,
         `ti`.`descricao` AS `tipo`,
-        `ap`.`quarto` AS `quarto`,
-        `ap`.`suite` AS `suite`,
-        `ap`.`banheiro` AS `banheiro`,
-        `ap`.`garagem` AS `garagem`,
-        `ap`.`area` AS `area`,
-        `ap`.`sacada` AS `sacada`,
-        `ap`.`unidadesandar` AS `unidadesandar`,
-        `ap`.`andar` AS `andar`,
-        `ap`.`condominio` AS `condominio`,
-        `ap`.`cobertura` AS `cobertura`,
+        `app`.`id` AS `idapartamento`,
+        `app`.`andares` AS `andares`,
+        `app`.`unidadesandar` AS `unidadesandar`,
+        `app`.`totalunidades` AS `totalunidades`,
+        `app`.`numerotorres` AS `numerotorres`,
         `en`.`cep` AS `cep`,
         `en`.`logradouro` AS `logradouro`,
         `en`.`numero` AS `numero`,
@@ -103,12 +98,12 @@ VIEW `buscaanuncioapartamento` AS
         `us`.`email` AS `email`,
         `us`.`foto` AS `foto`
     FROM
-        (((((`apartamento` `ap`
+        (((((`apartamentoplanta` `app`
         LEFT JOIN ((((`imovel` `i`
         LEFT JOIN `anuncio` `a` ON ((`a`.`idimovel` = `i`.`id`)))
         LEFT JOIN `mapaimovel` `mi` ON ((`mi`.`idanuncio` = `a`.`id`)))
         LEFT JOIN `usuario` `us` ON ((`i`.`idusuario` = `us`.`id`)))
-        LEFT JOIN `tipoimovel` `ti` ON ((`i`.`idtipoimovel` = `ti`.`id`))) ON ((`ap`.`idimovel` = `i`.`id`)))
+        LEFT JOIN `tipoimovel` `ti` ON ((`i`.`idtipoimovel` = `ti`.`id`))) ON ((`app`.`idimovel` = `i`.`id`)))
         LEFT JOIN `endereco` `en` ON ((`en`.`id` = `i`.`idendereco`)))
         LEFT JOIN `estado` `es` ON ((`es`.`id` = `en`.`idestado`)))
         LEFT JOIN `cidade` `ci` ON ((`ci`.`id` = `en`.`idcidade`)))
