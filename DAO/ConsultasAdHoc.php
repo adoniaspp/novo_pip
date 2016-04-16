@@ -176,15 +176,30 @@ class ConsultasAdHoc extends GenericoDAO {
             $tiposImoveis = array_column($resultado['anuncio'], 'tipo');
             for ($i = 0; $i < count($idsImoveis); $i++) {
                 if ($tiposImoveis[$i] == 'apartamentoplanta') {
-                    $sth = $this->conexao->prepare("SELECT ordemplantas, tituloplanta, quarto, banheiro, suite, garagem, area, imagemdiretorio, imagemnome FROM planta WHERE idimovel = :idimovel");
+                    $sth = $this->conexao->prepare("SELECT id, ordemplantas, tituloplanta, quarto, banheiro, suite, garagem, area, imagemdiretorio, imagemnome FROM planta WHERE idimovel = :idimovel");
                     $sth->bindValue(':idimovel', $idsImoveis[$i]);
                     $sth->execute();
                     $imovel['plantas'] = $sth->fetchAll(PDO::FETCH_ASSOC);
                     if (count($imovel['plantas']) > 0) {
+                        $idsPlantas = array_column($imovel['plantas'], 'id');
+                        for ($j = 0; $j < count($idsPlantas); $j++) {
+                            $sth = $this->conexao->prepare("SELECT andarinicial, andarfinal, valor FROM valor WHERE idplanta = :idplanta");
+                            $sth->bindValue(':idplanta', $idsPlantas[$j]);
+                            $sth->execute();
+                            $planta['valor'] = $sth->fetchAll(PDO::FETCH_ASSOC);
+                            if(count($planta['valor']) > 0){
+                                $imovel['plantas'][$j]['valores'] = $planta['valor']; 
+                            }
+                        }
                         $resultado['anuncio'][$i]['plantas'] = ($imovel['plantas']);
                     }
+                 echo '<pre>';
+                print_r($resultado);
+                echo '</pre>';
+                die(); 
                 }
             }
+           
         }
         if (count($resultado['anuncio']) != 0) {
             $idsUsuarios = array_column($resultado['anuncio'], 'id');
