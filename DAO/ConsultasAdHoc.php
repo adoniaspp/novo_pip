@@ -183,7 +183,7 @@ class ConsultasAdHoc extends GenericoDAO {
                     if (count($imovel['plantas']) > 0) {
                         $idsPlantas = array_column($imovel['plantas'], 'id');
                         for ($j = 0; $j < count($idsPlantas); $j++) {
-                            $sth = $this->conexao->prepare("SELECT andarinicial, andarfinal, valor FROM valor WHERE idplanta = :idplanta");
+                            $sth = $this->conexao->prepare("SELECT id, andarinicial, andarfinal, valor FROM valor WHERE idplanta = :idplanta");
                             $sth->bindValue(':idplanta', $idsPlantas[$j]);
                             $sth->execute();
                             $planta['valor'] = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -193,10 +193,10 @@ class ConsultasAdHoc extends GenericoDAO {
                         }
                         $resultado['anuncio'][$i]['plantas'] = ($imovel['plantas']);
                     }
-                 echo '<pre>';
+                /* echo '<pre>';
                 print_r($resultado);
                 echo '</pre>';
-                die(); 
+                die(); */
                 }
             }
            
@@ -355,5 +355,20 @@ class ConsultasAdHoc extends GenericoDAO {
         $resultado = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $resultado;
     }
+    
+    public function diferencialPlanta(){
+     
+        $sql = "SELECT a.*,d.descricao
+        FROM tipoimoveldiferencial a
+        JOIN diferencial d ON a.iddiferencial = d.id
+        WHERE a.idtipoimovel = 3 AND a.iddiferencial not 
+        in (select b.iddiferencial FROM tipoimoveldiferencial b WHERE b.idtipoimovel = 2)";
 
+        $statement = $this->conexao->prepare($sql);
+        $statement->execute();
+        $resultado = $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $resultado;
+        
+    }
+    
 }
