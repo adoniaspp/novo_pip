@@ -21,7 +21,11 @@ Cookies::configurarPreferencias($this->getItem());
 <?php
 
 $item = $this->getItem();
-
+/*
+echo "<pre>";
+var_dump($item);
+echo "</pre>";
+*/
 $latitude  = "";
 $longitude = "";
 
@@ -37,7 +41,32 @@ if($item["mapaImovel"]){
 ?>
 
 <script>
-    //inserirValidacao();
+    $(document).ready(function () { 
+    var tipoAnuncio = "<?php echo $item['anuncio'][0]['tipo'] ?>";
+    
+    switch (tipoAnuncio){
+  
+        case "apartamento":
+            $("#textoEspecifico").html("Características do Apartamento");
+        break;
+        case "casa":
+            $("#textoEspecifico").html("Características do Apartamento da Casa");
+        break;
+        case "apartamentoplanta":
+            $("#divisorTextoEspecifico").hide();
+        break;
+        case "salacomercial":
+            $("#textoEspecifico").html("Características da Sala Comercial");
+        break;
+        case "prediocomercial":
+            $("#textoEspecifico").html("Características do Prédio Comercial");
+        break;
+        case "terreno":
+            $("#textoEspecifico").html("Características do Terreno");
+        break;
+        }    
+    })
+
     enviarDuvidaAnuncio();
     formatarDetalhe();
      
@@ -70,92 +99,33 @@ if($item["mapaImovel"]){
             
             <div class="row">
             
-            <div class="sixteen wide column"> 
-                <div class="ui info message">
-                    <div class="header"><?php echo $item['anuncio'][0]['tituloanuncio'] ?></div>
-                    <p><?php echo $item['anuncio'][0]['descricaoanuncio'] ?></p>
-                    
-                    <p><font size = '4'>- Código do Anúncio: <?php echo $item['anuncio'][0]['idanuncioformatado']?> </font></p>
-                   
-                    
-                                      
+            <div class="ui list">
+                <div class="item">
+                  <i class="right triangle icon"></i>
+                  <div class="content">
+                      <div class="header"><font size="4"><?php echo $item['anuncio'][0]['tituloanuncio'] ?></font></div>
+                    <div class="description"><font size="3"><?php echo $item['anuncio'][0]['descricaoanuncio'] ?></font></div>
+                  </div>
                 </div>
-            </div>
+                <div class="item">
+                  <i class="right triangle icon"></i>
+                  <div class="content">
+                      <div class="header"><font size="4">Código do Anúncio</font></div>
+                    <div class="description"><font size="3"><?php echo $item['anuncio'][0]['idanuncioformatado']?></font></div>
+                  </div>
+                </div>
+                <div class="item">
+                  <i class="right triangle icon"></i>
+                  <div class="content">
+                      <div class="header"><font size="4">Data de Cadastro</font></div>
+                    <div class="description"><font size="3"><?php echo $item['anuncio'][0]['datahoracadastro']?></font></div>
+                  </div>
+                </div>
+            </div>    
                 
             </div>    
-
-                
-
             
-            <?php if($item["novoValor"] != null){ ?>
-        
-                <div class="ui hidden divider"></div>
-                
-                <div class="item"> 
-                    <div class="ui dividing header"><div class="ui big orange label">Valor do Anúncio</div></div>
-                        <?php 
-                        $contador = 0;
-                        foreach ($item["novoValor"] as $novoValor){
-                       
-                            $contador = $contador + 1;
-                            if($contador == 1){
-                                
-                                ?>
-            
-                                <script>
-                                formatarValorUnico(<?php echo $novoValor->getId() ?>);
-                                </script>
-
-                                <?php  
-                                
-                                echo "<div class='ui big label'><span id='formatarValorUnicoJS".$novoValor->getId()."'>".$novoValor->getNovoValor()."</div></span>&nbsp;&nbsp;&nbsp;&nbsp";
-                            }
-                            else {
-                                
-                                ?>
-            
-                                <script>
-                                formatarValorCampos(<?php echo $novoValor->getId() ?>);
-                                </script>
-
-                                <?php
-                                
-                                echo "<div class='ui big label'><strike id='formatarValorJS".$novoValor->getId()."'>".$novoValor->getNovoValor()."</div></strike>&nbsp;&nbsp;&nbsp;&nbsp";
-                            }
-                        }
-                        
-                        ?>
-            
-                                <script>
-                                formatarValorUnico(<?php echo $item['anuncio'][0]['id'] ?>);
-                                </script>
-
-                                <?php
-                        
-                        echo "<div class='ui big label'><strike id='formatarValorUnicoJS".$item['anuncio'][0]['id']."'>".$item['anuncio'][0]['valormin']."</strike></div>&nbsp;&nbsp;&nbsp;&nbsp";
-                        ?>
-                    
-                </div>
-                
-                <?php } else {?>
-                
-                <script>
-                formatarValorUnico(<?php echo $item['anuncio'][0]['id'] ?>);
-                </script>
-                
-                <div class="ui hidden divider"></div>
-                
-                <div class="item"> 
-                    <div class="ui dividing header"><div class="ui big orange label">Valor do Anúncio</div></div>
-                </div>
-                
-                <br>
-                
-                <?php 
-                echo "<div class='ui big label'><span id='formatarValorUnicoJS".$item['anuncio'][0]['id']."'>".$item['anuncio'][0]['valormin']."</span></div>&nbsp;&nbsp;&nbsp;&nbsp";
-                } ?>
-            
-            <div class="ui hidden divider"></div> 
+            <div class="ui hidden divider"></div>
             
             <div class="fields">          
                 
@@ -233,11 +203,152 @@ if($item["mapaImovel"]){
             <?php } ?> 
 
         </div>
+            
+            <?php
+            
+            if($item['anuncio'][0]['tipo'] != 'apartamentoplanta'){
+            
+            if($item["novoValor"] != null){ ?>
         
+                <div class="ui hidden divider"></div>
+                
+                <div class="item"> 
+                    <div class="ui dividing header"><div class="ui big orange label">Valor do Anúncio</div></div>
+                        <?php 
+                        $contador = 0;
+                        foreach ($item["novoValor"] as $novoValor){
+                       
+                            $contador = $contador + 1;
+                            if($contador == 1){
+                                
+                                ?>
+            
+                                <script>
+                                formatarValorUnico(<?php echo $novoValor->getId() ?>);
+                                </script>
+
+                                <?php  
+                                
+                                echo "<div class='ui big label'><span id='formatarValorUnicoJS".$novoValor->getId()."'>".$novoValor->getNovoValor()."</div></span>&nbsp;&nbsp;&nbsp;&nbsp";
+                            }
+                            else {
+                                
+                                ?>
+            
+                                <script>
+                                formatarValorCampos(<?php echo $novoValor->getId() ?>);
+                                </script>
+
+                                <?php
+                                
+                                echo "<div class='ui big label'><strike id='formatarValorJS".$novoValor->getId()."'>".$novoValor->getNovoValor()."</div></strike>&nbsp;&nbsp;&nbsp;&nbsp";
+                            }
+                        }
+                        
+                        ?>
+            
+                                <script>
+                                formatarValorUnico(<?php echo $item['anuncio'][0]['id'] ?>);
+                                </script>
+
+                                <?php
+                        
+                        echo "<div class='ui big label'><strike id='formatarValorUnicoJS".$item['anuncio'][0]['id']."'>".$item['anuncio'][0]['valormin']."</strike></div>&nbsp;&nbsp;&nbsp;&nbsp";
+                        ?>
+                    
+                </div>
+                
+                <?php } else {?>
+                
+                <script>
+                formatarValorUnico(<?php echo $item['anuncio'][0]['id'] ?>);
+                </script>
+                
+                <div class="ui hidden divider"></div>
+          
+                <div class="item"> 
+                    <div class="ui dividing header"><div class="ui big orange label">Valor do Anúncio</div></div>
+                </div>
+                
+                <br>
+                
+                <?php 
+                echo "<div class='ui big label'><span id='formatarValorUnicoJS".$item['anuncio'][0]['id']."'>".$item['anuncio'][0]['valormin']."</span></div>&nbsp;&nbsp;&nbsp;&nbsp";
+                } ?>
+            
+            <div class="ui hidden divider"></div> 
+            
+            <?php } else { ?>
+            
+            <div class="ui hidden divider"></div>
+          
+                <div class="item"> 
+                    <div class="ui dividing header"><div class="ui big orange label">Valores do Anúncio</div></div>
+                </div>
+            
+            <div class="ui hidden divider"></div>
+            
+            <?php             
+       
+            foreach ($item['anuncio'][0]['plantas'] as $planta){ 
+            
+            ?>
+      
+            <div><?php echo "<font size = '4' color = 'maroon'>Planta ".($planta['ordemplantas'] + 1)." - ".$planta['tituloplanta']."</font>";?></div>
+                
+                <table class="ui celled structured striped table">
+                    <thead>
+                      <tr>
+                        <th rowspan="2">Andar</th>                           
+                        <th rowspan="2">Valor</th>
+                      </tr>
+                    </thead>
+                    
+                    <tbody>
+               
+                        <?php 
+                            
+                        echo "<tr>";  
+                        
+                        for($x = 0; $x< count($planta['valores']); $x++){                                
+                        
+                            echo "<td>";
+
+                            echo $planta['valores'][$x]['andarinicial']." a ".$planta['valores'][$x]['andarfinal']; 
+
+                            echo "</td>";
+
+                            ?>
+                        
+                            <script>
+                                formatarValorCampos(<?php echo $planta['valores'][$x]['id'] ?>);
+                            </script>
+                        
+                            <td id="formatarValorJS<?php echo $planta['valores'][$x]['id']?>"><?php echo $planta['valores'][$x]['valor']?></td>
+                   
+                        <?php 
+                        
+                        echo "</tr>"; 
+                        
+                        } ?>
+          
+                    </tbody>    
+                </table>    
+            
+            <?php } } ?>
+            
+             <div class="ui hidden divider"></div> 
+  
         <?php if ($item['anuncio'][0]['tipo'] != 'apartamentoplanta') { ?>    
                
         <?php } ?>    
-            
+
+             <div class="ui horizontal divider" id="divisorTextoEspecifico">
+                 <div class="ui teal large label">
+                     <div id="textoEspecifico"></div>                     
+                 </div>                     
+             </div>     
+             
         <div class="fields">  
             <?php
             if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'] != 'terreno' &&
@@ -256,6 +367,9 @@ if($item["mapaImovel"]){
                     </div>
                 </div>
             <?php } ?>
+            
+            
+            
             <?php if ($item['anuncio'][0]['tipo'] != 'terreno' && 
                       $item['anuncio'][0]['tipo'] != 'apartamentoplanta' &&
                       $item['anuncio'][0]['tipo'] != 'prediocomercial') { ?>
@@ -363,17 +477,28 @@ if($item["mapaImovel"]){
                 
                 <div class="ui styled fluid accordion">
                         <?php
+                        
                         foreach ($item['anuncio'][0]['plantas'] as $planta) {
+                            
                             ?>
                             <div class="active title">
                                 <i class="dropdown icon"></i>
-                                <?php echo "<font size = '4' color = 'maroon'>".$planta['tituloplanta']."</font>" ?>
+                                <?php 
+                                
+                                if(count($item['anuncio'][0]['plantas']) > 1){
+                                    
+                                    echo "<font size = '4' color = 'maroon'>Planta ".($planta['ordemplantas'] + 1)." - ".$planta['tituloplanta']."</font>";
+                                } else {
+                                    
+                                    echo "<font size = '4' color = 'maroon'>".$planta['tituloplanta']."</font>";                           
+                                }
+                                ?>
                             </div>
                             <div class="active content">
                                 <div class="ui six column stackable grid container"> 
                                     <div class="column">
                                         <div class="fotorama" data-allowfullscreen="true">
-                                            <img class="ui medium image" src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>"> 
+                                            <img class="ui medium image" src="<?php echo PIPURL . "fotos/plantas/". $planta['imagemdiretorio']."/".$planta['imagemnome'] ?>"> 
                                         </div>
                                     </div>
 

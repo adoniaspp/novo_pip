@@ -584,6 +584,8 @@ function inserirValidacao(){
      });
 }
 
+
+
 function enviarDuvidaAnuncio() {
     $(document).ready(function () {     
         
@@ -1289,6 +1291,8 @@ function ordemInicio() {
         })
     });
 }
+
+
 
 function validarArea(validacao) {
 //    $(document).ready(function () {

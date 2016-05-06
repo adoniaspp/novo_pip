@@ -135,6 +135,8 @@ Sessao::gerarToken();
                 
                 <div id="divDiferencialPlanta"></div>
                 
+                <div class="ui hidden divider"></div>
+                
                 <div class="one field" id="divDescricao">
                     <div class="field">
                         <label>Identificar este imóvel como:</label>

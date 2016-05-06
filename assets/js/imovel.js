@@ -27,7 +27,11 @@ function esconderCamposInicio() {
         $("#chkCobertura").hide();
         $("#chkSacada").hide();
         $("#divDiferencialPlanta").hide();
-
+        
+        $("#sltNumeroPlantas").change(function () {
+            mostrarPlantas();
+        })
+        
         $("#sltTipo").rules("add", {
             required: true
         });
@@ -63,10 +67,6 @@ function esconderCamposInicio() {
             $("#txtArea").val("");
             $("#txtDescricao").val("");
             
-            $("div[id^='divDiferencialPlanta']").each(function () {
-                        $(this).empty();
-                    });
-
             //mostra a area
             mostrarArea();
             //adiciona novamente a regra do CEP o validate
@@ -132,7 +132,7 @@ function esconderCamposInicio() {
                 //limpa a div de carregamento
                 $("#divInfoApeCasa").empty();
                 //chama funcao de carregar as plantas
-                mostrarPlantas();
+                //mostrarPlantas();
                 //exibe as divs de planta
                 $("#divNumeroPlantas").show();
                 $("#divAreaPlanta").show();
@@ -140,7 +140,7 @@ function esconderCamposInicio() {
                 $("#divAndares").show();
                 $("#divUnidadesTotal").show();
                 $("#divUnidadesAndar").show();
-                //$("#divDiferencialPlanta").show();
+                $("#divDiferencialPlanta").show();
                 //esconde as
                 $("#divInserePlanta").hide();
                 $("#divPlantaUm").hide();
@@ -334,17 +334,13 @@ function esconderCamposInicio() {
     function mostrarPlantas() {
         $(document).ready(function () {
             //define a regra caso altere a quantidade de plantas
-            $("#sltNumeroPlantas").change(function () {
                 //limpa a div de carregamento
                 $("#divInfoApeCasa").empty();
-                
-            $("div[id^='divDiferencialPlanta']").each(function () {
-                        $(this).empty();
-                    });
+
                 //valida o campo para remover a marcação de erro, se houver
-                $(this).valid();
+                $("#sltNumeroPlantas").valid();
                 //se for mais de 1 
-                if ($(this).val() >= "1") {
+                if ($("#sltNumeroPlantas").val() >= "1") {
                     $("#divInserePlanta").show();
                     $("#divAreaApeNovo").show();
                     $("#divPlantaUm").show();
@@ -366,8 +362,6 @@ function esconderCamposInicio() {
 
                     $("#divInserePlanta").empty();
                     $("#divPlantaUm").empty();
-                    
-                    
 
                 }
 
@@ -462,12 +456,6 @@ function esconderCamposInicio() {
                     $("#divInfoApeCasa" + contador).append(garagem);
                     $("#divInfoApeCasa" + contador).append(area);                  
                     
-                    //$("#divDiferencialPlanta" + contador).append(difPlanta);
-                    
-                    if(contador == valores){
-                        $("#divDiferencialPlanta" + contador).append("<div class='ui hidden divider'></div>");
-                    }
-                    
                     $("#sltQuarto" + contador).change(function () {
                         $(this).valid();
                     })
@@ -531,9 +519,9 @@ function esconderCamposInicio() {
                         minlength: 2});
                 })
 
-            })
+            
 
-        }
+            }
         )
     }
 }
@@ -1174,7 +1162,7 @@ function carregaDadosModalImovel($div) {
             $div.append("<div class='ui horizontal list'>\n\
                                         <div class='item'>\n\
                                         <div class='content'>\n\
-                                        <div class='header'>Diferenciais </div>" + diferenciais + "</div>\n\
+                                        <div class='header'>Diferenciais do Empreendimento </div>" + diferenciais + "</div>\n\
                          </div>\n\
                          </div>\n\
             <div class='ui hidden divider'></div>");
@@ -1293,7 +1281,7 @@ function carregaDadosModalImovel($div) {
                         <th>Suite(s)</th> \n\
                         <th>Vaga(s) de Garagem</th> \n\
                         <th>Area m<SUP>2</SUP></th> \n\
-                        <th>Diferencial</SUP></th> \n\
+                        <th>Diferencial da Planta</SUP></th> \n\
                         </tr>\n\
                         </thead> \n\
                     <tbody>" + linhas + "</tbody></table>");

@@ -18,6 +18,9 @@ function cancelar(entidade, acao) {
         })
     })
 }
+
+
+
 function cadastrarAnuncio() {
     $(document).ready(function () {
         $('.ui.dropdown')
@@ -1233,6 +1236,8 @@ function finalizar(botao) {
     })
 }
 
+
+
 function alterarValor(valor) {
 
     $('#btnMostrarValor' + valor).click(function () {
@@ -1385,4 +1390,31 @@ function alterarValor(valor) {
 
     })
 
+}
+
+function escreverTextoEspecificoDetalhe(tipoAnuncio){
+    $(document).ready(function () {
+        
+    switch (tipoAnuncio){
+  
+        case "apartamento":
+            $("#textoEspecifico").html("Específico do Apartamento");
+        break;
+        case "casa":
+            $("#textoEspecifico").html("Específico do Apartamento");
+        break;
+        case "apartamentoplanta":
+            $("#textoEspecifico").html("Específico do Apartamento");
+        break;
+        case "salacomercial":
+            $("#textoEspecifico").html("Específico do Apartamento");
+        break;
+        case "prediocomercial":
+            $("#textoEspecifico").html("Específico do Apartamento");
+        break;
+        case "terreno":
+            $("#textoEspecifico").html("Específico do Apartamento");
+        break;
+        }    
+    })
 }
