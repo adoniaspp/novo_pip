@@ -26,6 +26,7 @@ function esconderCamposInicio() {
         $("#divAreaApeNovo").hide();
         $("#chkCobertura").hide();
         $("#chkSacada").hide();
+        $("#divDiferencialPlanta").hide();
 
         $("#sltTipo").rules("add", {
             required: true
@@ -61,6 +62,11 @@ function esconderCamposInicio() {
             $('#sltAndares').parent().dropdown('restore defaults');
             $("#txtArea").val("");
             $("#txtDescricao").val("");
+            
+            $("div[id^='divDiferencialPlanta']").each(function () {
+                        $(this).empty();
+                    });
+
             //mostra a area
             mostrarArea();
             //adiciona novamente a regra do CEP o validate
@@ -76,6 +82,7 @@ function esconderCamposInicio() {
                 $("#divNumeroPlantas").hide();
                 $("#divInserePlanta").hide();
                 $("#divPlantaUm").hide();
+                $("#divDiferencialPlanta").hide();
                 $("#divAndar").hide();
                 //exibe as informacoes de casa
                 $("#divInfoBasicas").show();
@@ -133,6 +140,7 @@ function esconderCamposInicio() {
                 $("#divAndares").show();
                 $("#divUnidadesTotal").show();
                 $("#divUnidadesAndar").show();
+                //$("#divDiferencialPlanta").show();
                 //esconde as
                 $("#divInserePlanta").hide();
                 $("#divPlantaUm").hide();
@@ -161,6 +169,7 @@ function esconderCamposInicio() {
                 $("#divNumeroPlantas").hide();
                 $("#divInserePlanta").hide();
                 $("#divAreaPlanta").hide();
+                $("#divDiferencialPlanta").hide();
                 $("#divCondicao").show();
                 $("#divInfoApeCasa").show();
                 $("#divDescricao").show();
@@ -231,6 +240,7 @@ function esconderCamposInicio() {
                 $("#divUnidadesTotal").hide();
                 $("#divNumeroPlantas").hide();
                 $("#divUnidadesAndar").hide();
+                $("#divDiferencialPlanta").hide();
                 $("#divCondominio").show();
                 $("#divDiferencial").show();
                 $("#divInfoApeCasa").show();
@@ -279,6 +289,7 @@ function esconderCamposInicio() {
                 $("#divInserePlanta").hide();
                 $("#divInfoApeCasa").hide();
                 $("#divApartamento").hide();
+                $("#divDiferencialPlanta").hide();
                 $("#divDescricao").show();
                 $("#divEndereco").show();
                 
@@ -299,6 +310,7 @@ function esconderCamposInicio() {
                 $("#divInfoApeCasa").hide();
                 $("#divApartamento").hide();
                 $("#divAreaPlanta").hide();
+                $("#divDiferencialPlanta").hide();
                 $("#divDescricao").show();
                 $("#divEndereco").show();
                 
@@ -325,6 +337,10 @@ function esconderCamposInicio() {
             $("#sltNumeroPlantas").change(function () {
                 //limpa a div de carregamento
                 $("#divInfoApeCasa").empty();
+                
+            $("div[id^='divDiferencialPlanta']").each(function () {
+                        $(this).empty();
+                    });
                 //valida o campo para remover a marcação de erro, se houver
                 $(this).valid();
                 //se for mais de 1 
@@ -350,17 +366,28 @@ function esconderCamposInicio() {
 
                     $("#divInserePlanta").empty();
                     $("#divPlantaUm").empty();
+                    
+                    
 
                 }
 
                 for (var valor = 1; valor <= valores; valor++) { //clona as divs das plantas e as adiciona
+                    
                     var $clone = $('#divInfoApeCasa').clone();
+                    
+                    var cloneDifPlanta = $('#divDiferencialPlanta').clone();
+                    
+                    //$('#divDiferencialPlanta').attr("id", "simoncartman");
+                    
                     $clone.attr("id", "divInfoApeCasa" + valor);
+                    
+                    cloneDifPlanta.attr("id", "divDiferencialPlanta" + valor);
 
                     var label = "<h4>Planta " + (valor) + ": </h4><div id='divNomePlantas' class='ten wide required field'><input type='text' maxlength='80' name='txtPlanta[]' id='txtPlanta" + valor + "' placeholder='Titulo da Planta. Ex: 3 Quartos + 2 Suites + Opções (Ex: Gabinete, Living Ampliado, etc)'></div>"
 
                     $('#divInserePlanta').append(label);
                     $('#divInserePlanta').append($clone);
+                    $('#divInserePlanta').append(cloneDifPlanta);
 
                     //componente que exibe o valor máximo a ser digitado para cada planta
                     $('#txtPlanta' + valor).maxlength({
@@ -375,9 +402,10 @@ function esconderCamposInicio() {
                     });
 
                 }
-
+                //var teste = 0;
                 for (var contador = 1; contador <= valores; contador++) {
-
+         
+                    //teste = teste + 1;
                     var quarto = "<div class='four wide required field'>\n\
                                     <label>Quarto(s)</label>\n\
                                     <div class='ui selection dropdown'>\n\
@@ -394,14 +422,52 @@ function esconderCamposInicio() {
                     var suite = "<div class='four wide required field'><label>Suite(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltSuite[]' id='sltSuite" + contador + "'><div class='default text'>Suite(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
                     var garagem = "<div class='four wide required field'><label>Vagas de Garagem</label><div class='ui selection dropdown'><input type='hidden' name='sltGaragem[]' id='sltGaragem" + contador + "'><div class='default text'>Vaga(s) de Garagem</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
                     var area = "<div id='divAreaPlanta' class='four wide field'><div class='field'><label>Área (m<sup>2</sup>)</label><input type='text' name='txtArea[]' id='txtArea" + contador + "' maxlength='7' placeholder='Área'></div></div>";
+                    
+                        $.ajax({
+                            url: "index.php",
+                            type: "POST",
+                            dataType: "json",
+                            data: {
+                                
+                                hdnEntidade: "TipoImovelDiferencial",
+                                hdnAcao: "buscarDiferencialChkPlanta",
+                                sltTipo: 2,
+                                contador: contador
+                            },
+                            success: function (resposta) {
 
+                                     for (var i = 0; i < resposta.Diferenciais.length; i++) { 
+
+                                        for (var key in resposta.Diferenciais[i]) { 
+                                        
+                                        var respostaTotal = "<div class='ui checkbox'>\n\
+                                                            <input type='checkbox' id='chkDiferencialPlanta"+ resposta.contador +"' name='chkDiferencialPlanta[]' \n\
+                                                                value='"+ key+"'>\n\
+                                                            <label id='diferencialPlanta"+ resposta.contador +"' style='margin-right: 10px;'>"+ resposta.Diferenciais[i][key]+"\
+                                                            </label> &nbsp;</div>";
+           
+                                        }
+                                        
+                                        $("#divDiferencialPlanta"+resposta.contador).append(respostaTotal);
+                                        $('.ui.checkbox').checkbox();
+                                        
+                                    }
+
+                            }
+                        })
+   
                     $("#divInfoApeCasa" + contador).append(quarto);
                     $("#divInfoApeCasa" + contador).append(banheiro);
                     $("#divInfoApeCasa" + contador).append(suite);
                     $("#divInfoApeCasa" + contador).append(garagem);
-                    $("#divInfoApeCasa" + contador).append(area);
-
-
+                    $("#divInfoApeCasa" + contador).append(area);                  
+                    
+                    //$("#divDiferencialPlanta" + contador).append(difPlanta);
+                    
+                    if(contador == valores){
+                        $("#divDiferencialPlanta" + contador).append("<div class='ui hidden divider'></div>");
+                    }
+                    
                     $("#sltQuarto" + contador).change(function () {
                         $(this).valid();
                     })
@@ -476,6 +542,8 @@ function mostrarDivInfoApeCasa() {
     $(document).ready(function () {
         //limpa o que tiver na div de carregamento
         $("#divInfoApeCasa").empty();
+        
+        
         //se o tipo escolhido for casa ou apartamento, carrega os campos basicos: quarto, banheiro, suite e garagem
         if ($("#sltTipo").val() == "1" || $("#sltTipo").val() == "3") {
             var quarto = "<div class='four wide required field'><label>Quarto(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltQuarto' id='sltQuarto'><div class='default text'>Quarto(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
@@ -1172,9 +1240,41 @@ function carregaDadosModalImovel($div) {
 
                 var linhas = "";
                 var areaPlanta;
+                
+                var numero = $("input[name^='chkDiferencialPlanta']:checked").parent().size();
+                
+                console.log("Numero: "+numero);
+                
+                var temp = [];
+                
+                //for(var a = 1; a <= numero; a++){
+                
+                    //var nomeDaVariavel = "chkDiferencialPlanta" + (valor+1); 
 
+
+                    //var inputDiferencial = $("label[id='"+diferencialPlanta+"']").val();
+
+
+                    
+                    //retira a vírgula do último elemento
+                
+                //}
+                
+                
                 for (var valor = 0; valor < $("#sltNumeroPlantas").val(); valor++) {
+                    
+                    //$("#diferencialPlanta").attr("id", "diferencialPlanta" + valor);    
+                    
+                    var arr = [];
+                    
+                    $("input[type^='checkbox']:checked").parent().find("#diferencialPlanta"+(valor+1)).each(function ()
+                    {
+                           arr.push($(this).html().trim());
+                    });
 
+                    var diferencialPlanta = arr.join(", ");
+                    
+       
                     var quarto = $($("input[name^='sltQuarto']")[valor]).val();
                     var banheiro = $($("input[name^='sltBanheiro']")[valor]).val();
                     var suite = $($("input[name^='sltSuite']")[valor]).val();
@@ -1184,7 +1284,7 @@ function carregaDadosModalImovel($div) {
                     } else
                         areaPlanta = $($("input[name^='txtArea[]']")[valor]).val();
 
-                    linhas = linhas + "<tr><td>" + quarto + "</td><td>" + banheiro + "</td><td>" + suite + "</td><td>" + garagem + "</td><td>" + areaPlanta + "</td></tr>";
+                    linhas = linhas + "<tr><td>" + quarto + "</td><td>" + banheiro + "</td><td>" + suite + "</td><td>" + garagem + "</td><td>" + areaPlanta + "</td><td>" + diferencialPlanta + "</td></tr>";
                 }
                 $div.append("<table class='ui table'>\n\
                         <thead><tr>\n\
@@ -1193,6 +1293,7 @@ function carregaDadosModalImovel($div) {
                         <th>Suite(s)</th> \n\
                         <th>Vaga(s) de Garagem</th> \n\
                         <th>Area m<SUP>2</SUP></th> \n\
+                        <th>Diferencial</SUP></th> \n\
                         </tr>\n\
                         </thead> \n\
                     <tbody>" + linhas + "</tbody></table>");

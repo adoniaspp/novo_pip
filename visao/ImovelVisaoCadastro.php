@@ -129,9 +129,12 @@ Sessao::gerarToken();
                     <div id="divInserePlanta">
                         <span id="a"></span>
                         <div class="exemplo"></div>
+                        
                     </div>
                 </div>
-
+                
+                <div id="divDiferencialPlanta"></div>
+                
                 <div class="one field" id="divDescricao">
                     <div class="field">
                         <label>Identificar este imóvel como:</label>
