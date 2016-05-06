@@ -14,13 +14,39 @@ class TipoImovelDiferencialControle {
         $tipoImovelDiferencial = new TipoImovelDiferencial();
 
         $diferenciais = $genericoDAO->consultar($tipoImovelDiferencial, true, array("idtipoimovel" => $parametros["sltTipo"]));
-
+        
         foreach ($diferenciais as $diferencial) {
+            
+            //if($diferencial->getDiferencial()->getTipo() == "geral"){
+            
             echo "<div class='ui checkbox'>"
             . "<input type='checkbox' name='chkDiferencial[]' value='" . $diferencial->getDiferencial()->getId() . "'>"
             . "<label id='diferencial' style='margin-right: 10px;'>" . $diferencial->getDiferencial()->getDescricao() . "</label> &nbsp;\n
               </div>";
+                }
+            
+            //}
         }
+    
+    function buscarDiferencialChkPlanta($parametros) {
+        //var_dump($parametros); die();
+        $genericoDAO = new GenericoDAO();
+        
+        $consultasAdHoc = new ConsultasAdHoc();
+        
+        $tipoImovelDiferencial = new TipoImovelDiferencial();
+
+        $diferenciais = $consultasAdHoc->diferencialPlanta();
+
+        $arrayDiferencial = array();
+                
+        foreach ($diferenciais as $diferencial) {          
+      
+                $arrayDiferencial[] = array($diferencial["id"] => $diferencial["descricao"]);
+
+        }
+        
+         echo json_encode(array("Diferenciais" => $arrayDiferencial, "contador" => $parametros["contador"]));
     }
 
     function buscarDiferencialChkEdicao($parametros) {
