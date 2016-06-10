@@ -11,9 +11,6 @@
 
 <?php
 
-include_once 'configuracao/cookies.php';
-Cookies::consultarPreferencias();
-
 $item = $this->getItem();
 foreach ($item["anuncio"] as $buscaAnuncio) {
     if (!$item["page"]) {
@@ -108,7 +105,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                 <div class="content">
                                     <div class="header"><b>
                                     
-                                    <?php echo mb_substr($item['anuncio'][$crtl]['tituloanuncio'], 0, 32) . "..." ?></b></div>
+                                    <?php echo mb_substr($item['anuncio'][$crtl]['tituloanuncio'], 0, 24) . "..." ?></b></div>
 
                                     <div class="description"> 
 

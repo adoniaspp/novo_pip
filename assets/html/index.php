@@ -1,14 +1,13 @@
 <?php
 
 include_once 'configuracao/cookies.php';
-
-Cookies::consultarPreferencias();
-
 ?>
 
 
 <script src="assets/js/buscaAnuncio.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
+<link rel="stylesheet" type="text/css" href="assets/libs/owlCarousel/owl.carousel.min.css">
+<script src="assets/libs/owlCarousel/owl.carousel.min.js"></script>
 
 <script>
     
@@ -31,8 +30,150 @@ Cookies::consultarPreferencias();
         
     </div>
 
-</div>    
+</div>  
 
+<?php
+$item = $this->getItem();
+if ($item) {
+    $anuncio = $item;
+    ?>
+
+
+<div class="ui middle aligned stackable grid container">
+<div class="sixteen wide row">
+<div class="owl-carousel">
+
+    <?php
+                for ($crtl = 0; $crtl <= count($anuncio); $crtl++) {
+                    if($anuncio[$crtl]){
+                    ?>
+                    <div class="item">
+                        <div class="ui special cards">
+                            
+                            <div class="ui stackable card" id="cartao<?php echo $anuncio[$crtl]['idanuncio'] ?>">
+                                <div class="content">
+                                    <?php             
+                                    if($anuncio[$crtl]['finalidade'] == "Venda") { 
+                                        echo "<div class='ui blue ribbon label'> Venda </div>";
+                                    }else{
+                                        echo "<div class='ui green ribbon label'> Aluguel </div>";
+                                    }
+?>
+                                </div>
+                                <div class="dimmable image">
+                                    <div class="ui inverted dimmer">
+                                        <div class="content">
+                                            <div class="center">
+                                                <div class="ui blue basic button"> Detalhes </div>                                          
+                                                <input type="hidden" id="anuncio<?php echo $anuncio[$crtl]['id'] ?>"
+                                                       value="<?php echo $anuncio[$crtl]['idanuncio'] ?>"/>
+                                                <input type="hidden" id="anuncio<?php echo $anuncio[$crtl]['tipo'] ?>"
+                                                       value="<?php echo $anuncio[$crtl]['tipo'] ?>"/>                                                   
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php 
+                        if($anuncio[$crtl]['imagem']) {
+                        foreach ($anuncio[$crtl]['imagem'] as $imagem) {                                                                
+                            if($imagem['destaque'] == 'SIM'){
+                                ?>
+                                    <img style="height:200px; width: 247px;" src="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] .'/'. $imagem['nome'] ?>">
+                        <?php 
+                            }}
+                        }else{
+                                ?>
+                            <img style="height:200px; width: 247px;" src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>">
+                           <?php 
+                            } ?>
+                                </div>
+                                <div class="content">
+                                    <div class="header"><b>
+                                    
+                                    <?php echo mb_substr($anuncio[$crtl]['tituloanuncio'], 0, 24) . "..." ?></b></div>
+
+                                    <div class="description"> 
+
+                                        <?php 
+                                        if($anuncio[$crtl]['tipo'] == "prediocomercial"){
+                                            echo "Prédio Comercial";
+                                        } else if
+                                        ($anuncio[$crtl]['tipo'] == "apartamentoplanta"){
+                                            echo "Apartamento na Planta";
+                                        } else if
+                                        ($anuncio[$crtl]['tipo'] == "salacomercial"){
+                                            echo "Sala Comercial";
+                                        }
+                                        else
+                                        echo ucfirst($anuncio[$crtl]['tipo']) ?>
+
+
+                                        <br />
+                                        <span id="spanValor<?php echo $anuncio[$crtl]['idanuncio'] ?>"> 
+                                        <?php echo $anuncio[$crtl]['valormin'] ?> </span>
+                                        <br />
+                                        Cod. <?php echo $anuncio[$crtl]['idanuncioformatado']?>
+                                        <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $anuncio[$crtl]['idanuncioformatado']?>" />
+                                    </div>
+                                </div>
+                                <div class="extra content">      
+                                    <div class="ui checkbox">
+                                        <input type="checkbox" name="selecionarAnuncio[]" id="selecionarAnuncio_<?php echo $anuncio[$crtl]['idanuncio'] ?>" value="<?php echo $anuncio[$crtl]['idanuncio'] ?>">
+                                        <label id="idsAnuncios">Selecionar</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
+
+<?php
+                }  
+}
+?>
+
+    </div>    
+</div>
+</div>
+    
+<!--<div class="ui middle aligned stackable grid container">
+<div class="sixteen wide row">
+<div class="owl-carousel">
+    <div class="item">
+        <div class="ui special cards">
+  <div class="card">
+    <div class="blurring dimmable image">
+      <div class="ui dimmer">
+        <div class="content">
+          <div class="center">
+            <div class="ui inverted button">Add Friend</div>
+          </div>
+        </div>
+      </div>
+      <img style="height:200px; width: 247px;" src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>">
+    </div>
+    <div class="content">
+      <a class="header">Team Fu</a>
+      <div class="meta">
+        <span class="date">Create in Sep 2014</span>
+      </div>
+    </div>
+    <div class="extra content">
+      <a>
+        <i class="users icon"></i>
+        2 Members
+      </a>
+    </div>
+  </div>
+    </div>
+    </div>
+    
+    
+</div>    
+</div>
+</div>-->
+    
 <div class="ui hidden divider"></div>
 
 <div id="divOrdenacao" class="ui center aligned basic segment">
