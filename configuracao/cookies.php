@@ -34,10 +34,10 @@ class Cookies {
                         $preferencia["tipo"] = $item[1];                      
                     }
                } 
-               if(count($preferencia) > 0){
+               if(count($preferencia["bairro"]) > 0 && count($preferencia["cidade"]) > 0){
                    $parametros["predicados"] = $preferencia;
                    $parametros["atributos"] = "*"; 
-                   $parametros["tabela"] = "todos";
+                   $parametros["tabela"] = "todos";                   
                    $listaPreferencias[$i] = $consultasAdHoc->buscaAnuncios($parametros);
                    $i++;
                }        
