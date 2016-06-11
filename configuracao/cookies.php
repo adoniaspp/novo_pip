@@ -45,10 +45,11 @@ class Cookies {
             
             /*Não está eliminando as ocorrências de ids dos cookies do array!!*/
            
-            $preferencias = $listaPreferencias[0]['anuncio'];       
-            foreach ($listaAnuncio[anuncio] as $anuncios){
+            $preferencias = $listaPreferencias[0]['anuncio'];   
+            foreach ($listaAnuncio[anuncio] as $anuncio){
+                $idanuncio = $anuncio["idanuncio"];
                 for ($i = 0; $i < count($listaPreferencias[0]['anuncio']); $i++){
-                    if($anuncios["idanuncio"] = $preferencias[$i][idanuncio]){                        
+                    if($idanuncio == $preferencias[$i][idanuncio]){ 
                         unset($preferencias[$i]);                                  
                     }
                 }   
