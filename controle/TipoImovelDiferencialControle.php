@@ -5,6 +5,7 @@ include_once 'modelo/Imovel.php';
 include_once 'modelo/Diferencial.php';
 include_once 'modelo/TipoImovelDiferencial.php';
 include_once 'modelo/ImovelDiferencial.php';
+include_once 'modelo/ImovelDiferencialPlanta.php';
 
 class TipoImovelDiferencialControle {
 
@@ -72,6 +73,47 @@ class TipoImovelDiferencialControle {
             }
             echo "><label id='diferencial' style='margin-right: 10px;'>" . $diferencial->getDiferencial()->getDescricao() ."</label> &nbsp;</div>";
         } 
+    }
+    
+    function buscarDiferencialPlantaChkEdicao($parametros) {
+        //var_dump($parametros); die();
+        $genericoDAO = new GenericoDAO();
+        $imovelDiferencialPlanta = new ImovelDiferencialPlanta();
+                
+        $consultasAdHoc = new ConsultasAdHoc();
+        
+        $tipoImovelDiferencial = new TipoImovelDiferencial();
+
+        $diferenciais = $consultasAdHoc->diferencialPlanta();
+        
+        $idDiferenciaisPlanta = $genericoDAO->consultar($imovelDiferencialPlanta, true, array("idplanta" => $parametros["idPlanta"]));
+        //$totalDiferenciais = count($idDiferenciaisPlanta);
+
+        foreach ($idDiferenciaisPlanta as $idDiferencialPlanta) {
+            $listaIDs[] = $idDiferencialPlanta->getIdDiferencial();          
+        }
+        $arrayDiferencial;
+        $arrayChecked = array();
+        foreach ($diferenciais as $diferencial) {          
+      
+                $arrayDiferencial[] = array($diferencial["id"] => $diferencial["descricao"]);
+                $arrayChecked[$diferencial["id"]] = in_array($diferencial["id"], $listaIDs);
+
+        }
+        
+         echo json_encode(array("Diferenciais" => $arrayDiferencial, "contador" => $parametros["contador"], "selecionar" => $arrayChecked));
+        /*
+        foreach ($diferenciais as $diferencial) {
+            
+            $contador = $contador + 1;
+            
+            echo "<div class='ui checkbox'>"
+            . "<input type='checkbox' name='chkDiferencialPlanta" .$contador. "[]' id='chkDiferencialPlanta" . $diferencial["id"]. "' value='" . $diferencial["id"]. "'";
+            if (in_array($diferencial["id"], $listaIDs)) {
+                echo " checked = 'checked'";
+            }
+            echo "><label id='diferencial" . $diferencial["id"]. "' name='diferencial" . $diferencial["id"]. "' style='margin-right: 10px;'>" . $diferencial["descricao"] ."</label> &nbsp;</div>";
+        } */
     }
     
     function buscarDiferencialLista($parametros) {

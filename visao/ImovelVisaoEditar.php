@@ -23,7 +23,10 @@
 <?php
 Sessao::gerarToken();
 $item = $this->getItem();
-
+/*
+echo "<pre>";
+var_dump($item);
+echo "</pre>";*/
 
 if ($item) {
 
@@ -57,28 +60,39 @@ if ($item) {
                 if ($totalPlantas == 1) {
                     ?>
                     <script>
-                        mostrarPlantas(<?php echo $imovel->getPlanta()->getOrdemPlantas(); ?>,
-                                "<?php echo $imovel->getPlanta()->getTituloPlanta(); ?>",
-                    <?php echo $imovel->getPlanta()->getQuarto(); ?>,
-                    <?php echo $imovel->getPlanta()->getBanheiro(); ?>,
-                    <?php echo $imovel->getPlanta()->getSuite(); ?>,
-                    <?php echo $imovel->getPlanta()->getGaragem(); ?>,
-                    <?php echo $imovel->getPlanta()->getArea(); ?>);
+                        mostrarPlantas(<?php echo $imovel->getPlanta()->getId(); ?>,
+                                      "<?php echo $imovel->getPlanta()->getTituloPlanta(); ?>",
+                                       <?php echo $imovel->getPlanta()->getQuarto(); ?>,
+                                       <?php echo $imovel->getPlanta()->getBanheiro(); ?>,
+                                       <?php echo $imovel->getPlanta()->getSuite(); ?>,
+                                       <?php echo $imovel->getPlanta()->getGaragem(); ?>,
+                                       <?php echo $imovel->getPlanta()->getArea(); ?>);
                     </script>
 
                     <?php
                 } else {
-
-                    foreach ($imovel->getPlanta() as $valoresPlanta) {
+                    
+                    $plantasOrdenadas = $imovel->getPlanta();
+                    //ordenar as plantas pelo ID
+                    usort($plantasOrdenadas, function( $a, $b ) {
+                    //ID da planta será usado para comparação
+                             return ( $a  -> getId() > $b  -> getId() ) ;
+                         });
+                    //fim da ordenação
+                    foreach ($plantasOrdenadas as $valoresPlanta) {
                         ?>
                         <script>
-                            mostrarPlantas(<?php echo $valoresPlanta->getOrdemPlantas(); ?>,
-                                    "<?php echo $valoresPlanta->getTituloPlanta(); ?>",
-                        <?php echo $valoresPlanta->getQuarto(); ?>,
-                        <?php echo $valoresPlanta->getBanheiro(); ?>,
-                        <?php echo $valoresPlanta->getSuite(); ?>,
-                        <?php echo $valoresPlanta->getGaragem(); ?>,
-                        <?php echo $valoresPlanta->getArea(); ?>);
+                            mostrarPlantas(<?php echo $valoresPlanta->getId(); ?>,
+                                           <?php echo $valoresPlanta->getOrdemPlantas(); ?>,
+                                          "<?php echo $valoresPlanta->getTituloPlanta(); ?>",
+                                           <?php echo $valoresPlanta->getQuarto(); ?>,
+                                           <?php echo $valoresPlanta->getBanheiro(); ?>,
+                                           <?php echo $valoresPlanta->getSuite(); ?>,
+                                           <?php echo $valoresPlanta->getGaragem(); ?>,
+                                           <?php echo $valoresPlanta->getArea(); ?>);
+                                               
+                            mostrarDiferencialPlantas(<?php echo $valoresPlanta->getId(); ?>, <?php echo $valoresPlanta->getOrdemPlantas(); ?>);
+                            
                         </script>
 
                     <?php }
@@ -187,8 +201,8 @@ if ($item) {
 
             </div>
 
-            <div class="fields" id="divInfoApeCasa"></div>
-
+            <div id="divInfoApeCasa"></div>
+                        
             <div class="one field" id="divDescricao">
                 <div class="field">
                     <label>Identificar Este Imóvel Como:</label>

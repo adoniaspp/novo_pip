@@ -1,20 +1,19 @@
 <?php
 
-
-class ImovelDiferencial {
+class ImovelDiferencialPlanta {
     
     private $id;
-    private $idimovel;
+    private $idplanta;
     private $iddiferencial;
     
     protected $diferencial;
-            
+    
     function getId() {
         return $this->id;
     }
 
-    function getIdimovel() {
-        return $this->idimovel;
+    function getIdplanta() {
+        return $this->idplanta;
     }
 
     function getIddiferencial() {
@@ -29,8 +28,8 @@ class ImovelDiferencial {
         $this->id = $id;
     }
 
-    function setIdimovel($idimovel) {
-        $this->idimovel = $idimovel;
+    function setIdplanta($idplanta) {
+        $this->idplanta = $idplanta;
     }
 
     function setIddiferencial($iddiferencial) {
@@ -41,20 +40,19 @@ class ImovelDiferencial {
         $this->diferencial = $diferencial;
     }
 
-    
-    function cadastrar($parametros, $idImovel, $indiceControle) {
+    function cadastrar($idPlanta, $parametro) {
         
-        $ImovelDiferencial = new ImovelDiferencial();
-        $ImovelDiferencial->setIdimovel($idImovel);
-        $ImovelDiferencial->setIddiferencial($parametros["chkDiferencial"][$indiceControle]);
-        return $ImovelDiferencial;
+        $imovelDiferencialPlanta = new ImovelDiferencialPlanta();
+        $imovelDiferencialPlanta->setIdplanta($idPlanta);
+        $imovelDiferencialPlanta->setIddiferencial($parametro);
+        return $imovelDiferencialPlanta;
     }
     
     function excluir($id) {
-
-        $ImovelDiferencial = new ImovelDiferencial();
-        $ImovelDiferencial->setId($id);
-        return $ImovelDiferencial;
+        
+        $ImovelDiferencialPlanta = new ImovelDiferencialPlanta();
+        $ImovelDiferencialPlanta->setId($id);
+        return $ImovelDiferencialPlanta;
 
     }
     
