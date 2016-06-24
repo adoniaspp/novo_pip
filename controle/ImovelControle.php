@@ -116,25 +116,14 @@ class ImovelControle {
                 
                 //for ($indicePlanta = ($quantidadePlanta - 1); $indicePlanta >= 0; $indicePlanta--) {
                 for ($indicePlanta = 0; $indicePlanta <= ($quantidadePlanta - 1); $indicePlanta++) {
-                    
-                    
-                    //die();
-                    
-                    
-                    //echo "PARAMETRO: ".$parametros['chkDiferencialPlanta1[]']; 
+
                     $planta = new Planta();
                     $entidadePlanta = $planta->cadastrar($parametros, $idApartamentoPlanta, $idImovel, $indicePlanta);
                     $idPlanta = $genericoDAO->cadastrar($entidadePlanta);
-                    
-                    
-                    //echo ($quantidadePlanta - $indicePlanta)."<br>";
-                        $nomeIndice = 'chkDiferencialPlanta'.($indicePlanta + 1);
-                        //var_dump($parametros[$nomeIndice]); die();
 
+                        $nomeIndice = 'chkDiferencialPlanta'.($indicePlanta + 1);
 
                         $quantidadeDiferencialPlanta = count($parametros[$nomeIndice]);
-                        
-                        //echo $quantidadeDiferencialPlanta; die();
                         
                         $resultadoDiferencialPlanta = true;
 
@@ -151,15 +140,13 @@ class ImovelControle {
                             }
                         }
                     
-                    //var_dump($idPlanta); die();
-                    
                     if (!($idPlanta)) {
    
                         $resultadoPlanta = false;
                         break;
                     }
                 } //fim do cadastro das plantas
-                //die();
+
                 $idCadastroImovel = $idPlanta;
                 if ($idPlanta) {
                     $idDiferencial = true;
@@ -212,8 +199,6 @@ class ImovelControle {
                 }
             }
             //cadastro dos diferenciais do empreendimento (geral)
-            
-            //var_dump($parametros['chkDiferencial']); 
             
             $quantidadeDiferencial = count($parametros['chkDiferencial']);
             $resultadoDiferencial = true;
@@ -381,26 +366,29 @@ class ImovelControle {
                 $quantidadePlanta = $parametros['sltNumeroPlantas'];
                 
                 $resultadoPlanta = true;
-
+                
+                $vetorDifPlantas = array();
+                
+                //para cada planta, verificar o diferencial
                 for ($indicePlanta = 0; $indicePlanta < $quantidadePlanta; $indicePlanta++) {
                     
-                    $quantidadeDiferencialPlanta = count($parametros['chkDiferencialPlanta']);
+                    $plantaCad = 'chkDiferencialPlanta'.($indicePlanta+1);
+                    
+                    //inserir no vetor os diferenciais marcados
+                    $vetorDifPlantas = $parametros[$plantaCad];
                     
                     $resultadoDiferencialPlanta = true;
-
+                    
+                    //buscar os diferenciais cadastrados no BD para a planta 
                     $difs = $genericoDAO->consultar(new ImovelDiferencialPlanta(), false, array("idplanta" => $parametros['idPlanta'][$indicePlanta]));                   
-              
+                    
                     foreach ($difs as $dif) {
-                        $IDs[] = $dif->getId();
-                        $listaIDs[] = $dif->getIdDiferencial();
+                        $IDs[] = $dif->getId(); //lista dos IDs
+                        $listaIDs[] = $dif->getIdDiferencial(); //lista dos IDs do Diferencial
                     }
-                   
-                    $plantaCad = 'chkDiferencialPlanta'.($indicePlanta+1);
 
                     $quantidadeDiferencial = count($parametros[$plantaCad]);
-                     
-                    $difs = $genericoDAO->consultar(new ImovelDiferencialPlanta(), false, array("idplanta" => $parametros['idPlanta'][$indicePlanta]));
-
+                    
                     //inicio do cadastro do diferencial da planta
                     $ImovelDiferencialPlanta = new ImovelDiferencialPlanta();
                     
@@ -409,34 +397,43 @@ class ImovelControle {
                     if ($quantidadeDiferencial > 0) {
                         
                         for ($indiceDiferencial = 0; $indiceDiferencial < $quantidadeDiferencial; $indiceDiferencial++) {
-
+                            //se o diferencial marcado não estiver na lista, cadastrar
                             if (!in_array($parametros[$plantaCad][$indiceDiferencial], $listaIDs)) {
                              
                                 $entidadeDiferencial = $ImovelDiferencialPlanta->cadastrar($parametros['idPlanta'][$indicePlanta], $parametros[$plantaCad][$indiceDiferencial]);
-
-                                $idDiferencial = $genericoDAO->cadastrar($entidadeDiferencial);
+                                
+                                $idDiferencialPlanta = $genericoDAO->cadastrar($entidadeDiferencial);
                             }
                         }
                     }
                     
-                    
                     for ($indiceDiferencial = 0; $indiceDiferencial < count($difs); $indiceDiferencial++) {
-                        if (!in_array($parametros[$plantaCad][$indiceDiferencial], $listaIDs)) {
+                        //se o diferencial da lista do BD não existir dentro dos marcados, então excluir
+                        if (!in_array($listaIDs[$indiceDiferencial], $vetorDifPlantas)) {
                             
-                            $entidadeDiferencial = $ImovelDiferencialPlanta->excluir($IDs[$indiceDiferencial]);                  
+                            $idDiferencialExclusao = $genericoDAO->consultar($ImovelDiferencialPlanta, false, array("idplanta" => $parametros['idPlanta'][$indicePlanta], "iddiferencial" => $listaIDs[$indiceDiferencial]));
+                            
+                            foreach($idDiferencialExclusao as $idDiferencial){
+                                $id = $idDiferencial->getId();
+                            }
+                                                 
+                            $entidadeDiferencial = $ImovelDiferencialPlanta->excluir($id);
                             
                             $idDiferencial = $genericoDAO->excluir($ImovelDiferencialPlanta, $entidadeDiferencial->getId());
-                            
                         }
                     }
+                    
+                    unset($vetorDifPlantas); 
+                    unset($listaIDs);
+                    unset($IDs);
 
-                    if (!$idDiferencial) {
-                        $idDiferencial = false;
+                    if (!$idDiferencialPlanta) {
+                        $idDiferencialPlanta = false;
                     } else
-                        $idDiferencial = true;
+                        $idDiferencialPlanta = true;
 
                     //fim dos diferenciais da planta
-
+                    
                     $planta = new Planta();
                     $id = $genericoDAO->consultar($planta, false, array("idimovel" => $entidadeImovel->getId(), "ordemplantas" => $indicePlanta));
   
@@ -452,8 +449,11 @@ class ImovelControle {
                         $resultadoPlanta = false;
                         break;
                     }
-
-                }
+                    
+                    
+                    
+                    
+                } //fim da edição da planta
 
                 $idEdicaoImovel = $idPlanta;
             } elseif ($entidadeImovel->getIdTipoImovel() == "3") {//Apartamento  

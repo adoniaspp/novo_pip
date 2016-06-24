@@ -10,7 +10,7 @@ include_once 'modelo/ImovelDiferencialPlanta.php';
 class TipoImovelDiferencialControle {
 
     function buscarDiferencialChk($parametros) {
-        //var_dump($parametros); die();
+
         $genericoDAO = new GenericoDAO();
         $tipoImovelDiferencial = new TipoImovelDiferencial();
 
@@ -18,19 +18,15 @@ class TipoImovelDiferencialControle {
         
         foreach ($diferenciais as $diferencial) {
             
-            //if($diferencial->getDiferencial()->getTipo() == "geral"){
-            
             echo "<div class='ui checkbox'>"
             . "<input type='checkbox' name='chkDiferencial[]' value='" . $diferencial->getDiferencial()->getId() . "'>"
             . "<label id='diferencial' style='margin-right: 10px;'>" . $diferencial->getDiferencial()->getDescricao() . "</label> &nbsp;\n
               </div>";
                 }
-            
-            //}
         }
     
     function buscarDiferencialChkPlanta($parametros) {
-        //var_dump($parametros); die();
+
         $genericoDAO = new GenericoDAO();
         
         $consultasAdHoc = new ConsultasAdHoc();
@@ -51,7 +47,7 @@ class TipoImovelDiferencialControle {
     }
 
     function buscarDiferencialChkEdicao($parametros) {
-        //var_dump($parametros); die();
+
         $genericoDAO = new GenericoDAO();
         $tipoImovelDiferencial = new TipoImovelDiferencial();
         $imovelDiferencial = new ImovelDiferencial();
@@ -76,7 +72,7 @@ class TipoImovelDiferencialControle {
     }
     
     function buscarDiferencialPlantaChkEdicao($parametros) {
-        //var_dump($parametros); die();
+
         $genericoDAO = new GenericoDAO();
         $imovelDiferencialPlanta = new ImovelDiferencialPlanta();
                 
@@ -87,7 +83,6 @@ class TipoImovelDiferencialControle {
         $diferenciais = $consultasAdHoc->diferencialPlanta();
         
         $idDiferenciaisPlanta = $genericoDAO->consultar($imovelDiferencialPlanta, true, array("idplanta" => $parametros["idPlanta"]));
-        //$totalDiferenciais = count($idDiferenciaisPlanta);
 
         foreach ($idDiferenciaisPlanta as $idDiferencialPlanta) {
             $listaIDs[] = $idDiferencialPlanta->getIdDiferencial();          
@@ -102,18 +97,6 @@ class TipoImovelDiferencialControle {
         }
         
          echo json_encode(array("Diferenciais" => $arrayDiferencial, "contador" => $parametros["contador"], "selecionar" => $arrayChecked));
-        /*
-        foreach ($diferenciais as $diferencial) {
-            
-            $contador = $contador + 1;
-            
-            echo "<div class='ui checkbox'>"
-            . "<input type='checkbox' name='chkDiferencialPlanta" .$contador. "[]' id='chkDiferencialPlanta" . $diferencial["id"]. "' value='" . $diferencial["id"]. "'";
-            if (in_array($diferencial["id"], $listaIDs)) {
-                echo " checked = 'checked'";
-            }
-            echo "><label id='diferencial" . $diferencial["id"]. "' name='diferencial" . $diferencial["id"]. "' style='margin-right: 10px;'>" . $diferencial["descricao"] ."</label> &nbsp;</div>";
-        } */
     }
     
     function buscarDiferencialLista($parametros) {
