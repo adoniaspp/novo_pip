@@ -104,9 +104,11 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                 </div>
                                 <div class="content">
                                     <div class="header"><b>
-                                    
-                                    <?php echo mb_substr($item['anuncio'][$crtl]['tituloanuncio'], 0, 24) . "..." ?></b></div>
-
+                                    <?php  
+                                    $limite = 24; 
+                                    $titulo = $item['anuncio'][$crtl]['tituloanuncio'];
+                                    echo (strlen(trim($titulo)) >= $limite) ?  trim(substr($titulo, 0, strrpos(substr($titulo, 0, $limite), " ")))."..."  : titulo; 
+                                    ?></b></div>
                                     <div class="description"> 
 
                                         <?php 
