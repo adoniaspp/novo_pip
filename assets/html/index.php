@@ -8,12 +8,16 @@ include_once 'configuracao/cookies.php';
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 <link rel="stylesheet" type="text/css" href="assets/libs/owlCarousel/owl.carousel.min.css">
 <script src="assets/libs/owlCarousel/owl.carousel.min.js"></script>
+<link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
+<script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
+
 
 <script>
     
     inicio();
     ordemInicio();
     buscarAnuncio();
+    carregarCarrosselPreferencias();
     carregarDiferencial();
 
 </script>
@@ -40,16 +44,23 @@ if ($item) {
 
 
 <div class="ui middle aligned stackable grid container">
-<div class="sixteen wide row">
+<div class="row">
 <div class="owl-carousel">
-
     <?php
                 for ($crtl = 0; $crtl <= count($anuncio); $crtl++) {
                     if($anuncio[$crtl]){
                     ?>
-                    <div class="item">
-                        <div class="ui special cards">
-                            
+                                <div class="item">
+    <table id="tabela" class="ui very basic table stackable">
+    <thead>
+                <tr style="border: none !important">
+                    <th class="three wide"></th>
+                </tr>
+            </thead>
+            <tbody>
+                    
+                        <tr style="width: 100%; float: left; border: none !important">
+                            <td class="ui special cards" style="width: 90%; border: none !important"> 
                             <div class="ui stackable card" id="cartao<?php echo $anuncio[$crtl]['idanuncio'] ?>">
                                 <div class="content">
                                     <?php             
@@ -122,20 +133,33 @@ if ($item) {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                                  </td>
+                    </tr>                                                                               
+                    </tbody>
+        </table>
+                                                        </div>
+
                     <?php
                 }
                 ?>
 
 <?php
                 }  
+?>
+
+<?php                
 }
 ?>
 
-    </div>    
+    </div>
+<!--    <div class="customNavigation">
+  <a class="btn prev">Previous</a>
+  <a class="btn next">Next</a>
+  <a class="btn play">Autoplay</a>
+  <a class="btn stop">Stop</a>
+--></div>
 </div>
-</div>
+<!--</div>-->
     
 <!--<div class="ui middle aligned stackable grid container">
 <div class="sixteen wide row">

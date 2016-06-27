@@ -21,26 +21,6 @@ function buscarAnuncio() {
                     }
             );
         });
-        
-                 $('.owl-carousel').owlCarousel({
-        loop:true,
-        margin:10,
-        items: 3,
-        center: true,
-        
-        responsive:{
-        0:{
-            items:1
-        },
-        600:{
-            items:2
-        },
-        1000:{
-            items:3
-        }
-    }
-})
-    
 
         $("#spanValor").priceFormat({
             prefix: 'R$ ',
@@ -1051,6 +1031,30 @@ function carregarDiferencial() {
             })
         })
     })
+}
+
+function carregarCarrosselPreferencias(){
+    
+        $(document).ready(function () {
+
+    $('.owl-carousel').owlCarousel({
+        loop:true,
+        margin:39,
+        stagePadding: 25,
+        items: 4,        
+        responsive:{
+        0:{
+            items:1
+        },
+        600:{
+            items:2
+        },
+        1000:{
+            items:4
+        }
+    }
+})
+        })
 }
 
 function inicio() {
