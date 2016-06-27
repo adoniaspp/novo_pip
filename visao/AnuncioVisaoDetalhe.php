@@ -24,8 +24,8 @@ $item = $this->getItem();
 /*
 echo "<pre>";
 var_dump($item);
-echo "</pre>";
-*/
+echo "</pre>";*/
+
 $latitude  = "";
 $longitude = "";
 
@@ -97,6 +97,8 @@ if($item["mapaImovel"]){
         <form id="form" class="ui form">
             <div class="ui dividing header"><div class="ui big teal label">Informações Básicas</div></div>
             
+            <div class="ui info message">
+            
             <div class="row">
             
             <div class="ui list">
@@ -125,6 +127,8 @@ if($item["mapaImovel"]){
                 
             </div>    
             
+            </div>
+                
             <div class="ui hidden divider"></div>
             
             <div class="fields">          
@@ -570,10 +574,33 @@ if($item["mapaImovel"]){
 
                                 </div>
                             </div>
-                            <?php
-                        }
-                        ?>
+                            
+                            <div class="ui items">
+                                <div class="item">
+                                  <div class="content">
+                                    <a class="header">Diferencial da Planta</a>
+                                    <div class="description">
+                                      <?php 
+                                      
+                                      foreach($item['difPlantas'][$planta['id']] as $dif){
+                                 
+                                      echo "<i class='large green checkmark icon'></i>".$dif->getDiferencial()->getDescricao();
+                                    
+                                      }
+                                      
+                                      ?>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                    
+                            <?php                           
+                            }
+                            ?>
+                    
                     </div> 
+                
+                
                 
             </div>    
             <div class="ui hidden divider"></div>

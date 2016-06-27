@@ -8,10 +8,17 @@
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/fixedColumns.dataTables.min.css">
 <script src="assets/js/anuncio.js"></script>
 
+<!-- os dois scripts abaixo realizam a formatação de data para ordenação-->
+<script src="assets/libs/datatables/js/moment.min.js"></script>
+<script src="assets/libs/datatables/js/datetime-moment.js"></script>
+
 <script>
     $(document).ready(function () {
         
         exibirEmailPDFListaAnuncio();
+        
+        //função que ordena a data, de acordo com o formato
+        $.fn.dataTable.moment( 'DD/MM/YYYY HH:mm:ss' );
         
         $('#tabela').DataTable({
             "language": {
@@ -184,7 +191,7 @@
                         </td>
                         <td> <?php
                                 if ($anuncio->getStatus() == "cadastrado") {
-                                    echo $anuncio->getDataHoraCadastro();
+                                    echo date('d/m/Y H:i:s', strtotime($anuncio->getDataHoraCadastro()));
                                 } elseif ($anuncio->getStatus() == "finalizado") {
                                     echo "Finalizado em: " . $anuncio->getHistoricoAluguelVenda()->getDatahora();
                                 }
@@ -312,7 +319,7 @@
                  
                     if($nValor->getStatus() == "inativo"){
                         
-                        echo "<tr><td id='formatarValorJS".$nValor->getId()."'>".$nValor->getNovoValor()."</td><td>".$nValor->getDataHoraCadastro()."</td><td>".$nValor->getDataHoraInativacao()."</td></tr>"; 
+                        echo "<tr><td id='formatarValorJS".$nValor->getId()."'>".$nValor->getNovoValor()."</td><td>".date('d/m/Y H:i:s', strtotime($nValor->getDataHoraCadastro()))."</td><td>".date('d/m/Y H:i:s', strtotime($nValor->getDataHoraInativacao()))."</td></tr>"; 
                                         
                     }
                  }
@@ -330,13 +337,13 @@
                  
                  <?php                
                      
-                     $primeiroValorAlterado = $nValor->getDataHoraCadastro();
+                     $primeiroValorAlterado = date('d/m/Y H:i:s', strtotime($nValor->getDataHoraCadastro()));
                      
                  }             
                  
              }
             //buscar da tabela anúncio o valor original cadastrado. A data da inativação é quando foi cadastrado o primeiro novo valor                    
-            echo "<tr><td id='formatarValorUnicoJS".$nValor->getId()."'>".$anuncio->getValorMin()."</td><td>".$anuncio->getDataHoraCadastro()."</td><td>".$primeiroValorAlterado."</td></tr>";  
+            echo "<tr><td id='formatarValorUnicoJS".$nValor->getId()."'>".$anuncio->getValorMin()."</td><td>".date('d/m/Y H:i:s', strtotime($anuncio->getDataHoraCadastro()))."</td><td>".$primeiroValorAlterado."</td></tr>";  
 
         } 
       

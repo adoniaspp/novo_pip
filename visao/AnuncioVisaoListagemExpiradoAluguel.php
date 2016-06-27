@@ -6,13 +6,18 @@
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
 <script src="assets/js/anuncio.js"></script>
 
+<!-- os dois scripts abaixo realizam a formatação de data para ordenação-->
+<script src="assets/libs/datatables/js/moment.min.js"></script>
+<script src="assets/libs/datatables/js/datetime-moment.js"></script>
+
 <script>
     $(document).ready(function () {
-$("span[class='ui small grey button']")
- .popup({
+$("span[class='ui small grey button']").popup({
+   });
    
-  })
-;
+        //função que ordena a data, de acordo com o formato
+        $.fn.dataTable.moment( 'DD/MM/YYYY HH:mm:ss' );
+        
         $('#tabela').DataTable({
             "language": {
                 "url": "assets/libs/datatables/js/Portuguese-Brasil.json",
@@ -178,7 +183,7 @@ if ($totalAnunciosFinalizados < 1 && $totalAnunciosExpirados < 1) {
                                 </td>
                                 <td><?php echo $anuncio->getTituloAnuncio(); ?></td>
                                 <td id="tdValor<?php echo $anuncio->getId(); ?>"><?php echo $anuncio->getValorMin(); ?></td>
-                                <td><?php echo $anuncio->getDataHoraCadastro(); ?></td>
+                                <td><?php echo date('d/m/Y H:i:s', strtotime($anuncio->getDataHoraCadastro())); ?></td>
                                 <td> <?php
                         if ($anuncio->getStatus() == 'finalizado') {
                             echo "<i class='thumbs up red icon'></i>Finalizado em " . $anuncio->getHistoricoAluguelVenda()->getDatahora();

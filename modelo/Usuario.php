@@ -168,7 +168,7 @@ class Usuario {
         }
         $usuario->setEmail($parametros['txtEmail']);
         $usuario->setStatus("ativo");
-        $usuario->setDatahoracadastro(date('d/m/Y H:i:s'));
+        $usuario->setDatahoracadastro(date('Y-m-d H:i:s'));
         $usuario->setDatahoraalteracao("");
         $usuario->setIdendereco($idendereco);
         $usuario->setFoto("");
@@ -194,7 +194,7 @@ class Usuario {
             $usuario->setNome($parametros['txtNomeEmpresa']);
         }
         $usuario->setEmail($parametros['txtEmail']);
-        $usuario->setDatahoraalteracao(date('d/m/Y H:i:s'));
+        $usuario->setDatahoraalteracao(date('Y-m-d H:i:s'));
         return $usuario;
     }
 

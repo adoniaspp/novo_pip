@@ -6,6 +6,9 @@
 <script src="assets/js/util.validate.js"></script>
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
+<!-- os dois scripts abaixo realizam a formatação de data para ordenação-->
+<script src="assets/libs/datatables/js/moment.min.js"></script>
+<script src="assets/libs/datatables/js/datetime-moment.js"></script>
 
 <div class="ui middle aligned stackable grid container">
     <div class="row">
@@ -56,7 +59,7 @@
 
                         echo "<td>" . $descricao . "</td>";
 
-                        echo "<td>" . $imovel->getDatahoracadastro() . "</td>";
+                        echo "<td>" . date('d/m/Y H:i:s', strtotime($imovel->getDatahoracadastro())) . "</td>";
 
                         echo "<td><a href='#' class='ui green button' id='detalhes" . $imovel->getId() . "' ><i class='ui home icon'></i>Detalhes</a>";
 
@@ -91,6 +94,10 @@ function verificaAnuncioAtivo($listaAnuncios) {
 
 <script>
     $(document).ready(function () {
+        
+        //função que ordena a data, de acordo com o formato
+        $.fn.dataTable.moment( 'DD/MM/YYYY HH:mm:ss' );
+        
         $('#tabela').dataTable({
             "language": {
                 "url": "assets/libs/DataTables/js/Portuguese-Brasil.json",

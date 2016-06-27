@@ -1,8 +1,18 @@
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
+<script src="assets/libs/echarts/build/dist/echarts-all.js"></script>
+<script src="assets/js/grafico.js"></script>
+
+<!-- os dois scripts abaixo realizam a formatação de data para ordenação-->
+<script src="assets/libs/datatables/js/moment.min.js"></script>
+<script src="assets/libs/datatables/js/datetime-moment.js"></script>
+
 <script>
     $(document).ready(function () {
+        
+        //função que ordena a data, de acordo com o formato
+        $.fn.dataTable.moment( 'DD/MM/YYYY HH:mm:ss'); 
         
         $('#tabela').DataTable({
             "language": {
@@ -106,6 +116,15 @@ foreach ($imoveis as $qtdAnuncios) {
     ?>
     <div class="row">
         <div class="ui relaxed divided list">
+            
+            <div class="item">
+
+                <div class="content">
+                    <a class="header">Usuário do PIP OnLine desde:</a>
+                    <div class="description"> <?php echo date('d/m/Y', strtotime($usuario[0]->getDataHoraCadastro())) ?></div>
+                </div>
+            </div>
+            
             <div class="item">             
                 <div class="content">
                     <a class="header"><?php
@@ -189,7 +208,7 @@ foreach ($imoveis as $qtdAnuncios) {
                     </div></a> 
                 <a href="index.php?entidade=Imovel&acao=listar" class="spaced">
                     <div type="button" class="ui green button">
-                        <i class="list icon"></i> Visualizar Meus Imóveis
+                        <i class="list icon"></i> Meus Imóveis
                     </div></a> 
 
                 <?php
@@ -339,7 +358,7 @@ foreach ($imoveis as $qtdAnuncios) {
                 
                
     <script>
-      google.load('visualization', '1.0', {'packages':['corechart']});
+      /*google.load('visualization', '1.0', {'packages':['corechart']});
       google.setOnLoadCallback(desenharGrafico);
 
       function desenharGrafico() {
@@ -349,12 +368,12 @@ foreach ($imoveis as $qtdAnuncios) {
         dados.addColumn('number', 'Quantidade');
         
         dados.addRows([
-          ['Casa', <?php echo $casa?>],
-          ['Apartamento', <?php echo $ap ?>],
-          ['Apartamento na Planta', <?php echo $apPlanta ?>],
-          ['Sala Comercial', <?php echo $sala ?>],
-          ['Prédio Comercial', <?php echo $predio ?>],
-          ['Terreno', <?php echo $terreno ?>]
+          ['Casa', <?php //echo $casa?>],
+          ['Apartamento', <?php //echo $ap ?>],
+          ['Apartamento na Planta', <?php //echo $apPlanta ?>],
+          ['Sala Comercial', <?php //echo $sala ?>],
+          ['Prédio Comercial', <?php //echo $predio ?>],
+          ['Terreno', <?php //echo $terreno ?>]
         ]);
 
         var config = {
@@ -366,7 +385,7 @@ foreach ($imoveis as $qtdAnuncios) {
 
         var chart = new google.visualization.PieChart(document.getElementById('area_grafico'));
         chart.draw(dados, config);
-      }
+      }*/
     </script>
     
                 <table class="ui green celled fixed table">
@@ -438,6 +457,20 @@ foreach ($imoveis as $qtdAnuncios) {
     }
     ?>
     
+    <script>
+    
+    graficoBarrasTotal('graficoImoveisEcharts', 'Número de Imóveis', '#21ba45', <?php echo $casa?>, <?php echo $ap?>, <?php echo $apPlanta?>, <?php echo $sala?>, <?php echo $predio?>, <?php echo $terreno?>);
+    
+    </script>
+    
+    <div class="row">
+       <div class="column">
+        <div id="graficoImoveisEcharts" 
+             style="height:450px; max-width: 40%; min-width: 90%;width: 850px">
+        </div>
+      </div>
+    </div> 
+    
     <div class="row">
         <div class="column">
             <div id="area_grafico"></div>
@@ -477,15 +510,15 @@ foreach ($imoveis as $qtdAnuncios) {
                        </div></a>
                     <a href="index.php?entidade=Anuncio&acao=listarAtivo" class="spaced">
                         <div type="button" class="ui brown button">
-                            <i class="list icon"></i> Visualizar Anúncios Ativos
+                            <i class="list icon"></i> Anúncios Ativos
                         </div></a> 
                     <a href="index.php?entidade=Anuncio&acao=listarFinalizado" class="spaced">
                         <div type="button" class="ui brown button">
-                            <i class="thumbs outline up icon"></i>  Visualizar Anúncios Não Ativos
+                            <i class="thumbs outline up icon"></i> Anúncios Não Ativos
                         </div></a>
                     <a href="index.php?entidade=Usuario&acao=listarMensagem" class="spaced">
                         <div type="button" class="ui brown button">
-                            <i class="mail outline icon"></i>  Visualizar Mensagens
+                            <i class="mail outline icon"></i> Mensagens
                         </div></a>
                     <?php
                 }
@@ -782,7 +815,21 @@ foreach ($imoveis as $qtdAnuncios) {
         </div> 
     
     <?php } ?>
-
+    
+    <script>
+    
+    graficoBarrasTotal('graficoAnunciosEcharts', 'Número de Anúncios', '#a5673f', <?php echo $casaAnuncio?>, <?php echo $apAnuncio?>, <?php echo $apPlantaAnuncio?>, <?php echo $salaAnuncio?>, <?php echo $predioAnuncio?>, <?php echo $terrenoAnuncio?>);
+    
+    </script>
+    
+    <div class="row">
+       <div class="column">
+        <div id="graficoAnunciosEcharts" 
+             style="height:450px; max-width: 40%; min-width: 90%;width: 850px">
+        </div>
+      </div>
+    </div>  
+    
     <div class="row">
         <div class="column">
             <h3 class="ui dividing header"></h3>
@@ -836,7 +883,7 @@ foreach ($imoveis as $qtdAnuncios) {
                                 echo "<tr>";
                                 echo "<td>" . $usuarioPlano->getPlano()->getTitulo() . " (" . $usuarioPlano->getPlano()->getValidadepublicacao() . " dias)</td>";
                                 echo "<td>" . $usuarioPlano->getPlano()->getDescricao() . "</td>";
-                                echo "<td>" . $usuarioPlano->getDataCompra() . "</td>";
+                                echo "<td>" . date('d/m/Y H:i:s', strtotime($usuarioPlano->getDataCompra())) . "</td>";
                                 if ($usuarioPlano->getStatus() != "ativo") {
                                     echo "<td>" . $usuarioPlano->DataExpiracao($usuarioPlano->getPlano()->getValidadeativacao()) . "</td>";
                                 } else {

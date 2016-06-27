@@ -264,6 +264,12 @@ class UsuarioControle {
 
             $usuario = new Usuario();
             $entidadeUsuario = $usuario->editar($parametros);
+            
+            
+            /*
+            echo "<pre>";
+            var_dump($entidadeUsuario);
+            echo "</pre>"; die();*/
             $editarUsuario = $genericoDAO->editar($entidadeUsuario);
 
             //visao

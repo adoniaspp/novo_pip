@@ -29,6 +29,7 @@ include_once 'modelo/Terreno.php';
 include_once 'modelo/TipoImovel.php';
 include_once 'modelo/Valor.php';
 include_once 'modelo/ImovelDiferencial.php';
+include_once 'modelo/ImovelDiferencialPlanta.php';
 include_once 'modelo/Diferencial.php';
 include_once 'modelo/NovoValorAnuncio.php';
 include_once 'modelo/MapaImovel.php';
@@ -156,7 +157,13 @@ class AnuncioControle {
         $parametros["idUsuario"] = $idUsuarioAnuncio[0]->getId();
 
         $listarAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
-
+        /*
+        echo "<pre>";
+        var_dump($listarAnuncio);
+        echo "</pre>";
+        */
+        
+        
         if ($listarAnuncio["anuncio"][0]["status"] != "cadastrado" &&
                 $parametros["sessaoUsuario"] != $parametros["idUsuario"]) {
 
@@ -201,8 +208,23 @@ class AnuncioControle {
                 
                 $listarAnuncio["mapaImovel"] = $mapaNovo;
                 
-            }          
-         
+            }       
+        
+            $numeroPlantas = count($listarAnuncio["anuncio"][0]["plantas"]);
+            
+            
+            //trazer os diferenciais da planta
+            for($x = 0; $x < $numeroPlantas; $x++){
+
+                $dif[$listarAnuncio["anuncio"][0]["plantas"][$x]["id"]] = $genericoDAO->consultar(new ImovelDiferencialPlanta(), 
+                        true, array("idplanta" => $listarAnuncio["anuncio"][0]["plantas"][$x]["id"]));
+          
+            }
+            
+            
+            
+            $listarAnuncio["difPlantas"] = $dif;
+  
             $listarAnuncio["mensagem"] = $mensagem;
             
             $visao->setItem($listarAnuncio);
