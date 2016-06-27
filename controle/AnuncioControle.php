@@ -333,6 +333,9 @@ class AnuncioControle {
                 $imovel = $genericoDAO->consultar(new Imovel(), false, array("id" => $anuncio->getIdImovel()));
                 $anuncio->setImovel($imovel[0]);
                 
+                $usuarioplano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $anuncio->getIdusuarioplano()));
+                $anuncio->setUsuarioplano($usuarioplano[0]);
+                
                 $novoValor = $genericoDAO->consultar(new NovoValorAnuncio(), false, array("idanuncio" => $anuncio->getId()));
                 //caso haja mais de um valor alterado do anúncio, inserir no array 
                 

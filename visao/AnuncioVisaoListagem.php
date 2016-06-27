@@ -67,11 +67,11 @@
     Sessao::gerarToken();
    
     $item = $this->getItem();    
-    /*
+/*    
     echo "<pre>";
     var_dump($item);
     echo "</pre>";
-    */
+*/  
     $totalAnunciosCadastrados = count($item["listaAnuncio"]);
     
     if($totalAnunciosCadastrados < 1){      
@@ -107,7 +107,8 @@
                 <th>Tipo</th>
                 <th>Finalidade</th>
                 <th>Valor</th>
-                <th>Data Publicação</th>
+                <th>Publicação</th>
+                <th>Expiração</th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -189,19 +190,17 @@
                             ?>
                  
                         </td>
-                        <td> <?php
-                                if ($anuncio->getStatus() == "cadastrado") {
-                                    echo date('d/m/Y H:i:s', strtotime($anuncio->getDataHoraCadastro()));
-                                } elseif ($anuncio->getStatus() == "finalizado") {
-                                    echo "Finalizado em: " . $anuncio->getHistoricoAluguelVenda()->getDatahora();
-                                }
-                                ?>
-                        </td>
+                        
+                        <td> <?php echo date('d/m/Y H:i:s', strtotime($anuncio->getDataHoraCadastro())); ?> </td>
+                        
+                        <td> <?php 
+                        $date = date_create($anuncio->getDataHoraCadastro());
+                        date_add($date, date_interval_create_from_date_string( $anuncio->getUsuarioPlano()->getPlano()->getvalidadepublicacao().' days'));
+                        echo date_format($date, 'd/m/Y');
+                        ?> </td>
 
-                        <td><?php echo "<a id='btnFinalizar" . $anuncio->getId() . "' class='ui small red button'>Finalizar Negócio</a>"?>
-                        </td>
-                        <td><?php echo "<a id='btnAlterarValor" . $anuncio->getId() . "' class='ui small blue button'>Alterar Valor</a>" ?>
-                        </td>
+                        <td><?php echo "<a id='btnFinalizar" . $anuncio->getId() . "' class='ui small red button'>Finalizar Negócio</a>"?></td>
+                        <td><?php echo "<a id='btnAlterarValor" . $anuncio->getId() . "' class='ui small blue button'>Alterar Valor</a>" ?></td>
                         <td>
                             <?php 
                         
