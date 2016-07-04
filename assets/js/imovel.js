@@ -1348,7 +1348,7 @@ function carregaDadosModalImovel($div) {
                         <th>Suite(s)</th> \n\
                         <th>Vaga(s) de Garagem</th> \n\
                         <th>Area m<SUP>2</SUP></th> \n\
-                        <th>Diferencial da Planta</SUP></th> \n\
+                        <th>Diferencial da Planta</th> \n\
                         </tr>\n\
                         </thead> \n\
                     <tbody>" + linhas + "</tbody></table>");

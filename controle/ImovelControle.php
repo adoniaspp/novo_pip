@@ -239,21 +239,49 @@ class ImovelControle {
             $imovel = new Imovel();
             $genericoDAO = new GenericoDAO();
             $consultarAD = new ConsultasAdHoc();
+         
             $listaImoveis = $genericoDAO->consultar($imovel, true, array("idusuario" => $_SESSION['idusuario'], "status" => "cadastrado"));
-
+            
+            $imovelDiferencialPlanta = new ImovelDiferencialPlanta();
+            
+           // $listaDiferencialPlanta = $genericoDAO->consultar($imovelDiferencialPlanta, true, array("idusuario" => $_SESSION['idusuario'], "status" => "cadastrado"));
+            
+            $plantasDif = array();
+            
             #verificar a melhor forma de tratar o blindado recursivo
             foreach ($listaImoveis as $selecionarImovel) {
                 $selecionarEndereco = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarImovel->getIdEndereco()));
+                
                 $selecionarImovel->setEndereco($selecionarEndereco[0]);
 
                 $selecionarPlanta = $genericoDAO->consultar(new Planta(), true, array("idimovel" => $selecionarImovel->getId()));
+                
+                //for($x = 0; $x < count($selecionarPlanta); $x++){
+                    
+                    
+                    //$selecionarImovel->setImovelDiferencialPlanta($genericoDAO->consultar($imovelDiferencialPlanta, true, array("idplanta" => $selecionarPlanta[$x]->getId())));
+                    //$plantasDif[] = $genericoDAO->consultar($imovelDiferencialPlanta, true, array("idplanta" => $selecionarPlanta[$x]->getId()));
+
+                    
+                //}
+                
+                //$listarImovel['diferencialPlanta'] = $plantasDif;
+           
                 $selecionarImovel->setPlanta($selecionarPlanta);
 
                 $selecionarDiferencial = $genericoDAO->consultar(new ImovelDiferencial(), true, array("idimovel" => $selecionarImovel->getId()));
                 $selecionarImovel->setImovelDiferencial($selecionarDiferencial);
 
                 $listarImovel[] = $selecionarImovel;
+
+                
             }
+            
+               /* echo "<pre>";
+                var_dump($listarImovel);
+                echo "</pre>";
+                
+                die();*/
 
             $visao = new Template();
             $visao->setItem($listarImovel);

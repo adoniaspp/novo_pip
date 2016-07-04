@@ -50,7 +50,7 @@ if($item["mapaImovel"]){
             $("#textoEspecifico").html("Características do Apartamento");
         break;
         case "casa":
-            $("#textoEspecifico").html("Características do Apartamento da Casa");
+            $("#textoEspecifico").html("Características da Casa");
         break;
         case "apartamentoplanta":
             $("#divisorTextoEspecifico").hide();
@@ -293,8 +293,16 @@ if($item["mapaImovel"]){
             <div class="ui hidden divider"></div>
             
             <?php             
-       
-            foreach ($item['anuncio'][0]['plantas'] as $planta){ 
+            
+            $plantasOrdenadas = $item['anuncio'][0]['plantas'];
+            //ordenar as plantas pelo ID
+            usort($plantasOrdenadas, function( $a, $b ) {
+            //ID da planta será usado para comparação
+                return ( $a['ordemplantas'] > $b['ordemplantas'] ) ;
+                
+            });
+                 
+            foreach ($plantasOrdenadas as $planta){ 
             
             ?>
       
@@ -318,7 +326,7 @@ if($item["mapaImovel"]){
                         
                             echo "<td>";
 
-                            echo $planta['valores'][$x]['andarinicial']." a ".$planta['valores'][$x]['andarfinal']; 
+                            echo $planta['valores'][$x]['andarinicial']."º ao ".$planta['valores'][$x]['andarfinal']."º"; 
 
                             echo "</td>";
 
@@ -481,7 +489,7 @@ if($item["mapaImovel"]){
                 
                 <div class="ui styled fluid accordion">
                         <?php
-                        
+       
                         foreach ($item['anuncio'][0]['plantas'] as $planta) {
                             
                             ?>
@@ -575,13 +583,21 @@ if($item["mapaImovel"]){
                                 </div>
                             </div>
                             
+                            <?php 
+                            
+                            $numeroDifPlantas = count($item['difPlantas'][$planta['id']]);
+                            
+                            if($numeroDifPlantas > 0){        
+                                    
+                            ?>
+                    
                             <div class="ui items">
                                 <div class="item">
                                   <div class="content">
                                     <a class="header">Diferencial da Planta</a>
                                     <div class="description">
                                       <?php 
-                                      
+              
                                       foreach($item['difPlantas'][$planta['id']] as $dif){
                                  
                                       echo "<i class='large green checkmark icon'></i>".$dif->getDiferencial()->getDescricao();
@@ -595,6 +611,8 @@ if($item["mapaImovel"]){
                               </div>
                     
                             <?php                           
+                            
+                                }//fim do If se existir mais de um diferencial da planta
                             }
                             ?>
                     

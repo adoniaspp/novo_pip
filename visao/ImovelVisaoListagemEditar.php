@@ -36,6 +36,15 @@
         </div>
     </div>
     
+    <div class="row">
+        <div class="column">
+            <div class="ui bulleted list">
+                <i class='big green check circle outline icon'></i> Imóvel com Anúncio <strong>Ativo</strong>
+                <i class='big red remove circle outline icon'></i>Imóvel com Anúncio <strong>Inativo ou Explirado</strong>
+            </div>
+        </div>
+    </div>
+    
         <div class="row">
             <div class="column">
                 <table class="ui green stackable table" id="tabela">
@@ -70,11 +79,12 @@
 
                                 if (count($imovel->getAnuncio()) > 0) {
                                     if (verificaAnuncioAtivo($imovel->getAnuncio())) {
-                                        $mensagemAnuncio = "Possui Anúncio Ativo";
+                                        $mensagemAnuncio = "<div class='ui small compact negative message'>Possui Anúncio</div> <i class='big green check circle outline icon'></i>";
+                   
                                     } else {
-                                        $mensagemAnuncio = "Possui Anúncio";
+                                        $mensagemAnuncio = "<div class='ui small compact negative message'>Possui Anúncio</div> <i class='big red remove circle outline icon'></i>";
                                     }
-                                    echo '<div class="ui small compact negative message">' . $mensagemAnuncio . '</div>';
+                                    echo $mensagemAnuncio;
                                 } else {
                                     echo "<a href=index.php?entidade=Imovel&acao=selecionar&id=" . $imovel->getId() . '&token=' . $_SESSION['token'] . "  id='editar" . $imovel->getId() . "' class='ui teal button'><i class='ui edit icon'></i>Editar</a>";
                                     echo "<button type='button' class='ui button red' onclick='formExcluirImovel(" . $imovel->getId() . ",\"" . $_SESSION['token'] . "\",\"" . $imovel->buscarTipoImovel($imovel->getIdTipoImovel()) . "\")'><i class='ui trash icon'></i>Excluir</button>";

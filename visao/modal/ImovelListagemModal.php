@@ -12,9 +12,7 @@ foreach($this->getItem() as $modal){?>
   <div class="content">
     <div class="description">
         <?php
-        
-
-        
+   
         //diferencial
         $totalDiferencial = count($modal->getImovelDiferencial());
         
@@ -167,6 +165,7 @@ foreach($this->getItem() as $modal){?>
                                         <th>Suite(s)</th>
                                         <th>Vaga(s) de Garagem</th>
                                         <th>Área m<SUP>2</SUP></th>
+                                        <th>Diferencial da Planta</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -185,6 +184,7 @@ foreach($this->getItem() as $modal){?>
                                 echo "</tr></tbody></table>";
                                 
                              } else{
+                                
                                
                           echo "<div class='ui hidden divider'></div>                                   
                                     <div class='ui horizontal list'>
@@ -208,7 +208,16 @@ foreach($this->getItem() as $modal){?>
                                 </thead>
                                 <tbody>";
                                 
-                                foreach($modal->getPlanta() as $valoresPlanta){ 
+                                 
+                                $plantasOrdenadas = $modal->getPlanta();
+                                //ordenar as plantas pelo ID
+                                usort($plantasOrdenadas, function( $a, $b ) {
+                                //ID da planta será usado para comparação
+                                         return ( $a  -> getId() > $b  -> getId() ) ;
+                                     });
+                                //fim da ordenação
+                          
+                                foreach($plantasOrdenadas as $valoresPlanta){ 
                                     echo "<tr>";
                                     echo "<td>". $valoresPlanta->getTituloPlanta()."</td>";
                                     echo "<td>". $valoresPlanta->getQuarto()."</td>";

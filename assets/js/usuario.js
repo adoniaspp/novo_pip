@@ -1275,3 +1275,18 @@ function telefone() {
         })
     })
 }
+
+function ordenarMensagem(){
+    
+    $(document).ready(function () {
+    
+        $("#sltStatusMensagem").change(function () {
+            
+            $('#form').submit();
+            
+            
+        })
+    
+    })
+    
+}

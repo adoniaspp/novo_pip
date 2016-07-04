@@ -1236,8 +1236,6 @@ function finalizar(botao) {
     })
 }
 
-
-
 function alterarValor(valor) {
 
     $('#btnMostrarValor' + valor).click(function () {
@@ -1401,20 +1399,21 @@ function escreverTextoEspecificoDetalhe(tipoAnuncio){
             $("#textoEspecifico").html("Específico do Apartamento");
         break;
         case "casa":
-            $("#textoEspecifico").html("Específico do Apartamento");
+            $("#textoEspecifico").html("Específico da Casa");
         break;
         case "apartamentoplanta":
-            $("#textoEspecifico").html("Específico do Apartamento");
+            $("#textoEspecifico").html("Específico do Apartamento na Planta");
         break;
         case "salacomercial":
-            $("#textoEspecifico").html("Específico do Apartamento");
+            $("#textoEspecifico").html("Específico da Sala Comercial");
         break;
         case "prediocomercial":
-            $("#textoEspecifico").html("Específico do Apartamento");
+            $("#textoEspecifico").html("Específico do Prédio Comercial");
         break;
         case "terreno":
-            $("#textoEspecifico").html("Específico do Apartamento");
+            $("#textoEspecifico").html("Específico do Terremo");
         break;
         }    
     })
 }
+

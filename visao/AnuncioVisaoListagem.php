@@ -27,7 +27,7 @@
             "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
             "stateSave": true,
             "columnDefs": [
-                {"orderable": false, "targets": 5}, {"orderable": false, "targets": 6}, {"orderable": false, "targets": 7}
+                {"orderable": false, "targets": 0}, {"orderable": false, "targets": 6}, {"orderable": false, "targets": 7}, {"orderable": false, "targets": 8}
             ]
         });
 
@@ -103,6 +103,7 @@
         
         <thead>
             <tr>
+                <th></th>
                 <th>Cód. Anúncio</th>
                 <th>Tipo</th>
                 <th>Finalidade</th>
@@ -132,7 +133,16 @@
                     
                     ?>
                     <tr>
+                        <td> 
                         
+                        <div class="ui checkbox">
+                                <input type="checkbox" tabindex="0" class="hidden" name="chkAnuncio[]" 
+                                       id="chkAnuncio<?php echo $anuncio->getId(); ?>" 
+                                        value="<?php echo $anuncio->getId(); ?>">
+                                <label></label>
+                        </div>
+                        
+                        </td>
                         <td>                          
                             
                         <form id="form" action="index.php" method="post" target='_blank'>
@@ -141,12 +151,7 @@
                             <input type="hidden" id="hdnCodAnuncio" name="hdnCodAnuncio" value="<?php echo $anuncio->getId() ?>"/>
                             <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" value="<?php echo $tipoImovel ?>"/>
                             
-                            <div class="ui checkbox">
-                                <input type="checkbox" tabindex="0" class="hidden" name="chkAnuncio[]" 
-                                       id="chkAnuncio<?php echo $anuncio->getId(); ?>" 
-                                        value="<?php echo $anuncio->getId(); ?>">
-                                <label></label>
-                            </div>
+                            
                             
                             <button class="ui labeled icon button">
                             <i class="zoom icon"></i>

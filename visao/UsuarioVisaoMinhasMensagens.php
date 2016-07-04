@@ -10,7 +10,8 @@
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 
 <script>
-    esconderResposta();    
+    esconderResposta();
+    ordenarMensagem();
 </script>
 <?php
 Sessao::gerarToken();
@@ -62,10 +63,12 @@ Sessao::gerarToken();
             
     }
     
-    if($totalMensagem < 1){      
+    
+    
+    if($totalMensagem < 1 && is_array($item)){      
         
     ?>
- 
+
 <div class="ui middle aligned stackable grid container">
     <div class="row">
         <div class="column">
@@ -85,10 +88,87 @@ Sessao::gerarToken();
     </div>
 </div>    
 
-    <?php } else { //caso exista alguma mensagem?>
+    <?php } else if($item == 'nenhuma') { ;//caso exista mensagem e a busca não retorne o status da mensagem?>
 
 <div class="ui hidden divider"></div>
+
 <div class="ui middle aligned stackable grid container">
+        <div class="column">
+            <form id="form" class="ui form" action="index.php" method="post">
+                <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
+                <input type="hidden" id="hdnAcao" name="hdnAcao" value="filtrarMensagens" />
+
+        <div class="fields">
+            <div class="four wide field">
+                <label>Filtrar</label>
+                <div class="ui selection dropdown">
+                    <input type="hidden" name="sltStatusMensagem" id="sltStatusMensagem">
+                    <div class="default text">Escolha a opção</div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <div class="item" data-value="todas">Todas as Mensagens</div>
+                        <div class="item" data-value="RESPONDIDO">Respondidas</div>
+                        <div class="item" data-value="NOVA">Não Respondidas</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+        </form> 
+            
+    </div>
+
+</div>
+
+<div class="ui middle aligned stackable grid container">
+    <div class="row">
+        <div class="column">
+            <div class="ui warning message">
+                <div class="header">Atenção</div>
+                <ul class="list">
+                  Nenhuma Mensagem
+                </ul>
+            </div>
+        </div>   
+    </div>
+</div>
+
+<?php 
+ } else if($totalMensagem > 1 && $item != 'nenhuma'){
+?>
+
+<div class="ui hidden divider"></div>
+
+<div class="ui middle aligned stackable grid container">
+        <div class="column">
+            <form id="form" class="ui form" action="index.php" method="post">
+                <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
+                <input type="hidden" id="hdnAcao" name="hdnAcao" value="filtrarMensagens" />
+
+        <div class="fields">
+            <div class="four wide field">
+                <label>Filtrar</label>
+                <div class="ui selection dropdown">
+                    <input type="hidden" name="sltStatusMensagem" id="sltStatusMensagem">
+                    <div class="default text">Escolha a opção</div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <div class="item" data-value="todas">Todas as Mensagens</div>
+                        <div class="item" data-value="RESPONDIDO">Respondidas</div>
+                        <div class="item" data-value="NOVA">Não Respondidas</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+        </form> 
+            
+    </div>
+
+</div>
+
+
+<div class="ui middle aligned stackable grid container" id="divMaiorMensagem">
     <div class="one column">
         <table class="ui brown table" id="tabela">
             <thead>

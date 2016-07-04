@@ -28,6 +28,7 @@ include_once 'modelo/Terreno.php';
 include_once 'modelo/Planta.php';
 include_once 'modelo/TipoImovel.php';
 include_once 'modelo/ImovelDiferencial.php';
+include_once 'modelo/ImovelDiferencialPlanta.php';
 include_once 'modelo/Diferencial.php';
 include_once 'assets/libs/captcha/securimage/securimage.php';
 include_once 'assets/libs/log4php/Logger.php';
@@ -565,6 +566,9 @@ class UsuarioControle {
             $selecionarMensagem->setAnuncio($selecionarAnuncio[0]);
             $listarMensagens[] = $selecionarMensagem;
         }
+        
+        //$listarMensagens['filtro'] = "NAO";
+        
         if ($parametros["type"] == "face") {
             echo json_encode(array("resultado" => $listarMensagens));
         } else {
@@ -578,19 +582,45 @@ class UsuarioControle {
             $visao->exibir('UsuarioVisaoMinhasMensagens.php');
         }
     }
+    
+    public function filtrarMensagens($parametros) {
+
+        unset($_SESSION["mensagem"]);
+        $mensagem = new Mensagem();
+        $genericoDAO = new GenericoDAO();
+        $listaMensagens = $genericoDAO->consultar($mensagem, true, array("idusuario" => $_SESSION["idusuario"], "status" => $parametros['sltStatusMensagem']));
+
+        foreach ($listaMensagens as $selecionarMensagem) {
+        $selecionarAnuncio = $genericoDAO->consultar(new Anuncio(), true, array("id" => $selecionarMensagem->getIdAnuncio()));
+            $selecionarResposta = $genericoDAO->consultar(new RespostaMensagem(), false, array("idmensagem" => $selecionarMensagem->getId()));
+            $idMensagem = rand();
+            $_SESSION["mensagem"][$idMensagem] = $selecionarMensagem->getId();
+            $selecionarMensagem->setId($idMensagem);
+            $selecionarMensagem->setRespostamensagem($selecionarResposta);
+            $selecionarMensagem->setAnuncio($selecionarAnuncio[0]);
+            $listarMensagens[] = $selecionarMensagem;
+        }   
+        
+            if($listarMensagens == null){
+                $listarMensagens = 'nenhuma';
+            }
+        
+            $visao = new Template();
+            $visao->setItem($listarMensagens);
+            
+            $visao->exibir('UsuarioVisaoMinhasMensagens.php');
+        
+        
+    }
 
     public function responderMensagem($parametros) {
-        /*echo "<pre>";
-        var_dump($_SESSION);
-        echo "</pre>"; die();*/
+
         $genericoDAO = new GenericoDAO();
         $genericoDAO->iniciarTransacao();
         $respostaMensagem = new RespostaMensagem();
 
         $entidadeRespostaMensagem = $respostaMensagem->cadastrar($parametros);
-        /*echo "<pre>";
-        var_dump($entidadeRespostaMensagem);
-        echo "</pre>"; */
+
         $resultadoRespostaMensagem = $genericoDAO->cadastrar($entidadeRespostaMensagem);
 
         $entidadeMensagem = $genericoDAO->consultar(new Mensagem(), true, array("id" => $_SESSION["mensagem"][$parametros["hdnMensagem"]]));
