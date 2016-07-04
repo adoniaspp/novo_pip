@@ -1038,7 +1038,8 @@ function carregarCarrosselPreferencias(){
         $(document).ready(function () {
 
     $('.owl-carousel').owlCarousel({
-        loop:true,
+        loop: true,
+        nav: true,
         margin:39,
         stagePadding: 25,
         items: 4,        

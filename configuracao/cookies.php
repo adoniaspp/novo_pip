@@ -21,9 +21,13 @@ class Cookies {
             $parametros["atributos"] = "*";
             $parametros["tabela"] = "todos";
                         
-            $tiposFinalidades = array(array('Venda', 'casa'));
+            $tiposFinalidades = array(array('Venda', 'casa'), array('Venda', 'apartamentoplanta'), 
+                array('Venda', 'apartamento'), array('Venda', 'salacomercial'), array('Venda', 'prediocomercial'),
+                array('Venda', 'terreno'), array('Aluguel', 'casa'), array('Aluguel', 'apartamentoplanta'), 
+                array('Aluguel', 'apartamento'), array('Aluguel', 'salacomercial'), array('Aluguel', 'prediocomercial'),
+                array('Aluguel', 'terreno'));
             $i = 0;
-            foreach ($tiposFinalidades as $item){  
+               foreach ($tiposFinalidades as $item){                
                 $preferencia["bairro"] = array();
                 $preferencia["cidade"] = array();
                foreach ($listaAnuncio[anuncio] as $anuncios){
@@ -41,20 +45,22 @@ class Cookies {
                    $listaPreferencias[$i] = $consultasAdHoc->buscaAnuncios($parametros);
                    $i++;
                }        
-            }
+            }    
             
-            /*Não está eliminando as ocorrências de ids dos cookies do array!!*/
-           
-            $preferencias = $listaPreferencias[0]['anuncio'];   
+            for ($i = 0; $i < count($listaPreferencias); $i++){
             foreach ($listaAnuncio[anuncio] as $anuncio){
                 $idanuncio = $anuncio["idanuncio"];
-                for ($i = 0; $i < count($listaPreferencias[0]['anuncio']); $i++){
-                    if($idanuncio == $preferencias[$i][idanuncio]){ 
-                        unset($preferencias[$i]);                                  
+                for ($j = 0; $j < count($listaPreferencias[$i]['anuncio']); $j++){
+                    if($idanuncio == $listaPreferencias[$i]['anuncio'][$j][idanuncio]){ 
+                        unset($listaPreferencias[$i]['anuncio'][$j]);
+                        if(count($listaPreferencias[$i]['anuncio']) == 0){
+                            unset($listaPreferencias[$i]);
+                        }
                     }
                 }   
             }
-            return $preferencias;
+            }               
+            return $listaPreferencias;
         }
     }
 
