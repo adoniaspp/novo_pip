@@ -3,11 +3,13 @@
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
+
 <!-- JS -->
 <script src="assets/js/usuario.js"></script>
 <script src="assets/js/resposta.js"></script>
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
+<script src="assets/libs/datatables/js/dataTables.semanticui.min.js"></script>
 
 <script>
     esconderResposta();
@@ -65,7 +67,7 @@ Sessao::gerarToken();
     
     
     
-    if($totalMensagem < 1 && is_array($item)){      
+    if($totalMensagem < 1 && !is_array($item)){      
         
     ?>
 

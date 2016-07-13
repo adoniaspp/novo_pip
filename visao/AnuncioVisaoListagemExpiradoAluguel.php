@@ -5,7 +5,7 @@
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
 <script src="assets/js/anuncio.js"></script>
-
+<script src="assets/libs/datatables/js/dataTables.semanticui.min.js"></script>
 <!-- os dois scripts abaixo realizam a formatação de data para ordenação-->
 <script src="assets/libs/datatables/js/moment.min.js"></script>
 <script src="assets/libs/datatables/js/datetime-moment.js"></script>
@@ -117,7 +117,6 @@ if ($totalAnunciosFinalizados < 1 && $totalAnunciosExpirados < 1) {
                     <tr>
                         <th>Cód. Anúncio</th>
                         <th>Tipo</th>
-                        <th>Titulo</th>
                         <th>Valor</th>
                         <th>Data Cadastro</th>
                         <th>Status</th>
@@ -181,7 +180,6 @@ if ($totalAnunciosFinalizados < 1 && $totalAnunciosExpirados < 1) {
             }
             ?>
                                 </td>
-                                <td><?php echo $anuncio->getTituloAnuncio(); ?></td>
                                 <td id="tdValor<?php echo $anuncio->getId(); ?>"><?php echo $anuncio->getValorMin(); ?></td>
                                 <td><?php echo date('d/m/Y H:i:s', strtotime($anuncio->getDataHoraCadastro())); ?></td>
                                 <td> <?php

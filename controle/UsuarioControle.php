@@ -266,11 +266,6 @@ class UsuarioControle {
             $usuario = new Usuario();
             $entidadeUsuario = $usuario->editar($parametros);
             
-            
-            /*
-            echo "<pre>";
-            var_dump($entidadeUsuario);
-            echo "</pre>"; die();*/
             $editarUsuario = $genericoDAO->editar($entidadeUsuario);
 
             //visao
@@ -584,12 +579,19 @@ class UsuarioControle {
     }
     
     public function filtrarMensagens($parametros) {
-
+        
         unset($_SESSION["mensagem"]);
+        
         $mensagem = new Mensagem();
         $genericoDAO = new GenericoDAO();
-        $listaMensagens = $genericoDAO->consultar($mensagem, true, array("idusuario" => $_SESSION["idusuario"], "status" => $parametros['sltStatusMensagem']));
-
+        
+        
+        if($parametros['sltStatusMensagem'] == 'NOVA' || $parametros['sltStatusMensagem'] == 'RESPONDIDO'){
+            $listaMensagens = $genericoDAO->consultar($mensagem, true, array("idusuario" => $_SESSION["idusuario"], "status" => $parametros['sltStatusMensagem']));
+        } else {
+            $listaMensagens = $genericoDAO->consultar($mensagem, true, array("idusuario" => $_SESSION["idusuario"]));
+        }
+        
         foreach ($listaMensagens as $selecionarMensagem) {
         $selecionarAnuncio = $genericoDAO->consultar(new Anuncio(), true, array("id" => $selecionarMensagem->getIdAnuncio()));
             $selecionarResposta = $genericoDAO->consultar(new RespostaMensagem(), false, array("idmensagem" => $selecionarMensagem->getId()));

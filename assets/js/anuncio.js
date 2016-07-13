@@ -1334,7 +1334,7 @@ function alterarValor(valor) {
                     data: $('#formAlterarValorAnuncio' + valor).serialize(),
                     beforeSend: function () {
                         $("#camposNovoValor" + valor).html("<div><div class='ui active inverted dimmer'>\n\
-                        <div class='ui text loader'>Enviando mensagem. Aguarde...</div></div></div>");
+                        <div class='ui text loader'>Alterando valor. Aguarde...</div></div></div>");
                     },
                     success: function (resposta) {
 

@@ -7,6 +7,7 @@
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
+<script src="assets/libs/datatables/js/dataTables.semanticui.min.js"></script>
 
 <!-- os dois scripts abaixo realizam a formatação de data para ordenação-->
 <script src="assets/libs/datatables/js/moment.min.js"></script>

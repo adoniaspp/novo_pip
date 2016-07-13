@@ -120,7 +120,7 @@ if($item["mapaImovel"]){
                   <i class="right triangle icon"></i>
                   <div class="content">
                       <div class="header"><font size="4">Data de Cadastro</font></div>
-                    <div class="description"><font size="3"><?php echo $item['anuncio'][0]['datahoracadastro']?></font></div>
+                    <div class="description"><font size="3"><?php echo date('d/m/Y H:i:s', strtotime($item['anuncio'][0]['datahoracadastro']))?></font></div>
                   </div>
                 </div>
             </div>    

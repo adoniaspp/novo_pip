@@ -225,16 +225,6 @@ Sessao::gerarToken();
                         </div>                                     
                     </div>
 
-                    <div class="ui checkbox" id="chkCobertura">
-                        <input type="checkbox" name="chkCobertura" value="chkCobertura">
-                        <label>Está na Cobertura</label>
-                    </div>
-
-                    <div class="ui checkbox" id="chkSacada">
-                        <input type="checkbox" name="chkSacada" value="chkSacada">
-                        <label>Possui Sacada</label>
-                    </div>
-
                 </div>
 
                 <div class="ui hidden divider"></div>

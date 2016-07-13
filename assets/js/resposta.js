@@ -14,7 +14,7 @@ function esconderResposta(){
 function ordemInicio() {
 
     $(document).ready(function () {
-        $("#sltOrdenacao").change(function () {
+        $("#sltOrdenacao").change(function () { sdasdsad
 
             $('#divMensagemMaior').load("UsuarioVisaoMinhasMensagens.php", {hdnEntidade: 'Mensagem', hdnAcao: 'buscarAnuncio',
 

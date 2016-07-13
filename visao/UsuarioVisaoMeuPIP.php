@@ -3,7 +3,7 @@
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 <script src="assets/libs/echarts/build/dist/echarts-all.js"></script>
 <script src="assets/js/grafico.js"></script>
-
+<script src="assets/libs/datatables/js/dataTables.semanticui.min.js"></script>
 <!-- os dois scripts abaixo realizam a formatação de data para ordenação-->
 <script src="assets/libs/datatables/js/moment.min.js"></script>
 <script src="assets/libs/datatables/js/datetime-moment.js"></script>
