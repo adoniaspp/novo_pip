@@ -1,8 +1,9 @@
+/* BUSCA ANUNCIO APARTAMENTO */
+
 CREATE 
     ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
     SQL SECURITY DEFINER
-VIEW `buscaanuncioapartamento` AS
+VIEW `buscaAnuncioApartamento` AS
     SELECT 
         `a`.`id` AS `idanuncio`,
         `a`.`idanuncio` AS `idanuncioformatado`,
@@ -43,24 +44,41 @@ VIEW `buscaanuncioapartamento` AS
         `us`.`nome` AS `nome`,
         `us`.`tipousuario` AS `tipousuario`,
         `us`.`email` AS `email`,
-        `us`.`foto` AS `foto`
-    FROM
-        (((((`apartamento` `ap`
-        LEFT JOIN ((((`imovel` `i`
-        LEFT JOIN `anuncio` `a` ON ((`a`.`idimovel` = `i`.`id`)))
-        LEFT JOIN `mapaimovel` `mi` ON ((`mi`.`idanuncio` = `a`.`id`)))
-        LEFT JOIN `usuario` `us` ON ((`i`.`idusuario` = `us`.`id`)))
-        LEFT JOIN `tipoimovel` `ti` ON ((`i`.`idtipoimovel` = `ti`.`id`))) ON ((`ap`.`idimovel` = `i`.`id`)))
-        LEFT JOIN `endereco` `en` ON ((`en`.`id` = `i`.`idendereco`)))
-        LEFT JOIN `estado` `es` ON ((`es`.`id` = `en`.`idestado`)))
-        LEFT JOIN `cidade` `ci` ON ((`ci`.`id` = `en`.`idcidade`)))
-        LEFT JOIN `bairro` `b` ON ((`b`.`id` = `en`.`idbairro`)))
+        `us`.`foto` AS `foto`,
+        `nv`.`novovalor`       AS `novovalor`,
+               ( ( ( ( `nv`.`novovalor` - `a`.`valormin` ) / `a`.`valormin` ) * 100 ) *
+                 -( 1 )
+               )                      AS `percentual`
+
+FROM `anuncio` `a`
+
+JOIN  `imovel` `i`
+    ON (`a`.`idimovel` = `i`.`id`)
+JOIN `apartamento` `ap`
+    ON (`ap`.`idimovel` = `i`.`id`)
+LEFT JOIN `novovaloranuncio` `nv`
+    ON ( `a`.`id` = `nv`.`idanuncio`  AND  `nv`.`status` = 'ativo' ) 
+LEFT JOIN `mapaimovel` `mi` 
+    ON (`mi`.`idanuncio` = `a`.`id`)
+JOIN `usuario` `us` 
+    ON (`i`.`idusuario` = `us`.`id`)
+JOIN `tipoimovel` `ti` 
+    ON (`i`.`idtipoimovel` = `ti`.`id`)
+JOIN `endereco` `en` 
+    ON (`en`.`id` = `i`.`idendereco`)
+JOIN `estado` `es` 
+    ON (`es`.`id` = `en`.`idestado`)
+JOIN `cidade` `ci` 
+    ON (`ci`.`id` = `en`.`idcidade`)
+JOIN `bairro` `b` 
+    ON (`b`.`id` = `en`.`idbairro`)
+
+/* BUSCA ANUNCIO APARTAMENTO PLANTA */
 
 CREATE 
     ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
     SQL SECURITY DEFINER
-VIEW `buscaanuncioapartamentoplanta` AS
+VIEW `buscaAnuncioApartamentoplanta` AS
     SELECT 
         `a`.`id` AS `idanuncio`,
         `a`.`idanuncio` AS `idanuncioformatado`,
@@ -96,24 +114,41 @@ VIEW `buscaanuncioapartamentoplanta` AS
         `us`.`nome` AS `nome`,
         `us`.`tipousuario` AS `tipousuario`,
         `us`.`email` AS `email`,
-        `us`.`foto` AS `foto`
-    FROM
-        (((((`apartamentoplanta` `app`
-        LEFT JOIN ((((`imovel` `i`
-        LEFT JOIN `anuncio` `a` ON ((`a`.`idimovel` = `i`.`id`)))
-        LEFT JOIN `mapaimovel` `mi` ON ((`mi`.`idanuncio` = `a`.`id`)))
-        LEFT JOIN `usuario` `us` ON ((`i`.`idusuario` = `us`.`id`)))
-        LEFT JOIN `tipoimovel` `ti` ON ((`i`.`idtipoimovel` = `ti`.`id`))) ON ((`app`.`idimovel` = `i`.`id`)))
-        LEFT JOIN `endereco` `en` ON ((`en`.`id` = `i`.`idendereco`)))
-        LEFT JOIN `estado` `es` ON ((`es`.`id` = `en`.`idestado`)))
-        LEFT JOIN `cidade` `ci` ON ((`ci`.`id` = `en`.`idcidade`)))
-        LEFT JOIN `bairro` `b` ON ((`b`.`id` = `en`.`idbairro`)))
+        `us`.`foto` AS `foto`,
+        `nv`.`novovalor` AS `novovalor`,
+               ( ( ( ( `nv`.`novovalor` - `a`.`valormin` ) / `a`.`valormin` ) * 100 ) *
+                 -( 1 )
+               )                      AS `percentual`
+
+FROM `anuncio` `a`
+
+JOIN  `imovel` `i`
+    ON (`a`.`idimovel` = `i`.`id`)
+JOIN `apartamentoplanta` `app`
+    ON (`app`.`idimovel` = `i`.`id`)
+LEFT JOIN `novovaloranuncio` `nv`
+    ON ( `a`.`id` = `nv`.`idanuncio`  AND  `nv`.`status` = 'ativo' ) 
+LEFT JOIN `mapaimovel` `mi` 
+    ON (`mi`.`idanuncio` = `a`.`id`)
+JOIN `usuario` `us` 
+    ON (`i`.`idusuario` = `us`.`id`)
+JOIN `tipoimovel` `ti` 
+    ON (`i`.`idtipoimovel` = `ti`.`id`)
+JOIN `endereco` `en` 
+    ON (`en`.`id` = `i`.`idendereco`)
+JOIN `estado` `es` 
+    ON (`es`.`id` = `en`.`idestado`)
+JOIN `cidade` `ci` 
+    ON (`ci`.`id` = `en`.`idcidade`)
+JOIN `bairro` `b` 
+    ON (`b`.`id` = `en`.`idbairro`)
+
+/* BUSCA ANUNCIO CASA */
 
 CREATE 
     ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
     SQL SECURITY DEFINER
-VIEW `buscaanunciocasa` AS
+VIEW `buscaAnuncioCasa` AS
     SELECT 
         `a`.`id` AS `idanuncio`,
         `a`.`idanuncio` AS `idanuncioformatado`,
@@ -149,24 +184,41 @@ VIEW `buscaanunciocasa` AS
         `us`.`nome` AS `nome`,
         `us`.`tipousuario` AS `tipousuario`,
         `us`.`email` AS `email`,
-        `us`.`foto` AS `foto`
-    FROM
-        (((((`casa` `ca`
-        LEFT JOIN ((((`imovel` `i`
-        LEFT JOIN `anuncio` `a` ON ((`a`.`idimovel` = `i`.`id`)))
-        LEFT JOIN `mapaimovel` `mi` ON ((`mi`.`idanuncio` = `a`.`id`)))
-        LEFT JOIN `usuario` `us` ON ((`i`.`idusuario` = `us`.`id`)))
-        LEFT JOIN `tipoimovel` `ti` ON ((`i`.`idtipoimovel` = `ti`.`id`))) ON ((`ca`.`idimovel` = `i`.`id`)))
-        LEFT JOIN `endereco` `en` ON ((`en`.`id` = `i`.`idendereco`)))
-        LEFT JOIN `estado` `es` ON ((`es`.`id` = `en`.`idestado`)))
-        LEFT JOIN `cidade` `ci` ON ((`ci`.`id` = `en`.`idcidade`)))
-        LEFT JOIN `bairro` `b` ON ((`b`.`id` = `en`.`idbairro`)))
+        `us`.`foto` AS `foto`,
+        `nv`.`novovalor`       AS `novovalor`,
+               ( ( ( ( `nv`.`novovalor` - `a`.`valormin` ) / `a`.`valormin` ) * 100 ) *
+                 -( 1 )
+               )                      AS `percentual`
+
+FROM `anuncio` `a`
+
+JOIN  `imovel` `i`
+    ON (`a`.`idimovel` = `i`.`id`)
+JOIN `casa` `ca`
+    ON (`ca`.`idimovel` = `i`.`id`)
+LEFT JOIN `novovaloranuncio` `nv`
+    ON ( `a`.`id` = `nv`.`idanuncio`  AND  `nv`.`status` = 'ativo' ) 
+LEFT JOIN `mapaimovel` `mi` 
+    ON (`mi`.`idanuncio` = `a`.`id`)
+JOIN `usuario` `us` 
+    ON (`i`.`idusuario` = `us`.`id`)
+JOIN `tipoimovel` `ti` 
+    ON (`i`.`idtipoimovel` = `ti`.`id`)
+JOIN `endereco` `en` 
+    ON (`en`.`id` = `i`.`idendereco`)
+JOIN `estado` `es` 
+    ON (`es`.`id` = `en`.`idestado`)
+JOIN `cidade` `ci` 
+    ON (`ci`.`id` = `en`.`idcidade`)
+JOIN `bairro` `b` 
+    ON (`b`.`id` = `en`.`idbairro`)
+
+/* BUSCA ANUNCIO PREDIO COMERCIAL */
 
 CREATE 
     ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
     SQL SECURITY DEFINER
-VIEW `buscaanuncioprediocomercial` AS
+VIEW `buscaAnuncioPrediocomercial` AS
     SELECT 
         `a`.`id` AS `idanuncio`,
         `a`.`idanuncio` AS `idanuncioformatado`,
@@ -198,25 +250,41 @@ VIEW `buscaanuncioprediocomercial` AS
         `us`.`nome` AS `nome`,
         `us`.`tipousuario` AS `tipousuario`,
         `us`.`email` AS `email`,
-        `us`.`foto` AS `foto`
-    FROM
-        (((((`prediocomercial` `pc`
-        LEFT JOIN ((((`imovel` `i`
-        LEFT JOIN `anuncio` `a` ON ((`a`.`idimovel` = `i`.`id`)))
-        LEFT JOIN `mapaimovel` `mi` ON ((`mi`.`idanuncio` = `a`.`id`)))
-        LEFT JOIN `usuario` `us` ON ((`i`.`idusuario` = `us`.`id`)))
-        LEFT JOIN `tipoimovel` `ti` ON ((`i`.`idtipoimovel` = `ti`.`id`))) ON ((`pc`.`idimovel` = `i`.`id`)))
-        LEFT JOIN `endereco` `en` ON ((`en`.`id` = `i`.`idendereco`)))
-        LEFT JOIN `estado` `es` ON ((`es`.`id` = `en`.`idestado`)))
-        LEFT JOIN `cidade` `ci` ON ((`ci`.`id` = `en`.`idcidade`)))
-        LEFT JOIN `bairro` `b` ON ((`b`.`id` = `en`.`idbairro`)))
+        `us`.`foto` AS `foto`,
+        `nv`.`novovalor`       AS `novovalor`,
+               ( ( ( ( `nv`.`novovalor` - `a`.`valormin` ) / `a`.`valormin` ) * 100 ) *
+                 -( 1 )
+               )                      AS `percentual`
+FROM `anuncio` `a`
+
+JOIN  `imovel` `i`
+    ON (`a`.`idimovel` = `i`.`id`)
+JOIN `prediocomercial` `pc`
+    ON (`pc`.`idimovel` = `i`.`id`)
+LEFT JOIN `novovaloranuncio` `nv`
+    ON ( `a`.`id` = `nv`.`idanuncio`  AND  `nv`.`status` = 'ativo' ) 
+LEFT JOIN `mapaimovel` `mi` 
+    ON (`mi`.`idanuncio` = `a`.`id`)
+JOIN `usuario` `us` 
+    ON (`i`.`idusuario` = `us`.`id`)
+JOIN `tipoimovel` `ti` 
+    ON (`i`.`idtipoimovel` = `ti`.`id`)
+JOIN `endereco` `en` 
+    ON (`en`.`id` = `i`.`idendereco`)
+JOIN `estado` `es` 
+    ON (`es`.`id` = `en`.`idestado`)
+JOIN `cidade` `ci` 
+    ON (`ci`.`id` = `en`.`idcidade`)
+JOIN `bairro` `b` 
+    ON (`b`.`id` = `en`.`idbairro`)
+
+/* BUSCA ANUNCIO SALA COMERCIAL */
 
 CREATE 
     ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
     SQL SECURITY DEFINER
-VIEW `buscaanunciosalacomercial` AS
-    SELECT 
+VIEW `buscaAnuncioSalacomercial` AS
+SELECT 
         `a`.`id` AS `idanuncio`,
         `a`.`idanuncio` AS `idanuncioformatado`,
         `a`.`finalidade` AS `finalidade`,
@@ -250,117 +318,160 @@ VIEW `buscaanunciosalacomercial` AS
         `us`.`nome` AS `nome`,
         `us`.`tipousuario` AS `tipousuario`,
         `us`.`email` AS `email`,
-        `us`.`foto` AS `foto`
-    FROM
-        (((((`salacomercial` `sl`
-        LEFT JOIN ((((`imovel` `i`
-        LEFT JOIN `anuncio` `a` ON ((`a`.`idimovel` = `i`.`id`)))
-        LEFT JOIN `mapaimovel` `mi` ON ((`mi`.`idanuncio` = `a`.`id`)))
-        LEFT JOIN `usuario` `us` ON ((`i`.`idusuario` = `us`.`id`)))
-        LEFT JOIN `tipoimovel` `ti` ON ((`i`.`idtipoimovel` = `ti`.`id`))) ON ((`sl`.`idimovel` = `i`.`id`)))
-        LEFT JOIN `endereco` `en` ON ((`en`.`id` = `i`.`idendereco`)))
-        LEFT JOIN `estado` `es` ON ((`es`.`id` = `en`.`idestado`)))
-        LEFT JOIN `cidade` `ci` ON ((`ci`.`id` = `en`.`idcidade`)))
-        LEFT JOIN `bairro` `b` ON ((`b`.`id` = `en`.`idbairro`)))
-
-CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
-    SQL SECURITY DEFINER
-VIEW `buscaanuncioterreno` AS
-    SELECT 
-        `a`.`id` AS `idanuncio`,
-        `a`.`idanuncio` AS `idanuncioformatado`,
-        `a`.`finalidade` AS `finalidade`,
-        `a`.`tituloanuncio` AS `tituloanuncio`,
-        `a`.`descricaoanuncio` AS `descricaoanuncio`,
-        `a`.`datahoracadastro` AS `datahoracadastro`,
-        `a`.`status` AS `status`,
-        `a`.`publicarmapa` AS `publicarmapa`,
-        `a`.`publicarcontato` AS `publicarcontato`,
-        `a`.`valormin` AS `valormin`,
-        `i`.`id` AS `idimovel`,
-        `i`.`condicao` AS `condicao`,
-        `ti`.`descricao` AS `tipo`,
-        `t`.`area` AS `area`,
-        `en`.`cep` AS `cep`,
-        `en`.`logradouro` AS `logradouro`,
-        `en`.`numero` AS `numero`,
-        `b`.`id` AS `idbairro`,
-        `b`.`nome` AS `bairro`,
-        `ci`.`id` AS `idcidade`,
-        `ci`.`nome` AS `cidade`,
-        `es`.`id` AS `idestado`,
-        `es`.`nome` AS `estado`,
-        `en`.`complemento` AS `complemento`,
-        `mi`.`latitude` AS `latitude`,
-        `mi`.`longitude` AS `longitude`,
-        `us`.`id` AS `id`,
-        `us`.`nome` AS `nome`,
-        `us`.`tipousuario` AS `tipousuario`,
-        `us`.`email` AS `email`,
-        `us`.`foto` AS `foto`
-    FROM
-        (((((`terreno` `t`
-        LEFT JOIN ((((`imovel` `i`
-        LEFT JOIN `anuncio` `a` ON ((`a`.`idimovel` = `i`.`id`)))
-        LEFT JOIN `mapaimovel` `mi` ON ((`mi`.`idanuncio` = `a`.`id`)))
-        LEFT JOIN `usuario` `us` ON ((`i`.`idusuario` = `us`.`id`)))
-        LEFT JOIN `tipoimovel` `ti` ON ((`i`.`idtipoimovel` = `ti`.`id`))) ON ((`t`.`idimovel` = `i`.`id`)))
-        LEFT JOIN `endereco` `en` ON ((`en`.`id` = `i`.`idendereco`)))
-        LEFT JOIN `estado` `es` ON ((`es`.`id` = `en`.`idestado`)))
-        LEFT JOIN `cidade` `ci` ON ((`ci`.`id` = `en`.`idcidade`)))
-        LEFT JOIN `bairro` `b` ON ((`b`.`id` = `en`.`idbairro`)))
-
-CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
-    SQL SECURITY DEFINER
-VIEW `buscaanunciotodos` AS
-    SELECT 
-        `a`.`id` AS `idanuncio`,
-        `a`.`idanuncio` AS `idanuncioformatado`,
-        `a`.`finalidade` AS `finalidade`,
-        `a`.`tituloanuncio` AS `tituloanuncio`,
-        `a`.`descricaoanuncio` AS `descricaoanuncio`,
-        `a`.`status` AS `status`,
-        `a`.`publicarmapa` AS `publicarmapa`,
-        `a`.`publicarcontato` AS `publicarcontato`,
-        `a`.`valormin` AS `valormin`,
-        `a`.`datahoracadastro` AS `datahoracadastro`,
-        `i`.`id` AS `idimovel`,
-        `i`.`condicao` AS `condicao`,
-        `ti`.`descricao` AS `tipo`,
-        `en`.`cep` AS `cep`,
-        `en`.`logradouro` AS `logradouro`,
-        `en`.`numero` AS `numero`,
-        `b`.`id` AS `idbairro`,
-        `b`.`nome` AS `bairro`,
-        `ci`.`id` AS `idcidade`,
-        `ci`.`nome` AS `cidade`,
-        `es`.`id` AS `idestado`,
-        `es`.`nome` AS `estado`,
-        `en`.`complemento` AS `complemento`,
-        `mi`.`latitude` AS `latitude`,
-        `mi`.`longitude` AS `longitude`,
-        `us`.`id` AS `id`,
-        `us`.`nome` AS `nome`,
-        `us`.`tipousuario` AS `tipousuario`,
-        `us`.`email` AS `email`,
         `us`.`foto` AS `foto`,
-        `nv`.`novovalor` AS `novovalor`,
-        ((((`nv`.`novovalor` - `a`.`valormin`) / `a`.`valormin`) * 100) * -(1)) AS `percentual`
-    FROM
-        (`bairro` `b`
-        LEFT JOIN ((((((((`anuncio` `a`
-        LEFT JOIN `imovel` `i` ON ((`a`.`idimovel` = `i`.`id`)))
-        LEFT JOIN `novovaloranuncio` `nv` ON ((`a`.`id` = `nv`.`idanuncio`)))
-        LEFT JOIN `mapaimovel` `mi` ON ((`mi`.`idanuncio` = `a`.`id`)))
-        LEFT JOIN `usuario` `us` ON ((`i`.`idusuario` = `us`.`id`)))
-        LEFT JOIN `tipoimovel` `ti` ON ((`i`.`idtipoimovel` = `ti`.`id`)))
-        LEFT JOIN `endereco` `en` ON ((`en`.`id` = `i`.`idendereco`)))
-        LEFT JOIN `estado` `es` ON ((`es`.`id` = `en`.`idestado`)))
-        LEFT JOIN `cidade` `ci` ON ((`ci`.`id` = `en`.`idcidade`))) ON ((`b`.`id` = `en`.`idbairro`)))
-    WHERE
-        ((`a`.`status` = 'cadastrado')
-            OR (`nv`.`status` = 'ativo'))
+        `nv`.`novovalor`       AS `novovalor`,
+               ( ( ( ( `nv`.`novovalor` - `a`.`valormin` ) / `a`.`valormin` ) * 100 ) *
+                 -( 1 )
+               )                      AS `percentual`
+FROM `anuncio` `a`
+
+JOIN  `imovel` `i`
+    ON (`a`.`idimovel` = `i`.`id`)
+JOIN `salacomercial` `sl`
+    ON (`sl`.`idimovel` = `i`.`id`)
+LEFT JOIN `novovaloranuncio` `nv`
+    ON ( `a`.`id` = `nv`.`idanuncio`  AND  `nv`.`status` = 'ativo' ) 
+LEFT JOIN `mapaimovel` `mi` 
+    ON (`mi`.`idanuncio` = `a`.`id`)
+JOIN `usuario` `us` 
+    ON (`i`.`idusuario` = `us`.`id`)
+JOIN `tipoimovel` `ti` 
+    ON (`i`.`idtipoimovel` = `ti`.`id`)
+JOIN `endereco` `en` 
+    ON (`en`.`id` = `i`.`idendereco`)
+JOIN `estado` `es` 
+    ON (`es`.`id` = `en`.`idestado`)
+JOIN `cidade` `ci` 
+    ON (`ci`.`id` = `en`.`idcidade`)
+JOIN `bairro` `b` 
+    ON (`b`.`id` = `en`.`idbairro`)
+
+/* BUSCA ANUNCIO TERRENO */
+
+CREATE 
+    ALGORITHM = UNDEFINED 
+    SQL SECURITY DEFINER
+VIEW `buscaAnuncioTerreno` AS
+SELECT 
+       `a`.`id` AS `idanuncio`,
+       `a`.`idanuncio` AS `idanuncioformatado`,
+       `a`.`finalidade` AS `finalidade`,
+       `a`.`tituloanuncio` AS `tituloanuncio`,
+       `a`.`descricaoanuncio` AS `descricaoanuncio`,
+       `a`.`datahoracadastro` AS `datahoracadastro`,
+       `a`.`status` AS `status`,
+       `a`.`publicarmapa` AS `publicarmapa`,
+       `a`.`publicarcontato` AS `publicarcontato`,
+       `a`.`valormin` AS `valormin`,
+       `i`.`id` AS `idimovel`,
+       `i`.`condicao` AS `condicao`,
+       `ti`.`descricao` AS `tipo`,
+       `t`.`area` AS `area`,
+       `en`.`cep` AS `cep`,
+       `en`.`logradouro` AS `logradouro`,
+       `en`.`numero` AS `numero`,
+       `b`.`id` AS `idbairro`,
+       `b`.`nome` AS `bairro`,
+       `ci`.`id` AS `idcidade`,
+       `ci`.`nome` AS `cidade`,
+       `es`.`id` AS `idestado`,
+       `es`.`nome` AS `estado`,
+       `en`.`complemento` AS `complemento`,
+       `mi`.`latitude` AS `latitude`,
+       `mi`.`longitude` AS `longitude`,
+       `us`.`id` AS `id`,
+       `us`.`nome` AS `nome`,
+       `us`.`tipousuario` AS `tipousuario`,
+       `us`.`email` AS `email`,
+       `us`.`foto` AS `foto`,
+       `nv`.`novovalor`       AS `novovalor`,
+       ( ( ( ( `nv`.`novovalor` - `a`.`valormin` ) / `a`.`valormin` ) * 100 ) *
+         -( 1 )
+       )                      AS `percentual`
+FROM `anuncio` `a`
+
+JOIN  `imovel` `i`
+    ON (`a`.`idimovel` = `i`.`id`)
+JOIN `terreno` `t`
+    ON (`t`.`idimovel` = `i`.`id`)
+LEFT JOIN `novovaloranuncio` `nv`
+    ON ( `a`.`id` = `nv`.`idanuncio`  AND  `nv`.`status` = 'ativo' ) 
+LEFT JOIN `mapaimovel` `mi` 
+    ON (`mi`.`idanuncio` = `a`.`id`)
+JOIN `usuario` `us` 
+    ON (`i`.`idusuario` = `us`.`id`)
+JOIN `tipoimovel` `ti` 
+    ON (`i`.`idtipoimovel` = `ti`.`id`)
+JOIN `endereco` `en` 
+    ON (`en`.`id` = `i`.`idendereco`)
+JOIN `estado` `es` 
+    ON (`es`.`id` = `en`.`idestado`)
+JOIN `cidade` `ci` 
+    ON (`ci`.`id` = `en`.`idcidade`)
+JOIN `bairro` `b` 
+    ON (`b`.`id` = `en`.`idbairro`)
+
+WHERE `a`.`status` = 'cadastrado'
+
+/* BUSCA ANUNCIO TODOS */
+CREATE 
+    ALGORITHM = UNDEFINED 
+    SQL SECURITY DEFINER
+VIEW `buscaAnuncioTodos` AS
+SELECT
+       `a`.`id`               AS `idanuncio`,
+       `a`.`idanuncio`        AS `idanuncioformatado`,
+       `a`.`finalidade`       AS `finalidade`,
+       `a`.`tituloanuncio`    AS `tituloanuncio`,
+       `a`.`descricaoanuncio` AS `descricaoanuncio`,
+       `a`.`status`           AS `status`,
+       `a`.`publicarmapa`     AS `publicarmapa`,
+       `a`.`publicarcontato`  AS `publicarcontato`,
+       `a`.`valormin`         AS `valormin`,
+       `a`.`datahoracadastro` AS `datahoracadastro`,
+       `i`.`id`               AS `idimovel`,
+       `i`.`condicao`         AS `condicao`,
+       `ti`.`descricao`       AS `tipo`,
+       `en`.`cep`             AS `cep`,
+       `en`.`logradouro`      AS `logradouro`,
+       `en`.`numero`          AS `numero`,
+       `b`.`id`               AS `idbairro`,
+       `b`.`nome`             AS `bairro`,
+       `ci`.`id`              AS `idcidade`,
+       `ci`.`nome`            AS `cidade`,
+       `es`.`id`              AS `idestado`,
+       `es`.`nome`            AS `estado`,
+       `en`.`complemento`     AS `complemento`,
+       `mi`.`latitude`        AS `latitude`,
+       `mi`.`longitude`       AS `longitude`,
+       `us`.`id`              AS `id`,
+       `us`.`nome`            AS `nome`,
+       `us`.`tipousuario`     AS `tipousuario`,
+       `us`.`email`           AS `email`,
+       `us`.`foto`            AS `foto`,
+       `nv`.`novovalor`       AS `novovalor`,
+       ( ( ( ( `nv`.`novovalor` - `a`.`valormin` ) / `a`.`valormin` ) * 100 ) *
+         -( 1 )
+       )                      AS `percentual`
+FROM `anuncio` `a`
+
+JOIN `imovel` `i`
+    ON ( `a`.`idimovel` = `i`.`id` )
+LEFT JOIN `novovaloranuncio` `nv`
+    ON ( `a`.`id` = `nv`.`idanuncio`  AND  `nv`.`status` = 'ativo' ) 
+LEFT JOIN `mapaimovel` `mi`
+    ON ( `mi`.`idanuncio` = `a`.`id` )
+JOIN `usuario` `us`
+    ON ( `i`.`idusuario` = `us`.`id` )
+JOIN `tipoimovel` `ti`
+    ON ( `i`.`idtipoimovel` = `ti`.`id` )
+JOIN `endereco` `en`
+    ON ( `en`.`id` = `i`.`idendereco` )
+JOIN `bairro` `b`
+    ON ( `b`.`id` = `en`.`idbairro` )
+JOIN `estado` `es`
+    ON ( `es`.`id` = `en`.`idestado` )
+JOIN `cidade` `ci`
+    ON ( `ci`.`id` = `en`.`idcidade` )
+    
+WHERE `a`.`status` = 'cadastrado'
