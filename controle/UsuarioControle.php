@@ -274,19 +274,25 @@ class UsuarioControle {
                 $genericoDAO->fecharConexao();
                 $this->log("Término da Operação " . $parametros["hdnEntidade"] . ucfirst($parametros["hdnAcao"]));
                 Sessao::desconfigurarVariavelSessao("usuario");
-                $visao->setItem("sucessoedicaousuario");
-                $visao->exibir('VisaoErrosGenerico.php');
+                //$visao->setItem("sucessoedicaousuario");
+                $_SESSION["confirmarOperacao"] = "sucesso";
                 //echo json_encode(array("resultado" => 1));
+                //$visao->exibir('UsuarioVisaoMeuPIP.php');
+                header("Location: index.php?entidade=Usuario&acao=MeuPIP");
+                
             } else {
                 $genericoDAO->rollback();
                 $genericoDAO->fecharConexao();
-                $visao->setItem("errobanco");
-                $visao->exibir('VisaoErrosGenerico.php');
+                //$visao->setItem("errobanco");
+                $_SESSION["confirmarOperacao"] = "erroGenerico";
+                $visao->exibir('UsuarioVisaoMeuPIP.php');
             }
         } else {
             $this->log("Término da Operação por Erro no Token");
-            $visao->setItem("errotoken");
-            $visao->exibir('VisaoErrosGenerico.php');
+            $_SESSION["confirmarOperacao"] = "erroToken";
+            header("Location: index.php?entidade=Usuario&acao=MeuPIP");
+            //$visao->setItem("errotoken");
+            //$visao->exibir('VisaoErrosGenerico.php');
         }
     }
 
@@ -503,11 +509,13 @@ class UsuarioControle {
                 if ($resultadoUsuario) {
                     $genericoDAO->commit();
                     $genericoDAO->fecharConexao();
+                    $_SESSION["confirmarOperacao"] = "sucesso";
                     echo json_encode(array("resultado" => 1));
                     //banco
                 } else {
                     $genericoDAO->rollback();
                     $genericoDAO->fecharConexao();
+                    $_SESSION["confirmarOperacao"] = "erroGenerico";
                     echo json_encode(array("resultado" => 0));
                 }
                 //A Senha atual está incorreta.
@@ -729,17 +737,25 @@ class UsuarioControle {
             if ($deletar & $resultado) {
                 $genericoDAO->commit();
                 $genericoDAO->fecharConexao();
-                $visao->setItem("sucessotrocarimagem");
-                $visao->exibir('VisaoErrosGenerico.php');
+                //$visao->setItem("sucessotrocarimagem");
+                //$visao->exibir('VisaoErrosGenerico.php');
+                $_SESSION["confirmarOperacao"] = "sucesso";
+                header("Location: index.php?entidade=Usuario&acao=MeuPIP");
             } else {
                 $genericoDAO->rollback();
                 $genericoDAO->fecharConexao();
-                $visao->setItem("errobanco");
-                $visao->exibir('VisaoErrosGenerico.php');
+                //$visao->setItem("errobanco");
+                //$visao->exibir('VisaoErrosGenerico.php');
+                $_SESSION["confirmarOperacao"] = "erroGenerico";
+                //echo json_encode(array("resultado" => 1));
+                //$visao->exibir('UsuarioVisaoMeuPIP.php');
+                header("Location: index.php?entidade=Usuario&acao=MeuPIP");
             }
         } else {
-            $visao->setItem("errotoken");
-            $visao->exibir('VisaoErrosGenerico.php');
+            //$visao->setItem("errotoken");
+            //$visao->exibir('VisaoErrosGenerico.php');
+            $_SESSION["confirmarOperacao"] = "erroGenerico";
+            header("Location: index.php?entidade=Usuario&acao=MeuPIP");
         }
     }
 

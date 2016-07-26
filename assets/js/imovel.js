@@ -764,13 +764,6 @@ function mostrarDiferencialPlantas(idPlanta, contador){
                         $('.ui.checkbox').checkbox();
 
                     }
-                    
-                    
-                    
-                    
-                    //$('#divInsereDiferencialPlanta'+idPlanta).html(resposta);
-                    //$('.ui.checkbox')
-                            //.checkbox();
                 }
             })
         
@@ -1015,39 +1008,35 @@ function campos(parametroQuarto,
                             <div class='item' data-value='4'>4</div>\n\
                             <div class='item' data-value='5'>5 ou mais</div>\n\
                            </div></div></div>";
-    /*
-     var area = "<div id='divArea' class='three wide field'>\n\
-     <div class='field'><label>Área(m<sup>2</sup>)</label>\n\
-     <input type='text' name='txtArea[]' id='txtArea' placeholder='Informe a Área' maxlength='7' value='" + parametroArea + "'>\n\
-     </div></div>";*/
-
+    
+    var appendi = "";
+    
     if (parametroQuarto !== null) {
-        $("#divInfoApeCasa").append(quarto);
+        appendi += quarto;//$("#divInfoApeCasa").append(quarto);
     } else if ($("#divQuarto")) {
         $("#divQuarto").remove();
     }
 
     if (parametroBanheiro !== null) {
-        $("#divInfoApeCasa").append(banheiro);
+        appendi += banheiro;//$("#divInfoApeCasa").append(banheiro);
     } else if ($("#divBanheiro")) {
         $("#divBanheiro").remove();
     }
 
     if (parametroSuite !== null) {
-        $("#divInfoApeCasa").append(suite);
+        appendi += suite;//$("#divInfoApeCasa").append(suite);
     } else if ($("#divSuite")) {
         $("#divSuite").remove();
     }
 
     if (parametroGaragem !== null) {
-        $("#divInfoApeCasa").append(garagem);
+        appendi += garagem;//$("#divInfoApeCasa").append(garagem);
     } else if ($("#divGaragem")) {
         $("#divGaragem").remove();
     }
-
-    if (parametroArea !== null) {
-        $("#divInfoApeCasa").append(area);
-    }
+ 
+    $("#divInfoApeCasa").append("<div class='fields'>"+appendi+"</div>");
+    
 }
 
 
@@ -1115,6 +1104,7 @@ function camposPlantas(
     var divDiferencialPlanta = "<div class='fields'><div class='field' id='divDiferencialPlanta" + parametroId + "' name='divDiferencialPlanta[]' value='" + parametroId + "'><div id='divInsereDiferencialPlanta" + parametroId + "'></div></div></div>";
     
     var appendi = "";
+    
     if (parametroQuarto !== null) {
         appendi += quarto;
     } else if ($("#divQuarto")) {
@@ -1239,6 +1229,13 @@ function carregaDadosModalImovel($div) {
         }
 
         //fim do diferencial
+        
+        if($("#sltCondicao").val() == 'novo' || $("#sltCondicao").val() == 'NOVO'){
+            $("#sltCondicao").val('Novo');
+        } 
+        if($("#sltCondicao").val() == 'usado' || $("#sltCondicao").val() == 'USADO'){
+            $("#sltCondicao").val('Usado');
+        }
 
         switch ($("#sltTipo").val()) {
             case "1":
@@ -1251,13 +1248,13 @@ function carregaDadosModalImovel($div) {
                             <div class='content'><div class='header'>Quarto</div>" + $("#sltQuarto").val() + "\
                             </div></div>\n\
                             <div class='item'>\n\
-                            <div class='content'><div class='header'>Vaga(s) de Garagem</div>" + $("#sltGaragem").val() + "\
-                            </div></div>\n\
-                            <div class='item'>\n\
                             <div class='content'><div class='header'>Banheiro(s)</div>" + $("#sltBanheiro").val() + "\
                             </div></div>\n\
                             <div class='item'>\n\
                             <div class='content'><div class='header'>Suite(s)</div>" + $("#sltSuite").val() + "\
+                            </div></div>\n\\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Vaga(s) de Garagem</div>" + $("#sltGaragem").val() + "\
                             </div></div>\n\
                             <div class='item'>\n\
                             <div class='content'><div class='header'>Área m<SUP>2</SUP></div>" + area + "\
@@ -1356,8 +1353,8 @@ function carregaDadosModalImovel($div) {
                 break;
 
             case "3":
-
-                $div.append("<div class='ui horizontal list'>\n\
+           
+            $div.append("<div class='ui horizontal list'>\n\
                             <div class='item'>\n\
                             <div class='content'>\n\
                             <div class='header'>Condição</div>" + $("#sltCondicao").val() + "</div>\n\
@@ -1366,24 +1363,30 @@ function carregaDadosModalImovel($div) {
                             <div class='content'><div class='header'>Quarto</div>" + $("#sltQuarto").val() + "\
                             </div></div>\n\
                             <div class='item'>\n\
-                            <div class='content'><div class='header'>Vaga(s) de Garagem</div>" + $("#sltGaragem").val() + "\
-                            </div></div>\n\
-                            <div class='item'>\n\
                             <div class='content'><div class='header'>Banheiro(s)</div>" + $("#sltBanheiro").val() + "\
                             </div></div>\n\
                             <div class='item'>\n\
                             <div class='content'><div class='header'>Suite(s)</div>" + $("#sltSuite").val() + "\
-                            </div></div>\n\
-                            <div class='item'>\n\
-                            <div class='content'><div class='header'>Andar do Apartamento</div>" + $("#sltAndar").val() + "\
                             </div></div>\n\\n\
                             <div class='item'>\n\
-                            <div class='content'><div class='header'>Apartamentos por Andar</div>" + $("#sltUnidadesAndar").val() + "\
+                            <div class='content'><div class='header'>Vaga(s) de Garagem</div>" + $("#sltGaragem").val() + "\
+                            </div></div>\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Andar do Apartamento</div>" + campoNaoInformado($("#sltAndar").val()) + "\
+                            </div></div>\n\\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Apartamentos por Andar</div>" + campoNaoInformado($("#sltUnidadesAndar").val()) + "\
                             </div></div>\n\\n\
                             <div class='item'>\n\
                             <div class='content'><div class='header'>Área m<SUP>2</SUP></div>" + area + "\
                             </div></div>\n\
-                    </div>\n\
+                        </div>\n\
+                        <div class='ui horizontal list'>\n\
+                            <div class='item'>\n\
+                                <div class='content'><div class='header'>Condomínio</div>" + campoNaoInformado($("#txtCondominio").val()) + "\
+                                </div>\n\
+                            </div>\n\
+                        </div>\n\
                     <div class='ui hidden divider'></div>");
                 break;
             case "4":
@@ -1396,16 +1399,16 @@ function carregaDadosModalImovel($div) {
                             <div class='content'><div class='header'>Quarto</div>" + $("#sltQuarto").val() + "\
                             </div></div>\n\
                             <div class='item'>\n\
-                            <div class='content'><div class='header'>Vaga(s) de Garagem</div>" + $("#sltGaragem").val() + "\
-                            </div></div>\n\
-                            <div class='item'>\n\
                             <div class='content'><div class='header'>Banheiro(s)</div>" + $("#sltBanheiro").val() + "\
                             </div></div>\n\
                             <div class='item'>\n\
                             <div class='content'><div class='header'>Suite(s)</div>" + $("#sltSuite").val() + "\
+                            </div></div>\n\\n\
+                            <div class='item'>\n\
+                            <div class='content'><div class='header'>Vaga(s) de Garagem</div>" + $("#sltGaragem").val() + "\
                             </div></div>\n\
                             <div class='item'>\n\
-                            <div class='content'><div class='header'>Condominio</div>" + $("#txtCondominio").val() + "\
+                            <div class='content'><div class='header'>Condominio</div>" + campoNaoInformado($("#txtCondominio").val()) + "\
                             </div></div>\n\
                             <div class='item'>\n\
                             <div class='content'><div class='header'>Área m<SUP>2</SUP></div>" + area + "\
@@ -1429,13 +1432,13 @@ function carregaDadosModalImovel($div) {
 
         var endereco;
         if ($("#txtNumero").val() !== "" && $("#txtComplemento").val() !== "") {
-            endereco = $("#txtLogradouro").val() + ", " + $("#txtNumero").val() + ", " + $("#txtComplemento").val();
+            endereco = $("#txtLogradouro").val() + ", " + $("#txtNumero").val() + ", " + $("#txtBairro").val() + " - " + $("#txtComplemento").val();
         } else if ($("#txtNumero").val() !== "" && $("#txtComplemento").val() === "") {
-            endereco = $("#txtLogradouro").val() + ", " + $("#txtNumero").val();
+            endereco = $("#txtLogradouro").val() + ", " + $("#txtNumero").val() + " - " + $("#txtBairro").val();
         } else if ($("#txtNumero").val() === "" && $("#txtComplemento").val() === "") {
-            endereco = $("#txtLogradouro").val();
+            endereco = $("#txtLogradouro").val() + ", " + $("#txtBairro").val();
         } else if ($("#txtNumero").val() === "" && $("#txtComplemento").val() !== "") {
-            endereco = $("#txtLogradouro").val() + ", " + $("#txtComplemento").val();
+            endereco = $("#txtLogradouro").val() + ", " + $("#txtBairro").val() + " - " + $("#txtComplemento").val();
         }
 
         $div.append("<div class='ui dividing header'></div>\n\
@@ -1452,7 +1455,7 @@ function preco() {
 
     $(document).ready(function () {
         $('#txtCondominio').priceFormat({
-            prefix: ' ',
+            prefix: 'R$ ',
             centsSeparator: '',
             thousandsSeparator: '',
             limit: 6
@@ -1576,4 +1579,15 @@ function excluirImovel() {
             }
         })
     })
+}
+
+function campoNaoInformado(campo){
+    
+    if(campo === "" || campo === null || campo === "0" || campo === 0){
+        
+      return  campo = "<h4 class='ui red header'>Não Informado</h4>";
+        
+    }
+    
+    else return campo = campo;
 }

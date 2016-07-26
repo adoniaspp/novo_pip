@@ -26,7 +26,6 @@ switch ($item) {
     case "sucessoalterarsenha":
     case "sucessocadastrousuario":
     case "sucessocadastroimovel":
-    case "sucessocadastroimovel":
     case "sucessoedicaousuario":
     case "sucessoedicaoimovel":
     case "sucessoenvioemail":

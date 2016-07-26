@@ -279,7 +279,6 @@ function cadastrarAnuncio() {
                 }
             })
         }).on('fileuploadfail', function (e, data) {
-            //console.log('cancelando');
             //# metodo para testar de qual upload esta vindo a imagem
             var input = data.fileInput[0];
             //#se for apartamento na planta
@@ -771,6 +770,7 @@ function reativar(botao) {
                 .dropdown({
                     on: 'hover'
                 });
+                
         $('#btnReativar' + botao).click(function () {
             $("#btnFecharReativar" + botao).hide();
             $("#sltPlano" + botao).dropdown('restore defaults');
@@ -818,7 +818,9 @@ function reativar(botao) {
             });
 
             $.validator.messages.required = 'Campo obrigatório';
-
+            
+            
+            
             $("#formReativar" + botao).validate({
                 onkeyup: false,
                 focusInvalid: true,
@@ -855,22 +857,21 @@ function reativar(botao) {
                             $("#btnCancelarReativar" + botao).hide();
                             $("#camposAnuncio" + botao).hide();
                             $("#divRetorno" + botao).html("<div><div class='ui active inverted dimmer'>\n\
-                        <div class='ui text loader'>Enviando mensagem. Aguarde...</div></div></div>");
+                        <div class='ui text loader'>Processando. Aguarde...</div></div></div>");
                         },
                         success: function (resposta) {
                             $("#divRetorno" + botao).empty();
                             $("#btnFecharReativar" + botao).show();
-//                            window.location = "index.php?entidade=Anuncio&acao=listarReativarAluguel";
                             $("#btnFecharReativar" + botao).click(function () {
                                 window.location = "index.php?entidade=Anuncio&acao=listarReativarAluguel";
                             });
                             if (resposta.resultado == 1) {
-                                $("#divRetorno" + botao).html('<div class="ui positive message">\n\
-                        <div class="header">Anúncio Reativado com Sucesso </div></div>');
+                                $("#divRetorno" + botao).html("<div class='ui positive message'>\n\
+                            <i class='big green check circle outline icon'></i>Anúncio Reativado com Sucesso</div>");
 
                             } else {
-                                $("#divRetorno" + botao).html('<div class="ui negative message">\n\
-                        <div class="header">Tente novamente mais tarde.</div> <p>Houve um erro no processamento.</p></div>');
+                                $("#divRetorno" + botao).html("<div class='ui negative message'>\n\
+                            <i class='big red remove circle outline icon'></i>Erro. Tente novamente em alguns minutos</div>");
                             }
                         }
                     })
@@ -1219,12 +1220,12 @@ function finalizar(botao) {
                             });
 
                             if (resposta.resultado == 1) {
-                                $("#divRetorno" + botao).html('<div class="ui inverted green center aligned segment">\n\
-                        <p>Obrigado por fazer negócio no PIP OnLine</p>');
+                                $("#divRetorno" + botao).html("<div class='ui positive message'>\n\
+                        <i class='big green check circle outline icon'></i>Anúncio Finalizado. Obrigado por fazer negócio no PIP OnLine</div>");
 
                             } else {
-                                $("#divRetorno" + botao).html('<div class="ui inverted red center aligned segment">\n\
-                        <h2 class="ui header">Tente novamente mais tarde. Houve um erro no processamento.</h2></div>');
+                                $("#divRetorno" + botao).html("<div class='ui negative message'>\n\
+                        <i class='big red remove circle outline icon'></i>Erro ao finalizar anúncio. Tente novamente em alguns minutos.</div>");
                             }
                         }
                     })

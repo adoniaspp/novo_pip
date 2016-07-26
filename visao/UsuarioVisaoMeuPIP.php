@@ -48,6 +48,60 @@ foreach ($imoveis as $qtdAnuncios) {
 }
 ?>
 
+<script>
+    $(document).ready(function () {
+        
+        $("#divMaiorRetornoOperacao").hide();
+        
+        if("<?php echo $_SESSION["confirmarOperacao"]?>" != null){
+        
+            if("<?php echo $_SESSION["confirmarOperacao"]?>" == "sucesso"){
+
+                $("#divMaiorRetornoOperacao").show();
+                
+                $("#divRetornoOperacao").attr("class", "ui positive message");
+
+                $("#divRetornoOperacao").html("<i class='big green check circle outline icon'></i>Operação Realizada Com Sucesso");        
+
+            }
+
+            if("<?php echo $_SESSION["confirmarOperacao"]?>" == "erroGenerico"){
+
+                $("#divMaiorRetornoOperacao").show();
+                
+                $("#divRetornoOperacao").attr("class", "ui negative message");
+                
+                $("#divRetornoOperacao").html("<i class='big red remove circle outline icon'>\n\
+                            </i>Erro ao processar requisição. Tente novamente em alguns minutos - 000");
+
+            }
+            
+            if("<?php echo $_SESSION["confirmarOperacao"]?>" == "erroToken"){
+
+                $("#divMaiorRetornoOperacao").show();
+                
+                $("#divRetornoOperacao").attr("class", "ui negative message");
+                
+                $("#divRetornoOperacao").html("<i class='big red remove circle outline icon'>\n\
+                            </i>Tempo limite para a operação expirou. Tente novamente.");
+
+            }
+            
+            <?php unset($_SESSION["confirmarOperacao"])?>
+            
+        }
+        
+    })
+</script>
+
+<div class="ui column doubling grid container" id="divMaiorRetornoOperacao">
+    <div class="row">
+        <div class="column">
+            <div id="divRetornoOperacao" class=""></div>    
+        </div>
+    </div>
+</div>
+
 <!-- HTML -->
 <div class="ui column doubling grid container">
     <div class="row">

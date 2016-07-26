@@ -318,7 +318,7 @@ class ImovelControle {
 
     function editar($parametros) {
         $visao = new Template();
-
+        
         if (Sessao::verificarToken($parametros)) {
             $genericoDAO = new GenericoDAO();
             $genericoDAO->iniciarTransacao();
@@ -362,20 +362,25 @@ class ImovelControle {
             $entidadeImovel = $imovel->editar($parametros);
             $idImovel = $genericoDAO->editar($entidadeImovel);
             $idDiferencial = false;
+            
+            $resultadoPlanta = true;
+            
             //Casa
 
             if ($entidadeImovel->getIdTipoImovel() == "1") {
+                
                 $casa = new Casa();
                 $id = $genericoDAO->consultar($casa, false, array("idimovel" => $entidadeImovel->getId()));
-
+                
                 foreach ($id as $idC) { //buscar o ID
                     $casaId = $idC->getId();
                 }
 
                 $entidadeCasa = $casa->editar($parametros, $casaId);
-
+                
                 $idCasa = $genericoDAO->editar($entidadeCasa);
                 $idEdicaoImovel = $idCasa;
+                
             } elseif ($entidadeImovel->getIdTipoImovel() == "2") { //Apartamento na Planta
                 
                 $idDiferencial = false;
@@ -391,9 +396,7 @@ class ImovelControle {
                 $entidadeApartamentoPlanta = $apartamentoPlanta->editar($parametros, $APLId);
                 $idApartamentoPlanta = $genericoDAO->editar($entidadeApartamentoPlanta);
 
-                $quantidadePlanta = $parametros['sltNumeroPlantas'];
-                
-                $resultadoPlanta = true;
+                $quantidadePlanta = $parametros['sltNumeroPlantas'];         
                 
                 $vetorDifPlantas = array();
                 
@@ -477,10 +480,7 @@ class ImovelControle {
                         $resultadoPlanta = false;
                         break;
                     }
-                    
-                    
-                    
-                    
+              
                 } //fim da edição da planta
 
                 $idEdicaoImovel = $idPlanta;
@@ -494,8 +494,9 @@ class ImovelControle {
 
                 $entidadeApartamento = $apartamento->editar($parametros, $aId);
 
-                $idCasa = $genericoDAO->editar($entidadeApartamento);
+                $idA = $genericoDAO->editar($entidadeApartamento);
                 $idEdicaoImovel = $idA;
+                
             } elseif ($entidadeImovel->getIdTipoImovel() == "4") {//Sala Comercial  
                 $salaComercial = new SalaComercial();
                 $id = $genericoDAO->consultar($salaComercial, false, array("idimovel" => $entidadeImovel->getId()));
@@ -509,6 +510,7 @@ class ImovelControle {
                 $idSalaComercial = $genericoDAO->editar($entidadeSalaComercial);
 
                 $idEdicaoImovel = $idSalaComercial;
+                
             } elseif ($entidadeImovel->getIdTipoImovel() == "5") {//Prédio Comercial  
                 $predioComercial = new PredioComercial();
                 $id = $genericoDAO->consultar($predioComercial, false, array("idimovel" => $entidadeImovel->getId()));
@@ -582,17 +584,23 @@ class ImovelControle {
             if ($idEndereco && $idImovel && $idEdicaoImovel && $idDiferencial && $resultadoPlanta) {
                 $genericoDAO->commit();
                 $genericoDAO->fecharConexao();
-                $visao->setItem("sucessoedicaoimovel");
-                $visao->exibir('VisaoErrosGenerico.php');
+                //$visao->setItem("sucessoedicaoimovel");
+                //$visao->exibir('VisaoErrosGenerico.php');
+                $_SESSION["confirmarOperacao"] = "sucesso";
+                header("Location: index.php?entidade=Usuario&acao=MeuPIP");
             } else {
                 $genericoDAO->rollback();
                 $genericoDAO->fecharConexao();
-                $visao->setItem("errobanco");
-                $visao->exibir('VisaoErrosGenerico.php');
+                //$visao->setItem("errobanco");
+                //$visao->exibir('VisaoErrosGenerico.php');
+                $_SESSION["confirmarOperacao"] = "erroGenerico";
+                header("Location: index.php?entidade=Usuario&acao=MeuPIP");
             }
         } else {
-            $visao->setItem("errotoken");
-            $visao->exibir('VisaoErrosGenerico.php');
+            //$visao->setItem("errotoken");
+            //$visao->exibir('VisaoErrosGenerico.php');
+            $_SESSION["confirmarOperacao"] = "erroToken";
+            header("Location: index.php?entidade=Usuario&acao=MeuPIP");
         }
     }
 

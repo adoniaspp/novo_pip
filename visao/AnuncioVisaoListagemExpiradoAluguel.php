@@ -24,6 +24,7 @@ $("span[class='ui small grey button']").popup({
             },
             "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
             "stateSave": true,
+            "order": [[3, "desc"]],
             "columnDefs": [
                 {"width": "20%", "orderable": false, "targets": 5}
             ]

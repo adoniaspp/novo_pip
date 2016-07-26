@@ -791,23 +791,32 @@ function trocarSenha() { //alterar a senha esquecida
                     type: "POST",
                     data: $('#form').serialize(),
                     beforeSend: function () {
-                        $("#divRetorno").html("<div><div class='ui active inverted dimmer'><div class='ui text loader'>Processando. Aguarde...</div></div></div>");
+                        $("#divRetorno").html("<div><div class='ui active inverted dimmer'>\n\
+                            <div class='ui text loader'>Processando. Aguarde...</div></div></div>");
                     },
                     success: function (resposta) {
                         $("#divRetorno").empty();
 
                         if (resposta.resultado == 0) {
-                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-                            <p>Erro ao processar requisição. Tente novamente em alguns minutos - 000</p>');
+                            $("#divCamposTrocaSenha").hide();
+                            $("#divBotoesTrocarSenha").hide();
+                            location.href = "index.php?entidade=Usuario&acao=MeuPIP";
+                            /*$("#divRetorno").html("<div class='ui negative message'>\n\
+                            <i class='big red remove circle outline icon'>\n\
+                            </i>Erro ao processar requisição. Tente novamente em alguns minutos - 000");*/
                         } else if (resposta.resultado == 1) {
                             $("#divCamposTrocaSenha").hide();
                             $("#divBotoesTrocarSenha").hide();
-                            $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
-    <p>Senha alterada com sucesso</p>');
+                            location.href = "index.php?entidade=Usuario&acao=MeuPIP";
+                            /*$("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
+    <p>Senha alterada com sucesso</p>');*/
                         } else if (resposta.resultado == 2) {
-                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-    <p>A senha atual está incorreta. Tente novamente.</p>');
+                            $("#divRetorno").html("<div class='ui negative message'>\n\
+                            <i class='big red remove circle outline icon'>\n\
+                            </i>A senha atual está incorreta. Tente novamente.");
+                            
                         } else if (resposta.resultado == 3) {
+                            location.href = "index.php?entidade=Usuario&acao=MeuPIP";
                             $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
     <p>Erro ao processar requisição - 005</p>');
                         }
@@ -833,10 +842,6 @@ function trocarImagem() {
                     $("#form").submit();
                 }
             }).modal('show');
-            
-            /*if ($("#form").valid()) {
-                $("#form").submit();
-            }*/
         });
         $("#btnExcluirImagem").click(function () {
             $('#modalExcluir').modal({
@@ -847,15 +852,11 @@ function trocarImagem() {
                 },
                 onApprove: function () {
                     $("#hdnExcluir").val(1);
-                    //$("#arquivolabel").rules("remove");
                     $("#form").submit();
                 }
             }).modal('show');
         });
         $.validator.addMethod('filesize', function (value, element, param) {
-            // param = size (en bytes) 
-            // element = element to validate (<input>)
-            // value = value of the element (file name)
             return this.optional(element) || (element.files[0].size <= param)
         });
         $.validator.setDefaults({
@@ -1014,17 +1015,25 @@ function alterarSenha() { //alterar a senha esquecida
                         $("#divRetorno").empty();
 
                         if (resposta.resultado == 0) {
-                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
+                            
+                            //window.location.href = "http://localhost/UsuarioVisaoMeuPIP.php";
+                            location.href = "index.php?entidade=Usuario&tipo=MeuPIP";
+                           /* $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
                             <p>Erro ao processar requisição. Tente novamente em alguns minutos - 000</p>');
                             $("#divBotoesAlterarSenha").show();
-                            $("#divCamposAlterarSenha").show();
+                            $("#divCamposAlterarSenha").show();*/
                         } else if (resposta.resultado == 1) {
+                            
+                            //window.location.href = "http://localhost/UsuarioVisaoMeuPIP.php";
+                            
+                            location.href = "index.php?entidade=Usuario&tipo=MeuPIP";
+                            /*
                             $("#txtEmail").attr("readonly", "readonly");
                             $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
     <p>Senha alterada com sucesso</p>');
                         } else {
                             $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-    <p>Erro ao processar requisição - 005</p>');
+    <p>Erro ao processar requisição - 005</p>');*/
                         }
                     }
                 })
@@ -1101,8 +1110,8 @@ function fazerLogin() {
                             $("#divUsuario").show();
                             location.href = resposta.redirecionamento;
                         } else if (resposta.resultado == 2) {
-                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-                            <p>Usuário ou Senha inválido</p>');
+                            $("#divRetorno").html("<div class='ui negative message'>\n\
+                            <i class='big red remove circle outline icon'></i>Usuário ou Senha inválido</div>");
                         }
                     }
                 })

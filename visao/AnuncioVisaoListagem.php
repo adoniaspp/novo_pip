@@ -27,6 +27,7 @@
             },
             "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
             "stateSave": true,
+            "order": [[5, "desc"]],
             "columnDefs": [
                 {"orderable": false, "targets": 0}, {"orderable": false, "targets": 6}, {"orderable": false, "targets": 7}, {"orderable": false, "targets": 8}
             ]

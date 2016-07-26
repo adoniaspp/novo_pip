@@ -15,6 +15,12 @@
                 <input type="hidden" id="hdnAcao" name="hdnAcao" value="autenticar" />
                 <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
                 <h3 class="ui dividing header">Preencha os campos abaixo para acessar sua conta</h3>
+                
+                <div class="ui message">
+                Veja todos os seus anúncios, edite, exclua e reative-os de forma rápida e fácil, 
+                altere seu perfil com segurança, administre suas mensagens recebidas, envie seus anúncios por e-email e muito mais.
+                </div>
+                
                 <div class="four fields" id="divCamposTrocaSenha">
                     <div class="required field">
                         <label>Login</label>

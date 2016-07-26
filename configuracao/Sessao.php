@@ -61,6 +61,7 @@ class Sessao {
         $_SESSION["nome"] = $usuario[0]->getNome();
         $_SESSION["tipopessoa"] = $usuario[0]->getTipousuario();
         $_SESSION["login"] = $usuario[0]->getLogin();
+        $_SESSION["confirmarOperacao"];
     }
 
     public static function configurarSessaoUsuarioPlanoConfirmacao($confirmacao) {

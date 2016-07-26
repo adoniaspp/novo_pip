@@ -106,6 +106,7 @@ function verificaAnuncioAtivo($listaAnuncios) {
             },
             "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
             "stateSave": true,
+            "order": [[2, "desc"]],
             "columnDefs": [
                 {"orderable": false, "targets": 3}
             ]

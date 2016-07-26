@@ -77,7 +77,7 @@ foreach($this->getItem() as $modal){?>
                                 <div class='item'>
                                   <div class='content'>
                                     <div class='header'>Condição</div>
-                                    ".strtoupper($modal->getCondicao())."
+                                    ".ucfirst($modal->getCondicao())."
                                   </div>
                                 </div>
                                 <div class='item'>
@@ -85,13 +85,7 @@ foreach($this->getItem() as $modal){?>
                                     <div class='header'>Quarto(s)</div>
                                     ".$modal->getCasa()->getQuarto()."
                                   </div>
-                                </div>
-                                <div class='item'>
-                                  <div class='content'>
-                                    <div class='header'>Vagas de Garagem</div>
-                                    ".$modal->getCasa()->getGaragem()."
-                                  </div>
-                                </div>
+                                </div>                                
                                 <div class='item'>
                                   <div class='content'>
                                     <div class='header'>Banheiro(s)</div>
@@ -106,10 +100,16 @@ foreach($this->getItem() as $modal){?>
                                 </div>
                                 <div class='item'>
                                   <div class='content'>
+                                    <div class='header'>Vagas de Garagem</div>
+                                    ".$modal->getCasa()->getGaragem()."
+                                  </div>
+                                </div>
+                                <div class='item'>
+                                  <div class='content'>
                                     <div class='header'>Área m<SUP>2</SUP></div>
                                     ".$modal->getCasa()->getArea()."
                                   </div>
-                                </div>
+                                </div>                                
                             </div>";
                             break;
 
@@ -232,12 +232,12 @@ foreach($this->getItem() as $modal){?>
                             
                             break;
                         case "3":
-                            
-                            echo  "<div class='ui horizontal list'>
+                        if($modal->getApartamento()->getCondominio() != "" || $modal->getApartamento()->getCondominio() != 0){$condominio = $modal->getApartamento()->getCondominio();} else $condominio = "<h4 class='ui red header'>Não Informado</h4></div>";    
+                      echo  "<div class='ui horizontal list'>
                                 <div class='item'>
                                   <div class='content'>
                                     <div class='header'>Condição</div>
-                                    ".strtoupper($modal->getCondicao())."
+                                    ".ucfirst($modal->getCondicao())."
                                   </div>
                                 </div>
                                 <div class='item'>
@@ -245,13 +245,7 @@ foreach($this->getItem() as $modal){?>
                                     <div class='header'>Quarto(s)</div>
                                     ".$modal->getApartamento()->getQuarto()."
                                   </div>
-                                </div>
-                                <div class='item'>
-                                  <div class='content'>
-                                    <div class='header'>Vagas de Garagem</div>
-                                    ".$modal->getApartamento()->getGaragem()."
-                                  </div>
-                                </div>
+                                </div>                               
                                 <div class='item'>
                                   <div class='content'>
                                     <div class='header'>Banheiro(s)</div>
@@ -263,7 +257,13 @@ foreach($this->getItem() as $modal){?>
                                     <div class='header'>Suite(s)</div>
                                     ".$modal->getApartamento()->getSuite()."
                                   </div>
-                                </div>                               
+                                </div> 
+                                <div class='item'>
+                                  <div class='content'>
+                                    <div class='header'>Vagas de Garagem</div>
+                                    ".$modal->getApartamento()->getGaragem()."
+                                  </div>
+                                </div>
                                 <div class='item'>
                                   <div class='content'>
                                     <div class='header'>Andar do Apartamento</div>
@@ -282,6 +282,14 @@ foreach($this->getItem() as $modal){?>
                                     ".$modal->getApartamento()->getArea()."
                                   </div>
                                 </div>
+                            </div>
+                            <div class='ui horizontal list'>
+                                <div class='item'>
+                                  <div class='content'>
+                                    <div class='header'>Condomínio</div>
+                                    R$ ".$condominio."
+                                  </div>
+                                </div>
                             </div>";
                             break;  
                         
@@ -292,19 +300,19 @@ foreach($this->getItem() as $modal){?>
                                 <div class='item'>
                                   <div class='content'>
                                     <div class='header'>Condição</div>
-                                    ".strtoupper($modal->getCondicao())."
+                                    ".ucfirst($modal->getCondicao())."
                                   </div>
-                                </div>                                
-                                <div class='item'>
-                                  <div class='content'>
-                                    <div class='header'>Vagas de Garagem</div>
-                                    ".$modal->getSalaComercial()->getGaragem()."
-                                  </div>
-                                </div>
+                                </div>                                                               
                                 <div class='item'>
                                   <div class='content'>
                                     <div class='header'>Banheiro(s)</div>
                                     ".$modal->getSalaComercial()->getBanheiro()."
+                                  </div>
+                                </div>
+                                <div class='item'>
+                                  <div class='content'>
+                                    <div class='header'>Vagas de Garagem</div>
+                                    ".$modal->getSalaComercial()->getGaragem()."
                                   </div>
                                 </div>
                                 <div class='item'>
