@@ -151,18 +151,24 @@ class UsuarioControle {
                 $genericoDAO->commit();
                 $genericoDAO->fecharConexao();
                 $this->log("Término da Operação " . $parametros["hdnEntidade"] . ucfirst($parametros["hdnAcao"]));
-                $visao->setItem("sucessocadastrousuario");
-                $visao->exibir('VisaoErrosGenerico.php');
+//$visao->setItem("sucessocadastrousuario");
+//$visao->exibir('VisaoErrosGenerico.php'); 
+                $_SESSION["confirmarOperacao"] = "sucesso";
+                header("Location: index.php?entidade=Usuario&acao=form&tipo=login");
             } else {
                 $genericoDAO->rollback();
                 $genericoDAO->fecharConexao();
-                $visao->setItem("errobanco");
-                $visao->exibir('VisaoErrosGenerico.php');
+                $_SESSION["confirmarOperacao"] = "erroGenerico";
+                header("Location: index.php?entidade=Usuario&acao=form&tipo=login");
+//$visao->setItem("errobanco");
+//$visao->exibir('VisaoErrosGenerico.php');
             }
         } else {
             $this->log("Término da Operação por Erro no Token");
-            $visao->setItem("errotoken");
-            $visao->exibir('VisaoErrosGenerico.php');
+            $_SESSION["confirmarOperacao"] = "erroToken";
+            header("Location: index.php?entidade=Usuario&acao=form&tipo=login");
+//$visao->setItem("errotoken");
+//$visao->exibir('VisaoErrosGenerico.php');
         }
     }
 
@@ -265,7 +271,7 @@ class UsuarioControle {
 
             $usuario = new Usuario();
             $entidadeUsuario = $usuario->editar($parametros);
-            
+
             $editarUsuario = $genericoDAO->editar($entidadeUsuario);
 
             //visao
@@ -279,7 +285,6 @@ class UsuarioControle {
                 //echo json_encode(array("resultado" => 1));
                 //$visao->exibir('UsuarioVisaoMeuPIP.php');
                 header("Location: index.php?entidade=Usuario&acao=MeuPIP");
-                
             } else {
                 $genericoDAO->rollback();
                 $genericoDAO->fecharConexao();
@@ -542,7 +547,7 @@ class UsuarioControle {
             $itemMeuPIP["usuario"] = $usuario;
             $itemMeuPIP["imovel"] = is_array($genericoDAO->consultar(new Imovel(), true, array("idusuario" => $_SESSION['idusuario'], "status" => "cadastrado")));
             $itemMeuPIP["imovelCadastrado"] = $genericoDAO->consultar(new Imovel(), true, array("idusuario" => $_SESSION['idusuario'], "status" => "cadastrado"));
-            $itemMeuPIP["anuncio"] = count($consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario']) > 0);
+            $itemMeuPIP["anuncio"] = count($consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'])) > 0;
             $itemMeuPIP["mensagem"] = $genericoDAO->consultar(new Mensagem(), false, array("idusuario" => $_SESSION['idusuario']));
             //visao
             $visao = new Template();
@@ -569,9 +574,9 @@ class UsuarioControle {
             $selecionarMensagem->setAnuncio($selecionarAnuncio[0]);
             $listarMensagens[] = $selecionarMensagem;
         }
-        
+
         //$listarMensagens['filtro'] = "NAO";
-        
+
         if ($parametros["type"] == "face") {
             echo json_encode(array("resultado" => $listarMensagens));
         } else {
@@ -585,23 +590,23 @@ class UsuarioControle {
             $visao->exibir('UsuarioVisaoMinhasMensagens.php');
         }
     }
-    
+
     public function filtrarMensagens($parametros) {
-        
+
         unset($_SESSION["mensagem"]);
-        
+
         $mensagem = new Mensagem();
         $genericoDAO = new GenericoDAO();
-        
-        
-        if($parametros['sltStatusMensagem'] == 'NOVA' || $parametros['sltStatusMensagem'] == 'RESPONDIDO'){
+
+
+        if ($parametros['sltStatusMensagem'] == 'NOVA' || $parametros['sltStatusMensagem'] == 'RESPONDIDO') {
             $listaMensagens = $genericoDAO->consultar($mensagem, true, array("idusuario" => $_SESSION["idusuario"], "status" => $parametros['sltStatusMensagem']));
         } else {
             $listaMensagens = $genericoDAO->consultar($mensagem, true, array("idusuario" => $_SESSION["idusuario"]));
         }
-        
+
         foreach ($listaMensagens as $selecionarMensagem) {
-        $selecionarAnuncio = $genericoDAO->consultar(new Anuncio(), true, array("id" => $selecionarMensagem->getIdAnuncio()));
+            $selecionarAnuncio = $genericoDAO->consultar(new Anuncio(), true, array("id" => $selecionarMensagem->getIdAnuncio()));
             $selecionarResposta = $genericoDAO->consultar(new RespostaMensagem(), false, array("idmensagem" => $selecionarMensagem->getId()));
             $idMensagem = rand();
             $_SESSION["mensagem"][$idMensagem] = $selecionarMensagem->getId();
@@ -609,18 +614,16 @@ class UsuarioControle {
             $selecionarMensagem->setRespostamensagem($selecionarResposta);
             $selecionarMensagem->setAnuncio($selecionarAnuncio[0]);
             $listarMensagens[] = $selecionarMensagem;
-        }   
-        
-            if($listarMensagens == null){
-                $listarMensagens = 'nenhuma';
-            }
-        
-            $visao = new Template();
-            $visao->setItem($listarMensagens);
-            
-            $visao->exibir('UsuarioVisaoMinhasMensagens.php');
-        
-        
+        }
+
+        if ($listarMensagens == null) {
+            $listarMensagens = 'nenhuma';
+        }
+
+        $visao = new Template();
+        $visao->setItem($listarMensagens);
+
+        $visao->exibir('UsuarioVisaoMinhasMensagens.php');
     }
 
     public function responderMensagem($parametros) {

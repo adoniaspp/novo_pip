@@ -3,9 +3,11 @@
 class CEP {
 
     private $cep;
+    private $urlViaCEP = "https://viacep.com.br/ws/";
     private $urlCorreios = "http://www.buscacep.correios.com.br/servicos/dnec/consultaLogradouroAction.do";
     //private $urlRepublica = "http://republicavirtual.com.br/web_cep.php?formato=query_string&cep="; //estava com erro, alterado para xml
     private $urlRepublica = "http://cep.republicavirtual.com.br/web_cep.php?formato=xml&cep="; //passar o valor do cep na url
+    private $tipoErro = 0; //0=sucesso;1=nao encontrado;2=fora do ar;3=formato invalido
     private $erro;
 
     public function __construct($cep) {
@@ -15,13 +17,17 @@ class CEP {
 
     public function buscar() {
         if (strlen($this->cep) <> 8) {
+            $this->tipoErro = 3;
             $this->erro = "formato do cep invalido";
             return false;
         }
 
         $resultadoCEP = $this->CurlCorreios(); //primeira opcao
         if (!$resultadoCEP) {
-            $resultadoCEP = $this->WebserviceRepublica(); //contingencia
+            $resultadoCEP = $this->WebserviceViaCEP(); //contingencia da contingencia
+            if (!$resultadoCEP) {
+                $resultadoCEP = $this->WebserviceRepublica(); //contingencia
+            }
         }
         return $resultadoCEP;
     }
@@ -51,16 +57,20 @@ class CEP {
                     //var_dump($resultado);
                     return $resultado;
                 } elseif (empty($tabela)) {
+                    $this->tipoErro = 1;
                     $this->erro = "CEP nao encontrado";
                     return false;
                 } else {
+                    $this->tipoErro = 2;
                     $this->erro = "Correios fora do ar";
                     return false;
                 }
             }
+            $this->tipoErro = 2;
             $this->erro = "Curl nao e um recurso";
             return $cURL;
         } else {
+            $this->tipoErro = 2;
             $this->erro = "Funcao de CURL nao habilitada";
             return false;
         }
@@ -81,47 +91,88 @@ class CEP {
                 $recodificado = array_map('html_entity_decode', $codificado); //recodifica para mostrar a acentuacao normal
                 return $recodificado; //retorna o resultado da pesquisa CEP
             } else {
+                $this->tipoErro = 1;
                 $this->erro .= " + CEP nao encontrado";
                 return false;
             }
         } else {
+            $this->tipoErro = 2;
             $this->erro .= " + republica fora do ar";
             return false;
         }
-
-        /*
-          $resultado = @file_get_contents($this->urlRepublica . $this->cep); //webservice que retorna os dados do endereco
-          foreach ($xml->webservicecep as $resultado) {
-          var_dump($resultado);
-          }
-
-          exit();
-          if (is_string($resultado)) {
-          $resultado = utf8_encode(urldecode($resultado)); //faz a conversao de urlcoding para utf8
-          parse_str($resultado, $retorno); //armazear o resultado em uma string $retorno
-          }
-
-          //var_dump($retorno);
-          if (is_array($resultado) && !empty($resultado)) {
-          $resultado['logradouro'] = $retorno['tipo_logradouro'] . ' ' . $retorno['logradouro'];
-          $resultado['bairro'] = $retorno['bairro'];
-          $resultado['cidade'] = $retorno['cidade'];
-          $resultado['uf'] = $retorno['uf'];
-          return $resultado; //retorna o resultado da pesquisa CEP
-          } else {
-          $this->erro .= " + republica fora do ar";
-          return false;
-          } */
     }
-    
-    private function retirarTracoLogradouro($logradouro) {
 
-            $trata_endereco = explode("-", strip_tags($logradouro));
-            if ($trata_endereco[0] != "Travessa WE") {
-                $logradouro = $trata_endereco[0];
+    public function WebserviceViaCEP() {
+        $endereco = $this->urlViaCEP . $this->cep . "/json/"; //webservice que retorna os dados do endereco
+        if (function_exists("curl_init")) {
+            $ch = curl_init();
+            if (is_resource($ch)) {
+                // define url
+                curl_setopt($ch, CURLOPT_URL, $endereco);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                // executa o post
+                $json = curl_exec($ch);
+                $resposta = json_decode($json);
+                curl_close($ch);
+                if (!isset($resposta->erro) && isset($resposta->cep)) {
+                    $resultado['logradouro'] = $resposta->logradouro;
+                    $resultado['bairro'] = $resposta->bairro;
+                    $resultado['cidade'] = $resposta->localidade;
+                    $resultado['uf'] = $resposta->uf;
+                    $resultado['fonte'] = 'viaCEP';
+                    return $resultado;
+                } else {
+                    $this->tipoErro = 1;
+                    $this->erro = "CEP nao encontrado";
+                    return false;
+                }
+            } else {
+                $this->tipoErro = 2;
+                $this->erro = "Curl nao e um recurso";
+                return false;
             }
-            return $logradouro;
+        } else {
+            $this->tipoErro = 2;
+            $this->erro = "Funcao de CURL nao habilitada";
+            return false;
         }
+    }
+
+    /*
+      $resultado = @file_get_contents($this->urlRepublica . $this->cep); //webservice que retorna os dados do endereco
+      foreach ($xml->webservicecep as $resultado) {
+      var_dump($resultado);
+      }
+
+      exit();
+      if (is_string($resultado)) {
+      $resultado = utf8_encode(urldecode($resultado)); //faz a conversao de urlcoding para utf8
+      parse_str($resultado, $retorno); //armazear o resultado em uma string $retorno
+      }
+
+      //var_dump($retorno);
+      if (is_array($resultado) && !empty($resultado)) {
+      $resultado['logradouro'] = $retorno['tipo_logradouro'] . ' ' . $retorno['logradouro'];
+      $resultado['bairro'] = $retorno['bairro'];
+      $resultado['cidade'] = $retorno['cidade'];
+      $resultado['uf'] = $retorno['uf'];
+      return $resultado; //retorna o resultado da pesquisa CEP
+      } else {
+      $this->erro .= " + republica fora do ar";
+      return false;
+      } */
+
+    private function retirarTracoLogradouro($logradouro) {
+        $trata_endereco = explode("-", strip_tags($logradouro));
+        if ($trata_endereco[0] != "Travessa WE") {
+            $logradouro = $trata_endereco[0];
+        }
+        return $logradouro;
+    }
+
+    public function getTipoErro() {
+        return $this->tipoErro;
+    }
 
     public function getErro() {
         return $this->erro;
