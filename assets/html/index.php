@@ -208,7 +208,7 @@ if ($item) {
     
 <div class="ui hidden divider"></div>
 
-<div id="divOrdenacao" class="ui center aligned basic segment">
+<!--<div id="divOrdenacao" class="ui center aligned basic segment">
     <input type="hidden" id="hdnOrdTipoImovel" name="hdnOrdTipoImovel"/>
     <input type="hidden" id="hdnOrdValor" name="hdnOrdValor"/>
     <input type="hidden" id="hdnOrdFinalidade" name="hdnOrdFinalidade"/>
@@ -228,7 +228,7 @@ if ($item) {
             <div class="item" data-value="recente_menos"><i class="ui chevron down icon"></i>Menos Recente</div>
         </div>
     </div>
-</div>
+</div>-->
 
 <div class="ui basic segment" id="divAnuncios"></div>
 

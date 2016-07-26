@@ -455,4 +455,15 @@ input[id*="modal_"]:checked + div.modal .modal-content {
   }
 }
 
+/*Não oculta os controles do jplist em telas de dispositivos móveis.*/
+/* hide ios button */
+.jplist-ios-button{
+display: none;
+}
+
+/* show the panel */
+.jplist-panel{
+display: block;
+}
+
 //fim do cabeçalho     

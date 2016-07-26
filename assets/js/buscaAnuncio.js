@@ -301,6 +301,12 @@ function carregarAnuncio() { //valor = quantidade de anuncios
         $('.special.cards .image').dimmer({
             on: 'hover'
         });
+        
+        $('#lista').jplist({           
+              itemsBox: '.list', 
+              itemPath: '.list-item', 
+              panelPath: '.jplist-panel'	
+        })
 
         $('.ui.checkbox')
                 .checkbox({
