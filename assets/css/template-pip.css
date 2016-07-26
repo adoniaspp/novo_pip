@@ -194,6 +194,8 @@ section p {
 }
 
 /* init modal */
+
+/*
 .modal {
   position: fixed;
   top: 0;
@@ -286,7 +288,7 @@ input[id*="modal_"]:checked + div.modal .modal-content {
   -webkit-transition-delay: 0.5s;
   -ms-transition-delay: 0.5s;
   transition-delay: 0.5s;
-}
+}*/
 
 @media screen and (max-width: 767px) {
   header nav {

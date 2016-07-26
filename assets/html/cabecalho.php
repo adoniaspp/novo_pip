@@ -43,7 +43,6 @@
     <label for="control-nav" class="control-nav"></label>
     <label for="control-nav" class="control-nav-close"></label>
     
-    <!-- fim do código que exibe o botão de navegação no celular -->
     
     <nav class="float-r">
         <ul class="list-auto">           

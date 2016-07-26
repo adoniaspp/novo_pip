@@ -21,10 +21,6 @@ Cookies::configurarPreferencias($this->getItem());
 <?php
 
 $item = $this->getItem();
-/*
-echo "<pre>";
-var_dump($item);
-echo "</pre>";*/
 
 $latitude  = "";
 $longitude = "";
@@ -77,6 +73,8 @@ if($item["mapaImovel"]){
                "<?php echo $latitude ?>", "<?php echo $longitude ?>", "100%", "300", 16);
 
 </script>
+
+<div class="ui hidden divider"></div>
 
 <?php if($item["anuncio"][0]["status"] == "finalizado" || $item["anuncio"][0]["status"] == "expirado") { ?>
 <div class="ui middle aligned stackable grid container">
