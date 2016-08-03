@@ -84,7 +84,7 @@ Sessao::gerarToken();
             if ($item) {
                 if (!$item["usuarioPlano"]) {
                     ?>
-                    <h4 class="ui red header"> Poxa, infelizmente você ainda não tem plano. Não perca tempo e Compre Agora! </h4> 
+                    <h4 class="ui red header"> Você ainda não tem plano(s). Não perca tempo e Compre Agora! </h4> 
                     <?php
                 } else {
                     ?>

@@ -1,10 +1,10 @@
 <div class="ui standart modal" id="modalEmail">
     <i class="close icon"></i>
     <div class="header">
-        Anúncios Selecionados: <div id="idAnunciosCabecalho"></div>
+        Anúncio(s) Selecionado(s): <div id="idAnunciosCabecalho"></div>
     </div>
     
-    <div class="ui visible message" id="divMsg"></div>
+    <div class="ui visible message" id="divMsg">Envie o(s) Anúncio(s) selecionado(s) para o e-mail desejado</div>
     
     <div class="content" id="camposEmail">
         <div class="description">

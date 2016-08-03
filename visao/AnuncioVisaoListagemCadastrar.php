@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
-
+<script src="assets/libs/datatables/js/dataTables.semanticui.min.js"></script>
 <!-- os dois scripts abaixo realizam a formatação de data para ordenação-->
 <script src="assets/libs/datatables/js/moment.min.js"></script>
 <script src="assets/libs/datatables/js/datetime-moment.js"></script>
@@ -131,7 +131,7 @@
 
 } //fim do else, caso exista algum imóvel a ser publicado
 
-    include_once "/modal/ImovelListagemModal.php";
+    include_once "modal/ImovelListagemModal.php";
 
     function verificaAnuncioAtivo($listaAnuncios) {
         $temAnuncioAtivo = false;

@@ -679,29 +679,183 @@ class AnuncioControle {
 
         $genericoDAO = new GenericoDAO();
         $genericoDAO->iniciarTransacao();
+        
         $dadosEmail['destino'] = $parametros['txtEmailEmail'];
         $dadosEmail['contato'] = "PIP-Online";
         $dadosEmail['assunto'] = utf8_decode("PIP-Online - Selecionou imóvel(is) para você");
-
+        
+        $totalAunciosSelecionados = count($parametros['anunciosSelecionados']);   
+        
         if ($parametros['txtNomeEmail'] != "") {
-
-            $dadosEmail['msg'] .= 'Veja o(s) imóvel(is) indicados para você por ' . $parametros['txtNomeEmail'] . ':<br><br>';
-        } else {
-            $dadosEmail['msg'] .= 'Veja o(s) imóvel(is) indicados para você:<br><br>';
+            
+            if($totalAunciosSelecionados > 1){
+            
+            $emailEnviadoPor = 'Veja os imóveis indicados para você por ' . $parametros['txtNomeEmail'] . ':<br><br>';
+        
+            } else $emailEnviadoPor = 'Veja o imóvel indicado para você por ' . $parametros['txtNomeEmail'] . ':<br><br>';
+            
+            
+            } else {
+                
+            if($totalAunciosSelecionados > 1){    
+                
+            $emailEnviadoPor = 'Veja os imóveis indicados para você:';
+            
+            } else  $emailEnviadoPor = 'Veja o imóvel indicados para você:';
+            
         }
-
-        $dadosEmail['msg'] .= 'Mensagem: ' . $parametros['txtMsgEmail'] . "<br><br>";
+        
+        if ($parametros['txtMsgEmail'] != "") {
+            $mensagemEmail = '<li>Mensagem: ' . $parametros['txtMsgEmail']."</li><br><br>";
+        } else $mensagemEmail = "";
+        
 
         //Utilizado se for envio de e-mail para o correto através da tela de detalhes 
         if ($parametros['hdnAnuncio']) {
             $parametros['anunciosSelecionados'] = array($parametros['hdnAnuncio']);
         }
+        
+        if($totalAunciosSelecionados > 1){
+            
+            $textoSelecionados = "Imóveis selecionados através do PIP Online";
+            
+        } else $textoSelecionados = "Imóvel selecionado através do PIP Online";;
+        
+        $dadosEmail['msg'] .= 
+            "<!DOCTYPE html>
+            <html>
+            <head>
+              <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+              <meta name='viewport' content='width=device-width, initial-scale=1'> 
+              <meta http-equiv='X-UA-Compatible' content='IE=edge'> 
+              <meta name='format-detection' content='telephone=no'> 
 
+            <style type='text/css'>
+            body {
+              margin: 0;
+              padding: 0;
+              -ms-text-size-adjust: 100%;
+              -webkit-text-size-adjust: 100%;
+            }
+            
+            .btn {
+            text-decoration:none;
+            color: #FFF;
+            background-color: #666;
+            padding:10px 16px;
+            font-weight:bold;
+            margin-right:10px;
+            text-align:center;
+            cursor:pointer;
+            display: inline-block;
+            }
+
+
+            table {
+              border-spacing: 0;
+            }
+            table td {
+              border-collapse: collapse;
+            }
+            .ExternalClass {
+              width: 100%;
+            }
+            .ExternalClass,
+            .ExternalClass p,
+            .ExternalClass span,
+            .ExternalClass font,
+            .ExternalClass td,
+            .ExternalClass div {
+              line-height: 100%;
+            }
+            .ReadMsgBody {
+              width: 100%;
+              background-color: #ebebeb;
+            }
+            table {
+              mso-table-lspace: 0pt;
+              mso-table-rspace: 0pt;
+            }
+            img {
+              -ms-interpolation-mode: bicubic;
+            }
+            .yshortcuts a {
+              border-bottom: none !important;
+            }
+            @media screen and (max-width: 599px) {
+              .force-row,
+              .container {
+                width: 100% !important;
+                max-width: 100% !important;
+              }
+            }
+            @media screen and (max-width: 400px) {
+              .container-padding {
+                padding-left: 12px !important;
+                padding-right: 12px !important;
+              }
+            }
+            .ios-footer a {
+              color: #aaaaaa !important;
+              text-decoration: underline;
+            }
+            </style>
+            </head>
+
+            <body style='margin:0; padding:0;' bgcolor='#F0F0F0' leftmargin='0' topmargin='0' marginwidth='0' marginheight='0'>
+
+            <table border='0' width='100%' height='100%' cellpadding='0' cellspacing='0' bgcolor='#F0F0F0'>
+              <tr>
+                <td align='center' valign='top' bgcolor='#F0F0F0' style='background-color: #F0F0F0;'>
+
+                  <br>
+
+                  <table border='0' width='600' cellpadding='0' cellspacing='0' class='container' style='width:600px;max-width:600px'>
+                   <tr> 
+                    <td colspan = '2' class='container-padding footer-text' align='left' style='font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:16px;color:#000000;padding-left:24px;padding-right:24px'>                     
+                      <br><br>  
+                        <font style='text-decoration: underline;'>ATEN&Ccedil;&Atilde;O: Este é um email automático. Favor, não responder</font>
+                      <br><br>
+                      ".$emailEnviadoPor."
+                      <br>
+                      ".$mensagemEmail."
+                    </td>
+                    </tr>
+                    <tr>
+                      <td colspan = '2' class='container-padding header' align='left' style='font-family:Helvetica, Arial, sans-serif;font-size:24px;font-weight:bold;padding-bottom:12px;color:#DF4726;padding-left:24px;padding-right:24px'>
+                        ".$totalAunciosSelecionados." ".$textoSelecionados."
+                      </td>
+                    </tr>";
+        
+        $contador = 1;
+        
         foreach ($parametros['anunciosSelecionados'] as $idanuncio) {
 
             $item["anuncio"] = $genericoDAO->consultar(new Anuncio(), true, array("id" => $idanuncio));
 
-            $item["imovel"] = $genericoDAO->consultar(new Imovel(), false, array("id" => $item["anuncio"][0]->getIdImovel()));
+            $item["imovel"] = $genericoDAO->consultar(new Imovel(), true, array("id" => $item["anuncio"][0]->getIdImovel()));
+
+            $item["imagem"] = $genericoDAO->consultar(new Imagem(), true, array("idanuncio" => $item["anuncio"][0]->getId(), "destaque" => "SIM"));
+            
+             if(count($item["imagem"]) > 0){
+               $imagemEmailAnuncio = PIPURL ."/fotos/imoveis/".$item["imagem"][0]->getDiretorio()."/".$item["imagem"][0]->getNome();
+           } else{
+               $imagemEmailAnuncio = PIPURL ."/assets/imagens/foto_padrao.png";
+               
+           }
+            
+            switch ($item["imovel"][0]->getTipoImovel()->getDescricao()){
+                case "casa": $tipoImovelEmail = "Casa"; break;
+                case "apartamento": $tipoImovelEmail = "Apartamento"; break;
+                case "apartamentoplanta": $tipoImovelEmail = "Apartamento na Planta"; break;
+                case "salacomercial": $tipoImovelEmail = "Sala Comercial"; break;
+                case "prediocomercial": $tipoImovelEmail = "Prédio Comercial"; break;
+                case "terreno": $tipoImovelEmail = "Terreno"; break;
+            }
+            
+            if($item["anuncio"][0]->getValorMin() != 0){
+                $valorAnuncioEmail = $item["anuncio"][0]->getValorMin();
+            } else $valorAnuncioEmail = "<font color='red'>Não Informado</font>";
 
             $item["endereco"] = $genericoDAO->consultar(new Endereco(), true, array("id" => $item["imovel"][0]->getIdEndereco()));
 
@@ -711,20 +865,45 @@ class AnuncioControle {
 
             $idemailanuncio = $genericoDAO->cadastrar($selecionaremailanuncio);
 
-            $dadosEmail['msg'] .=
+            $dadosEmail['msg'] .= "              
+            <tr>
+                
+                <td class='container-padding content' align='left' 
+                style='padding-left:24px;padding-right:24px;padding-top:12px;padding-bottom:12px;
+                background-color:#ffffff'>
+                <img height='130' width='130' src='" . $imagemEmailAnuncio . "' style='outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; width: auto; max-width: 100%; float: left; clear: both; display: block;' align='left' />
+                </td>
+
+                <td class='container-padding content' align='left' 
+                style='padding-left:24px;padding-right:24px;padding-top:12px;padding-bottom:12px;
+                background-color:#ffffff'>
+
+                <br>
+
+                <div class='title' style='font-family:Helvetica, Arial, sans-serif;font-size:18px;font-weight:600;color:#374550'>" . $contador." - ".$tipoImovelEmail . "</div>
+                <br>
+
+                <div class='body-text' style='font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:20px;text-align:left;color:#333333'>
+                    Finalidade: " . ucfirst($item["anuncio"][0]->getFinalidade()) . "<br> 
+                    Condição: " . ucfirst($item["imovel"][0]->getCondicao()) . "<br>
+                    Valor(R$): " . $valorAnuncioEmail . "<br>
+                    Endereço: " . $item["endereco"][0]->getLogradouro() . ', Nº ' . $item["endereco"][0]->getNumero() . ' - ' . $item["endereco"][0]->getBairro()->getNome() . ', ' . $item["endereco"][0]->getCidade()->getNome() . "<br>
+                    <br><br>
+
+                  Para mais informações sobre este anúncio, clique 
+                  <a class='btn' href= " . PIPURL . "index.php?entidade=Anuncio&amp;acao=verficahashemail&amp;id=" . $selecionaremailanuncio->getHash() . ">AQUI</a>
+                  <br><br>
+                </div>
+
+                </td>
+            </tr>";
+            
+            $contador = $contador + 1;
+            
+            /*
                     '
     <table class="container" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: inherit; width: 580px; margin: 0 auto; padding: 0;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0;" align="left" valign="top">
     <table class="row" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: block; padding: 0px;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td class="wrapper last" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; position: relative; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 10px 0px 0px;" align="left" valign="top">
-    <!--<table class="twelve columns">
-    <tr>
-    <td>
-    <h1>Hi, Susan Calvin</h1>
-    <p class="lead">Phasellus dictum sapien a neque luctus cursus. Pellentesque sem dolor, fringilla et pharetra vitae.</p>
-    <p>Phasellus dictum sapien a neque luctus cursus. Pellentesque sem dolor, fringilla et pharetra vitae. consequat vel lacus. Sed iaculis pulvinar ligula, ornare fringilla ante viverra et. In hac habitasse platea dictumst. Donec vel orci mi, eu congue justo. Integer eget odio est, eget malesuada lorem. Aenean sed tellus dui, vitae viverra risus. Nullam massa sapien, pulvinar eleifend fringilla id, convallis eget nisi. Mauris a sagittis dui. Pellentesque non lacinia mi. Fusce sit amet libero sit amet erat venenatis sollicitudin vitae vel eros. Cras nunc sapien, interdum sit amet porttitor ut, congue quis urna.</p>
-    </td>
-    <td class="expander"></td>
-    </tr>
-    </table>-->
     <table class="row" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: block; padding: 0px;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td class="wrapper" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; position: relative; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 10px 20px 0px 0px;" align="left" valign="top">
 
           <table class="three columns" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 130px; margin: 0 auto; padding: 0;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0px 0px 10px;" align="left" valign="top">
@@ -771,9 +950,34 @@ class AnuncioControle {
     </td>
     <td class="expander" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; visibility: hidden; width: 0px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0;" align="left" valign="top"></td>
     </tr></table></td>
-    </tr></table> <br>';
+    </tr></table> <br>';*/
+        
         }
+    
+        $dadosEmail['msg'] .= "
+                                <tr>
+                                <td colspan = '2' class='container-padding footer-text' align='left' 
+                                style='font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:16px;color:#000000;
+                                padding-left:24px;padding-right:24px'>
+                                <br><br>
+                                <font style='text-decoration: underline;'>ATENÇÃO: Este é um email automático. Favor, não responder</font>
+                                <br><br>
 
+                                <strong>PIP On-Line 2016. Todos os Direitos Reservados</strong><br>
+
+                                <a href='http://www.pipbeta.com.br' style='color:#aaaaaa'>http://www.pipbeta.com.br</a><br>
+
+                                <br><br>
+
+                                </td>
+                                </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </body>
+            </html>";
+        
         if (Email::enviarEmail($dadosEmail)) {
             $genericoDAO->commit();
             $genericoDAO->fecharConexao();

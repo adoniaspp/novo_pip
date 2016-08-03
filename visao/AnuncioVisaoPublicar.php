@@ -575,5 +575,5 @@ if ($item) {
 
     <?php
     $this->setItem($item["imovel"]);
-    include_once "/modal/ImovelListagemModal.php";
+    include_once "modal/ImovelListagemModal.php";
     ?>

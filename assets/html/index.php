@@ -28,7 +28,7 @@ include_once 'configuracao/cookies.php';
         
         <?php
     
-        include_once "/visao/modulo/menuBusca.php";
+        include_once "visao/modulo/menuBusca.php";
 
         ?>
         

@@ -1089,12 +1089,11 @@ function confirmarEmail() {
                             $("#botaoFecharEmail").show();
                             if (resposta.resultado == 1) {
                                 $("#divRetorno").html('<div class="ui positive message">\n\
-                        <div class="header">Sucesso</div><p>Email enviado com sucesso</p></div>');
-                                //$("#btnDuvida").attr("disabled", "disabled");
+                        <i class="big green check circle outline icon"></i>Sucesso. Email enviado com sucesso</div>');
 
                             } else {
                                 $("#divRetorno").html('<div class="ui negative message">\n\
-                        <div class="header">Erro</div><p>Erro ao enviar. Tente novamente em alguns minutos</p></div>');
+                        <i class="big red remove circle outline icon"></i>Erro ao enviar. Tente novamente em alguns minutos</div>');
                             }
                         }
                     })

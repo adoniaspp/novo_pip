@@ -1539,7 +1539,7 @@ function formExcluirImovel(imovel, token, tipo) {
         });
         $("#hdnImovel").val(imovel);
         $("#hdnToken").val(token);
-        $('.first.modal .description').html('<h3 class="ui center aligned header">Confirmar a exclusão do imóvel ' + tipo + '?</h3>');
+        $('.first.modal .description').html('<h4 class="ui center aligned header">Confirmar a exclusão do imóvel ' + tipo + '?</h4>');
         $('.second.modal').modal({
             closable: false,
             onApprove: function () {
@@ -1549,14 +1549,12 @@ function formExcluirImovel(imovel, token, tipo) {
         });
         $('.first.modal').modal('attach events', '.first.modal .orange', 'hide');
         $('.first.modal').modal('show');
-        console.log('formExcluirImovel');
     })
 }
 
 function excluirImovel() {
     $(document).ready(function () {
-        console.log('excluirImovel');
-        console.log($('#form'));
+       
         $.ajax({
             url: "index.php",
             dataType: "json",
@@ -1571,10 +1569,10 @@ function excluirImovel() {
                 $("#hdnToken").val("");
                 if (resposta.resultado == 1) {
                     $('.second.modal').modal('show');
-                    $('.second.modal .content').html('<div class="ui positive message"><div class="header">Exclusão realizada com sucesso!</div></div>');
+                    $('.second.modal .content').html('<div class="ui positive message"><i class="big green check circle outline icon"></i>Sucesso. Exclusão realizada com sucesso</div>');
 
                 } else {
-                    $('.second.modal .content').html('<div class="ui negative message"><div class="header">Houve um erro na exclusão!</div></div>');
+                    $('.second.modal .content').html('<div class="ui negative message"><i class="big red remove circle outline icon"></i>Houve um erro na exclusão. Tente novamente mais tarde</div>');
                 }
             }
         })

@@ -93,7 +93,7 @@ Sessao::gerarToken();
     <?php } else if($item == 'nenhuma') { ;//caso exista mensagem e a busca não retorne o status da mensagem?>
 
 <div class="ui hidden divider"></div>
-
+<!--
 <div class="ui middle aligned stackable grid container">
         <div class="column">
             <form id="form" class="ui form" action="index.php" method="post">
@@ -121,7 +121,7 @@ Sessao::gerarToken();
     </div>
 
 </div>
-
+-->
 <div class="ui middle aligned stackable grid container">
     <div class="row">
         <div class="column">
@@ -140,7 +140,7 @@ Sessao::gerarToken();
 ?>
 
 <div class="ui hidden divider"></div>
-
+<!--
 <div class="ui middle aligned stackable grid container">
         <div class="column">
             <form id="form" class="ui form" action="index.php" method="post">
@@ -168,7 +168,7 @@ Sessao::gerarToken();
     </div>
 
 </div>
-
+-->
 
 <div class="ui middle aligned stackable grid container" id="divMaiorMensagem">
     <div class="one column">
@@ -232,10 +232,10 @@ Sessao::gerarToken();
                                     success: function (resposta) {
                                         $("#divRetorno" + <?php echo $mensagem->getId(); ?>).empty();
                                         if (resposta.resultado == 0) {
-                                            $("#divRetorno" + <?php echo $mensagem->getId(); ?>).html('<div class="ui compact red message"><div class="header">Erro ao responder. Tente novamente em alguns minutos - 000.</div></div>');
+                                            $("#divRetorno" + <?php echo $mensagem->getId(); ?>).html("<div class='ui compact red message'><div class='header'><i class='big red remove circle outline icon'></i>Erro ao responder. Tente novamente em alguns minutos - 000.</div></div>");
                                         } else if (resposta.resultado == 1) {
                                             $("#btnResponderMensagem" + <?php echo $mensagem->getId(); ?>).hide();
-                                            $("#divRetorno" + <?php echo $mensagem->getId(); ?>).html('<div class="ui compact green message"><div class="header">Resposta enviada</div></div>');
+                                            $("#divRetorno" + <?php echo $mensagem->getId(); ?>).html("<div class='ui compact green message'><div class='header'><i class='big green check circle outline icon'></i>Resposta enviada com Sucesso</div></div>");
                                         }
                                     }
                                 })

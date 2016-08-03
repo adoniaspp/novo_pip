@@ -77,7 +77,7 @@
 <div class="ui hidden divider"></div>  
 
 <?php
-include_once "/modal/ImovelListagemModal.php";
+include_once "modal/ImovelListagemModal.php";
 
 function verificaAnuncioAtivo($listaAnuncios) {
     $temAnuncioAtivo = false;

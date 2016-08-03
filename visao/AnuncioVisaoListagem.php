@@ -55,8 +55,15 @@
             <div class="ui message">
                 <p>Veja os detalhes do anúncio clicando no código. 
                 Se você conseguiu negociar seu anúncio ou não deseja que ele continue ativo por algum motivo, clique
-                em "Finalizar Negócio". Caso queria mudar o valor, clique em "Alterar Valor"
+                em "Finalizar Negócio". Caso queria mudar o valor, clique em "Alterar Valor".
                 </p>
+            </div>
+            <div class="ui message">
+                <div class="header">Ao selecionar um ou vários anúncios, você pode:</div>
+                <ul class="list">
+                  <li>Enviar anúncios para o e-mail do cliente;</li>
+                  <li>Enviar anúncios para o e-mail do cliente, dentro de um arquivo .PDF</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -523,5 +530,5 @@
 <?php } //fim do else, caso haja anuncios ativos?> 
 
 <?php
-include_once "/modal/AnuncioEnviarEmailModal.php";
+include_once "modal/AnuncioEnviarEmailModal.php";
 ?>

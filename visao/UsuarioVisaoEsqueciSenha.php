@@ -14,8 +14,6 @@ Sessao::gerarToken();
    
 </script>
 
-<!-- HTML -->
-
     <div class="ui column doubling grid container">
         <div class="column">
             <div class="ui large breadcrumb">
@@ -23,9 +21,18 @@ Sessao::gerarToken();
                 <i class="right chevron icon divider"></i>
                 <a class="active section">Lembrar Senha</a>
             </div>
-        </div>
+        </div>  
     </div>
     <div class="ui middle aligned stackable grid container">
+        
+        <div class="row">
+        <div class="column">
+            <div class="ui message">
+                <p>Caso tenha esquecido sua senha, insira o email cadastro abaixo, que enviaremos para seu email as instruções de troca de senha</p>
+            </div>    
+        </div>
+    </div>
+        
         <div class="row">
             <form id="form" class="ui form" action="index.php" method="post" enctype="multipart/form-data">
                 <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />

@@ -452,6 +452,7 @@ class UsuarioControle {
                         $genericoDAO->commit();
                         $genericoDAO->fecharConexao();
                         echo json_encode(array("resultado" => 1));
+                        
                     } else { //erro no envio do email
                         $genericoDAO->rollback();
                         $genericoDAO->fecharConexao();
@@ -462,6 +463,7 @@ class UsuarioControle {
                     $genericoDAO->rollback();
                     $genericoDAO->fecharConexao();
                     echo json_encode(array("resultado" => 4));
+
                 }
             } else { //email não encontrado
                 echo json_encode(array("resultado" => 0));
@@ -515,7 +517,7 @@ class UsuarioControle {
                     $genericoDAO->commit();
                     $genericoDAO->fecharConexao();
                     $_SESSION["confirmarOperacao"] = "sucesso";
-                    echo json_encode(array("resultado" => 1));
+                    //echo json_encode(array("resultado" => 1));
                     //banco
                 } else {
                     $genericoDAO->rollback();
@@ -542,9 +544,15 @@ class UsuarioControle {
 
             $listarUsuarioPlano = $genericoDAO->consultar($usuarioPlano, true, array("idusuario" => $_SESSION["idusuario"]));
             $usuario = $genericoDAO->consultar(new Usuario, true, array("id" => $_SESSION["idusuario"]));
+            
+            foreach ($usuario as $u){
+                $bairroUsuario = $genericoDAO->consultar(new Bairro(), false, array("id" => $u->getEndereco()->getIdBairro()));
+            }
+            
             $itemMeuPIP = array();
             $itemMeuPIP["usuarioPlano"] = $listarUsuarioPlano;
             $itemMeuPIP["usuario"] = $usuario;
+            $itemMeuPIP["usuarioBairro"] = $bairroUsuario;
             $itemMeuPIP["imovel"] = is_array($genericoDAO->consultar(new Imovel(), true, array("idusuario" => $_SESSION['idusuario'], "status" => "cadastrado")));
             $itemMeuPIP["imovelCadastrado"] = $genericoDAO->consultar(new Imovel(), true, array("idusuario" => $_SESSION['idusuario'], "status" => "cadastrado"));
             $itemMeuPIP["anuncio"] = count($consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'])) > 0;

@@ -105,7 +105,7 @@
 <div class="ui first coupled modal">
 
     <div class="header">
-        Excluir Imóvel
+        Confirmar Exclusão do Imóvel
     </div>
     <div class="image content">
         <div class="description"></div>
@@ -117,27 +117,27 @@
             <input type="hidden" id="hdnEntidade" name="hdnEntidade" class="hdnEntidade" value="imovel" />
             <input type="hidden" id="hdnAcao" name="hdnAcao" class="hdnAcao" value="excluir" />
         </form>
-        <div class="ui orange button">Não</div>
-        <div class="ui primary button" onclick="excluirImovel()">Sim</div>
+        <div class="ui orange button">Cancelar</div>
+        <div class="ui green button" onclick="excluirImovel()">Excluir</div>
     </div>
 
 </div>
 <div class="ui small second coupled modal">
     <div class="header">
-        Excluir Imóvel
+        Imóvel Excluído
     </div>
     <div class="content">
     </div>
     <div class="actions">
         <div class="ui ok button">
             <i class="checkmark icon"></i>
-            Ok
+            Fechar
         </div>
     </div>
 </div>
 
 <?php
-include_once "/modal/ImovelListagemModal.php";
+include_once "modal/ImovelListagemModal.php";
 
 function verificaAnuncioAtivo($listaAnuncios) {
     $temAnuncioAtivo = false;

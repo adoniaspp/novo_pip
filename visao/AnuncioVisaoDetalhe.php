@@ -44,21 +44,27 @@ if($item["mapaImovel"]){
   
         case "apartamento":
             $("#textoEspecifico").html("Características do Apartamento");
+            $("#txtDiferencialAnuncio").html("Diferenciais do Apartamento");
         break;
         case "casa":
             $("#textoEspecifico").html("Características da Casa");
+            $("#txtDiferencialAnuncio").html("Diferenciais da Casa");
         break;
         case "apartamentoplanta":
             $("#divisorTextoEspecifico").hide();
+            $("#txtDiferencialAnuncio").hide();
         break;
         case "salacomercial":
             $("#textoEspecifico").html("Características da Sala Comercial");
+            $("#txtDiferencialAnuncio").html("Diferenciais da Sala Comercial");
         break;
         case "prediocomercial":
             $("#textoEspecifico").html("Características do Prédio Comercial");
+            $("#txtDiferencialAnuncio").html("Diferenciais ddo Prédio Comercial");
         break;
         case "terreno":
             $("#textoEspecifico").html("Características do Terreno");
+            $("#txtDiferencialAnuncio").html("Diferenciais do Terreno");
         break;
         }    
     })
@@ -89,45 +95,81 @@ if($item["mapaImovel"]){
 </div>
 <?php } ?>
 
-<div class="ui middle aligned stackable grid container">
-  
-    <div class="column">
-        <form id="form" class="ui form">
-            <div class="ui dividing header"><div class="ui big teal label">Informações Básicas</div></div>
-            
-            <div class="ui info message">
-            
-            <div class="row">
-            
-            <div class="ui list">
-                <div class="item">
-                  <i class="right triangle icon"></i>
-                  <div class="content">
-                      <div class="header"><font size="4"><?php echo $item['anuncio'][0]['tituloanuncio'] ?></font></div>
-                    <div class="description"><font size="3"><?php echo $item['anuncio'][0]['descricaoanuncio'] ?></font></div>
-                  </div>
-                </div>
-                <div class="item">
-                  <i class="right triangle icon"></i>
-                  <div class="content">
-                      <div class="header"><font size="4">Código do Anúncio</font></div>
-                    <div class="description"><font size="3"><?php echo $item['anuncio'][0]['idanuncioformatado']?></font></div>
-                  </div>
-                </div>
-                <div class="item">
-                  <i class="right triangle icon"></i>
-                  <div class="content">
-                      <div class="header"><font size="4">Data de Cadastro</font></div>
-                    <div class="description"><font size="3"><?php echo date('d/m/Y H:i:s', strtotime($item['anuncio'][0]['datahoracadastro']))?></font></div>
-                  </div>
-                </div>
-            </div>    
-                
-            </div>    
-            
+<?php 
+
+switch ($item['anuncio'][0]['tipo']){
+    
+    case "casa":       
+        $tipoImovelTitulo = "Casa";
+        break;
+    
+    case "apartamento":       
+        $tipoImovelTitulo = "Apartamento";
+        break;
+    
+    case "apartamentoplanta":       
+        $tipoImovelTitulo = "Apartamento na Planta";
+        break;
+    
+    case "salacomercial":       
+        $tipoImovelTitulo = "Sala Comercial";
+        break;
+    
+    case "prediocomercial":       
+        $tipoImovelTitulo = "Prédio Comercial";
+        break;
+    
+    case "terreno":       
+        $tipoImovelTitulo = "Terreno";
+        break;
+    
+}
+
+?>
+
+<div class="stackable two column ui grid container">
+    
+    <div class="row">
+        <h2 class="ui header">
+            <i class="building icon"></i>
+            <div class="content">
+                <?php echo $tipoImovelTitulo?> - Informações Básicas
+                <div class="sub header">Informações básicas do anúncio</div>
             </div>
-                
-            <div class="ui hidden divider"></div>
+        </h2>
+    </div>
+    
+    <div class="column">
+        <div class="ui segment">
+            <a class="header">Título do Anúncio</a>
+            <div class="description"> <?php echo $item['anuncio'][0]['tituloanuncio'] ?></div>
+        </div>
+    </div>
+    <div class="column">
+        <div class="ui segment">
+            <a class="header">Descrição do Anúncio</a>
+            <div class="description"><?php echo $item['anuncio'][0]['descricaoanuncio'] ?></div>
+        </div>
+    </div>
+    <div class="column">
+        <div class="ui segment"><a class="header">Código do Anúncio</a>
+            <div class="description"><?php echo $item['anuncio'][0]['idanuncioformatado']?></div>
+        </div>
+    </div>
+    <div class="column">
+        <div class="ui segment"><a class="header">Data de Cadastro</a>
+            <div class="description">
+                <?php echo date('d/m/Y H:i:s', strtotime($item['anuncio'][0]['datahoracadastro']))?>
+            </div></div>
+    </div>
+    
+</div>
+
+
+<div class="stackable one column ui grid container">
+
+<div class="column">
+        <form id="form" class="ui form">
             
             <div class="fields">          
                 
@@ -206,149 +248,8 @@ if($item["mapaImovel"]){
 
         </div>
             
-            <?php
-            
-            if($item['anuncio'][0]['tipo'] != 'apartamentoplanta'){
-            
-            if($item["novoValor"] != null){ ?>
-        
-                <div class="ui hidden divider"></div>
-                
-                <div class="item"> 
-                    <div class="ui dividing header"><div class="ui big orange label">Valor do Anúncio</div></div>
-                        <?php 
-                        $contador = 0;
-                        foreach ($item["novoValor"] as $novoValor){
-                       
-                            $contador = $contador + 1;
-                            if($contador == 1){
-                                
-                                ?>
-            
-                                <script>
-                                formatarValorUnico(<?php echo $novoValor->getId() ?>);
-                                </script>
+        <div class="ui hidden divider"></div>
 
-                                <?php  
-                                
-                                echo "<div class='ui big label'><span id='formatarValorUnicoJS".$novoValor->getId()."'>".$novoValor->getNovoValor()."</div></span>&nbsp;&nbsp;&nbsp;&nbsp";
-                            }
-                            else {
-                                
-                                ?>
-            
-                                <script>
-                                formatarValorCampos(<?php echo $novoValor->getId() ?>);
-                                </script>
-
-                                <?php
-                                
-                                echo "<div class='ui big label'><strike id='formatarValorJS".$novoValor->getId()."'>".$novoValor->getNovoValor()."</div></strike>&nbsp;&nbsp;&nbsp;&nbsp";
-                            }
-                        }
-                        
-                        ?>
-            
-                                <script>
-                                formatarValorUnico(<?php echo $item['anuncio'][0]['id'] ?>);
-                                </script>
-
-                                <?php
-                        
-                        echo "<div class='ui big label'><strike id='formatarValorUnicoJS".$item['anuncio'][0]['id']."'>".$item['anuncio'][0]['valormin']."</strike></div>&nbsp;&nbsp;&nbsp;&nbsp";
-                        ?>
-                    
-                </div>
-                
-                <?php } else {?>
-                
-                <script>
-                formatarValorUnico(<?php echo $item['anuncio'][0]['id'] ?>);
-                </script>
-                
-                <div class="ui hidden divider"></div>
-          
-                <div class="item"> 
-                    <div class="ui dividing header"><div class="ui big orange label">Valor do Anúncio</div></div>
-                </div>
-                
-                <br>
-                
-                <?php 
-                echo "<div class='ui big label'><span id='formatarValorUnicoJS".$item['anuncio'][0]['id']."'>".$item['anuncio'][0]['valormin']."</span></div>&nbsp;&nbsp;&nbsp;&nbsp";
-                } ?>
-            
-            <div class="ui hidden divider"></div> 
-            
-            <?php } else { ?>
-            
-            <div class="ui hidden divider"></div>
-          
-                <div class="item"> 
-                    <div class="ui dividing header"><div class="ui big orange label">Valores do Anúncio</div></div>
-                </div>
-            
-            <div class="ui hidden divider"></div>
-            
-            <?php             
-            
-            $plantasOrdenadas = $item['anuncio'][0]['plantas'];
-            //ordenar as plantas pelo ID
-            usort($plantasOrdenadas, function( $a, $b ) {
-            //ID da planta será usado para comparação
-                return ( $a['ordemplantas'] > $b['ordemplantas'] ) ;
-                
-            });
-                 
-            foreach ($plantasOrdenadas as $planta){ 
-            
-            ?>
-      
-            <div><?php echo "<font size = '4' color = 'maroon'>Planta ".($planta['ordemplantas'] + 1)." - ".$planta['tituloplanta']."</font>";?></div>
-                
-                <table class="ui celled structured striped table">
-                    <thead>
-                      <tr>
-                        <th rowspan="2">Andar</th>                           
-                        <th rowspan="2">Valor</th>
-                      </tr>
-                    </thead>
-                    
-                    <tbody>
-               
-                        <?php 
-                            
-                        echo "<tr>";  
-                        
-                        for($x = 0; $x< count($planta['valores']); $x++){                                
-                        
-                            echo "<td>";
-
-                            echo $planta['valores'][$x]['andarinicial']."º ao ".$planta['valores'][$x]['andarfinal']."º"; 
-
-                            echo "</td>";
-
-                            ?>
-                        
-                            <script>
-                                formatarValorCampos(<?php echo $planta['valores'][$x]['id'] ?>);
-                            </script>
-                        
-                            <td id="formatarValorJS<?php echo $planta['valores'][$x]['id']?>"><?php echo $planta['valores'][$x]['valor']?></td>
-                   
-                        <?php 
-                        
-                        echo "</tr>"; 
-                        
-                        } ?>
-          
-                    </tbody>    
-                </table>    
-            
-            <?php } } ?>
-            
-             <div class="ui hidden divider"></div> 
-  
         <?php if ($item['anuncio'][0]['tipo'] != 'apartamentoplanta') { ?>    
                
         <?php } ?>    
@@ -413,8 +314,17 @@ if($item["mapaImovel"]){
                     </div>
                 </div>
             </div>  
+            <?php
+            if ($item['anuncio'][0]['tipo'] == 'apartamento') {
+            ?>    
+            <div class="four wide field">
                 
-            <div class="eight wide field">
+            <?php } else {?>    
+            
+            <div class="four eight field">    
+                
+            <?php } ?>    
+                
                 <div class="ui header">
                     <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeGaragem.jpg">
                     <label>Garagem(ns)</label>
@@ -427,56 +337,50 @@ if($item["mapaImovel"]){
                 </div>
             </div>
             
-            <?php } ?>     
-            </div>
-            
             <?php
             if ($item['anuncio'][0]['tipo'] == 'apartamento') {
             ?>
-            <div class="fields">
-                
-                <div class="four wide field">
-                    <div class="ui header">
-                        <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeAptoAndarDetalhes.jpg">
-                        <label>Apto(s) por Andar</label>
-                        <br>
-                        <div class="content">
-                            <div class="sub header">
-                                <?php echo "<font size = '4' color = 'maroon'>".$item['anuncio'][0]['unidadesandar']."</font>" ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="four wide field">
-                    <div class="ui header">
-                        <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeAptoAndarDetalhes.jpg">
-                        <label>Andar do Apto</label>
-                        <br>
-                        <div class="content">
-                            <div class="sub header">
-                                <?php echo "<font size = '4' color = 'maroon'>".$item['anuncio'][0]['andar']."</font>" ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="twelve wide field">
-                    <div class="ui header">
-                        <i class="privacy icon"></i>
-                        <div class="content">
-                            Condomínio
+            <div class="four wide field">
+                <div class="ui header">
+                    <i class="privacy icon"></i>
+                    <div class="content">
+                        Condomínio
 
-                            <div class="sub header" id="divValorCondominio" style="font-size: medium ;color: maroon">
-                                <?php echo $item['anuncio'][0]['condominio'] ?>
-                            </div>
-
+                        <div class="sub header" id="divValorCondominio" style="font-size: medium ;color: maroon">
+                            <?php echo $item['anuncio'][0]['condominio'] ?>
                         </div>
+
                     </div>
                 </div>
-                
             </div>
-            <?php } ?>
+            <?php } } ?>     
+            </div>
+            
+            <?php
+    
+                if ($item['anuncio'][0]['tipo'] == 'apartamento') {                
+                    
+                    if ($item['anuncio'][0]['unidadesandar'] != null){
+                    
+            ?>
+                
+            <div class="ui list">
+                <div class="item">
+                 <i class="right triangle icon"></i>
+                 <h3 class="content">
+                   <div class="header">Apartamentos por Andar: <?php echo "<font size = '4' color = 'maroon'>".$item['anuncio'][0]['unidadesandar']."</font>" ?></div>                   
+                 </h3>
+               </div>
+               <div class="item">
+                 <i class="right triangle icon"></i>
+                 <h3 class="content">
+                   <div class="header">Andar do Apartamento: <?php echo "<font size = '4' color = 'maroon'>".$item['anuncio'][0]['andar']."</font>" ?></div>                   
+                 </h3>
+               </div>
+             </div>            
+            
+            
+            <?php } } ?>
         
             <?php
             if ($item['anuncio'][0]['tipo'] == 'apartamentoplanta') {
@@ -624,7 +528,14 @@ if($item["mapaImovel"]){
             
             <?php if ($item['anuncio'][0]['diferenciais']) { ?>
             
-            <div class="ui dividing header"><div class="ui big black label">Diferenciais</div></div>
+            
+            <div class="ui horizontal divider" id="divisorTextoEspecifico">
+                 <div class="ui teal large label">
+                     <div id="txtDiferencialAnuncio"></div>                     
+                 </div>                     
+            </div>
+            
+            
             <div class="fields">
                 
                 <?php foreach ($item['anuncio'][0]['diferenciais'] as $diferenciais) { ?>
@@ -641,7 +552,154 @@ if($item["mapaImovel"]){
             <div class="ui hidden divider"></div>
             <?php } ?>
             
-            <div class="ui dividing header"><div class="ui big green label">Localização</div></div>
+            <div class="ui hidden divider"></div>
+            
+            <div class="row">
+                <h2 class="ui header">
+                    <i class="dollar green icon"></i>
+                    <div class="content">
+                        Valor do Anúncio
+                        <div class="sub header">Valor cadastrado pelo anunciante</div><br>
+                    </div>
+                </h2>
+            </div>
+            
+             <?php
+            
+            if($item['anuncio'][0]['tipo'] != 'apartamentoplanta'){
+            
+            if($item["novoValor"] != null){ ?>
+        
+                <div class="ui hidden divider"></div>
+                
+                <div class="item"> 
+
+                        <?php 
+                        $contador = 0;
+                        foreach ($item["novoValor"] as $novoValor){
+                       
+                            $contador = $contador + 1;
+                            if($contador == 1){
+                                
+                                ?>
+            
+                                <script>
+                                formatarValorUnico(<?php echo $novoValor->getId() ?>);
+                                </script>
+
+                                <?php  
+                                
+                                echo "<div class='ui big label'><span id='formatarValorUnicoJS".$novoValor->getId()."'>".$novoValor->getNovoValor()."</div></span>&nbsp;&nbsp;&nbsp;&nbsp";
+                            }
+                            else {
+                                
+                                ?>
+            
+                                <script>
+                                formatarValorCampos(<?php echo $novoValor->getId() ?>);
+                                </script>
+
+                                <?php
+                                
+                                echo "<div class='ui big label'><strike id='formatarValorJS".$novoValor->getId()."'>".$novoValor->getNovoValor()."</div></strike>&nbsp;&nbsp;&nbsp;&nbsp";
+                            }
+                        }
+                        
+                        ?>
+            
+                                <script>
+                                formatarValorUnico(<?php echo $item['anuncio'][0]['id'] ?>);
+                                </script>
+
+                                <?php
+                        
+                        echo "<div class='ui big label'><strike id='formatarValorUnicoJS".$item['anuncio'][0]['id']."'>".$item['anuncio'][0]['valormin']."</strike></div>&nbsp;&nbsp;&nbsp;&nbsp";
+                        ?>
+                    
+                </div>
+                
+                <?php } else {?>
+                
+                <script>
+                formatarValorUnico(<?php echo $item['anuncio'][0]['id'] ?>);
+                </script>
+                
+                <?php 
+                echo "<div class='ui big label'><span id='formatarValorUnicoJS".$item['anuncio'][0]['id']."'>".$item['anuncio'][0]['valormin']."</span></div>&nbsp;&nbsp;&nbsp;&nbsp";
+                } ?>
+            
+            <?php } else { ?>
+            
+            <div class="ui hidden divider"></div>
+            
+            <?php             
+            
+            $plantasOrdenadas = $item['anuncio'][0]['plantas'];
+            //ordenar as plantas pelo ID
+            usort($plantasOrdenadas, function( $a, $b ) {
+            //ID da planta será usado para comparação
+                return ( $a['ordemplantas'] > $b['ordemplantas'] ) ;
+                
+            });
+                 
+            foreach ($plantasOrdenadas as $planta){ 
+            
+            ?>
+      
+            <div><?php echo "<font size = '4' color = 'maroon'>Planta ".($planta['ordemplantas'] + 1)." - ".$planta['tituloplanta']."</font>";?></div>
+                
+                <table class="ui celled structured striped table">
+                    <thead>
+                      <tr>
+                        <th rowspan="2">Andar</th>                           
+                        <th rowspan="2">Valor</th>
+                      </tr>
+                    </thead>
+                    
+                    <tbody>
+               
+                        <?php 
+                            
+                        echo "<tr>";  
+                        
+                        for($x = 0; $x< count($planta['valores']); $x++){                                
+                        
+                            echo "<td>";
+
+                            echo $planta['valores'][$x]['andarinicial']."º ao ".$planta['valores'][$x]['andarfinal']."º"; 
+
+                            echo "</td>";
+
+                            ?>
+                        
+                            <script>
+                                formatarValorCampos(<?php echo $planta['valores'][$x]['id'] ?>);
+                            </script>
+                        
+                            <td id="formatarValorJS<?php echo $planta['valores'][$x]['id']?>"><?php echo $planta['valores'][$x]['valor']?></td>
+                   
+                        <?php 
+                        
+                        echo "</tr>"; 
+                        
+                        } ?>
+          
+                    </tbody>    
+                </table>    
+            
+            <?php } } ?>
+            
+            <div class="ui hidden divider"></div>
+            
+            <div class="row">
+                <h2 class="ui header">
+                    <i class="map outline brown icon"></i>
+                    <div class="content">
+                        Localização
+                        <div class="sub header">Veja a localização do Imóvel</div><br>
+                    </div>
+                </h2>
+            </div>
             
             <div class="fields">
                 <div id="mapaGmapsBusca"></div>
@@ -655,13 +713,13 @@ if($item["mapaImovel"]){
                     </div>
                     <?php
                     if ($item['anuncio'][0]['numero'] != "" && $item['anuncio'][0]['complemento'] != "") {
-                        $endereco = $item['anuncio'][0]['logradouro'] . " - ".$item['anuncio'][0]['bairro'].", " . $item['anuncio'][0]['numero'] . ", " . $item['anuncio'][0]['complemento'];
+                        $endereco = $item['anuncio'][0]['logradouro'] . " - ".$item['anuncio'][0]['bairro'].", " . $item['anuncio'][0]['numero'] . ", " . $item['anuncio'][0]['complemento']. " - " . $item['anuncio'][0]['cidade']. ", ". $item['anuncio'][0]['estado'];
                     } elseif ($item['anuncio'][0]['numero'] != "" && $item['anuncio'][0]['complemento'] == "") {
-                        $endereco = $item['anuncio'][0]['logradouro'] . " - ".$item['anuncio'][0]['bairro']. ", " . $item['anuncio'][0]['numero'];
+                        $endereco = $item['anuncio'][0]['logradouro'] . " - ".$item['anuncio'][0]['bairro']. ", " . $item['anuncio'][0]['numero'] . " - " . $item['anuncio'][0]['cidade']. ", ". $item['anuncio'][0]['estado'];
                     } elseif ($item['anuncio'][0]['numero'] == "" && $item['anuncio'][0]['complemento'] == "") {
-                        $endereco = $item['anuncio'][0]['logradouro'] . " - ".$item['anuncio'][0]['bairro'];
+                        $endereco = $item['anuncio'][0]['logradouro'] . " - ".$item['anuncio'][0]['bairro'] . " - " . $item['anuncio'][0]['cidade']. ", ". $item['anuncio'][0]['estado'];
                     } elseif ($item['anuncio'][0]['numero'] == "" && $item['anuncio'][0]['complemento'] != "") {
-                        $endereco = $item['anuncio'][0]['logradouro'] . " - ".$item['anuncio'][0]['bairro']. ", " . $item['anuncio'][0]['complemento'];
+                        $endereco = $item['anuncio'][0]['logradouro'] . " - ".$item['anuncio'][0]['bairro']. ", " . $item['anuncio'][0]['complemento'] . " - " . $item['anuncio'][0]['cidade']. ", ". $item['anuncio'][0]['estado'];
                     }
 
                     echo $endereco;
@@ -670,10 +728,15 @@ if($item["mapaImovel"]){
                   </div>
             </div>
             
-            <div class="ui hidden divider"></div>
-            
-            
-            <div class="ui dividing header"><div class="ui big blue label">Foto(s) do Anúncio</div></div>
+            <div class="row">
+                <h2 class="ui header">
+                    <i class="photo blue icon"></i>
+                    <div class="content">
+                        Fotos
+                        <div class="sub header">Fotos do Anúncio</div>
+                    </div>
+                </h2>
+            </div>
             
             <div class="ui stackable two column centered grid">
             
@@ -699,48 +762,37 @@ if($item["mapaImovel"]){
 
                 </div>
             
-            </div>            
-     
+            </div>    
+            
             <div class="ui hidden divider"></div>
-            <div class="ui dividing header"><div class="ui big red label">Contato(s)</div></div>
             
-            <?php if ($item["qtdAnuncios"] >= 2) { ?>
-            
-            <?php if($item['anuncio'][0]['status'] == "cadastrado"){ ?>
-            <div class="ui message">
-                Este vendedor possui <?php echo $item["qtdAnuncios"] ?> anuncios cadastrados. Clique <a href='index.php?entidade=Anuncio&acao=buscarAnuncioCorretor&login=<?php echo $item["loginUsuario"] ?>' target="_blank">AQUI</a> para visualizá-los
-            </div>
-            <?php } ?>
-                
-            <?php } ?>
-            
-            <div class="ui relaxed divided items">
-                <div class="item">
-                    
-                    <?php 
-                    
-                    if($item['anuncio'][0]['foto'] !=""){
-                    
-                    ?>
-                    
-                    <div class="ui small image">
-                        <img style="height:150px; width: 220px;" src="<?php echo PIPURL . "fotos/usuarios/" . $item['anuncio'][0]['foto'] ?>">
-                    </div>
-                    
-                    <?php 
-                    
-                    } else { ?>
-                    
-                    <img src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" class="img-circle" width="220px" height="150px">
-                
-                    <?php
-                        
-                    }
-                    
-                    ?>
-                    
+            <div class="row">
+                <h2 class="ui header">
+                    <i class="volume control red phone icon"></i>
                     <div class="content">
+                        Contato
+                        <div class="sub header">Telefone(s) para Contato</div><br>
+                    </div>
+                </h2>
+            </div>
+ 
+                <div class="column">
+                    <div class="ui segment">
                         <a class="header"><?php echo $item['anuncio'][0]['nome'] ?></a>
+                        
+                        <div class="description">
+                            <?php if($item['anuncio'][0]['status'] == "cadastrado"){ ?>
+
+
+                            <button type="button" class="ui right floated primary button" id="btnDuvida">
+                                Enviar Mensagem/Proposta
+                                <i class="right mail outline icon"></i>
+                            </button>
+
+
+                        <?php } ?>
+                        </div> 
+                        
                         <?php
                         foreach ($item['anuncio'][0]['telefone'] as $telefone) {
                             ?>
@@ -751,29 +803,28 @@ if($item["mapaImovel"]){
                                 <?php if($telefone['whatsapp']=="SIM"){?>                        
                                 <i class="large green whatsapp icon"></i>
                                 <?php } ?>
-
+           
                             </div>
                             <?php
                         }
                         ?>
 
-                        <?php if($item['anuncio'][0]['status'] == "cadastrado"){ ?>
-
-                        <div class="extra">
-
-                            <button type="button" class="ui right floated primary button" id="btnDuvida">
-                                Enviar Mensagem/Proposta
-                                <i class="right mail outline icon"></i>
-                            </button>
-
-                        </div>
-
-                        <?php } ?>
-
+                                         
                     </div>
                 </div>
-            </div>
             
+                
+            
+            <?php if ($item["qtdAnuncios"] >= 2) { ?>
+            
+            <?php if($item['anuncio'][0]['status'] == "cadastrado"){ ?>
+            <div class="ui message">
+                Este vendedor possui <?php echo $item["qtdAnuncios"] ?> anuncios cadastrados. Clique <a href='index.php?entidade=Anuncio&acao=buscarAnuncioCorretor&login=<?php echo $item["loginUsuario"] ?>' target="_blank">AQUI</a> para visualizá-los
+            </div>
+            <?php } ?>
+                
+            <?php } ?>                            
+       
         </form>
         
         
@@ -994,7 +1045,7 @@ if($item["mapaImovel"]){
                         <input name="txtEmailDuvida"  id="txtEmailDuvida" placeholder="Digite seu email" type="text" maxlength="50">
                     </div>
                     <div class="field">
-                        <label>Proposta de <?php if($item['anuncio'][0]['finalidade'] == "Venda"){echo "venda";} else echo "aluguel" ?> R$ (Digite o valor se quiser fazer uma proposta ao vendedor)</label>
+                        <label>Proposta de <?php if($item['anuncio'][0]['finalidade'] == "Venda"){echo "Compra";} else echo "aluguel" ?> R$ (Digite o valor se quiser fazer uma proposta ao vendedor)</label>
                         <input type="hidden" value="<?php echo $item['anuncio'][0]['finalidade']?>" id="hdnFinalidade" name="hdnFinalidade">
                         <div class="three wide field" id="divProposta">
                         <input name="txtProposta" id="txtProposta" type="text" maxlength="12" size="12"> 

@@ -12,7 +12,7 @@
         <script src="<?php echo PIPURL; ?>/assets/libs/semantic-ui/semantic.min.js"></script> 
         <!-- Template PIP -->
         <link href="<?php echo PIPURL; ?>/assets/css/template-pip.css" rel="stylesheet" type="text/css" />
-        <link rel="shortcut icon" href="http://www.pipbeta.com.br/assets/imagens/favicon.ico" type="image/x-icon"/>
+        <link rel="shortcut icon" href="http://www.pipbeta.com.br/assets/imagens/tituloCasaAzulChanfle.jpg" type="image/x-icon"/>
         <!-- Scripts -->
         <script type="text/javascript" src="assets/js/cabecalho.js"></script>
         <script type="text/javascript" src="assets/libs/timeout-dialog/timeout-dialog.js"></script>
@@ -73,6 +73,7 @@
         </ul>
     </nav>
 </header>
+<div class="ui hidden divider"></div>
 <div class="ui hidden divider"></div>
 <div class="ui hidden divider"></div>
 <div class="ui hidden divider"></div>

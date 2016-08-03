@@ -38,6 +38,12 @@ $item = $this->getItem();
 $usuario = $item["usuario"];
 $imoveis = $item["imovelCadastrado"];
 $mensagens = $item["mensagem"];
+$usuarioBairro = $item["usuarioBairro"];
+
+
+foreach ($usuarioBairro as $bairroUsuario){
+   $bUsuario = $bairroUsuario->getNome();
+}
 
 $totalAnuncios = 0; //total de anuncios cadastrados
 
@@ -94,6 +100,8 @@ foreach ($imoveis as $qtdAnuncios) {
     })
 </script>
 
+<div class="ui hidden divider"></div>
+
 <div class="ui column doubling grid container" id="divMaiorRetornoOperacao">
     <div class="row">
         <div class="column">
@@ -145,20 +153,23 @@ foreach ($imoveis as $qtdAnuncios) {
         <a href="index.php?entidade=Usuario&acao=form&tipo=trocarimagem" class="item"> 
             <i class="file image outline icon"></i>  Alterar <?php echo ($_SESSION["tipopessoa"] == "pf" ? "Imagem" : "Logomarca"); ?>
         </a>
-        <a href="index.php?entidade=Anuncio&acao=buscarAnuncioCorretor&login=<?php echo $_SESSION["login"] ?>index.php?entidade=Anuncio&acao=buscarAnuncioCorretor&login=<?php echo $_SESSION["login"] ?>" class="item"> 
+        <a href="index.php?entidade=Anuncio&acao=buscarAnuncioCorretor&login=<?php echo $_SESSION["login"] ?>" class="item" target="_blank"> 
             <i class="newspaper icon"></i> Visualizar Minha Página
         </a>
     </div>
 
     <?php
+    
+    
+    
     if ($usuario[0]->getEndereco()->getNumero() != "" && $usuario[0]->getEndereco()->getComplemento() != "") {
-        $endereco = $usuario[0]->getEndereco()->getLogradouro() . ", " . $usuario[0]->getEndereco()->getNumero() . ", " . $usuario[0]->getEndereco()->getComplemento();
+        $endereco = $usuario[0]->getEndereco()->getLogradouro() . ", " . $usuario[0]->getEndereco()->getNumero() . ", " . $usuario[0]->getEndereco()->getComplemento(). " - " . $bUsuario;
     } elseif ($usuario[0]->getEndereco()->getNumero() != "" && $usuario[0]->getEndereco()->getComplemento() == "") {
-        $endereco = $usuario[0]->getEndereco()->getLogradouro() . ", " . $usuario[0]->getEndereco()->getNumero();
+        $endereco = $usuario[0]->getEndereco()->getLogradouro() . ", " . $usuario[0]->getEndereco()->getNumero(). " - " . $bUsuario;
     } elseif ($usuario[0]->getEndereco()->getNumero() == "" && $usuario[0]->getEndereco()->getComplemento() == "") {
-        $endereco = $usuario[0]->getEndereco()->getLogradouro();
+        $endereco = $usuario[0]->getEndereco()->getLogradouro(). " - " . $bUsuario;
     } elseif ($usuario[0]->getEndereco()->getNumero() == "" && $usuario[0]->getEndereco()->getComplemento() != "") {
-        $endereco = $usuario[0]->getEndereco()->getLogradouro() . ", " . $usuario[0]->getEndereco()->getComplemento();
+        $endereco = $usuario[0]->getEndereco()->getLogradouro() . ", " . $usuario[0]->getEndereco()->getComplemento(). " - " . $bUsuario;
     }
     ?>    
 </div>
@@ -868,11 +879,25 @@ foreach ($imoveis as $qtdAnuncios) {
                                 <th>Data de Compra</th>
                                 <th>Prazo para ativação</th>
                                 <th>Status</th>
+                                <th>Anúncio Vinculado</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                             foreach ($item["usuarioPlano"] as $usuarioPlano) {
+                                
+                                if($usuarioPlano->getStatus() == "ativo"){
+                                    $statusPlano = "<h4 class='ui green header'>Ativo</h4>";
+                                } 
+                                
+                                if($usuarioPlano->getStatus() == "ativo"){
+                                    $statusPlano = "<h4 class='ui red header'>Utilizado</h4>";
+                                }
+                                
+                                if($usuarioPlano->getStatus() == "pagamento pendente"){
+                                    $statusPlano = "<h4 class='ui yellow header'>Pagamento Pendente</h4>";
+                                }                               
+                                
                                 echo "<tr>";
                                 echo "<td>" . $usuarioPlano->getPlano()->getTitulo() . " (" . $usuarioPlano->getPlano()->getValidadepublicacao() . " dias)</td>";
                                 echo "<td>" . $usuarioPlano->getPlano()->getDescricao() . "</td>";
@@ -882,8 +907,47 @@ foreach ($imoveis as $qtdAnuncios) {
                                 } else {
                                     echo "<td> - </td>";
                                 }
-                                echo "<td>" . $usuarioPlano->getStatus() . "</td>";
-                                echo "</tr>";
+                                echo "<td>" . $statusPlano . "</td>";                               
+                                
+                                foreach ($imoveis as $anuncios) {
+                                    
+                                    if($anuncios <> null){
+                                    
+                                        if ($qtdAnuncios->getAnuncio()->getIdUsuarioPlano() == $usuarioPlano->getId()){
+                                            $idAnuncioVinculadoFormatado = $anuncio->getAnuncio()->getIdAnuncio();
+                                            $idAnuncioVinculado = $anuncio->getAnuncio()->getId();
+                                            
+                                            switch ($qtdAnuncios->getIdTipoImovel()){
+                                
+                                                case 1: $tipoImovel = "casa"; break;
+                                                case 2: $tipoImovel = "apartamentoplanta"; break;
+                                                case 3: $tipoImovel = "apartamento"; break;
+                                                case 4: $tipoImovel = "salacomercial"; break;
+                                                case 5: $tipoImovel = "prediocomercial"; break;
+                                                case 6: $tipoImovel = "terreno"; break;
+
+                                            }
+                                            
+                                            $vinculado = "<form id='form' action='index.php' method='post' target='_blank'>
+                                    <input type='hidden' id='hdnEntidade' name='hdnEntidade' value='Anuncio' />
+                                    <input type='hidden' id='hdnAcao' name='hdnAcao' value='detalhar'/>
+                                    <input type='hidden' id='hdnCodAnuncio' name='hdnCodAnuncio' value='".$idAnuncioVinculado."'/>
+                                    <input type='hidden' id='hdnTipoImovel' name='hdnTipoImovel' value='".$tipoImovel."'/>           
+                                    <button class='ui labeled icon button'>
+                                    <i class='zoom icon'></i>".$idAnuncioVinculadoFormatado."
+                                    </button>
+                                    <input type='hidden' name='hdnCodAnuncioFormatado[]' value='".$idAnuncioVinculadoFormatado."'/>
+                                    </form>";
+                                        
+                                        break;    
+                                            
+                                        } else $vinculado = "<h4 class='ui red header'>Nenhum Anúncio</h4>";
+
+                                    } 
+                                }
+
+                                echo "<td>".$vinculado."</td>"
+                                . "</tr>";
                             }
                             ?>
                         </tbody>
