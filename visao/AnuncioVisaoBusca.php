@@ -59,8 +59,8 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                         class="jplist-drop-down" 
                         data-control-type="items-per-page-drop-down" 
                         data-control-name="paging" 
-                        data-control-action="paging">
-
+                        data-control-action="paging"
+                        data-control-animate-to-top="true">
                         <ul>
                             <li><span data-number="8" data-default="true"> 8 resultados </span></li>
                             <li><span data-number="16"> 16 resultados </span></li>
@@ -80,6 +80,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                         data-control-type="pagination" 
                         data-control-name="paging" 
                         data-control-action="paging"
+                        data-control-animate-to-top="true"
                         >
                     </div>
 
@@ -95,7 +96,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                             <li><span data-path=".valor" data-order="desc" data-type="number">Maior Preço</span></li>
                             <li><span data-path=".valor" data-order="asc" data-type="number">Menor Preço</span></li>
                             <li><span data-path=".data" data-order="desc" data-type="datetime">Mais Recente</span></li>
-                            <li><span data-path=".data" data-order="asc" data-type="datetime">Menos Recente</span></li>-->
+                            <li><span data-path=".data" data-order="asc" data-type="datetime">Menos Recente</span></li>
                         </ul>
                     </div>
                 </div>
@@ -197,8 +198,8 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                     class="jplist-drop-down" 
                     data-control-type="items-per-page-drop-down" 
                     data-control-name="paging" 
-                    data-control-action="paging">
-
+                    data-control-action="paging"
+                    data-control-animate-to-top="true">
                     <ul>
                         <li><span data-number="8" data-default="true"> 8 resultados </span></li>
                         <li><span data-number="16"> 16 resultados </span></li>
@@ -218,7 +219,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                     data-control-type="pagination" 
                     data-control-name="paging" 
                     data-control-action="paging"
-                    data-items-per-page="12">
+                    data-control-animate-to-top="true">
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 function buscarAnuncio() {
     $(document).ready(function () {
-    
+
         $("#divCaracteristicas").hide();
         $("#divValor").hide();
 
@@ -60,9 +60,9 @@ function buscarAnuncio() {
 
 
         $("#btnBuscarAnuncioBasico").on('click', function () {
-            
+
             $("#divOrdenacao").show(); //mostrar a ordenação, caso esteja oculta quando a buscar não retornar nada
-            
+
             $("#load").addClass('ui active inverted dimmer');
             if ($('#sltTipoImovel').val() == "") {
                 tipoimovel = "todos"
@@ -95,7 +95,7 @@ function buscarAnuncio() {
 
 
         $("#btnBuscarAnuncioAvancado").on('click', function () {
-            
+
             $("#load").addClass('ui active inverted dimmer');
             if ($('#sltTipoImovelAvancado').val() == "") {
                 tipoimovel = "todos"
@@ -131,166 +131,166 @@ function buscarAnuncio() {
 }
 
 /*
-function buscarAnuncioUsuario() {
-    $(document).ready(function () {
-
-        $("#divCaracteristicas").hide();
-        $("#divValorVenda").hide(); //oculta a div dos valores de venda 
-        $("#divValorAluguel").hide(); //oculta a div dos valores de aluguel
-
-        $("#sltTipoImovel").change(function () {
-            if ($(this).val() == "casa") {
-                $("#divCaracteristicas").show();
-                $("#condicao").show();
-            }
-            if ($(this).val() == "apartamentoplanta") {
-                $("#divCaracteristicas").show();
-                $("#condicao").hide();
-                //$("#divCaracteristicas").hide();
-            }
-            if ($(this).val() == "apartamento") {
-                $("#divCaracteristicas").show();
-                $("#condicao").hide();
-            }
-            if ($(this).val() == "salacomercial") {
-                $("#divCaracteristicas").hide();
-                $("#condicao").show();
-            }
-            if ($(this).val() == "terreno") {
-                $("#divCaracteristicas").hide();
-                $("#condicao").show();
-            }
-            if ($(this).val() == "") {
-                $("#divCaracteristicas").hide();
-                $("#condicao").hide();
-            }
-        })
-
-        $("#sltFinalidade").change(function () {
-
-            if ($(this).val() == "venda") {
-                $("#divValorAluguel").hide();
-                $("#divValorVenda").show();
-
-            }
-            if ($(this).val() == "aluguel") {
-                $("#divValorVenda").hide();
-                $("#divValorAluguel").show();
-            }
-
-        })
-
-        $("input[name=sltCidade]").change(function () {
-            $("#defaultBairro").html("<option value=''>Procurando...</div>");
-            $.post('index.php?hdnEntidade=Bairro&hdnAcao=selecionarBairro&idcidade=' + $('#sltCidade').val(),
-                    function (resposta) {
-                        $("#defaultBairro").html("Selecione o Bairro");
-                        $("#menuBairro").html(resposta);
-                    }
-            );
-        });
-
-        $("input[name=sltCidadeAvancado]").change(function () {
-            $("#defaultBairroAvancado").html("<option value=''>Procurando...</div>");
-            $.post('index.php?hdnEntidade=Bairro&hdnAcao=selecionarBairro&idcidade=' + $('#sltCidadeAvancado').val(),
-                    function (resposta) {
-                        $("#defaultBairroAvancado").html("Selecione o Bairro");
-                        $("#menuBairroAvancado").html(resposta);
-                    }
-            );
-        });
-
-        $("#spanValor").priceFormat({
-            prefix: 'R$ ',
-            centsSeparator: ',',
-            centsLimit: 0,
-            limit: 8,
-            thousandsSeparator: '.'
-        })
-
-        $('.ui.dropdown')
-                .dropdown({
-                    on: 'hover'
-                });
-        $('.ui.checkbox')
-                .checkbox();
-
-        $('.special.cards .image').dimmer({
-            on: 'hover'
-        });
-
-
-        $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
-            tipoImovel: 'todos',
-            valor: '',
-            finalidade: '',
-            cidade: '',
-            bairro: '',
-            quarto: '',
-            condicao: '',
-            id: $('#hdUsuario').val(),
-            garagem: 'false'});
-
-
-        $("#btnBuscarAnuncioUsuario").on('click', function () {
-            $("#load").addClass('ui active inverted dimmer');
-            if ($('#sltTipoImovel').val() == "") {
-                tipoimovel = "todos"
-            } else {
-                tipoimovel = $('#sltTipoImovel').val()
-            }
-            ;
-            $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
-                tipoImovel: tipoimovel,
-                valor: $('#sltValor').val(),
-                finalidade: $('#sltFinalidade').val(),
-                idcidade: $('#sltCidade').val(),
-                idbairro: $('#sltBairro').val(),
-                quarto: $('#sltQuartos').val(),
-                banheiro: $('#sltBanheiros').val(),
-                suite: $('#sltSuites').val(),
-                condicao: $('#sltCondicao').val(),
-                id: $('#hdUsuario').val(),
-                garagem: $('#checkgaragem').parent().checkbox('is checked')}, function () {
-                $("#load").addClass('ui active inverted dimmer');
-            });
-            setTimeout(function () {
-                $('#load').removeClass("ui active inverted dimmer");
-            }, 1000);
-        });
-
-        $("#btnBuscarAnuncioUsuarioAvancado").on('click', function () {
-            $("#load").addClass('ui active inverted dimmer');
-            if ($('#sltTipoImovelAvancado').val() == "") {
-                tipoimovel = "todos"
-            } else {
-                tipoimovel = $('#sltTipoImovelAvancado').val()
-            }
-            ;
-            $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
-                tipoImovel: tipoimovel,
-                valor: $('#sltValor').val(),
-                finalidade: $('#sltFinalidadeAvancado').val(),
-                idcidade: $('#sltCidadeAvancado').val(),
-                idbairro: $('#sltBairroAvancado').val(),
-                quarto: $('#sltQuartos').val(),
-                banheiro: $('#sltBanheiros').val(),
-                suite: $('#sltSuites').val(),
-                condicao: $('#sltCondicaoAvancado').val(),
-                unidadesandar: $('#sltUnidadesAndar').val(),
-                area: $('#sltArea').val(),
-                diferencial: $('#carregarDiferenciais').val(),
-                id: $('#hdUsuario').val(),
-                garagem: $('#sltGaragem').val()}, function () {
-                $("#load").addClass('ui active inverted dimmer');
-            });
-            setTimeout(function () {
-                $('#load').removeClass("ui active inverted dimmer");
-            }, 1000);
-        });
-
-    });
-}*/
+ function buscarAnuncioUsuario() {
+ $(document).ready(function () {
+ 
+ $("#divCaracteristicas").hide();
+ $("#divValorVenda").hide(); //oculta a div dos valores de venda 
+ $("#divValorAluguel").hide(); //oculta a div dos valores de aluguel
+ 
+ $("#sltTipoImovel").change(function () {
+ if ($(this).val() == "casa") {
+ $("#divCaracteristicas").show();
+ $("#condicao").show();
+ }
+ if ($(this).val() == "apartamentoplanta") {
+ $("#divCaracteristicas").show();
+ $("#condicao").hide();
+ //$("#divCaracteristicas").hide();
+ }
+ if ($(this).val() == "apartamento") {
+ $("#divCaracteristicas").show();
+ $("#condicao").hide();
+ }
+ if ($(this).val() == "salacomercial") {
+ $("#divCaracteristicas").hide();
+ $("#condicao").show();
+ }
+ if ($(this).val() == "terreno") {
+ $("#divCaracteristicas").hide();
+ $("#condicao").show();
+ }
+ if ($(this).val() == "") {
+ $("#divCaracteristicas").hide();
+ $("#condicao").hide();
+ }
+ })
+ 
+ $("#sltFinalidade").change(function () {
+ 
+ if ($(this).val() == "venda") {
+ $("#divValorAluguel").hide();
+ $("#divValorVenda").show();
+ 
+ }
+ if ($(this).val() == "aluguel") {
+ $("#divValorVenda").hide();
+ $("#divValorAluguel").show();
+ }
+ 
+ })
+ 
+ $("input[name=sltCidade]").change(function () {
+ $("#defaultBairro").html("<option value=''>Procurando...</div>");
+ $.post('index.php?hdnEntidade=Bairro&hdnAcao=selecionarBairro&idcidade=' + $('#sltCidade').val(),
+ function (resposta) {
+ $("#defaultBairro").html("Selecione o Bairro");
+ $("#menuBairro").html(resposta);
+ }
+ );
+ });
+ 
+ $("input[name=sltCidadeAvancado]").change(function () {
+ $("#defaultBairroAvancado").html("<option value=''>Procurando...</div>");
+ $.post('index.php?hdnEntidade=Bairro&hdnAcao=selecionarBairro&idcidade=' + $('#sltCidadeAvancado').val(),
+ function (resposta) {
+ $("#defaultBairroAvancado").html("Selecione o Bairro");
+ $("#menuBairroAvancado").html(resposta);
+ }
+ );
+ });
+ 
+ $("#spanValor").priceFormat({
+ prefix: 'R$ ',
+ centsSeparator: ',',
+ centsLimit: 0,
+ limit: 8,
+ thousandsSeparator: '.'
+ })
+ 
+ $('.ui.dropdown')
+ .dropdown({
+ on: 'hover'
+ });
+ $('.ui.checkbox')
+ .checkbox();
+ 
+ $('.special.cards .image').dimmer({
+ on: 'hover'
+ });
+ 
+ 
+ $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
+ tipoImovel: 'todos',
+ valor: '',
+ finalidade: '',
+ cidade: '',
+ bairro: '',
+ quarto: '',
+ condicao: '',
+ id: $('#hdUsuario').val(),
+ garagem: 'false'});
+ 
+ 
+ $("#btnBuscarAnuncioUsuario").on('click', function () {
+ $("#load").addClass('ui active inverted dimmer');
+ if ($('#sltTipoImovel').val() == "") {
+ tipoimovel = "todos"
+ } else {
+ tipoimovel = $('#sltTipoImovel').val()
+ }
+ ;
+ $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
+ tipoImovel: tipoimovel,
+ valor: $('#sltValor').val(),
+ finalidade: $('#sltFinalidade').val(),
+ idcidade: $('#sltCidade').val(),
+ idbairro: $('#sltBairro').val(),
+ quarto: $('#sltQuartos').val(),
+ banheiro: $('#sltBanheiros').val(),
+ suite: $('#sltSuites').val(),
+ condicao: $('#sltCondicao').val(),
+ id: $('#hdUsuario').val(),
+ garagem: $('#checkgaragem').parent().checkbox('is checked')}, function () {
+ $("#load").addClass('ui active inverted dimmer');
+ });
+ setTimeout(function () {
+ $('#load').removeClass("ui active inverted dimmer");
+ }, 1000);
+ });
+ 
+ $("#btnBuscarAnuncioUsuarioAvancado").on('click', function () {
+ $("#load").addClass('ui active inverted dimmer');
+ if ($('#sltTipoImovelAvancado').val() == "") {
+ tipoimovel = "todos"
+ } else {
+ tipoimovel = $('#sltTipoImovelAvancado').val()
+ }
+ ;
+ $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
+ tipoImovel: tipoimovel,
+ valor: $('#sltValor').val(),
+ finalidade: $('#sltFinalidadeAvancado').val(),
+ idcidade: $('#sltCidadeAvancado').val(),
+ idbairro: $('#sltBairroAvancado').val(),
+ quarto: $('#sltQuartos').val(),
+ banheiro: $('#sltBanheiros').val(),
+ suite: $('#sltSuites').val(),
+ condicao: $('#sltCondicaoAvancado').val(),
+ unidadesandar: $('#sltUnidadesAndar').val(),
+ area: $('#sltArea').val(),
+ diferencial: $('#carregarDiferenciais').val(),
+ id: $('#hdUsuario').val(),
+ garagem: $('#sltGaragem').val()}, function () {
+ $("#load").addClass('ui active inverted dimmer');
+ });
+ setTimeout(function () {
+ $('#load').removeClass("ui active inverted dimmer");
+ }, 1000);
+ });
+ 
+ });
+ }*/
 
 function carregarAnuncio() { //valor = quantidade de anuncios
 
@@ -301,11 +301,21 @@ function carregarAnuncio() { //valor = quantidade de anuncios
         $('.special.cards .image').dimmer({
             on: 'hover'
         });
-        
-        $('#lista').jplist({           
-              itemsBox: '.list', 
-              itemPath: '.list-item', 
-              panelPath: '.jplist-panel'	
+
+        $('#lista').jplist({
+            itemsBox: '.list',
+            itemPath: '.list-item',
+            panelPath: '.jplist-panel',
+//          Executa a action do botão de detalhes a cada vez que os cards são renderizados pela paginação.  
+            redrawCallback: function () {
+                $('.special.cards .image .button').on('click', function () {
+                    $("#hdnCodAnuncio").val($(this).siblings().val());
+                    $("#hdnTipoImovel").val($(this).siblings().next().val());
+                    $("#hdnEntidade").val("Anuncio");
+                    $("#hdnAcao").val("detalhar");
+                    $('#form').submit();
+                })
+            }
         })
 
         $('.ui.checkbox')
@@ -350,14 +360,6 @@ function carregarAnuncio() { //valor = quantidade de anuncios
             thousandsSeparator: '.'
         })
 
-        $('.special.cards .image .button').on('click', function () {
-            $("#hdnCodAnuncio").val($(this).siblings().val());
-            $("#hdnTipoImovel").val($(this).siblings().next().val());
-            $("#hdnEntidade").val("Anuncio");
-            $("#hdnAcao").val("detalhar");
-            $('#form').submit();
-        })
-
         $("#hdnOrdTipoImovel").val($('#sltTipoImovel').val());
         $("#hdnOrdValor").val($('#sltValor').val());
         $("#hdnOrdFinalidade").val($('#sltFinalidade').val());
@@ -366,16 +368,6 @@ function carregarAnuncio() { //valor = quantidade de anuncios
         $("#hdnOrdQuarto").val($('#sltQuartos').val());
         $("#hdnOrdCondicao").val($('#sltCondicao').val());
         $("#hdnOrdGaragem").val($('#checkgaragem').parent().checkbox('is checked'));
-
-        $('#tabela').DataTable({
-            "language": {
-                "url": "assets/libs/datatables/js/Portuguese-Brasil.json",
-            },
-            "pageLength": 8,
-            "lengthMenu": [8, 16, 24, 32, "Todos"],
-            "stateSave": true,
-            "bSort": false
-        });
 
     })
 
@@ -423,7 +415,7 @@ function confirmarEmail() {
             $("input[type^='checkbox']:checked").each(function ()
             {
                 $("#idAnuncios").append("<input type='hidden' name='anunciosSelecionados[]' value='" + $(this).val() + "'>");
-                var codigos = $( "input[name^='hdnCodAnuncioFormatado']" );
+                var codigos = $("input[name^='hdnCodAnuncioFormatado']");
                 arr.push($(this).parent().parent().parent().find(codigos).val());
             });
 
@@ -562,12 +554,12 @@ function enviarEmail() {
                         $("#botaoCancelarEmail").hide();
                         $("#botaoFecharEmail").show();
                         if (resposta.resultado == 1) {
-                            $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
-                        <p>E-Mail enviado com Sucesso </p>');
+                            $("#divRetorno").html('<div class="ui positive message">\n\
+<i class="big green check circle outline icon"></i>Anúncio(s) Enviados com Sucesso</div>');
 
                         } else {
-                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-    <h2 class="ui header">Tente novamente mais tarde!</h2><p>Houve um erro no processamento. </p></div>');
+                            $("#divRetorno").html('<div class="ui negative message">\n\
+<i class="big red remove circle outline icon"></i>Tente novamente mais tarde. Houve um erro no processamento</div>');
                         }
                     }
                 })
@@ -578,28 +570,28 @@ function enviarEmail() {
     });
 }
 
-function inserirValidacao(){
-    $(document).ready(function () { 
-    if($("#hdnFinalidade").val() == "Venda" ){
-               
-                $("#txtProposta").rules("add", {
-                    minLenght: 4,
-                    maxLenght: 7
-                });
-            }
-     });
+function inserirValidacao() {
+    $(document).ready(function () {
+        if ($("#hdnFinalidade").val() == "Venda") {
+
+            $("#txtProposta").rules("add", {
+                minLenght: 4,
+                maxLenght: 7
+            });
+        }
+    });
 }
 
 
 
 function enviarDuvidaAnuncio() {
-    $(document).ready(function () {     
-        
+    $(document).ready(function () {
+
         $("#botaoFecharDuvida").hide();
 
         $('#btnDuvida').click(function () {
-       
-            
+
+
             $('#txtNomeDuvida').maxlength({
                 alwaysShow: true,
                 threshold: 50,
@@ -687,7 +679,6 @@ function enviarDuvidaAnuncio() {
                     txtEmailDuvida: {
                         email: "Informe um email válido"
                     },
-                    
                     captcha_code: {
                         remote: "Código Inválido"
                     },
@@ -710,13 +701,13 @@ function enviarDuvidaAnuncio() {
                             $("#botaoCancelarDuvida").hide();
                             $("#botaoFecharDuvida").show();
                             if (resposta.resultado == 1) {
-                                $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
-                        <p>Mensagem enviada com Sucesso </p>');
+                                $("#divRetorno").html("<div class='ui positive message'>\n\
+<i class='big green check circle outline icon'></i>Mensagem Enviada com Sucesso</div>");
                                 $("#btnDuvida").attr("disabled", "disabled");
 
                             } else {
-                                $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-                        <h2 class="ui header">Tente novamente mais tarde. Houve um erro no processamento.</h2></div>');
+                                $("#divRetorno").html("<div class='ui negative message'>\n\
+<i class='big red remove circle outline icon'></i>Erro no Envio. Tente novamente em alguns minutos</div>");
                             }
                         }
                     })
@@ -751,99 +742,97 @@ function marcarMapa(logradouro, numero, bairro, cidade, estado, tituloAnuncio, v
     $(document).ready(function () {
 
         $("#mapaGmapsBusca").width(altura).height(largura).gmap3();
-      
-        if(latitude == "" && longitude == ""){
-        
-        $("#mapaGmapsBusca").gmap3({
 
-            map: {
-                options: {
-                    center: [-1.38, -48.2],
-                    zoom: aprox,
-                    draggable: true
-                }
-            },
-            marker: {
-                values: [
-                    {address: logradouro + ", " + numero + ", " + bairro + ", " + cidade + ", " + estado, data: tituloAnuncio + " - R$ " + valor + "<br>" + "Finalidade: " + finalidade},
-                ],
-                options: {
-                    draggable: true
-                },
-                events: {
-                    mouseover: function (marker, event, context) {
-                        var map = $(this).gmap3("get"),
-                                infowindow = $(this).gmap3({get: {name: "infowindow"}});
-                        if (infowindow) {
-                            infowindow.open(map, marker);
-                            infowindow.setContent(context.data);
-                        } else {
-                            $(this).gmap3({
-                                infowindow: {
-                                    anchor: marker,
-                                    options: {content: context.data}
-                                }
-                            });
-                        }
-                    },
-                    mouseout: function () {
-                        var infowindow = $(this).gmap3({get: {name: "infowindow"}});
-                        if (infowindow) {
-                            infowindow.close();
-                        }
-                    }
-                }
-            }
-        });
-        
-        } else {
-            
+        if (latitude == "" && longitude == "") {
+
             $("#mapaGmapsBusca").gmap3({
-
-            map: {
-                options: {
-                    center: [-1.38, -48.2],
-                    zoom: aprox,
-                    draggable: true
-                }
-            },
-            marker: {
-                values: [
-                    {latLng:[latitude, longitude], data: tituloAnuncio + " - R$ " + valor + "<br>" + "Finalidade: " + finalidade},
-                ],
-                options: {
-                    draggable: true
+                map: {
+                    options: {
+                        center: [-1.38, -48.2],
+                        zoom: aprox,
+                        draggable: true
+                    }
                 },
-                events: {
-                    mouseover: function (marker, event, context) {
-                        var map = $(this).gmap3("get"),
-                                infowindow = $(this).gmap3({get: {name: "infowindow"}});
-                        if (infowindow) {
-                            infowindow.open(map, marker);
-                            infowindow.setContent(context.data);
-                        } else {
-                            $(this).gmap3({
-                                infowindow: {
-                                    anchor: marker,
-                                    options: {content: context.data}
-                                }
-                            });
-                        }
+                marker: {
+                    values: [
+                        {address: logradouro + ", " + numero + ", " + bairro + ", " + cidade + ", " + estado, data: tituloAnuncio + " - R$ " + valor + "<br>" + "Finalidade: " + finalidade},
+                    ],
+                    options: {
+                        draggable: true
                     },
-                    mouseout: function () {
-                        var infowindow = $(this).gmap3({get: {name: "infowindow"}});
-                        if (infowindow) {
-                            infowindow.close();
+                    events: {
+                        mouseover: function (marker, event, context) {
+                            var map = $(this).gmap3("get"),
+                                    infowindow = $(this).gmap3({get: {name: "infowindow"}});
+                            if (infowindow) {
+                                infowindow.open(map, marker);
+                                infowindow.setContent(context.data);
+                            } else {
+                                $(this).gmap3({
+                                    infowindow: {
+                                        anchor: marker,
+                                        options: {content: context.data}
+                                    }
+                                });
+                            }
+                        },
+                        mouseout: function () {
+                            var infowindow = $(this).gmap3({get: {name: "infowindow"}});
+                            if (infowindow) {
+                                infowindow.close();
+                            }
                         }
                     }
                 }
-            }
-        });
-            
+            });
+
+        } else {
+
+            $("#mapaGmapsBusca").gmap3({
+                map: {
+                    options: {
+                        center: [-1.38, -48.2],
+                        zoom: aprox,
+                        draggable: true
+                    }
+                },
+                marker: {
+                    values: [
+                        {latLng: [latitude, longitude], data: tituloAnuncio + " - R$ " + valor + "<br>" + "Finalidade: " + finalidade},
+                    ],
+                    options: {
+                        draggable: true
+                    },
+                    events: {
+                        mouseover: function (marker, event, context) {
+                            var map = $(this).gmap3("get"),
+                                    infowindow = $(this).gmap3({get: {name: "infowindow"}});
+                            if (infowindow) {
+                                infowindow.open(map, marker);
+                                infowindow.setContent(context.data);
+                            } else {
+                                $(this).gmap3({
+                                    infowindow: {
+                                        anchor: marker,
+                                        options: {content: context.data}
+                                    }
+                                });
+                            }
+                        },
+                        mouseout: function () {
+                            var infowindow = $(this).gmap3({get: {name: "infowindow"}});
+                            if (infowindow) {
+                                infowindow.close();
+                            }
+                        }
+                    }
+                }
+            });
+
         }
-        
+
     });
-    
+
 }
 
 function marcarMapaIndividual(logradouro, numero, bairro, cidade, estado, tituloAnuncio, valor, finalidade, latitude, longitude, altura, largura, aprox) {
@@ -851,100 +840,99 @@ function marcarMapaIndividual(logradouro, numero, bairro, cidade, estado, titulo
     $(document).ready(function () {
 
         $("#mapaGmapsBusca").width(altura).height(largura).gmap3();
-      
-        if(latitude == "" && longitude == ""){
-        
-        $("#mapaGmapsBusca").gmap3({
 
-            map: {
-                options: {
-                    zoom: aprox,
-                    draggable: true
-                }
-            },
-            marker: {
-                values: [
-                    {address: logradouro + ", " + numero + ", " + bairro + ", " + cidade + ", " + estado, data: tituloAnuncio + " - R$ " + valor + "<br>" + "Finalidade: " + finalidade},
-                ],
-                options: {
-                    draggable: true
-                },
-                events: {
-                    mouseover: function (marker, event, context) {
-                        var map = $(this).gmap3("get"),
-                                infowindow = $(this).gmap3({get: {name: "infowindow"}});
-                        if (infowindow) {
-                            infowindow.open(map, marker);
-                            infowindow.setContent(context.data);
-                        } else {
-                            $(this).gmap3({
-                                infowindow: {
-                                    anchor: marker,
-                                    options: {content: context.data}
-                                }
-                            });
-                        }
-                    },
-                    mouseout: function () {
-                        var infowindow = $(this).gmap3({get: {name: "infowindow"}});
-                        if (infowindow) {
-                            infowindow.close();
-                        }
-                    }
-                }
-            }
-        });
-        
-        } else {
-            
+        if (latitude == "" && longitude == "") {
+
             $("#mapaGmapsBusca").gmap3({
-
-            map: {
-                options: {
-                    zoom: aprox,
-                    draggable: true
-                }
-            },
-            marker: {
-                values: [
-                    {latLng:[latitude, longitude], data: tituloAnuncio + " - R$ " + valor + "<br>" + "Finalidade: " + finalidade},
-                ],
-                options: {
-                    draggable: true
+                map: {
+                    options: {
+                        zoom: aprox,
+                        draggable: true
+                    }
                 },
-                events: {
-                    mouseover: function (marker, event, context) {
-                        var map = $(this).gmap3("get"),
-                                infowindow = $(this).gmap3({get: {name: "infowindow"}});
-                        if (infowindow) {
-                            infowindow.open(map, marker);
-                            infowindow.setContent(context.data);
-                        } else {
-                            $(this).gmap3({
-                                infowindow: {
-                                    anchor: marker,
-                                    options: {content: context.data}
-                                }
-                            });
-                        }
+                marker: {
+                    values: [
+                        {address: logradouro + ", " + numero + ", " + bairro + ", " + cidade + ", " + estado, data: tituloAnuncio + " - R$ " + valor + "<br>" + "Finalidade: " + finalidade},
+                    ],
+                    options: {
+                        draggable: true
                     },
-                    mouseout: function () {
-                        var infowindow = $(this).gmap3({get: {name: "infowindow"}});
-                        if (infowindow) {
-                            infowindow.close();
+                    events: {
+                        mouseover: function (marker, event, context) {
+                            var map = $(this).gmap3("get"),
+                                    infowindow = $(this).gmap3({get: {name: "infowindow"}});
+                            if (infowindow) {
+                                infowindow.open(map, marker);
+                                infowindow.setContent(context.data);
+                            } else {
+                                $(this).gmap3({
+                                    infowindow: {
+                                        anchor: marker,
+                                        options: {content: context.data}
+                                    }
+                                });
+                            }
+                        },
+                        mouseout: function () {
+                            var infowindow = $(this).gmap3({get: {name: "infowindow"}});
+                            if (infowindow) {
+                                infowindow.close();
+                            }
                         }
                     }
                 }
-            }
-        });
-            
+            });
+
+        } else {
+
+            $("#mapaGmapsBusca").gmap3({
+                map: {
+                    options: {
+                        zoom: aprox,
+                        draggable: true
+                    }
+                },
+                marker: {
+                    values: [
+                        {latLng: [latitude, longitude], data: tituloAnuncio + " - R$ " + valor + "<br>" + "Finalidade: " + finalidade},
+                    ],
+                    options: {
+                        draggable: true
+                    },
+                    events: {
+                        mouseover: function (marker, event, context) {
+                            var map = $(this).gmap3("get"),
+                                    infowindow = $(this).gmap3({get: {name: "infowindow"}});
+                            if (infowindow) {
+                                infowindow.open(map, marker);
+                                infowindow.setContent(context.data);
+                            } else {
+                                $(this).gmap3({
+                                    infowindow: {
+                                        anchor: marker,
+                                        options: {content: context.data}
+                                    }
+                                });
+                            }
+                        },
+                        mouseout: function () {
+                            var infowindow = $(this).gmap3({get: {name: "infowindow"}});
+                            if (infowindow) {
+                                infowindow.close();
+                            }
+                        }
+                    }
+                }
+            });
+
         }
-        setTimeout(function(){ 
-        $("#mapaGmapsBusca").width("100%").height(300).gmap3({trigger:"resize"});
-        $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({get:"marker"}).getPosition());}, 1000);
+        setTimeout(function () {
+            $("#mapaGmapsBusca").width("100%").height(300).gmap3({trigger: "resize"});
+            $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({get: "marker"}).getPosition());
+        }, 1000);
     });
-    
-     
+
+
 
 }
 
@@ -953,9 +941,8 @@ function marcarMapaPublicarAnuncio(logradouro, numero, bairro, cidade, estado, t
     $(document).ready(function () {
 
         $("#mapaGmapsBusca").width(altura).height(largura).gmap3();
-      
+
         $("#mapaGmapsBusca").gmap3({
-            
             map: {
                 options: {
                     zoom: aprox,
@@ -964,10 +951,10 @@ function marcarMapaPublicarAnuncio(logradouro, numero, bairro, cidade, estado, t
             },
             marker: {
                 values: [{
-                        address: logradouro + ", " + numero + ", " + bairro + ", "+ cidade + "," + estado, 
+                        address: logradouro + ", " + numero + ", " + bairro + ", " + cidade + "," + estado,
                         data: "Arraste o marcador, caso necessário, para o endereço correto"/*,
-                        lat: logradouro + ", " + numero + ", " + bairro + ", "+ cidade + "," + estado,
-                        lng: logradouro + ", " + numero + ", " + bairro + ", "+ cidade + "," + estado*/
+                         lat: logradouro + ", " + numero + ", " + bairro + ", "+ cidade + "," + estado,
+                         lng: logradouro + ", " + numero + ", " + bairro + ", "+ cidade + "," + estado*/
                     },
                 ],
                 options: {
@@ -995,20 +982,20 @@ function marcarMapaPublicarAnuncio(logradouro, numero, bairro, cidade, estado, t
                             infowindow.close();
                         }
                     },
-                    dragend: function(map, event){
-                         var myLatLng = event.latLng;
-                         var lat = myLatLng.lat();
-                         var lng = myLatLng.lng();
-                         
-                         $("#hdnLatitude").val(lat);
-                         $("#hdnLongitude").val(lng);
-                         
-                         //alert($("#hdnLatitude").val()+$("#hdnLongitude").val());
-                         
+                    dragend: function (map, event) {
+                        var myLatLng = event.latLng;
+                        var lat = myLatLng.lat();
+                        var lng = myLatLng.lng();
+
+                        $("#hdnLatitude").val(lat);
+                        $("#hdnLongitude").val(lng);
+
+                        //alert($("#hdnLatitude").val()+$("#hdnLongitude").val());
+
                     }
                 }
-            }        
-            
+            }
+
         });
 
     });
@@ -1039,29 +1026,29 @@ function carregarDiferencial() {
     })
 }
 
-function carregarCarrosselPreferencias(){
-    
-        $(document).ready(function () {
+function carregarCarrosselPreferencias() {
 
-    $('.owl-carousel').owlCarousel({
-        loop: true,
-        nav: true,
-        margin:39,
-        stagePadding: 25,
-        items: 4,        
-        responsive:{
-        0:{
-            items:1
-        },
-        600:{
-            items:2
-        },
-        1000:{
-            items:4
-        }
-    }
-})
+    $(document).ready(function () {
+
+        $('.owl-carousel').owlCarousel({
+            loop: true,
+            nav: true,
+            margin: 39,
+            stagePadding: 25,
+            items: 4,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 2
+                },
+                1000: {
+                    items: 4
+                }
+            }
         })
+    })
 }
 
 function inicio() {
@@ -1296,7 +1283,7 @@ function inicio() {
 function ordemInicio() {
 
     $(document).ready(function () {
-     
+
         $("#sltOrdenacao").change(function () {
             $("#load").addClass('ui active inverted dimmer');
             if ($('#hdnOrdTipoImovel').val() == "") {
