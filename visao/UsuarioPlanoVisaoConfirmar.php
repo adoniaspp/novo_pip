@@ -7,7 +7,13 @@ Sessao::gerarToken();
         $("#btnCancelar").click(function () {
             window.history.back();
         })
+        $("#btnConfirmar").click(function () {
+            $("#form").submit();
+            $("#divBotoes").html('<div class="ui segment"><div class="ui active inverted dimmer"><div class="ui text large loader"><p style="color:red">Processando...<br>Aguarde, você será redirecionado para o PAGSEGURO...</p></div></div><br><br><br><br><br></div>');
+            return false;
+        });
     })
+
 </script>
 <!-- HTML -->
 <div class="ui column doubling grid container">
@@ -74,8 +80,10 @@ Sessao::gerarToken();
                 <input type="hidden" id="hdnAcao" name="hdnAcao" value="comprar" />
                 <input type="hidden" id="hdnPlano" name="hdnPlano" value="<?php echo $item["confirmacao"]["tokenPlano"]; ?>" />
                 <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
-                <button class="ui green button">Confirmar</button>
-                <button class="ui orange button" id="btnCancelar">Cancelar</button>
+                <div id="divBotoes">
+                    <button class="ui green button" type="button" id="btnConfirmar">Confirmar</button>
+                    <button class="ui orange button" type="button" id="btnCancelar">Cancelar</button>
+                </div>
             </form>
         </div>
     </div>
