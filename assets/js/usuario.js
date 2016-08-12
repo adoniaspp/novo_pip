@@ -1317,6 +1317,22 @@ function telefone() {
 function ordenarMensagem(){
     
     $(document).ready(function () {
+        
+        $('#lista').jplist({
+            itemsBox: '.list',
+            itemPath: '.list-item',
+            panelPath: '.jplist-panel',
+//          Executa a action do botão de detalhes a cada vez que os cards são renderizados pela paginação.  
+            redrawCallback: function () {
+                $('.special.cards .image .button').on('click', function () {
+                    $("#hdnCodAnuncio").val($(this).siblings().val());
+                    $("#hdnTipoImovel").val($(this).siblings().next().val());
+                    $("#hdnEntidade").val("Anuncio");
+                    $("#hdnAcao").val("detalhar");
+                    $('#form').submit();
+                })
+            }
+        })
     
         $("#sltStatusMensagem").change(function () {
             
