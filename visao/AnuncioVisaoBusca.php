@@ -8,6 +8,10 @@
 <link href="assets/libs/jplist/jplist.pagination-bundle.min.css" rel="stylesheet" type="text/css" />
 <script src="assets/libs/jplist/jplist.pagination-bundle.min.js"></script>
 <link href="assets/css/template-pip.css" rel="stylesheet" type="text/css" />
+<script src="assets/libs/imagefill.js-master/jquery-imagefill.js"></script>
+<link href="assets/css/libs/imagefill.js-master/grid.css" rel="stylesheet" type="text/css" />
+<link href="assets/css/libs/imagefill.js-master/main.css" rel="stylesheet" type="text/css" />
+<script src="assets/libs/imagefill.js-master/imagesloaded.pkgd.min.js"></script>
 
 
 <script>

@@ -295,6 +295,8 @@ function buscarAnuncio() {
 function carregarAnuncio() { //valor = quantidade de anuncios
 
     $(document).ready(function () {
+        
+        $('.ui card').imagefill();
 
         var selecionado = 0;
 
