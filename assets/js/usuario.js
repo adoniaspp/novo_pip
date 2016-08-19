@@ -428,6 +428,16 @@ function confirmar() {
 function carregaDadosModal($div) {
     $(document).ready(function () {
         $div.html("");
+        
+        if(jQuery.type($("#txtLogin").val()) !== "undefined"){  //é cadastro
+
+            var inseriLogin = "<div class='item'>\n\
+                                  <div class='content'>\n\
+                                    <div class='header'>Login:</div>" + $('#txtLogin').val() + "</div>\n\
+                                </div>";
+        } else inseriLogin = ""; //é edição, ou seja, não deve aparecer o login no modal
+        //fim do verificar se é cadastro ou edição do usuário
+        
         if ($("#sltTipoUsuario").val() === "pf")
         {
             $div.append("<div class='ui horizontal list'>\n\
@@ -443,10 +453,7 @@ function carregaDadosModal($div) {
                                 <div class='item'>\n\
                                   <div class='content'>\n\
                                     <div class='header'>CPF</div>" + $("#txtCPF").val() + "</div>\n\
-                                </div>\n\
-                                <div class='item'>\n\
-                                  <div class='content'>\n\
-                                    <div class='header'>Login</div>" + $('#txtLogin').val() + "</div></div>");
+                                </div>"+inseriLogin);
             $div.append("</div>");
         } else {
             $div.append("<div class='ui horizontal list'>\n\
@@ -477,13 +484,8 @@ function carregaDadosModal($div) {
                                   <div class='content'>\n\
                                     <div class='header'>Razão Social</div>\n\
                                     " + $("#txtRazaoSocial").val() + "</div>\n\
-                                </div>\n\
-                                <div class='item'>\n\
-                                  <div class='content'>\n\
-                                    <div class='header'>Login</div>\n\
-                                    " + $('#txtLogin').val() + "\n\
-                                </div></div>\n\
-                        </div>");  
+                                </div>"+inseriLogin+"\n\
+                                </div>");  
         }
         /*
         if (jQuery.type($("#txtLogin").val()) !== "undefined") {
@@ -1322,16 +1324,7 @@ function ordenarMensagem(){
             itemsBox: '.list',
             itemPath: '.list-item',
             panelPath: '.jplist-panel',
-//          Executa a action do botão de detalhes a cada vez que os cards são renderizados pela paginação.  
-            redrawCallback: function () {
-                $('.special.cards .image .button').on('click', function () {
-                    $("#hdnCodAnuncio").val($(this).siblings().val());
-                    $("#hdnTipoImovel").val($(this).siblings().next().val());
-                    $("#hdnEntidade").val("Anuncio");
-                    $("#hdnAcao").val("detalhar");
-                    $('#form').submit();
-                })
-            }
+
         })
     
         $("#sltStatusMensagem").change(function () {

@@ -887,16 +887,20 @@ foreach ($imoveis as $qtdAnuncios) {
                             foreach ($item["usuarioPlano"] as $usuarioPlano) {
                                 
                                 if($usuarioPlano->getStatus() == "ativo"){
-                                    $statusPlano = "<h4 class='ui green header'>Ativo</h4>";
+                                    $statusPlano = "<h4 class='ui green header'>Ativado</h4>";
                                 } 
                                 
-                                if($usuarioPlano->getStatus() == "ativo"){
+                                if($usuarioPlano->getStatus() == "utilizado"){
                                     $statusPlano = "<h4 class='ui red header'>Utilizado</h4>";
                                 }
                                 
                                 if($usuarioPlano->getStatus() == "pagamento pendente"){
                                     $statusPlano = "<h4 class='ui yellow header'>Pagamento Pendente</h4>";
-                                }                               
+                                }     
+                                
+                                if($usuarioPlano->getStatus() == "expirado"){
+                                    $statusPlano = "<h4 class='ui red header'>Expirado</h4>";
+                                }
                                 
                                 echo "<tr>";
                                 echo "<td>" . $usuarioPlano->getPlano()->getTitulo() . " (" . $usuarioPlano->getPlano()->getValidadepublicacao() . " dias)</td>";
@@ -905,13 +909,15 @@ foreach ($imoveis as $qtdAnuncios) {
                                 if ($usuarioPlano->getStatus() != "ativo") {
                                     echo "<td>" . $usuarioPlano->DataExpiracao($usuarioPlano->getPlano()->getValidadeativacao()) . "</td>";
                                 } else {
-                                    echo "<td> - </td>";
+                                    echo "<td> Já Ativado </td>";
                                 }
                                 echo "<td>" . $statusPlano . "</td>";                               
                                 
                                 foreach ($imoveis as $anuncios) {
                                     
                                     if($anuncios <> null){
+                                        
+                                        if($qtdAnuncios->getAnuncio() != null){
                                     
                                         if ($qtdAnuncios->getAnuncio()->getIdUsuarioPlano() == $usuarioPlano->getId()){
                                             $idAnuncioVinculadoFormatado = $anuncio->getAnuncio()->getIdAnuncio();
@@ -943,6 +949,8 @@ foreach ($imoveis as $qtdAnuncios) {
                                             
                                         } else $vinculado = "<h4 class='ui red header'>Nenhum Anúncio</h4>";
 
+                                       } else $vinculado = "<h4 class='ui red header'>Nenhum Anúncio</h4>";
+                                    
                                     } 
                                 }
 

@@ -67,11 +67,16 @@ class UsuarioControle {
                 $visao->exibir('UsuarioVisaoTrocarSenha.php');
                 break;
             case "trocarimagem":
+                if (Sessao::verificarSessaoUsuario()) {
                 $genericoDAO = new GenericoDAO();
                 $selecionarUsuario = $genericoDAO->consultar(new Usuario(), false, array("id" => $_SESSION["idusuario"]));
                 $visao->setItem($selecionarUsuario[0]);
                 $visao->exibir('UsuarioVisaoTrocarImagem.php');
                 break;
+                } else {
+                $visao = new Template();
+                $visao->exibir('UsuarioVisaoLogin.php');
+                }
         }
     }
 
@@ -568,6 +573,9 @@ class UsuarioControle {
     }
 
     public function listarMensagem($parametros) {
+        
+        if (Sessao::verificarSessaoUsuario()) {
+        
         unset($_SESSION["mensagem"]);
         $mensagem = new Mensagem();
         $genericoDAO = new GenericoDAO();
@@ -597,6 +605,12 @@ class UsuarioControle {
             }
             $visao->exibir('UsuarioVisaoMinhasMensagens.php');
         }
+        
+        } else {
+            $visao = new Template();
+            $visao->exibir('UsuarioVisaoLogin.php');
+        }
+        
     }
 
     public function filtrarMensagens($parametros) {
@@ -715,8 +729,7 @@ class UsuarioControle {
     }
 
     public function trocarImagem($parametros) {
-        $visao = new Template();
-        if (Sessao::verificarSessaoUsuario() & Sessao::verificarToken($parametros)) {
+
             $genericoDAO = new GenericoDAO();
             $genericoDAO->iniciarTransacao();
             $selecionarUsuario = $genericoDAO->consultar(new Usuario, false, array("id" => $_SESSION["idusuario"]));
@@ -762,12 +775,7 @@ class UsuarioControle {
                 //$visao->exibir('UsuarioVisaoMeuPIP.php');
                 header("Location: index.php?entidade=Usuario&acao=MeuPIP");
             }
-        } else {
-            //$visao->setItem("errotoken");
-            //$visao->exibir('VisaoErrosGenerico.php');
-            $_SESSION["confirmarOperacao"] = "erroGenerico";
-            header("Location: index.php?entidade=Usuario&acao=MeuPIP");
+            
         }
+    
     }
-
-}

@@ -461,9 +461,9 @@ input[id*="modal_"]:checked + div.modal .modal-content {
 display: none;
 }
 
-/* show the panel */
+/* mostrar */
 .jplist-panel{
-display: block;
+display: block !important;
 }
 
 //fim do cabeçalho     

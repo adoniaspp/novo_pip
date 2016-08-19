@@ -63,8 +63,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                         class="jplist-drop-down" 
                         data-control-type="items-per-page-drop-down" 
                         data-control-name="paging" 
-                        data-control-action="paging"
-                        data-control-animate-to-top="true">
+                        data-control-action="paging">
                         <ul>
                             <li><span data-number="8" data-default="true"> 8 resultados </span></li>
                             <li><span data-number="16"> 16 resultados </span></li>
@@ -83,9 +82,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                         class="jplist-pagination" 
                         data-control-type="pagination" 
                         data-control-name="paging" 
-                        data-control-action="paging"
-                        data-control-animate-to-top="true"
-                        >
+                        data-control-action="paging">
                     </div>
 
                     <div 
@@ -125,7 +122,9 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                             ?>                                                                       
                         </div>
 
-                        <div class="dimmable image">
+                        <div class="dimmable image" style=" text-align: center;
+   margin: 0px auto;
+   max-height: 200px !important;">
                             <div class="ui inverted dimmer">
                                 <div class="content">
                                     <div class="center">
@@ -142,7 +141,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                 foreach ($item['anuncio'][$crtl]['imagem'] as $imagem) {
                                     if ($imagem['destaque'] == 'SIM') {
                                         ?>
-                                        <img src="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . '/' . $imagem['nome'] ?>">
+                                        <img style="width: auto; max-height: 140px; overflow: scroll;position: relative; max-width: 165px" src="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . '/' . $imagem['nome'] ?>">
                                         <?php
                                     }
                                 }
@@ -202,8 +201,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                     class="jplist-drop-down" 
                     data-control-type="items-per-page-drop-down" 
                     data-control-name="paging" 
-                    data-control-action="paging"
-                    data-control-animate-to-top="true">
+                    data-control-action="paging">
                     <ul>
                         <li><span data-number="8" data-default="true"> 8 resultados </span></li>
                         <li><span data-number="16"> 16 resultados </span></li>
@@ -222,8 +220,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                     class="jplist-pagination" 
                     data-control-type="pagination" 
                     data-control-name="paging" 
-                    data-control-action="paging"
-                    data-control-animate-to-top="true">
+                    data-control-action="paging">
                 </div>
             </div>
         </div>
