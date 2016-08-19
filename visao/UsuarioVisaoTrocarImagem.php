@@ -5,7 +5,7 @@
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/js/usuario.js"></script>
 <script>
-    cancelar("Usuario","meuPIP");
+    cancelar("Usuario", "meuPIP");
     trocarImagem();
 </script>
 
@@ -30,21 +30,27 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
             </div>
         </div>
     </div>
-        
+
     <div class="row">
         <div class="column">
             <div class="ui message">
-                <p>Troque <?php if($tipoImagem != "pf"){echo "sua imagem ";} else echo "seu logotipo"; ?>, 
-                selecionando a nova e depois clique em "Alterar Imagem". Se desejar, faça a exclusão da atual</p>
+                <p>Troque <?php
+                    if ($tipoImagem != "pf") {
+                        echo "sua imagem ";
+                    } else
+                        echo "seu logotipo";
+                    ?>, 
+                    selecionando a nova e depois clique em "Alterar Imagem". Se desejar, faça a exclusão da atual</p>
             </div>
         </div>
     </div>
-        
+
 </div>
 
+<form id="form" class="ui form" action="index.php" method="post" enctype="multipart/form-data">
     <div class="ui middle aligned stackable grid container">
-        <div class="column">
-            <form id="form" class="ui form" action="index.php" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="column">
                 <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
                 <input type="hidden" id="hdnAcao" name="hdnAcao" value="trocarimagem" />
                 <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
@@ -53,38 +59,43 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
                 <div class="ui two column center aligned relaxed fitted stackable grid" style="position: relative">
                     <div class="column">
                         <div class="ui header center aligned"><?php echo $tipoImagem; ?>  Atual</div>
-                        
-                            <?php if ($this->getItem()->getFoto() != "") { ?>
+                        <?php if ($this->getItem()->getFoto() != "") { ?>
                             <div class="ui small image right aligned ">
                                 <img src="<?php echo $enderecoImagem; ?>" alt="<?php echo $nomeUsuario; ?>">
                             </div>    
-                            <?php } else { ?>
-                                <img src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" alt="<?php echo $nomeUsuario; ?>" width="247" height="200">
-                            <?php } ?>
-                        
+                        <?php } else { ?>
+                            <img src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" alt="<?php echo $nomeUsuario; ?>" width="247" height="200">
+                        <?php } ?>
                     </div>
-
                     <div class="center aligned column">
                         <div class="ui header"><?php echo $tipoImagem; ?>  Nova</div>
-                          
                         <img id="uploadPreview" src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" width="247" height="200"/><br />
-                    
-                    <div>   
-                        
-                        <label for="attachmentName" class="ui teal icon labeled button btn-file">
-                        <i class="large file image outline icon"></i>                        
-                        <input id="attachmentName" type="file" name="attachmentName" style="display: none"/>Selecionar</label>
-                    </div>  
+                        <div>   
+                            <label for="attachmentName" class="ui teal icon labeled button btn-file">
+                                <i class="large file image outline icon"></i>                        
+                                <input id="attachmentName" type="file" name="attachmentName" style="display: none"/>Selecionar</label>
+                        </div>  
                     </div>
                 </div>
-                <div class="ui hidden  divider"></div>
-                <button class="ui blue button" type="button" id="btnAlterarImagem" disabled="disabled">Alterar Imagem</button>
-                <button class="ui orange button" type="button" id="btnCancelar">Cancelar</button>
-                <button class="ui red button" type="button" id="btnExcluirImagem">Excluir Imagem</button>
-                <div class="ui hidden divider"></div>
-            </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column">
+                <div class="ui stackable borderless three item menu">
+                    <div class=" item">
+                        <button class="ui fluid blue button" type="button" id="btnAlterarImagem" disabled="disabled">Alterar Imagem</button>
+                    </div>
+                    <div class="item">
+                        <button class="ui fluid orange button" type="button" id="btnCancelar">Cancelar</button>
+                    </div>
+                    <div class="item">
+                        <button class="ui fluid red button" type="button" id="btnExcluirImagem">Excluir Imagem</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</form>
 
 <!-- MODAIS -->
 
