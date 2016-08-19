@@ -483,14 +483,14 @@
                                     <div class=" required grouped fields">
                                     <label for="sucesso">Sua negociação foi bem sucedida?</label>
                                     <div class="field">
-                                      <div class="ui radio checkbox checked">
-                                          <input class="hidden" tabindex="0" name="radioSucesso" id="radioSucesso<?php echo $anuncio->getId() ?>" type="radio" value="SIM">
+                                      <div class="ui radio checkbox ">
+                                          <input class="hidden" tabindex="0" name="radioSucesso" id="radioSucessoSim" type="radio" value="SIM" checked="checked">
                                         <label>Sim</label>
                                       </div>
                                     </div>
                                     <div class="field">
                                       <div class="ui radio checkbox">
-                                          <input class="hidden" tabindex="0" name="radioSucesso"  id="radioSucesso<?php echo $anuncio->getId() ?>" type="radio" value="NAO">
+                                          <input class="hidden" tabindex="0" name="radioSucesso"  id="radioSucessoNao" type="radio" value="NAO">
                                         <label>Não</label>
                                       </div>
                                     </div>                                                                      

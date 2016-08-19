@@ -270,7 +270,6 @@ function cadastrarAnuncio() {
         }).on('fileuploadsubmit', function (e, data) {
             data.formData = $("#fileupload").serializeArray();
         }).on('fileuploadalways', function (e, data) {
-            //console.log('completou');
             $('.ui.checkbox').checkbox();
             $("p[class='error']").each(function () {
                 var error = $(this).html();
@@ -957,10 +956,9 @@ function exibirEmailPDFListaAnuncio(){
         
         var selecionado = 0;
       
-        $('.ui.checkbox')
-        .checkbox({
+        $("input[name^='chkAnuncio']").parent().checkbox({
             beforeChecked: function () { //ao clicar no anuncio, marcar de vermelho   
-            console.log(selecionado);
+
                 var NumeroMaximo = 5;
                 if ($("input[name^='listaAnuncio']").length >= NumeroMaximo) {
                     //console.log(selecionado);
@@ -1138,13 +1136,7 @@ function confirmarEmail() {
 function finalizar(botao) {
     $(document).ready(function () {
 
-        $('.ui.radio.checkbox')
-                .checkbox()
-                ;
-
-        $("#radioSucesso" + botao).select(function () {
-            $(this).valid();
-        })
+        $('.ui .radio .checkbox').checkbox();
 
         $("#botaoFecharFinalizar" + botao).hide();
 
@@ -1164,6 +1156,9 @@ function finalizar(botao) {
             $('#modalFinalizar' + botao).modal({
                 closable: false,
                 transition: "fade up",
+                onVisible: function () {
+                    $("#radioSucessoSim:visible").change(function () { $(this).valid();})
+                },
                 onDeny: function () {
                 },
                 onApprove: function () {
