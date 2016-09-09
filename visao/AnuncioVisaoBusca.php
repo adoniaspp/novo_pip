@@ -8,11 +8,6 @@
 <link href="assets/libs/jplist/jplist.pagination-bundle.min.css" rel="stylesheet" type="text/css" />
 <script src="assets/libs/jplist/jplist.pagination-bundle.min.js"></script>
 <link href="assets/css/template-pip.css" rel="stylesheet" type="text/css" />
-<script src="assets/libs/imagefill.js-master/jquery-imagefill.js"></script>
-<link href="assets/css/libs/imagefill.js-master/grid.css" rel="stylesheet" type="text/css" />
-<link href="assets/css/libs/imagefill.js-master/main.css" rel="stylesheet" type="text/css" />
-<script src="assets/libs/imagefill.js-master/imagesloaded.pkgd.min.js"></script>
-
 
 <script>
     carregarAnuncio();
@@ -145,7 +140,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                     foreach ($item['anuncio'][$crtl]['imagem'] as $imagem) {
                                         if ($imagem['destaque'] == 'SIM') {
                                             ?>
-                                            <img style="width: auto; max-height: 140px; overflow: scroll;position: relative; max-width: 165px" src="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . '/' . $imagem['nome'] ?>">
+                                            <img style="display: block; margin-left: auto; margin-right: auto; width: auto; max-height: 140px; overflow: scroll;position: relative; max-width: 165px" src="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . '/' . $imagem['nome'] ?>">
                                             <?php
                                         }
                                     }
@@ -232,11 +227,10 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
     </div>
     <div class="one wide column"></div>
 </form>
-<div class="ui one column centered grid">
-    <div class="four column centered row">
-        <div class="column" id="divBotoes"></div>
-    </div>
-</div>
+
+<div class="ui hidden divider"></div>
+
+<div class="ui one column centered grid" id="divBotoes"></div>
 <div id="load">
     <div class="ui text loader">Carregando...</div>
 </div>  
