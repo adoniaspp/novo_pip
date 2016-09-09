@@ -1,8 +1,5 @@
-<script src="assets/js/buscaAnuncio.js"></script>
 <script src="assets/libs/jquery/jquery.validate.min.js"></script>
 <script src="assets/js/util.validate.js"></script>
-
-
 <script>
 validarArea(true);
 </script>

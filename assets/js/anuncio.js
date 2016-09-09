@@ -975,6 +975,7 @@ function exibirEmailPDFListaAnuncio(){
                     if (selecionado == 1) {
                         $("#divEmailPDF").append(botaoEmailPDF);
                         confirmarEmail();
+                        confirmarEmailPDF();
                     }
                 }
             },
@@ -992,7 +993,7 @@ function exibirEmailPDFListaAnuncio(){
     
 }
 
-function confirmarEmail() {
+function confirmarEmailPDF() {
     $(document).ready(function () {
         
         $('#btnEmailPDF').click(function () {

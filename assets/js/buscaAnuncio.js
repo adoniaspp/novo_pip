@@ -397,37 +397,16 @@ function confirmarEmail() {
     $(document).ready(function () {
 
         $('#btnEmail').click(function () {
-            if ("#hdnMsgDuvida") {
-                $("#txtMsgEmail").rules("add", {
-                    required: true
-                });
-            }
-            $("#camposEmail").show();
-            $("#botaoEnviarEmail").show();
-            $("#botaoCancelarEmail").show();
-            $("#botaoFecharEmail").hide();
-            $("#divRetorno").empty();
-
-            $("#idAnuncios").empty();
-            $("#idAnunciosCabecalho").empty();
-
-            var arr = [];
-            $("input[type^='checkbox']:checked").each(function ()
-            {
-                $("#idAnuncios").append("<input type='hidden' name='anunciosSelecionados[]' value='" + $(this).val() + "'>");
-                var codigos = $("input[name^='hdnCodAnuncioFormatado']");
-                arr.push($(this).parent().parent().parent().find(codigos).val());
-            });
-
-            //retira a vírgula do último elemento
-            var anuncios = arr.join(", ");
-
-            $("#idAnunciosCabecalho").append("<div class='ui horizontal list'>\n\
-                                        <div class='item'>\n\
-                                        <div class='content'>" + anuncios + "</div>\n\
-                         </div>\n\
-                         </div>");
-
+            
+            $("#divMsg").empty();
+            
+            $("#txtNomeEmail").show();
+            $("#labelNome").show();  
+            
+            $('.emailPDF').attr('value', 'enviarEmail'); //alterar o método para enviarEmailPDF 
+            
+            $("#divMsg").append("Envie o(s) Anúncio(s) selecionado(s) para o e-mail desejado");
+            
             $('#modalEmail').modal({
                 closable: true,
                 transition: "fade up",
@@ -438,8 +417,38 @@ function confirmarEmail() {
                     return false; //deixar o modal fixo
                 }
             }).modal('show');
+            
+            $("#txtMsgEmail").rules("add", {
+                    required: true
+                });
+            
+            $("#camposEmail").show();
+            $("#botaoEnviarEmail").show();
+            $("#botaoCancelarEmail").show();
+            $("#botaoFecharEmail").hide();
+            $("#divRetorno").empty();
 
+            $("#idAnuncios").empty();
+            $("#idAnunciosCabecalho").empty();
+            
+            var arr = [];
+            $("input[type^='checkbox']:checked").each(function ()
+            {
+                $("#idAnuncios").append("<input type='hidden' name='anunciosSelecionados[]' value='" + $(this).val() + "'>");
+                var codigos = $( "input[name^='hdnCodAnuncioFormatado']" );
+                arr.push($(this).parent().parent().parent().find(codigos).val());
+            });
 
+            //retira a vírgula do último elemento
+            var anuncios = arr.join(", ");
+
+            $("#idAnunciosCabecalho").append("<div class='ui horizontal list'>\n\
+                                        <div class='item'>\n\
+                                        <div class='content'>" + anuncios + "</div>\n\
+                         </div>\n\
+                         </div>"); 
+            
+           
         })
     })
 }
