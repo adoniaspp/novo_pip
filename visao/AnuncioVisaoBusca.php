@@ -235,5 +235,5 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
     <div class="ui text loader">Carregando...</div>
 </div>  
 <?php
-include_once "/modal/AnuncioEnviarEmailModal.php";
+include_once "modal/AnuncioEnviarEmailModal.php";
 ?>
