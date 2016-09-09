@@ -115,7 +115,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                         <script>
                             formatarValor("<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>");
                         </script>       
-                        <div class="card list-item" id="cartao<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">
+                        <div class="card list-item" style="width: 263px; border-radius: 2.285714rem; box-shadow: 0 1px 3px 0 #D4D4DD,0 0 0 1px #000000" id="cartao<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">
                             <div class="content">
                                 <?php
                                 if ($item['anuncio'][$crtl]['finalidade'] == "Venda") {
