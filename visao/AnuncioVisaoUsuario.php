@@ -194,10 +194,10 @@
     
     <div class="ui hidden divider"></div>
     
-    <div class="ui segment" id="divAnuncios"></div> <!-- Exibe os resultados dos anuncios-->
        
     </div>
 </div>
+    <div id="divAnuncios"></div> <!-- Exibe os resultados dos anuncios-->
 <script>
   /*  $(document).ready(function() {
     $('[id^=btnAnuncioModal]').click(function() {
