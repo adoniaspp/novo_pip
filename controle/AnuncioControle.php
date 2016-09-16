@@ -227,6 +227,8 @@ class AnuncioControle {
   
             $listarAnuncio["mensagem"] = $mensagem;
             
+            Cookies::configurarPreferencias($listarAnuncio);
+            
             $visao->setItem($listarAnuncio);
             
             $visao->exibir('AnuncioVisaoDetalhe.php');
