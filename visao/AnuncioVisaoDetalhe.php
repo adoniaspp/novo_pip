@@ -2,8 +2,6 @@
 
 include_once 'configuracao/cookies.php';
 
-Cookies::configurarPreferencias($this->getItem());
-
 ?>
 
 <link  href="assets/libs/fotorama/fotorama.css" rel="stylesheet">
