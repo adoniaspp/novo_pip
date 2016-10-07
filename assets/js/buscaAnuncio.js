@@ -32,7 +32,10 @@ function buscarAnuncio() {
 
         $('.ui.dropdown')
                 .dropdown({
-                    on: 'hover'
+                    on: 'hover',
+                    message: {
+                      noResults     : 'Nenhum resultado.'
+                    }            
                 });
         $('.ui.checkbox')
                 .checkbox();

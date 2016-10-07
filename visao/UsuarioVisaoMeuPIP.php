@@ -1,5 +1,4 @@
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 <script src="assets/libs/echarts/build/dist/echarts-all.js"></script>
 <script src="assets/js/grafico.js"></script>
@@ -10,7 +9,6 @@
 
 <script>
     $(document).ready(function () {
-
         //função que ordena a data, de acordo com o formato
         $.fn.dataTable.moment('DD/MM/YYYY HH:mm:ss');
 
@@ -23,7 +21,6 @@
             "stateSave": true,
             "searching": false
         });
-
     })
 </script>
 
@@ -41,8 +38,8 @@ $mensagens = $item["mensagem"];
 $usuarioBairro = $item["usuarioBairro"];
 
 
-foreach ($usuarioBairro as $bairroUsuario){
-   $bUsuario = $bairroUsuario->getNome();
+foreach ($usuarioBairro as $bairroUsuario) {
+    $bUsuario = $bairroUsuario->getNome();
 }
 
 $totalAnuncios = 0; //total de anuncios cadastrados
@@ -159,17 +156,14 @@ foreach ($imoveis as $qtdAnuncios) {
     </div>
 
     <?php
-    
-    
-    
     if ($usuario[0]->getEndereco()->getNumero() != "" && $usuario[0]->getEndereco()->getComplemento() != "") {
-        $endereco = $usuario[0]->getEndereco()->getLogradouro() . ", " . $usuario[0]->getEndereco()->getNumero() . ", " . $usuario[0]->getEndereco()->getComplemento(). " - " . $bUsuario;
+        $endereco = $usuario[0]->getEndereco()->getLogradouro() . ", " . $usuario[0]->getEndereco()->getNumero() . ", " . $usuario[0]->getEndereco()->getComplemento() . " - " . $bUsuario;
     } elseif ($usuario[0]->getEndereco()->getNumero() != "" && $usuario[0]->getEndereco()->getComplemento() == "") {
-        $endereco = $usuario[0]->getEndereco()->getLogradouro() . ", " . $usuario[0]->getEndereco()->getNumero(). " - " . $bUsuario;
+        $endereco = $usuario[0]->getEndereco()->getLogradouro() . ", " . $usuario[0]->getEndereco()->getNumero() . " - " . $bUsuario;
     } elseif ($usuario[0]->getEndereco()->getNumero() == "" && $usuario[0]->getEndereco()->getComplemento() == "") {
-        $endereco = $usuario[0]->getEndereco()->getLogradouro(). " - " . $bUsuario;
+        $endereco = $usuario[0]->getEndereco()->getLogradouro() . " - " . $bUsuario;
     } elseif ($usuario[0]->getEndereco()->getNumero() == "" && $usuario[0]->getEndereco()->getComplemento() != "") {
-        $endereco = $usuario[0]->getEndereco()->getLogradouro() . ", " . $usuario[0]->getEndereco()->getComplemento(). " - " . $bUsuario;
+        $endereco = $usuario[0]->getEndereco()->getLogradouro() . ", " . $usuario[0]->getEndereco()->getComplemento() . " - " . $bUsuario;
     }
     ?>    
 </div>
@@ -184,11 +178,11 @@ foreach ($imoveis as $qtdAnuncios) {
     <div class="column">
         <div class="ui segment">
             <a class="header"><?php
-                if ($usuario[0]->getTipoUsuario() == "pf") {
-                    echo "Nome - Email:";
-                } else
-                    echo "Empresa - Email:"
-                    ?></a>
+    if ($usuario[0]->getTipoUsuario() == "pf") {
+        echo "Nome - Email:";
+    } else
+        echo "Empresa - Email:"
+        ?></a>
             <div class="description"><?php echo $usuario[0]->getNome() . " - " . $usuario[0]->getEmail(); ?></div>
         </div>
     </div>
@@ -200,24 +194,24 @@ foreach ($imoveis as $qtdAnuncios) {
     <div class="column">
         <div class="ui segment"><a class="header">Telefone(s):</a>
             <div class="description">
-                <?php
-                $quantidade = count($usuario[0]->getTelefone());
-                if ($quantidade == 1) {
-                    $array = array($usuario[0]->getTelefone());
-                } else {
-                    $array = $usuario[0]->getTelefone();
-                }
-                foreach ($array as $telefone) {
-                    if ($telefone->getWhatsApp() == "SIM") {
-                        $fones[] = $telefone->getOperadora() . " - " . $telefone->getNumero() . "  <i class='large green whatsapp icon'></i> ";
-                    } else
-                        $fones[] = $telefone->getOperadora() . " - " . $telefone->getNumero();
-                }
+<?php
+$quantidade = count($usuario[0]->getTelefone());
+if ($quantidade == 1) {
+    $array = array($usuario[0]->getTelefone());
+} else {
+    $array = $usuario[0]->getTelefone();
+}
+foreach ($array as $telefone) {
+    if ($telefone->getWhatsApp() == "SIM") {
+        $fones[] = $telefone->getOperadora() . " - " . $telefone->getNumero() . "  <i class='large green whatsapp icon'></i> ";
+    } else
+        $fones[] = $telefone->getOperadora() . " - " . $telefone->getNumero();
+}
 
-                $fonesImplode = implode(" | ", $fones); //retirar a barra do último elemento
+$fonesImplode = implode(" | ", $fones); //retirar a barra do último elemento
 
-                echo $fonesImplode;
-                ?>
+echo $fonesImplode;
+?>
             </div></div>
     </div>
 </div>
@@ -245,170 +239,170 @@ foreach ($imoveis as $qtdAnuncios) {
             <i class="add icon"></i> Cadastrar Imóvel
         </a>
 
-        <?php
-        if ($item) {
-            if ($item['imovel']) {
-                ?>
+<?php
+if ($item) {
+    if ($item['imovel']) {
+        ?>
                 <a href="index.php?entidade=Imovel&acao=listarEditar" class="item"> 
                     <i class="edit icon"></i> Alterar Imóvel
                 </a>
                 <a href="index.php?entidade=Imovel&acao=listar" class="item"> 
                     <i class="list icon"></i> Meus Imóveis
                 </a>
-                <?php
-            }
-            ?>
+        <?php
+    }
+    ?>
 
             <?php
         }
         ?> 
     </div>
     <!--TABELAS IMOVEIS-->
-    <?php
-    if ($item) {
-        if ($item['imovel']) {
-            ?>
+        <?php
+        if ($item) {
+            if ($item['imovel']) {
+                ?>
 
             <div class="row">
                 <div class="ui horizontal segments">
 
-                    <?php
-                    $casaAnuncio = 0;
-                    $casaAnuncioAluguel = 0;
-                    $casaAnuncioVenda = 0;
-                    $casa = 0;
+        <?php
+        $casaAnuncio = 0;
+        $casaAnuncioAluguel = 0;
+        $casaAnuncioVenda = 0;
+        $casa = 0;
 
-                    $apAnuncio = 0;
-                    $apAnuncioAluguel = 0;
-                    $apAnuncioVenda = 0;
-                    $ap = 0;
+        $apAnuncio = 0;
+        $apAnuncioAluguel = 0;
+        $apAnuncioVenda = 0;
+        $ap = 0;
 
-                    $apPlantaAnuncio = 0;
-                    $apPlantaAnuncioAluguel = 0;
-                    $apPlantaAnuncioVenda = 0;
-                    $apPlanta = 0;
+        $apPlantaAnuncio = 0;
+        $apPlantaAnuncioAluguel = 0;
+        $apPlantaAnuncioVenda = 0;
+        $apPlanta = 0;
 
-                    $salaAnuncio = 0;
-                    $salaAnuncioAluguel = 0;
-                    $salaAnuncioVenda = 0;
-                    $sala = 0;
+        $salaAnuncio = 0;
+        $salaAnuncioAluguel = 0;
+        $salaAnuncioVenda = 0;
+        $sala = 0;
 
-                    $predioAnuncio = 0;
-                    $predioAnuncioAluguel = 0;
-                    $predioAnuncioVenda = 0;
-                    $predio = 0;
+        $predioAnuncio = 0;
+        $predioAnuncioAluguel = 0;
+        $predioAnuncioVenda = 0;
+        $predio = 0;
 
-                    $terrenoAnuncio = 0;
-                    $terrenoAnuncioAluguel = 0;
-                    $terrenoAnuncioVenda = 0;
-                    $terreno = 0;
+        $terrenoAnuncio = 0;
+        $terrenoAnuncioAluguel = 0;
+        $terrenoAnuncioVenda = 0;
+        $terreno = 0;
 
-                    $cadastrado = 0;
+        $cadastrado = 0;
 
-                    foreach ($imoveis as $imovel) {
-                        switch ($imovel->getIdTipoImovel()) {
-                            case 1:
-                                if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado") {
-                                    $casaAnuncio = $casaAnuncio + 1;
-                                }
-
-                                if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Aluguel") {
-                                    $casaAnuncioAluguel = $casaAnuncioAluguel + 1;
-                                } else if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Venda") {
-                                    $casaAnuncioVenda = $casaAnuncioVenda + 1;
-                                }
-
-                                $casa = $casa + 1;
-                                break;
-                            case 2:
-                                if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado") {
-                                    $apPlantaAnuncio = $apPlantaAnuncio + 1;
-                                }
-
-                                if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Aluguel") {
-                                    $apPlantaAnuncioAluguel = $apPlantaAnuncioAluguel + 1;
-                                } else if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Venda") {
-                                    $apPlantaAnuncioVenda = $apPlantaAnuncioVenda + 1;
-                                }
-
-                                $apPlanta = $apPlanta + 1;
-                                break;
-                            case 3:
-                                if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado") {
-                                    $apAnuncio = $apAnuncio + 1;
-                                }
-
-                                if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Aluguel") {
-                                    $apAnuncioAluguel = $apAnuncioAluguel + 1;
-                                } else if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Venda") {
-                                    $apAnuncioVenda = $apAnuncioVenda + 1;
-                                }
-                                $ap = $ap + 1;
-
-                                break;
-                            case 4:
-                                if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado") {
-                                    $salaAnuncio = $salaAnuncio + 1;
-                                }
-
-                                if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Aluguel") {
-                                    $salaAnuncioAluguel = $salaAnuncioAluguel + 1;
-                                } else if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Venda") {
-                                    $salaAnuncioVenda = $salaAnuncioVenda + 1;
-                                }
-
-                                $sala = $sala + 1;
-                                break;
-                            case 5:
-                                if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado") {
-                                    $predioAnuncio = $predioAnuncio + 1;
-                                }
-
-                                if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Aluguel") {
-                                    $predioAnuncioAluguel = $predioAnuncioAluguel + 1;
-                                } else if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Venda") {
-                                    $predioAnuncioVenda = $predioAnuncioVenda + 1;
-                                }
-
-                                $predio = $predio + 1;
-                                break;
-                            case 6:
-                                if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado") {
-                                    $terrenoAnuncio = $terrenoAnuncio + 1;
-                                }
-
-                                if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Aluguel") {
-                                    $terrenoAnuncioAluguel = $terrenoAnuncioAluguel + 1;
-                                } else if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Venda") {
-                                    $terrenoAnuncioVenda = $terrenoAnuncioVenda + 1;
-                                }
-
-                                $terreno = $terreno + 1;
-                                break;
-                        }
+        foreach ($imoveis as $imovel) {
+            switch ($imovel->getIdTipoImovel()) {
+                case 1:
+                    if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado") {
+                        $casaAnuncio = $casaAnuncio + 1;
                     }
-                    ?>
+
+                    if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Aluguel") {
+                        $casaAnuncioAluguel = $casaAnuncioAluguel + 1;
+                    } else if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Venda") {
+                        $casaAnuncioVenda = $casaAnuncioVenda + 1;
+                    }
+
+                    $casa = $casa + 1;
+                    break;
+                case 2:
+                    if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado") {
+                        $apPlantaAnuncio = $apPlantaAnuncio + 1;
+                    }
+
+                    if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Aluguel") {
+                        $apPlantaAnuncioAluguel = $apPlantaAnuncioAluguel + 1;
+                    } else if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Venda") {
+                        $apPlantaAnuncioVenda = $apPlantaAnuncioVenda + 1;
+                    }
+
+                    $apPlanta = $apPlanta + 1;
+                    break;
+                case 3:
+                    if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado") {
+                        $apAnuncio = $apAnuncio + 1;
+                    }
+
+                    if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Aluguel") {
+                        $apAnuncioAluguel = $apAnuncioAluguel + 1;
+                    } else if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Venda") {
+                        $apAnuncioVenda = $apAnuncioVenda + 1;
+                    }
+                    $ap = $ap + 1;
+
+                    break;
+                case 4:
+                    if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado") {
+                        $salaAnuncio = $salaAnuncio + 1;
+                    }
+
+                    if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Aluguel") {
+                        $salaAnuncioAluguel = $salaAnuncioAluguel + 1;
+                    } else if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Venda") {
+                        $salaAnuncioVenda = $salaAnuncioVenda + 1;
+                    }
+
+                    $sala = $sala + 1;
+                    break;
+                case 5:
+                    if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado") {
+                        $predioAnuncio = $predioAnuncio + 1;
+                    }
+
+                    if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Aluguel") {
+                        $predioAnuncioAluguel = $predioAnuncioAluguel + 1;
+                    } else if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Venda") {
+                        $predioAnuncioVenda = $predioAnuncioVenda + 1;
+                    }
+
+                    $predio = $predio + 1;
+                    break;
+                case 6:
+                    if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado") {
+                        $terrenoAnuncio = $terrenoAnuncio + 1;
+                    }
+
+                    if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Aluguel") {
+                        $terrenoAnuncioAluguel = $terrenoAnuncioAluguel + 1;
+                    } else if (count($imovel->getAnuncio()) > 0 && $imovel->getAnuncio()->getStatus() == "cadastrado" && $imovel->getAnuncio()->getFinalidade() == "Venda") {
+                        $terrenoAnuncioVenda = $terrenoAnuncioVenda + 1;
+                    }
+
+                    $terreno = $terreno + 1;
+                    break;
+            }
+        }
+        ?>
 
                     <table class="ui green celled fixed table">
                         <thead>
                             <tr>
                                 <th colspan="6">Você possui 
-                                    <?php
-                                    if (count($imoveis) > 1) {
-                                        echo count($imoveis) . " imóveis cadastrados";
-                                    } else {
-                                        echo " 1 imóvel cadastrado";
-                                    }
-                                    ?>
+        <?php
+        if (count($imoveis) > 1) {
+            echo count($imoveis) . " imóveis cadastrados";
+        } else {
+            echo " 1 imóvel cadastrado";
+        }
+        ?>
                                 </th>
                             </tr>
                             <tr>
                                 <th class="ui center aligned"><?php
-                                    if ($casa > 1) {
-                                        echo "Casas";
-                                    } else
-                                        echo "Casa";
-                                    ?></th>
+                            if ($casa > 1) {
+                                echo "Casas";
+                            } else
+                                echo "Casa";
+        ?></th>
                                 <th class="ui center aligned"><?php
                                     if ($ap > 1) {
                                         echo "Apartamentos";
@@ -473,10 +467,10 @@ foreach ($imoveis as $qtdAnuncios) {
                 </div>
             </div>
 
-            <?php
-        }
+        <?php
     }
-    ?>
+}
+?>
 
     <div class="row">
         <div class="column">
@@ -497,15 +491,15 @@ foreach ($imoveis as $qtdAnuncios) {
         </h2>
     </div>
     <div class="row">
-        <?php
-        if ($item) {
-            if ($item['imovel']) {
-                ?>
+<?php
+if ($item) {
+    if ($item['imovel']) {
+        ?>
                 <div class="ui stackable brown inverted container menu">
                     <a href="index.php?entidade=Anuncio&acao=listarCadastrar" class="item">            
                         <i class="add icon"></i> Publicar Anúncio
                     </a>
-                    <?php if ($item['anuncio']) { ?>
+        <?php if ($item['anuncio']) { ?>
                         <a href="index.php?entidade=Anuncio&acao=listarReativarAluguel" class="item"> 
                             <i class="refresh icon"></i>  Reativar Anúncios (aluguel)
                         </a>
@@ -518,88 +512,88 @@ foreach ($imoveis as $qtdAnuncios) {
                         <a href="index.php?entidade=Usuario&acao=listarMensagem" class="item"> 
                             <i class="mail outline icon"></i> Mensagens
                         </a>
-                    <?php }
-                    ?>
-                </div>
-                <?php
-            } else {
-                echo '<div class="column"><div class="ui red message"><h4 class="ui red header">Primeiro cadastre um imóvel.</h4></div></div>';
-            }
-        }
+        <?php }
         ?>
+                </div>
+                    <?php
+                } else {
+                    echo '<div class="column"><div class="ui red message"><h4 class="ui red header">Primeiro cadastre um imóvel.</h4></div></div>';
+                }
+            }
+            ?>
 
     </div>
     <!-- TABELAS ANUNCIOS -->
-    <?php
-    if ($item) {
-        if ($item['anuncio']) {
-            ?>
+<?php
+if ($item) {
+    if ($item['anuncio']) {
+        ?>
             <div class="row">
                 <div class="eight wide column"> 
-                    <?php
-                    $anuncioAtivo = 0;
-                    $anuncioFinalizado = 0;
-                    $anuncioExpirado = 0;
+            <?php
+            $anuncioAtivo = 0;
+            $anuncioFinalizado = 0;
+            $anuncioExpirado = 0;
 
-                    $anuncioAtivoAluguel = 0;
-                    $anuncioAtivoVenda = 0;
+            $anuncioAtivoAluguel = 0;
+            $anuncioAtivoVenda = 0;
 
-                    $anuncioFinalizadoAluguel = 0;
-                    $anuncioFinalizadoVenda = 0;
+            $anuncioFinalizadoAluguel = 0;
+            $anuncioFinalizadoVenda = 0;
 
-                    $anuncioExpiradoAluguel = 0;
-                    $anuncioExpiradoVenda = 0;
+            $anuncioExpiradoAluguel = 0;
+            $anuncioExpiradoVenda = 0;
 
-                    foreach ($imoveis as $anuncio) {
-                        $anuncios = $anuncio->getAnuncio();
-                        if ($anuncio->getAnuncio()) {
+            foreach ($imoveis as $anuncio) {
+                $anuncios = $anuncio->getAnuncio();
+                if ($anuncio->getAnuncio()) {
 
-                            switch ($anuncio->getAnuncio()->getStatus()) {
-                                case "cadastrado":
-                                    $anuncioAtivo = $anuncioAtivo + 1;
+                    switch ($anuncio->getAnuncio()->getStatus()) {
+                        case "cadastrado":
+                            $anuncioAtivo = $anuncioAtivo + 1;
 
-                                    if ($anuncio->getAnuncio()->getFinalidade() == "Aluguel") {
-                                        $anuncioAtivoAluguel = $anuncioAtivoAluguel + 1;
-                                    } else
-                                        $anuncioAtivoVenda = $anuncioAtivoVenda + 1;
+                            if ($anuncio->getAnuncio()->getFinalidade() == "Aluguel") {
+                                $anuncioAtivoAluguel = $anuncioAtivoAluguel + 1;
+                            } else
+                                $anuncioAtivoVenda = $anuncioAtivoVenda + 1;
 
-                                    break;
-                                case "finalizado":
-                                    $anuncioFinalizado = $anuncioFinalizado + 1;
+                            break;
+                        case "finalizado":
+                            $anuncioFinalizado = $anuncioFinalizado + 1;
 
-                                    if ($anuncio->getAnuncio()->getFinalidade() == "Aluguel") {
-                                        $anuncioFinalizadoAluguel = $anuncioFinalizadoAluguel + 1;
-                                    } else
-                                        $anuncioFinalizadoVenda = $anuncioFinalizadoVenda + 1;
+                            if ($anuncio->getAnuncio()->getFinalidade() == "Aluguel") {
+                                $anuncioFinalizadoAluguel = $anuncioFinalizadoAluguel + 1;
+                            } else
+                                $anuncioFinalizadoVenda = $anuncioFinalizadoVenda + 1;
 
-                                    break;
-                                case "expirado":
-                                    $anuncioExpirado = $anuncioExpirado + 1;
+                            break;
+                        case "expirado":
+                            $anuncioExpirado = $anuncioExpirado + 1;
 
-                                    if ($anuncio->getAnuncio()->getFinalidade() == "Aluguel") {
-                                        $anuncioExpiradoAluguel = $anuncioExpiradoAluguel + 1;
-                                    } else
-                                        $anuncioExpiradoVenda = $anuncioExpiradoVenda + 1;
+                            if ($anuncio->getAnuncio()->getFinalidade() == "Aluguel") {
+                                $anuncioExpiradoAluguel = $anuncioExpiradoAluguel + 1;
+                            } else
+                                $anuncioExpiradoVenda = $anuncioExpiradoVenda + 1;
 
-                                    break;
-                            }
-                        }
+                            break;
                     }
-                    ?>
+                }
+            }
+            ?>
 
-        <?php if ($totalAnuncios > 0) { ?>
+                    <?php if ($totalAnuncios > 0) { ?>
 
                         <div class="ui horizontal segments">       
                             <table class="ui striped brown celled structured fixed table">
                                 <thead>
                                     <tr>                                   
                                         <th colspan="4">Você possui <?php
-                                            if ($totalAnuncios > 1) {
-                                                echo $totalAnuncios . " anúncios cadastrados";
-                                            } else {
-                                                echo " 1 anúncio cadastrado";
-                                            }
-                                            ?> 
+            if ($totalAnuncios > 1) {
+                echo $totalAnuncios . " anúncios cadastrados";
+            } else {
+                echo " 1 anúncio cadastrado";
+            }
+                        ?> 
                                         </th>
                                     </tr>
 
@@ -608,19 +602,19 @@ foreach ($imoveis as $qtdAnuncios) {
                                         <th class="ui center aligned"></th>
 
                                         <th class="ui center aligned"><?php
-                                            if ($anuncioAtivo > 1) {
-                                                echo "Ativos";
-                                            } else
-                                                echo "Ativo";
-                                            ?>
+                                if ($anuncioAtivo > 1) {
+                                    echo "Ativos";
+                                } else
+                                    echo "Ativo";
+                        ?>
                                         </th>
 
                                         <th class="ui center aligned"><?php
-                                            if ($anuncioFinalizado > 1) {
-                                                echo "Finalizados";
-                                            } else
-                                                echo "Finalizado";
-                                            ?></th>
+                                if ($anuncioFinalizado > 1) {
+                                    echo "Finalizados";
+                                } else
+                                    echo "Finalizado";
+                        ?></th>
                                         <th class="ui center aligned"><?php
                                             if ($anuncioExpirado > 1) {
                                                 echo "Expirados";
@@ -659,45 +653,45 @@ foreach ($imoveis as $qtdAnuncios) {
                 </div>
 
                 <div class="eight wide column">
-                    <?php
-                    $msgs = 0;
-                    $msgsRespondidas = 0;
-                    $msgsNaoRespondidas = 0;
+        <?php
+        $msgs = 0;
+        $msgsRespondidas = 0;
+        $msgsNaoRespondidas = 0;
 
-                    foreach ($mensagens as $mensagem) {
+        foreach ($mensagens as $mensagem) {
 
-                        switch ($mensagem->getStatus()) {
-                            case "NOVA":
-                                $msgsNaoRespondidas = $msgsNaoRespondidas + 1;
-                                break;
-                            case "RESPONDIDO":
-                                $msgsRespondidas = $msgsRespondidas + 1;
-                                break;
-                        }
-                    }
-                    ?>
-        <?php if (count($mensagens) > 0) { ?>
+            switch ($mensagem->getStatus()) {
+                case "NOVA":
+                    $msgsNaoRespondidas = $msgsNaoRespondidas + 1;
+                    break;
+                case "RESPONDIDO":
+                    $msgsRespondidas = $msgsRespondidas + 1;
+                    break;
+            }
+        }
+        ?>
+                    <?php if (count($mensagens) > 0) { ?>
                         <div class="ui horizontal segments">       
                             <table class="ui brown celled fixed table">
                                 <thead>
                                     <tr>
                                         <th colspan="2"><?php
-                                            if (count($mensagens) > 1) {
-                                                echo "Você possui " . (count($mensagens)) . " mensagens";
-                                            } else {
-                                                echo "Você possui 1 mensagem";
-                                            }
-                                            ?>
+            if (count($mensagens) > 1) {
+                echo "Você possui " . (count($mensagens)) . " mensagens";
+            } else {
+                echo "Você possui 1 mensagem";
+            }
+                        ?>
                                         </th>
                                     </tr>
                                     <tr>
                                         <th class="ui center aligned">
-                                            <?php
-                                            if ($msgsRespondidas > 1) {
-                                                echo "Respondidas";
-                                            } else
-                                                echo "Respondida";
-                                            ?>
+            <?php
+            if ($msgsRespondidas > 1) {
+                echo "Respondidas";
+            } else
+                echo "Respondida";
+            ?>
                                         </th>
                                         <th class="ui center aligned">
                                             <?php
@@ -728,13 +722,13 @@ foreach ($imoveis as $qtdAnuncios) {
                         <thead>
                             <tr>
                                 <th colspan="7">Você possui
-                                    <?php
-                                    if ($anuncioAtivo > 1) {
-                                        echo $anuncioAtivo . " anúncios ativos";
-                                    } else {
-                                        echo " 1 anúncio ativo";
-                                    }
-                                    ?>
+        <?php
+        if ($anuncioAtivo > 1) {
+            echo $anuncioAtivo . " anúncios ativos";
+        } else {
+            echo " 1 anúncio ativo";
+        }
+        ?>
                                 </th>
                             </tr>
 
@@ -743,11 +737,11 @@ foreach ($imoveis as $qtdAnuncios) {
                                 <th class="ui center aligned"></th>
 
                                 <th class="ui center aligned"><?php
-                                    if ($casaAnuncio > 1) {
-                                        echo "Casas";
-                                    } else
-                                        echo "Casa";
-                                    ?></th>
+                            if ($casaAnuncio > 1) {
+                                echo "Casas";
+                            } else
+                                echo "Casa";
+        ?></th>
                                 <th class="ui center aligned"><?php
                                     if ($apAnuncio > 1) {
                                         echo "Apartamentos";
@@ -829,9 +823,9 @@ foreach ($imoveis as $qtdAnuncios) {
             </div>  
 
         <?php
-        }
     }
-    ?>
+}
+?>
 
     <div class="row">
         <div class="column">
@@ -861,10 +855,10 @@ foreach ($imoveis as $qtdAnuncios) {
 
     <div class="row">
         <div class="column">
-            <?php
-            if ($item) {
-                if (!$item["usuarioPlano"]) {
-                    ?>
+<?php
+if ($item) {
+    if (!$item["usuarioPlano"]) {
+        ?>
                     <div class="ui orange message"><h4 class="ui red header">Você ainda não tem plano. Não perca tempo e COMPRE AGORA!</h4></div>
                     <br/> <img class="ui centered image" src="http://www.prospeccao-de-clientes.com/images/gudrum-pagseguro.gif" /> 
                     <?php
@@ -883,81 +877,75 @@ foreach ($imoveis as $qtdAnuncios) {
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            foreach ($item["usuarioPlano"] as $usuarioPlano) {
-                                
-                                if($usuarioPlano->getStatus() == "ativo"){
-                                    $statusPlano = "<h4 class='ui green header'>Ativado</h4>";
-                                } 
-                                
-                                if($usuarioPlano->getStatus() == "utilizado"){
-                                    $statusPlano = "<h4 class='ui red header'>Utilizado</h4>";
-                                }
-                                
-                                if($usuarioPlano->getStatus() == "pagamento pendente"){
-                                    $statusPlano = "<h4 class='ui yellow header'>Pagamento Pendente</h4>";
-                                }     
-                                
-                                if($usuarioPlano->getStatus() == "expirado"){
-                                    $statusPlano = "<h4 class='ui red header'>Expirado</h4>";
-                                }
-                                
-                                echo "<tr>";
-                                echo "<td>" . $usuarioPlano->getPlano()->getTitulo() . " (" . $usuarioPlano->getPlano()->getValidadepublicacao() . " dias)</td>";
-                                echo "<td>" . $usuarioPlano->getPlano()->getDescricao() . "</td>";
-                                echo "<td>" . date('d/m/Y H:i:s', strtotime($usuarioPlano->getDataCompra())) . "</td>";
-                                if ($usuarioPlano->getStatus() != "ativo") {
-                                    echo "<td>" . $usuarioPlano->DataExpiracao($usuarioPlano->getPlano()->getValidadeativacao()) . "</td>";
-                                } else {
-                                    echo "<td> Já Ativado </td>";
-                                }
-                                echo "<td>" . $statusPlano . "</td>";                               
-                                
-                                foreach ($imoveis as $anuncios) {
-                                    
-                                    if($anuncios <> null){
-                                        
-                                        if($qtdAnuncios->getAnuncio() != null){
-                                    
-                                        if ($qtdAnuncios->getAnuncio()->getIdUsuarioPlano() == $usuarioPlano->getId()){
-                                            $idAnuncioVinculadoFormatado = $anuncio->getAnuncio()->getIdAnuncio();
-                                            $idAnuncioVinculado = $anuncio->getAnuncio()->getId();
-                                            
-                                            switch ($qtdAnuncios->getIdTipoImovel()){
-                                
-                                                case 1: $tipoImovel = "casa"; break;
-                                                case 2: $tipoImovel = "apartamentoplanta"; break;
-                                                case 3: $tipoImovel = "apartamento"; break;
-                                                case 4: $tipoImovel = "salacomercial"; break;
-                                                case 5: $tipoImovel = "prediocomercial"; break;
-                                                case 6: $tipoImovel = "terreno"; break;
+        <?php
+        foreach ($item["usuarioPlano"] as $usuarioPlano) {
+            if ($usuarioPlano->getStatus() == "ativo") {
+                $statusPlano = "<h4 class='ui green header'>Ativado</h4>";
+            }
 
-                                            }
-                                            
-                                            $vinculado = "<form id='form' action='index.php' method='post' target='_blank'>
+            if ($usuarioPlano->getStatus() == "utilizado") {
+                $statusPlano = "<h4 class='ui red header'>Utilizado</h4>";
+            }
+
+            if ($usuarioPlano->getStatus() == "pagamento pendente") {
+                $statusPlano = "<h4 class='ui yellow header'>Pagamento Pendente</h4>";
+            }
+
+            if ($usuarioPlano->getStatus() == "expirado") {
+                $statusPlano = "<h4 class='ui red header'>Expirado</h4>";
+            }
+
+            echo "<tr>";
+            echo "<td>" . $usuarioPlano->getPlano()->getTitulo() . " (" . $usuarioPlano->getPlano()->getValidadepublicacao() . " dias)</td>";
+            echo "<td>" . $usuarioPlano->getPlano()->getDescricao() . "</td>";
+            echo "<td>" . date('d/m/Y H:i:s', strtotime($usuarioPlano->getDataCompra())) . "</td>";
+            if ($usuarioPlano->getStatus() != "ativo") {
+                echo "<td>" . $usuarioPlano->DataExpiracao($usuarioPlano->getPlano()->getValidadeativacao()) . "</td>";
+            } else {
+                echo "<td> Já Ativado </td>";
+            }
+            echo "<td>" . $statusPlano . "</td>";
+
+            $vinculado = "<h4 class='ui red header'>Nenhum Anúncio</h4>";
+            foreach ($imoveis as $anuncios) {
+
+                if ($anuncios->getAnuncio()->getIdUsuarioPlano() == $usuarioPlano->getId()) {
+
+                    $idAnuncioVinculadoFormatado = $anuncios->getAnuncio()->getIdAnuncio();
+                    $idAnuncioVinculado = $anuncios->getAnuncio()->getId();
+
+                    switch ($anuncios->getIdTipoImovel()) {
+
+                        case 1: $tipoImovel = "casa";
+                            break;
+                        case 2: $tipoImovel = "apartamentoplanta";
+                            break;
+                        case 3: $tipoImovel = "apartamento";
+                            break;
+                        case 4: $tipoImovel = "salacomercial";
+                            break;
+                        case 5: $tipoImovel = "prediocomercial";
+                            break;
+                        case 6: $tipoImovel = "terreno";
+                            break;
+                    }
+                    $vinculado = "<form id='form' action='index.php' method='post' target='_blank'>
                                     <input type='hidden' id='hdnEntidade' name='hdnEntidade' value='Anuncio' />
                                     <input type='hidden' id='hdnAcao' name='hdnAcao' value='detalhar'/>
-                                    <input type='hidden' id='hdnCodAnuncio' name='hdnCodAnuncio' value='".$idAnuncioVinculado."'/>
-                                    <input type='hidden' id='hdnTipoImovel' name='hdnTipoImovel' value='".$tipoImovel."'/>           
+                                    <input type='hidden' id='hdnCodAnuncio' name='hdnCodAnuncio' value='" . $idAnuncioVinculado . "'/>
+                                    <input type='hidden' id='hdnTipoImovel' name='hdnTipoImovel' value='" . $tipoImovel . "'/>           
                                     <button class='ui labeled icon button'>
-                                    <i class='zoom icon'></i>".$idAnuncioVinculadoFormatado."
+                                    <i class='zoom icon'></i>" . $idAnuncioVinculadoFormatado . "
                                     </button>
-                                    <input type='hidden' name='hdnCodAnuncioFormatado[]' value='".$idAnuncioVinculadoFormatado."'/>
+                                    <input type='hidden' name='hdnCodAnuncioFormatado[]' value='" . $idAnuncioVinculadoFormatado . "'/>
                                     </form>";
-                                        
-                                        break;    
-                                            
-                                        } else $vinculado = "<h4 class='ui red header'>Nenhum Anúncio</h4>";
+                }
+            }
 
-                                       } else $vinculado = "<h4 class='ui red header'>Nenhum Anúncio</h4>";
-                                    
-                                    } 
-                                }
-
-                                echo "<td>".$vinculado."</td>"
-                                . "</tr>";
-                            }
-                            ?>
+            echo "<td>" . $vinculado . "</td>"
+            . "</tr>";
+        }
+        ?>
                         </tbody>
                     </table>
 
