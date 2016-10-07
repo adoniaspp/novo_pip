@@ -1,9 +1,3 @@
-<?php
-
-?>
-
-
-
 <script src="assets/js/buscaAnuncio.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 <link rel="stylesheet" type="text/css" href="assets/libs/swiper/swiper.min.css">
