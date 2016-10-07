@@ -1,15 +1,15 @@
 <?php
 
-include_once 'configuracao/cookies.php';
 ?>
+
 
 
 <script src="assets/js/buscaAnuncio.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
-<link rel="stylesheet" type="text/css" href="assets/libs/owlCarousel/owl.carousel.min.css">
-<script src="assets/libs/owlCarousel/owl.carousel.min.js"></script>
-<link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
-<script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="assets/libs/swiper/swiper.min.css">
+<script src="assets/libs/swiper/swiper.min.js"></script>
+
+
 
 
 <script>
@@ -40,14 +40,26 @@ include_once 'configuracao/cookies.php';
 $item = $this->getItem();
 if ($item) {
     $anuncios = $item;
+
      
     ?>
 
 
 
-<div class="ui middle aligned stackable grid container">
-<div class="row">
-<div class="owl-carousel">
+<!--    <div class="ui middle aligned one column grid container">-->
+    <div class="ui middle aligned one column grid container">
+        <div class="ui ten wide column">
+            </div>
+                    <div class="ui stackable column grid">
+                        <div class="ui stackable special cards swiper-container"> 
+                            
+                            <div class="swiper-wrapper">
+<!--                      <ul class="bxslider">-->
+
+<!--<div class="row">-->
+<!--                            <div class="owl-carousel">-->
+
+<!--            <div class="ui stackable column grid">-->
     <?php
                 for ($crtl = 0; $crtl <= count($anuncios); $crtl++) {
                     for ($k = 0; $k <= count($anuncios[$crtl]['anuncio']); $k++) {
@@ -55,94 +67,97 @@ if ($item) {
                         $anuncio = $anuncios[$crtl]['anuncio'][$k];
                        
                     ?>
-                                <div class="item">
-    <table id="tabela" class="ui very basic table stackable">
-    <thead>
-                <tr style="border: none !important">
-                    <th class="three wide"></th>
-                </tr>
-            </thead>
-            <tbody>
-                    
-                        <tr style="width: 100%; float: left; border: none !important">
-                            <td class="ui special cards" style="width: 90%; border: none !important"> 
-                            <div class="ui stackable card" id="cartao<?php echo $anuncio['idanuncio'] ?>">
-                                <div class="content">
-                                    <?php             
-                                    if($anuncio['finalidade'] == "Venda") { 
-                                        echo "<div class='ui blue ribbon label'> Venda </div>";
-                                    }else{
-                                        echo "<div class='ui green ribbon label'> Aluguel </div>";
-                                    }
-?>
-                                </div>
-                                <div class="dimmable image">
-                                    <div class="ui inverted dimmer">
-                                        <div class="content">
-                                            <div class="center">
-                                                <div class="ui blue basic button"> Detalhes </div>                                          
-                                                <input type="hidden" id="anuncio<?php echo $anuncio['id'] ?>"
-                                                       value="<?php echo $anuncio['idanuncio'] ?>"/>
-                                                <input type="hidden" id="anuncio<?php echo $anuncio['tipo'] ?>"
-                                                       value="<?php echo $anuncio['tipo'] ?>"/>                                                   
-                                            </div>
+<!--                                <div class="item">-->
+<!--                                                <div class="ui stackable special cards">        -->
+                                
+<!--                        <div class="item">-->
+
+                        <script>
+                            formatarValor("<?php echo $anuncio['idanuncio'] ?>");
+                        </script>  
+                        <div class="card" style="width: 263px; border-radius: 2.285714rem; box-shadow: 0 1px 3px 0 #D4D4DD,0 0 0 1px #000000" id="cartao<?php echo $anuncio['idanuncio'] ?>">
+                            <div class="swiper-slide">
+                            <div class="content">
+                                <?php
+                                if ($anuncio['finalidade'] == "Venda") {
+                                    echo "<div class='ui blue ribbon label'> Venda </div>";
+                                } else {
+                                    echo "<div class='ui green ribbon label'> Aluguel </div>";
+                                }
+                                ?>                                                                       
+                            </div>
+
+                            <div class="dimmable image" style=" text-align: center;
+                                 margin: 0px auto;
+                                 max-height: 200px !important;">
+                                <div class="ui inverted dimmer">
+                                    <div class="content">
+                                        <div class="center">
+                                            <div class="ui blue basic button"> Detalhes </div>                                          
+                                            <input type="hidden" id="anuncio<?php echo $anuncio['id'] ?>"
+                                                   value="<?php echo $anuncio['idanuncio'] ?>"/>
+                                            <input type="hidden" id="anuncio<?php echo $anuncio['tipo'] ?>"
+                                                   value="<?php echo $anuncio['tipo'] ?>"/>                                                   
                                         </div>
                                     </div>
-                                    <?php 
-                        if($anuncio['imagem']) {
-                        foreach ($anuncio['imagem'] as $imagem) {                                                                
-                            if($imagem['destaque'] == 'SIM'){
-                                ?>
-                                    <img style="height:200px; width: 247px;" src="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] .'/'. $imagem['nome'] ?>">
-                        <?php 
-                            }}
-                        }else{
-                                ?>
-                            <img style="height:200px; width: 247px;" src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>">
-                           <?php 
-                            } ?>
                                 </div>
-                                <div class="content">
-                                    <div class="header"><b>
-                                    
-                                    <?php echo mb_substr($anuncio['tituloanuncio'], 0, 24) . "..." ?></b></div>
-
-                                    <div class="description"> 
-
-                                        <?php 
-                                        if($anuncio['tipo'] == "prediocomercial"){
-                                            echo "Prédio Comercial";
-                                        } else if
-                                        ($anuncio['tipo'] == "apartamentoplanta"){
-                                            echo "Apartamento na Planta";
-                                        } else if
-                                        ($anuncio['tipo'] == "salacomercial"){
-                                            echo "Sala Comercial";
+                                <?php
+                                if ($anuncio['imagem']) {
+                                    foreach ($anuncio['imagem'] as $imagem) {
+                                        if ($imagem['destaque'] == 'SIM') {
+                                            ?>
+                                            <img style="display: block; margin-left: auto; margin-right: auto; width: auto; max-height: 140px; overflow: scroll;position: relative; max-width: 165px" src="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . '/' . $imagem['nome'] ?>">
+                                            <?php
                                         }
-                                        else
-                                        echo ucfirst($anuncio['tipo']) ?>
-
-
-                                        <br />
-                                        <span id="spanValor<?php echo $anuncio['idanuncio'] ?>"> 
-                                        <?php echo $anuncio['valormin'] ?> </span>
-                                        <br />
-                                        Cod. <?php echo $anuncio['idanuncioformatado']?>
-                                        <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $anuncio['idanuncioformatado']?>" />
-                                    </div>
-                                </div>
-                                <div class="extra content">      
-                                    <div class="ui checkbox">
-                                        <input type="checkbox" name="selecionarAnuncio[]" id="selecionarAnuncio_<?php echo $anuncio['idanuncio'] ?>" value="<?php echo $anuncio['idanuncio'] ?>">
-                                        <label id="idsAnuncios">Selecionar</label>
-                                    </div>
+                                    }
+                                } else {
+                                    ?>
+                                    <img src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>">
+                                <?php }
+                                ?>
+                            </div>
+                            <div class="content">
+                                <div class="header"><b>
+                                        <?php
+                                        $limite = 24;
+                                        $titulo = $anuncio['tituloanuncio'];
+                                        echo (strlen(trim($titulo)) >= $limite) ? trim(substr($titulo, 0, strrpos(substr($titulo, 0, $limite), " "))) . "..." : $titulo;
+                                        ?></b></div>
+                                <div class="description"> 
+                                    <?php
+                                    if ($anuncio['tipo'] == "prediocomercial") {
+                                        echo "Prédio Comercial";
+                                    } else if
+                                    ($anuncio['tipo'] == "apartamentoplanta") {
+                                        echo "Apartamento na Planta";
+                                    } else if
+                                    ($anuncio['tipo'] == "salacomercial") {
+                                        echo "Sala Comercial";
+                                    } else
+                                        echo ucfirst($anuncio['tipo'])
+                                        ?>
+                                    <br />
+                                    <span hidden="true" class="data" id="spanData<?php echo $anuncio['idanuncio'] ?>"> 
+                                        <?php echo $anuncio['datahoracadastro']; ?> </span>
+                                    <span class="valor" id="spanValor<?php echo $anuncio['idanuncio'] ?>"> 
+                                        <?php echo ($anuncio['novovalor'] != "") ? $anuncio['novovalor'] : $anuncio['valormin']; ?> </span>
+                                    <br />
+                                    Cod. <?php echo $anuncio['idanuncioformatado'] ?>
+                                    <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $anuncio['idanuncioformatado'] ?>" />
+                                    <br />
+                                    Data Cadastro: <?php echo date('d/m/Y', strtotime($anuncio['datahoracadastro'])) ?>
                                 </div>
                             </div>
-                                  </td>
-                    </tr>                                                                               
-                    </tbody>
-        </table>
-                                                        </div>
+                            <div class="extra content">      
+                                <div class="ui checkbox">
+                                    <input type="checkbox" name="selecionarAnuncio[]" id="selecionarAnuncio_<?php echo $anuncio['idanuncio'] ?>" value="<?php echo $anuncio['idanuncio'] ?>">
+                                    <label id="idsAnuncios">Selecionar</label>
+                                </div>
+                            </div>                        
+                        </div> 
+                </div>
+    
+<!--                                </div>-->
 
                     <?php
                 //}
@@ -153,21 +168,23 @@ if ($item) {
                     }
                 }  
 ?>
-
+</div>
+                            <div class="swiper-pagination"></div>
+</div>
+</div>
+</div>
 <?php                
 }
 ?>
 
-    </div>
+<!--    </div>-->
 <!--    <div class="customNavigation">
   <a class="btn prev">Previous</a>
   <a class="btn next">Next</a>
   <a class="btn play">Autoplay</a>
   <a class="btn stop">Stop</a>
 </div>-->
-</div>
-</div>
-<!--</div>-->
+
     
 <!--<div class="ui middle aligned stackable grid container">
 <div class="sixteen wide row">
