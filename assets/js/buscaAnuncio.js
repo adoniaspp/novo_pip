@@ -1038,7 +1038,6 @@ function carregarDiferencial() {
 function carregarCarrosselPreferencias() {
 
     $(document).ready(function () {
-
         var swiper = new Swiper('.swiper-container', {
 //            pagination: '.swiper-pagination',
             slidesPerView: 4,
