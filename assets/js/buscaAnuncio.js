@@ -397,16 +397,16 @@ function confirmarEmail() {
     $(document).ready(function () {
 
         $('#btnEmail').click(function () {
-            
+
             $("#divMsg").empty();
-            
+
             $("#txtNomeEmail").show();
-            $("#labelNome").show();  
-            
+            $("#labelNome").show();
+
             $('.emailPDF').attr('value', 'enviarEmail'); //alterar o método para enviarEmailPDF 
-            
+
             $("#divMsg").append("Envie o(s) Anúncio(s) selecionado(s) para o e-mail desejado");
-            
+
             $('#modalEmail').modal({
                 closable: true,
                 transition: "fade up",
@@ -417,11 +417,11 @@ function confirmarEmail() {
                     return false; //deixar o modal fixo
                 }
             }).modal('show');
-            
+
             $("#txtMsgEmail").rules("add", {
-                    required: true
-                });
-            
+                required: true
+            });
+
             $("#camposEmail").show();
             $("#botaoEnviarEmail").show();
             $("#botaoCancelarEmail").show();
@@ -430,12 +430,12 @@ function confirmarEmail() {
 
             $("#idAnuncios").empty();
             $("#idAnunciosCabecalho").empty();
-            
+
             var arr = [];
             $("input[type^='checkbox']:checked").each(function ()
             {
                 $("#idAnuncios").append("<input type='hidden' name='anunciosSelecionados[]' value='" + $(this).val() + "'>");
-                var codigos = $( "input[name^='hdnCodAnuncioFormatado']" );
+                var codigos = $("input[name^='hdnCodAnuncioFormatado']");
                 arr.push($(this).parent().parent().parent().find(codigos).val());
             });
 
@@ -446,9 +446,9 @@ function confirmarEmail() {
                                         <div class='item'>\n\
                                         <div class='content'>" + anuncios + "</div>\n\
                          </div>\n\
-                         </div>"); 
-            
-           
+                         </div>");
+
+
         })
     })
 }
@@ -1039,24 +1039,44 @@ function carregarCarrosselPreferencias() {
 
     $(document).ready(function () {
 
-        $('.owl-carousel').owlCarousel({
-            loop: true,
-            nav: true,
-            margin: 39,
-            stagePadding: 25,
-            items: 4,
-            responsive: {
-                0: {
-                    items: 1
-                },
-                600: {
-                    items: 2
-                },
-                1000: {
-                    items: 4
-                }
-            }
-        })
+        var swiper = new Swiper('.swiper-container', {
+//            pagination: '.swiper-pagination',
+            slidesPerView: 4,
+            paginationClickable: true,
+            spaceBetween: 30
+        });
+//       $('.bxslider').bxSlider({
+//        minSlides: 2,
+//        maxSlides: 2,
+//        slideWidth: 350,
+//        slideMargin: 10
+//});
+
+//        $('.multiple-items').slick({
+//            infinite: true,
+//            slidesToShow: 3,
+//            slidesToScroll: 3
+//        });
+
+//        $('.owl-carousel').owlCarousel({
+//            loop: false,
+//            nav: true,
+////            margin: 39,
+//            stagePadding: 24,
+//            items: 4,
+//            
+//            responsive: {
+//                0: {
+//                    items: 1
+//                },
+//                600: {
+//                    items: 2
+//                },
+//                1000: {
+//                    items: 4
+//                }
+//            }
+//        })
     })
 }
 
