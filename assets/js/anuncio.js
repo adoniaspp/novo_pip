@@ -886,6 +886,8 @@ function reativar(botao) {
 
 function formatarDetalhe() {
     $(document).ready(function () {
+        $('.ui.accordion').accordion();
+        
         $("#divValor").priceFormat({
             prefix: 'R$ ',
             centsSeparator: ',',
