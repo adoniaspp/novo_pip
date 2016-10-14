@@ -684,7 +684,7 @@ class AnuncioControle {
         
         $dadosEmail['destino'] = $parametros['txtEmailEmail'];
         $dadosEmail['contato'] = "PIP-Online";
-        $dadosEmail['assunto'] = utf8_decode("PIP-Online - Selecionou imóvel(is) para você");
+        $dadosEmail['assunto'] = "PIP-Online - Selecionou imóvel(is) para você";
         
         $totalAunciosSelecionados = count($parametros['anunciosSelecionados']);   
         
@@ -997,7 +997,7 @@ class AnuncioControle {
         $genericoDAO->iniciarTransacao();
         $dadosEmail['destino'] = $parametros['txtEmailEmail'];
         $dadosEmail['contato'] = "PIP-Online";
-        $dadosEmail['assunto'] = utf8_decode("PIP-Online - Selecionou imóvel(is) para você");
+        $dadosEmail['assunto'] = "PIP-Online - Selecionou imóvel(is) para você";
 
         $dadosEmail['msg'] .= 'Veja o(s) imóvel(is) indicados para você por ' . $_SESSION['nome'] . ':<br><br>';
 

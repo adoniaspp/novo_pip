@@ -7,8 +7,8 @@
 
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
 
-<script src="assets/js/anuncio.js"></script>
 <script src="assets/js/buscaAnuncio.js"></script>
+<script src="assets/js/anuncio.js"></script>
 
 <!-- os dois scripts abaixo realizam a formatação de data para ordenação-->
 <script src="assets/libs/datatables/js/moment.min.js"></script>

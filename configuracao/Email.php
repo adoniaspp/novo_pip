@@ -6,13 +6,18 @@ class Email {
         //enviar email
                     $mail = new PHPMailer();
 
-                    $mail->Charset = 'UTF-8';
+                    $mail->CharSet = 'UTF-8';
+        //$mail->Sender = 'contato_naoresponda@pipbeta.com.br';
+        //$mail->From = $dadosEmail['contato'] . "<teste@gmail.com>";
+        //$mail->FromName = $dadosEmail['contato'];
+        $mail->SetFrom("contato_naoresponda@pipbeta.com.br", (empty(trim($dadosEmail['contato'])) ? utf8_decode("Procure Imóveis Paidégua") : $dadosEmail['contato'])  );
 
-                    $mail->From = 'emailfrom@email.com';
-                    $mail->FromName = $dadosEmail['contato'];
+//                    $mail->From = 'emailfrom@email.com';
+  //                  $mail->FromName = $dadosEmail['contato'];
 
                     $mail->IsHTML(true);
-                    $mail->Subject = $dadosEmail['assunto'];
+                    $assunto = ($dadosEmail['assunto']);
+                    $mail->Subject =  '=?UTF-8?B?'.base64_encode($assunto).'?=';
                     
                     $mail->Body = $dadosEmail['msg'];
 //                    $mail->Body = "<br> <h1>Teste de envio</h1> <br>";
