@@ -10,11 +10,9 @@ class Apartamento {
     private $banheiro;
     private $garagem;
     private $area;
-    private $sacada;
     private $unidadesandar;
     private $andar;
     private $condominio;
-    private $cobertura;
     
     protected $imovel;
     
@@ -97,11 +95,7 @@ class Apartamento {
     function setArea($area) {
         $this->area = $area;
     }
-
-    function setSacada($sacada) {
-        $this->sacada = $sacada;
-    }
-
+    
     function setUnidadesandar($unidadesandar) {
         $this->unidadesandar = $unidadesandar;
     }
@@ -114,16 +108,14 @@ class Apartamento {
         $this->condominio = $condominio;
     }
 
-    function setCobertura($cobertura) {
-        $this->cobertura = $cobertura;
-    }
-
     function setImovel($imovel) {
         $this->imovel = $imovel;
     }
      
     function cadastrar($parametros, $idImovel) {
-
+        
+        $parametros["txtCondominio"] = str_replace("R$ ", "", $parametros["txtCondominio"]);
+        
         $apartamento = new Apartamento();
         $apartamento->setIdimovel($idImovel);       
         $apartamento->setQuarto($parametros["sltQuarto"]);
@@ -135,23 +127,10 @@ class Apartamento {
         $apartamento->setAndar($parametros["sltAndar"]);
         $apartamento->setCondominio($parametros["txtCondominio"]);
         
-        if(!isset($parametros["chkCobertura"])){
-            $apartamento->setCobertura($parametros["chkCobertura"]="NAO");
-        }else $apartamento->setCobertura($parametros["chkCobertura"]="SIM");
-        
-        if(!isset($parametros["chkSacada"])){
-            $apartamento->setSacada($parametros["chkSacada"]="NAO");
-        }else $apartamento->setSacada($parametros["chkSacada"]="SIM");
-        
         return $apartamento;
     }
     
      function editar($parametros, $idA) {
-        
-        
-      /*  echo "<pre>";
-        var_dump($parametros);
-        echo "</pre>";*/
         
         $apartamento = new Apartamento();
         $apartamento->setId($idA);

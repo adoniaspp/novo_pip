@@ -218,9 +218,36 @@ class ImovelControle {
             //fim dos diferenciais
 
             if ($idEndereco && $idImovel && $idCadastroImovel && $idDiferencial) {
+                
+                //setar os dados do imóvel
+                $imovelCadastradoDados = $genericoDAO->consultar($imovel, true, array("id" => $idImovel));
+                //setar o endereco do imóvel
+                $imovelDifs = $imovelCadastradoDados[0]->getImovelDiferencial();
+                //vetor do diferencial
+                $retornoDiferencial = array();
+                
+                foreach ($imovelDifs as $imovelDif){
+
+                    $difs = $genericoDAO->consultar(new Diferencial(), true, array("id" => $imovelDif->getIdDiferencial()));
+                    //inserir os diferenciais no vetor
+                    $retornoDiferencial[] = $difs[0]->getDescricao();
+                    
+                }
+
                 $genericoDAO->commit();
+                
+                $enderecoCadastradoDados = $genericoDAO->consultar($endereco, true, array("id" => $imovelCadastradoDados[0]->getIdEndereco()));
+                //setar bairro e cidade                
+                $cidadeCadastradoDados = $genericoDAO->consultar(new Cidade(), true, array("id" => $imovelCadastradoDados[0]->getEndereco()->getIdCidade()));
+                $nomeCidadeCadastrada = $cidadeCadastradoDados[0]->getNome();
+                
+                $bairroCadastradoDados = $genericoDAO->consultar(new Bairro(), true, array("id" => $imovelCadastradoDados[0]->getEndereco()->getIdBairro()));
+                $nomeBairroCadastrado = $bairroCadastradoDados[0]->getNome();
+                
+                
+                
                 $genericoDAO->fecharConexao();
-                $visao->setItem("sucessocadastroimovel");
+                $visao->setItem(array("tipo"=>"sucessocadastroimovel", "dados" => $imovelCadastradoDados, "endereco" => $enderecoCadastradoDados, "cidade" => $nomeCidadeCadastrada, "bairro" => $nomeBairroCadastrado, "diferencial" => $retornoDiferencial));
                 $visao->exibir('VisaoErrosGenerico.php');
             } else {
                 $genericoDAO->rollback();

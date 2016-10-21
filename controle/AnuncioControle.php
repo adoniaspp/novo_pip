@@ -157,13 +157,7 @@ class AnuncioControle {
         $parametros["idUsuario"] = $idUsuarioAnuncio[0]->getId();
 
         $listarAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
-        /*
-        echo "<pre>";
-        var_dump($listarAnuncio);
-        echo "</pre>";
-        */
-        
-        
+
         if ($listarAnuncio["anuncio"][0]["status"] != "cadastrado" &&
                 $parametros["sessaoUsuario"] != $parametros["idUsuario"]) {
 
@@ -417,7 +411,7 @@ class AnuncioControle {
                     $entidadeAnuncio = $anuncio->cadastrar($parametros);
                     $this->verificaValorMinimo($entidadeAnuncio, $parametros);
                     $idAnuncio = $genericoDAO->cadastrar($entidadeAnuncio);
-                    
+
                     //dados do anúncio para serem enviados via ajax, após a publicação
                     $dadosAnuncio = $genericoDAO->consultar(new Anuncio, true, array("id" => $idAnuncio));
                    
@@ -445,23 +439,33 @@ class AnuncioControle {
                         if (is_object($plantas))
                             $plantas = array($plantas);
                         //itera para cada planta
+                        
+                        //criar vetor para guardar os valores de cada planta
+                        $vetorValor = array();
+                        
                         foreach ($plantas as $planta) {
                             $valor->setIdplanta($planta->getId());
                             //monta os parametros que vem do formulario
                             $parametroAndarInicial = "hdnAndarInicial" . $planta->getOrdemplantas();
                             $parametroAndarFinal = "hdnAndarFinal" . $planta->getOrdemplantas();
                             $parametroValor = "hdnValor" . $planta->getOrdemplantas();
+
                             //verifica se tem algum valor informado para cada planta
                             if (isset($parametros[$parametroAndarInicial])) {
+                                
                                 //itera pela quantidade de registros por planta
                                 for ($i = 0; $i <= count($parametros[$parametroAndarInicial]) - 1; $i++) {
+                                  
                                     $entidadeValor = $valor;
                                     $entidadeValor->setAndarinicial($parametros[$parametroAndarInicial][$i]);
                                     $entidadeValor->setAndarFinal($parametros[$parametroAndarFinal][$i]);
                                     $entidadeValor->setValor($parametros[$parametroValor][$i]);
+                                    
                                     $genericoDAO->cadastrar($entidadeValor);
+                                    
                                 }
                             }
+                            
                             //imagens das plantas
                             $sessaoImagemPlanta = $_SESSION["imagemPlanta"][$planta->getOrdemplantas()];
                             if (isset($sessaoImagemPlanta)) {
@@ -472,6 +476,7 @@ class AnuncioControle {
                                 $genericoDAO->editar($planta);
                             }
                         }
+                        
                     }
                     //somente salva fotos se houver
                     if (isset($_SESSION["imagemAnuncio"])) {
@@ -499,13 +504,19 @@ class AnuncioControle {
                         }
                         
                     } else $statusMapa = true;
+                    
+                    
                     //visao
-                    if ($idAnuncio && $statusMapa) {
-                      
+                    if ($idAnuncio && $statusMapa) {    
+                        
                         $genericoDAO->commit();
+                        
+                        $genericoDAO->fecharConexao();
+                        
                         Sessao::desconfigurarVariavelSessao("anuncio");
                         Sessao::desconfigurarVariavelSessao("imagemAnuncio");
                         Sessao::desconfigurarVariavelSessao("imagemPlanta");
+               
                         echo json_encode(array("resultado" => 1, "idanuncio" => $dadosAnuncio[0]->getIdAnuncio(), "id" =>$dadosAnuncio[0]->getId(), "tipoImovel" => $retornaTipoImovel));
                     } else {
                         $genericoDAO->rollback();
@@ -593,34 +604,33 @@ class AnuncioControle {
     }
 
     private function verificaValorMinimo($anuncio, $parametros) {
+
         $valorMinimo = 0;
+        
         if (isset($parametros["chkValor"])) {
-            switch ($_SESSION["anuncio"]["tipoimovel"]) {
-                case 1://casa
-                case 3://apartamento
-                case 4://sala comercial
-                case 5://predio comercial
-                case 6://terreno
+
                     $valorMinimo = $this->limpaValor($parametros["txtValor"]);
-                    break;
-                case 2://apartamento na planta
-                    $plantas = array("hdnValor0", "hdnValor1", "hdnValor2", "hdnValor3", "hdnValor4", "hdnValor5");
-                    $menor = array();
-                    foreach ($plantas as $planta) {
-                        if (isset($parametros[$planta])) {
-                            $minimo = $this->limpaValor(min($parametros[$planta]));
-                            if ((float) $minimo > 0) {
-                                $menor[] = $minimo;
-                            }
+                    
+        }  elseif($_SESSION["anuncio"]["tipoimovel"] == 2){
+                //apartamento na planta
+                    
+                $plantas = array("hdnValor0", "hdnValor1", "hdnValor2", "hdnValor3", "hdnValor4", "hdnValor5");
+                $menor = array();
+
+                foreach ($plantas as $planta) {
+                    if (isset($parametros[$planta])) {
+
+                        $minimo = $this->limpaValor(min($parametros[$planta]));
+                        if ((float) $minimo > 0) {
+                            $menor[] = $minimo;
                         }
                     }
-                    if (min($menor) > 0) {
-                        $valorMinimo = min($menor);
-                    }
-                    break;
+                }
+                if (min($menor) > 0) {
+                    $valorMinimo = min($menor);
+                }
             }
-        }
-        $anuncio->setValormin($valorMinimo);
+        $anuncio->setValormin($valorMinimo); 
     }
 
     private function limpaValor($valor) {

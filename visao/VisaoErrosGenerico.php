@@ -2,7 +2,12 @@
     $(document).ready(function () {
 <?php
 $item = $this->getItem();
-switch ($item) {
+
+if(is_array($item)){
+    $tipo = $item['tipo'];
+} else $tipo = $item;
+
+switch ($tipo) {
     case "errobanco":
     case "errotrocasenha":
     case "errolink":
@@ -24,8 +29,7 @@ switch ($item) {
         break;
     case "sucessotrocarimagem":
     case "sucessoalterarsenha":
-    case "sucessocadastrousuario":
-    case "sucessocadastroimovel":
+    case "sucessocadastrousuario":    
     case "sucessoedicaousuario":
     case "sucessoedicaoimovel":
     case "sucessoenvioemail":
@@ -39,14 +43,26 @@ switch ($item) {
 
         <?php
         break;
+    
+        case $item['tipo'] == "sucessocadastroimovel":
+        ?>    
+            /*$('#divColuna').append("<div class='ui compact message'>\n\
+                      <div id='divMensagemSucessoCompacto'>\n\
+                      </div>\n\
+                  </div>");*/
+        <?php    
+        break;
 }
 ?>
     });
 </script>
 
 <div class="ui basic page menu grid">
-    <div class="ui two column  center aligned  grid"> 
+    <div class="ui two column center aligned  grid"> 
         <div id="divColuna">
+            
+            <div class='ui compact message'><div id="divMensagemSucessoCompacto"></div></div>
+            
             <?php
             $item = $this->getItem();
             switch ($item) {
@@ -178,17 +194,225 @@ switch ($item) {
                     </script>
                     <?php
                     break;
-                case "sucessocadastroimovel":
+                    case $item['tipo'] == "sucessocadastroimovel":
+                    
+                    foreach($item['dados'] as $dadosImovel){
+                        
+                        $tipoImovelId = $dadosImovel->getTipoImovel()->getId();
+                        $tipoImovelDescricao = $dadosImovel->getTipoImovel()->getDescricao();
+                        
+                        $identificaImovel = $dadosImovel->getIdentificacao();
+                        
+                        if($tipoImovelId == 1){
+                            
+                            $quarto   =   $dadosImovel->getCasa()->getQuarto();
+                            $banheiro =   $dadosImovel->getCasa()->getBanheiro();
+                            $suite    =   $dadosImovel->getCasa()->getSuite();
+                            $garagem  =   $dadosImovel->getCasa()->getGaragem();
+                            $areaSucesso     =   $dadosImovel->getCasa()->getArea();
+
+                        }   
+                        
+                        if($tipoImovelId == 3){
+                            
+                            $quarto   =   $dadosImovel->getApartamento()->getQuarto();
+                            $banheiro =   $dadosImovel->getApartamento()->getBanheiro();
+                            $suite    =   $dadosImovel->getApartamento()->getSuite();
+                            $garagem  =   $dadosImovel->getApartamento()->getGaragem();
+                            $areaSucesso     =   $dadosImovel->getApartamento()->getArea();
+                        }
+                        
+                        if($tipoImovelId == 4){
+                            
+                            $banheiro =   $dadosImovel->getSalaComercial()->getBanheiro();
+                            $garagem  =   $dadosImovel->getSalaComercial()->getGaragem();
+                            $areaSucesso     =   $dadosImovel->getSalaComercial()->getArea();
+
+                        }
+                        
+                        if($tipoImovelId == 5){
+
+                            $areaSucesso     =   $dadosImovel->getPredioComercial()->getArea();
+                            
+                        }
+                        
+                        if($tipoImovelId == 6){
+
+                            $areaSucesso     =   $dadosImovel->getTerreno()->getArea();
+                            
+                        }
+                        
+                        if($areaSucesso ==! null || $areaSucesso > 0){ $areaImovel = "Area: ".$areaSucesso." m<sup>2</sup>";} else $areaImovel = "Área: Não Informada";
+                        
+                        if ($dadosImovel->getEndereco()->getNumero() != "" && $dadosImovel->getEndereco()->getComplemento() != "") {
+                            $endereco = $dadosImovel->getEndereco()->getLogradouro() . ", " . $dadosImovel->getEndereco()->getNumero() . ", " . $dadosImovel->getEndereco()->getComplemento();
+                        } elseif ($dadosImovel->getEndereco()->getNumero() != "" && $dadosImovel->getEndereco()->getComplemento() == "") {
+                            $endereco = $dadosImovel->getEndereco()->getLogradouro() . ", " . $dadosImovel->getEndereco()->getNumero();
+                        } elseif ($dadosImovel->getEndereco()->getNumero() == "" && $dadosImovel->getEndereco()->getComplemento() == "") {
+                            $endereco = $dadosImovel->getEndereco()->getLogradouro(). " - " . $bUsuario;
+                        } elseif ($dadosImovel->getEndereco()->getNumero() == "" && $dadosImovel->getEndereco()->getComplemento() != "") {
+                            $endereco = $dadosImovel->getEndereco()->getLogradouro() . ", " . $dadosImovel->getEndereco()->getComplemento();
+                        }
+                        
+                        
+                    }
+                    
                     ?>
 
                     <script>
                         $(document).ready(function () {
-                            $('#divMensagemSucesso').html("Imóvel cadastrado com sucesso. Se desejar, escolha\n\
-                            uma das opções acima.");
+                            $('#divMensagemSucessoCompacto').html("<i class='big green check circle outline icon'></i>Imóvel cadastrado com sucesso. Se desejar, escolha\n\
+                            uma das opções abaixo.");
                         })
                     </script>
+                    
+                    <div class="ui hidden divider"></div>
+                    
+                    <div class="stackable two column ui grid container">
+                    
+                        <div class="column">
+                            <div class="ui segment">
+                                <a class="header">Endereço</a>
+                                <div class="description"> <?php echo $endereco?></div>
+                            </div>
+                        </div>
+                        
+                        <div class="column">
+                            <div class="ui segment">
+                                <a class="header">Cidade - Bairro</a>
+                                <div class="description"> <?php echo "".$item['cidade']." - ".$item['bairro']?></div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="stackable one column ui grid container">
+                    
+                        <div class="column">
+                            <div class="ui segment">
+                                <a class="header">Características do Imóvel</a>
+                                
+                                <?php if($tipoImovelDescricao == "apartamentoplanta"){ $tipoImovelDescricao = "apartamento na Planta";} 
+                                      if($tipoImovelDescricao == "salacomercial"){ $tipoImovelDescricao = "sala Comercial";} 
+                                      if($tipoImovelDescricao == "prediocomercial"){ $tipoImovelDescricao = "predio Comercial";}
+                                ?>
+                                
+                                <div class="description"> <?php echo "Tipo: ".ucfirst($tipoImovelDescricao)?></div>
+                                <div class="description"> <?php echo "Identificação do Imóvel: ".$identificaImovel?></div>
+                            
+                            <?php 
+                            
+                            if($tipoImovelId == 1 || $tipoImovelId == 3){
+                                
+                            ?> 
 
+                            <div class="description"> <?php echo "Quarto(s): ".$quarto?></div>
 
+                            <div class="description"> <?php echo "Banheiro(s): ".$banheiro?></div>
+
+                            <div class="description"> <?php echo "Suite(s): ".$suite?></div>
+
+                            <div class="description"> <?php echo "Vaga(s) de Garagem: ".$garagem?></div>  
+                            
+                            <div class="description"> <?php echo $areaImovel?></div>
+                            
+                            <?php } ?>
+                            
+                            <?php
+                            
+                            if($tipoImovelId == 2){
+                                
+                            $plantasOrdenadas = $item['dados'][0]->getPlanta();
+                            //ordenar as plantas pela Ordem
+                            usort($plantasOrdenadas, function( $a, $b ) {
+                            //Ordem da planta será usado para comparação
+                            return ( $a->getOrdemPlantas() > $b->getOrdemPlantas() );
+                            
+                            });
+                            
+                            foreach($plantasOrdenadas as $caracPlanta){
+                                                             
+                            ?> 
+                            
+                            <div class="ui hidden divider"></div>
+                            
+                            <div class="description"> <?php echo "Título da Planta: ".$caracPlanta->getTituloPlanta()?></div>
+                            
+                            <div class="description"> <?php echo "Quarto(s): ".$caracPlanta->getQuarto()?></div>
+                            
+                            <div class="description"> <?php echo "Banheiro(s): ".$caracPlanta->getBanheiro()?></div>
+
+                            <div class="description"> <?php echo "Suite(s): ".$caracPlanta->getSuite()?></div>
+
+                            <div class="description"> <?php echo "Vaga(s) de Garagem: ".$caracPlanta->getGaragem()?></div> 
+                            
+                            <div class="description"> <?php if($caracPlanta->getArea() ==! null || $caracPlanta->getArea() > 0){ echo "Area: ".$caracPlanta->getArea()." m<sup>2</sup>";} else echo "Não Informada";?></div> 
+                            
+                            <div class="ui hidden divider"></div>
+                            
+                            
+                            
+                            <?php } foreach($item['dados'] as $outrosDadosApePlanta){?>
+                            
+                            <a class="header">Outras Características</a><div class="description"> <?php echo "Andares: ".$outrosDadosApePlanta->getApartamentoPlanta()->getAndares()
+                                                            ." - "."Unidades por Andar: ".$outrosDadosApePlanta->getApartamentoPlanta()->getUnidadesAndar()
+                                                            ." - "."Total de Unidades: ".$outrosDadosApePlanta->getApartamentoPlanta()->getTotalUnidades()
+                                                            ." - "."Número de Torres: ".$outrosDadosApePlanta->getApartamentoPlanta()->getNumeroTorres()
+                                                      ?></div>
+                            
+                            <?php }  } ?>
+                            
+                            <?php 
+                            
+                            if($tipoImovelId == 4 || $tipoImovelId == 5){
+                            
+                            if($tipoImovelId == 4){
+                                
+                            ?> 
+  
+                            <div class="description"> <?php echo "Banheiro(s): ".$banheiro?></div>
+                            <div class="description"> <?php echo "Vaga(s) de Garagem: ".$garagem?></div>
+                            <?php } ?>
+                                                        
+                            <div class="description"> <?php echo $areaImovel ?></div>
+                            
+                            <?php } ?>
+                            
+                            <?php 
+                            
+                            if($tipoImovelId == 6){ ?>
+                                
+                            <div class="description"> <?php echo $areaImovel ?></div>
+                            
+                            <?php } ?>
+                            
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                    <?php if($item['diferencial'] != null){ ?>
+                    
+                    <div class="stackable one column ui grid container">
+                        <div class="column">
+                            <div class="ui segment">
+                                <a class="header">Diferenciais</a>
+                                <div class="description"> <?php 
+                                
+                                $diferencialImplode = implode(" , ", $item['diferencial']); //retirar a barra do último elemento
+
+                                echo $diferencialImplode;
+                                
+                                ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <?php } ?>
+                    
+                    <div class="ui hidden divider"></div>
+                    
                     <div class="ui middle aligned stackable grid container">
                         <div class="row">
                             <div class="column">                                  

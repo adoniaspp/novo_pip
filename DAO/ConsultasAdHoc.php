@@ -226,14 +226,14 @@ class ConsultasAdHoc extends GenericoDAO {
                     $resultado['anuncio'][$i] = array_merge($imovel['casa'][0], $resultado['anuncio'][$i]);
                 }
                 if ($tiposImoveis[$i] == 'apartamentoplanta') {
-                    $sth = $this->conexao->prepare("SELECT andares, unidadesandar, totalunidades, numerotorres FROM buscaAnuncioapartamentoplanta WHERE idimovel = :idimovel");
+                    $sth = $this->conexao->prepare("SELECT andares, unidadesandar, totalunidades, numerotorres FROM buscaAnuncioApartamentoplanta WHERE idimovel = :idimovel");
                     $sth->bindValue(':idimovel', $idsImoveis[$i]);
                     $sth->execute();
                     $imovel['applanta'] = $sth->fetchAll(PDO::FETCH_ASSOC);
                     $resultado['anuncio'][$i] = array_merge($imovel['applanta'][0], $resultado['anuncio'][$i]);
                 }
                 if ($tiposImoveis[$i] == 'apartamento') {
-                    $sth = $this->conexao->prepare("SELECT quarto, suite, banheiro, garagem, area, sacada, unidadesandar, andar, condominio, cobertura FROM buscaAnuncioApartamento WHERE idimovel = :idimovel");
+                    $sth = $this->conexao->prepare("SELECT quarto, suite, banheiro, garagem, area, unidadesandar, andar, condominio FROM buscaAnuncioApartamento WHERE idimovel = :idimovel");
                     $sth->bindValue(':idimovel', $idsImoveis[$i]);
                     $sth->execute();
                     $imovel['ap'] = $sth->fetchAll(PDO::FETCH_ASSOC);

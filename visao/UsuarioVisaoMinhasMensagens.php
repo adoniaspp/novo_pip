@@ -55,7 +55,11 @@ Sessao::gerarToken();
 Sessao::gerarToken();
 
 $item = $this->getItem();
-
+/*
+echo "<pre>";
+var_dump($item);
+echo "</pre>";
+*/
 $totalMensagem = 0;
 
 foreach ($this->getItem() as $mensagem) {
@@ -63,12 +67,14 @@ foreach ($this->getItem() as $mensagem) {
     if ($mensagem->getId()) {
 
         $totalMensagem = $totalMensagem + 1;
+        
     }
 }
 
 
 
 if ($totalMensagem < 1 && !is_array($item)) {
+   
     ?>
 
     <div class="ui middle aligned stackable grid container">
@@ -91,7 +97,7 @@ if ($totalMensagem < 1 && !is_array($item)) {
     </div>    
 
 <?php } else if ($item == 'nenhuma') {
-    ; //caso exista mensagem e a busca não retorne o status da mensagem 
+
     ?>
 
     <div class="ui hidden divider"></div>
@@ -139,7 +145,8 @@ if ($totalMensagem < 1 && !is_array($item)) {
     </div>
 
     <?php
-} else if ($totalMensagem > 1 && $item != 'nenhuma') {
+} else /*if ($totalMensagem > 1$item != 'nenhuma')*/ {
+
     ?>
 
     <div class="ui hidden divider"></div>

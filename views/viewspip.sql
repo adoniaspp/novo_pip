@@ -23,11 +23,9 @@ VIEW `buscaAnuncioApartamento` AS
         `ap`.`banheiro` AS `banheiro`,
         `ap`.`garagem` AS `garagem`,
         `ap`.`area` AS `area`,
-        `ap`.`sacada` AS `sacada`,
         `ap`.`unidadesandar` AS `unidadesandar`,
         `ap`.`andar` AS `andar`,
         `ap`.`condominio` AS `condominio`,
-        `ap`.`cobertura` AS `cobertura`,
         `en`.`cep` AS `cep`,
         `en`.`logradouro` AS `logradouro`,
         `en`.`numero` AS `numero`,
@@ -71,7 +69,7 @@ JOIN `estado` `es`
 JOIN `cidade` `ci` 
     ON (`ci`.`id` = `en`.`idcidade`)
 JOIN `bairro` `b` 
-    ON (`b`.`id` = `en`.`idbairro`)
+    ON (`b`.`id` = `en`.`idbairro`);
 
 /* BUSCA ANUNCIO APARTAMENTO PLANTA */
 
@@ -141,7 +139,7 @@ JOIN `estado` `es`
 JOIN `cidade` `ci` 
     ON (`ci`.`id` = `en`.`idcidade`)
 JOIN `bairro` `b` 
-    ON (`b`.`id` = `en`.`idbairro`)
+    ON (`b`.`id` = `en`.`idbairro`);
 
 /* BUSCA ANUNCIO CASA */
 
@@ -211,7 +209,7 @@ JOIN `estado` `es`
 JOIN `cidade` `ci` 
     ON (`ci`.`id` = `en`.`idcidade`)
 JOIN `bairro` `b` 
-    ON (`b`.`id` = `en`.`idbairro`)
+    ON (`b`.`id` = `en`.`idbairro`);
 
 /* BUSCA ANUNCIO PREDIO COMERCIAL */
 
@@ -276,7 +274,7 @@ JOIN `estado` `es`
 JOIN `cidade` `ci` 
     ON (`ci`.`id` = `en`.`idcidade`)
 JOIN `bairro` `b` 
-    ON (`b`.`id` = `en`.`idbairro`)
+    ON (`b`.`id` = `en`.`idbairro`);
 
 /* BUSCA ANUNCIO SALA COMERCIAL */
 
@@ -344,7 +342,7 @@ JOIN `estado` `es`
 JOIN `cidade` `ci` 
     ON (`ci`.`id` = `en`.`idcidade`)
 JOIN `bairro` `b` 
-    ON (`b`.`id` = `en`.`idbairro`)
+    ON (`b`.`id` = `en`.`idbairro`);
 
 /* BUSCA ANUNCIO TERRENO */
 
@@ -411,7 +409,7 @@ JOIN `cidade` `ci`
 JOIN `bairro` `b` 
     ON (`b`.`id` = `en`.`idbairro`)
 
-WHERE `a`.`status` = 'cadastrado'
+WHERE `a`.`status` = 'cadastrado';
 
 /* BUSCA ANUNCIO TODOS */
 CREATE 
@@ -474,4 +472,4 @@ JOIN `estado` `es`
 JOIN `cidade` `ci`
     ON ( `ci`.`id` = `en`.`idcidade` )
     
-WHERE `a`.`status` = 'cadastrado'
+WHERE `a`.`status` = 'cadastrado';

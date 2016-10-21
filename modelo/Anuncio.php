@@ -204,4 +204,5 @@ class Anuncio {
         $valor = trim($valor);
         return $valor;
     }
+    
 }

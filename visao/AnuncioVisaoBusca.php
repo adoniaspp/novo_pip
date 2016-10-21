@@ -17,6 +17,7 @@
 $item = $this->getItem();
 
 foreach ($item["anuncio"] as $buscaAnuncio) {
+    
     if (!$item["page"]) {
         ?>
             marcarMapa("<?php echo $buscaAnuncio["logradouro"] ?>",
@@ -52,7 +53,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
     <!--    <div class="ui middle aligned stackable one column grid container" id="lista">-->
     <div class="ui middle aligned one column grid container" id="lista">
         <!--        <div class="sixteen wide row">-->
-        <?php if (count($item['anuncio']) > 0) { ?>
+        <?php  if (count($item['anuncio']) > 0) { ?>
             <div class="ui column">
                 <div class="jplist-panel">
                     <div 
@@ -173,8 +174,26 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                     <br />
                                     <span hidden="true" class="data" id="spanData<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>"> 
                                         <?php echo $item['anuncio'][$crtl]['datahoracadastro']; ?> </span>
+                                    <!-- CASO SEJA UM APARTAMENTO NA PLANTA, NÃO EXIBIR O VALOR-->
+                                    <?php if($item['anuncio'][$crtl]['tipo'] !== "apartamentoplanta"){?>
+                                    
                                     <span class="valor" id="spanValor<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>"> 
-                                        <?php echo ($item['anuncio'][$crtl]['novovalor'] != "") ? $item['anuncio'][$crtl]['novovalor'] : $item['anuncio'][$crtl]['valormin']; ?> </span>
+                                        <?php echo ($item['anuncio'][$crtl]['novovalor'] != "") ? $item['anuncio'][$crtl]['novovalor'] : $item['anuncio'][$crtl]['valormin']; ?> 
+                                    
+                                    <?php } else {                                    
+                                    
+                                        if($item['anuncio'][$crtl]['valormin'] !==0 || $item['anuncio'][$crtl]['valormin'] !== "")
+                                        
+                                    ?>
+                                    
+                                    A Partir de 
+                                    <span class="valor" id="spanValor<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">     
+                                        
+                                        <?php echo $item['anuncio'][$crtl]['valormin'];
+                                        
+                                    }
+                                    ?>
+                                    </span>
                                     <br />
                                     Cod. <?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>
                                     <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" />

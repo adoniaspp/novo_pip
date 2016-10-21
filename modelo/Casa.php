@@ -79,11 +79,6 @@ class Casa {
     
     function editar($parametros, $idCasa) {
         
-        
-      /*  echo "<pre>";
-        var_dump($parametros);
-        echo "</pre>";*/
-        
         $casa = new Casa();
         $casa->setId($idCasa);
         $casa->setIdimovel($_SESSION["imovel"]["id"]);
