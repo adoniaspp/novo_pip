@@ -41,13 +41,13 @@ if ($item) {
 
 
 <!--    <div class="ui middle aligned one column grid container">-->
-    <div class="ui middle aligned one column grid container">
+    <div class="ui middle aligned one column grid container swiper-container">
         <div class="ui ten wide column">
             </div>
-                    <div class="ui stackable column grid">
-                        <div class="ui stackable special cards swiper-container"> 
-                            
-                            <div class="swiper-wrapper">
+<!--                    <div class="ui stackable column grid">-->
+                                                            <div class="swiper-wrapper">
+                       
+                        <div class="ui stackable special cards "> 
 <!--                      <ul class="bxslider">-->
 
 <!--<div class="row">-->
@@ -65,12 +65,15 @@ if ($item) {
 <!--                                                <div class="ui stackable special cards">        -->
                                 
 <!--                        <div class="item">-->
+<!--                                                    <div class="swiper-slide">-->
+
 
                         <script>
                             formatarValor("<?php echo $anuncio['idanuncio'] ?>");
                         </script>  
+<!--                                                    <div class="swiper-slide">-->
+
                         <div class="card" style="width: 263px; border-radius: 2.285714rem; box-shadow: 0 1px 3px 0 #D4D4DD,0 0 0 1px #000000" id="cartao<?php echo $anuncio['idanuncio'] ?>">
-                            <div class="swiper-slide">
                             <div class="content">
                                 <?php
                                 if ($anuncio['finalidade'] == "Venda") {
@@ -149,7 +152,7 @@ if ($item) {
                                 </div>
                             </div>                        
                         </div> 
-                </div>
+<!--                </div>-->
     
 <!--                                </div>-->
 
@@ -162,7 +165,8 @@ if ($item) {
                     }
                 }  
 ?>
-</div>
+
+<!--</div>-->
                             <div class="swiper-pagination"></div>
 </div>
 </div>
@@ -241,7 +245,7 @@ if ($item) {
     </div>
 </div>-->
 
-<div class="ui basic segment" id="divAnuncios"></div>
+<!--<div class="ui basic segment" id="divAnuncios"></div>-->
 
 <div class="ui hidden divider"></div>
 <div class="ui divider"></div>

@@ -47,16 +47,32 @@ class Cookies {
                    
                    $i++;
                }        
-            }    
+            } 
+            
+            
             $ctrl1 = count($listaPreferencias);
-            for ($i = 0; $i < $ctrl1; $i++){
+            for ($i = 0; $i < $ctrl1; $i++){            
             foreach ($listaAnuncio[anuncio] as $anuncio){
                 $idanuncio = $anuncio["idanuncio"];
-                $ctrl2 = count($listaPreferencias[$i]['anuncio']);
-                for ($j = 0; $j < $ctrl2; $j++){                  
-                    if($idanuncio == $listaPreferencias[$i]['anuncio'][$j][idanuncio]){ 
-                        unset($listaPreferencias[$i]['anuncio'][$j]);
-                        if(count($listaPreferencias[$i]['anuncio']) == 0){
+//                if($idanuncio == 5){
+//                       echo '<pre>';
+//                        print_r($listaPreferencias[$i]['anuncio']);
+//                        die();                 
+//                }
+                //$ctrl2 = count($listaPreferencias[$i]['anuncio']); 
+                $chavesPreferencias = array_keys($listaPreferencias[$i]['anuncio']);
+                foreach ($chavesPreferencias as $chave){               
+                //for ($j = 0; $j < $ctrl2; $j++){ 
+                    //$preferenciaAnuncio = $preferencia[idanuncio];                    
+                    if($idanuncio == $listaPreferencias[$i]['anuncio'][$chave][idanuncio]){                        
+                        //unset($listaPreferencias[$i]['anuncio'][$j]);                                                
+                        unset($listaPreferencias[$i]['anuncio'][$chave]);                       
+                        //if(count($listaPreferencias[$i]['anuncio']) == 0){
+                        if(count($listaPreferencias[$i]['anuncio']) == 0)
+                            {
+//                            echo '<pre>';
+//                        print_r(count($listaPreferencias[$i]['anuncio']));
+//                        die();
                             unset($listaPreferencias[$i]);
                         }
                     }
