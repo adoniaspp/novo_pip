@@ -87,6 +87,7 @@ function esconderCamposInicio() {
                 //exibe as informacoes de casa
                 $("#divInfoBasicas").show();
                 $("#divInfoApeCasa").show();
+                $("#divDiferencial").show();
                 $("#divDescricao").show();
                 $("#divEndereco").show();
                 $("#divCondicao").show();
@@ -290,6 +291,7 @@ function esconderCamposInicio() {
                 $("#divInfoApeCasa").hide();
                 $("#divApartamento").hide();
                 $("#divDiferencialPlanta").hide();
+                $("#divDiferencial").show();
                 $("#divDescricao").show();
                 $("#divEndereco").show();
                 
@@ -311,6 +313,7 @@ function esconderCamposInicio() {
                 $("#divApartamento").hide();
                 $("#divAreaPlanta").hide();
                 $("#divDiferencialPlanta").hide();
+                $("#divDiferencial").show();
                 $("#divDescricao").show();
                 $("#divEndereco").show();
                 

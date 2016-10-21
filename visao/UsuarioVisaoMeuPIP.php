@@ -899,7 +899,7 @@ foreach ($imoveis as $qtdAnuncios) {
                                 echo "<td>" . $usuarioPlano->getPlano()->getTitulo() . " (" . $usuarioPlano->getPlano()->getValidadepublicacao() . " dias)</td>";
                                 echo "<td>" . $usuarioPlano->getPlano()->getDescricao() . "</td>";
                                 echo "<td>" . date('d/m/Y H:i:s', strtotime($usuarioPlano->getDataCompra())) . "</td>";
-                                if ($usuarioPlano->getStatus() != "ativo") {
+                                if ($usuarioPlano->getStatus() == "pagamento pendente") {
                                     echo "<td>" . $usuarioPlano->DataExpiracao($usuarioPlano->getPlano()->getValidadeativacao()) . "</td>";
                                 } else {
                                     echo "<td> Já Ativado </td>";

@@ -1,10 +1,15 @@
 <p>Para cada planta informe o valor (não informar os centavos) por andar inicial e final.</p>
 <?php
 $plantas = $item["imovel"][0]->getPlanta();
-echo '<input id="hdnPlantas" type="hidden" value="'.count($plantas).'">';
-if(is_object($plantas)) $plantas = array($plantas);
+echo '<input id="hdnPlantas" type="hidden" value="' . count($plantas) . '">';
+if (is_object($plantas))
+    $plantas = array($plantas);
 $andares = $item["imovel"][0]->getApartamentoPlanta()->getAndares();
-echo '<input id="hdnAndares" type="hidden" value="'.$andares.'">';
+echo '<input id="hdnAndares" type="hidden" value="' . $andares . '">';
+usort($plantas, function( $a, $b ) {
+    //ID da planta será usado para comparação
+    return ( $a->getOrdemplantas() > $b->getOrdemplantas() );
+});
 foreach ($plantas as $planta) {
     $tipoAndar = array('Inicial', 'Final');
     ?>
@@ -27,11 +32,11 @@ foreach ($plantas as $planta) {
                                     for ($j = 1; $j <= $andares; $j++) {
                                         ?>
                                         <div class="item" data-value="<?php echo $j; ?>"><?php echo $j; ?></div>
-                                    <?php } ?>
+        <?php } ?>
                                 </div>
                             </div>
                         </div>
-                    <?php } ?>
+    <?php } ?>
                     <div class="three wide required field">
                         <label>Valor por andar</label>
                         <input type="text" name="txtValor[]" placeholder="Valor" class="txtValor">
@@ -39,8 +44,8 @@ foreach ($plantas as $planta) {
                     <div class="three wide required field">
                         <br>
                         <button type="button" class="teal ui labeled icon button btnAdicionarValor" value="<?php echo $planta->getOrdemplantas(); ?>" />
-                            <i class="add icon"></i>
-                            Adicionar
+                        <i class="add icon"></i>
+                        Adicionar
                         </button>
                     </div>
                 </div>    
@@ -70,7 +75,7 @@ foreach ($plantas as $planta) {
                                 </div>
                                 <img id="uploadPreview<?php echo $planta->getOrdemplantas(); ?>" class="ui small uploadPreview rounded image" src="/assets/imagens/logo.png">
                             </div>
-                              <div class="extra content">
+                            <div class="extra content">
                                 <a>
                                     <i class="file image outline icon"></i>
                                     Imagem Planta <?php echo $planta->getOrdemplantas() + 1; ?>
@@ -89,4 +94,3 @@ foreach ($plantas as $planta) {
 <script>
     planta();
 </script>
-           

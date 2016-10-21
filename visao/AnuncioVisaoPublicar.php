@@ -396,10 +396,10 @@ if ($item) {
                         </td>
                         <td>
                         <p class="name">{%=file.name%}</p>
-                        <p class="error"></p>
+                        <p class="ui error" style="color: #912D2B;    font-size: 1.14285714em;font-weight: 700;"></p>
                         </td>
                         <td>
-                        <input type="text" id="txtLegenda[{%=file.name%}]" name="txtLegenda[{%=file.name%}]" placeholder="Informe a Legenda" class="ui input legenda"/>
+                        <input type="text" id="txtLegenda[{%=file.name%}]" name="txtLegenda[{%=file.name%}]" placeholder="Informe a Legenda" maxlength="90" class="ui input legenda"/>
                         </td>    
                         <td>
                         <p class="size">Processing...</p>
@@ -445,7 +445,7 @@ if ($item) {
                         {% } %}
                         </p>
                         {% if (file.error) { %}
-                        <div class="ui error message"><div class="header">Ocorreu um erro</div><p class="error"> {%=file.error%} </p></div>
+                        <div class="ui error message" style="display:block"><div class="header">Ocorreu um erro</div><ul class="list"> <li>{%=file.error%} </li><li>Clique no botão "Excluir"</li></ul></div>
                         {% } %}
                         </td>
                         <td style="vertical-align: middle;">
