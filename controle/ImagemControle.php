@@ -50,8 +50,13 @@ class ImagemControle extends UploadHandler {
 
     public function delete($print_response = true) {
 //        var_dump(4);
-        Sessao::configurarSessaoImagemAnuncio("excluir", $_REQUEST["file"]);
-        parent::delete();
+        if($_REQUEST["e"]=="1"){
+            //condicao para que os arquivos em duplicidade nao sejam todos apagados
+            echo '{"image.jpg":true}';
+        } else {
+            Sessao::configurarSessaoImagemAnuncio("excluir", $_REQUEST["file"]);
+            parent::delete();
+        }
         exit();
     }
 
@@ -60,7 +65,8 @@ class ImagemControle extends UploadHandler {
         if (Sessao::existeSessaoImagem($name)) {
             $file = new stdClass();
             $file->deleteType = "DELETE";
-            $file->deleteUrl = PIPURL . "/index.php?file=" . $name;
+            $file->deleteUrl = PIPURL . "/index.php?file=" . $name . "&e=1";
+            //parametro get e = 1 significa arquivo existente
             $file->error = "O arquivo com o nome " . $name . " já existe";
             $file->idImagem = "";
             $file->legenda = "";
