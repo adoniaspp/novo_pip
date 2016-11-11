@@ -4,6 +4,15 @@ class Template {
 
     private $item;
     private $tipo;
+    private $tag_cabecalho;
+
+    function getTag_cabecalho() {
+        return $this->tag_cabecalho;
+    }
+
+    function setTag_cabecalho($tag_cabecalho) {
+        $this->tag_cabecalho = $tag_cabecalho;
+    }
 
     public function getItem() {
         return $this->item;

@@ -5,6 +5,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">         
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <?php echo $this->getTag_cabecalho(); ?>
+        
         <!-- JQUERY --> 
         <script src="<?php echo PIPURL; ?>/assets/libs/jquery/jquery-2.1.3.min.js"></script> 
         <!-- SEMANTIC UI --> 

@@ -222,7 +222,19 @@ class AnuncioControle {
             $listarAnuncio["mensagem"] = $mensagem;
             
             Cookies::configurarPreferencias($listarAnuncio);
-            
+            $visao->setTag_cabecalho('
+<meta name="description" content="Últimas Notícias de Belém, Estado Pará, Região Norte e mundo. Saiba tudo sobre futebol paraense, conteúdo de entretenimento, mundo dos famosos e também divirta-se com nossos jogos online. Saiba também sobre a programação das salas de cinema em Belém." />
+<meta name="author" content="" />
+<meta property="og:type" content="website" />
+<meta name="language" content="pt-br" />
+<meta name="keywords" content="conteudo sobre Mundo, notícias pará, notícias do pará, notícias belém, notícias de belém, notícias região norte, região norte, jornal do pará, jornal região norte, diário do pará, estado do pará, estado pará" />
+<meta property="og:site_name" content="Diário Online - Mundo" />
+<meta property="og:title" content="Quantidade de ovos encontrados em cobra assusta" />
+<meta property="og:url" content="http://www.diarioonline.com.br/notired-385439-4-.html" />
+<meta property="og:description" content="Moradores de uma aldeia na Nigéria se supreenderam após encontrar uma dezenas de ovos em uma cobra que supostamente teria comido um bezerro nesta quinta-feira..." />
+<meta property="dol:nocache" content="373" />
+<meta property="og:image" content="http://www.diarioonline.com.br/img/noticias/original/destaque-385439-naom_58259b9fbc207.jpg" />
+<meta property="og:image:type" content="image/jpeg" />      ');
             $visao->setItem($listarAnuncio);
             
             $visao->exibir('AnuncioVisaoDetalhe.php');
@@ -409,6 +421,7 @@ class AnuncioControle {
 
                     $anuncio = new Anuncio();
                     $entidadeAnuncio = $anuncio->cadastrar($parametros);
+                    
                     $this->verificaValorMinimo($entidadeAnuncio, $parametros);
                     $idAnuncio = $genericoDAO->cadastrar($entidadeAnuncio);
 
