@@ -120,7 +120,7 @@ class ImagemControle extends UploadHandler {
         $idusuario = $_SESSION["idusuario"]; //id do usuario logado no banco
         $preenchimento = str_pad($idusuario, 5, "0", STR_PAD_LEFT); //preenche com 5 casas a esquerda
         $reverte = strrev($preenchimento); //reverte a string formada
-        $sessionid = stripslashes(session_id()); //session id do PHP
+        $sessionid = stripslashes($_SESSION['token']); //token do PHP
         return $reverte . "P" . hash("crc32", $sessionid); //retorna o idusuario + hash
     }
 

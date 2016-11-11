@@ -68,12 +68,16 @@ if ($item["mapaImovel"]) {
     enviarDuvidaAnuncio();
     formatarDetalhe();
 
+       <?php if ($item['anuncio'][0]['publicarmapa'] == "SIM") { ?>
+
     marcarMapaIndividual("<?php echo $item["anuncio"][0]["logradouro"] ?>", "<?php echo $item["anuncio"][0]["numero"] ?>",
             "<?php echo $item["anuncio"][0]["bairro"] ?>", "<?php echo $item["anuncio"][0]["cidade"] ?>",
             "<?php echo $item["anuncio"][0]["estado"] ?>", "<?php echo $item["anuncio"][0]["tituloanuncio"] ?>",
             "<?php echo $item["anuncio"][0]["valormin"] ?>", "<?php echo $item["anuncio"][0]["finalidade"] ?>",
             "<?php echo $latitude ?>", "<?php echo $longitude ?>", "100%", "300", 16);
 
+       <?php } ?>
+       
 </script>
 
 <div class="ui hidden divider"></div>
@@ -559,6 +563,11 @@ if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'
                 </div>
 
 <?php
+if($item['anuncio'][0]['valormin'] == 0){ //caso não haja valor cadastrado para o anúncio
+
+echo "<div class='ui compact yellow message'><i class='big warning circle icon'></i>Valor não informado. Entre em contato com o anunciante para mais detalhes.</div>";
+
+} else {
 if ($item['anuncio'][0]['tipo'] != 'apartamentoplanta') {
 
     if ($item["novoValor"] != null) {
@@ -581,7 +590,7 @@ if ($item['anuncio'][0]['tipo'] != 'apartamentoplanta') {
                                     </script>
 
                                     <?php
-                                    echo "<div class='ui big label'><span id='formatarValorUnicoJS" . $novoValor->getId() . "'>" . $novoValor->getNovoValor() . "</div></span>&nbsp;&nbsp;&nbsp;&nbsp";
+                                    echo "</div><div class='ui big label'><span id='formatarValorUnicoJS" . $novoValor->getId() . "'>" . $novoValor->getNovoValor() . "</div></span>&nbsp;&nbsp;&nbsp;&nbsp";
                                 } else {
                                     ?>
 
@@ -612,7 +621,7 @@ if ($item['anuncio'][0]['tipo'] != 'apartamentoplanta') {
                         </script>
 
                             <?php
-                            echo "<div class='ui big label'><span id='formatarValorUnicoJS" . $item['anuncio'][0]['id'] . "'>" . $item['anuncio'][0]['valormin'] . "</span></div>&nbsp;&nbsp;&nbsp;&nbsp";
+                            echo "<div class='ui hidden divider'></div><div class='ui big label'><span id='formatarValorUnicoJS" . $item['anuncio'][0]['id'] . "'>" . $item['anuncio'][0]['valormin'] . "</span></div>&nbsp;&nbsp;&nbsp;&nbsp";
                         }
                         ?>
 
@@ -669,8 +678,7 @@ if ($item['anuncio'][0]['tipo'] != 'apartamentoplanta') {
                             </tbody>    
                         </table>    
 
-                            <?php }
-                        } ?>
+                        <?php } } } ?>
 
                 <div class="ui hidden divider"></div>
 
@@ -754,7 +762,7 @@ echo $endereco;
                         <i class="volume control red phone icon"></i>
                         <div class="content">
                             Contato
-                            <div class="sub header">Telefone(s) do anunciante</div>
+                            <div class="sub header">Fale com o anunciante</div>
                         </div>
                     </h2>
                 </div>
@@ -763,19 +771,10 @@ echo $endereco;
 
                     <div class="ui horizontal segments">
 
+                        <?php if ($item['anuncio'][0]['publicarcontato'] == "SIM") { ?>
+                        
                         <div class="ui segment">
                             <a class="header"><?php echo $item['anuncio'][0]['nome'] ?></a>
-
-                            <div class="description">
-<?php if ($item['anuncio'][0]['status'] == "cadastrado") { ?>
-
-
-
-
-
-<?php } ?>
-                            </div> 
-
 <?php
 foreach ($item['anuncio'][0]['telefone'] as $telefone) {
     ?>
@@ -791,9 +790,9 @@ foreach ($item['anuncio'][0]['telefone'] as $telefone) {
     <?php
 }
 ?>
-
-
-                        </div>
+</div>
+                        <?php } ?>
+                        
                         <div class="ui segment center aligned ">
                             <button type="button" class="ui primary button" id="btnDuvida">
                                 Enviar Mensagem/Proposta

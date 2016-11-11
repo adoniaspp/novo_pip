@@ -30,6 +30,8 @@ function cadastrarAnuncio() {
         $('.ui.checkbox')
                 .checkbox()
                 ;
+        $('#chkMapa').parent().checkbox('set checked');
+        $('#chkContato').parent().checkbox('set checked');
         $('#txtDescricao').maxlength({
             alwaysShow: true,
             threshold: 150,
