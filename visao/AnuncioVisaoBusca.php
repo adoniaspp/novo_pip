@@ -182,7 +182,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                     
                                     <?php } else {                                    
                                     
-                                        if($item['anuncio'][$crtl]['valormin'] !==0 || $item['anuncio'][$crtl]['valormin'] !== "")
+                                        if($item['anuncio'][$crtl]['valormin'] != 0){
                                         
                                     ?>
                                     
@@ -191,14 +191,20 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                         
                                         <?php echo $item['anuncio'][$crtl]['valormin'];
                                         
-                                    }
+                                    } echo "Valor Não Informado"; }
                                     ?>
                                     </span>
-                                    <br />
-                                    Cod. <?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>
+                                    <!--<br />
+                                    Cod. <?php $item['anuncio'][$crtl]['idanuncioformatado'] ?> -->
                                     <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" />
+                                    <input type="hidden" id="hiddenAnuncioFormatadaoCopiar" value="<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" />
                                     <br />
                                     Data Cadastro: <?php echo date('d/m/Y', strtotime($item['anuncio'][$crtl]['datahoracadastro'])) ?>
+                                    <br />
+                                    <a href="http://www.facebook.com/sharer.php?u=<?php echo PIPURL . $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big blue facebook square icon"></i></a>
+                                    <i class="big blue twitter icon"></i><i class="big red google plus circle icon"></i>
+                                    <!--<div class="ui primary button" id="copiarBotao" onclick="copiar()">Copiar Link Anúncio</div>-->
+                                    
                                 </div>
                             </div>
                             <div class="extra content">      

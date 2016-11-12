@@ -245,7 +245,7 @@ if ($item) {
     </div>
 </div>-->
 
-<!--<div class="ui basic segment" id="divAnuncios"></div>-->
+<div class="ui basic segment" id="divAnuncios"></div>
 
 <div class="ui hidden divider"></div>
 <div class="ui divider"></div>

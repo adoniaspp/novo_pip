@@ -200,7 +200,7 @@
                                     
                                  }    
           
-                            } else echo $anuncio->getValorMin();  
+                            } elseif ($anuncio->getValorMin() !== 0){ echo $anuncio->getValorMin();} else echo "Não Informado";
                           
                             ?>
                  
@@ -215,7 +215,17 @@
                         ?> </td>
 
                         <td><?php echo "<a id='btnFinalizar" . $anuncio->getId() . "' class='ui small red button'>Finalizar Negócio</a>"?></td>
+                        
+                        <?php if($anuncio->getImovel()->getIdTipoImovel() == 2){ //alterar valor se for Planta?>
+                        
+                        <td><?php echo "<a id='btnAlterarValorPlanta" . $anuncio->getId() . "' class='ui small blue button'>Alterar Valor</a>" ?></td>
+                        
+                        <?php } else {//alterar valor se for outro tipo de imóvel?>
+                        
                         <td><?php echo "<a id='btnAlterarValor" . $anuncio->getId() . "' class='ui small blue button'>Alterar Valor</a>" ?></td>
+                        
+                        <?php } ?>
+                        
                         <td>
                             <?php 
                         
@@ -463,6 +473,106 @@
 </div>
 
 
+<div class="ui standart modal" id="modalAlterarValorAnuncioPlanta<?php echo $anuncio->getId() ?>">
+    
+<p>Para cada planta informe o valor (não informar os centavos) por andar inicial e final.</p>
+<?php
+$plantas = $item["imovel"][0]->getPlanta();
+echo '<input id="hdnPlantas" type="hidden" value="' . count($plantas) . '">';
+if (is_object($plantas))
+    $plantas = array($plantas);
+$andares = $item["imovel"][0]->getApartamentoPlanta()->getAndares();
+echo '<input id="hdnAndares" type="hidden" value="' . $andares . '">';
+usort($plantas, function( $a, $b ) {
+    //ID da planta será usado para comparação
+    return ( $a->getOrdemplantas() > $b->getOrdemplantas() );
+});
+foreach ($plantas as $planta) {
+    $tipoAndar = array('Inicial', 'Final');
+    ?>
+    <span class="ui green tag label">Planta <?php echo $planta->getOrdemplantas() + 1; ?>: <?php echo $planta->getTituloplanta(); ?></span>
+    <div class="ui form segment">
+        <div class="ui stackable grid">
+            <div class="twelve wide column">
+                <div class="fields">
+                    <?php
+                    for ($i = 0; $i < 2; $i++) {
+                        ?>
+                        <div class="five wide required field">
+                            <label>Andar <?php echo $tipoAndar[$i]; ?></label>
+                            <div class="ui selection dropdown">
+                                <input type="hidden" name="sltAndar<?php echo $tipoAndar[$i]; ?>[]" id="sltAndar<?php echo $tipoAndar[$i]; ?>" class="sltAndar<?php echo $tipoAndar[$i]; ?>">
+                                <div class="default text">Andar</div>
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                    <?php
+                                    for ($j = 1; $j <= $andares; $j++) {
+                                        ?>
+                                        <div class="item" data-value="<?php echo $j; ?>"><?php echo $j; ?></div>
+        <?php } ?>
+                                </div>
+                            </div>
+                        </div>
+    <?php } ?>
+                    <div class="three wide required field">
+                        <label>Valor por andar</label>
+                        <input type="text" name="txtValor[]" placeholder="Valor" class="txtValor">
+                    </div>
+                    <div class="three wide required field">
+                        <br>
+                        <button type="button" class="teal ui labeled icon button btnAdicionarValor" value="<?php echo $planta->getOrdemplantas(); ?>" />
+                        <i class="add icon"></i>
+                        Adicionar
+                        </button>
+                    </div>
+                </div>    
+                <table class="ui compact celled blue table" id="tabelaPlanta_<?php echo $planta->getOrdemplantas(); ?>" style="display: none">
+                    <thead>
+                        <tr>
+                            <th>Andar Inicial</th>
+                            <th>Andar Final</th>
+                            <th>Valor</th>
+                            <th>Opção</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dadosPlanta_<?php echo $planta->getOrdemplantas(); ?>"></tbody>
+                </table>
+            </div>
+            <div class="four wide column">
+                <div class="ui horizontal segment">
+                    <div class="ui special cards">
+                        <div class="card">
+                            <div class="dimmable image">
+                                <div class="ui dimmer">
+                                    <div class="content">
+                                        <div class="center">
+                                            <label class="ui inverted button btn-file"> <input id="attachmentName<?php echo $planta->getOrdemplantas(); ?>" class="attachmentName" type="file" name="attachmentName<?php echo $planta->getOrdemplantas(); ?>" style="display: none"/>Inserir Imagem</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <img id="uploadPreview<?php echo $planta->getOrdemplantas(); ?>" class="ui small uploadPreview rounded image" src="/assets/imagens/logo.png">
+                            </div>
+                            <div class="extra content">
+                                <a>
+                                    <i class="file image outline icon"></i>
+                                    Imagem Planta <?php echo $planta->getOrdemplantas() + 1; ?>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <?php
+}
+?>
+<script>
+    planta();
+</script>
+    
+</div>
 
 <!-- Modal do Finalizar Negócio-->    
 <div class="ui basic modal" id="modalFinalizar<?php echo $anuncio->getId() ?>">

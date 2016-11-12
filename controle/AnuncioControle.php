@@ -204,8 +204,7 @@ class AnuncioControle {
                 
             }       
         
-            $numeroPlantas = count($listarAnuncio["anuncio"][0]["plantas"]);
-            
+            $numeroPlantas = count($listarAnuncio["anuncio"][0]["plantas"]);            
             
             //trazer os diferenciais da planta
             for($x = 0; $x < $numeroPlantas; $x++){
@@ -214,27 +213,24 @@ class AnuncioControle {
                         true, array("idplanta" => $listarAnuncio["anuncio"][0]["plantas"][$x]["id"]));
           
             }
-            
-            
-            
+                       
             $listarAnuncio["difPlantas"] = $dif;
   
             $listarAnuncio["mensagem"] = $mensagem;
             
             Cookies::configurarPreferencias($listarAnuncio);
             $visao->setTag_cabecalho('
-<meta name="description" content="Últimas Notícias de Belém, Estado Pará, Região Norte e mundo. Saiba tudo sobre futebol paraense, conteúdo de entretenimento, mundo dos famosos e também divirta-se com nossos jogos online. Saiba também sobre a programação das salas de cinema em Belém." />
-<meta name="author" content="" />
-<meta property="og:type" content="website" />
-<meta name="language" content="pt-br" />
-<meta name="keywords" content="conteudo sobre Mundo, notícias pará, notícias do pará, notícias belém, notícias de belém, notícias região norte, região norte, jornal do pará, jornal região norte, diário do pará, estado do pará, estado pará" />
-<meta property="og:site_name" content="Diário Online - Mundo" />
-<meta property="og:title" content="Quantidade de ovos encontrados em cobra assusta" />
-<meta property="og:url" content="http://www.diarioonline.com.br/notired-385439-4-.html" />
-<meta property="og:description" content="Moradores de uma aldeia na Nigéria se supreenderam após encontrar uma dezenas de ovos em uma cobra que supostamente teria comido um bezerro nesta quinta-feira..." />
-<meta property="dol:nocache" content="373" />
-<meta property="og:image" content="http://www.diarioonline.com.br/img/noticias/original/destaque-385439-naom_58259b9fbc207.jpg" />
-<meta property="og:image:type" content="image/jpeg" />      ');
+            <meta name="description" content="PIP - Procure Imóveis Pai Degua" />
+            <meta name="author" content="" />
+            <meta property="og:type" content="website" />
+            <meta name="language" content="pt-br" />
+            <meta property="og:site_name" content="PIP - Procure Imóveis Pai Degua" />
+            <meta property="og:title" content="'.["anuncio"][0]["tituloanuncio"].'" />
+            <meta property="og:url" content="'.PIPURL.["anuncio"][0]["idanuncioformatado"].'" />
+            <meta property="og:description" content="'.["anuncio"][0]["descricaoanuncio"].'" />
+            <meta property="dol:nocache" content="373" />
+            <meta property="og:image" content="'.PIPURL.'fotos/imoveis/'.["anuncio"][0]["diretorio"].'/'.["anuncio"][0]["nome"].'" />
+            <meta property="og:image:type" content="image/jpeg" />');
             $visao->setItem($listarAnuncio);
             
             $visao->exibir('AnuncioVisaoDetalhe.php');
