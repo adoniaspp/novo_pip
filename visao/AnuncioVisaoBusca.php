@@ -201,10 +201,15 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                     <br />
                                     Data Cadastro: <?php echo date('d/m/Y', strtotime($item['anuncio'][$crtl]['datahoracadastro'])) ?>
                                     <br />
-                                    <a href="http://www.facebook.com/sharer.php?u=<?php echo PIPURL . $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big blue facebook square icon"></i></a>
-                                    <i class="big blue twitter icon"></i><i class="big red google plus circle icon"></i>
-                                    <!--<div class="ui primary button" id="copiarBotao" onclick="copiar()">Copiar Link Anúncio</div>-->
-                                    
+                                    <div class="ui grid">
+                                        <div class="ui centered row">
+                                        <a href="http://www.facebook.com/sharer.php?u=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big blue facebook square icon"></i></a>
+                                        <a href="https://twitter.com/intent/tweet?text=Anúncio%20Compartilhado%20via%20PIP-OnLine%20http%3A%2F%2Fwww.pipbeta.com.br%2F<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big blue twitter icon"></i></a>
+                                        <a href="https://plus.google.com/share?url=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big red google plus circle icon"></i></a>
+                                        <a class="compartilhar-whatsapp" href='whatsapp://send?text=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>'><i class="big green whatsapp icon"></i></a>
+                                        <!--<div class="ui primary button" id="copiarBotao" onclick="copiar()">Copiar Link Anúncio</div>-->
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="extra content">      

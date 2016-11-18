@@ -157,7 +157,18 @@ class AnuncioControle {
         $parametros["idUsuario"] = $idUsuarioAnuncio[0]->getId();
 
         $listarAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
-
+                
+        // buscar o diretorio e o nome da foto destaque para as redes sociais
+        foreach($listarAnuncio["anuncio"][0]["imagem"] as $imagemPrincipal){
+            
+            if($imagemPrincipal["destaque"] == "SIM");
+            
+            $imagemPrincipalDiretorio = $imagemPrincipal["diretorio"];
+            $imagemPrincipalNome      = $imagemPrincipal["nome"];
+            
+            break;
+        } 
+        
         if ($listarAnuncio["anuncio"][0]["status"] != "cadastrado" &&
                 $parametros["sessaoUsuario"] != $parametros["idUsuario"]) {
 
@@ -222,16 +233,31 @@ class AnuncioControle {
             $visao->setTag_cabecalho('
             <meta name="description" content="PIP - Procure Imóveis Pai Degua" />
             <meta name="author" content="" />
-            <meta property="og:type" content="website" />
+            <meta property="og:type" content="product" />
             <meta name="language" content="pt-br" />
             <meta property="og:site_name" content="PIP - Procure Imóveis Pai Degua" />
-            <meta property="og:title" content="'.["anuncio"][0]["tituloanuncio"].'" />
-            <meta property="og:url" content="'.PIPURL.["anuncio"][0]["idanuncioformatado"].'" />
-            <meta property="og:description" content="'.["anuncio"][0]["descricaoanuncio"].'" />
-            <meta property="dol:nocache" content="373" />
-            <meta property="og:image" content="'.PIPURL.'fotos/imoveis/'.["anuncio"][0]["diretorio"].'/'.["anuncio"][0]["nome"].'" />
-            <meta property="og:image:type" content="image/jpeg" />');
+            <meta property="og:title" content="PIP Online - '.$listarAnuncio["anuncio"][0]["tituloanuncio"].'" />
+            <meta property="og:url" content="'.PIPURL.$listarAnuncio["anuncio"][0]["idanuncioformatado"].'" />
+            <meta property="og:description" content="'.$listarAnuncio["anuncio"][0]["descricaoanuncio"].'" />
+            <meta property="og:image" content="'.PIPURL.'fotos/imoveis/'.$imagemPrincipalDiretorio.'/'.$imagemPrincipalNome.'" />
+            <meta property="og:image:type" content="image/jpeg" />
+            <meta property="fb:app_id" content="966242223397117" />
+            
+            <meta name="twitter:card" value="summary">
+            <meta name="twitter:site" content="@PIP_beta">
+            <meta name="twitter:title" content="PIP Online - '.$listarAnuncio["anuncio"][0]["tituloanuncio"].'">
+            <meta name="twitter:description" content="'.$listarAnuncio["anuncio"][0]["descricaoanuncio"].'">
+            <meta name="twitter:creator" content="@PIP_beta">
+            <meta name="twitter:image" content="'.PIPURL.'fotos/imoveis/'.$imagemPrincipalDiretorio.'/'.$imagemPrincipalNome.'">
+            
+            <meta itemprop="name" content="PIP Online - '.$listarAnuncio["anuncio"][0]["tituloanuncio"].'">
+            <meta itemprop="description" content="'.$listarAnuncio["anuncio"][0]["descricaoanuncio"].'">
+            <meta itemprop="image" content="'.PIPURL.'fotos/imoveis/'.$imagemPrincipalDiretorio.'/'.$imagemPrincipalNome.'">
+
+            ');
             $visao->setItem($listarAnuncio);
+            
+            //var_dump($visao->getTag_cabecalho()); die();
             
             $visao->exibir('AnuncioVisaoDetalhe.php');
         }
