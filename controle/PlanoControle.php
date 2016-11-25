@@ -24,6 +24,11 @@ class PlanoControle {
             $visao->exibir('PlanoVisaoListagem.php');
         }
     }
+    
+    function precosAnuncios(){
+         $visao = new Template();
+         $visao->exibir('PrecosVisaoListagem.php');
+    }
 }
 
 ?>

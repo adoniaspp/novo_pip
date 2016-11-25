@@ -4,10 +4,16 @@
 <div class="ui center aligned divided equal width grid">
   <div class="teal column">
         <div class="ui list">
-            <div class="item">Minha Conta</div>
+            <?php if (Sessao::verificarSessaoUsuario()) { ?>
+            
+                <a class="item" href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=meuPIP"> Minha Conta </a> 
+            
+                   <?php } else { ?>
+                <a class="item" href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=form&tipo=login">Minha Conta</a>
+            
+            <?php } ?>
             <div class="item">Como Funciona?</div>
-            <div class="item">Buscar Anuncio</div>
-            <div class="item">Preços dos Anuncios</div>
+            <a class="item" href="<?php echo PIPURL; ?>/index.php?entidade=Plano&acao=precosAnuncios">Preços dos Anuncios</a>
             <div class="item">Promoções</div>           
         </div>
   </div>

@@ -68,7 +68,7 @@ class Template {
     }
 
     public function rodape() {
-        include 'assets/html/rodape.html';
+        include 'assets/html/rodape.php';
     }
 
     public function __destruct() {
