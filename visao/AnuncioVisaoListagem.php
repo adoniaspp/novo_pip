@@ -30,7 +30,7 @@
             "stateSave": true,
             "order": [[5, "desc"]],
             "columnDefs": [
-                {"orderable": false, "targets": 0}, {"orderable": false, "targets": 6}, {"orderable": false, "targets": 7}, {"orderable": false, "targets": 8}
+                {"orderable": false, "targets": 0}, {"orderable": false, "targets": 7}
             ]
         });
 
@@ -56,7 +56,7 @@
             <div class="ui message">
                 <p>Veja os detalhes do anúncio clicando no código. 
                 Se você conseguiu negociar seu anúncio ou não deseja que ele continue ativo por algum motivo, clique
-                em "Finalizar Negócio". Caso queria mudar o valor, clique em "Alterar Valor".
+                em <strong>Finalizar Negócio</strong>. Caso queria mudar o valor, clique em <strong>Editar</strong>.
                 </p>
             </div>
             <div class="ui message">
@@ -69,6 +69,26 @@
         </div>
     </div>
     
+    <div class="row">
+        <div class="column">
+            <div class="ui horizontal segments">
+                
+                <div class="ui segment center aligned ">
+                    <i class='big red thumbs up icon'></i> Finalizar Anúncio
+                </div>
+                
+                <div class="ui segment center aligned ">
+                    <i class='big blue edit icon'></i>Editar Anúncio
+                </div>
+                
+                <div class="ui segment center aligned ">
+                    <i class='big green money icon'></i>Valores Antigos
+                </div>
+                
+            </div>           
+        </div>
+    </div>
+    
 </div>
  
 <div class="ui hidden divider"></div>
@@ -77,11 +97,7 @@
     Sessao::gerarToken();
    
     $item = $this->getItem();    
-/*    
-    echo "<pre>";
-    var_dump($item);
-    echo "</pre>";
-*/  
+
     $totalAnunciosCadastrados = count($item["listaAnuncio"]);
     
     if($totalAnunciosCadastrados < 1){      
@@ -108,8 +124,9 @@
 
     <?php } else { //caso exista ao menos 1 anuncio cadastrado, exibir o datatable?>
     <div class="ui middle aligned stackable grid container">
+        <div class="row">
     <div class="column">
-    <table class="ui brown table" id="tabela">
+    <table class="ui brown stackable table" id="tabela">
         
         <thead>
             <tr>
@@ -120,9 +137,7 @@
                 <th>Valor</th>
                 <th>Publicação</th>
                 <th>Expiração</th>
-                <th></th>
-                <th></th>
-                <th></th>
+                <th>Opções</th>
             </tr>
         </thead>
         <tbody>
@@ -213,29 +228,29 @@
                         date_add($date, date_interval_create_from_date_string( $anuncio->getUsuarioPlano()->getPlano()->getvalidadepublicacao().' days'));
                         echo date_format($date, 'd/m/Y');
                         ?> </td>
-
-                        <td><?php echo "<a id='btnFinalizar" . $anuncio->getId() . "' class='ui small red button'>Finalizar Negócio</a>"?></td>
+                        
+                        <td><?php echo "<a id='btnFinalizar" . $anuncio->getId() . "' class='ui circular inverted basic icon button'><i class='big red thumbs up icon'></i></a>"?>
                         
                         <?php if($anuncio->getImovel()->getIdTipoImovel() == 2){ //alterar valor se for Planta?>
                         
-                        <td><?php echo "<a id='btnAlterarValorPlanta" . $anuncio->getId() . "' class='ui small blue button'>Alterar Valor</a>" ?></td>
+                        <?php echo "<a id='btnAlterarValorPlanta" . $anuncio->getId() . "' class='ui circular inverted basic icon button'><i class='big blue edit icon'></i></a>"?>
                         
                         <?php } else {//alterar valor se for outro tipo de imóvel?>
                         
-                        <td><?php echo "<a id='btnAlterarValor" . $anuncio->getId() . "' class='ui small blue button'>Alterar Valor</a>" ?></td>
+                        <?php echo "<a id='btnAlterarValor" . $anuncio->getId() . "' class='ui circular inverted basic icon button'><i class='big blue edit icon'></i></a>" ?>
                         
                         <?php } ?>
                         
-                        <td>
+                        
                             <?php 
                         
                             if($anuncio->getNovoValorAnuncio() != null){
-                                echo "<a id='btnMostrarValor" . $anuncio->getId() . "' class='ui small green button'>Valores Antigos</a>";
-                            }
+                                echo "<a id='btnMostrarValor" . $anuncio->getId() . "' class='ui circular inverted basic icon button'><i class='big green money icon'></i></i></a>'";
+                            } else echo "";
 
                             ?>
-                        </td>
-                    
+                        
+                            </td>
                     </tr>
                     
                <?php
@@ -246,7 +261,7 @@
         
     </table>
     </div>
-
+    </div>
 </div>
 
 <div class="ui one column centered grid">
@@ -374,9 +389,7 @@
         ?>
         </tbody>
         </table>
-        
        
-        
     </div>
     
     <div class="actions">
@@ -386,11 +399,11 @@
     </div>
 </div>
 
-
+<!-- MODAL DA EDIÇÃO DO ANÚNCIO-->
 
 <div class="ui standart modal" id="modalAlterarValorAnuncio<?php echo $anuncio->getId() ?>">
     <div class="header">
-        Alterar Valor
+        Editar Anúncio
     </div>
     <div class="content" id="camposNovoValor<?php echo $anuncio->getId() ?>">
         <div class="description">
@@ -421,6 +434,40 @@
                             } else echo $anuncio->getValorMin();  
                            
                            ?>"/>    
+                    
+                                <div class="fields">
+                                    <div class="twelve wide required field">
+                                            <label>Título do Anúncio</label>
+                                            <input name="txtTitulo" id="txtTitulo<?php echo $anuncio->getId() ?>" type="text" placeholder="Informe o Título" maxlength="50" value="<?php echo $anuncio->getTituloAnuncio() ?>">
+                                    </div>
+                                </div>
+                                    <div class="required field">
+                                        <label>Descrição</label>
+                                        <textarea name="txtDescricao" id="txtDescricao<?php echo $anuncio->getId() ?>" placeholder="Informe uma Descrição do Imóvel" maxlength="150" ><?php echo $anuncio->getDescricaoAnuncio() ?></textarea>
+                                    </div>
+                                    <div class="two fields">
+                                        <div class="field">
+                                            <div class="ui toggle checkbox">
+                                                <?php if ($anuncio->getPublicarMapa() == 'SIM') { ?>
+                                                    <input name="chkMapa" id="chkMapa" type="checkbox" value="SIM" checked="checked">
+                                                <?php } else { ?>
+                                                    <input name="chkMapa" id="chkMapa" type="checkbox" value="SIM">
+                                                <?php } ?>
+
+                                                <label>Exibir o mapa do endereço?</label>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <div class="ui toggle checkbox">
+                                                <?php if ($anuncio->getPublicarContato() == 'SIM') { ?>
+                                                    <input name="chkContato" id="chkContato" type="checkbox" value="SIM" checked="checked">
+                                                <?php } else { ?>
+                                                    <input name="chkContato" id="chkContato" type="checkbox" value="SIM">
+                                                <?php } ?>
+                                                <label>Exibir suas informações de contato?</label>
+                                            </div>
+                                        </div>
+                                    </div>
                     
                     <div class="ui message">
                         <p>Digite o novo valor para seu anúncio. <strong>ATENÇÃO:</strong> O valor atual será substituido pelo novo
@@ -463,115 +510,13 @@
             Cancelar
         </div>
         <div  id="botaoAlterarValor<?php echo $anuncio->getId(); ?>" class="ui positive right labeled icon button">
-            Alterar Valor
+            Editar
             <i class="checkmark icon"></i>
         </div>
         <div  id="botaoFecharAlterarValor<?php echo $anuncio->getId(); ?>" class="ui red deny button">
             Fechar
         </div>
     </div>
-</div>
-
-
-<div class="ui standart modal" id="modalAlterarValorAnuncioPlanta<?php echo $anuncio->getId() ?>">
-    
-<p>Para cada planta informe o valor (não informar os centavos) por andar inicial e final.</p>
-<?php
-$plantas = $item["imovel"][0]->getPlanta();
-echo '<input id="hdnPlantas" type="hidden" value="' . count($plantas) . '">';
-if (is_object($plantas))
-    $plantas = array($plantas);
-$andares = $item["imovel"][0]->getApartamentoPlanta()->getAndares();
-echo '<input id="hdnAndares" type="hidden" value="' . $andares . '">';
-usort($plantas, function( $a, $b ) {
-    //ID da planta será usado para comparação
-    return ( $a->getOrdemplantas() > $b->getOrdemplantas() );
-});
-foreach ($plantas as $planta) {
-    $tipoAndar = array('Inicial', 'Final');
-    ?>
-    <span class="ui green tag label">Planta <?php echo $planta->getOrdemplantas() + 1; ?>: <?php echo $planta->getTituloplanta(); ?></span>
-    <div class="ui form segment">
-        <div class="ui stackable grid">
-            <div class="twelve wide column">
-                <div class="fields">
-                    <?php
-                    for ($i = 0; $i < 2; $i++) {
-                        ?>
-                        <div class="five wide required field">
-                            <label>Andar <?php echo $tipoAndar[$i]; ?></label>
-                            <div class="ui selection dropdown">
-                                <input type="hidden" name="sltAndar<?php echo $tipoAndar[$i]; ?>[]" id="sltAndar<?php echo $tipoAndar[$i]; ?>" class="sltAndar<?php echo $tipoAndar[$i]; ?>">
-                                <div class="default text">Andar</div>
-                                <i class="dropdown icon"></i>
-                                <div class="menu">
-                                    <?php
-                                    for ($j = 1; $j <= $andares; $j++) {
-                                        ?>
-                                        <div class="item" data-value="<?php echo $j; ?>"><?php echo $j; ?></div>
-        <?php } ?>
-                                </div>
-                            </div>
-                        </div>
-    <?php } ?>
-                    <div class="three wide required field">
-                        <label>Valor por andar</label>
-                        <input type="text" name="txtValor[]" placeholder="Valor" class="txtValor">
-                    </div>
-                    <div class="three wide required field">
-                        <br>
-                        <button type="button" class="teal ui labeled icon button btnAdicionarValor" value="<?php echo $planta->getOrdemplantas(); ?>" />
-                        <i class="add icon"></i>
-                        Adicionar
-                        </button>
-                    </div>
-                </div>    
-                <table class="ui compact celled blue table" id="tabelaPlanta_<?php echo $planta->getOrdemplantas(); ?>" style="display: none">
-                    <thead>
-                        <tr>
-                            <th>Andar Inicial</th>
-                            <th>Andar Final</th>
-                            <th>Valor</th>
-                            <th>Opção</th>
-                        </tr>
-                    </thead>
-                    <tbody id="dadosPlanta_<?php echo $planta->getOrdemplantas(); ?>"></tbody>
-                </table>
-            </div>
-            <div class="four wide column">
-                <div class="ui horizontal segment">
-                    <div class="ui special cards">
-                        <div class="card">
-                            <div class="dimmable image">
-                                <div class="ui dimmer">
-                                    <div class="content">
-                                        <div class="center">
-                                            <label class="ui inverted button btn-file"> <input id="attachmentName<?php echo $planta->getOrdemplantas(); ?>" class="attachmentName" type="file" name="attachmentName<?php echo $planta->getOrdemplantas(); ?>" style="display: none"/>Inserir Imagem</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <img id="uploadPreview<?php echo $planta->getOrdemplantas(); ?>" class="ui small uploadPreview rounded image" src="/assets/imagens/logo.png">
-                            </div>
-                            <div class="extra content">
-                                <a>
-                                    <i class="file image outline icon"></i>
-                                    Imagem Planta <?php echo $planta->getOrdemplantas() + 1; ?>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <?php
-}
-?>
-<script>
-    planta();
-</script>
-    
 </div>
 
 <!-- Modal do Finalizar Negócio-->    

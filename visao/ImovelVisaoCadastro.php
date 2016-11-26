@@ -6,8 +6,9 @@
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 <script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
-<script>
 
+<script>
+    
     cadastrarImovel();
     esconderCamposInicio();
     mascarasFormUsuario();
@@ -16,7 +17,7 @@
     confirmarCadastroImovel();
     buscarCep();
     preco();
-
+ 
 </script>
 
 <?php
@@ -339,9 +340,3 @@ Sessao::gerarToken();
         </div>
     </div>
 </div>
-
-<script>
-
-
-
-</script>

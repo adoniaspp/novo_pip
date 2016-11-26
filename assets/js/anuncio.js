@@ -782,6 +782,7 @@ function reativar(botao) {
                 limit: 8,
                 thousandsSeparator: '.'
             });
+            
             $("#chkValor" + botao).parent().checkbox('set checked');
             $("#chkValor" + botao).change(function () {
                 if ($(this).parent().checkbox('is checked')) {
@@ -926,6 +927,7 @@ function formatarValor(vetor) {
         limit: 8,
         thousandsSeparator: '.'
     })
+ 
 }
 
 function formatarValorCampos(vetor) {
@@ -1274,6 +1276,26 @@ function alterarValor(valor) {
             limit: 8,
             thousandsSeparator: '.'
         })
+    
+        $("#txtTitulo" + valor).maxlength({
+            threshold: 50,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        })
+
+        $("#txtDescricao" + valor).maxlength({
+            threshold: 200,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        })
 
         $('#modalAlterarValorAnuncio' + valor).modal({
             closable: false,
@@ -1316,7 +1338,7 @@ function alterarValor(valor) {
             focusInvalid: true,
             rules: {
                 txtNovoValor: {
-                    required: true,
+                    //required: true,
                     minlength: 3,
                     valorDiferente: true
                 }
@@ -1334,7 +1356,7 @@ function alterarValor(valor) {
                     data: $('#formAlterarValorAnuncio' + valor).serialize(),
                     beforeSend: function () {
                         $("#camposNovoValor" + valor).html("<div><div class='ui active inverted dimmer'>\n\
-                        <div class='ui text loader'>Alterando valor. Aguarde...</div></div></div>");
+                        <div class='ui text loader'>Editando. Aguarde...</div></div></div>");
                     },
                     success: function (resposta) {
 
@@ -1344,9 +1366,9 @@ function alterarValor(valor) {
                         $("#botaoFecharAlterarValor" + valor).show();
 
                         if (resposta.resultado == 1) {
-                            $("#divRetornoNovoValor" + valor).html("<div class='ui success message'>\n\
-                                    <div class='content'><div class='header'>Sucesso</div>Novo Valor R$" + resposta.novoValor + " cadastrado com sucesso\n\
-                                </div></div>");
+                            $("#divRetornoNovoValor" + valor).html("<div class='ui positive message'>\n\
+                                    <i class='big green check circle outline icon'></i>Edição Realizada Com Sucesso\n\
+                                </div>");
 
                             $("#botaoFecharAlterarValor" + valor).click(function () {
                                 window.location.reload();

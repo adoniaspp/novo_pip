@@ -12,6 +12,26 @@
 <script src="assets/libs/datatables/js/moment.min.js"></script>
 <script src="assets/libs/datatables/js/datetime-moment.js"></script>
 
+<script>
+    $(document).ready(function () {
+        
+        //função que ordena a data, de acordo com o formato
+        $.fn.dataTable.moment( 'DD/MM/YYYY HH:mm:ss' );
+        
+        $('#tabela').dataTable({
+            "language": {
+                "url": "assets/libs/DataTables/js/Portuguese-Brasil.json",
+            },
+            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
+            "stateSave": true,
+            "order": [[2, "desc"]],
+            "columnDefs": [
+                {"orderable": false, "targets": 3}
+            ]
+        });
+    })
+</script>
+
 <div class="ui middle aligned stackable grid container">
     <div class="row">
         <div class="column">
@@ -56,14 +76,14 @@
                         if (trim($imovel->getIdentificacao()) == "") {
                             $descricao = "<h4 class='ui red header'>Não Informado</h4>";
                         } else {
-                            $descricao = $imovel->getIdentificacao();
+                            $descricao = nl2br($imovel->getIdentificacao()); //função nl2br usada para formatar o texto cadastrado na textarea
                         }
 
                         echo "<td>" . $descricao . "</td>";
 
                         echo "<td>" . date('d/m/Y H:i:s', strtotime($imovel->getDatahoracadastro())) . "</td>";
 
-                        echo "<td><a href='#' class='ui green button' id='detalhes" . $imovel->getId() . "' ><i class='ui home icon'></i>Detalhes</a>";
+                        echo "<td><a class='ui circular inverted icon button' id='detalhes" . $imovel->getId() . "' ><i class='ui big green zoom icon'></i></a>Ver Detalhes";
 
                         echo "</tr>";
                     }
@@ -94,22 +114,3 @@ function verificaAnuncioAtivo($listaAnuncios) {
 }
 ?>
 
-<script>
-    $(document).ready(function () {
-        
-        //função que ordena a data, de acordo com o formato
-        $.fn.dataTable.moment( 'DD/MM/YYYY HH:mm:ss' );
-        
-        $('#tabela').dataTable({
-            "language": {
-                "url": "assets/libs/DataTables/js/Portuguese-Brasil.json",
-            },
-            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
-            "stateSave": true,
-            "order": [[2, "desc"]],
-            "columnDefs": [
-                {"orderable": false, "targets": 3}
-            ]
-        });
-    })
-</script>

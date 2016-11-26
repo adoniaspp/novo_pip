@@ -156,7 +156,7 @@ switch ($item['anuncio'][0]['tipo']) {
     <div class="column">
         <div class="ui segment">
             <a class="header">Descrição do Anúncio</a>
-            <div class="description"><?php echo $item['anuncio'][0]['descricaoanuncio'] ?></div>
+            <div class="description"><?php echo nl2br($item['anuncio'][0]['descricaoanuncio']) //função nl2br usada para formatar o texto cadastrado na textarea?></div>
         </div>
     </div>
     <div class="column">

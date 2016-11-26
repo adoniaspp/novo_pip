@@ -38,17 +38,27 @@
     </div>
     
     <div class="row">
+        
         <div class="column">
-            <div class="ui bulleted list">
-                <i class='big green check circle outline icon'></i> Imóvel com Anúncio <strong>Ativo</strong>
-                <i class='big red remove circle outline icon'></i>Imóvel com Anúncio <strong>Inativo ou Explirado</strong>
+            
+            <div class="ui horizontal segments">
+                
+                <div class="ui segment center aligned ">
+                    <i class='big green check circle outline icon'></i> Imóvel com Anúncio <strong>Ativo</strong>
+                </div>
+                
+                <div class="ui segment center aligned ">
+                    <i class='big red remove circle outline icon'></i>Imóvel com Anúncio <strong>Inativo ou Explirado</strong>
+                </div>
+                
             </div>
+
         </div>
     </div>
     
         <div class="row">
             <div class="column">
-                <table class="ui green stackable table" id="tabela">
+                <table class="ui green stackable table" id="tabela">&nbsp;
                     <thead>
                         <tr>
                             <th class="three wide">Tipo</th>
@@ -69,26 +79,26 @@
                                 if (trim($imovel->getIdentificacao()) == "") {
                                     $descricao = "<h4 class='ui red header'>Não Informado</h4>";
                                 } else {
-                                    $descricao = $imovel->getIdentificacao();
+                                    $descricao = nl2br($imovel->getIdentificacao()); //função nl2br usada para formatar o texto cadastrado na textarea
                                 }
 
                                 echo "<td>" . $descricao . "</td>";
 
                                 echo "<td>" . date('d/m/Y H:i:s', strtotime($imovel->getDatahoracadastro())) . "</td>";
 
-                                echo "<td> <a href='#' class='ui green button' id='detalhes" . $imovel->getId() . "' ></i>Detalhes</a>";
+                                echo "<td> <a href='#' class='ui circular inverted zoom icon button' id='detalhes" . $imovel->getId() . "' ><i class='big green zoom icon'></i></a>Detalhes";
 
                                 if (count($imovel->getAnuncio()) > 0) {
                                     if (verificaAnuncioAtivo($imovel->getAnuncio())) {
-                                        $mensagemAnuncio = "<div class='ui small compact negative message'>Possui Anúncio</div> <i class='big green check circle outline icon'></i>";
+                                        $mensagemAnuncio = "&nbsp;&nbsp;<div class='ui small compact negative message'>Possui Anúncio</div> <i class='big green check circle outline icon'></i>";
                    
                                     } else {
-                                        $mensagemAnuncio = "<div class='ui small compact negative message'>Possui Anúncio</div> <i class='big red remove circle outline icon'></i>";
+                                        $mensagemAnuncio = "&nbsp;&nbsp;<div class='ui small compact negative message'>Possui Anúncio</div> <i class='big red remove circle outline icon'></i>";
                                     }
                                     echo $mensagemAnuncio;
                                 } else {
-                                    echo "<a href=index.php?entidade=Imovel&acao=selecionar&id=" . $imovel->getId() . '&token=' . $_SESSION['token'] . "  id='editar" . $imovel->getId() . "' class='ui teal button'><i class='ui edit icon'></i>Editar</a>";
-                                    echo "<button type='button' class='ui button red' onclick='formExcluirImovel(" . $imovel->getId() . ",\"" . $_SESSION['token'] . "\",\"" . $imovel->buscarTipoImovel($imovel->getIdTipoImovel()) . "\")'><i class='ui trash icon'></i>Excluir</button>";
+                                    echo "<a href=index.php?entidade=Imovel&acao=selecionar&id=" . $imovel->getId() . '&token=' . $_SESSION['token'] . "  id='editar" . $imovel->getId() . "' class='ui circular inverted icon button'><i class='big teal edit icon'></i></a>Editar";
+                                    echo "<a class='ui circular inverted icon button' onclick='formExcluirImovel(" . $imovel->getId() . ",\"" . $_SESSION['token'] . "\",\"" . $imovel->buscarTipoImovel($imovel->getIdTipoImovel()) . "\")'><i class='big red trash icon'></i></a>Excluir";
                                 }
 
                                 echo "</td>";

@@ -47,7 +47,7 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
 
 </div>
 
-<form id="form" class="ui form" action="index.php" method="post" enctype="multipart/form-data">
+<form id="form" action="index.php" method="post" enctype="multipart/form-data">
     <div class="ui middle aligned stackable grid container">
         <div class="row">
             <div class="column">
@@ -79,7 +79,8 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
                 </div>
             </div>
         </div>
-        <div class="row">
+        <!--<div class="row">
+            
             <div class="column">
                 <div class="ui stackable borderless three item menu">
                     <div class=" item">
@@ -93,8 +94,28 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
+    <div class="ui middle aligned stackable grid container">
+    <div class="row">
+        <div class="column">
+            <div class="ui horizontal segments">
+                
+                <div class="ui segment center aligned ">
+                    <a class="ui circular inverted disabled icon button" id="btnAlterarImagem" ><i class='big blue edit icon'></i></a>Alterar Imagem
+                </div>
+                
+                <div class="ui segment center aligned ">
+                    <a class="ui circular inverted icon button" id="btnCancelar"><i class='big orange remove icon'></i></a>Cancelar
+                </div>
+                
+                <div class="ui segment center aligned ">
+                    <a class="ui circular inverted icon button" id="btnExcluirImagem"><i class='big red trash edit icon'></i></a>Excluir Imagem
+                </div>
+                
+            </div>           
+        </div>
+    </div></div>
 </form>
 
 <!-- MODAIS -->

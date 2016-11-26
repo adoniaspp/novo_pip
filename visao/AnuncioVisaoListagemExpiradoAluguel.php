@@ -185,17 +185,17 @@ if ($totalAnunciosFinalizados < 1 && $totalAnunciosExpirados < 1) {
                                 <td><?php echo date('d/m/Y H:i:s', strtotime($anuncio->getDataHoraCadastro())); ?></td>
                                 <td> <?php
                         if ($anuncio->getStatus() == 'finalizado') {
-                            echo "<i class='thumbs up red icon'></i>Finalizado em " . $anuncio->getHistoricoAluguelVenda()->getDatahora();
+                            echo "<i class='big thumbs up red icon'></i>Finalizado em " . $anuncio->getHistoricoAluguelVenda()->getDatahora();
                         } else {
-                            echo "<i class='remove circle red icon'></i>Expirado em " . $anuncio->getDataHoraDesativacao();
+                            echo "<i class='big remove circle red icon'></i>Expirado em " . $anuncio->getDataHoraDesativacao();
                         }
             ?>
                                 </td>
                                 <td><?php
                         if (count($item["listaPlanos"]) > 0) {
-                            echo "<a id='btnReativar" . $anuncio->getId() . "' class='ui small green button'><i class='refresh icon'></i>Reativar Anúncio</a>";
+                            echo "<a id='btnReativar" . $anuncio->getId() . "' class='ui circular inverted icon button'><i class='big red refresh icon'></i></a>Reativar Anúncio";
                         } else {
-                            echo "<span class='ui small grey button' data-content='Você precisa adquirir um plano para poder reativar este anúncio' data-variation='inverted'><i class='refresh icon'></i>Reativar Anúncio</span>";
+                            echo "<span class='ui circular inverted icon' data-content='Você precisa adquirir um plano para poder reativar este anúncio' data-variation='inverted'><i class='big red disabled refresh icon'></i>Compre Um Anúncio Para Reativar</span>";
                         }
             ?></td>
                             </tr>

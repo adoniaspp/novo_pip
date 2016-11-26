@@ -1288,6 +1288,7 @@ class AnuncioControle {
                $entidadeAnuncio->setPublicarmapa($parametros["chkMapa"]);
                $entidadeAnuncio->setPublicarcontato($parametros["chkContato"]);
                if ($parametros["chkValor"] == 'SIM') {
+                   $parametros["txtValor"] = $this->limpaValor($parametros["txtValor"]);
                    $entidadeAnuncio->setValormin($parametros["txtValor"]);
                }
                $entidadeUsuarioPlano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $parametros["sltPlano"]));
@@ -1417,7 +1418,9 @@ class AnuncioControle {
     function alterarValor($parametros){
         
         if (Sessao::verificarSessaoUsuario()) {
-
+            
+            //var_dump($parametros); die();
+            
             if (Sessao::verificarToken($parametros)) {
 
                 $genericoDAO = new GenericoDAO();
@@ -1429,6 +1432,8 @@ class AnuncioControle {
                 
                 if($consultarValorInativar != null){ //setar a classe ValorNovo apenas se já existir valor
                     
+                     if($parametros['txtNovoValor'] != ""){
+                    
                     $consultarValorInativar = $consultarValorInativar[0];
                     //setar apenas os campos que se quer editar
                     $setarInativacao = $novoValor->inativarValor($consultarValorInativar);
@@ -1437,6 +1442,9 @@ class AnuncioControle {
                     //passar o objeto para edição
                     $inativar = $genericoDAO->editar($setarInativacao);
                     
+                    } else {$genericoDAO->iniciarTransacao(); $inativar = true;} {
+                        
+                    }
                 } else { //caso não exista um valor novo já cadastrado
                     
                     $genericoDAO->iniciarTransacao();
@@ -1444,12 +1452,26 @@ class AnuncioControle {
                     $inativar = true;
                     
                     }
-          
-                $entidade = $novoValor->cadastrar($parametros);
+                
+                if($parametros['txtNovoValor'] != ""){
+                    
+                    //echo "Entrou"; die();
+                    
+                    $entidade = $novoValor->cadastrar($parametros);
 
-                $resultadoNovoValor = $genericoDAO->cadastrar($entidade);
+                    $resultadoNovoValor = $genericoDAO->cadastrar($entidade);
+                    
+                } else {
+                    $resultadoNovoValor = true;    
+                    //echo "Não Entrou"; die();
+                }
+              
+                $anuncio = new Anuncio();
+                
+                $entidadeAnuncio = $anuncio->editar($parametros);    
+                $idAnuncio       = $genericoDAO->editar($entidadeAnuncio);
 
-                if ($inativar && $resultadoNovoValor) {
+                if ($inativar && $resultadoNovoValor && $idAnuncio) {
                     
                     $genericoDAO->commit();
                     
@@ -1469,9 +1491,7 @@ class AnuncioControle {
                     echo json_encode(array("resultado" => 2)); //erro de token
 
                 }
-                
-                
-                
+              
         } else { //caso o usuário não esteja logado
             
             echo json_encode(array("resultado" => 3));

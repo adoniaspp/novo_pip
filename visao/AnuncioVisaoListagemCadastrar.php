@@ -106,11 +106,11 @@
                             }
                             echo "<td>" . $descricao . "</td>";
                             echo "<td>" . date('d/m/Y H:i:s', strtotime($imovel->getDatahoracadastro())) . "</td>";
-                            echo "<td><a href='#' class='ui green button' id='detalhes" . $imovel->getId() . "' ><i class='ui home icon'></i>Detalhes</div>";
+                            echo "<td><a class='ui circular inverted icon button' id='detalhes" . $imovel->getId() . "' ><i class='big yellow zoom icon'></i></a>Detalhes";
                             if (count($imovel->getAnuncio()) > 0 && verificaAnuncioAtivo($imovel->getAnuncio())) {
-                                echo '<div class="ui compact positive message"><i class="large icons"><i class="announcement  icon"></i><i class="corner checkmark icon"></i></i> Anúncio Ativo</div>';
+                                echo '<div class="ui compact positive message"><i class="large icons"><i class="announcement icon"></i><i class="corner checkmark icon"></i></i>Anúncio Ativo</div>';
                             } else {
-                                echo"<a href='index.php?entidade=Anuncio&acao=form&idImovel=" . $imovel->getId() . "&token=" . $_SESSION['token'] . "' class='btn btn-info'><div class='ui brown button'><i class='announcement  icon'></i>Publicar Anúncio</div></a>";
+                                echo"<a href='index.php?entidade=Anuncio&acao=form&idImovel=" . $imovel->getId() . "&token=" . $_SESSION['token'] . "' class='ui circular inverted icon button'><i class='big brown announcement icon'></i></a>Publicar Anúncio";
                             }
                             echo "</td>";
                         }

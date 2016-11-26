@@ -1,10 +1,7 @@
 <?php
 //Sessao::gerarToken();
 $item = $this->getItem();
-/* echo "<pre>";
-  print_r($item);
-  echo "</pre>";
-  //die(); */
+
 if ($item) {
     foreach ($item["imovel"] as $objImovel) {
         $idImovel = $objImovel->getId();
@@ -399,7 +396,7 @@ if ($item) {
                         <p class="ui error" style="color: #912D2B;    font-size: 1.14285714em;font-weight: 700;"></p>
                         </td>
                         <td>
-                        <input type="text" id="txtLegenda[{%=file.name%}]" name="txtLegenda[{%=file.name%}]" placeholder="Informe a Legenda" maxlength="90" class="ui input legenda"/>
+                        <input type="text" id="txtLegenda[{%=file.name%}]" name="txtLegenda[{%=file.name%}]" placeholder="Informe a Legenda" maxlength="30" class="ui input legenda"/>
                         </td>    
                         <td>
                         <p class="size">Processing...</p>

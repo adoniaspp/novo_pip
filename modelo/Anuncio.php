@@ -196,7 +196,22 @@ class Anuncio {
         $this->setIdusuarioplano($parametros['sltPlano']);
         return $this;
     }
+    
+    public function editar($parametros){
+        
+        $this->setId($parametros['hdnAnuncio']);
+        
+        $this->setTituloanuncio($parametros['txtTitulo']);
+        $this->setDescricaoanuncio($parametros['txtDescricao']);
+        
+        $this->setPublicarcontato((isset($parametros['chkContato']) ? "SIM" : "NAO"));
 
+        $this->setPublicarmapa((isset($parametros['chkMapa']) ? "SIM" : "NAO"));
+
+        
+        return $this;
+    }
+    
     private function limpaValorNumerico($valor) {
         $valor = str_replace("R$", "", $valor);
         $valor = str_replace(".", "", $valor);

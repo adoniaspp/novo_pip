@@ -715,12 +715,14 @@ $(document).ready(function () {
         if (fileExtentionRange.indexOf(postfix.toLowerCase()) > -1) {
             if (size > 1024 * 1024 * MAX_SIZE) {
                 alert('Tamanho máximo da imagem：' + MAX_SIZE + ' MB');
-                $("#btnAlterarImagem").attr("disabled", "disabled");
+                //$("#btnAlterarImagem").attr("disabled", "disabled");
+                $("#btnAlterarImagem").attr("class", "ui circular disabled inverted icon button");
                 $("#uploadPreview").attr("src", "../assets/imagens/foto_padrao.png");
                 $('#attachmentName').removeAttr('name'); // cancel upload file.
             } else {
                 $('#arquivolabel').val(label);
-                $("#btnAlterarImagem").removeAttr("disabled");
+                //$("#btnAlterarImagem").removeAttr("disabled");
+                $("#btnAlterarImagem").attr("class", "ui circular inverted icon button");
                 var oFReader = new FileReader();
                 oFReader.readAsDataURL(document.getElementById("attachmentName").files[0]);
 
@@ -1139,6 +1141,7 @@ function fazerLogin() {
                         if (resposta.resultado == 1) {
                             $("#divLoginCadastro").hide();
                             $("#divUsuario").show();
+                            $("#btnLogin").attr("disabled", "disabled");
                             location.href = resposta.redirecionamento;
                         } else if (resposta.resultado == 2) {
                             $("#divRetorno").html("<div class='ui negative message'>\n\
