@@ -23,6 +23,7 @@ class Anuncio {
     protected $historicoaluguelvenda;
     protected $novovaloranuncio;
     protected $mapaimovel;
+    protected $imagem;
             
     function getId() {
         return $this->id;
@@ -100,6 +101,10 @@ class Anuncio {
         return $this->mapaimovel;
     }
 
+    function getImagem() {
+        return $this->imagem;
+    }
+
     function setId($id) {
         $this->id = $id;
     }
@@ -174,6 +179,10 @@ class Anuncio {
 
     function setMapaimovel($mapaimovel) {
         $this->mapaimovel = $mapaimovel;
+    }
+    
+    function setImagem($imagem) {
+        $this->imagem = $imagem;
     }
 
                    
