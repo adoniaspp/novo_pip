@@ -519,7 +519,7 @@ if ($item) {
 
                 <!--PUBLICAÇÃO-->
                 <div class="ui middle aligned stackable grid container" id="step6">
-
+                    <div class="ui hidden divider"></div>
                     <h3 class="ui dividing header" id="divTextoPublicacao">Publicação</h3>
 
                 </div>

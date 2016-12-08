@@ -150,6 +150,9 @@ foreach ($imoveis as $qtdAnuncios) {
         <a href="index.php?entidade=Usuario&acao=form&tipo=trocarimagem" class="item"> 
             <i class="file image outline icon"></i>  Alterar <?php echo ($_SESSION["tipopessoa"] == "pf" ? "Imagem" : "Logomarca"); ?>
         </a>
+        <a href="index.php?entidade=Usuario&acao=Configuracoes" class="item"> 
+            <i class="configure icon"></i> Configurações
+        </a>
         <a href="index.php?entidade=Anuncio&acao=buscarAnuncioCorretor&login=<?php echo $_SESSION["login"] ?>" class="item" target="_blank"> 
             <i class="newspaper icon"></i> Visualizar Minha Página
         </a>

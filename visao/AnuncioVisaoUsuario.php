@@ -105,11 +105,16 @@
             <div class="description"><?php echo $usuario->getNome() . " - " . $usuario->getEmail(); ?></div>
         </div>
     </div>
+    
+    <?php if($usuario->getExibirendereco()=="SIM"){?>
+    
     <div class="column">
         <div class="ui segment"><a class="header">Endereço:</a>
             <div class="description"> <?php echo $endereco; ?></div>
         </div>
     </div>   
+    
+    <?php } ?>
     
     <div class="ui hidden divider"></div>
     
@@ -119,7 +124,9 @@
 
 
 <form class="ui form">    
-   
+  
+<?php if($usuario->getExibirContato()=="SIM"){?>    
+    
 <div class="ui middle aligned stackable grid container">
     <div class="row">
         <h2 class="ui header">
@@ -131,8 +138,9 @@
             
         </h2>
     </div> 
-
 </div>     
+    
+  
     
 <div class="stackable one column ui grid container">
  
@@ -162,8 +170,10 @@
     </div>
  
 </div>
-
+<?php } //fim da verificação da exibição do contato?>  
 </form> 
+
+<?php if($usuario->getExibirAnuncios()=="SIM"){?>  
 
 <div class="ui middle aligned stackable grid container">
     
@@ -173,7 +183,7 @@
         <h2 class="ui header">
             <i class="announcement icon"></i>
             <div class="content">
-                Anuncio(s) do Vendedor
+                Anúncio(s) do Vendedor
                 <div class="sub header">Veja os anúncios do vendedor</div>
             </div>
             
@@ -198,6 +208,9 @@
     </div>
 </div>
     <div id="divAnuncios"></div> <!-- Exibe os resultados dos anuncios-->
+    
+<?php } //fim da verificação da exibição dos anúncios?>      
+    
 <script>
   /*  $(document).ready(function() {
     $('[id^=btnAnuncioModal]').click(function() {

@@ -13,131 +13,159 @@ class Usuario {
     private $datahoraalteracao;
     private $email;
     private $idendereco;
+    private $exibirendereco;
+    private $exibircontato;
+    private $exibiranuncios;
     private $foto;
     protected $endereco;
     protected $telefone;
     protected $empresa;
 
-    public function setEmpresa($empresa) {
-        $this->empresa = $empresa;
-    }
-
-    public function getEmpresa() {
-        return $this->empresa;
-    }
-
-    public function setTelefone($telefone) {
-        $this->telefone = $telefone;
-    }
-
-    public function getTelefone() {
-        return $this->telefone;
-    }
-
-    public function getEndereco() {
-        return $this->endereco;
-    }
-
-    public function setEndereco($endereco) {
-        $this->endereco = $endereco;
-    }
-
-    public function getEmail() {
-        return $this->email;
-    }
-
-    public function setEmail($email) {
-        $this->email = $email;
-    }
-
-    public function getId() {
+    function getId() {
         return $this->id;
     }
 
-    public function getTipousuario() {
+    function getTipousuario() {
         return $this->tipousuario;
     }
 
-    public function getNome() {
+    function getNome() {
         return $this->nome;
     }
 
-    public function getCpfcnpj() {
+    function getCpfcnpj() {
         return $this->cpfcnpj;
     }
 
-    public function getLogin() {
+    function getLogin() {
         return $this->login;
     }
 
-    public function getSenha() {
+    function getSenha() {
         return $this->senha;
     }
 
-    public function getStatus() {
+    function getStatus() {
         return $this->status;
     }
 
-    public function getDatahoracadastro() {
+    function getDatahoracadastro() {
         return $this->datahoracadastro;
     }
 
-    public function getDatahoraalteracao() {
+    function getDatahoraalteracao() {
         return $this->datahoraalteracao;
     }
 
-    public function getIdendereco() {
+    function getEmail() {
+        return $this->email;
+    }
+
+    function getIdendereco() {
         return $this->idendereco;
     }
 
-    public function getFoto() {
+    function getExibirendereco() {
+        return $this->exibirendereco;
+    }
+
+    function getExibircontato() {
+        return $this->exibircontato;
+    }
+
+    function getExibiranuncios() {
+        return $this->exibiranuncios;
+    }
+
+    function getFoto() {
         return $this->foto;
     }
 
-    public function setId($id) {
+    function getEndereco() {
+        return $this->endereco;
+    }
+
+    function getTelefone() {
+        return $this->telefone;
+    }
+
+    function getEmpresa() {
+        return $this->empresa;
+    }
+
+    function setId($id) {
         $this->id = $id;
     }
 
-    public function setTipousuario($tipousuario) {
+    function setTipousuario($tipousuario) {
         $this->tipousuario = $tipousuario;
     }
 
-    public function setNome($nome) {
+    function setNome($nome) {
         $this->nome = $nome;
     }
 
-    public function setCpfcnpj($cpfcnpj) {
+    function setCpfcnpj($cpfcnpj) {
         $this->cpfcnpj = $cpfcnpj;
     }
 
-    public function setLogin($login) {
+    function setLogin($login) {
         $this->login = $login;
     }
 
-    public function setSenha($senha) {
+    function setSenha($senha) {
         $this->senha = $senha;
     }
 
-    public function setStatus($status) {
+    function setStatus($status) {
         $this->status = $status;
     }
 
-    public function setDatahoracadastro($datahoracadastro) {
+    function setDatahoracadastro($datahoracadastro) {
         $this->datahoracadastro = $datahoracadastro;
     }
 
-    public function setDatahoraalteracao($datahoraalteracao) {
+    function setDatahoraalteracao($datahoraalteracao) {
         $this->datahoraalteracao = $datahoraalteracao;
     }
 
-    public function setIdendereco($idendereco) {
+    function setEmail($email) {
+        $this->email = $email;
+    }
+
+    function setIdendereco($idendereco) {
         $this->idendereco = $idendereco;
     }
 
-    public function setFoto($foto) {
+    function setExibirendereco($exibirendereco) {
+        $this->exibirendereco = $exibirendereco;
+    }
+
+    function setExibircontato($exibircontato) {
+        $this->exibircontato = $exibircontato;
+    }
+
+    function setExibiranuncios($exibiranuncios) {
+        $this->exibiranuncios = $exibiranuncios;
+    }
+
+    function setFoto($foto) {
         $this->foto = $foto;
     }
 
+    function setEndereco($endereco) {
+        $this->endereco = $endereco;
+    }
+
+    function setTelefone($telefone) {
+        $this->telefone = $telefone;
+    }
+
+    function setEmpresa($empresa) {
+        $this->empresa = $empresa;
+    }
+
+    
     function criptografarSenha($senha) {
         $timeTarget = 0.2;
         $cost = 9;
@@ -171,6 +199,9 @@ class Usuario {
         $usuario->setDatahoracadastro(date('Y-m-d H:i:s'));
         $usuario->setDatahoraalteracao("");
         $usuario->setIdendereco($idendereco);
+        $usuario->setExibirendereco("SIM");
+        $usuario->setExibircontato("SIM");
+        $usuario->setExibiranuncios("SIM");
         $usuario->setFoto("");
 
         $arquivo_tmp = $_FILES['attachmentName']['tmp_name'];
@@ -210,6 +241,21 @@ class Usuario {
         $usuario->setId($_SESSION["idusuario"]);
         $usuario->setSenha($this->criptografarSenha($parametros['txtSenhaNova']));
         return $usuario;
+    }
+    
+    public function configuracoes($parametros){
+        
+        $this->setId($_SESSION["idusuario"]);
+        
+        $this->setExibirendereco((isset($parametros['chkEndereco']) ? "SIM" : "NAO"));
+
+        $this->setExibircontato((isset($parametros['chkContato']) ? "SIM" : "NAO"));
+
+        $this->setExibiranuncios((isset($parametros['chkAnuncios']) ? "SIM" : "NAO"));
+        
+        $this->setStatus((isset($parametros['chkStatus']) ? "ativo" : "desativadousuario"));
+        
+        return $this;
     }
 
 }

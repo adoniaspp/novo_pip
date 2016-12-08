@@ -489,6 +489,18 @@ function formatarValor(valor) {
 
 }
 
+function formatarValorComparar(valor) {
+
+    $("#spanValor" + valor).priceFormat({
+        prefix: ' ',
+        centsSeparator: ',',
+        centsLimit: 0,
+        limit: 8,
+        thousandsSeparator: '.'
+    });
+
+}
+
 function enviarEmail() {
     $(document).ready(function () {
 

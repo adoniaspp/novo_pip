@@ -1,4 +1,5 @@
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
+<script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" type="text/css" href="assets/libs/lightbox/lightbox.css">
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
@@ -35,15 +36,15 @@ $item = $this->getItem();
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Valor</th>                        
-                        <th>Área</th>
+                        <th>Valor (R$)</th>                        
+                        <th>Área (m<sup>2</sup>)</th>
                         <th>Quartos</th>
                         <th>Banheiros</th>
                         <th>Garagem</th>
                         <th>Tipo</th>
                         <th>Bairro</th>
                         <th>Condição</th>
-                        <th>Foto</th>
+                        <!--<th>Foto</th>-->
                         <th>Ver Detalhes</th>
                     </tr>
                 </thead>
@@ -53,7 +54,7 @@ $item = $this->getItem();
                         ?>
                     <script>
                         $(document).ready(function () {
-                        formatarValor(<?php echo $anuncio['idanuncio']?>);
+                        formatarValorComparar(<?php echo $anuncio['idanuncio']?>);
                         })
                     </script>
                         <tr>
@@ -95,27 +96,26 @@ $item = $this->getItem();
                             </td>
                             <td><?php echo $anuncio['bairro'] ?></td>
                             <td><?php echo ucfirst($anuncio['condicao']) ?></td>
-
+                            <!--
                             <td>
                                 <?php
-                                if ($anuncio['imagem']) {
+                                /*if ($anuncio['imagem']) {
                                     foreach ($anuncio['imagem'] as $imagem) {
-                                        if ($imagem['destaque'] == 'SIM') {
+                                        if ($imagem['destaque'] == 'SIM') {*/
                                             ?>
-                                            <a href="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . '/' . $imagem['nome'] ?>" data-lightbox="image-1" data-title="My caption" >
-                                                <img style="height:80px; width: 100px;" src="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . '/' . $imagem['nome'] ?>">
+                                            <a href="<?php //echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . '/' . $imagem['nome'] ?>" data-lightbox="image-1" data-title="My caption" >
+                                                <img style="height:80px; width: 100px;" src="<?php //echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . '/' . $imagem['nome'] ?>">
                                             </a>
-                                            <?php
+                                            <?php/*
                                         }
                                     }
-                                } else {
+                                } else {*/
                                     ?>
-                                    <a href="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" data-lightbox="image-1" data-title="My caption" >
-                                        <img style="height:80px; width: 100px;" src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>">
+                                    <a href="<?php //echo PIPURL . "/assets/imagens/foto_padrao.png" ?>" data-lightbox="image-1" data-title="My caption" >
+                                        <img style="height:80px; width: 100px;" src="<?php //echo PIPURL . "/assets/imagens/foto_padrao.png" ?>">
                                     </a>
-                                    <?php }
-                                ?>
-                            </td>
+                                    <?php //} ?>
+                            </td>-->
                             <td>
                                 
                                 <form id="form" action="index.php" method="post" target='_blank'>
@@ -170,7 +170,7 @@ function minMax($parametros, $coluna) {
             "paging": false,
             "info": false,
             "columnDefs": [
-                {"orderable": false, "targets": [9, 10]}
+                {"orderable": false, "targets": [8, 9]}
             ]
         });
         $('#tabela tbody').on('click', 'tr', function () {

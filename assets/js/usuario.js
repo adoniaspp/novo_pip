@@ -487,16 +487,6 @@ function carregaDadosModal($div) {
                                 </div>"+inseriLogin+"\n\
                                 </div>");  
         }
-        /*
-        if (jQuery.type($("#txtLogin").val()) !== "undefined") {
-            $div.append("<div class='ui horizontal list'>\n\
-                                <div class='item'>\n\
-                                  <div class='content'>\n\
-                                    <div class='header'>Login</div>\n\
-                                    " + $('#txtLogin').val() + "\n\
-                                </div></div>\n\
-                        </div>");
-        }*/
 
         $div.append("<div class='ui dividing header'></div>\n\
                      <div class='ui horizontal list'>\n\
@@ -1339,4 +1329,103 @@ function ordenarMensagem(){
     
     })
     
+}
+
+function editarConfiguracao() { //alterar a senha esquecida
+    $(document).ready(function () {
+        $("#btnAlterarConfiguracoes").click(function () {
+            dadosModalConfiguracoes($("#textoConfirmacao"));
+            $('#modalConfiguracoes').modal({
+                closable: true,
+                transition: "fade up",
+                onDeny: function () {
+                    return true;
+                },
+                onApprove: function () {
+                   $.ajax({
+                    url: "index.php",
+                    dataType: "json",
+                    type: "POST",
+                    data: $('#form').serialize(),
+                    beforeSend: function () {
+                        $("#divRetorno").html("<div><div class='ui active inverted dimmer'>\n\
+                            <div class='ui text loader'>Processando. Aguarde...</div></div></div>");
+                    },
+                    success: function (resposta) {
+                        $("#divRetorno").empty();
+                        if (resposta.resultado == 0) {
+                            //$("#divMudarConfiguracoes").hide();
+                            //$("#divDesabilitarPagina").hide();
+                            location.href = "index.php?entidade=Usuario&acao=MeuPIP";
+                        } else if (resposta.resultado == 1) {
+                            location.href = "index.php?entidade=Usuario&acao=MeuPIP";
+                            //$("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
+                            //<p>Erro ao processar requisição - 005</p>');
+                        }
+                    }
+                })
+                }
+            }).modal('show');
+        });
+        
+              
+    });
+}
+
+
+
+
+function dadosModalConfiguracoes($div) {
+    $(document).ready(function () {
+            
+            $div.html("");
+            var estiloEndereco;
+            var estiloContato;
+            var estiloAnuncios;
+            var estiloAtivo;
+            
+            if($("#chkEndereco").is(":checked")){
+                    $("#chkEndereco").val("SIM");
+                    estiloEndereco = 'green';
+                } else 
+                        {$("#chkEndereco").val("NÃO"); estiloEndereco = 'red;';}
+                        
+            if($("#chkContato").is(":checked")){
+                    $("#chkContato").val("SIM");
+                    estiloContato = 'green';
+                } else 
+                        {$("#chkContato").val("NÃO"); estiloContato = 'red;';}            
+            
+            if($("#chkAnuncios").is(":checked")){
+                    $("#chkAnuncios").val("SIM");
+                    estiloAnuncios = 'green';
+                } else 
+                        {$("#chkAnuncios").val("NÃO"); estiloAnuncios = 'red;';} 
+            
+            if($("#chkStatus").is(":checked")){
+                    $("#chkStatus").val("SIM");
+                    estiloAtivo = 'green';
+                } else 
+                        {$("#chkStatus").val("NÃO"); estiloAtivo = 'red;';}
+            
+            $div.append("<div class='ui horizontal list'>\n\
+                                <div class='item'>\n\
+                                  <div class='content' style= color:"+estiloEndereco+">\n\
+                                    <div class='header'>Exibir Meu Endereço</div>" + $("#chkEndereco").val() + "</div>\n\
+                                </div>\n\
+                                <div class='item'>\n\
+                                  <div class='content' style= color:"+estiloContato+">\n\
+                                    <div class='header'>Exibir Meu Contato</div>" + $("#chkContato").val() + "</div>\n\
+                                </div>\n\
+                                <div class='item'>\n\
+                                  <div class='content' style= color:"+estiloAnuncios+">\n\
+                                    <div class='header'>Exibir Meus Anúncios</div>" + $("#chkAnuncios").val() + "</div>\n\
+                                </div>\n\
+                                <div class='item'>\n\
+                                  <div class='content' style= color:"+estiloAtivo+">\n\
+                                    <div class='header'>Habilitar Minha Página</div>" + $("#chkStatus").val() + "</div>\n\
+                                </div>");
+            $div.append("</div>");
+
+    });
 }

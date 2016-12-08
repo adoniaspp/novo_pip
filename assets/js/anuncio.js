@@ -112,17 +112,17 @@ function cadastrarAnuncio() {
                         $("div[id^='step']").hide();
                         $("#step6").show();
                         if (resposta.resultado == 1) {
-                            $("#divRetorno").html("\n\
-                                <div class='row'><div class='column'>\n\
-                                    <div class='ui success icon message'>\n\
-                                        <i class='checkmark icon'></i>\n\
-                                        <div class='content'>\n\
-                                            <div class='header'>Sucesso</div>Seu anúncio com o código " + resposta.idanuncio + " foi cadastrado com sucesso e já pode ser visualizado em nosso site.\n\
-                                               Se desejar, escolha uma das opções abaixo:</div>\n\
-                                        </div>\n\
+                            $("#divRetorno").html("\
+                                <div class='ui two column center aligned grid'>\n\
+                                    <div class='ui compact positive message'>\n\
+                                            <i class='big green check circle outline icon'></i>Seu anúncio foi cadastrado com sucesso. Aguarde a confirmação da publicação para que ele possa ser visualizado\n\</div>\n\
+                                    <div class='ui hidden divider'>\n\
                                     </div>\n\
-                                </div></div><div class='ui hidden divider'></div>\n\
-                                    <div class='row'><div class='column'>\n\
+                                </div>\n\
+                                    <div class='row'>Código do Anúncio:" + resposta.idanuncio + " \n\
+                                    </div>\n\
+                                    <div class='row'>\n\
+                                        <div class='column'>\n\
                                         <a target='_blank' href='index.php?entidade=Anuncio&acao=fimCadastroAnuncio&hdnCodAnuncio=" + resposta.id + "&hdnTipo=" + resposta.tipoImovel + "'>\n\
                                             <button type='button'  class='ui brown button'>\n\
                                                 Visualizar Anúncio\n\

@@ -101,7 +101,25 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
             </div>
             <div class="ui ten wide column">
             </div>
-            <!--            <div class="ui stackable special cards list">-->
+        
+            <?php                            
+                //verificar maior e menor número de quartos, banheiros e garagens de cada planta
+                function maximoMinimo($item, $coluna) {
+                    if ($item['tipo'] == 'apartamentoplanta') {
+                        
+                        foreach ($item['plantas'] as $planta) {
+                            $conjunto[] = $planta[$coluna];
+                        }                                                               
+                        return min($conjunto) . ' a ' . max($conjunto);
+                    } else if ($planta[$coluna]) {
+                        return $planta[$coluna];
+                    } else {
+                        return ' - ';
+                    }
+                }
+            ?>
+        
+            <!--<div class="ui stackable special cards list">-->
             <div class="ui stackable column grid">
                 <div class="ui stackable special cards list">
                     <?php
@@ -120,7 +138,19 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                     echo "<div class='ui green ribbon label'> Aluguel </div>";
                                 }
                                 ?>                                                                       
+                            </div>  
+                            <div class="ui grid">
+                            <div class="ui centered row">
+                            <div class="header"><b>
+                                <?php
+                                $limite = 24;
+                                $titulo = $item['anuncio'][$crtl]['tituloanuncio'];
+                                echo (strlen(trim($titulo)) >= $limite) ? trim(substr($titulo, 0, strrpos(substr($titulo, 0, $limite), " "))) . "..." : $titulo;
+                                ?></b>
                             </div>
+                            </div>
+                            </div>
+                            <br>
 
                             <div class="dimmable image" style=" text-align: center;
                                  margin: 0px auto;
@@ -152,12 +182,47 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                 ?>
                             </div>
                             <div class="content">
-                                <div class="header"><b>
-                                        <?php
-                                        $limite = 24;
-                                        $titulo = $item['anuncio'][$crtl]['tituloanuncio'];
-                                        echo (strlen(trim($titulo)) >= $limite) ? trim(substr($titulo, 0, strrpos(substr($titulo, 0, $limite), " "))) . "..." : $titulo;
-                                        ?></b></div>
+                                
+                                <div class="ui grid">
+                            
+                                    <div class="ui centered row">
+                                        <div class="ui menu">
+                                            <a class="item">
+
+                                              <img class="ui center image dimmable" src="../../assets/imagens/icones/iconeQuartoPequeno.jpg">&nbsp;
+                                              <div style="font-size: 12px">  
+                                              <?php if($item['anuncio'][$crtl]['tipo'] == "casa" 
+                                                      || $item['anuncio'][$crtl]['tipo'] == "apartamento"){ 
+                                                  echo $item['anuncio'][$crtl]['quarto'];}
+                                                  else if($item['anuncio'][$crtl]['tipo'] == "salacomercial" || $item['anuncio'][$crtl]['tipo'] == "prediocomercial" || $item['anuncio'][$crtl]['tipo'] == "terreno"){
+                                                      echo "&nbsp; - ";
+                                                  }
+                                              else if($item['anuncio'][$crtl]['tipo'] == "apartamentoplanta"){
+                                                  echo maximoMinimo($item['anuncio'][$crtl], 'quarto');}?></div>
+                                            </a>
+                                            <a class="item">
+
+                                              <img class="ui left image" src="../../assets/imagens/icones/iconeBanheiroPequeno.jpg">&nbsp;
+                                              <div style="font-size: 12px"><?php if($item['anuncio'][$crtl]['tipo'] == "casa" || $item['anuncio'][$crtl]['tipo'] == "apartamento" || $item['anuncio'][$crtl]['tipo'] == "salacomercial"){ echo $item['anuncio'][$crtl]['banheiro'];} 
+                                              else if($item['anuncio'][$crtl]['tipo'] == "salacomercial" || $item['anuncio'][$crtl]['tipo'] == "prediocomercial" || $item['anuncio'][$crtl]['tipo'] == "terreno"){
+                                                      echo "&nbsp; - ";
+                                                  }
+                                              else if($item['anuncio'][$crtl]['tipo'] == "apartamentoplanta"){echo maximoMinimo($item['anuncio'][$crtl], 'banheiro');}?></div>
+                                              
+                                              </a>
+                                            <a class="item">
+                                              <img class="ui left image " src="../../assets/imagens/icones/iconeGaragemPequeno.jpg">&nbsp;
+                                              <div style="font-size: 12px"><?php if($item['anuncio'][$crtl]['tipo'] == "casa" || $item['anuncio'][$crtl]['tipo'] == "apartamento" || $item['anuncio'][$crtl]['tipo'] == "salacomercial"){ echo $item['anuncio'][$crtl]['garagem'];} 
+                                              else if($item['anuncio'][$crtl]['tipo'] == "salacomercial" || $item['anuncio'][$crtl]['tipo'] == "prediocomercial" || $item['anuncio'][$crtl]['tipo'] == "terreno"){
+                                                      echo "&nbsp; - ";
+                                                  }
+                                              else if($item['anuncio'][$crtl]['tipo'] == "apartamentoplanta"){echo maximoMinimo($item['anuncio'][$crtl], 'garagem');}?></div>
+                                            </a>
+                                        </div> 
+                                    </div> 
+
+                                </div>
+                                
                                 <div class="description"> 
                                     <?php
                                     if ($item['anuncio'][$crtl]['tipo'] == "prediocomercial") {
@@ -199,7 +264,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                     <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" />
                                     <input type="hidden" id="hiddenAnuncioFormatadaoCopiar" value="<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" />
                                     <br />
-                                    Data Cadastro: <?php echo date('d/m/Y', strtotime($item['anuncio'][$crtl]['datahoracadastro'])) ?>
+                                    Cadastrado em <?php echo date('d/m/Y', strtotime($item['anuncio'][$crtl]['datahoracadastro'])) ?>
                                     <br />
                                     <div class="ui grid">
                                         <div class="ui centered row">

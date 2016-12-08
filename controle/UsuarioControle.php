@@ -777,5 +777,54 @@ class UsuarioControle {
             }
             
         }
+        
+        public function configuracoes($parametros){
+            
+            $visao = new Template();
+            $usuario = new Usuario();
+            $genericoDAO = new GenericoDAO();
+            $consultasAdHoc = new ConsultasAdHoc();
+            
+            $item = $genericoDAO->consultar($usuario, true, array("id" => $_SESSION['idusuario']));
+            //$listaAnuncio = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, array('cadastrado'));
+            $visao->setItem($item);
+            $visao->exibir('UsuarioVisaoConfiguracoes.php');
+
+
+        }
+        
+        public function editarConfiguracoes($parametros){
+            
+        $visao = new Template();
+        if (Sessao::verificarToken($parametros)) {
+            $genericoDAO = new GenericoDAO();
+            $genericoDAO->iniciarTransacao();
+            $usuario = new Usuario();
+            $entidadeUsuario = $usuario->configuracoes($parametros);
+            $resultadoUsuario = $genericoDAO->editar($entidadeUsuario);
+
+            if ($resultadoUsuario) {
+                    $genericoDAO->commit();
+                    $genericoDAO->fecharConexao();
+                    $_SESSION["confirmarOperacao"] = "sucesso";
+                    echo json_encode(array("resultado" => 1));
+                    //banco
+                } else {
+                    $genericoDAO->rollback();
+                    $genericoDAO->fecharConexao();
+                    $_SESSION["confirmarOperacao"] = "erroGenerico";
+                    echo json_encode(array("resultado" => 0));
+                }
+                
+            } 
+
+
+        }
     
+        public function faleConosco(){
+               $visao = new Template();
+               $visao->exibir('UsuarioVisaoFaleConosco.php');
+        }    
+        
     }
+

@@ -18,13 +18,9 @@ switch ($tipo) {
     case "erroemailNaoEncontrado":
     case "errosemresultadobusca":
     case "errousuarioouanuncio":
+    case "usuariodesabilitado":
         ?>
-                $('#divColuna').append("<div class='ui negative icon message'>\n\
-                                         <i class='remove icon'></i>\n\
-                                         <div class='content'>\n\
-                                             <div class='header'>Atenção</div><div id='divMensagemAtencao'></div>\n\
-                                         </div>\n\
-                                       </div>");
+                $('#divColuna').append("<div class='ui compact negative message'><div id='divMensagemAtencao'></div></div>");
         <?php
         break;
     case "sucessotrocarimagem":
@@ -58,10 +54,14 @@ switch ($tipo) {
 </script>
 
 <div class="ui basic page menu grid">
-    <div class="ui two column center aligned  grid"> 
+    <div class="ui two column center aligned grid"> 
         <div id="divColuna">
             
+            <?php if($item['tipo'] == "sucessocadastroimovel") { ?>
+            
             <div class='ui compact message'><div id="divMensagemSucessoCompacto"></div></div>
+            
+            <?php } ?>
             
             <?php
             $item = $this->getItem();
@@ -70,7 +70,7 @@ switch ($tipo) {
                     ?>
                     <script>
                         $(document).ready(function () {
-                            $('#divMensagemAtencao').html("Desculpe, não foi possível realizar a operação. Tente novamente em alguns minutos.");
+                            $('#divMensagemAtencao').html("<i class='big red remove circle outline icon'></i>Desculpe, não foi possível realizar a operação. Tente novamente em alguns minutos.");
                         })
                     </script>
                     <?php
@@ -79,7 +79,7 @@ switch ($tipo) {
                     ?>
                     <script>
                         $(document).ready(function () {
-                            $('#divMensagemAtencao').html("Desculpe, não foi possível realizar a operação. Falha no envio de e-mail");
+                            $('#divMensagemAtencao').html("<i class='big red remove circle outline icon'></i>Desculpe, não foi possível realizar a operação. Falha no envio de e-mail");
                         })
                     </script>
                     <?php
@@ -88,7 +88,7 @@ switch ($tipo) {
                     ?>
                     <script>
                         $(document).ready(function () {
-                            $('#divMensagemAtencao').html("Desculpe, não foi possível realizar a operação. A Senha atual está incorreta.");
+                            $('#divMensagemAtencao').html("<i class='big red remove circle outline icon'></i>Desculpe, não foi possível realizar a operação. A Senha atual está incorreta.");
                         })
                     </script>
                     <?php
@@ -97,7 +97,7 @@ switch ($tipo) {
                     ?>
                     <script>
                         $(document).ready(function () {
-                            $('#divMensagemAtencao').html("Esse link é inválido ou já foi utilizado para troca de senha.");
+                            $('#divMensagemAtencao').html("<i class='big red remove circle outline icon'></i>Esse link é inválido ou já foi utilizado para troca de senha.");
                         })
                     </script>
                     <?php
@@ -106,7 +106,7 @@ switch ($tipo) {
                     ?>
                     <script>
                         $(document).ready(function () {
-                            $('#divMensagemAtencao').html("Ops! Não podemos processar sua requisição. Tente novamente.");
+                            $('#divMensagemAtencao').html("<i class='big red remove circle outline icon'></i>Ops! Não podemos processar sua requisição. Tente novamente.");
                         })
                     </script>
                     <?php
@@ -115,7 +115,7 @@ switch ($tipo) {
                     ?>
                     <script>
                         $(document).ready(function () {
-                            $('#divMensagemAtencao').html("Ops! O link desse anúncio não é válido. Tente novamente.");
+                            $('#divMensagemAtencao').html("<i class='big red remove circle outline icon'></i>Ops! O link desse anúncio não é válido. Tente novamente.");
                         })
                     </script>
                     <?php
@@ -124,7 +124,7 @@ switch ($tipo) {
                     ?>
                     <script>
                         $(document).ready(function () {
-                            $('#divMensagemAtencao').html("Ops! Esse anúncio não é mais válido. Obrigado pelo acesso");
+                            $('#divMensagemAtencao').html("<i class='big red remove circle outline icon'></i>Ops! Esse anúncio não é mais válido. Obrigado pelo acesso");
                         })
                     </script>
                     <?php
@@ -133,7 +133,7 @@ switch ($tipo) {
                     ?>
                     <script>
                         $(document).ready(function () {
-                            $('#divMensagemAtencao').html("E-mail não encontrado. Faça seu cadastro.");
+                            $('#divMensagemAtencao').html("<i class='big red remove circle outline icon'></i>E-mail não encontrado. Faça seu cadastro.");
                         })
                     </script>
                     <?php
@@ -142,7 +142,16 @@ switch ($tipo) {
                     ?>
                     <script>
                         $(document).ready(function () {
-                            $('#divMensagemAtencao').html("Vendedor ou Anúncio não encontrado");
+                            $('#divMensagemAtencao').html("<i class='big red remove circle outline icon'></i>Vendedor ou Anúncio não encontrado");
+                        })
+                    </script>
+                    <?php
+                    break;
+                case "usuariodesabilitado":
+                    ?>
+                    <script>
+                        $(document).ready(function () {
+                            $('#divMensagemAtencao').html("<i class='big red remove circle outline icon'></i>ATENÇÃO: O usuário que você está procurando não existe em nossa base ou está desabilitado");
                         })
                     </script>
                     <?php
@@ -262,7 +271,7 @@ switch ($tipo) {
                     <script>
                         $(document).ready(function () {
                             $('#divMensagemSucessoCompacto').html("<i class='big green check circle outline icon'></i>Imóvel cadastrado com sucesso. Se desejar, escolha\n\
-                            uma das opções abaixo.");
+                            uma das opções abaixo");
                         })
                     </script>
                     
