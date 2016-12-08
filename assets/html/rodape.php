@@ -13,7 +13,7 @@
             
             <?php } ?>
             <div class="item">Como Funciona?</div>
-            <a class="item" href="<?php echo PIPURL; ?>/index.php?entidade=Plano&acao=precosAnuncios">Preços dos Anuncios</a>
+            <a class="item" href="<?php echo PIPURL; ?>/index.php?entidade=Plano&acao=precosAnuncios">Planos dos Anuncios</a>
             <div class="item">Promoções</div>           
         </div>
   </div>
@@ -23,7 +23,7 @@
             <div class="item">Mapa do Site</div>
             <div class="item">Como Anunciar</div>
             <div class="item">Termos de Uso</div>
-            <div class="item">Fale Conosco</div>           
+            <a class="item" href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=faleConosco">Fale Conosco</a>
         </div>
   </div>
   <div class="teal column">
