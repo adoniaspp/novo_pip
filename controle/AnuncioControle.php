@@ -38,64 +38,114 @@ include_once 'assets/libs/tcpdf/tcpdf.php';
 class AnuncioControle {
 
     function form($parametros) {
+        $item = "errotoken";
+        $pagina = "VisaoErrosGenerico.php";
         if (Sessao::verificarSessaoUsuario() & Sessao::verificarToken(array("hdnToken" => $parametros["token"]))) {
-            //modelo
-            $imovel = new Imovel();
-            $genericoDAO = new GenericoDAO();
-            $selecionarImovel = $genericoDAO->consultar($imovel, true, array("id" => $parametros['idImovel'], "idUsuario" => $_SESSION['idusuario']));
-            #verificar a melhor forma de tratar o blindado recursivo
-            $selecionarEndereco = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarImovel[0]->getIdEndereco()));
-            $selecionarImovel[0]->setEndereco($selecionarEndereco[0]);
 
-            $selecionarDiferencial = $genericoDAO->consultar(new ImovelDiferencial(), true, array("idimovel" => $selecionarImovel[0]->getId()));
-            $selecionarImovel[0]->setImovelDiferencial($selecionarDiferencial);
-            //verifica se existe o imovel selecionado
-            if ($selecionarImovel) {
-                //verificar se o anuncio ja foi publicado e redirecionar para a tela de consulta
-                $anuncios = $selecionarImovel[0]->getAnuncio();
-                if (is_array($anuncios)) {
-                    foreach ($anuncios as $anuncio) {
-                        if ($anuncio->getStatus() == "cadastrado") {
+            if (isset($parametros["idImovel"])) {
+                //modelo
+                $genericoDAO = new GenericoDAO();
+                $selecionarImovel = $genericoDAO->consultar(new Imovel(), true, array("id" => $parametros['idImovel'], "idUsuario" => $_SESSION['idusuario']));
+                //verifica se existe o imovel selecionado
+                if ($selecionarImovel) {
+                    #verificar a melhor forma de tratar o blindado recursivo
+                    $selecionarEndereco = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarImovel[0]->getIdEndereco()));
+                    $selecionarImovel[0]->setEndereco($selecionarEndereco[0]);
+
+                    $selecionarDiferencial = $genericoDAO->consultar(new ImovelDiferencial(), true, array("idimovel" => $selecionarImovel[0]->getId()));
+                    $selecionarImovel[0]->setImovelDiferencial($selecionarDiferencial);
+                    //verificar se o anuncio ja foi publicado e redirecionar para a tela de consulta
+                    $anuncios = $selecionarImovel[0]->getAnuncio();
+                    if (is_array($anuncios)) {
+                        foreach ($anuncios as $anuncio) {
+                            if ($anuncio->getStatus() == "cadastrado") {
+                                $redirecionamento = $this;
+                                $redirecionamento->listarCadastrar();
+                                return;
+                            }
+                        }
+                    } else {
+                        if ($anuncios->getStatus() == "cadastrado") {
                             $redirecionamento = $this;
                             $redirecionamento->listarCadastrar();
                             return;
                         }
                     }
-                } else {
-                    if ($anuncios->getStatus() == "cadastrado") {
-                        $redirecionamento = $this;
-                        $redirecionamento->listarCadastrar();
-                        return;
+                    $usuarioPlano = new UsuarioPlano();
+                    $condicoes["idusuario"] = $_SESSION["idusuario"];
+                    $condicoes["status"] = 'ativo';
+                    $listarUsuarioPlano = $genericoDAO->consultar($usuarioPlano, true, $condicoes);
+                    $sessao["idimovel"] = $selecionarImovel[0]->getId();
+                    $sessao["tipoimovel"] = $selecionarImovel[0]->getIdtipoImovel();
+                    Sessao::configurarSessaoAnuncio($sessao);
+                    $formAnuncio = array();
+                    $formAnuncio["usuarioPlano"] = $listarUsuarioPlano;
+                    $formAnuncio["imovel"] = $selecionarImovel;
+                    $formAnuncio["anuncio"] = ($anuncios != NULL ? $anuncios : new Anuncio());
+                    $item = $formAnuncio;
+                    $pagina = "AnuncioVisaoPublicar.php";
+                }
+            } elseif (isset($parametros["idAnuncio"])) {
+                $genericoDAO = new GenericoDAO();
+                //busca o anuncio com status de cadastrado
+                $selecionarAnuncio = $genericoDAO->consultar(new Anuncio(), true, array("id" => $parametros['idAnuncio'], "status" => "cadastrado"));
+                if ($selecionarAnuncio) {
+                    //verifica se o usuario do anuncio = usuario sessao
+                    $selecionarUsuarioPlano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $selecionarAnuncio[0]->getIdusuarioplano(), "idusuario" => $_SESSION['idusuario']));
+                    if ($selecionarUsuarioPlano) {
+                        //busca dados na base
+                        $selecionarImovel = $genericoDAO->consultar(new Imovel(), true, array("id" => $selecionarAnuncio[0]->getIdimovel()));
+                        $selecionarEndereco = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarImovel[0]->getIdEndereco()));
+                        $selecionarImovel[0]->setEndereco($selecionarEndereco[0]);
+                        $selecionarDiferencial = $genericoDAO->consultar(new ImovelDiferencial(), true, array("idimovel" => $selecionarImovel[0]->getId()));
+                        $selecionarImovel[0]->setImovelDiferencial($selecionarDiferencial);
+                        $selecionarNovoValor = $genericoDAO->consultar(new NovoValorAnuncio(), false, array("idanuncio" => $selecionarAnuncio[0]->getId(), "status" => "ativo"));
+                        
+                        //configurar sessao anuncio
+                        $sessao["idimovel"] = $selecionarImovel[0]->getId();
+                        $sessao["tipoimovel"] = $selecionarImovel[0]->getIdtipoImovel();
+                        Sessao::configurarSessaoAnuncio($sessao);
+
+                        //configurar sessao imagens
+                        $imagemAnuncio = $selecionarAnuncio[0]->getImagem();
+                        if (is_array($imagemAnuncio)) {
+                            foreach ($imagemAnuncio as $imagem) {
+                                $fotos["name"] = $imagem->getNome();
+                                $fotos["size"] = $imagem->getTamanho();
+                                $fotos["type"] = $imagem->getTipo();
+                                $fotos["legenda"] = $imagem->getLegenda();
+                                $fotos["idImage"] = $imagem->getid();
+                                $fotos["url"] = PIPURL . "fotos/imoveis/" . $imagem->getDiretorio() . "/" . $imagem->getNome();
+                                $fotos["thumbnailUrl"] = PIPURL . "fotos/imoveis/" . $imagem->getDiretorio() . "/thumbnail/" . $imagem->getNome();
+                                $fotos["deleteUrl"] = PIPURL . "?file=" . $imagem->getNome();
+                                $fotos["deleteType"] = "DELETE";
+                                $fotos["id"] = $imagem->getid();
+                                sessao::configurarSessaoImagemAnuncio("inserir", $imagem->getNome(), $fotos);
+                            }
+                        }
+                        $tipoAnuncio = $selecionarImovel[0]->getIdtipoimovel();
+                        if ($tipoAnuncio == "2"){
+                            
+                        }
+                        #TODO:configurar sessao de apartamento na planta
+                        #Sessao::configurarSessaoImagemPlanta($ordem, $imagem, $diretorio)
+
+                        //prepara itens para visao
+                        $formAnuncio = array();
+                        $formAnuncio["usuarioPlano"] = $selecionarUsuarioPlano;
+                        $formAnuncio["imovel"] = $selecionarImovel;
+                        $formAnuncio["anuncio"] = $selecionarAnuncio[0];
+                        $formAnuncio["novovalor"] = $selecionarNovoValor;
+                        $item = $formAnuncio;
+                        $pagina = "AnuncioVisaoEditar.php";
                     }
                 }
-                $usuarioPlano = new UsuarioPlano();
-                $condicoes["idusuario"] = $_SESSION["idusuario"];
-                $condicoes["status"] = 'ativo';
-                $listarUsuarioPlano = $genericoDAO->consultar($usuarioPlano, true, $condicoes);
-                $sessao["idimovel"] = $selecionarImovel[0]->getId();
-                $sessao["tipoimovel"] = $selecionarImovel[0]->getIdtipoImovel();
-                Sessao::configurarSessaoAnuncio($sessao);
-                $formAnuncio = array();
-                $formAnuncio["usuarioPlano"] = $listarUsuarioPlano;
-                $formAnuncio["imovel"] = $selecionarImovel;
-                $formAnuncio["anuncio"] = ($anuncios != NULL ? $anuncios : new Anuncio());
-                $item = $formAnuncio;
-                $pagina = "AnuncioVisaoPublicar.php";
-            } else {
-                $item = "errotoken";
-                $pagina = "VisaoErrosGenerico.php";
             }
-            //visao
-            $visao = new Template();
-            $visao->setItem($item);
-            $visao->exibir($pagina);
-        } else {
-            $item = "errotoken";
-            $pagina = "VisaoErrosGenerico.php";
-            $visao = new Template();
-            $visao->setItem($item);
-            $visao->exibir($pagina);
         }
+
+        $visao = new Template();
+        $visao->setItem($item);
+        $visao->exibir($pagina);
     }
 
     function buscarAnuncio($parametros) {
@@ -157,18 +207,19 @@ class AnuncioControle {
         $parametros["idUsuario"] = $idUsuarioAnuncio[0]->getId();
 
         $listarAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
-                
+
         // buscar o diretorio e o nome da foto destaque para as redes sociais
-        foreach($listarAnuncio["anuncio"][0]["imagem"] as $imagemPrincipal){
-            
-            if($imagemPrincipal["destaque"] == "SIM");
-            
+        foreach ($listarAnuncio["anuncio"][0]["imagem"] as $imagemPrincipal) {
+
+            if ($imagemPrincipal["destaque"] == "SIM")
+                ;
+
             $imagemPrincipalDiretorio = $imagemPrincipal["diretorio"];
-            $imagemPrincipalNome      = $imagemPrincipal["nome"];
-            
+            $imagemPrincipalNome = $imagemPrincipal["nome"];
+
             break;
-        } 
-        
+        }
+
         if ($listarAnuncio["anuncio"][0]["status"] != "cadastrado" &&
                 $parametros["sessaoUsuario"] != $parametros["idUsuario"]) {
 
@@ -185,50 +236,46 @@ class AnuncioControle {
             $listarAnuncio["qtdAnuncios"] = $usuarioQtdAnuncio;
 
             $listarAnuncio["loginUsuario"] = $parametros["idUsuario"];
-            
+
             $mensagem = $consultasAdHoc->consultar(new Mensagem(), true, array("idanuncio" => $parametros["idanuncio"]));
-            
+
             $listarAnuncio["qtdMensagem"] = count($mensagem);
-            
+
             $selecionarMensagem = new Mensagem();
-            
+
             foreach ($mensagem as $mensagens) {
                 $idMensagem = rand();
                 $_SESSION["mensagem"][$idMensagem] = $mensagens->getId();
                 $mensagens->setId($idMensagem);
             }
-            
+
             $valores = $genericoDAO->consultar(new NovoValorAnuncio, false, array("idanuncio" => $parametros["idanuncio"]));
-            
-            foreach($valores as $nValor){
 
-                        $nValor = $genericoDAO->consultar(new NovoValorAnuncio(), false, array("idanuncio" => $parametros["idanuncio"]));
-                        $listarAnuncio["novoValor"] = $nValor;
+            foreach ($valores as $nValor) {
 
-                    }
-            
-            $mapaNovo = $genericoDAO->consultar(new MapaImovel(), false, array("idanuncio" => $parametros["idanuncio"]));      
-                  
-            if($mapaNovo != null){
-                
-                $listarAnuncio["mapaImovel"] = $mapaNovo;
-                
-            }       
-        
-            $numeroPlantas = count($listarAnuncio["anuncio"][0]["plantas"]);            
-            
-            //trazer os diferenciais da planta
-            for($x = 0; $x < $numeroPlantas; $x++){
-
-                $dif[$listarAnuncio["anuncio"][0]["plantas"][$x]["id"]] = $genericoDAO->consultar(new ImovelDiferencialPlanta(), 
-                        true, array("idplanta" => $listarAnuncio["anuncio"][0]["plantas"][$x]["id"]));
-          
+                $nValor = $genericoDAO->consultar(new NovoValorAnuncio(), false, array("idanuncio" => $parametros["idanuncio"]));
+                $listarAnuncio["novoValor"] = $nValor;
             }
-                       
+
+            $mapaNovo = $genericoDAO->consultar(new MapaImovel(), false, array("idanuncio" => $parametros["idanuncio"]));
+
+            if ($mapaNovo != null) {
+
+                $listarAnuncio["mapaImovel"] = $mapaNovo;
+            }
+
+            $numeroPlantas = count($listarAnuncio["anuncio"][0]["plantas"]);
+
+            //trazer os diferenciais da planta
+            for ($x = 0; $x < $numeroPlantas; $x++) {
+
+                $dif[$listarAnuncio["anuncio"][0]["plantas"][$x]["id"]] = $genericoDAO->consultar(new ImovelDiferencialPlanta(), true, array("idplanta" => $listarAnuncio["anuncio"][0]["plantas"][$x]["id"]));
+            }
+
             $listarAnuncio["difPlantas"] = $dif;
-  
+
             $listarAnuncio["mensagem"] = $mensagem;
-            
+
             Cookies::configurarPreferencias($listarAnuncio);
             $visao->setTag_cabecalho('
             <meta name="description" content="PIP - Procure Imóveis Pai Degua" />
@@ -236,29 +283,29 @@ class AnuncioControle {
             <meta property="og:type" content="product" />
             <meta name="language" content="pt-br" />
             <meta property="og:site_name" content="PIP - Procure Imóveis Pai Degua" />
-            <meta property="og:title" content="PIP Online - '.$listarAnuncio["anuncio"][0]["tituloanuncio"].'" />
-            <meta property="og:url" content="'.PIPURL.$listarAnuncio["anuncio"][0]["idanuncioformatado"].'" />
-            <meta property="og:description" content="'.$listarAnuncio["anuncio"][0]["descricaoanuncio"].'" />
-            <meta property="og:image" content="'.PIPURL.'fotos/imoveis/'.$imagemPrincipalDiretorio.'/'.$imagemPrincipalNome.'" />
+            <meta property="og:title" content="PIP Online - ' . $listarAnuncio["anuncio"][0]["tituloanuncio"] . '" />
+            <meta property="og:url" content="' . PIPURL . $listarAnuncio["anuncio"][0]["idanuncioformatado"] . '" />
+            <meta property="og:description" content="' . $listarAnuncio["anuncio"][0]["descricaoanuncio"] . '" />
+            <meta property="og:image" content="' . PIPURL . 'fotos/imoveis/' . $imagemPrincipalDiretorio . '/' . $imagemPrincipalNome . '" />
             <meta property="og:image:type" content="image/jpeg" />
             <meta property="fb:app_id" content="966242223397117" />
             
             <meta name="twitter:card" value="summary">
             <meta name="twitter:site" content="@PIP_beta">
-            <meta name="twitter:title" content="PIP Online - '.$listarAnuncio["anuncio"][0]["tituloanuncio"].'">
-            <meta name="twitter:description" content="'.$listarAnuncio["anuncio"][0]["descricaoanuncio"].'">
+            <meta name="twitter:title" content="PIP Online - ' . $listarAnuncio["anuncio"][0]["tituloanuncio"] . '">
+            <meta name="twitter:description" content="' . $listarAnuncio["anuncio"][0]["descricaoanuncio"] . '">
             <meta name="twitter:creator" content="@PIP_beta">
-            <meta name="twitter:image" content="'.PIPURL.'fotos/imoveis/'.$imagemPrincipalDiretorio.'/'.$imagemPrincipalNome.'">
+            <meta name="twitter:image" content="' . PIPURL . 'fotos/imoveis/' . $imagemPrincipalDiretorio . '/' . $imagemPrincipalNome . '">
             
-            <meta itemprop="name" content="PIP Online - '.$listarAnuncio["anuncio"][0]["tituloanuncio"].'">
-            <meta itemprop="description" content="'.$listarAnuncio["anuncio"][0]["descricaoanuncio"].'">
-            <meta itemprop="image" content="'.PIPURL.'fotos/imoveis/'.$imagemPrincipalDiretorio.'/'.$imagemPrincipalNome.'">
+            <meta itemprop="name" content="PIP Online - ' . $listarAnuncio["anuncio"][0]["tituloanuncio"] . '">
+            <meta itemprop="description" content="' . $listarAnuncio["anuncio"][0]["descricaoanuncio"] . '">
+            <meta itemprop="image" content="' . PIPURL . 'fotos/imoveis/' . $imagemPrincipalDiretorio . '/' . $imagemPrincipalNome . '">
 
             ');
             $visao->setItem($listarAnuncio);
-            
+
             //var_dump($visao->getTag_cabecalho()); die();
-            
+
             $visao->exibir('AnuncioVisaoDetalhe.php');
         }
     }
@@ -281,8 +328,6 @@ class AnuncioControle {
             $imovel = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio[0]->getIdImovel()));
 
             $this->detalhar(array("hdnTipoImovel" => $imovel[0]->getTipoimovel()->getDescricao(), "hdnCodAnuncio" => $anuncio[0]->getId()));
-        
-            
         } if (!$usuario && !$anuncio) { //se nem o anuncio nem o usuário existirem
             $item = "errousuarioouanuncio";
             $pagina = "VisaoErrosGenerico.php";
@@ -304,7 +349,7 @@ class AnuncioControle {
         unset($parametros["hdnCodAnuncio"]);
         unset($parametros["hdnTipoImovel"]);
         unset($parametros["hdnCodAnuncioFormatado"]);
-        
+
         foreach ($idsAnuncio as $idanuncio) {
             $item["anuncio"] = $genericoDAO->consultar(new Anuncio(), false, array("id" => $idanuncio));
             $item["imovel"] = $genericoDAO->consultar(new Imovel(), true, array("id" => $item["anuncio"][0]->getIdimovel()));
@@ -362,25 +407,14 @@ class AnuncioControle {
             foreach ($listaAnuncio as $anuncio) {
                 $imovel = $genericoDAO->consultar(new Imovel(), false, array("id" => $anuncio->getIdImovel()));
                 $anuncio->setImovel($imovel[0]);
-                
+
                 $usuarioplano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $anuncio->getIdusuarioplano()));
                 $anuncio->setUsuarioplano($usuarioplano[0]);
-                
+
                 $novoValor = $genericoDAO->consultar(new NovoValorAnuncio(), false, array("idanuncio" => $anuncio->getId()));
-                //caso haja mais de um valor alterado do anúncio, inserir no array 
+                $anuncio->setNovovaloranuncio($novoValor );
                 
-                    
-                    foreach($novoValor as $nValor){
-
-                        $nValor = $genericoDAO->consultar(new NovoValorAnuncio(), false, array("idanuncio" => $anuncio->getId()));
-                        $anuncio->setNovovaloranuncio($nValor);
-
-                    }
-                    
-                
-             
                 $listarAnuncios[] = $anuncio;
-                
             }
 
             $visao = new Template();
@@ -403,14 +437,14 @@ class AnuncioControle {
                 $imovel = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio->getIdImovel()));
                 $anuncio->setImovel($imovel[0]);
                 $historico = $genericoDAO->consultar(new HistoricoAluguelVenda(), false, array("idanuncio" => $anuncio->getId()));
-                $anuncio->setHistoricoaluguelvenda($historico[0]);             
+                $anuncio->setHistoricoaluguelvenda($historico[0]);
                 //valores alterados
                 $valorAlterado = $genericoDAO->consultar(new NovoValorAnuncio, false, array("idanuncio" => $anuncio->getId(), "status" => "ativo"));
                 $anuncio->setNovovaloranuncio($valorAlterado[0]);
                 //fim dos valores alterados
                 $listarAnuncios[] = $anuncio;
             }
-      
+
             $listaAnuncioExpirado = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, array('expirado'));
             foreach ($listaAnuncioExpirado as $anuncio) {
 
@@ -443,19 +477,19 @@ class AnuncioControle {
 
                     $anuncio = new Anuncio();
                     $entidadeAnuncio = $anuncio->cadastrar($parametros);
-                    
+
                     $this->verificaValorMinimo($entidadeAnuncio, $parametros);
                     $idAnuncio = $genericoDAO->cadastrar($entidadeAnuncio);
 
                     //dados do anúncio para serem enviados via ajax, após a publicação
                     $dadosAnuncio = $genericoDAO->consultar(new Anuncio, true, array("id" => $idAnuncio));
-                   
+
                     $tipoImovel = new TipoImovel();
-                    
+
                     $tipo = $dadosAnuncio[0]->getImovel()->getIdTipoImovel();
-                    
+
                     $retornaTipoImovel = $tipoImovel->retornaDescricaoTipo($tipo);
-                    
+
                     $entidadeUsuarioPlano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $parametros["sltPlano"]));
                     $entidadeUsuarioPlano = $entidadeUsuarioPlano[0];
                     if (($entidadeUsuarioPlano->getPlano()->getTitulo() != "infinity" && $_SESSION["tipopessoa"] == "pj") || $_SESSION["tipopessoa"] == "pf") {
@@ -474,10 +508,9 @@ class AnuncioControle {
                         if (is_object($plantas))
                             $plantas = array($plantas);
                         //itera para cada planta
-                        
                         //criar vetor para guardar os valores de cada planta
                         $vetorValor = array();
-                        
+
                         foreach ($plantas as $planta) {
                             $valor->setIdplanta($planta->getId());
                             //monta os parametros que vem do formulario
@@ -487,20 +520,19 @@ class AnuncioControle {
 
                             //verifica se tem algum valor informado para cada planta
                             if (isset($parametros[$parametroAndarInicial])) {
-                                
+
                                 //itera pela quantidade de registros por planta
                                 for ($i = 0; $i <= count($parametros[$parametroAndarInicial]) - 1; $i++) {
-                                  
+
                                     $entidadeValor = $valor;
                                     $entidadeValor->setAndarinicial($parametros[$parametroAndarInicial][$i]);
                                     $entidadeValor->setAndarFinal($parametros[$parametroAndarFinal][$i]);
                                     $entidadeValor->setValor($parametros[$parametroValor][$i]);
-                                    
+
                                     $genericoDAO->cadastrar($entidadeValor);
-                                    
                                 }
                             }
-                            
+
                             //imagens das plantas
                             $sessaoImagemPlanta = $_SESSION["imagemPlanta"][$planta->getOrdemplantas()];
                             if (isset($sessaoImagemPlanta)) {
@@ -511,7 +543,6 @@ class AnuncioControle {
                                 $genericoDAO->editar($planta);
                             }
                         }
-                        
                     }
                     //somente salva fotos se houver
                     if (isset($_SESSION["imagemAnuncio"])) {
@@ -521,38 +552,37 @@ class AnuncioControle {
                             $idImagem = $genericoDAO->cadastrar($entidadeImagem);
                         }
                     }
-                    
+
                     $statusMapa = false;
-                    
+
                     //cadastro da latitude e longitude se houver alteração no mapa
-                    if($parametros["hdnLatitude"] != "" && $parametros["hdnLongitude"] != ""){
-                        
+                    if ($parametros["hdnLatitude"] != "" && $parametros["hdnLongitude"] != "") {
+
                         $mapaImovel = new MapaImovel();
                         $cadastrarMapa = $mapaImovel->cadastrar($parametros, $idAnuncio);
-                        
+
                         $statusCadastroMapa = $genericoDAO->cadastrar($cadastrarMapa);
-                        
-                        if($statusCadastroMapa) {
-                            
+
+                        if ($statusCadastroMapa) {
+
                             $statusMapa = true;
-                            
                         }
-                        
-                    } else $statusMapa = true;
-                    
-                    
+                    } else
+                        $statusMapa = true;
+
+
                     //visao
-                    if ($idAnuncio && $statusMapa) {    
-                        
+                    if ($idAnuncio && $statusMapa) {
+
                         $genericoDAO->commit();
-                        
+
                         $genericoDAO->fecharConexao();
-                        
+
                         Sessao::desconfigurarVariavelSessao("anuncio");
                         Sessao::desconfigurarVariavelSessao("imagemAnuncio");
                         Sessao::desconfigurarVariavelSessao("imagemPlanta");
-               
-                        echo json_encode(array("resultado" => 1, "idanuncio" => $dadosAnuncio[0]->getIdAnuncio(), "id" =>$dadosAnuncio[0]->getId(), "tipoImovel" => $retornaTipoImovel));
+
+                        echo json_encode(array("resultado" => 1, "idanuncio" => $dadosAnuncio[0]->getIdAnuncio(), "id" => $dadosAnuncio[0]->getId(), "tipoImovel" => $retornaTipoImovel));
                     } else {
                         $genericoDAO->rollback();
                         echo json_encode(array("resultado" => 0));
@@ -641,31 +671,30 @@ class AnuncioControle {
     private function verificaValorMinimo($anuncio, $parametros) {
 
         $valorMinimo = 0;
-        
+
         if (isset($parametros["chkValor"])) {
 
-                    $valorMinimo = $this->limpaValor($parametros["txtValor"]);
-                    
-        }  elseif($_SESSION["anuncio"]["tipoimovel"] == 2){
-                //apartamento na planta
-                    
-                $plantas = array("hdnValor0", "hdnValor1", "hdnValor2", "hdnValor3", "hdnValor4", "hdnValor5");
-                $menor = array();
+            $valorMinimo = $this->limpaValor($parametros["txtValor"]);
+        } elseif ($_SESSION["anuncio"]["tipoimovel"] == 2) {
+            //apartamento na planta
 
-                foreach ($plantas as $planta) {
-                    if (isset($parametros[$planta])) {
+            $plantas = array("hdnValor0", "hdnValor1", "hdnValor2", "hdnValor3", "hdnValor4", "hdnValor5");
+            $menor = array();
 
-                        $minimo = $this->limpaValor(min($parametros[$planta]));
-                        if ((float) $minimo > 0) {
-                            $menor[] = $minimo;
-                        }
+            foreach ($plantas as $planta) {
+                if (isset($parametros[$planta])) {
+
+                    $minimo = $this->limpaValor(min($parametros[$planta]));
+                    if ((float) $minimo > 0) {
+                        $menor[] = $minimo;
                     }
                 }
-                if (min($menor) > 0) {
-                    $valorMinimo = min($menor);
-                }
             }
-        $anuncio->setValormin($valorMinimo); 
+            if (min($menor) > 0) {
+                $valorMinimo = min($menor);
+            }
+        }
+        $anuncio->setValormin($valorMinimo);
     }
 
     private function limpaValor($valor) {
@@ -675,101 +704,105 @@ class AnuncioControle {
         $valor = trim($valor);
         return $valor;
     }
-
+    
     function buscarAnuncioCorretor($parametros) {
-        
-        $visao = new Template();
-        $emailanuncio = new EmailAnuncio();
-        $usuario = new Usuario();
-        $genericoDAO = new GenericoDAO();
+       
+       $visao = new Template();
+       $emailanuncio = new EmailAnuncio();
+       $usuario = new Usuario();
+       $genericoDAO = new GenericoDAO();
 
-        $selecionarAnuncioUsuario = $genericoDAO->consultar($usuario, true, array("id" => $parametros["login"]));
+       $selecionarAnuncioUsuario = $genericoDAO->consultar($usuario, true, array("id" => $parametros["login"]));
 
-        if ($selecionarAnuncioUsuario == null) {
+       if ($selecionarAnuncioUsuario == null) {
 
-            $selecionarAnuncioUsuario = $genericoDAO->consultar($usuario, true, array("login" => $parametros["login"]));
-        }
+           $selecionarAnuncioUsuario = $genericoDAO->consultar($usuario, true, array("login" => $parametros["login"]));
+       }
 
-        if (!$selecionarAnuncioUsuario) {
-            //verifica se o usuario existe na base ou se está inativo
-            $visao->setItem("errousuarioinativo");
-            $visao->exibir('VisaoErrosGenerico.php');
-        } else {
-            $item["usuario"] = $genericoDAO->consultar(new Usuario(), false, array("id" => $selecionarAnuncioUsuario[0]->getId()));
+       if (!$selecionarAnuncioUsuario) {
+           //verifica se o usuario existe na base ou se está inativo
+           $visao->setItem("errousuarioinativo");
+           $visao->exibir('VisaoErrosGenerico.php');
+       } else {
+           $item["usuario"] = $genericoDAO->consultar(new Usuario(), false, array("id" => $selecionarAnuncioUsuario[0]->getId()));
 
-            $statusUsuario = $item["usuario"] = $genericoDAO->consultar(new Usuario(), false, array("id" => $selecionarAnuncioUsuario[0]->getId()));
-            $verificarStatus = $selecionarAnuncioUsuario[0]->getStatus();
+           $statusUsuario = $item["usuario"] = $genericoDAO->consultar(new Usuario(), false, array("id" => $selecionarAnuncioUsuario[0]->getId()));
+           $verificarStatus = $selecionarAnuncioUsuario[0]->getStatus();
 
-            //$verificarStatus = $statusUsuario[0]->getStatus();
-            $id = $selecionarAnuncioUsuario[0]->getId();
+           //$verificarStatus = $statusUsuario[0]->getStatus();
+           $id = $selecionarAnuncioUsuario[0]->getId();
 
-            if ($verificarStatus == 'ativo') {
+           if ($verificarStatus == 'ativo') {
 
-                $consultasAdHoc = new ConsultasAdHoc();
-                $parametrosBusca["atributos"] = "*";
-                $parametrosBusca["tabela"] = "todos";
-                $parametrosBusca["predicados"]["id"] = $id; //Id do corretor. 
-                $parametrosBusca["predicados"]["garagem"] = "false";
+               $consultasAdHoc = new ConsultasAdHoc();
+               $parametrosBusca["atributos"] = "*";
+               $parametrosBusca["tabela"] = "todos";
+               $parametrosBusca["predicados"]["id"] = $id; //Id do corretor. 
+               $parametrosBusca["predicados"]["garagem"] = "false";
 
-                $visao = new Template();
-                $item["usuario"] = $genericoDAO->consultar(new Usuario(), true, array("id" => $selecionarAnuncioUsuario[0]->getId()));
-                $item["cidadeEstado"] = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarAnuncioUsuario[0]->getIdEndereco()));
-                $item["anuncio"] = $consultasAdHoc->buscaAnuncios($parametrosBusca);
+               $visao = new Template();
+               $item["usuario"] = $genericoDAO->consultar(new Usuario(), true, array("id" => $selecionarAnuncioUsuario[0]->getId()));
+               $item["cidadeEstado"] = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarAnuncioUsuario[0]->getIdEndereco()));
+               $item["anuncio"] = $consultasAdHoc->buscaAnuncios($parametrosBusca);
 
-                $visao->setItem($item);
-                $visao->exibir('AnuncioVisaoUsuario.php');
-            }
-        }
-    }
-
+               $visao->setItem($item);
+               $visao->exibir('AnuncioVisaoUsuario.php');
+           }
+           
+           else if($verificarStatus == 'desativadousuario'){ // caso o usuário tenha desabilitado-se
+               $visao->setItem($item = "usuariodesabilitado");
+               $visao->exibir('VisaoErrosGenerico.php');
+           }
+           
+       }
+   }
+   
     function enviarEmail($parametros) {
 
         $genericoDAO = new GenericoDAO();
         $genericoDAO->iniciarTransacao();
-        
+
         $dadosEmail['destino'] = $parametros['txtEmailEmail'];
         $dadosEmail['contato'] = "PIP-Online";
         $dadosEmail['assunto'] = "PIP-Online - Selecionou imóvel(is) para você";
-        
-        $totalAunciosSelecionados = count($parametros['anunciosSelecionados']);   
-        
+
+        $totalAunciosSelecionados = count($parametros['anunciosSelecionados']);
+
         if ($parametros['txtNomeEmail'] != "") {
-            
-            if($totalAunciosSelecionados > 1){
-            
-            $emailEnviadoPor = 'Veja os imóveis indicados para você por ' . $parametros['txtNomeEmail'] . ':<br><br>';
-        
-            } else $emailEnviadoPor = 'Veja o imóvel indicado para você por ' . $parametros['txtNomeEmail'] . ':<br><br>';
-            
-            
-            } else {
-                
-            if($totalAunciosSelecionados > 1){    
-                
-            $emailEnviadoPor = 'Veja os imóveis indicados para você:';
-            
-            } else  $emailEnviadoPor = 'Veja o imóvel indicados para você:';
-            
+
+            if ($totalAunciosSelecionados > 1) {
+
+                $emailEnviadoPor = 'Veja os imóveis indicados para você por ' . $parametros['txtNomeEmail'] . ':<br><br>';
+            } else
+                $emailEnviadoPor = 'Veja o imóvel indicado para você por ' . $parametros['txtNomeEmail'] . ':<br><br>';
+        } else {
+
+            if ($totalAunciosSelecionados > 1) {
+
+                $emailEnviadoPor = 'Veja os imóveis indicados para você:';
+            } else
+                $emailEnviadoPor = 'Veja o imóvel indicados para você:';
         }
-        
+
         if ($parametros['txtMsgEmail'] != "") {
-            $mensagemEmail = '<li>Mensagem: ' . $parametros['txtMsgEmail']."</li><br><br>";
-        } else $mensagemEmail = "";
-        
+            $mensagemEmail = '<li>Mensagem: ' . $parametros['txtMsgEmail'] . "</li><br><br>";
+        } else
+            $mensagemEmail = "";
+
 
         //Utilizado se for envio de e-mail para o correto através da tela de detalhes 
         if ($parametros['hdnAnuncio']) {
             $parametros['anunciosSelecionados'] = array($parametros['hdnAnuncio']);
         }
-        
-        if($totalAunciosSelecionados > 1){
-            
+
+        if ($totalAunciosSelecionados > 1) {
+
             $textoSelecionados = "Imóveis selecionados através do PIP Online";
-            
-        } else $textoSelecionados = "Imóvel selecionado através do PIP Online";;
-        
-        $dadosEmail['msg'] .= 
-            "<!DOCTYPE html>
+        } else
+            $textoSelecionados = "Imóvel selecionado através do PIP Online";;
+
+        $dadosEmail['msg'] .=
+                "<!DOCTYPE html>
             <html>
             <head>
               <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
@@ -863,19 +896,19 @@ class AnuncioControle {
                       <br><br>  
                         <font style='text-decoration: underline;'>ATEN&Ccedil;&Atilde;O: Este é um email automático. Favor, não responder</font>
                       <br><br>
-                      ".$emailEnviadoPor."
+                      " . $emailEnviadoPor . "
                       <br>
-                      ".$mensagemEmail."
+                      " . $mensagemEmail . "
                     </td>
                     </tr>
                     <tr>
                       <td colspan = '2' class='container-padding header' align='left' style='font-family:Helvetica, Arial, sans-serif;font-size:24px;font-weight:bold;padding-bottom:12px;color:#DF4726;padding-left:24px;padding-right:24px'>
-                        ".$totalAunciosSelecionados." ".$textoSelecionados."
+                        " . $totalAunciosSelecionados . " " . $textoSelecionados . "
                       </td>
                     </tr>";
-        
+
         $contador = 1;
-        
+
         foreach ($parametros['anunciosSelecionados'] as $idanuncio) {
 
             $item["anuncio"] = $genericoDAO->consultar(new Anuncio(), true, array("id" => $idanuncio));
@@ -883,26 +916,32 @@ class AnuncioControle {
             $item["imovel"] = $genericoDAO->consultar(new Imovel(), true, array("id" => $item["anuncio"][0]->getIdImovel()));
 
             $item["imagem"] = $genericoDAO->consultar(new Imagem(), true, array("idanuncio" => $item["anuncio"][0]->getId(), "destaque" => "SIM"));
-            
-             if(count($item["imagem"]) > 0){
-               $imagemEmailAnuncio = PIPURL ."/fotos/imoveis/".$item["imagem"][0]->getDiretorio()."/".$item["imagem"][0]->getNome();
-           } else{
-               $imagemEmailAnuncio = PIPURL ."/assets/imagens/foto_padrao.png";
-               
-           }
-            
-            switch ($item["imovel"][0]->getTipoImovel()->getDescricao()){
-                case "casa": $tipoImovelEmail = "Casa"; break;
-                case "apartamento": $tipoImovelEmail = "Apartamento"; break;
-                case "apartamentoplanta": $tipoImovelEmail = "Apartamento na Planta"; break;
-                case "salacomercial": $tipoImovelEmail = "Sala Comercial"; break;
-                case "prediocomercial": $tipoImovelEmail = "Prédio Comercial"; break;
-                case "terreno": $tipoImovelEmail = "Terreno"; break;
+
+            if (count($item["imagem"]) > 0) {
+                $imagemEmailAnuncio = PIPURL . "/fotos/imoveis/" . $item["imagem"][0]->getDiretorio() . "/" . $item["imagem"][0]->getNome();
+            } else {
+                $imagemEmailAnuncio = PIPURL . "/assets/imagens/foto_padrao.png";
             }
-            
-            if($item["anuncio"][0]->getValorMin() != 0){
+
+            switch ($item["imovel"][0]->getTipoImovel()->getDescricao()) {
+                case "casa": $tipoImovelEmail = "Casa";
+                    break;
+                case "apartamento": $tipoImovelEmail = "Apartamento";
+                    break;
+                case "apartamentoplanta": $tipoImovelEmail = "Apartamento na Planta";
+                    break;
+                case "salacomercial": $tipoImovelEmail = "Sala Comercial";
+                    break;
+                case "prediocomercial": $tipoImovelEmail = "Prédio Comercial";
+                    break;
+                case "terreno": $tipoImovelEmail = "Terreno";
+                    break;
+            }
+
+            if ($item["anuncio"][0]->getValorMin() != 0) {
                 $valorAnuncioEmail = $item["anuncio"][0]->getValorMin();
-            } else $valorAnuncioEmail = "<font color='red'>Não Informado</font>";
+            } else
+                $valorAnuncioEmail = "<font color='red'>Não Informado</font>";
 
             $item["endereco"] = $genericoDAO->consultar(new Endereco(), true, array("id" => $item["imovel"][0]->getIdEndereco()));
 
@@ -927,7 +966,7 @@ class AnuncioControle {
 
                 <br>
 
-                <div class='title' style='font-family:Helvetica, Arial, sans-serif;font-size:18px;font-weight:600;color:#374550'>" . $contador." - ".$tipoImovelEmail . "</div>
+                <div class='title' style='font-family:Helvetica, Arial, sans-serif;font-size:18px;font-weight:600;color:#374550'>" . $contador . " - " . $tipoImovelEmail . "</div>
                 <br>
 
                 <div class='body-text' style='font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:20px;text-align:left;color:#333333'>
@@ -944,63 +983,62 @@ class AnuncioControle {
 
                 </td>
             </tr>";
-            
+
             $contador = $contador + 1;
-            
+
             /*
-                    '
-    <table class="container" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: inherit; width: 580px; margin: 0 auto; padding: 0;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0;" align="left" valign="top">
-    <table class="row" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: block; padding: 0px;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td class="wrapper last" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; position: relative; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 10px 0px 0px;" align="left" valign="top">
-    <table class="row" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: block; padding: 0px;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td class="wrapper" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; position: relative; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 10px 20px 0px 0px;" align="left" valign="top">
+              '
+              <table class="container" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: inherit; width: 580px; margin: 0 auto; padding: 0;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0;" align="left" valign="top">
+              <table class="row" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: block; padding: 0px;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td class="wrapper last" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; position: relative; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 10px 0px 0px;" align="left" valign="top">
+              <table class="row" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: block; padding: 0px;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td class="wrapper" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; position: relative; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 10px 20px 0px 0px;" align="left" valign="top">
 
-          <table class="three columns" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 130px; margin: 0 auto; padding: 0;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0px 0px 10px;" align="left" valign="top">
+              <table class="three columns" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 130px; margin: 0 auto; padding: 0;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0px 0px 10px;" align="left" valign="top">
 
-                <img height="130" width="130" src=" ' . PIPURL . "/assets/imagens/foto_padrao.png" . '" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; width: auto; max-width: 100%; float: left; clear: both; display: block;" align="left" /></td>
+              <img height="130" width="130" src=" ' . PIPURL . "/assets/imagens/foto_padrao.png" . '" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; width: auto; max-width: 100%; float: left; clear: both; display: block;" align="left" /></td>
               <td class="expander" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; visibility: hidden; width: 0px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0;" align="left" valign="top"></td>
-            </tr></table></td>
-        <td class="wrapper last" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; position: relative; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 10px 0px 0px;" align="left" valign="top">
+              </tr></table></td>
+              <td class="wrapper last" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; position: relative; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 10px 0px 0px;" align="left" valign="top">
 
-          <table class="nine columns" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 430px; margin: 0 auto; padding: 0;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0px 0px 10px;" align="left" valign="top">
+              <table class="nine columns" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 430px; margin: 0 auto; padding: 0;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0px 0px 10px;" align="left" valign="top">
 
-                <table class="block-grid five-up" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; max-width: 580px; padding: 0;"><tbody><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #F1EDCA; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#F1EDCA" valign="top">
-    <span>Tipo</span>
-    </td><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #28A9C5; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#28A9C5" valign="top">
-    <td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #28A9C5; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#28A9C5" valign="top">
-    <span>' . strtoupper($item["imovel"][0]->getIdentificacao()) . '</span>
-    </td>
-    <td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #F1EDCA; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#F1EDCA" valign="top">
-    <span>Finalidade</span>
-    </td><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #28A9C5; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#28A9C5" valign="top">
-    <span>' . strtoupper($item["anuncio"][0]->getFinalidade()) . '</span>
-    </td>
-    </tr></tbody></table><br /><table class="block-grid five-up" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; max-width: 580px; padding: 0;"><tbody><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #F1EDCA; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#F1EDCA" valign="top">
-    <span>Condição</span>
-    </td><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #28A9C5; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#28A9C5" valign="top">
-    <span>' . $item["imovel"][0]->getCondicao() . '</span>
-    </td><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #F1EDCA; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#F1EDCA" valign="top">
-    <span>Valor</span>
-    </td><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #28A9C5; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#28A9C5" valign="top">
-    <span>R$' . $item["anuncio"][0]->getValorMin() . '</span>
-    </td>
-    </tr></tbody></table><br /><table class="block-grid five-up" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; max-width: 580px; padding: 0;"><tbody><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #F1EDCA; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#F1EDCA" valign="top">
-    <span>Endereço</span>
-    </td><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #28A9C5; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#28A9C5" valign="top">
-    <span>' . $item["endereco"][0]->getLogradouro() . ', Nº ' . $item["endereco"][0]->getNumero() . ' , ' . $item["endereco"][0]->getBairro()->getNome() . ' , ' . $item["endereco"][0]->getCidade()->getNome() . '</span>
-    </td>
-    </tr></tbody></table></td>
+              <table class="block-grid five-up" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; max-width: 580px; padding: 0;"><tbody><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #F1EDCA; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#F1EDCA" valign="top">
+              <span>Tipo</span>
+              </td><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #28A9C5; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#28A9C5" valign="top">
+              <td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #28A9C5; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#28A9C5" valign="top">
+              <span>' . strtoupper($item["imovel"][0]->getIdentificacao()) . '</span>
+              </td>
+              <td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #F1EDCA; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#F1EDCA" valign="top">
+              <span>Finalidade</span>
+              </td><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #28A9C5; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#28A9C5" valign="top">
+              <span>' . strtoupper($item["anuncio"][0]->getFinalidade()) . '</span>
+              </td>
+              </tr></tbody></table><br /><table class="block-grid five-up" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; max-width: 580px; padding: 0;"><tbody><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #F1EDCA; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#F1EDCA" valign="top">
+              <span>Condição</span>
+              </td><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #28A9C5; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#28A9C5" valign="top">
+              <span>' . $item["imovel"][0]->getCondicao() . '</span>
+              </td><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #F1EDCA; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#F1EDCA" valign="top">
+              <span>Valor</span>
+              </td><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #28A9C5; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#28A9C5" valign="top">
+              <span>R$' . $item["anuncio"][0]->getValorMin() . '</span>
+              </td>
+              </tr></tbody></table><br /><table class="block-grid five-up" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; max-width: 580px; padding: 0;"><tbody><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #F1EDCA; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#F1EDCA" valign="top">
+              <span>Endereço</span>
+              </td><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #28A9C5; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#28A9C5" valign="top">
+              <span>' . $item["endereco"][0]->getLogradouro() . ', Nº ' . $item["endereco"][0]->getNumero() . ' , ' . $item["endereco"][0]->getBairro()->getNome() . ' , ' . $item["endereco"][0]->getCidade()->getNome() . '</span>
+              </td>
+              </tr></tbody></table></td>
               <td class="expander" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; visibility: hidden; width: 0px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0;" align="left" valign="top"></td>
-            </tr></table></td>
-      </tr></table></td>
-    </tr></table><table class="row callout" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: block; padding: 0px;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td class="wrapper last" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; position: relative; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 10px 0px 20px;" align="left" valign="top">
-    <table class="twelve columns" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 580px; margin: 0 auto; padding: 0;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td class="panel" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #ECF8FF; margin: 0; padding: 10px; border: 1px solid #b9e5ff;" align="left" bgcolor="#ECF8FF" valign="top">
-    <p style="color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; text-align: left; line-height: 19px; font-size: 14px; margin: 0 0 10px; padding: 0;" align="left">Acesse agora esse imóvel <a href= ' . PIPURL . 'index.php?entidade=Anuncio&amp;acao=verficahashemail&amp;id=' . $selecionaremailanuncio->getHash() . ' style="color: #2ba6cb; text-decoration: none;">Clique Aqui! »</a></p>
-    </td>
-    <td class="expander" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; visibility: hidden; width: 0px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0;" align="left" valign="top"></td>
-    </tr></table></td>
-    </tr></table> <br>';*/
-        
+              </tr></table></td>
+              </tr></table></td>
+              </tr></table><table class="row callout" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: block; padding: 0px;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td class="wrapper last" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; position: relative; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 10px 0px 20px;" align="left" valign="top">
+              <table class="twelve columns" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 580px; margin: 0 auto; padding: 0;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td class="panel" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #ECF8FF; margin: 0; padding: 10px; border: 1px solid #b9e5ff;" align="left" bgcolor="#ECF8FF" valign="top">
+              <p style="color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; text-align: left; line-height: 19px; font-size: 14px; margin: 0 0 10px; padding: 0;" align="left">Acesse agora esse imóvel <a href= ' . PIPURL . 'index.php?entidade=Anuncio&amp;acao=verficahashemail&amp;id=' . $selecionaremailanuncio->getHash() . ' style="color: #2ba6cb; text-decoration: none;">Clique Aqui! »</a></p>
+              </td>
+              <td class="expander" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; visibility: hidden; width: 0px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0;" align="left" valign="top"></td>
+              </tr></table></td>
+              </tr></table> <br>'; */
         }
-    
+
         $dadosEmail['msg'] .= "
                                 <tr>
                                 <td colspan = '2' class='container-padding footer-text' align='left' 
@@ -1024,7 +1062,7 @@ class AnuncioControle {
                     </table>
                 </body>
             </html>";
-        
+
         if (Email::enviarEmail($dadosEmail)) {
             $genericoDAO->commit();
             $genericoDAO->fecharConexao();
@@ -1035,7 +1073,7 @@ class AnuncioControle {
             echo json_encode(array("resultado" => 0));
         }
     }
-    
+
     function enviarEmailPDF($parametros) {
 
         $genericoDAO = new GenericoDAO();
@@ -1051,16 +1089,14 @@ class AnuncioControle {
         //Utilizado se for envio de e-mail para o correto através da tela de detalhes 
         if ($parametros['hdnAnuncio']) {
             $parametros['anunciosSelecionados'] = array($parametros['hdnAnuncio']);
-            
         }
-        
+
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
         $pdf->SetAuthor('PIP ONLINE');
 
-        $pdf->SetHeaderData("", "", "PIP ON-LINE", 
-                "PIP ON-LINE - Imóveis Fáceis", array(0,64,255), array(0,64,128));
-        $pdf->setFooterData(array(0,64,0), array(0,64,128));
+        $pdf->SetHeaderData("", "", "PIP ON-LINE", "PIP ON-LINE - Imóveis Fáceis", array(0, 64, 255), array(0, 64, 128));
+        $pdf->setFooterData(array(0, 64, 0), array(0, 64, 128));
 
         $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
         $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
@@ -1075,8 +1111,8 @@ class AnuncioControle {
 
         $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
-        if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
-            require_once(dirname(__FILE__).'/lang/eng.php');
+        if (@file_exists(dirname(__FILE__) . '/lang/eng.php')) {
+            require_once(dirname(__FILE__) . '/lang/eng.php');
             $pdf->setLanguageArray($l);
         }
 
@@ -1086,27 +1122,27 @@ class AnuncioControle {
 
         $pdf->AddPage();
 
-        $pdf->setTextShadow(array('enabled'=>true, 'depth_w'=>0.2, 'depth_h'=>0.2, 
-            'color'=>array(196,196,196), 'opacity'=>1, 'blend_mode'=>'Normal'));
-        
+        $pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2,
+            'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
+
         $pdf->setFontSubsetting(true);
 
         $imovel = new Imovel();
-        
+
         $contadorPaginas = 0;
-        
+
         $numeroAnuncios = count($parametros['anunciosSelecionados']);
-        
-        foreach ($parametros['anunciosSelecionados'] as $idanuncio) {    
-            
+
+        foreach ($parametros['anunciosSelecionados'] as $idanuncio) {
+
             $contadorPaginas = $contadorPaginas + 1;
-            
+
             $item["anuncio"] = $genericoDAO->consultar(new Anuncio(), true, array("id" => $idanuncio));
-            
+
             $item["imovel"] = $genericoDAO->consultar(new Imovel(), true, array("id" => $item["anuncio"][0]->getIdImovel()));
-           
+
             $item["endereco"] = $genericoDAO->consultar(new Endereco(), true, array("id" => $item["imovel"][0]->getIdEndereco()));
-            
+
             $item["imagem"] = $genericoDAO->consultar(new Imagem(), true, array("idanuncio" => $idanuncio, "destaque" => "SIM"));
 
             $emailanuncio = new EmailAnuncio();
@@ -1114,125 +1150,111 @@ class AnuncioControle {
             $selecionaremailanuncio = $emailanuncio->cadastrar($idanuncio);
 
             $idemailanuncio = $genericoDAO->cadastrar($selecionaremailanuncio);
- 
-            $html = "Código: ".$item["anuncio"][0]->getIdAnuncio()
-                    ."<br>Tipo: ".$imovel->tipoImovelRetornar($item["imovel"][0]->getIdTipoImovel())
-                    ."<br>"."Finalidade: ".$item["anuncio"][0]->getFinalidade();
-                            
-            if($item["imovel"][0]->getCondicao() != "nenhuma"){
-                $html = $html."<br>Condição: ".ucfirst($item["imovel"][0]->getCondicao()."<br>");
-            } else $html = $html."<br>";
-            
-            if($item["imovel"][0]->getCasa() != null){
-                $html = $html."Quarto(s): ".$item["imovel"][0]->getCasa()->getQuarto()."<br>"
-                             ."Banheiro(s): ".$item["imovel"][0]->getCasa()->getBanheiro()."<br>"
-                             ."Suite(s): ".$item["imovel"][0]->getCasa()->getSuite()."<br>"
-                             ."Vaga(s) de Garagem: ".$item["imovel"][0]->getCasa()->getGaragem()."<br>"
-                             ."Área: ".$item["imovel"][0]->getCasa()->getArea()." m<sup>2</sup><br>";
-            } 
-            
-            else if($item["imovel"][0]->getSalaComercial() != null){
-                $html = $html."Banheiro(s): "
-                            .$item["imovel"][0]->getSalaComercial()->getBanheiro()."<br>Vaga(s) de Garagem: "
-                            .$item["imovel"][0]->getSalaComercial()->getGaragem()."<br>";
-            } 
-            
-            else if($item["imovel"][0]->getApartamento() != null){
-                $html = $html."Quarto(s): ".$item["imovel"][0]->getApartamento()->getQuarto()."<br>"
-                             ."Banheiro(s): ".$item["imovel"][0]->getApartamento()->getBanheiro()."<br>"
-                             ."Suite(s): ".$item["imovel"][0]->getApartamento()->getSuite()."<br>"
-                             ."Vaga(s) de Garagem: ".$item["imovel"][0]->getApartamento()->getGaragem()."<br>"
-                             ."Unidade(s) por Andar: ".$item["imovel"][0]->getApartamento()->getUnidadesAndar()."<br>"
-                             ."Andar do Apartamento: ".$item["imovel"][0]->getApartamento()->getAndar()."º <br>"
-                             ."Condominio: R($) ".$item["imovel"][0]->getApartamento()->getCondominio()."<br>"
-                             ."Está na Cobertura: ".$item["imovel"][0]->getApartamento()->getCobertura()."<br>"
-                             ."Área: ".$item["imovel"][0]->getApartamento()->getArea()." m<sup>2</sup><br>";
-            }
-            
-            else if($item["imovel"][0]->getApartamentoPlanta() != null){
-                $html = $html."Andares: ".$item["imovel"][0]->getApartamentoPlanta()->getAndares()."<br>"
-                             ."Unidade(s) por Andar: ".$item["imovel"][0]->getApartamentoPlanta()->getUnidadesAndar()."<br>"
-                             ."Total de Unidades: ".$item["imovel"][0]->getApartamentoPlanta()->getTotalUnidades()."<br>"
-                             ."Número de Torres: ".$item["imovel"][0]->getApartamentoPlanta()->getNumeroTorres()."<br>";
-            
+
+            $html = "Código: " . $item["anuncio"][0]->getIdAnuncio()
+                    . "<br>Tipo: " . $imovel->tipoImovelRetornar($item["imovel"][0]->getIdTipoImovel())
+                    . "<br>" . "Finalidade: " . $item["anuncio"][0]->getFinalidade();
+
+            if ($item["imovel"][0]->getCondicao() != "nenhuma") {
+                $html = $html . "<br>Condição: " . ucfirst($item["imovel"][0]->getCondicao() . "<br>");
+            } else
+                $html = $html . "<br>";
+
+            if ($item["imovel"][0]->getCasa() != null) {
+                $html = $html . "Quarto(s): " . $item["imovel"][0]->getCasa()->getQuarto() . "<br>"
+                        . "Banheiro(s): " . $item["imovel"][0]->getCasa()->getBanheiro() . "<br>"
+                        . "Suite(s): " . $item["imovel"][0]->getCasa()->getSuite() . "<br>"
+                        . "Vaga(s) de Garagem: " . $item["imovel"][0]->getCasa()->getGaragem() . "<br>"
+                        . "Área: " . $item["imovel"][0]->getCasa()->getArea() . " m<sup>2</sup><br>";
+            } else if ($item["imovel"][0]->getSalaComercial() != null) {
+                $html = $html . "Banheiro(s): "
+                        . $item["imovel"][0]->getSalaComercial()->getBanheiro() . "<br>Vaga(s) de Garagem: "
+                        . $item["imovel"][0]->getSalaComercial()->getGaragem() . "<br>";
+            } else if ($item["imovel"][0]->getApartamento() != null) {
+                $html = $html . "Quarto(s): " . $item["imovel"][0]->getApartamento()->getQuarto() . "<br>"
+                        . "Banheiro(s): " . $item["imovel"][0]->getApartamento()->getBanheiro() . "<br>"
+                        . "Suite(s): " . $item["imovel"][0]->getApartamento()->getSuite() . "<br>"
+                        . "Vaga(s) de Garagem: " . $item["imovel"][0]->getApartamento()->getGaragem() . "<br>"
+                        . "Unidade(s) por Andar: " . $item["imovel"][0]->getApartamento()->getUnidadesAndar() . "<br>"
+                        . "Andar do Apartamento: " . $item["imovel"][0]->getApartamento()->getAndar() . "º <br>"
+                        . "Condominio: R($) " . $item["imovel"][0]->getApartamento()->getCondominio() . "<br>"
+                        . "Está na Cobertura: " . $item["imovel"][0]->getApartamento()->getCobertura() . "<br>"
+                        . "Área: " . $item["imovel"][0]->getApartamento()->getArea() . " m<sup>2</sup><br>";
+            } else if ($item["imovel"][0]->getApartamentoPlanta() != null) {
+                $html = $html . "Andares: " . $item["imovel"][0]->getApartamentoPlanta()->getAndares() . "<br>"
+                        . "Unidade(s) por Andar: " . $item["imovel"][0]->getApartamentoPlanta()->getUnidadesAndar() . "<br>"
+                        . "Total de Unidades: " . $item["imovel"][0]->getApartamentoPlanta()->getTotalUnidades() . "<br>"
+                        . "Número de Torres: " . $item["imovel"][0]->getApartamentoPlanta()->getNumeroTorres() . "<br>";
+
                 //foreach ($item["imovel"][0]->getPlanta() as $planta){
-                
-                if(is_array($item["imovel"][0]->getPlanta())){
-                    
-                    $html = $html."<br>";
-                    
-                    foreach ($item["imovel"][0]->getPlanta() as $planta){
-                        
+
+                if (is_array($item["imovel"][0]->getPlanta())) {
+
+                    $html = $html . "<br>";
+
+                    foreach ($item["imovel"][0]->getPlanta() as $planta) {
+
                         $ordem = ($planta->getOrdemPlantas() + 1); //apenas para não aparecer a planta "zero"
-                        
-                        $html = $html."<strong>Planta ".$ordem."</strong> : ".$planta->getTituloPlanta()."<br>"
-                            ."Quarto(s): ".$planta->getQuarto()."<br>"
-                            ."Banheiro(s): ".$planta->getBanheiro()."<br>"
-                            ."Suite(s): ".$planta->getSuite()."<br>"
-                            ."Vaga(s) de Garagem: ".$planta->getGaragem()."<br>"
-                            ."Area: ".$planta->getArea()." m<sup>2</sup><br>";
-                        
+
+                        $html = $html . "<strong>Planta " . $ordem . "</strong> : " . $planta->getTituloPlanta() . "<br>"
+                                . "Quarto(s): " . $planta->getQuarto() . "<br>"
+                                . "Banheiro(s): " . $planta->getBanheiro() . "<br>"
+                                . "Suite(s): " . $planta->getSuite() . "<br>"
+                                . "Vaga(s) de Garagem: " . $planta->getGaragem() . "<br>"
+                                . "Area: " . $planta->getArea() . " m<sup>2</sup><br>";
                     }
-                    
+                } else {
+
+                    $html = $html . "Planta: " . $item["imovel"][0]->getPlanta()->getTituloPlanta() . "<br>"
+                            . "Quarto(s): " . $item["imovel"][0]->getPlanta()->getQuarto() . "<br>"
+                            . "Banheiro(s): " . $item["imovel"][0]->getPlanta()->getBanheiro() . "<br>"
+                            . "Suite(s): " . $item["imovel"][0]->getPlanta()->getSuite() . "<br>"
+                            . "Vaga(s) de Garagem: " . $item["imovel"][0]->getPlanta()->getGaragem() . "<br>"
+                            . "Area: " . $item["imovel"][0]->getPlanta()->getArea() . "<br>";
                 }
-                
-                else{
-                
-                    $html = $html."Planta: ".$item["imovel"][0]->getPlanta()->getTituloPlanta()."<br>"
-                            ."Quarto(s): ".$item["imovel"][0]->getPlanta()->getQuarto()."<br>"
-                            ."Banheiro(s): ".$item["imovel"][0]->getPlanta()->getBanheiro()."<br>"
-                            ."Suite(s): ".$item["imovel"][0]->getPlanta()->getSuite()."<br>"
-                            ."Vaga(s) de Garagem: ".$item["imovel"][0]->getPlanta()->getGaragem()."<br>"
-                            ."Area: ".$item["imovel"][0]->getPlanta()->getArea()."<br>";
-                }   
                 //}
+            } else if ($item["imovel"][0]->getPredioComercial() != null) {
+                $html = $html . "Área: " . $item["imovel"][0]->getPredioComercial()->getArea() . " m<sup>2</sup><br><br><br><br>";
+            } else if ($item["imovel"][0]->getTerreno() != null) {
+                $html = $html . "Área: " . $item["imovel"][0]->getTerreno()->getArea() . " m<sup>2</sup><br><br><br><br>";
             }
-            else if($item["imovel"][0]->getPredioComercial() != null){
-                $html = $html."Área: ".$item["imovel"][0]->getPredioComercial()->getArea()." m<sup>2</sup><br><br><br><br>";
-            }
-            
-            else if($item["imovel"][0]->getTerreno() != null){
-                $html = $html."Área: ".$item["imovel"][0]->getTerreno()->getArea()." m<sup>2</sup><br><br><br><br>";
-            }          
-            
-            if(count($item["imagem"]) > 0){
-                $pdf->Image(PIPROOT."/fotos/imoveis/".$item["imagem"][0]->getDiretorio()
-                    ."/".$item["imagem"][0]->getNome(), 135, "", 60, 45, '', '', '', true, 150, '', false, false, 1, false, false, false);
-            } else{
-                $pdf->Image(PIPROOT."/assets/imagens/foto_padrao.png", 135, "", 60, 45, '', '', '', true, 150, '', false, false, 1, false, false, false);
-                
+
+            if (count($item["imagem"]) > 0) {
+                $pdf->Image(PIPROOT . "/fotos/imoveis/" . $item["imagem"][0]->getDiretorio()
+                        . "/" . $item["imagem"][0]->getNome(), 135, "", 60, 45, '', '', '', true, 150, '', false, false, 1, false, false, false);
+            } else {
+                $pdf->Image(PIPROOT . "/assets/imagens/foto_padrao.png", 135, "", 60, 45, '', '', '', true, 150, '', false, false, 1, false, false, false);
             }
 
             $pdf->writeHTMLCell(125, 0, '', '', $html, 0, 1, 0, true, '', true);
-            
-            $htmlEndereco = "Endereço: "                            
-                            .$item["endereco"][0]->getLogradouro() .', Nº ' . $item["endereco"][0]->getNumero() 
-                            . ', ' . $item["endereco"][0]->getBairro()->getNome() 
-                            . ', ' . $item["endereco"][0]->getCidade()->getNome()."<br>";
-            
+
+            $htmlEndereco = "Endereço: "
+                    . $item["endereco"][0]->getLogradouro() . ', Nº ' . $item["endereco"][0]->getNumero()
+                    . ', ' . $item["endereco"][0]->getBairro()->getNome()
+                    . ', ' . $item["endereco"][0]->getCidade()->getNome() . "<br>";
+
             $pdf->writeHTMLCell("", 0, '', '', $htmlEndereco, 0, 1, 0, true, '', true);
-            
-            $htmlDetalhes = 'Para mais detalhes sobre esse anúncio, clique '. '<a href="'.PIPURL.$item["anuncio"][0]->getIdAnuncio()
-                    .'" target=" _blank">AQUI</a><p>';
-            
+
+            $htmlDetalhes = 'Para mais detalhes sobre esse anúncio, clique ' . '<a href="' . PIPURL . $item["anuncio"][0]->getIdAnuncio()
+                    . '" target=" _blank">AQUI</a><p>';
+
             $pdf->writeHTMLCell("", 0, '', '', $htmlDetalhes, 0, 1, 0, true, '', true);
-            
+
             $pdf->writeHTMLCell("", 0, '', '', "<hr>", 0, 1, 0, true, '', true);
-            
-            if($contadorPaginas < $numeroAnuncios){ //adicionar quebra de página ao final do anúncio
+
+            if ($contadorPaginas < $numeroAnuncios) { //adicionar quebra de página ao final do anúncio
                 $pdf->AddPage();
             }
-            
         }
-        
-        $pdf->Output(PIPROOT.'/pdf/'."anunciosEscolhidos".$_SESSION["login"]
-                .date("is").".pdf", 'F');
 
-        $dadosEmail["nomeArquivo"] = PIPROOT.'/pdf/'."anunciosEscolhidos".$_SESSION["login"]
-                .date("is").".pdf";
-        
+        $pdf->Output(PIPROOT . '/pdf/' . "anunciosEscolhidos" . $_SESSION["login"]
+                . date("is") . ".pdf", 'F');
+
+        $dadosEmail["nomeArquivo"] = PIPROOT . '/pdf/' . "anunciosEscolhidos" . $_SESSION["login"]
+                . date("is") . ".pdf";
+
         //die();
-        
+
         if (Email::enviarEmail($dadosEmail)) {
             $genericoDAO->commit();
             $genericoDAO->fecharConexao();
@@ -1243,73 +1265,73 @@ class AnuncioControle {
             echo json_encode(array("resultado" => 0));
         }
     }
-    
+
     function listarReativarAluguel() {
-       if (Sessao::verificarSessaoUsuario()) {
-           $anuncio = new Anuncio();
-           $genericoDAO = new GenericoDAO();
-           $consultasAdHoc = new ConsultasAdHoc();
+        if (Sessao::verificarSessaoUsuario()) {
+            $anuncio = new Anuncio();
+            $genericoDAO = new GenericoDAO();
+            $consultasAdHoc = new ConsultasAdHoc();
 
-           $listaAnuncioExpirado = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, array('expirado', 'finalizado'), 'Aluguel');
-           foreach ($listaAnuncioExpirado as $anuncio) {
+            $listaAnuncioExpirado = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, array('expirado', 'finalizado'), 'Aluguel');
+            foreach ($listaAnuncioExpirado as $anuncio) {
 
-               $expirado = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio->getIdImovel()));
-               $historico = $genericoDAO->consultar(new HistoricoAluguelVenda(), false, array("idanuncio" => $anuncio->getId()));
-               $anuncio->setHistoricoaluguelvenda($historico[0]);
-               
-               $anuncio->setImovel($expirado[0]);
-               $listarAnunciosExpirados[] = $anuncio;
-           }
-           $item["listaPlanos"] = $planos = $genericoDAO->consultar(new UsuarioPlano(), true, array("idusuario" => $_SESSION['idusuario'], "status" => "ativo"));
-           
-           //visao
-           $visao = new Template();
-           $item["listaAnuncioExpirado"] = $listarAnunciosExpirados;
-           $visao->setItem($item);
-           $visao->exibir('AnuncioVisaoListagemExpiradoAluguel.php');
-       }
-   }
-    
-   function reativar($parametros) {
+                $expirado = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio->getIdImovel()));
+                $historico = $genericoDAO->consultar(new HistoricoAluguelVenda(), false, array("idanuncio" => $anuncio->getId()));
+                $anuncio->setHistoricoaluguelvenda($historico[0]);
 
-       if (Sessao::verificarSessaoUsuario()) {
+                $anuncio->setImovel($expirado[0]);
+                $listarAnunciosExpirados[] = $anuncio;
+            }
+            $item["listaPlanos"] = $planos = $genericoDAO->consultar(new UsuarioPlano(), true, array("idusuario" => $_SESSION['idusuario'], "status" => "ativo"));
 
-           if (Sessao::verificarToken($parametros)) {
+            //visao
+            $visao = new Template();
+            $item["listaAnuncioExpirado"] = $listarAnunciosExpirados;
+            $visao->setItem($item);
+            $visao->exibir('AnuncioVisaoListagemExpiradoAluguel.php');
+        }
+    }
 
-               $genericoDAO = new GenericoDAO();
-               $genericoDAO->iniciarTransacao();
-               $entidadeAnuncio = new Anuncio();
-               $selecionarAnuncio = $genericoDAO->consultar($entidadeAnuncio, false, array("id" => $parametros["hdnAnuncio"]));
-               $entidadeAnuncio = $selecionarAnuncio[0];
-               $entidadeAnuncio->setStatus('cadastrado');
-               $entidadeAnuncio->setDatahoraalteracao(date('d/m/Y H:i:s'));
-               $entidadeAnuncio->setTituloanuncio($parametros["txtTitulo"]);
-               $entidadeAnuncio->setDescricaoanuncio($parametros["txtDescricao"]);
-               $entidadeAnuncio->setPublicarmapa($parametros["chkMapa"]);
-               $entidadeAnuncio->setPublicarcontato($parametros["chkContato"]);
-               if ($parametros["chkValor"] == 'SIM') {
-                   $parametros["txtValor"] = $this->limpaValor($parametros["txtValor"]);
-                   $entidadeAnuncio->setValormin($parametros["txtValor"]);
-               }
-               $entidadeUsuarioPlano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $parametros["sltPlano"]));
-               $entidadeUsuarioPlano = $entidadeUsuarioPlano[0];
-               if (($entidadeUsuarioPlano->getPlano()->getTitulo() != "infinity" && $_SESSION["tipopessoa"] == "pj") || $_SESSION["tipopessoa"] == "pf") {
-                   //se o plano nao eh infinity e nem eh uma empresa, entao atualiza o status do usuarioplano
-                   $entidadeUsuarioPlano->setStatus("utilizado");                    
-               }
-               if($genericoDAO->editar($entidadeAnuncio) && $genericoDAO->editar($entidadeUsuarioPlano)){
-                   $genericoDAO->commit();
-                   $genericoDAO->fecharConexao();
-                   echo json_encode(array("resultado" => 1));
-               }else{
-                   $genericoDAO->rollback();
-                   $genericoDAO->fecharConexao();
-                   echo json_encode(array("resultado" => 0));
-               }
-           }
-       }
-   }
-    
+    function reativar($parametros) {
+
+        if (Sessao::verificarSessaoUsuario()) {
+
+            if (Sessao::verificarToken($parametros)) {
+
+                $genericoDAO = new GenericoDAO();
+                $genericoDAO->iniciarTransacao();
+                $entidadeAnuncio = new Anuncio();
+                $selecionarAnuncio = $genericoDAO->consultar($entidadeAnuncio, false, array("id" => $parametros["hdnAnuncio"]));
+                $entidadeAnuncio = $selecionarAnuncio[0];
+                $entidadeAnuncio->setStatus('cadastrado');
+                $entidadeAnuncio->setDatahoraalteracao(date('d/m/Y H:i:s'));
+                $entidadeAnuncio->setTituloanuncio($parametros["txtTitulo"]);
+                $entidadeAnuncio->setDescricaoanuncio($parametros["txtDescricao"]);
+                $entidadeAnuncio->setPublicarmapa($parametros["chkMapa"]);
+                $entidadeAnuncio->setPublicarcontato($parametros["chkContato"]);
+                if ($parametros["chkValor"] == 'SIM') {
+                    $parametros["txtValor"] = $this->limpaValor($parametros["txtValor"]);
+                    $entidadeAnuncio->setValormin($parametros["txtValor"]);
+                }
+                $entidadeUsuarioPlano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $parametros["sltPlano"]));
+                $entidadeUsuarioPlano = $entidadeUsuarioPlano[0];
+                if (($entidadeUsuarioPlano->getPlano()->getTitulo() != "infinity" && $_SESSION["tipopessoa"] == "pj") || $_SESSION["tipopessoa"] == "pf") {
+                    //se o plano nao eh infinity e nem eh uma empresa, entao atualiza o status do usuarioplano
+                    $entidadeUsuarioPlano->setStatus("utilizado");
+                }
+                if ($genericoDAO->editar($entidadeAnuncio) && $genericoDAO->editar($entidadeUsuarioPlano)) {
+                    $genericoDAO->commit();
+                    $genericoDAO->fecharConexao();
+                    echo json_encode(array("resultado" => 1));
+                } else {
+                    $genericoDAO->rollback();
+                    $genericoDAO->fecharConexao();
+                    echo json_encode(array("resultado" => 0));
+                }
+            }
+        }
+    }
+
     function enviarDuvidaAnuncio($parametros) {
 // if (Sessao::verificarToken($parametros)) {
         $txtProposta = $this->limpaValor($parametros["txtProposta"]);
@@ -1371,133 +1393,116 @@ class AnuncioControle {
             }
         }
     }
-    
+
     function verficaHashEmail($parametros) {
 
         $visao = new Template();
         $emailanuncio = new EmailAnuncio();
         $anuncio = new Anuncio();
         $genericoDAO = new GenericoDAO();
-        
+
         $selecionarEmailAnuncio = $genericoDAO->consultar($emailanuncio, false, array("hash" => $parametros["id"]));
-        
-        if(!$selecionarEmailAnuncio){ //verifica se o hash é valido
+
+        if (!$selecionarEmailAnuncio) { //verifica se o hash é valido
             $visao->setItem("errohashemail");
             $visao->exibir('VisaoErrosGenerico.php');
-        }
-        
-        elseif($selecionarEmailAnuncio){ //caso o hash seja válido
-            
+        } elseif ($selecionarEmailAnuncio) { //caso o hash seja válido
             $verificarAtivo = $genericoDAO->consultar($anuncio, true, array("id" => $selecionarEmailAnuncio[0]->getIdAnuncio()));
-      
-            if ($verificarAtivo[0]->getStatus() != "cadastrado") { //verificar se o anuncio não está expirado ou finalizado
 
+            if ($verificarAtivo[0]->getStatus() != "cadastrado") { //verificar se o anuncio não está expirado ou finalizado
                 $item = "errousuarioouanuncio";
                 $visao = new Template();
                 $visao->setItem($item);
                 $visao->exibir("VisaoErrosGenerico.php");
+            } elseif ($verificarAtivo[0]->getStatus() == "cadastrado") {
 
-                } elseif($verificarAtivo[0]->getStatus() == "cadastrado"){
+                $tipoImovel = new TipoImovel();
 
-                    $tipoImovel = new TipoImovel();
+                $tipo = $tipoImovel->retornaDescricaoTipo($verificarAtivo[0]->getImovel()->getIdTipoImovel());
 
-                    $tipo = $tipoImovel->retornaDescricaoTipo($verificarAtivo[0]->getImovel()->getIdTipoImovel());
-
-                    $this->detalhar(array("hdnTipoImovel" => $tipo, "hdnCodAnuncio" => $verificarAtivo[0]->getId()));
-
-                }
-            
+                $this->detalhar(array("hdnTipoImovel" => $tipo, "hdnCodAnuncio" => $verificarAtivo[0]->getId()));
+            }
         }
-        
     }
-    
-    function fimCadastroAnuncio($parametros){
+
+    function fimCadastroAnuncio($parametros) {
         $this->detalhar(array("hdnTipoImovel" => $parametros["hdnTipo"], "hdnCodAnuncio" => $parametros["hdnCodAnuncio"]));
     }
-    
-    function alterarValor($parametros){
-        
+
+    function alterarValor($parametros) {
+
         if (Sessao::verificarSessaoUsuario()) {
-            
+
             //var_dump($parametros); die();
-            
+
             if (Sessao::verificarToken($parametros)) {
 
                 $genericoDAO = new GenericoDAO();
-                
+
                 $novoValor = new NovoValorAnuncio();
                 //setar os valores do objeto para edição
                 $consultarValorInativar = $genericoDAO->consultar($novoValor, false, array("idanuncio" => $parametros["hdnAnuncio"]));
                 //transformar de array para um único valor
-                
-                if($consultarValorInativar != null){ //setar a classe ValorNovo apenas se já existir valor
-                    
-                     if($parametros['txtNovoValor'] != ""){
-                    
-                    $consultarValorInativar = $consultarValorInativar[0];
-                    //setar apenas os campos que se quer editar
-                    $setarInativacao = $novoValor->inativarValor($consultarValorInativar);
-                    
-                    $genericoDAO->iniciarTransacao();
-                    //passar o objeto para edição
-                    $inativar = $genericoDAO->editar($setarInativacao);
-                    
-                    } else {$genericoDAO->iniciarTransacao(); $inativar = true;} {
+
+                if ($consultarValorInativar != null) { //setar a classe ValorNovo apenas se já existir valor
+                    if ($parametros['txtNovoValor'] != "") {
+
+                        $consultarValorInativar = $consultarValorInativar[0];
+                        //setar apenas os campos que se quer editar
+                        $setarInativacao = $novoValor->inativarValor($consultarValorInativar);
+
+                        $genericoDAO->iniciarTransacao();
+                        //passar o objeto para edição
+                        $inativar = $genericoDAO->editar($setarInativacao);
+                    } else {
+                        $genericoDAO->iniciarTransacao();
+                        $inativar = true;
+                    } {
                         
                     }
                 } else { //caso não exista um valor novo já cadastrado
-                    
                     $genericoDAO->iniciarTransacao();
-                    
+
                     $inativar = true;
-                    
-                    }
-                
-                if($parametros['txtNovoValor'] != ""){
-                    
+                }
+
+                if ($parametros['txtNovoValor'] != "") {
+
                     //echo "Entrou"; die();
-                    
+
                     $entidade = $novoValor->cadastrar($parametros);
 
                     $resultadoNovoValor = $genericoDAO->cadastrar($entidade);
-                    
                 } else {
-                    $resultadoNovoValor = true;    
+                    $resultadoNovoValor = true;
                     //echo "Não Entrou"; die();
                 }
-              
+
                 $anuncio = new Anuncio();
-                
-                $entidadeAnuncio = $anuncio->editar($parametros);    
-                $idAnuncio       = $genericoDAO->editar($entidadeAnuncio);
+
+                $entidadeAnuncio = $anuncio->editar($parametros);
+                $idAnuncio = $genericoDAO->editar($entidadeAnuncio);
 
                 if ($inativar && $resultadoNovoValor && $idAnuncio) {
-                    
+
                     $genericoDAO->commit();
-                    
+
                     echo json_encode(array("resultado" => 1, "novoValor" => $parametros["txtNovoValor"]));
-                  
-                    } else {
+                } else {
 
-                        echo json_encode(array("resultado" => 0));
+                    echo json_encode(array("resultado" => 0));
 
-                        $genericoDAO->rollback();
-                    }
-             
-                $genericoDAO->fecharConexao();
-                
-            } else {
-                    
-                    echo json_encode(array("resultado" => 2)); //erro de token
-
+                    $genericoDAO->rollback();
                 }
-              
+
+                $genericoDAO->fecharConexao();
+            } else {
+
+                echo json_encode(array("resultado" => 2)); //erro de token
+            }
         } else { //caso o usuário não esteja logado
-            
             echo json_encode(array("resultado" => 3));
-            
         }
-        
     }
 
 }
