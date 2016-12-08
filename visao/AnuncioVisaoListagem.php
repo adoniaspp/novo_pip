@@ -229,15 +229,15 @@
                         echo date_format($date, 'd/m/Y');
                         ?> </td>
                         
-                        <td><?php echo "<a id='btnFinalizar" . $anuncio->getId() . "' class='ui circular inverted basic icon button'><i class='big red thumbs up icon'></i></a>"?>
+                        <td><?php echo "<a id='btnFinalizar" . $anuncio->getId() . "' class='ui circular inverted basic icon button' data-tooltip='Finalizar'><i class='big red thumbs up icon'></i></a>"?>
                         
                         <?php if($anuncio->getImovel()->getIdTipoImovel() == 2){ //alterar valor se for Planta?>
                         
-                        <?php echo "<a id='btnAlterarValorPlanta" . $anuncio->getId() . "' class='ui circular inverted basic icon button'><i class='big blue edit icon'></i></a>"?>
+                        <?php echo "<a id='btnAlterarValorPlanta" . $anuncio->getId() . "' class='ui circular inverted basic icon button' data-tooltip='Editar'><i class='big blue edit icon'></i></a>"?>
                         
                         <?php } else {//alterar valor se for outro tipo de imóvel?>
                         
-                        <?php echo "<a id='btnAlterarValor" . $anuncio->getId() . "' class='ui circular inverted basic icon button'><i class='big blue edit icon'></i></a>" ?>
+                        <?php echo "<a href='index.php?entidade=Anuncio&acao=form&idAnuncio=" . $anuncio->getId() . "&token=" . $_SESSION['token'] . "'  class='ui circular inverted basic icon button' data-tooltip='Editar'><i class='big blue edit icon'></i></a>" ?>
                         
                         <?php } ?>
                         
@@ -245,7 +245,7 @@
                             <?php 
                         
                             if($anuncio->getNovoValorAnuncio() != null){
-                                echo "<a id='btnMostrarValor" . $anuncio->getId() . "' class='ui circular inverted basic icon button'><i class='big green money icon'></i></i></a>'";
+                                echo "<a id='btnMostrarValor" . $anuncio->getId() . "' class='ui circular inverted basic icon button' data-tooltip='Valores Antigos'><i class='big green money icon'></i></i></a>";
                             } else echo "";
 
                             ?>
