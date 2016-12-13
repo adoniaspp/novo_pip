@@ -113,7 +113,7 @@ Sessao::gerarToken();
                     <div id="divArea" class="three wide field">
                         <div class="field">
                             <label>Área (m<sup>2</sup>)</label>
-                            <input type="text" name="txtArea" id="txtArea" placeholder="Informe a Área" maxlength="7">
+                            <input type="text" name="txtArea" id="txtArea" placeholder="Informe a Área" maxlength="6">
                         </div>                                     
                     </div>
 
@@ -247,7 +247,7 @@ Sessao::gerarToken();
                         <div class="five wide field">
                             <div class="ui action left icon input">
                                 <i class="search icon"></i>
-                                <input type="text" name="txtCEP" id="txtCEP" placeholder="Informe o seu CEP...">
+                                <input type="text" name="txtCEP" id="txtCEP" placeholder="Informe o CEP...">
                                 <div class="ui teal button" id="btnCEP">Buscar CEP</div>
                             </div>              
                         </div>

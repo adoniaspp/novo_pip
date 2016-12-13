@@ -36,6 +36,10 @@ $("span[class='ui small grey button']").popup({
 
 <?php
 $item = $this->getItem();
+
+echo "<pre>";
+var_dump($item);
+echo "</pre>";
 ?>
 
 <div class="ui middle aligned stackable grid container">

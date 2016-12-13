@@ -465,27 +465,26 @@ function formatarValor(valor) {
         limit: 8,
         thousandsSeparator: '.'
     })
-    
-    
-            $("#txtTitulo" + valor).maxlength({
-                threshold: 50,
-                warningClass: "ui small green circular label",
-                limitReachedClass: "ui small red circular label",
-                separator: ' de ',
-                preText: 'Voc&ecirc; digitou ',
-                postText: ' caracteres permitidos.',
-                validate: true
-            })
+      
+    $("#txtTitulo" + valor).maxlength({
+        threshold: 50,
+        warningClass: "ui small green circular label",
+        limitReachedClass: "ui small red circular label",
+        separator: ' de ',
+        preText: 'Voc&ecirc; digitou ',
+        postText: ' caracteres permitidos.',
+        validate: true
+    })
 
-            $("#txtDescricao" + valor).maxlength({
-                threshold: 200,
-                warningClass: "ui small green circular label",
-                limitReachedClass: "ui small red circular label",
-                separator: ' de ',
-                preText: 'Voc&ecirc; digitou ',
-                postText: ' caracteres permitidos.',
-                validate: true
-            })
+    $("#txtDescricao" + valor).maxlength({
+        threshold: 200,
+        warningClass: "ui small green circular label",
+        limitReachedClass: "ui small red circular label",
+        separator: ' de ',
+        preText: 'Voc&ecirc; digitou ',
+        postText: ' caracteres permitidos.',
+        validate: true
+    })
 
 }
 

@@ -203,22 +203,22 @@ class Imovel {
     function buscarTipoImovel($tipo){
         switch ($tipo) {
                         case "1":
-                        return  "<td> CASA </td>";
+                        return  "<td> Casa </td>";
                         break;
                         case "2":
-                        return "<td> APARTAMENTO NA PLANTA </td>";
+                        return "<td> Apartamento na Planta </td>";
                         break;
                         case "3":
-                        return "<td> APARTAMENTO </td>";
+                        return "<td> Apartamento </td>";
                         break;
                         case "4": 
-                        return "<td> SALA COMERCIAL </td>";
+                        return "<td> Sala Comercial </td>";
                         break;
                         case "5":
-                        return "<td> PRÉDIO COMERCIAL </td>";
+                        return "<td> Prédio Comercial </td>";
                         break;
                         case "6":
-                        return "<td> TERRENO </td>";
+                        return "<td> Terreno </td>";
                         break;
                         }
     }

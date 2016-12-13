@@ -530,7 +530,7 @@ if ($item) {
 
     <div class="ui hidden divider"></div><div class="ui hidden divider"></div>
 
-    <div class="ui middle aligned stackable grid container">
+    <div class="ui centered aligned stackable grid container">
         <div id="divRetorno">
             <p></p>
         </div>

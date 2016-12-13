@@ -162,7 +162,9 @@ class AnuncioControle {
         unset($parametros["hdnAcao"]);
         $parametros["predicados"] = $parametros;
         $listaAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
-
+        
+        //echo "TOTAL: ".count($listaAnuncio['anuncio']); die();
+        
         if (count($listaAnuncio['anuncio']) == 0) {
             $visao->setItem("errosemresultadobusca");
             $visao->exibir('VisaoErrosGenerico.php');
@@ -570,10 +572,8 @@ class AnuncioControle {
                     } else
                         $statusMapa = true;
 
-
-                    //visao
                     if ($idAnuncio && $statusMapa) {
-
+                        
                         $genericoDAO->commit();
 
                         $genericoDAO->fecharConexao();

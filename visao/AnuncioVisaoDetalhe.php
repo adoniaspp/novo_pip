@@ -21,6 +21,7 @@ $item = $this->getItem();
 
 $latitude = "";
 $longitude = "";
+$expirado = "";
 
 if ($item["mapaImovel"]) {
 
@@ -30,10 +31,23 @@ if ($item["mapaImovel"]) {
         $longitude = $mapa->getLongitude();
     }
 }
+
+//verificar se está expirado para desabilitar o botão de enviar mensagem
+if($item["anuncio"][0]["status"] == "finalizado" || $item["anuncio"][0]["status"] == "expirado") { 
+    $expirado = "SIM";
+}  else $expirado = "NAO";
+
 ?>
 
 <script>
     $(document).ready(function () {
+        
+                
+        if('<?php echo $expirado ?>' === 'SIM'){
+            $('#btnDuvida').attr("disabled", "disabled");
+        }
+        
+        
         var tipoAnuncio = "<?php echo $item['anuncio'][0]['tipo'] ?>";
 
         switch (tipoAnuncio) {
@@ -86,10 +100,8 @@ if ($item["mapaImovel"]) {
     <div class="ui middle aligned stackable grid container">
         <div class="sixteen column">
             <div class="ui negative message">
-                <div class="header">
-                    Atenção
-                </div>
-                Este seu anuncio não está mais ativo, não podendo mais ser visualizado por outros usuários.
+                <i class='big red remove circle outline icon'></i>
+                <strong>ATENÇÃO</strong>: Este seu anuncio não está mais ativo, não podendo mais ser visualizado por outros usuários.
             </div>
         </div>
     </div>

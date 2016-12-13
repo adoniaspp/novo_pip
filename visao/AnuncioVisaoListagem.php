@@ -56,7 +56,7 @@
             <div class="ui message">
                 <p>Veja os detalhes do anúncio clicando no código. 
                 Se você conseguiu negociar seu anúncio ou não deseja que ele continue ativo por algum motivo, clique
-                em <strong>Finalizar Negócio</strong>. Caso queria mudar o valor, clique em <strong>Editar</strong>.
+                em <strong>Finalizar Negócio</strong>. Caso queira mudar o valor, clique em <strong>Editar</strong>.
                 </p>
             </div>
             <div class="ui message">
@@ -210,13 +210,15 @@
                                     if($nValor->getStatus() == "ativo"){
                                         
                                         echo $nValor->getNovoValor();   
-                                        
+                                        break;
                                     }                         
                                     
                                  }    
           
-                            } elseif ($anuncio->getValorMin() !== 0){ echo $anuncio->getValorMin();} else echo "Não Informado";
-                          
+                            } else if ($anuncio->getValorMin() !== 0){ 
+                                    echo $anuncio->getValorMin();
+                                    
+                            } else echo "Não Informado"; 
                             ?>
                  
                         </td>

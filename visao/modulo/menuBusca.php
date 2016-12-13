@@ -28,12 +28,12 @@ validarArea(true);
                             <div class="default text">Tipo</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
-                                <div class="item" data-value="">Todos</div>
-                                <div class="item" data-value="casa">Casa</div>
-                                <div class="item" data-value="apartamentoplanta">Apartamento na Planta</div>
+                                <div class="item" data-value="">Todos</div>                                                             
                                 <div class="item" data-value="apartamento">Apartamento</div>
-                                <div class="item" data-value="salacomercial">Sala Comercial</div>
+                                <div class="item" data-value="apartamentoplanta">Apartamento na Planta</div>
+                                <div class="item" data-value="casa">Casa</div>
                                 <div class="item" data-value="prediocomercial">Predio Comercial</div>
+                                <div class="item" data-value="salacomercial">Sala Comercial</div>                               
                                 <div class="item" data-value="terreno">Terreno</div>
                             </div>
                         </div>
@@ -48,8 +48,8 @@ validarArea(true);
                         <i class="dropdown icon"></i>
                         <div class="menu">
                             <div class="item" data-value="">Todas</div>
-                            <div class="item" data-value="venda">Venda</div>
                             <div class="item" data-value="aluguel">Aluguel</div>
+                            <div class="item" data-value="venda">Venda</div>                            
                         </div>
                     </div>
                     </div>
@@ -136,11 +136,11 @@ validarArea(true);
                         <i class="dropdown icon"></i>
                         <div class="menu">
                             <div class="item" data-value="">Todos</div>
-                            <div class="item" data-value="casa">Casa</div>
-                            <div class="item" data-value="apartamentoplanta">Apartamento na Planta</div>
                             <div class="item" data-value="apartamento">Apartamento</div>
-                            <div class="item" data-value="salacomercial">Sala Comercial</div>
+                            <div class="item" data-value="apartamentoplanta">Apartamento na Planta</div>
+                            <div class="item" data-value="casa">Casa</div>
                             <div class="item" data-value="prediocomercial">Predio Comercial</div>
+                            <div class="item" data-value="salacomercial">Sala Comercial</div>                            
                             <div class="item" data-value="terreno">Terreno</div>
                         </div>
                     </div>
@@ -154,8 +154,8 @@ validarArea(true);
                         <i class="dropdown icon"></i>
                         <div class="menu">
                             <div class="item" data-value="">Todas</div>
-                            <div class="item" data-value="venda">Venda</div>
                             <div class="item" data-value="aluguel">Aluguel</div>
+                            <div class="item" data-value="venda">Venda</div>                          
                         </div>
                     </div>
                 </div>

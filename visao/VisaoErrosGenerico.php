@@ -468,14 +468,14 @@ switch ($tipo) {
                         <button type="button"  class="ui inverted button">
                             <i class="home icon"></i><i class="add icon"></i> Editar Outro Imóvel
                         </button>
-                    </a>         
+                    </a>         <div class='ui left aligned stackable grid container'>
                     <?php
                     break;
                 case "errosemresultadobusca":
                     ?>                      
                     <script>
                         $(document).ready(function () {
-                            $('#divMensagemAtencao').html("Nenhum Anúncio Encontrado");
+                            $('#divAnuncios').html("<div class='ui two column center aligned grid'><div class='ui compact message'><i class='big red remove circle outline icon'></i>Nennhum anúncio encontrado com os parâmetros informados. Refine sua busca</div></div>");
                             $("#divOrdenacao").hide();
                             $("#divColuna").parent().removeClass().addClass("ui eight wide column").parent().removeClass().addClass("ui grid center aligned");
                             $("#divBotoes").parent().parent().remove();

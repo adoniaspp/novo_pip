@@ -418,7 +418,7 @@ function esconderCamposInicio() {
                     var banheiro = "<div class='four wide required field'><label>Banheiro(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltBanheiro[]' id='sltBanheiro" + contador + "'><div class='default text'>Banheiro(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
                     var suite = "<div class='four wide required field'><label>Suite(s)</label><div class='ui selection dropdown'><input type='hidden' name='sltSuite[]' id='sltSuite" + contador + "'><div class='default text'>Suite(s)</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
                     var garagem = "<div class='four wide required field'><label>Vagas de Garagem</label><div class='ui selection dropdown'><input type='hidden' name='sltGaragem[]' id='sltGaragem" + contador + "'><div class='default text'>Vaga(s) de Garagem</div><i class='dropdown icon'></i><div class='menu'><div class='item' data-value='0'>nenhuma</div><div class='item' data-value='1'>1</div><div class='item' data-value='2'>2</div><div class='item' data-value='3'>3</div><div class='item' data-value='4'>4</div><div class='item' data-value='5'>5 ou mais</div></div></div></div>";
-                    var area = "<div id='divAreaPlanta' class='four wide field'><div class='field'><label>Área (m<sup>2</sup>)</label><input type='text' name='txtArea[]' id='txtArea" + contador + "' maxlength='7' placeholder='Área'></div></div>";
+                    var area = "<div id='divAreaPlanta' class='four wide field'><div class='field'><label>Área (m<sup>2</sup>)</label><input type='text' name='txtArea[]' id='txtArea" + contador + "' maxlength='8' placeholder='Área'></div></div>";
                     
                         $.ajax({
                             url: "index.php",
@@ -476,10 +476,10 @@ function esconderCamposInicio() {
                     })
 
                     $('#txtArea' + contador).priceFormat({
-                        prefix: ' ',
-                        centsSeparator: '.',
+                        prefix: '',
+                        centsSeparator: '',
                         thousandsSeparator: '.',
-                        limit: 6
+                        limit: 5
                     });
 
                 }
@@ -651,7 +651,7 @@ function mostrarCamposEdicaoCasa(tipoImovel,
 
         var area = "<div id='divArea' class='three wide field'>\n\
                              <div class='field'><label>Área (m<sup>2</sup>)</label>\n\
-                             <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='7' value='" + parametroArea + "'>\n\
+                             <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='8' value='" + parametroArea + "'>\n\
                         </div></div>";
 
         $("#divInfoBasicas").append(condicao);
@@ -705,7 +705,7 @@ function mostrarCamposEdicaoApartamento(tipoImovel,
 
         var area = "<div id='divArea' class='three wide field'>\n\
                              <div class='field'><label>Área (m<sup>2</sup>)</label>\n\
-                             <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='7' value='" + parametroArea + "'>\n\
+                             <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='8' value='" + parametroArea + "'>\n\
                         </div></div>";
 
         campos(parametroQuarto,
@@ -843,7 +843,7 @@ function mostrarCamposEdicaoSalaComercial(tipoImovel,
 
         var area = "<div id='divArea' class='three wide field'>\n\
                              <div class='field'><label>Área (m<sup>2</sup>)</label>\n\
-                             <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='7' value='" + parametroArea + "'>\n\
+                             <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='8' value='" + parametroArea + "'>\n\
                         </div></div>";
 
         campos(null, parametroBanheiro, null, parametroGaragem, null);
@@ -880,7 +880,7 @@ function mostrarCamposEdicaoPredioComercial(tipoImovel, parametroArea) {
 
         var area = "<div id='divArea' class='three wide field'>\n\
                              <div class='field'><label>Área (m<sup>2</sup>)</label>\n\
-                             <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='7' value='" + parametroArea + "'>\n\
+                             <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='8' value='" + parametroArea + "'>\n\
                         </div></div>";
 
         $("#divInfoBasicas").append(area);
@@ -902,7 +902,7 @@ function mostrarCamposEdicaoTerreno(tipoImovel, parametroArea) {
 
         var area = "<div id='divArea' class='three wide field'>\n\
                              <div class='field'><label>Área (m<sup>2</sup>)</label>\n\
-                             <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='7' value='" + parametroArea + "'>\n\
+                             <input type='text' name='txtArea' id='txtArea' placeholder='Informe a Área' maxlength='8' value='" + parametroArea + "'>\n\
                         </div></div>";
 
         $("#divInfoBasicas").append(area);
@@ -951,10 +951,10 @@ function mostrarPlantas(
                 });
 
         $('#txtArea' + parametroOrdem).priceFormat({
-            prefix: ' ',
-            centsSeparator: '.',
+            prefix: '',
+            centsSeparator: '',
             thousandsSeparator: '.',
-            limit: 6
+            limit: 8
         });
 
     })
@@ -1099,7 +1099,7 @@ function camposPlantas(
 
     var area = "<div id='divArea' class='three wide field'>\n\
                              <div class='field'><label>Área (m<sup>2</sup>)</label>\n\
-                             <input type='text' name='txtArea[]' id='txtArea" + parametroOrdem + "' placeholder='Informe a Área' maxlength='7' value='" + parametroArea + "'>\n\
+                             <input type='text' name='txtArea[]' id='txtArea" + parametroOrdem + "' placeholder='Informe a Área' maxlength='8' value='" + parametroArea + "'>\n\
                         </div></div>";
     
     var planta = "<input type='hidden' name='idPlanta[]' id='idPlanta" + parametroId + "' value=" + parametroId + ">";
@@ -1195,43 +1195,7 @@ function carregaDadosModalImovel($div) {
                             </div></div>\n\
                     </div>\n\
                     <div class='ui hidden divider'></div>");
-
-        //diferencial
-        var diferencial;
-        var totalDiferencial = $('input[type=checkbox]:checked').not('input[id^=chkDiferencialPlanta]').length;
-
-        if (totalDiferencial == 0) {
-
-            $div.append("<div class='ui horizontal list'>\n\
-                                        <div class='item'>\n\
-                                        <div class='content'>\n\
-                                        <div class='header'>Diferenciais</div><h4 class='ui red header'>Não Informado</h4></div>\n\
-                                        </div>\n\
-                                </div>\n\
-                <div class='ui hidden divider'></div>");
-        } else {
-
-            //transforma os elementos do checkbox em um array
-            var arr = [];
-            $("input[type^='checkbox']:checked").not('input[name^="chkDiferencialPlanta"]').parent().find("#diferencial").each(function ()
-            {
-                arr.push($(this).html().trim());
-            });
-
-            //retira a vírgula do último elemento
-            var diferenciais = arr.join(", ");
-
-            $div.append("<div class='ui horizontal list'>\n\
-                                        <div class='item'>\n\
-                                        <div class='content'>\n\
-                                        <div class='header'>Diferenciais do Empreendimento </div>" + diferenciais + "</div>\n\
-                         </div>\n\
-                         </div>\n\
-            <div class='ui hidden divider'></div>");
-
-        }
-
-        //fim do diferencial
+  
         
         if($("#sltCondicao").val() == 'novo' || $("#sltCondicao").val() == 'NOVO'){
             $("#sltCondicao").val('Novo');
@@ -1399,14 +1363,8 @@ function carregaDadosModalImovel($div) {
                             <div class='header'>Condição</div>" + $("#sltCondicao").val() + "</div>\n\
                             </div>\n\
                             <div class='item'>\n\
-                            <div class='content'><div class='header'>Quarto</div>" + $("#sltQuarto").val() + "\
-                            </div></div>\n\
-                            <div class='item'>\n\
                             <div class='content'><div class='header'>Banheiro(s)</div>" + $("#sltBanheiro").val() + "\
                             </div></div>\n\
-                            <div class='item'>\n\
-                            <div class='content'><div class='header'>Suite(s)</div>" + $("#sltSuite").val() + "\
-                            </div></div>\n\\n\
                             <div class='item'>\n\
                             <div class='content'><div class='header'>Vaga(s) de Garagem</div>" + $("#sltGaragem").val() + "\
                             </div></div>\n\
@@ -1432,7 +1390,44 @@ function carregaDadosModalImovel($div) {
                 break;
 
         }
+        
+        //diferencial
+        var diferencial;
+        var totalDiferencial = $('input[type=checkbox]:checked').not('input[id^=chkDiferencialPlanta]').length;
 
+        if (totalDiferencial == 0) {
+
+            $div.append("<div class='ui horizontal list'>\n\
+                                        <div class='item'>\n\
+                                        <div class='content'>\n\
+                                        <div class='header'>Diferenciais</div><h4 class='ui red header'>Não Informado</h4></div>\n\
+                                        </div>\n\
+                                </div>\n\
+                <div class='ui hidden divider'></div>");
+        } else {
+
+            //transforma os elementos do checkbox em um array
+            var arr = [];
+            $("input[type^='checkbox']:checked").not('input[name^="chkDiferencialPlanta"]').parent().find("#diferencial").each(function ()
+            {
+                arr.push($(this).html().trim());
+            });
+
+            //retira a vírgula do último elemento
+            var diferenciais = arr.join(", ");
+
+            $div.append("<div class='ui horizontal list'>\n\
+                                        <div class='item'>\n\
+                                        <div class='content'>\n\
+                                        <div class='header'>Diferenciais do Empreendimento </div>" + diferenciais + "</div>\n\
+                         </div>\n\
+                         </div>\n\
+            <div class='ui hidden divider'></div>");
+
+        }
+
+        //fim do diferencial
+        
         var endereco;
         if ($("#txtNumero").val() !== "" && $("#txtComplemento").val() !== "") {
             endereco = $("#txtLogradouro").val() + ", " + $("#txtNumero").val() + ", " + $("#txtBairro").val() + " - " + $("#txtComplemento").val();
@@ -1466,9 +1461,9 @@ function preco() {
 
         $('#txtArea').priceFormat({
             prefix: ' ',
-            centsSeparator: '.',
+            centsSeparator: '',
             thousandsSeparator: '.',
-            limit: 7
+            limit: 8
         });
         $('#txtDescricao').maxlength({
             alwaysShow: true,
@@ -1515,22 +1510,22 @@ function exibirDiferencialEdicao() {
 function tipoImovel(tipo) {
     switch (tipo) {
         case "1":
-            return  " CASA ";
+            return  " Casa ";
             break;
         case "2":
-            return " APARTAMENTO NA PLANTA ";
+            return " Apartamento na Planta ";
             break;
         case "3":
-            return " APARTAMENTO ";
+            return " Apartamento ";
             break;
         case "4":
-            return " SALA COMERCIAL ";
+            return " Sala Comercial ";
             break;
         case "5":
-            return " PRÉDIO COMERCIAL ";
+            return " Prédio Comercial ";
             break;
         case "6":
-            return " TERRENO ";
+            return " Terreno ";
             break;
     }
 }

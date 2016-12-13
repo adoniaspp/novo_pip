@@ -105,7 +105,7 @@
                 <th>Titulo</th>
                 <th>Valor</th>
                 <th>Data Cadastro</th>
-                <th></th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
@@ -179,7 +179,12 @@
                         
                         ?></td>
                         <td><?php echo $anuncio->getFinalidade(); ?></td>
-                        <td><?php echo $anuncio->getTituloAnuncio(); ?></td>
+                        <td><?php 
+                                $limite = 20;
+                                $titulo = $anuncio->getTituloAnuncio();
+                                echo (strlen(trim($titulo)) >= $limite) ? trim(substr($titulo, 0, strrpos(substr($titulo, 0, $limite), " "))) . "..." : $titulo;
+                            ?>
+                        </td>
                         <td id="tdValor<?php if($anuncio->getNovoValorAnuncio() != ""){ echo $anuncio->getNovoValorAnuncio()->getId();} else echo $anuncio->getId(); ?>"><?php if($anuncio->getNovoValorAnuncio() != ""){ echo $anuncio->getNovoValorAnuncio()->getNovoValor(); } else echo $anuncio->getValorMin(); ?></td>
                         <td><?php echo date('d/m/Y H:i:s', strtotime($anuncio->getDataHoraCadastro())); ?></td>
                         <td> <?php

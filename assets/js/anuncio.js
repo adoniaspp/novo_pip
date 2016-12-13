@@ -116,30 +116,30 @@ function cadastrarAnuncio() {
                                 <div class='ui two column center aligned grid'>\n\
                                     <div class='ui compact positive message'>\n\
                                             <i class='big green check circle outline icon'></i>Seu anúncio foi cadastrado com sucesso. Aguarde a confirmação da publicação para que ele possa ser visualizado\n\</div>\n\
-                                    <div class='ui hidden divider'>\n\
-                                    </div>\n\
                                 </div>\n\
-                                    <div class='row'>Código do Anúncio:" + resposta.idanuncio + " \n\
-                                    </div>\n\
+                                <div class='ui hidden divider'></div>\n\
+                                    <div class='ui vertical segment'>\n\
+                                         Código do Anúncio: <strong>" + resposta.idanuncio + "</strong> \n\
+                                      </div>\n\
+                                      <div class='ui vertical segment'>\n\
+                                        Se desejar, escolha uma das opções abaixo. Obrigado por publicar seu anúncio em PIP Online <i class='big gray thumbs outline up icon'></i>\n\
+                                      </div>\n\
                                     <div class='row'>\n\
                                         <div class='column'>\n\
-                                        <a target='_blank' href='index.php?entidade=Anuncio&acao=fimCadastroAnuncio&hdnCodAnuncio=" + resposta.id + "&hdnTipo=" + resposta.tipoImovel + "'>\n\
-                                            <button type='button'  class='ui brown button'>\n\
-                                                Visualizar Anúncio\n\
-                                            </button></a>\n\
-                                        </a>\n\
-                                        <a href='index.php?entidade=Anuncio&acao=listarCadastrar'>\n\
-                                            <button type='button'  class='ui green button'>\n\
-                                            <i class='announcement icon'></i><i class='add icon'></i>\n\
-                                                Cadastrar Novo Anúncio\n\
-                                            </button>\n\
-                                        </a>\n\
-                                        <a href='index.php?entidade=Usuario&acao=MeuPIP'>\n\
-                                            <button type='button'  class='ui blue button'>\n\
-                                                Retornar ao Meu PIP\n\
-                                            </button>\n\
-                                        </a>\n\
-                                    </div></div>\n\
+                                            <div class='ui horizontal segments'>\n\
+                                            <div class='ui segment center aligned'><a target='_blank' href='index.php?entidade=Anuncio&acao=fimCadastroAnuncio&hdnCodAnuncio=" + resposta.id + "&hdnTipo=" + resposta.tipoImovel + "' class='ui circular inverted icon button'><i class='big brown zoom icon'></i></a>\n\
+                                                    Visualizar Anúncio\n\
+                                            </div>\n\
+                                            <div class='ui segment center aligned'>\n\
+                                                <a href='index.php?entidade=Anuncio&acao=listarCadastrar' class='ui circular inverted icon button'><i class='big green announcement icon'></i></a>\n\
+                                                        Cadastrar Novo Anúncio\n\
+                                            </div>\n\
+                                            <div class='ui segment center aligned'>\n\
+                                               <a href='index.php?entidade=Usuario&acao=MeuPIP'  class='ui circular inverted icon button'><i class='big blue home icon'></i></a>\n\
+                                                       Retornar ao Meu PIP\n\
+                                           </div>\n\
+                                        </div>\n\
+                                    </div>\n\
                                 </div>");
                             $('#botaoDetalhesImovel').hide();
                             $('#divTextoPublicacao').html("Anúncio Publicado Com Sucesso");

@@ -1331,7 +1331,7 @@ function ordenarMensagem(){
     
 }
 
-function editarConfiguracao() { //alterar a senha esquecida
+function editarConfiguracao() { 
     $(document).ready(function () {
         $("#btnAlterarConfiguracoes").click(function () {
             dadosModalConfiguracoes($("#textoConfirmacao"));
@@ -1354,13 +1354,9 @@ function editarConfiguracao() { //alterar a senha esquecida
                     success: function (resposta) {
                         $("#divRetorno").empty();
                         if (resposta.resultado == 0) {
-                            //$("#divMudarConfiguracoes").hide();
-                            //$("#divDesabilitarPagina").hide();
                             location.href = "index.php?entidade=Usuario&acao=MeuPIP";
                         } else if (resposta.resultado == 1) {
                             location.href = "index.php?entidade=Usuario&acao=MeuPIP";
-                            //$("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-                            //<p>Erro ao processar requisição - 005</p>');
                         }
                     }
                 })
