@@ -325,7 +325,7 @@ if ($item) {
                 <div class="five wide field">
                     <div class="ui action left icon input">
                         <i class="search icon"></i>
-                        <input type="text" name="txtCEP" id="txtCEP" placeholder="Informe o seu CEP..." value="<?php echo $imovel->getEndereco()->getCep() ?>">
+                        <input type="text" name="txtCEP" id="txtCEP" placeholder="Informe o CEP..." value="<?php echo $imovel->getEndereco()->getCep() ?>">
                         <div class="ui teal button" id="btnCEP">Buscar CEP</div>
                     </div>              
                 </div>

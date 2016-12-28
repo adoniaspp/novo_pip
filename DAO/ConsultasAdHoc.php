@@ -261,16 +261,20 @@ class ConsultasAdHoc extends GenericoDAO {
         return $resultado;
     }
 
-    public function ConsultarAnunciosPorUsuario($idUsuario, $idAnuncio = null, $statusAnuncio = null, $finalidade = null) {
+    public function ConsultarAnunciosPorUsuario($idUsuario, $administrador, $idAnuncio = null, $statusAnuncio = null, $finalidade = null) {
         $allow = $statusAnuncio;
+        
         $sql = "SELECT a.* "
                 . " FROM anuncio a"
                 . " JOIN usuarioplano up ON up.id = a.idusuarioplano"
                 . " JOIN usuario u ON up.idusuario = u.id"
-                . " WHERE u.status = 'ativo'"
-                . " AND u.id = :idUsuario ";
+                . " WHERE (u.status = 'ativo' or u.status = 'desativadousuario') "; //desativadousuário = quando o próprio usuário se desativa
         if ($idAnuncio != null)
             $sql .= " AND a.id = :idAnuncio ";
+        //caso o usuário não seja Administrador do sistema, listar somente os anúncios pendentes do usuário logado
+        if ($administrador != true)
+                $sql.= " AND u.id = :idUsuario ";
+        
         if ($statusAnuncio != null)
             $sql .= sprintf(" AND a.status in( %s )", implode(
                             ',', array_map(
@@ -286,8 +290,11 @@ class ConsultasAdHoc extends GenericoDAO {
             $sql .= " AND a.finalidade = :finalidade ";
         $sql .= " ORDER BY a.ID DESC";
         $statement = $this->conexao->prepare($sql);
-
+        //caso o usuário não seja Administrador do sistema, listar somente os anúncios pendentes do usuário logado
+        if ($administrador != true){
         $statement->bindParam(':idUsuario', $idUsuario);
+        
+        }
         if ($idAnuncio != null)
             $statement->bindParam(':idAnuncio', $idAnuncio);
         if ($statusAnuncio != null)

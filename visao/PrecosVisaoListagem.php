@@ -73,6 +73,7 @@
                     <div class="ui bulleted list">                        
                         <div class="item">Apenas R$ 25,90</div>  
                         <div class="item">Destaque na pesquisa de imóveis frente aos Estrela</div> 
+                        <div class="item">Poste até 10 fotos do anúncio</div>
                     </div>
                 </div>
             </div>
@@ -81,6 +82,7 @@
                     <div class="ui bulleted list">
                         <div class="item">Apenas R$ 17,90</div>
                         <div class="item">Destaque na pesquisa de imóveis frente aos Guarda Chuva</div> 
+                        <div class="item">Poste até 8 fotos do anúncio</div>
                     </div>
                 </div>
             </div>
@@ -89,6 +91,7 @@
                     <div class="ui bulleted list">
                         <div class="item">Apenas R$ 9,90</div>  
                         <div class="item">Destaque na pesquisa de imóveis frente aos gratuitos</div> 
+                        <div class="item">Poste até 5 fotos do anúncio</div>
                     </div>
                 </div>
             </div>
@@ -96,7 +99,8 @@
                 <div class="ui segment">
                     <div class="ui bulleted list">
                         <div class="item">Gratuitamente por 2 semanas</div>
-                        <div class="item">Sem cobranças adicionais</div>                       
+                        <div class="item">Sem cobranças adicionais</div>  
+                        <div class="item">Poste até 3 fotos do anúncio</div>
                     </div>
                 </div>
             </div>

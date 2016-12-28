@@ -821,10 +821,27 @@ class UsuarioControle {
 
         }
     
-        public function faleConosco(){
+        /*public function faleConosco(){
                $visao = new Template();
                $visao->exibir('UsuarioVisaoFaleConosco.php');
-        }    
+        }   */
+        
+        function faleConosco($parametros) {
+            $visao = new Template();
+            $visao->exibir('UsuarioVisaoFaleConosco.php');
+        
+            $dadosEmail['destino'] = "duvidas@pipbeta.com.br";
+            $dadosEmail['assunto'] = $parametros['txtTituloDuvida'];
+            $dadosEmail['msg'] = $parametros['txtMsgDuvida'];
+            $dadosEmail['contato'] = $parametros['txtEmailDuvida'];
+            
+            if (Email::enviarEmail($dadosEmail)) {
+                echo json_encode(array("resultado" => 1)); //email enviado
+            } else {
+                echo json_encode(array("resultado" => 0)); //erro ao enviar email
+            }
+        }
+       
         
     }
 

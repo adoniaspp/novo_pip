@@ -196,7 +196,7 @@ class Anuncio {
         $this->setFinalidade($parametros['sltFinalidade']);
         $this->setTituloAnuncio($parametros['txtTitulo']);
         $this->setDescricaoAnuncio($parametros['txtDescricao']);
-        $this->setStatus('cadastrado');
+        $this->setStatus('pendenteativacao');
         $this->setDatahoracadastro(date("Y/m/d H:i:s"));
         $this->setDatahoraalteracao('');
         $this->setDatahoradesativacao('');
@@ -217,6 +217,15 @@ class Anuncio {
 
         $this->setPublicarmapa((isset($parametros['chkMapa']) ? "SIM" : "NAO"));
 
+        
+        return $this;
+    }
+    
+    public function alterarStatus($parametros){
+        
+        $this->setId($parametros['hdnAnuncio']);        
+        $this->setStatus($parametros['sltStatusAnuncio']);
+        $this->setDatahoraalteracao(date("Y/m/d H:i:s"));
         
         return $this;
     }

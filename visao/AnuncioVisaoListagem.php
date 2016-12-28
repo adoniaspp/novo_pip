@@ -107,10 +107,8 @@
     <div class="row">
         <div class="column">
             <div class="ui warning message">
-                <i class="yellow warning circle icon"></i>
-                <ul class="list">
+                <i class="big yellow warning circle icon"></i>
                   Você não possui anúncios ativos. Clique em voltar para retornar ao MEUPIP
-                </ul>
             </div>
 
             <div class="row">

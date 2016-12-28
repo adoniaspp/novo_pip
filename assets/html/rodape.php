@@ -6,30 +6,30 @@
         <div class="ui list">
             <?php if (Sessao::verificarSessaoUsuario()) { ?>
             
-                <a class="item" href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=meuPIP"> Minha Conta </a> 
+                <a class="item" style="color: white" href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=meuPIP"> Minha Conta </a> 
             
                    <?php } else { ?>
-                <a class="item" href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=form&tipo=login">Minha Conta</a>
+                <a class="item" style="color: white" href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=form&tipo=login">Minha Conta</a>
             
             <?php } ?>
-            <div class="item">Como Funciona?</div>
-            <a class="item" href="<?php echo PIPURL; ?>/index.php?entidade=Plano&acao=precosAnuncios">Planos dos Anuncios</a>
+            <div class="item">Como Funciona</div>
+            <a class="item" style="color: white" href="<?php echo PIPURL; ?>index.php?entidade=Plano&acao=precosAnuncios">Planos dos Anuncios</a>
             <div class="item">Promoções</div>           
         </div>
   </div>
   <div class="teal column">
         <div class="ui list">
-            <div class="item">Quem Somos</div>
-            <div class="item">Mapa do Site</div>
-            <div class="item">Como Anunciar</div>
-            <div class="item">Termos de Uso</div>
-            <a class="item" href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=faleConosco">Fale Conosco</a>
+            <div class="item" style="color: white">Quem Somos</div>
+            <div class="item" style="color: white">Mapa do Site</div>
+            <div class="item" style="color: white">Como Anunciar</div>
+            <div class="item" style="color: white">Termos de Uso</div>
+            <a class="item" style="color: white" href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=faleConosco">Fale Conosco</a>
         </div>
   </div>
   <div class="teal column">
         <div class="ui list">
-            <div class="item">Institucional</div>       
-            <div class="item">Dúvidas Frequentes</div>
+            <div class="item" style="color: white">Institucional</div>       
+            <div class="item" style="color: white">Dúvidas Frequentes</div>
         </div>
   </div>
 </div>

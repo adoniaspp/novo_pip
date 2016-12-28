@@ -114,7 +114,7 @@ class AnuncioControle {
                                 $fotos["size"] = $imagem->getTamanho();
                                 $fotos["type"] = $imagem->getTipo();
                                 $fotos["legenda"] = $imagem->getLegenda();
-                                $fotos["idImage"] = $imagem->getid();
+                                $fotos["idImage"] = $imagem->getId();
                                 $fotos["url"] = PIPURL . "fotos/imoveis/" . $imagem->getDiretorio() . "/" . $imagem->getNome();
                                 $fotos["thumbnailUrl"] = PIPURL . "fotos/imoveis/" . $imagem->getDiretorio() . "/thumbnail/" . $imagem->getNome();
                                 $fotos["deleteUrl"] = PIPURL . "?file=" . $imagem->getNome();
@@ -213,8 +213,7 @@ class AnuncioControle {
         // buscar o diretorio e o nome da foto destaque para as redes sociais
         foreach ($listarAnuncio["anuncio"][0]["imagem"] as $imagemPrincipal) {
 
-            if ($imagemPrincipal["destaque"] == "SIM")
-                ;
+            if ($imagemPrincipal["destaque"] == "SIM")               
 
             $imagemPrincipalDiretorio = $imagemPrincipal["diretorio"];
             $imagemPrincipalNome = $imagemPrincipal["nome"];
@@ -223,17 +222,23 @@ class AnuncioControle {
         }
 
         if ($listarAnuncio["anuncio"][0]["status"] != "cadastrado" &&
-                $parametros["sessaoUsuario"] != $parametros["idUsuario"]) {
-
+                $parametros["sessaoUsuario"] != $parametros["idUsuario"] && $_SESSION['login'] != 'pipdiministrador') {
 
             $item = "errousuarioouanuncio";
             $pagina = "VisaoErrosGenerico.php";
             $visao = new Template();
             $visao->setItem($item);
             $visao->exibir($pagina);
+            
         } else {
-
-            $usuarioQtdAnuncio = count($consultasAdHoc->ConsultarAnunciosPorUsuario($parametros["idUsuario"], null, array('cadastrado')));
+            
+            $administrador = false; 
+            
+            if(($_SESSION['login'] === "pipdiministrador")){
+                $administrador = true; 
+            }
+            
+            $usuarioQtdAnuncio = count($consultasAdHoc->ConsultarAnunciosPorUsuario($parametros["idUsuario"], $administrador, null, array('cadastrado')));
 
             $listarAnuncio["qtdAnuncios"] = $usuarioQtdAnuncio;
 
@@ -305,8 +310,6 @@ class AnuncioControle {
 
             ');
             $visao->setItem($listarAnuncio);
-
-            //var_dump($visao->getTag_cabecalho()); die();
 
             $visao->exibir('AnuncioVisaoDetalhe.php');
         }
@@ -985,58 +988,7 @@ class AnuncioControle {
             </tr>";
 
             $contador = $contador + 1;
-
-            /*
-              '
-              <table class="container" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: inherit; width: 580px; margin: 0 auto; padding: 0;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0;" align="left" valign="top">
-              <table class="row" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: block; padding: 0px;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td class="wrapper last" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; position: relative; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 10px 0px 0px;" align="left" valign="top">
-              <table class="row" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: block; padding: 0px;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td class="wrapper" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; position: relative; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 10px 20px 0px 0px;" align="left" valign="top">
-
-              <table class="three columns" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 130px; margin: 0 auto; padding: 0;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0px 0px 10px;" align="left" valign="top">
-
-              <img height="130" width="130" src=" ' . PIPURL . "/assets/imagens/foto_padrao.png" . '" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; width: auto; max-width: 100%; float: left; clear: both; display: block;" align="left" /></td>
-              <td class="expander" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; visibility: hidden; width: 0px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0;" align="left" valign="top"></td>
-              </tr></table></td>
-              <td class="wrapper last" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; position: relative; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 10px 0px 0px;" align="left" valign="top">
-
-              <table class="nine columns" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 430px; margin: 0 auto; padding: 0;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0px 0px 10px;" align="left" valign="top">
-
-              <table class="block-grid five-up" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; max-width: 580px; padding: 0;"><tbody><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #F1EDCA; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#F1EDCA" valign="top">
-              <span>Tipo</span>
-              </td><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #28A9C5; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#28A9C5" valign="top">
-              <td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #28A9C5; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#28A9C5" valign="top">
-              <span>' . strtoupper($item["imovel"][0]->getIdentificacao()) . '</span>
-              </td>
-              <td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #F1EDCA; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#F1EDCA" valign="top">
-              <span>Finalidade</span>
-              </td><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #28A9C5; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#28A9C5" valign="top">
-              <span>' . strtoupper($item["anuncio"][0]->getFinalidade()) . '</span>
-              </td>
-              </tr></tbody></table><br /><table class="block-grid five-up" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; max-width: 580px; padding: 0;"><tbody><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #F1EDCA; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#F1EDCA" valign="top">
-              <span>Condição</span>
-              </td><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #28A9C5; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#28A9C5" valign="top">
-              <span>' . $item["imovel"][0]->getCondicao() . '</span>
-              </td><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #F1EDCA; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#F1EDCA" valign="top">
-              <span>Valor</span>
-              </td><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #28A9C5; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#28A9C5" valign="top">
-              <span>R$' . $item["anuncio"][0]->getValorMin() . '</span>
-              </td>
-              </tr></tbody></table><br /><table class="block-grid five-up" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; max-width: 580px; padding: 0;"><tbody><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #F1EDCA; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#F1EDCA" valign="top">
-              <span>Endereço</span>
-              </td><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; display: inline-block; width: 96px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #28A9C5; margin: 0; padding: 0px 0px 10px;" align="left" bgcolor="#28A9C5" valign="top">
-              <span>' . $item["endereco"][0]->getLogradouro() . ', Nº ' . $item["endereco"][0]->getNumero() . ' , ' . $item["endereco"][0]->getBairro()->getNome() . ' , ' . $item["endereco"][0]->getCidade()->getNome() . '</span>
-              </td>
-              </tr></tbody></table></td>
-              <td class="expander" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; visibility: hidden; width: 0px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0;" align="left" valign="top"></td>
-              </tr></table></td>
-              </tr></table></td>
-              </tr></table><table class="row callout" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: block; padding: 0px;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td class="wrapper last" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; position: relative; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 10px 0px 20px;" align="left" valign="top">
-              <table class="twelve columns" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 580px; margin: 0 auto; padding: 0;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td class="panel" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; background: #ECF8FF; margin: 0; padding: 10px; border: 1px solid #b9e5ff;" align="left" bgcolor="#ECF8FF" valign="top">
-              <p style="color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; text-align: left; line-height: 19px; font-size: 14px; margin: 0 0 10px; padding: 0;" align="left">Acesse agora esse imóvel <a href= ' . PIPURL . 'index.php?entidade=Anuncio&amp;acao=verficahashemail&amp;id=' . $selecionaremailanuncio->getHash() . ' style="color: #2ba6cb; text-decoration: none;">Clique Aqui! »</a></p>
-              </td>
-              <td class="expander" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; visibility: hidden; width: 0px; color: #222222; font-family: "Helvetica","Arial",sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0;" align="left" valign="top"></td>
-              </tr></table></td>
-              </tr></table> <br>'; */
+    
         }
 
         $dadosEmail['msg'] .= "
@@ -1504,5 +1456,275 @@ class AnuncioControle {
             echo json_encode(array("resultado" => 3));
         }
     }
+    
+    function listarPendente() {
+        if (Sessao::verificarSessaoUsuario()) {
+            $anuncio = new Anuncio();
+            $genericoDAO = new GenericoDAO();
+            $consultasAdHoc = new ConsultasAdHoc();
+            
+            $administrador = false;     
+            
+            if(($_SESSION['login'] === "pipdiministrador")){
+                $administrador = true; 
+            }    
+            
+                $listaAnuncio = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], $administrador, null, array('pendenteativacao', 'emanalise'));
+                foreach ($listaAnuncio as $anuncio) {
+                    $imovel = $genericoDAO->consultar(new Imovel(), false, array("id" => $anuncio->getIdImovel()));
+                    $anuncio->setImovel($imovel[0]);
 
+                    $usuarioplano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $anuncio->getIdusuarioplano()));
+                    $anuncio->setUsuarioplano($usuarioplano[0]);
+
+                    $novoValor = $genericoDAO->consultar(new NovoValorAnuncio(), false, array("idanuncio" => $anuncio->getId()));
+                    $anuncio->setNovovaloranuncio($novoValor );
+
+                    $listarAnuncios[] = $anuncio;
+                }
+            
+            $visao = new Template();
+            $item["listaAnuncio"] = $listarAnuncios;
+            $visao->setItem($item);
+            $visao->exibir('AnuncioVisaoListagemPendente.php');
+        }
+    }
+    
+    function listarNegado() {
+        if (Sessao::verificarSessaoUsuario()) {
+            $anuncio = new Anuncio();
+            $genericoDAO = new GenericoDAO();
+            $consultasAdHoc = new ConsultasAdHoc();
+            
+            $administrador = false;     
+            
+            if(($_SESSION['login'] === "pipdiministrador")){
+                $administrador = true; 
+            }    
+            
+                $listaAnuncio = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], $administrador, null, array('ativacaonegada'));
+                foreach ($listaAnuncio as $anuncio) {
+                    $imovel = $genericoDAO->consultar(new Imovel(), false, array("id" => $anuncio->getIdImovel()));
+                    $anuncio->setImovel($imovel[0]);
+
+                    $usuarioplano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $anuncio->getIdusuarioplano()));
+                    $anuncio->setUsuarioplano($usuarioplano[0]);
+
+                    $novoValor = $genericoDAO->consultar(new NovoValorAnuncio(), false, array("idanuncio" => $anuncio->getId()));
+                    $anuncio->setNovovaloranuncio($novoValor );
+
+                    $listarAnuncios[] = $anuncio;
+                }
+            
+            $visao = new Template();
+            $item["listaAnuncio"] = $listarAnuncios;
+            $visao->setItem($item);
+            $visao->exibir('AnuncioVisaoListagemNegado.php');
+        }
+    }
+    
+    function alterarStatus($parametros) {
+        
+        if (Sessao::verificarSessaoUsuario()) {
+            $anuncio = new Anuncio();
+            $genericoDAO = new GenericoDAO();
+
+            //setar apenas os campos que se quer editar
+            $setarStatus = $anuncio->alterarStatus($parametros);
+
+            $genericoDAO->iniciarTransacao();
+            //passar o objeto para edição
+            $novoStatus = $genericoDAO->editar($setarStatus);       
+            
+            //enviar email ao usuário, avisando sobre a mudança de status
+            $email = $this->enviarEmailGenerico($parametros);
+            
+            if ($novoStatus && $email) {
+
+                $genericoDAO->commit();
+
+                echo json_encode(array("resultado" => 1, "novoValor" => $parametros["sltStatusAnuncio"]));
+                
+                } else {
+
+                    echo json_encode(array("resultado" => 0));
+
+                    $genericoDAO->rollback();
+                }
+        }
+    }
+    
+    function enviarEmailGenerico($parametros) {
+
+        $genericoDAO = new GenericoDAO();
+       
+        switch ($parametros['hdnTipoImovel']) {
+            case "casa": $tipoImovelEmail = "Casa";
+                break;
+            case "apartamento": $tipoImovelEmail = "Apartamento";
+                break;
+            case "apartamentoplanta": $tipoImovelEmail = "Apartamento na Planta";
+                break;
+            case "salacomercial": $tipoImovelEmail = "Sala Comercial";
+                break;
+            case "prediocomercial": $tipoImovelEmail = "Prédio Comercial";
+                break;
+            case "terreno": $tipoImovelEmail = "Terreno";
+                break;
+        }
+        
+        $usuario = new Usuario();
+        
+        $destino = $genericoDAO->consultar($usuario, false, array("id" => $parametros['hdnUsuario']));
+        
+        $nomeUsuario = explode(" ", $destino[0]->getNome());
+        
+        $nome = ucfirst(strtolower($nomeUsuario[0]));
+        
+        $dadosEmail['destino'] = $destino[0]->getEmail();
+        $dadosEmail['contato'] = "PIP-Online";
+        $dadosEmail['assunto'] = $tipoImovelEmail." - ".$parametros['hdnEmailAssunto'];
+        
+        $emailEnviadoPor = $parametros['hdnEnviadoPor'];
+        
+        if($parametros['sltStatusAnuncio'] == 'emanalise'){
+            $mensagemEmail = $parametros['hdnMsgEmailEmAnalise'];
+        }
+        
+        if($parametros['sltStatusAnuncio'] == 'cadastrado'){
+            $mensagemEmail = $parametros['hdnMsgEmailAtivado'];
+        }
+
+        $dadosEmail['msg'] .=
+                "<!DOCTYPE html>
+            <html>
+            <head>
+              <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+              <meta name='viewport' content='width=device-width, initial-scale=1'> 
+              <meta http-equiv='X-UA-Compatible' content='IE=edge'> 
+              <meta name='format-detection' content='telephone=no'> 
+
+            <style type='text/css'>
+            body {
+              margin: 0;
+              padding: 0;
+              -ms-text-size-adjust: 100%;
+              -webkit-text-size-adjust: 100%;
+            }
+            
+            .btn {
+            text-decoration:none;
+            color: #FFF;
+            background-color: #666;
+            padding:10px 16px;
+            font-weight:bold;
+            margin-right:10px;
+            text-align:center;
+            cursor:pointer;
+            display: inline-block;
+            }
+
+
+            table {
+              border-spacing: 0;
+            }
+            table td {
+              border-collapse: collapse;
+            }
+            .ExternalClass {
+              width: 100%;
+            }
+            .ExternalClass,
+            .ExternalClass p,
+            .ExternalClass span,
+            .ExternalClass font,
+            .ExternalClass td,
+            .ExternalClass div {
+              line-height: 100%;
+            }
+            .ReadMsgBody {
+              width: 100%;
+              background-color: #ebebeb;
+            }
+            table {
+              mso-table-lspace: 0pt;
+              mso-table-rspace: 0pt;
+            }
+            img {
+              -ms-interpolation-mode: bicubic;
+            }
+            .yshortcuts a {
+              border-bottom: none !important;
+            }
+            @media screen and (max-width: 599px) {
+              .force-row,
+              .container {
+                width: 100% !important;
+                max-width: 100% !important;
+              }
+            }
+            @media screen and (max-width: 400px) {
+              .container-padding {
+                padding-left: 12px !important;
+                padding-right: 12px !important;
+              }
+            }
+            .ios-footer a {
+              color: #aaaaaa !important;
+              text-decoration: underline;
+            }
+            </style>
+            </head>
+
+            <body style='margin:0; padding:0;' bgcolor='#F0F0F0' leftmargin='0' topmargin='0' marginwidth='0' marginheight='0'>
+
+            <table border='0' width='100%' height='100%' cellpadding='0' cellspacing='0' bgcolor='#F0F0F0'>
+              <tr>
+                <td align='center' valign='top' bgcolor='#F0F0F0' style='background-color: #F0F0F0;'>
+
+                  <br>
+
+                  <table border='0' width='600' cellpadding='0' cellspacing='0' class='container' style='width:600px;max-width:600px'>
+                   <tr> 
+                    <td colspan = '2' class='container-padding footer-text' align='left' style='font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:16px;color:#000000;padding-left:24px;padding-right:24px'>                     
+                      <br><br>  
+                        <font style='text-decoration: underline;'>ATEN&Ccedil;&Atilde;O: Este é um email automático. Favor, não responder</font>
+                      <br><br>
+                      " . $emailEnviadoPor . "
+                      <br>
+                      ".$nome.", " . $mensagemEmail . "
+                    </td>
+                    </tr>";
+
+        $dadosEmail['msg'] .= "
+                                <tr>
+                                <td colspan = '2' class='container-padding footer-text' align='left' 
+                                style='font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:16px;color:#000000;
+                                padding-left:24px;padding-right:24px'>
+                                <br><br>
+                                <font style='text-decoration: underline;'>ATENÇÃO: Este é um email automático. Favor, não responder</font>
+                                <br><br>
+
+                                <strong>PIP On-Line 2016. Todos os Direitos Reservados</strong><br>
+
+                                <a href='http://www.pipbeta.com.br' style='color:#aaaaaa'>http://www.pipbeta.com.br</a><br>
+
+                                <br><br>
+
+                                </td>
+                                </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </body>
+            </html>";
+
+        if (Email::enviarEmail($dadosEmail)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
 }

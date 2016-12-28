@@ -1439,3 +1439,202 @@ function escreverTextoEspecificoDetalhe(tipoAnuncio){
     })
 }
 
+function alterarStatusAnuncio(valor) {
+     
+    $(document).ready(function () {
+        $('.ui.dropdown')
+                .dropdown({
+                    on: 'hover'
+                });
+                
+        $("#sltStatusAnuncio"+valor).change(function () {
+            $(this).valid();
+        })
+    
+        $("input[name^='sltStatusAnuncio']").parent().dropdown({
+             on: 'hover'
+        })        
+                
+        $('#btnMudarStatus' + valor).click(function () {
+            $("#botaoFecharStatus" + valor).hide();
+
+            $('#modalMudarStatus' + valor).modal({
+                closable: true,
+                transition: "fade up",
+                observeChanges: true,
+                onDeny: function () {
+                },
+                onApprove: function () {
+                    $("#formAlterarStatusAnuncio" + valor).submit();
+                    return false; //deixar o modal fixo
+                },
+            }).modal('show');
+
+            $.validator.setDefaults({
+                ignore: [],
+                errorClass: 'errorField',
+                errorElement: 'div',
+                errorPlacement: function (error, element) {
+                    error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).closest("div.field").addClass("error").removeClass("success");
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).closest(".error").removeClass("error").addClass("success");
+                }
+            });
+
+            $.validator.messages.required = 'Campo obrigatório';
+      
+            $("#formAlterarStatusAnuncio" + valor).validate({
+                onkeyup: false,
+                focusInvalid: true,
+                rules: {
+                    sltStatusAnuncio: {
+                        required: true
+                    },
+                },
+
+                submitHandler: function (form) {
+                    $.ajax({
+                        url: "index.php",
+                        dataType: "json",
+                        type: "POST",
+                        data: $("#formAlterarStatusAnuncio" + valor).serialize(),
+                        beforeSend: function () {
+                            $("#botaoAlterarStatus" + valor).hide();
+                            $("#botaoCancelaAlterarStatus" + valor).hide();
+                            $("#camposAlterarStatus" + valor).hide();
+                            $("#divRetornoNovoStatus" + valor).html("<div><div class='ui active inverted dimmer'>\n\
+                        <div class='ui text loader'>Processando. Aguarde...</div></div></div>");
+                        },
+                        success: function (resposta) {
+                            $("#divRetornoNovoStatus" + valor).empty();
+                            $("#botaoFecharStatus" + valor).show();
+                            $("#botaoFecharStatus" + valor).click(function () {
+                                window.location = "index.php?entidade=Anuncio&acao=listarPendente";
+                            });
+                            if (resposta.resultado == 1) {
+                                $("#divRetornoNovoStatus" + valor).html("<div class='ui positive message'>\n\
+                            <i class='big green check circle outline icon'></i>Status Alterado com Sucesso</div>");
+
+                            } else {
+                                $("#divRetornoNovoStatus" + valor).html("<div class='ui negative message'>\n\
+                            <i class='big red remove circle outline icon'></i>Erro. Tente novamente em alguns minutos</div>");
+                            }
+                        }
+                    })
+                    return false;
+                }
+            })
+
+        })
+
+    })    
+        
+    /*
+    $('#btnMudarStatus' + valor).click(function () {
+        
+        $('#botaoFecharStatus' + valor).hide();
+        
+         $('#modalMudarStatus' + valor).modal({
+                closable: false,
+                transition: "fade up",
+                onDeny: function () {
+                },
+                onApprove: function () {
+                    $("#formAlterarStatusAnuncio" + valor).submit();
+                    return false; //deixar o modal fixo
+                }
+            }).modal('show');
+
+        $.validator.setDefaults({
+            ignore: [],
+            errorClass: 'errorField',
+            errorElement: 'div',
+            errorPlacement: function (error, element) {
+                error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).closest("div.field").addClass("error").removeClass("success");
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).closest(".error").removeClass("error").addClass("success");
+            }
+        });
+
+        $.validator.messages.required = 'Campo obrigatório';
+
+        $('#formAlterarValorAnuncio' + valor).validate({
+            onkeyup: false,
+            focusInvalid: true,
+            
+            rules:{
+                sltStatusAnuncio: {
+                    required: true
+                },
+            },
+            
+            submitHandler: function (form) {
+                $.ajax({
+                    url: "index.php",
+                    dataType: "json",
+                    type: "POST",
+                    data: $('#formAlterarStatusAnuncio' + valor).serialize(),
+                    beforeSend: function () {
+                        $("#camposAlterarStatus" + valor).html("<div><div class='ui active inverted dimmer'>\n\
+                        <div class='ui text loader'>Editando. Aguarde...</div></div></div>");
+                    },/*
+                    success: function (resposta) {
+
+                        $("#camposAlterarStatus" + valor).html("");
+                        $("#listaStatus" + valor).hide();
+                        $("#botaoCancelaAlterarStatus" + valor).hide();
+                        $("#botaoAlterarStatus" + valor).show();
+
+                        if (resposta.resultado == 1) {
+                            $("#divRetornoNovoStatus" + valor).html("<div class='ui positive message'>\n\
+                                    <i class='big green check circle outline icon'></i>Status Alterado Com Sucesso\n\
+                                </div>");
+
+                            $("#botaoFecharAlterarValor" + valor).click(function () {
+                                window.location.reload();
+                            })
+
+                        }
+
+                        if (resposta.resultado == 2) {
+                            $("#divRetornoNovoStatus" + valor).html("<div class='ui negative message'>\n\
+                                    <div class='content'><div class='header'>Erro</div>Ocorreu um erro ao \n\
+                                    alterar o status. Tente novamente em alguns minutos (Cód. 002)\n\
+                                </div></div>");
+
+                            $("#botaoFecharAlterarValor" + valor).click(function () {
+                                window.location.reload();
+                            })
+                        }
+
+                        if (resposta.resultado == 3) { //caso o usuário não esteja logado
+
+                            location.href = "index.php?entidade=Usuario&acao=form&tipo=login";
+
+                        }
+
+                        if (resposta.resultado == 0) {
+                            $("#divRetornoNovoStatus" + valor).html("<div class='ui negative message'>\n\
+                                    <div class='content'><div class='header'>Erro</div>\n\
+                                Ocorreu um erro ao alterar o status. Tente novamente em alguns minutos\n\
+                                </div></div>");
+                            $("#botaoFecharStatus" + valor).click(function () {
+                                window.location.reload();
+                            })
+                        }
+                    }
+                })
+                return false;
+            }
+        })
+    })*/
+}
+

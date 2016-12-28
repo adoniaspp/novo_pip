@@ -23,6 +23,12 @@ $latitude = "";
 $longitude = "";
 $expirado = "";
 
+$mesmoUsuario = false;
+
+if($item['loginUsuario'] == $_SESSION['idusuario']){
+    $mesmoUsuario = true;
+}
+
 if ($item["mapaImovel"]) {
 
     foreach ($item["mapaImovel"] as $mapa) {
@@ -30,6 +36,15 @@ if ($item["mapaImovel"]) {
         $latitude = $mapa->getLatitude();
         $longitude = $mapa->getLongitude();
     }
+}
+
+switch ($item["anuncio"][0]["status"]){
+    case "pendenteativacao": $statusAnuncioAtual = "Pendente de Análise";
+    break;
+    case "emanalise": $statusAnuncioAtual = "Anúncio Em Análise";
+    break;
+    case "ativacaonegada": $statusAnuncioAtual = "Anúncio Negado";
+    break;
 }
 
 //verificar se está expirado para desabilitar o botão de enviar mensagem
@@ -43,7 +58,9 @@ if($item["anuncio"][0]["status"] == "finalizado" || $item["anuncio"][0]["status"
     $(document).ready(function () {
         
                 
-        if('<?php echo $expirado ?>' === 'SIM'){
+        if('<?php echo $expirado ?>' === 'SIM' 
+                || '<?php echo $item["anuncio"][0]["status"] ?>' === 'pendenteativacao'
+                || '<?php echo $item["anuncio"][0]["status"] ?>' === 'ativacaonegada'){
             $('#btnDuvida').attr("disabled", "disabled");
         }
         
@@ -96,15 +113,74 @@ if($item["anuncio"][0]["status"] == "finalizado" || $item["anuncio"][0]["status"
 
 <div class="ui hidden divider"></div>
 
-<?php if ($item["anuncio"][0]["status"] == "finalizado" || $item["anuncio"][0]["status"] == "expirado") { ?>
+<?php if (($expirado === "SIM" || 
+        $item["anuncio"][0]["status"] === "pendenteativacao" 
+            ||$item["anuncio"][0]["status"] === "emanalise") && $_SESSION['login']=="pipdiministrador") {?>
+
+    <div class="ui middle aligned stackable grid container">
+        <div class="sixteen column">
+            <div class="ui warning message">
+                <i class='big yellow warning circle icon'></i>
+                <strong>Administrador</strong>, veja se este anúncio pode ou não ser ativado. Status Atual: <strong><?php echo $statusAnuncioAtual ?></strong>
+            </div>
+        </div>
+    </div>
+
+<?php 
+     }
+    if($item["anuncio"][0]["status"] === "ativacaonegada" && $_SESSION['login']=="pipdiministrador"){
+    ?>    
+
     <div class="ui middle aligned stackable grid container">
         <div class="sixteen column">
             <div class="ui negative message">
                 <i class='big red remove circle outline icon'></i>
-                <strong>ATENÇÃO</strong>: Este seu anuncio não está mais ativo, não podendo mais ser visualizado por outros usuários.
+                <strong>ATENÇÃO: Esse anúncio teve sua ativação negada, não podendo ser visualizado</strong>
             </div>
         </div>
     </div>
+
+<?php    } ?>
+
+
+
+<?php if (($expirado === "SIM" || 
+        $item["anuncio"][0]["status"] === "pendenteativacao") && $mesmoUsuario) {?>
+
+<?php if (($mesmoUsuario) && ($item["anuncio"][0]["status"] === "finalizado" 
+        || $item["anuncio"][0]["status"] === "expirado")) { ?>
+    <div class="ui middle aligned stackable grid container">
+        <div class="sixteen column">
+            <div class="ui negative message">
+                <i class='big red remove circle outline icon'></i>
+                <strong>ATENÇÃO</strong>: Este anuncio não está mais ativo, não podendo mais ser visualizado por outros usuários
+            </div>
+        </div>
+    </div>
+<?php } 
+
+if(($mesmoUsuario) && $item["anuncio"][0]["status"] === "pendenteativacao"){?>
+
+    <div class="ui middle aligned stackable grid container">
+        <div class="sixteen column">
+            <div class="ui warning message">
+                <i class='big yellow warning circle icon'></i>
+                <strong>ATENÇÃO</strong>: Este anuncio ainda está pendente de ativação, não podendo ainda ser visualizado por outros usuários
+            </div>
+        </div>
+    </div>
+
+<?php } } ?>
+
+<?php if($expirado === "SIM" && (!$mesmoUsuario)){ ?>
+<div class="ui middle aligned stackable grid container">
+        <div class="sixteen column">
+            <div class="ui negative message">
+                <i class='big red remove circle outline icon'></i>
+                <strong>ATENÇÃO</strong>: Este seu anuncio não está ativo, não podendo ser visualizado por outros usuários
+            </div>
+        </div>
+    </div>                                              
 <?php } ?>
 
 <?php
@@ -137,7 +213,7 @@ switch ($item['anuncio'][0]['tipo']) {
 ?>
 
 <div class="stackable two column ui grid container">
-    <div class="centered row">
+    <div class="centered row" id="divRedesSociais">
         <h2 class="ui header">
             <div class="sub header">
                 Compartilhar
@@ -152,8 +228,8 @@ switch ($item['anuncio'][0]['tipo']) {
     <div class="row">
         <h2 class="ui header">
             <i class="building icon"></i>
-            <div class="content">
-<?php echo $tipoImovelTitulo ?> - Informações Básicas
+                <div class="content">
+                    <?php echo $tipoImovelTitulo ?> - Informações Básicas
                 <div class="sub header">Informações básicas do anúncio</div>
             </div>
         </h2>
@@ -179,7 +255,7 @@ switch ($item['anuncio'][0]['tipo']) {
     <div class="column">
         <div class="ui segment"><a class="header">Data de Cadastro</a>
             <div class="description">
-<?php echo date('d/m/Y H:i:s', strtotime($item['anuncio'][0]['datahoracadastro'])) ?>
+                <?php echo date('d/m/Y H:i:s', strtotime($item['anuncio'][0]['datahoracadastro'])) ?>
             </div></div>
     </div>
 
@@ -214,24 +290,24 @@ switch ($item['anuncio'][0]['tipo']) {
                         <br>
                         <div class="content">
                             <div class="sub header">
-<?php
-$fonteImovel = "<font size = '4' color = 'maroon'>";
+                                <?php
+                                $fonteImovel = "<font size = '4' color = 'maroon'>";
 
-if ($item['anuncio'][0]['tipo'] == 'apartamentoplanta') {
-    $fonteImovel .= 'Apartamento na planta';
-} else if ($item['anuncio'][0]['tipo'] == 'salacomercial') {
-    $fonteImovel .= 'Sala Comercial';
-} else if ($item['anuncio'][0]['tipo'] == 'prediocomercial') {
-    $fonteImovel .= 'Prédio Comercial';
-} else if ($item['anuncio'][0]['tipo'] == 'apartamento') {
-    $fonteImovel .= 'Apartamento';
-} else if ($item['anuncio'][0]['tipo'] == 'casa') {
-    $fonteImovel .= 'Casa';
-} else
-    $fonteImovel .= 'Terreno';
+                                if ($item['anuncio'][0]['tipo'] == 'apartamentoplanta') {
+                                    $fonteImovel .= 'Apartamento na planta';
+                                } else if ($item['anuncio'][0]['tipo'] == 'salacomercial') {
+                                    $fonteImovel .= 'Sala Comercial';
+                                } else if ($item['anuncio'][0]['tipo'] == 'prediocomercial') {
+                                    $fonteImovel .= 'Prédio Comercial';
+                                } else if ($item['anuncio'][0]['tipo'] == 'apartamento') {
+                                    $fonteImovel .= 'Apartamento';
+                                } else if ($item['anuncio'][0]['tipo'] == 'casa') {
+                                    $fonteImovel .= 'Casa';
+                                } else
+                                    $fonteImovel .= 'Terreno';
 
-echo $fonteImovel . "</font>";
-?>
+                                echo $fonteImovel . "</font>";
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -258,26 +334,26 @@ echo $fonteImovel . "</font>";
                             <br>
                             <div class="content">
                                 <div class="sub header">
-    <?php
-    if ($item['anuncio'][0]['condicao'] == "usado") {
-        echo "<font size = '4' color = 'maroon'>" . "Usado" . "</font>";
-    } else
-        echo "<font size = '4' color = 'maroon'>" . "Novo" . "</font>";
-    ?>
+                                    <?php
+                                    if ($item['anuncio'][0]['condicao'] == "usado") {
+                                        echo "<font size = '4' color = 'maroon'>" . "Usado" . "</font>";
+                                    } else
+                                        echo "<font size = '4' color = 'maroon'>" . "Novo" . "</font>";
+                                    ?>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-<?php } ?> 
+            <?php } ?> 
 
             </div>
 
             <div class="ui hidden divider"></div>
 
-<?php if ($item['anuncio'][0]['tipo'] != 'apartamentoplanta') { ?>    
+                <?php if ($item['anuncio'][0]['tipo'] != 'apartamentoplanta') { ?>    
 
-<?php } ?>    
+            <?php } ?>    
 
             <div class="ui horizontal divider" id="divisorTextoEspecifico">
                 <div class="ui teal large label">
@@ -286,10 +362,10 @@ echo $fonteImovel . "</font>";
             </div>     
 
             <div class="fields">  
-<?php
-if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'] != 'terreno' &&
-        $item['anuncio'][0]['tipo'] != 'apartamentoplanta' && $item['anuncio'][0]['tipo'] != 'prediocomercial') {
-    ?>
+                <?php
+                if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'] != 'terreno' &&
+                        $item['anuncio'][0]['tipo'] != 'apartamentoplanta' && $item['anuncio'][0]['tipo'] != 'prediocomercial') {
+                ?>
                     <div class="four wide field">
                         <div class="ui header">
                             <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeQuarto.jpg">
@@ -297,14 +373,12 @@ if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'
                             <br>
                             <div class="content">
                                 <div class="sub header">
-    <?php echo "<font size = '4' color = 'maroon'>" . $item['anuncio'][0]['quarto'] . "</font>" ?>
+                                    <?php echo "<font size = '4' color = 'maroon'>" . $item['anuncio'][0]['quarto'] . "</font>" ?>
                                 </div>
                             </div>
                         </div>
                     </div>
-<?php } ?>
-
-
+                <?php } ?>
 
                 <?php
                 if ($item['anuncio'][0]['tipo'] != 'terreno' &&
@@ -318,12 +392,12 @@ if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'
                             <br>
                             <div class="content">
                                 <div class="sub header">
-    <?php echo "<font size = '4' color = 'maroon'>" . $item['anuncio'][0]['banheiro'] . "</font>" ?>
+                                    <?php echo "<font size = '4' color = 'maroon'>" . $item['anuncio'][0]['banheiro'] . "</font>" ?>
                                 </div>
                             </div>
                         </div>
                     </div>
-<?php } ?> 
+                    <?php } ?> 
                 <?php
                 if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'] != 'terreno' &&
                         $item['anuncio'][0]['tipo'] != 'apartamentoplanta' && $item['anuncio'][0]['tipo'] != 'prediocomercial') {
@@ -336,14 +410,14 @@ if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'
                             <br>
                             <div class="content">
                                 <div class="sub header">
-    <?php echo "<font size = '4' color = 'maroon'>" . $item['anuncio'][0]['suite'] . "</font>" ?>
+                                    <?php echo "<font size = '4' color = 'maroon'>" . $item['anuncio'][0]['suite'] . "</font>" ?>
                                 </div>
                             </div>
                         </div>
                     </div>  
-    <?php
-    if ($item['anuncio'][0]['tipo'] == 'apartamento') {
-        ?>    
+                        <?php
+                        if ($item['anuncio'][0]['tipo'] == 'apartamento') {
+                        ?>    
                         <div class="four wide field">
 
     <?php } else { ?>    
@@ -556,18 +630,22 @@ if ($item['anuncio'][0]['tipo'] != 'salacomercial' && $item['anuncio'][0]['tipo'
                         </div>                     
                     </div>
 
-
                     <div class="fields">
-
-                    <?php foreach ($item['anuncio'][0]['diferenciais'] as $diferenciais) { ?>
+                        
+                    <?php 
+                    
+                           foreach ($item['anuncio'][0]['diferenciais'] as $diferenciais) { 
+                       
+                    ?>
+  
                             <div class="twelve wide field">
                                 <div class="ui tiny header">
                                     <div class="content">
-                                        <i class="large green checkmark icon"></i><?php echo $diferenciais['descricao'] ?>
+                                        <i class="green checkmark icon"></i><?php echo $diferenciais['descricao'] ?>
                                     </div>
                                 </div>
                             </div>
-    <?php } ?>
+                    <?php } ?>                            
 
                     </div>    
                     <div class="ui hidden divider"></div>
@@ -1028,9 +1106,12 @@ if (Sessao::verificarSessaoUsuario()) {
                         </div>
 
 
-        <?php }
-    }
-} ?>
+            <?php }
+        }
+    } 
+//}
+//} 
+?>
         </div>
     </div>
 </div>

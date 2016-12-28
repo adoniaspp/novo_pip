@@ -32,6 +32,10 @@
 <?php
 $item = $this->getItem();
 
+/*echo "<pre>";
+var_dump($item);
+echo "</pre>";*/
+
 $usuario = $item["usuario"];
 $imoveis = $item["imovelCadastrado"];
 $mensagens = $item["mensagem"];
@@ -97,7 +101,7 @@ foreach ($imoveis as $qtdAnuncios) {
     })
 </script>
 
-<div class="ui hidden divider"></div>
+<h3 class="ui dividing header"></h3>
 
 <div class="ui column doubling grid container" id="divMaiorRetornoOperacao">
     <div class="row">
@@ -130,7 +134,43 @@ foreach ($imoveis as $qtdAnuncios) {
     </div>
 </div>
 
+<?php if($_SESSION['login'] == 'pipdiministrador'){ ?>
+
 <div class="ui middle aligned stackable grid container">
+    <div class="row">
+        <h2 class="ui header">
+            <i class="laptop icon"></i>
+            <div class="content">
+                Administração do PIP - Online
+                <div class="sub header">Anúncios</div>
+            </div>
+        </h2>
+    </div>
+    <div class="ui stackable red inverted container menu">
+        <a href="index.php?entidade=Anuncio&acao=listarPendente" class="item">            
+            <i class="large edit icon"></i> Ativar/Desativar Anúncios           
+        </a>
+        <a href="index.php?entidade=Anuncio&acao=listarNegado" class="item">            
+            <i class="large remove icon"></i> Anúncios Negados           
+        </a>
+        <a href="index.php?entidade=Anuncio&acao=listarNegado" class="item">            
+            <i class="large edit icon"></i> Ativar/Desativar Usuário        
+        </a>
+        <a href="index.php?entidade=Anuncio&acao=listarNegado" class="item">            
+            <i class="large remove icon"></i> Usuários Desativados         
+        </a>
+    </div>
+    
+</div>
+
+<?php } ?>
+
+<div class="ui middle aligned stackable grid container">
+    <div class="row">
+        <div class="column">
+            <h3 class="ui dividing header"></h3>
+        </div>
+    </div>
     <div class="row">
         <h2 class="ui header">
             <i class="user icon"></i>
@@ -142,19 +182,19 @@ foreach ($imoveis as $qtdAnuncios) {
     </div>
     <div class="ui stackable blue inverted container menu">
         <a href="index.php?entidade=Usuario&acao=selecionar" class="item">            
-            <i class="edit icon"></i> Atualizar Cadastro            
+            <i class="large edit icon"></i> Atualizar Cadastro            
         </a>
         <a href="index.php?entidade=Usuario&acao=form&tipo=trocarsenha" class="item"> 
-            <i class="lock icon"></i> Trocar Senha 
+            <i class="large lock icon"></i> Trocar Senha 
         </a>
         <a href="index.php?entidade=Usuario&acao=form&tipo=trocarimagem" class="item"> 
-            <i class="file image outline icon"></i>  Alterar <?php echo ($_SESSION["tipopessoa"] == "pf" ? "Imagem" : "Logomarca"); ?>
+            <i class="large file image outline icon"></i>  Alterar <?php echo ($_SESSION["tipopessoa"] == "pf" ? "Imagem" : "Logomarca"); ?>
         </a>
         <a href="index.php?entidade=Usuario&acao=Configuracoes" class="item"> 
-            <i class="configure icon"></i> Configurações
+            <i class="large configure icon"></i> Configurações
         </a>
         <a href="index.php?entidade=Anuncio&acao=buscarAnuncioCorretor&login=<?php echo $_SESSION["login"] ?>" class="item" target="_blank"> 
-            <i class="newspaper icon"></i> Visualizar Minha Página
+            <i class="large newspaper icon"></i> Visualizar Minha Página
         </a>
     </div>
 
@@ -239,7 +279,7 @@ foreach ($imoveis as $qtdAnuncios) {
 
     <div class="ui stackable green inverted container menu">
         <a href="index.php?entidade=Imovel&acao=form" class="item">            
-            <i class="add icon"></i> Cadastrar Imóvel
+            <i class="large add icon"></i> Cadastrar Imóvel
         </a>
 
         <?php
@@ -247,10 +287,10 @@ foreach ($imoveis as $qtdAnuncios) {
             if ($item['imovel']) {
                 ?>
                 <a href="index.php?entidade=Imovel&acao=listarEditar" class="item"> 
-                    <i class="edit icon"></i> Alterar Imóvel
+                    <i class="large edit icon"></i> Alterar Imóvel
                 </a>
                 <a href="index.php?entidade=Imovel&acao=listar" class="item"> 
-                    <i class="list icon"></i> Meus Imóveis
+                    <i class="large list icon"></i> Meus Imóveis
                 </a>
                 <?php
             }
@@ -500,20 +540,23 @@ foreach ($imoveis as $qtdAnuncios) {
                 ?>
                 <div class="ui stackable brown inverted container menu">
                     <a href="index.php?entidade=Anuncio&acao=listarCadastrar" class="item">            
-                        <i class="add icon"></i> Publicar Anúncio
+                        <i class="big add icon"></i> Publicar Anúncio
                     </a>
                     <?php if ($item['anuncio']) { ?>
                         <a href="index.php?entidade=Anuncio&acao=listarReativarAluguel" class="item"> 
-                            <i class="refresh icon"></i>  Reativar Anúncios (aluguel)
+                            <i class="large refresh icon"></i>  Reativar Anúncios (aluguel)
                         </a>
                         <a href="index.php?entidade=Anuncio&acao=listarAtivo" class="item"> 
-                            <i class="list icon"></i> Anúncios Ativos
+                            <i class="large list icon"></i> Anúncios Ativos
+                        </a>
+                        <a href="index.php?entidade=Anuncio&acao=listarPendente" class="item"> 
+                            <i class="large warning icon"></i> Pendentes de Ativação
                         </a>
                         <a href="index.php?entidade=Anuncio&acao=listarFinalizado" class="item"> 
-                            <i class="thumbs outline up icon"></i> Anúncios Não Ativos
+                            <i class="large thumbs outline up icon"></i> Anúncios Não Ativos
                         </a>
                         <a href="index.php?entidade=Usuario&acao=listarMensagem" class="item"> 
-                            <i class="mail outline icon"></i> Mensagens
+                            <i class="large mail outline icon"></i> Mensagens
                         </a>
                     <?php }
                     ?>
@@ -842,7 +885,7 @@ foreach ($imoveis as $qtdAnuncios) {
 <div class="ui middle aligned stackable grid container">
     <div class="row">
         <h2 class="ui header">
-            <i class="shop icon"></i>
+            <i class="large shop icon"></i>
             <div class="content">
                 Meus Planos
                 <div class="sub header">Gerencie seus planos </div>
@@ -852,7 +895,7 @@ foreach ($imoveis as $qtdAnuncios) {
 
     <div class="ui stackable orange inverted container menu">
         <a href="index.php?entidade=UsuarioPlano&acao=listar" class="item">            
-            <i class="add icon"></i> Comprar
+            <i class="large add icon"></i> Comprar
         </a>
     </div>
 
@@ -982,10 +1025,10 @@ foreach ($imoveis as $qtdAnuncios) {
 
     <div class="ui stackable pink inverted container menu">
         <a href="index.php?entidade=UsuarioPlano&acao=listar" class="item">            
-            <i class="comment outline icon"></i> Fale Conosco
+            <i class="large comment outline icon"></i> Fale Conosco
         </a>
         <a href="index.php?entidade=UsuarioPlano&acao=listar" class="item">            
-            <i class="book icon"></i> Dúvidas Mais Frequentes
+            <i class="large book icon"></i> Dúvidas Mais Frequentes
         </a>
     </div>
 

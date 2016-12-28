@@ -186,7 +186,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                             
                                     <div class="ui centered row">
                                         <div class="ui menu">
-                                            <a class="item">
+                                            <div class="item">
 
                                               <img class="ui center image dimmable" src="../assets/imagens/icones/iconeQuartoPequeno.jpg">&nbsp;
                                               <div style="font-size: 12px">  
@@ -198,8 +198,8 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                                   }
                                               else if($item['anuncio'][$crtl]['tipo'] == "apartamentoplanta"){
                                                   echo maximoMinimo($item['anuncio'][$crtl], 'quarto');}?></div>
-                                            </a>
-                                            <a class="item">
+                                            </div>
+                                            <div class="item">
 
                                               <img class="ui left image" src="../assets/imagens/icones/iconeBanheiroPequeno.jpg">&nbsp;
                                               <div style="font-size: 12px"><?php if($item['anuncio'][$crtl]['tipo'] == "casa" || $item['anuncio'][$crtl]['tipo'] == "apartamento" || $item['anuncio'][$crtl]['tipo'] == "salacomercial"){ echo $item['anuncio'][$crtl]['banheiro'];} 
@@ -208,15 +208,15 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                                   }
                                               else if($item['anuncio'][$crtl]['tipo'] == "apartamentoplanta"){echo maximoMinimo($item['anuncio'][$crtl], 'banheiro');}?></div>
                                               
-                                              </a>
-                                            <a class="item">
+                                              </div>
+                                            <div class="item">
                                               <img class="ui left image " src="../assets/imagens/icones/iconeGaragemPequeno.jpg">&nbsp;
                                               <div style="font-size: 12px"><?php if($item['anuncio'][$crtl]['tipo'] == "casa" || $item['anuncio'][$crtl]['tipo'] == "apartamento" || $item['anuncio'][$crtl]['tipo'] == "salacomercial"){ echo $item['anuncio'][$crtl]['garagem'];} 
                                               else if($item['anuncio'][$crtl]['tipo'] == "salacomercial" || $item['anuncio'][$crtl]['tipo'] == "prediocomercial" || $item['anuncio'][$crtl]['tipo'] == "terreno"){
                                                       echo "&nbsp; - ";
                                                   }
                                               else if($item['anuncio'][$crtl]['tipo'] == "apartamentoplanta"){echo maximoMinimo($item['anuncio'][$crtl], 'garagem');}?></div>
-                                            </a>
+                                            </div>
                                         </div> 
                                     </div> 
 
