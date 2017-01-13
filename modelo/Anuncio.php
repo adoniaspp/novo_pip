@@ -207,18 +207,12 @@ class Anuncio {
     }
     
     public function editar($parametros){
-        
-        $this->setId($parametros['hdnAnuncio']);
-        
-        $this->setTituloanuncio($parametros['txtTitulo']);
-        $this->setDescricaoanuncio($parametros['txtDescricao']);
-        
-        $this->setPublicarcontato((isset($parametros['chkContato']) ? "SIM" : "NAO"));
-
+        $this->setFinalidade($parametros['sltFinalidade']);
+        $this->setTituloAnuncio($parametros['txtTitulo']);
+        $this->setDescricaoAnuncio($parametros['txtDescricao']);
+        $this->setDatahoraalteracao(date("Y/m/d H:i:s"));
         $this->setPublicarmapa((isset($parametros['chkMapa']) ? "SIM" : "NAO"));
-
-        
-        return $this;
+        $this->setPublicarcontato((isset($parametros['chkContato']) ? "SIM" : "NAO"));
     }
     
     public function alterarStatus($parametros){

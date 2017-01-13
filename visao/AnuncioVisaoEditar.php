@@ -177,7 +177,7 @@ $valorAnuncio = (is_array($item["novovalor"])) ? $item["novovalor"][0]->getNovov
     <input type="hidden" id="hdnId" name="hdnId" value=""/>
     <input type="hidden" id="hdnIdImovel" name="hdnIdImovel" value="<?php echo $idImovel; ?>" />
     <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio" />
-    <input type="hidden" id="hdnAcao" name="hdnAcao" value="Cadastrar" />
+    <input type="hidden" id="hdnAcao" name="hdnAcao" value="Editar" />
     <input type="hidden" id="hdnStep" name="hdnStep" value="1" />
     <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
 
@@ -527,6 +527,7 @@ $valorAnuncio = (is_array($item["novovalor"])) ? $item["novovalor"][0]->getNovov
             <!--PUBLICAÇÃO-->
             <div class="ui middle aligned stackable grid container" id="step6">
 
+                 <div class="ui hidden divider"></div>
                 <h3 class="ui dividing header" id="divTextoPublicacao">Publicação</h3>
 
             </div>
@@ -537,7 +538,7 @@ $valorAnuncio = (is_array($item["novovalor"])) ? $item["novovalor"][0]->getNovov
 
 <div class="ui hidden divider"></div><div class="ui hidden divider"></div>
 
-<div class="ui middle aligned stackable grid container">
+<div class="ui centered aligned stackable grid container">
     <div id="divRetorno">
         <p></p>
     </div>
@@ -596,20 +597,29 @@ include_once "modal/ImovelListagemModal.php";
             
              <?php if(is_array($anuncio->getImagem())){
             $listaFotos = array();
+            $destaque;
             $foto = array();
                     foreach ($anuncio->getImagem() as $imagem){
                         $foto["name"] = $imagem->getNome();
                         $foto["size"] = $imagem->getTamanho();
                         $foto["type"] = $imagem->getTipo();
+                        $foto["legenda"] = $imagem->getLegenda();
+                        $foto["idImage"] = $imagem->getId();
                         $foto["url"] = PIPURL . "fotos/imoveis/" . $imagem->getDiretorio() . "/" . $imagem->getNome();
-                        $foto["deleteUrl"] = PIPURL . "fotos/imoveis/" . $imagem->getDiretorio() . "/" . $imagem->getNome();;
+                        $foto["thumbnailUrl"] = PIPURL . "fotos/imoveis/" . $imagem->getDiretorio() . "/thumbnail/" . $imagem->getNome();
+                        $foto["deleteUrl"] = PIPURL . "index.php?file=" . $imagem->getNome();
                         $foto["deleteType"] = "DELETE";                        
-                        $listaFotos[] = $foto;
+                        $foto["id"] = $imagem->getId();
+                        $listaFotos[] = $foto;     
+                        if($imagem->getDestaque()=="SIM"){
+                            $destaque = "$(\"input[name='rdbDestaque'][value='". $imagem->getNome() ."']\").parent().checkbox('set checked');";
+                        }
                     }
                     
                     echo "var files = " . json_encode($listaFotos). ";";
                     echo "var form = $('#fileupload');";
                     echo "form.fileupload('option', 'done').call(form, $.Event('done'), {result: {files: files}});";
+                    echo $destaque;
 } ?>
         
     });

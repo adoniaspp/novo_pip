@@ -8,16 +8,16 @@
         <?php echo $this->getTag_cabecalho(); ?>
         
         <!-- JQUERY --> 
-        <script src="<?php echo PIPURL; ?>/assets/libs/jquery/jquery-2.1.3.min.js"></script> 
+        <script src="<?php echo PIPURL; ?>assets/libs/jquery/jquery-2.1.3.min.js"></script> 
         <!-- SEMANTIC UI --> 
-        <link href="<?php echo PIPURL; ?>/assets/libs/semantic-ui/semantic.min.css" rel="stylesheet" type="text/css" /> 
-        <script src="<?php echo PIPURL; ?>/assets/libs/semantic-ui/semantic.min.js"></script> 
+        <link href="<?php echo PIPURL; ?>assets/libs/semantic-ui/semantic.min.css" rel="stylesheet" type="text/css" /> 
+        <script src="<?php echo PIPURL; ?>assets/libs/semantic-ui/semantic.min.js"></script> 
         <!-- Template PIP -->
-        <link href="<?php echo PIPURL; ?>/assets/css/template-pip.css" rel="stylesheet" type="text/css" />
-        <link rel="shortcut icon" href="http://www.pipbeta.com.br/assets/imagens/tituloCasaAzulChanfle.jpg" type="image/x-icon"/>
+        <link href="<?php echo PIPURL; ?>assets/css/template-pip.css" rel="stylesheet" type="text/css" />
+        <link rel="shortcut icon" href="<?php echo PIPURL; ?>assets/imagens/tituloCasaAzulChanfle.jpg" type="image/x-icon"/>
         <!-- Scripts -->
-        <script type="text/javascript" src="assets/js/cabecalho.js"></script>
-        <script type="text/javascript" src="assets/libs/timeout-dialog/timeout-dialog.js"></script>
+        <script type="text/javascript" src="<?php echo PIPURL; ?>assets/js/cabecalho.js"></script>
+        <script type="text/javascript" src="<?php echo PIPURL; ?>assets/libs/timeout-dialog/timeout-dialog.js"></script>
 
     </head>
     <body>
@@ -32,10 +32,10 @@
             
 <header>
     <h1 class="float-l">
-        <a href="<?php echo PIPURL; ?>/index.php">
+        <a href="<?php echo PIPURL; ?>index.php">
             <img  class="ui left floated image"  
-                src="<?php echo PIPURL; ?>/assets/imagens/tituloCasaAzulChanfle.jpg" width="60px"/></a>
-        <a href="<?php echo PIPURL; ?>/index.php">PIP - Imóveis em Belém-PA</a>
+                src="<?php echo PIPURL; ?>assets/imagens/tituloCasaAzulChanfle.jpg" width="60px"/></a>
+        <a href="<?php echo PIPURL; ?>index.php">PIP - Imóveis em Belém-PA</a>
 
     </h1>
     
@@ -55,7 +55,7 @@
             </li>
 
             <li>               
-               <a href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=meuPIP">
+               <a href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=meuPIP">
                    <i class="block layout blue icon"></i> Acessar Meu PIP </a>         
             </li>
 
@@ -66,10 +66,10 @@
             <?php } else { ?>
 
             <li>  
-                <a href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=form&tipo=login">Fazer Login</a>  
+                <a href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=form&tipo=login">Fazer Login</a>  
             </li>
             <li>
-                <a href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=form&tipo=cadastro">Cadastrar-se</a>
+                <a href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=form&tipo=cadastro">Cadastrar-se</a>
             </li>         
                 <?php } ?>        
         </ul>
@@ -80,31 +80,6 @@
 <div class="ui hidden divider"></div>
 <div class="ui hidden divider"></div>
 <div class="ui hidden divider"></div>
-        <!--  
-        <div class="ui container"> 
-            <div class="ui basic clearing segment">
-                <div class="ui left floated header">
-                    <a href="<?php //echo PIPURL; ?>/index.php"> 
-                        <img  class="ui left floated  image"  src="<?php //echo PIPURL; ?>/assets/imagens/logo.png" width="120px"/>
-                </div>
-
-                <div class="ui right floated header">
-                    <?php //if (Sessao::verificarSessaoUsuario()) { ?>
-                        <div class="ui center aligned compact segment">
-                            <div id="divNome"> <h3>Seja bem vindo, <?php // ucfirst(strtolower(explode(" ", $_SESSION['nome'])[0])); ?></h3> </div>
-                            <div>
-                                <a href="<?php echo PIPURL; ?>/index.php?entidade=Usuario&acao=meuPIP" class="ui primary button"> <i class="block layout icon"></i> Meu PIP </a>
-                                <a id="btnLogout" href="#" class="ui red button"><i class="power icon"></i> Sair</a>  
-                            </div>
-                        </div>
-                    <?php //} else { ?>
-                        <a href="<?php //echo PIPURL; ?>/index.php?entidade=Usuario&acao=form&tipo=login" class="ui primary button" id="btnAcessar">LOGIN</a>
-                        <a href="<?php //echo PIPURL; ?>/index.php?entidade=Usuario&acao=form&tipo=cadastro" class="ui button">CADASTRAR-SE</a>
-                    <?php //} ?>
-                </div>
-            </div>
-        </div>
-        -->
         <div id="modalAlertaSessao" class="ui basic test small modal">                
             <div class="ui icon header">
                 <i class="warning sign icon"></i>

@@ -598,6 +598,129 @@ class AnuncioControle {
         }
     }
 
+    
+        function editar($parametros) {
+
+        if (Sessao::verificarSessaoUsuario()) {
+            if (isset($parametros['upload']) & $parametros['upload'] === "1") {
+                include_once 'controle/ImagemControle.php';
+                $imagem = new ImagemControle($parametros);
+            } else {
+                if (Sessao::verificarToken($parametros)) {
+
+                    $genericoDAO = new GenericoDAO();
+                    $genericoDAO->iniciarTransacao();
+
+                    $selecionarAnuncio = $genericoDAO->consultar(new Anuncio(), true, array("idimovel" => $_SESSION["anuncio"]["idimovel"], "status" => "cadastrado"));
+                    $entidadeAnuncio = $selecionarAnuncio[0];
+                    $entidadeAnuncio->editar($parametros);
+
+                    $this->verificaValorMinimo($entidadeAnuncio, $parametros);
+                    $genericoDAO->editar($entidadeAnuncio);
+                    
+                    //dados do anúncio para serem enviados via ajax, após a publicação
+                    $dadosAnuncio = $genericoDAO->consultar(new Anuncio, true, array("id" => $entidadeAnuncio->getId()));
+                    $tipoImovel = new TipoImovel();
+                    $tipo = $entidadeAnuncio->getImovel()->getIdTipoImovel();
+                    $retornaTipoImovel = $tipoImovel->retornaDescricaoTipo($tipo);
+
+                    //se for apartamento na planta
+                    if ($_SESSION["anuncio"]["tipoimovel"] == 2) {
+                        /*$valor = new Valor();
+                        $valor->setIdanuncio($idAnuncio);
+                        //traz todas as plantas
+                        $plantas = $genericoDAO->consultar(new Imovel(), true, array("id" => $_SESSION["anuncio"]["idimovel"]));
+                        $plantas = $plantas[0]->getPlanta();
+                        if (is_object($plantas))
+                            $plantas = array($plantas);
+                        //itera para cada planta
+                        //criar vetor para guardar os valores de cada planta
+                        $vetorValor = array();
+
+                        foreach ($plantas as $planta) {
+                            $valor->setIdplanta($planta->getId());
+                            //monta os parametros que vem do formulario
+                            $parametroAndarInicial = "hdnAndarInicial" . $planta->getOrdemplantas();
+                            $parametroAndarFinal = "hdnAndarFinal" . $planta->getOrdemplantas();
+                            $parametroValor = "hdnValor" . $planta->getOrdemplantas();
+
+                            //verifica se tem algum valor informado para cada planta
+                            if (isset($parametros[$parametroAndarInicial])) {
+
+                                //itera pela quantidade de registros por planta
+                                for ($i = 0; $i <= count($parametros[$parametroAndarInicial]) - 1; $i++) {
+
+                                    $entidadeValor = $valor;
+                                    $entidadeValor->setAndarinicial($parametros[$parametroAndarInicial][$i]);
+                                    $entidadeValor->setAndarFinal($parametros[$parametroAndarFinal][$i]);
+                                    $entidadeValor->setValor($parametros[$parametroValor][$i]);
+
+                                    $genericoDAO->cadastrar($entidadeValor);
+                                }
+                            }
+
+                            //imagens das plantas
+                            $sessaoImagemPlanta = $_SESSION["imagemPlanta"][$planta->getOrdemplantas()];
+                            if (isset($sessaoImagemPlanta)) {
+                                $planta->setImagemdiretorio($sessaoImagemPlanta["diretorio"]);
+                                $planta->setImagemnome($sessaoImagemPlanta["name"]);
+                                $planta->setImagemtamanho($sessaoImagemPlanta["size"]);
+                                $planta->setImagemtipo($sessaoImagemPlanta["type"]);
+                                $genericoDAO->editar($planta);
+                            }
+                        }*/
+                    }
+                    //somente salva fotos se houver
+                    
+                    
+                    #TODO: fazer um foreach com cada imagem do anuncio para excluir 
+                    
+                    ##OK ate aqui
+                    $imagemAnuncioApagar = $genericoDAO->consultar(new Imagem(), true, array("idanuncio" => $entidadeAnuncio->getId()));
+                    foreach ($imagemAnuncioApagar as $apagar) {
+                        $genericoDAO->excluir(new Anuncio(), $apagar->getId());                        
+                    }
+                    
+                    if (isset($_SESSION["imagemAnuncio"])) {
+                        foreach ($_SESSION["imagemAnuncio"] as $file) {
+                            $imagem = new Imagem();
+                            $entidadeImagem = $imagem->cadastrar($file, $entidadeAnuncio->getId(), $parametros["rdbDestaque"]);
+                            $genericoDAO->cadastrar($entidadeImagem);
+                        }
+                    }
+
+                    $statusMapa = false;
+                    //cadastro da latitude e longitude se houver alteração no mapa
+                    if ($parametros["hdnLatitude"] != "" && $parametros["hdnLongitude"] != "") {
+                        $mapaImovel = new MapaImovel();
+                        $cadastrarMapa = $mapaImovel->cadastrar($parametros, $idAnuncio);
+                        $statusCadastroMapa = $genericoDAO->cadastrar($cadastrarMapa);
+                        if ($statusCadastroMapa) {
+                            $statusMapa = true;
+                        }
+                    } else {
+                        $statusMapa = true;
+                    }
+                    
+                    try {
+                    $genericoDAO->commit();
+                        $genericoDAO->fecharConexao();
+                        Sessao::desconfigurarVariavelSessao("anuncio");
+                        Sessao::desconfigurarVariavelSessao("imagemAnuncio");
+                        Sessao::desconfigurarVariavelSessao("imagemPlanta");
+
+                        echo json_encode(array("resultado" => 1, "idanuncio" => $entidadeAnuncio->getIdAnuncio(), "id" => $entidadeAnuncio->getId(), "tipoImovel" => $retornaTipoImovel));
+                        
+                    } catch (Exception $exc) {
+                        $genericoDAO->rollback();
+                        echo json_encode(array("resultado" => 0));
+                    }
+                }
+            }
+        }
+    }
+    
+    
     function cadastrarAnuncioImagemPlanta($parametros) {
         $sucesso = 1;
         $resposta = "";

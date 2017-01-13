@@ -590,6 +590,9 @@ foreach ($imoveis as $qtdAnuncios) {
                     $anuncioExpiradoAluguel = 0;
                     $anuncioExpiradoVenda = 0;
 
+                    $anuncioPendenteAluguel = 0;
+                    $anuncioPendenteVenda = 0;
+
                     foreach ($imoveis as $anuncio) {
                         $anuncios = $anuncio->getAnuncio();
                         if ($anuncio->getAnuncio()) {
@@ -622,6 +625,15 @@ foreach ($imoveis as $qtdAnuncios) {
                                         $anuncioExpiradoVenda = $anuncioExpiradoVenda + 1;
 
                                     break;
+                                case "pendenteativacao":
+                                    $anuncioPendente = $anuncioPendente + 1;
+
+                                    if ($anuncio->getAnuncio()->getFinalidade() == "Aluguel") {
+                                        $anuncioPendenteAluguel = $anuncioPendenteAluguel + 1;
+                                    } else
+                                        $anuncioPendenteVenda = $anuncioPendenteVenda + 1;
+
+                                    break;
                             }
                         }
                     }
@@ -633,7 +645,7 @@ foreach ($imoveis as $qtdAnuncios) {
                             <table class="ui striped brown celled structured fixed table">
                                 <thead>
                                     <tr>                                   
-                                        <th colspan="4">Você possui <?php
+                                        <th colspan="5">Você possui <?php
                                             if ($totalAnuncios > 1) {
                                                 echo $totalAnuncios . " anúncios cadastrados";
                                             } else {
@@ -667,6 +679,12 @@ foreach ($imoveis as $qtdAnuncios) {
                                             } else
                                                 echo "Expirado";
                                             ?></th>                                  
+                                        <th class="ui center aligned"><?php
+                                            if ($anuncioPendente > 1) {
+                                                echo "Pendentes";
+                                            } else
+                                                echo "Pendente";
+                                            ?></th>                                  
                                     </tr>
 
                                 </thead>
@@ -676,6 +694,7 @@ foreach ($imoveis as $qtdAnuncios) {
                                         <td><?php echo $anuncioAtivoAluguel; ?></td>
                                         <td><?php echo $anuncioFinalizadoAluguel; ?></td>
                                         <td><?php echo $anuncioExpiradoAluguel; ?></td>
+                                        <td><?php echo $anuncioPendenteAluguel; ?></td>
                                     </tr>
 
                                     <tr>
@@ -683,6 +702,7 @@ foreach ($imoveis as $qtdAnuncios) {
                                         <td><?php echo $anuncioAtivoVenda; ?></td>
                                         <td><?php echo $anuncioFinalizadoVenda; ?></td>
                                         <td><?php echo $anuncioExpiradoVenda; ?></td>
+                                        <td><?php echo $anuncioPendenteVenda; ?></td>
                                     </tr>
 
                                     <tr>
@@ -690,6 +710,7 @@ foreach ($imoveis as $qtdAnuncios) {
                                         <td><?php echo $anuncioAtivo; ?></td>
                                         <td><?php echo $anuncioFinalizado; ?></td>
                                         <td><?php echo $anuncioExpirado; ?></td>
+                                        <td><?php echo $anuncioPendente; ?></td>
                                     </tr>
 
                                 </tbody>
