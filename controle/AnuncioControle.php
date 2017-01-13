@@ -439,7 +439,7 @@ class AnuncioControle {
             $genericoDAO = new GenericoDAO();
             $consultasAdHoc = new ConsultasAdHoc();
 
-            $listaAnuncio = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, array('finalizado'));
+            $listaAnuncio = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, null, array('finalizado'));
             foreach ($listaAnuncio as $anuncio) {
 
                 $imovel = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio->getIdImovel()));
