@@ -16,19 +16,13 @@
 
 </script>
 
-<div class="ui middle aligned stackable grid container">
- 
-    <div class="column">
         
         <?php
     
         include_once "visao/modulo/menuBusca.php";
 
         ?>
-        
-    </div>
 
-</div>  
 
 <?php
 $item = $this->getItem();

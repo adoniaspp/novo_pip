@@ -34,7 +34,7 @@ enviarDuvidaUsuario();
                 <input name="txtEmailDuvida"  id="txtEmailDuvida" placeholder="Digite seu email" type="text" maxlength="50">
             </div>
 
-            <div class="five wide field">
+            <div class="five wide field" id="duvidaCaptcha">
                 <label>Digite o código abaixo:</label>
                 <img id="captcha" src="../assets/libs/captcha/securimage/securimage_show.php" alt="CAPTCHA Image" />    
                 <a href="#" onclick="document.getElementById('captcha').src = '../assets/libs/captcha/securimage/securimage_show.php?' + Math.random();
@@ -43,7 +43,7 @@ enviarDuvidaUsuario();
                 <input type="text" name="captcha_code" id="captcha_code" maxlength="6" />
             </div>
             <div class="ui hidden divider"></div>
-            <div class="ui stackable two column grid container">   
+            <div class="ui stackable two column grid container" id="botoesDuvidas">   
                 
                 <button class="ui green button" type="button" id="botaoEnviarDuvida">Enviar Dúvida</button>
    
@@ -55,6 +55,7 @@ enviarDuvidaUsuario();
 
             </div>
             
+            <div class="ui hidden divider"></div>
             <div id="divRetorno"></div>
             
             <br>

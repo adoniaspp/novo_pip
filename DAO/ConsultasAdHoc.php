@@ -105,9 +105,11 @@ class ConsultasAdHoc extends GenericoDAO {
                 $sql = $sql . ' ASC ';
             }
         }
+        
         $statement = $this->conexao->prepare($sql);
         if ($diferencial != NULL) {
             foreach ($diferencial as $valor) {
+                
                 if (count($diferencial) == 1) {
                     $statement->bindValue(':idDiferencial' . 0, $valor);
                 } else {
@@ -119,6 +121,7 @@ class ConsultasAdHoc extends GenericoDAO {
         }
         foreach ($parametros['predicados'] as $chave => $valor) {
             if (!is_array($valor)) {
+                
                 $statement->bindValue($chave . '_' . 0, $valor);
             } else {
                 foreach ($valor as $k => $v) {
@@ -167,9 +170,6 @@ class ConsultasAdHoc extends GenericoDAO {
                     $resultado['anuncio'][$i]['diferenciais'] = ($imovel['diferenciais']);
                 }
             }
-//            echo '<pre>';
-//            print_r($resultado['anuncio']);
-//            die();
         }
         if (count($resultado['anuncio']) != 0) {
             $idsImoveis = array_column($resultado['anuncio'], 'idimovel');

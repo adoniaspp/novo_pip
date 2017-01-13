@@ -160,10 +160,12 @@ class AnuncioControle {
         unset($parametros["tipoImovel"]);
         unset($parametros["hdnEntidade"]);
         unset($parametros["hdnAcao"]);
+        if($parametros["idbairro"] != ""){
+        $parametros["idbairro"] = explode(",", $parametros["idbairro"]);
+        }
         $parametros["predicados"] = $parametros;
-        $listaAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
         
-        //echo "TOTAL: ".count($listaAnuncio['anuncio']); die();
+        $listaAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
         
         if (count($listaAnuncio['anuncio']) == 0) {
             $visao->setItem("errosemresultadobusca");
@@ -408,7 +410,8 @@ class AnuncioControle {
             $anuncio = new Anuncio();
             $genericoDAO = new GenericoDAO();
             $consultasAdHoc = new ConsultasAdHoc();
-            $listaAnuncio = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, array('cadastrado'));
+            
+            $listaAnuncio = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, null, array('cadastrado'));
             foreach ($listaAnuncio as $anuncio) {
                 $imovel = $genericoDAO->consultar(new Imovel(), false, array("id" => $anuncio->getIdImovel()));
                 $anuncio->setImovel($imovel[0]);
@@ -1224,7 +1227,7 @@ class AnuncioControle {
             $genericoDAO = new GenericoDAO();
             $consultasAdHoc = new ConsultasAdHoc();
 
-            $listaAnuncioExpirado = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, array('expirado', 'finalizado'), 'Aluguel');
+            $listaAnuncioExpirado = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, null, array('expirado', 'finalizado'), 'Aluguel');
             foreach ($listaAnuncioExpirado as $anuncio) {
 
                 $expirado = $genericoDAO->consultar(new Imovel(), true, array("id" => $anuncio->getIdImovel()));

@@ -78,7 +78,7 @@ function buscarAnuncio() {
                 valor: $('#sltValor').val(),
                 finalidade: $('#sltFinalidade').val(),
                 idcidade: $('#sltCidade').val(),
-                idbairro: $('#sltBairro').val(),
+                idbairro: $('#filtroBairro').val(),
                 quarto: $('#sltQuartos').val(),
                 banheiro: $('#sltBanheiros').val(),
                 suite: $('#sltSuites').val(),
@@ -1170,22 +1170,22 @@ function inicio() {
                     break;
 
                 case "casa":
-                    $("#divGaragem").show();
+                    //$("#divGaragem").show();
                     $("#divCondicao").show();
                     break;
 
                 case "apartamentoplanta":
-                    $("#divGaragem").show();
+                    //$("#divGaragem").show();
                     $("#divCondicao").hide();
                     break;
 
                 case "apartamento":
-                    $("#divGaragem").show();
+                    //$("#divGaragem").show();
                     $("#divCondicao").show();
                     break;
 
                 case "salacomercial":
-                    $("#divGaragem").show();
+                    //$("#divGaragem").show();
                     $("#divCondicao").show();
                     break;
 
@@ -1246,7 +1246,7 @@ function inicio() {
                     $("#divDiferencial").show();
                     $("#divOutrasCaracteristicas").show();
                     $("#textoEspecifico").show();
-                    $("#textoEspecifico").html("<div class='ui teal large label'>Específico da Casa</div>");
+                    $("#textoEspecifico").html("<div class='ui white large label'>Específico da Casa</div>");
                     break;
 
                 case "apartamento":
@@ -1263,7 +1263,7 @@ function inicio() {
                     $("#divUnidadesAndar").show();
                     $("#divDiferencial").show();
                     $("#textoEspecifico").show();
-                    $("#textoEspecifico").html("<div class='ui teal large label'>Específico do Apartamento</div>");
+                    $("#textoEspecifico").html("<div class='ui white large label'>Específico do Apartamento</div>");
                     $("#divOutrasCaracteristicas").show();
                     break;
 
@@ -1281,7 +1281,7 @@ function inicio() {
                     $("#divDiferencial").show();
                     $("#divAndares").show();
                     $("#textoEspecifico").show();
-                    $("#textoEspecifico").html("<div class='ui teal large label'>Específico do Apartamento na Planta</di>");
+                    $("#textoEspecifico").html("<div class='ui white large label'>Específico do Apartamento na Planta</di>");
                     $("#divOutrasCaracteristicas").show();
                     break;
 
@@ -1300,7 +1300,7 @@ function inicio() {
                     $("#divBanheiro").show();
                     $("#divDiferencial").show();
                     $("#textoEspecifico").show();
-                    $("#textoEspecifico").html("<div class='ui teal large label'>Específico da Sala Comercial</div>");
+                    $("#textoEspecifico").html("<div class='ui white large label'>Específico da Sala Comercial</div>");
                     $("#divOutrasCaracteristicas").show();
                     break;
 
@@ -1538,10 +1538,24 @@ function enviarDuvidaUsuario() {
                     },
                     success: function (resposta) {
                         $("#divRetorno").empty();
+                        
+                        $("input[type^='text']").each(function () {
+                            $(this).attr("disabled", "disabled");
+                        });
+                        
+                        $("#txtMsgDuvida").attr("disabled", "disabled");
+                        
+                        $("#botoesDuvidas").hide();
+                        
+                        $("#duvidaCaptcha").hide();
+                        
                         if (resposta.resultado == 1) {
-                            location.href = "index.php?entidade=Usuario&acao=MeuPIP";
+                            $("#divRetorno").html('<div class="ui positive message">\n\
+                            <i class="big green check circle outline icon"></i>Dúvida enviada com sucesso. Em breve responderemos a você</div>');
+
                         } else {
-                            location.href = "index.php?entidade=Usuario&acao=MeuPIP";
+                            $("#divRetorno").html('<div class="ui negative message">\n\
+                            <i class="big red remove circle outline icon"></i>Tente novamente mais tarde. Houve um erro no processamento</div>');
                         }
                     }
                 })

@@ -37,9 +37,6 @@ $("span[class='ui small grey button']").popup({
 <?php
 $item = $this->getItem();
 
-echo "<pre>";
-var_dump($item);
-echo "</pre>";
 ?>
 
 <div class="ui middle aligned stackable grid container">
@@ -63,21 +60,7 @@ echo "</pre>";
                 </p>
             </div>
         </div>
-    </div>
-
-<?php
-if (count($item["listaPlanos"]) == 0) {
-    ?>
-    <div class="row">
-        <div class="column">
-            <div class="ui warning message">                          
-                Atenção! Você não possui um plano ativo para reativar seu anúncio. Não perca tempo! Compre agora um novo plano clicando <a href="index.php?entidade=Plano&acao=listar">AQUI</a>.                
-            </div>
-        </div>
-    </div>
-    <?php
-}
-?>      
+    </div>  
 
 </div>
 
@@ -113,6 +96,23 @@ if ($totalAnunciosFinalizados < 1 && $totalAnunciosExpirados < 1) {
 </div>   
 
 <?php } else { //caso exista ao menos 1 anuncio cadastrado, exibir o datatable ?>
+    
+    <?php
+    if (count($item["listaPlanos"]) == 0) {
+        ?>
+        <div class="ui middle aligned stackable grid container">
+            <div class="row">
+                <div class="column">
+                    <div class="ui warning message">                          
+                        Atenção! Você não possui um plano ativo para reativar seu anúncio. Não perca tempo! Compre agora um novo plano clicando <a href="index.php?entidade=Plano&acao=listar">AQUI</a>.                
+                    </div>
+                </div>
+            </div>
+        </div>    
+        <?php
+    }
+    ?>    
+
     <div class="ui middle aligned stackable grid container">
         <div class="column">
 

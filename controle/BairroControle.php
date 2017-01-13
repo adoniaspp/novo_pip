@@ -15,7 +15,8 @@ class BairroControle {
        $listarBairros = $genericoDAO->consultar($bairro, true, array("idcidade" => $parametros["idcidade"]));
        
        foreach ($listarBairros as $valor){
-            echo "<option value='".$valor->getId()."' name='sltBairro[]'>".$valor->getNome()."</option>";
+            echo '<div class="item" data-value="'.$valor->getId().'">'.$valor->getNome().'</div>';
+            //echo "<option value='".$valor->getId()."' name='sltBairro[]'>".$valor->getNome()."</option>";
        }
         
     }

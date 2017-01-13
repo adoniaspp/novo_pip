@@ -475,7 +475,7 @@ switch ($tipo) {
                     ?>                      
                     <script>
                         $(document).ready(function () {
-                            $('#divAnuncios').html("<div class='ui two column center aligned grid'><div class='ui compact message'><i class='big red remove circle outline icon'></i>Nennhum anúncio encontrado com os parâmetros informados. Refine sua busca</div></div>");
+                            $('#divAnuncios').html("<div class='ui two column center aligned grid'><div class='ui compact message'><i class='big red remove circle outline icon'></i>Nenhum anúncio encontrado com os parâmetros informados. Refine sua busca</div></div>");
                             $("#divOrdenacao").hide();
                             $("#divColuna").parent().removeClass().addClass("ui eight wide column").parent().removeClass().addClass("ui grid center aligned");
                             $("#divBotoes").parent().parent().remove();
