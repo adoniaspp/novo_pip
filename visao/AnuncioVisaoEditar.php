@@ -1,5 +1,5 @@
 <?php
-//Sessao::gerarToken();
+Sessao::gerarToken();
 $item = $this->getItem();
 
 if ($item) {
@@ -10,7 +10,7 @@ if ($item) {
     $anuncio = $item["anuncio"];
 }
 
-$valorAnuncio = (is_array($item["novovalor"])) ? $item["novovalor"][0]->getNovovalor() : $anuncio->getValormin();
+$valorAnuncio = (isset($item["novovalor"][0])) ? $item["novovalor"][0]->getNovovalor() : $anuncio->getValormin();
 ?>
 <script src="assets/libs/jquery/jquery.validate.min.js"></script>
 <script src="assets/libs/jquery/jquery.mask.min.js"></script>
@@ -527,7 +527,7 @@ $valorAnuncio = (is_array($item["novovalor"])) ? $item["novovalor"][0]->getNovov
             <!--PUBLICAÇÃO-->
             <div class="ui middle aligned stackable grid container" id="step6">
 
-                 <div class="ui hidden divider"></div>
+                <div class="ui hidden divider"></div>
                 <h3 class="ui dividing header" id="divTextoPublicacao">Publicação</h3>
 
             </div>
@@ -585,43 +585,56 @@ include_once "modal/ImovelListagemModal.php";
 
 <script>
     $(document).ready(function () {
-        <?php if($valorAnuncio==""){?>
-        $('#chkValor').parent().checkbox('uncheck');
-        <?php } ?>
-        <?php if($anuncio->getPublicarmapa()=="NAO"){?>
-        $('#chkMapa').parent().checkbox('uncheck');
-        <?php } ?>
-        <?php if($anuncio->getPublicarcontato()=="NAO"){?>
-        $('#chkContato').parent().checkbox('uncheck');
-        <?php } ?>
-            
-             <?php if(is_array($anuncio->getImagem())){
-            $listaFotos = array();
-            $destaque;
-            $foto = array();
-                    foreach ($anuncio->getImagem() as $imagem){
-                        $foto["name"] = $imagem->getNome();
-                        $foto["size"] = $imagem->getTamanho();
-                        $foto["type"] = $imagem->getTipo();
-                        $foto["legenda"] = $imagem->getLegenda();
-                        $foto["idImage"] = $imagem->getId();
-                        $foto["url"] = PIPURL . "fotos/imoveis/" . $imagem->getDiretorio() . "/" . $imagem->getNome();
-                        $foto["thumbnailUrl"] = PIPURL . "fotos/imoveis/" . $imagem->getDiretorio() . "/thumbnail/" . $imagem->getNome();
-                        $foto["deleteUrl"] = PIPURL . "index.php?file=" . $imagem->getNome();
-                        $foto["deleteType"] = "DELETE";                        
-                        $foto["id"] = $imagem->getId();
-                        $listaFotos[] = $foto;     
-                        if($imagem->getDestaque()=="SIM"){
-                            $destaque = "$(\"input[name='rdbDestaque'][value='". $imagem->getNome() ."']\").parent().checkbox('set checked');";
-                        }
-                    }
-                    
-                    echo "var files = " . json_encode($listaFotos). ";";
-                    echo "var form = $('#fileupload');";
-                    echo "form.fileupload('option', 'done').call(form, $.Event('done'), {result: {files: files}});";
-                    echo $destaque;
-} ?>
-        
+<?php if ($valorAnuncio == "") { ?>
+            $('#chkValor').parent().checkbox('uncheck');
+<?php } ?>
+<?php if ($anuncio->getPublicarmapa() == "NAO") { ?>
+            $('#chkMapa').parent().checkbox('uncheck');
+<?php } ?>
+<?php if ($anuncio->getPublicarcontato() == "NAO") { ?>
+            $('#chkContato').parent().checkbox('uncheck');
+<?php } ?>
+
+<?php
+$listaFotos = array();
+$destaque;
+$foto = array();
+if (is_array($anuncio->getImagem())) {
+    foreach ($anuncio->getImagem() as $imagem) {
+        $foto["name"] = $imagem->getNome();
+        $foto["size"] = $imagem->getTamanho();
+        $foto["type"] = $imagem->getTipo();
+        $foto["legenda"] = $imagem->getLegenda();
+        $foto["idImage"] = $imagem->getId();
+        $foto["url"] = PIPURL . "fotos/imoveis/" . $imagem->getDiretorio() . "/" . $imagem->getNome();
+        $foto["thumbnailUrl"] = PIPURL . "fotos/imoveis/" . $imagem->getDiretorio() . "/thumbnail/" . $imagem->getNome();
+        $foto["deleteUrl"] = PIPURL . "index.php?file=" . $imagem->getNome();
+        $foto["deleteType"] = "DELETE";
+        $foto["id"] = $imagem->getId();
+        $listaFotos[] = $foto;
+        if ($imagem->getDestaque() == "SIM") {
+            $destaque = "$(\"input[name='rdbDestaque'][value='" . $imagem->getNome() . "']\").parent().checkbox('set checked');";
+        }
+    }
+} elseif (is_object($anuncio->getImagem())) {
+    $foto["name"] = $anuncio->getImagem()->getNome();
+    $foto["size"] = $anuncio->getImagem()->getTamanho();
+    $foto["type"] = $anuncio->getImagem()->getTipo();
+    $foto["legenda"] = $anuncio->getImagem()->getLegenda();
+    $foto["idImage"] = $anuncio->getImagem()->getId();
+    $foto["url"] = PIPURL . "fotos/imoveis/" . $anuncio->getImagem()->getDiretorio() . "/" . $anuncio->getImagem()->getNome();
+    $foto["thumbnailUrl"] = PIPURL . "fotos/imoveis/" . $anuncio->getImagem()->getDiretorio() . "/thumbnail/" . $anuncio->getImagem()->getNome();
+    $foto["deleteUrl"] = PIPURL . "index.php?file=" . $anuncio->getImagem()->getNome();
+    $foto["deleteType"] = "DELETE";
+    $foto["id"] = $anuncio->getImagem()->getId();
+    $listaFotos[] = $foto;
+    $destaque = "$(\"input[name='rdbDestaque'][value='" . $anuncio->getImagem()->getNome() . "']\").parent().checkbox('set checked');";
+}
+echo "var files = " . json_encode($listaFotos) . ";";
+echo "var form = $('#fileupload');";
+echo "form.fileupload('option', 'done').call(form, $.Event('done'), {result: {files: files}});";
+echo $destaque;
+?>
+
     });
 </script>
-       

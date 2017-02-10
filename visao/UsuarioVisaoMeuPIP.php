@@ -580,6 +580,7 @@ foreach ($imoveis as $qtdAnuncios) {
                     $anuncioAtivo = 0;
                     $anuncioFinalizado = 0;
                     $anuncioExpirado = 0;
+                    $anuncioPendente = 0;
 
                     $anuncioAtivoAluguel = 0;
                     $anuncioAtivoVenda = 0;

@@ -343,18 +343,17 @@ class ConsultasAdHoc extends GenericoDAO {
     }
 
     public function ConsultarImoveisNaoAnunciadosPorUsuario($idUsuario) {
-        $sql = "SELECT i.id "
-                . " FROM imovel i"
-                . " WHERE i.idusuario = :idUsuario "
-                . " AND NOT EXISTS ( "
-                . " SELECT 1 FROM anuncio a"
-                . " JOIN usuarioplano up ON up.id = a.idusuarioplano"
-                . " JOIN usuario u ON up.idusuario = u.id"
-                . " WHERE u.status = 'ativo'"
-                //. " AND a.status = 'cadastrado'"
-                . " AND a.idimovel = i.id"
-                . " AND u.id = :idUsuario "
-                . " ) ";
+        $sql = "SELECT i.id
+                FROM imovel i
+                WHERE i.idusuario = :idUsuario
+                  AND NOT EXISTS
+                    (SELECT 1
+                     FROM anuncio a
+                     WHERE a.idimovel = i.id)
+                     AND NOT EXISTS
+                    (SELECT 1
+                     FROM anuncioaprovacao aa
+                     WHERE aa.idimovel = i.id AND aa.status = 'pendenteaprovacao')";
         $sql = $sql . " ORDER BY i.ID DESC";
         $statement = $this->conexao->prepare($sql);
         $statement->bindParam(':idUsuario', $idUsuario);
@@ -376,6 +375,44 @@ class ConsultasAdHoc extends GenericoDAO {
         $resultado = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $resultado;
         
+    }
+    public function ConsultarAnunciosPendentesPorUsuario($idUsuario, $administrador, $statusAnuncio = null) {
+        $allow = $statusAnuncio;
+        
+        $sql = "SELECT aa.* "
+                . " FROM anuncioaprovacao aa"
+                . " JOIN usuarioplano up ON up.id = aa.idusuarioplano"
+                . " JOIN usuario u ON up.idusuario = u.id"
+                . " WHERE (u.status = 'ativo' or u.status = 'desativadousuario') "; //desativadousuário = quando o próprio usuário se desativa
+        //caso o usuário não seja Administrador do sistema, listar somente os anúncios pendentes do usuário logado
+        if ($administrador != true)
+                $sql.= " AND u.id = :idUsuario ";
+        
+        if ($statusAnuncio != null)
+            $sql .= sprintf(" AND aa.status in( %s )", implode(
+                            ',', array_map(
+                                    function($v) {
+                                static $x = 0;
+                                return ':allow_' . $x++;
+                            }, $allow
+                            )
+                    )
+            );
+        $sql .= " ORDER BY aa.ID DESC";
+        $statement = $this->conexao->prepare($sql);
+        //caso o usuário não seja Administrador do sistema, listar somente os anúncios pendentes do usuário logado
+        if ($administrador != true){
+        $statement->bindParam(':idUsuario', $idUsuario);
+        
+        }
+
+        if ($statusAnuncio != null)
+            foreach ($allow as $k => $v) {
+                $statement->bindValue('allow_' . $k, $v);
+            }
+        $statement->execute();
+        $resultado = $statement->fetchAll(PDO::FETCH_CLASS, "AnuncioAprovacao");
+        return $resultado;
     }
     
 }
