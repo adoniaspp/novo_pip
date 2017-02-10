@@ -57,9 +57,9 @@ class UsuarioPlano {
         $this->plano = $plano;
     }
 
-    public function DataExpiracao($data) {
+    public function DataExpiracao($dias) {
         $dateB = date_create_from_format("Y-m-d H:s:i", $this->getDatacompra());
-        $dateA = $dateB->add(date_interval_create_from_date_string($data . 'days'));
+        $dateA = $dateB->add(date_interval_create_from_date_string($dias . 'days'));
         return date_format($dateA, "d/m/Y");
     }
 
@@ -68,6 +68,15 @@ class UsuarioPlano {
         $this->setIdusuario($_SESSION["idusuario"]);
         $this->setDatacompra(date("Y/m/d H:i:s"));
         $this->setStatus("pagamento pendente");
+    }
+
+    public function permitidoCadastrar() {
+        $permitido = false;
+        //verifica se status esta ativo e se eh o mesmo usuario logado
+        if ($this->getStatus() == "ativo" && $_SESSION['idusuario'] == $this->getIdusuario()) {
+            $permitido = true;
+        }
+        return $permitido;
     }
 
 }

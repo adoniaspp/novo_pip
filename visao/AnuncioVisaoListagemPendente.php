@@ -213,11 +213,11 @@
                         <?php 
                                 if($_SESSION['login'] == 'pipdiministrador'){
                                 echo "<td> ";
-                                    if($anuncio->getStatus() == "pendenteativacao"){
+                                    if($anuncio->getStatus() == "pendenteaprovacao"){
                                         echo "<i class='disabled big gray hourglass half icon'></i>Pendente de Análise";                            
                                     } else if($anuncio->getStatus() == "emanalise"){
                                         echo "<i class='big blue hourglass half icon'></i>Em Análise";
-                                    } else if($anuncio->getStatus() == "ativacaonegada"){
+                                    } else if($anuncio->getStatus() == "aprovacaonegada"){
                                         echo "<i class='big red thumbs down icon'></i>Ativação Negada";
                                     }
                                     "</td>";   
@@ -227,11 +227,11 @@
                                 
                         <td> <?php 
                                 if($_SESSION['login'] != 'pipdiministrador'){
-                                    if($anuncio->getStatus() == "pendenteativacao"){
+                                    if($anuncio->getStatus() == "pendenteaprovacao"){
                                         echo "<i class='disabled big gray hourglass half icon'></i>Pendente de Análise";                            
                                     } else if($anuncio->getStatus() == "emanalise"){
                                         echo "<i class='big blue hourglass half icon'></i>Em Análise";
-                                    } else if($anuncio->getStatus() == "ativacaonegada"){
+                                    } else if($anuncio->getStatus() == "aprovacaonegada"){
                                         echo "<i class='big red thumbs down icon'></i>Ativação Negada";
                                     }
                                 } else{
