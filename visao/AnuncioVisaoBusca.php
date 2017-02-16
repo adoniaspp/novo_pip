@@ -263,7 +263,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                     <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" />
                                     <input type="hidden" id="hiddenAnuncioFormatadaoCopiar" value="<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" />
                                     <br />
-                                    Cadastrado em <?php echo date('d/m/Y', strtotime($item['anuncio'][$crtl]['datahoracadastro'])) ?>
+                                    <?php echo FuncoesAuxiliares::tempo_corrido($item['anuncio'][$crtl]['datahoracadastro']) ?> <?php /*echo date('d/m/Y', strtotime($item['anuncio'][$crtl]['datahoracadastro'])) */?>
                                     <br />
                                     <div class="ui grid">
                                         <div class="ui centered row">

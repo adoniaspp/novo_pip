@@ -57,6 +57,23 @@ if($item["anuncio"][0]["status"] == "finalizado" || $item["anuncio"][0]["status"
 <script>
     $(document).ready(function () {
         
+        $(function () {
+       //incluso essa variavel para setar atributos do css depois
+            var elemento = $('#divMiniMenu');
+            
+            $(window).scroll(function () {
+                //distancia que o scroll devera rolar para aparecer o box da div
+                if ($(this).scrollTop() > 0) {
+                    //bloco incluso para setar o css
+                    elemento.css({
+                        'position': 'fixed',
+                            'bottom': '30%'
+                    });
+
+                    $('#divMiniMenu').fadeIn();
+                } 
+            });
+        });
                 
         if('<?php echo $expirado ?>' === 'SIM' 
                 || '<?php echo $item["anuncio"][0]["status"] ?>' === 'pendenteativacao'
@@ -97,6 +114,7 @@ if($item["anuncio"][0]["status"] == "finalizado" || $item["anuncio"][0]["status"
     })
 
     enviarDuvidaAnuncio();
+    enviarDenuncia();
     formatarDetalhe();
 
        <?php if ($item['anuncio'][0]['publicarmapa'] == "SIM") { ?>
@@ -212,18 +230,93 @@ switch ($item['anuncio'][0]['tipo']) {
 }
 ?>
 
-<div class="stackable two column ui grid container">
-    <div class="centered row" id="divRedesSociais">
-        <h2 class="ui header">
-            <div class="sub header">
-                Compartilhar
-                <a href="http://www.facebook.com/sharer.php?u=http://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>" target="_blank"><i class="big blue facebook square icon"></i></a>
-                <a href="https://twitter.com/intent/tweet?text=Anúncio%20Compartilhado%20via%20PIP-OnLine%20http%3A%2F%2Fwww.pipbeta.com.br%2F<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>" target="_blank"><i class="big blue twitter icon"></i></a>
-                <a href="https://plus.google.com/share?url=http://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>" target="_blank"><i class="big red google plus circle icon"></i></a>
-                <a class="compartilhar-whatsapp" href='whatsapp://send?text=http://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>'><i class="big green whatsapp icon"></i></a>
-            </div>
-        </h2>
-    </div>
+<style>
+
+#divMiniMenu{
+position: absolute;
+z-index: 9999; /* número máximo é 9999 */
+}
+
+
+@media screen and (max-width: 1160px){
+  #divMiniMenu {
+   display: none;
+ }
+}
+    
+.miniMenu1 {
+    width: 65px;
+    padding: 1em;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-top: #000000 3px solid;
+    text-align: center;
+    font-size: 12px;
+}
+.miniMenu2 {
+    width: 65px;
+    padding: 1em;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-top: #1fc231 3px solid;
+    text-align: center;
+    font-size: 12px;
+}
+.miniMenu3 {
+    width: 65px;
+    padding: 1em;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-top: #794B02 3px solid;
+    text-align: center;
+    font-size: 12px;
+}
+.miniMenu4 {
+    width: 65px;
+    padding: 1em;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-top: #0084B4 3px solid;
+    text-align: center;
+    font-size: 12px;
+}
+.miniMenu5 {
+    width: 65px;
+    padding: 1em;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-top: #dc0000 3px solid;
+    text-align: center;
+    font-size: 12px;
+}
+</style>
+
+<div id="divMiniMenu" style="bottom: 30%">
+    <div class="miniMenu1"><a href="#linkInfo">Info</a></div>
+    <div class="miniMenu2"><a href="#linkValor">Valor</a></div>
+    <div class="miniMenu3"><a href="#linkEndereco">Endereço</a></div>
+    <div class="miniMenu4"><a href="#linkFotos">Fotos</a></div>
+    <div class="miniMenu5"><a href="#linkContatos">Contato</a></div>
+</div>
+
+<div class="stackable two column ui grid container" id="linkInfo">
+    
+    <div class="center aligned column">
+               Compartilhar
+               <a class="ui circular inverted icon button" href="http://www.facebook.com/sharer.php?u=http://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>" target="_blank"><i class="big blue facebook square icon"></i></a>
+               <a class="ui circular inverted icon button" href="https://twitter.com/intent/tweet?text=Anúncio%20Compartilhado%20via%20PIP-OnLine%20http%3A%2F%2Fwww.pipbeta.com.br%2F<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>" target="_blank"><i class="big blue twitter icon"></i></a>
+               <a class="ui circular inverted icon button" href="https://plus.google.com/share?url=http://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>" target="_blank"><i class="big red google plus circle icon"></i></a>
+               <a class="compartilhar-whatsapp" href='whatsapp://send?text=http://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>'><i class="big green whatsapp icon"></i></a>
+   </div>
+   <div class="center aligned column">
+               Denunciar
+               <a class="ui circular inverted icon button" id="btnDenuncia"> <i class="big red warning sign icon"></i></a>                
+   </div>
+
+    <!--<div class="ui sticky" style="width: 272px !important; height: 262.531px !important; left: 1079.5px;">
+      <h3 class="ui header">Stuck Content</h3>
+      <img>
+    </div>-->
     
     <div class="row">
         <h2 class="ui header">
@@ -255,7 +348,7 @@ switch ($item['anuncio'][0]['tipo']) {
     <div class="column">
         <div class="ui segment"><a class="header">Data de Cadastro</a>
             <div class="description">
-                <?php echo date('d/m/Y H:i:s', strtotime($item['anuncio'][0]['datahoracadastro'])) ?>
+                <?php echo FuncoesAuxiliares::tempo_corrido($item['anuncio'][0]['datahoracadastro'])." - ". date('d/m/Y H:i:s', strtotime($item['anuncio'][0]['datahoracadastro'])) ?>
             </div></div>
     </div>
 
@@ -425,7 +518,7 @@ switch ($item['anuncio'][0]['tipo']) {
                             <div class="four eight field">    
 
     <?php } ?>    
-
+                            <div id="linkValor"></div>    
                             <div class="ui header">
                                 <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeGaragem.jpg">
                                 <label>Garagem(ns)</label>
@@ -437,7 +530,7 @@ switch ($item['anuncio'][0]['tipo']) {
                                 </div>
                             </div>
                         </div>
-
+                            
     <?php
     if ($item['anuncio'][0]['tipo'] == 'apartamento') {
         ?>
@@ -490,6 +583,8 @@ switch ($item['anuncio'][0]['tipo']) {
                     <div class="fields">
 
                         <div class="ui styled fluid accordion">
+                            
+                            
     <?php
     foreach ($item['anuncio'][0]['plantas'] as $planta) {
         ?>
@@ -612,24 +707,25 @@ switch ($item['anuncio'][0]['tipo']) {
         <?php
     }
     ?>
-
+                        <div id="linkValor"></div>    
                         </div> 
 
 
 
                     </div>    
                     <div class="ui hidden divider"></div>
+                    
                         <?php } ?>
-
+                    
                         <?php if ($item['anuncio'][0]['diferenciais']) { ?>
 
-
+                    
                     <div class="ui horizontal divider" id="divisorTextoEspecifico">
                         <div class="ui teal large label">
                             <div id="txtDiferencialAnuncio"></div>                     
                         </div>                     
                     </div>
-
+                    
                     <div class="fields">
                         
                     <?php 
@@ -646,13 +742,13 @@ switch ($item['anuncio'][0]['tipo']) {
                                 </div>
                             </div>
                     <?php } ?>                            
-
+                      
                     </div>    
                     <div class="ui hidden divider"></div>
                     <?php } ?>
 
                 <div class="ui divider"></div>
-
+                 
                 <div class="row">
                     <h2 class="ui header">
                         <i class="dollar green icon"></i>
@@ -662,7 +758,9 @@ switch ($item['anuncio'][0]['tipo']) {
                         </div>
                     </h2>
                 </div>
-
+                <?php if($item['anuncio'][0]['tipo']!="apartamentoplanta"){                     
+                echo "<div id='linkEndereco'></div>";}
+                ?>
 <?php
 if($item['anuncio'][0]['valormin'] == 0){ //caso não haja valor cadastrado para o anúncio
 
@@ -775,14 +873,17 @@ if ($item['anuncio'][0]['tipo'] != 'apartamentoplanta') {
             echo "</tr>";
         }
         ?>
-
+                                
                             </tbody>    
                         </table>    
-
+                        
                         <?php } } } ?>
-
+                <?php if($item['anuncio'][0]['tipo'] == 'apartamentoplanta'){ 
+                echo '<div id="linkEndereco"></div>';}
+                    
+                ?>         
                 <div class="ui hidden divider"></div>
-
+                
                 <div class="row">
                     <h2 class="ui header">
                         <i class="map outline brown icon"></i>
@@ -792,12 +893,13 @@ if ($item['anuncio'][0]['tipo'] != 'apartamentoplanta') {
                         </div>
                     </h2>
                 </div>
-
+                
                 <div class="fields">
                     <div id="mapaGmapsBusca"></div>
                 </div>
-
+                
                 <div class="ui hidden divider"></div>
+                <div id="linkFotos"></div>
                 <div class="sixteen wide field">
                     <div class="ui icon message">
                         <i class="red marker icon"></i>
@@ -819,7 +921,7 @@ echo $endereco;
                         </div>
                     </div>
                 </div>
-
+                  
                 <div class="row">
                     <h2 class="ui header">
                         <i class="photo blue icon"></i>
@@ -831,7 +933,7 @@ echo $endereco;
                 </div>
 
                 <div class="ui stackable two column centered grid">
-
+                  
                     <div class="column"> 
 
                         <div class="fotorama" data-allowfullscreen="native" data-nav="thumbs" data-width="100%" data-ratio="800/600">                            
@@ -855,7 +957,7 @@ echo $endereco;
                     </div>
 
                 </div>    
-
+                <div id="linkContatos"></div>
                 <div class="ui hidden divider"></div>
 
                 <div class="row">
@@ -1184,7 +1286,69 @@ if (Sessao::verificarSessaoUsuario()) {
     </div>
 </div>
 
+<div class="ui standart modal" id="modalDenunciaAnuncio">
+    <i class="close icon"></i>
+    <div class="header">
+        Descreva a sua denuncia
+    </div>
+    <div class="content" id="camposDenuncia">
+        <div class="description">
+            <div class="ui piled segment">
+                <p id="textoConfirmacao"></p>
 
+                <form class="ui form" id="formDenunciaAnuncio" action="index.php" method="post">
+                    <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Denuncia"  />
+                    <input type="hidden" id="hdnAcao" name="hdnAcao" value="denunciarAnuncio" />  
+                    <input type="hidden" id="hdnUsuario" name="hdnUsuario" value="<?php echo $item['anuncio'][0]['id'] ?>" />  
+                    <input type="hidden" id="hdnAnuncio" name="hdnAnuncio" value="<?php echo $item['anuncio'][0]['idanuncio'] ?>" />
+
+                    <div class="required field">
+                        <label>Tipo de Denúncia</label>
+                        <div class="ui selection dropdown">
+                            <input type="hidden" name="sltTipoDenuncia" id="sltTipoDenuncia">
+                            <div class="default text">Escolha o Tipo de Denúncia</div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu" id="retornoTipoDenuncia"></div>                                
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Descreva sua denúncia</label>
+                        <textarea rows="3" id="txtMsgDenuncia" name="txtMsgDenuncia" maxlength="500"></textarea>
+                    </div>
+<?php if (!Sessao::verificarSessaoUsuario()) { ?>              
+                        <div class="field">
+                            <label>E-mail</label>
+                            <input name="txtEmailDenuncia"  id="txtEmailDenuncia" placeholder="Digite seu email" type="text" maxlength="50">
+                        </div>
+<?php } ?> 
+                    <div class="five wide field">
+                        <label>Digite o código abaixo:</label>
+                        <img id="captcha" src="../assets/libs/captcha/securimage/securimage_show.php" alt="CAPTCHA Image" />    
+                        <a href="#" onclick="document.getElementById('captcha').src = '../assets/libs/captcha/securimage/securimage_show.php?' + Math.random();
+                                return false">
+                            <img src="../assets/libs/captcha/securimage/images/refresh.png" height="32" width="32" alt="Trocar Imagem" onclick="this.blur()" align="bottom" border="0"></a>
+                        <input type="text" name="captcha_code" id="captcha_code" maxlength="6" />
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <div id="divRetornoDenuncia"></div>
+    <div class="actions">
+        <div  id="botaoCancelarDenuncia" class="ui orange deny button">
+            Cancelar
+        </div>
+        <div  id="botaoEnviarDenuncia" class="ui positive right labeled icon button">
+            Enviar
+            <i class="checkmark icon"></i>
+        </div>
+                <div  id="botaoFecharDenuncia" class="ui red deny button">
+                    Fechar
+                </div>
+    </div>
+</div>
 
 
 

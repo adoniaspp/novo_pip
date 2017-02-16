@@ -199,5 +199,22 @@ class GenericoDAO {
             return false;
         }
     }
+    
+    function trazerMaxId($entidade, $tipo){
+        $reflect = new ReflectionClass($entidade);
+        $classe = $reflect->getName();
+        $sql = "SELECT max(id) FROM " . strtolower($classe);
+        
+        if($tipo != null){
+        
+        $sql = $sql. " where idtipo = " . $tipo;
+        
+        }
+        $statement = $this->conexao->prepare($sql);
 
+        $statement->execute();
+        
+        return $resultado = $statement->fetchAll(PDO::FETCH_COLUMN, 0);
+    }
+    
 }

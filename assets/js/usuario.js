@@ -1039,24 +1039,10 @@ function alterarSenha() { //alterar a senha esquecida
 
                         if (resposta.resultado == 0) {
                             
-                            //window.location.href = "http://localhost/UsuarioVisaoMeuPIP.php";
                             location.href = "index.php?entidade=Usuario&tipo=MeuPIP";
-                           /* $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-                            <p>Erro ao processar requisição. Tente novamente em alguns minutos - 000</p>');
-                            $("#divBotoesAlterarSenha").show();
-                            $("#divCamposAlterarSenha").show();*/
                         } else if (resposta.resultado == 1) {
                             
-                            //window.location.href = "http://localhost/UsuarioVisaoMeuPIP.php";
-                            
                             location.href = "index.php?entidade=Usuario&tipo=MeuPIP";
-                            /*
-                            $("#txtEmail").attr("readonly", "readonly");
-                            $("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
-    <p>Senha alterada com sucesso</p>');
-                        } else {
-                            $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
-    <p>Erro ao processar requisição - 005</p>');*/
                         }
                     }
                 })
@@ -1424,4 +1410,441 @@ function dadosModalConfiguracoes($div) {
             $div.append("</div>");
 
     });
+}
+
+function abrirChamadoUsuario(){
+    $(document).ready(function () {
+        
+        $('.ui.dropdown').dropdown({on: 'hover'});
+        
+        $("#botaoVoltar").hide();
+        $('#assuntoDuvida').hide();
+        $('#assuntoProblema').hide();
+        $('#assuntoReclamacao').hide();
+        $('#assuntoElogio').hide();
+        $('#assuntoTitulo').hide();
+        
+        $('#assunto').hide();
+        
+        $("input[name=sltTipoChamado]").change(function () { //buscar os assuntos ao trocar o tipo do chamado
+            
+            $(this).valid();
+            
+            if($("#sltTipoChamado").val() == "4"){
+                $("#idAssuntoChamado").attr("value", "4")
+            }
+            if($("#sltTipoChamado").val() == "5"){
+                $("#idAssuntoChamado").attr("value", "5")
+            }
+            if($("#sltTipoChamado").val() == "6"){
+                $("#idAssuntoChamado").attr("value", "6")
+            }
+            
+            switch($("#sltTipoChamado").val()) {
+                
+                case "1":
+                case "2":
+                case "3":
+                    $('#assuntoTitulo').hide();
+                    $('#escolhaTipo').hide();
+                    $('#assunto').show();
+                    
+                    $("#sltChamadoAssunto").rules("add", {
+                        required: true
+                    });
+                    
+                    $("#txtAssuntoChamado").each(function () {
+                        $(this).rules("remove");
+                    });
+                    
+                    $("#assunto").dropdown('clear');
+                        $.post('index.php?hdnEntidade=ChamadoAssunto&hdnAcao=buscarChamadoLista&sltTipoChamado=' + $('#sltTipoChamado').val(),
+                                function (resposta) {
+                                    $("#retornoAssunto").html(resposta);
+                        }
+                    )
+                break;
+                
+                case "4":
+                case "5":
+                case "6":
+                    $('#assuntoTitulo').show();
+                    $('#escolhaTipo').hide();
+                    $('#assunto').hide(); 
+                    $("#txtAssuntoChamado").rules("add", {
+                        required: true
+                    });
+                    $("#sltChamadoAssunto").each(function () {
+                        $(this).rules("remove");
+                    });
+   
+                break;
+            }
+            
+        });
+        
+        $("input[name=sltChamadoAssunto]").change(function () {
+            $(this).valid();
+        })
+        
+        $('#txtMsgChamado').maxlength({
+            alwaysShow: true,
+            threshold: 200,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+        $('#txtTituloAssunto').maxlength({
+            alwaysShow: true,
+            threshold: 50,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+        
+        $("#botaoCadastrarChamado").click(function () {
+            if ($("#form").valid()) {
+                $("#form").submit();
+            } 
+        });
+
+        $.validator.setDefaults({
+            ignore: [],
+            errorClass: 'errorField',
+            errorElement: 'div',
+            errorPlacement: function (error, element) {
+                error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).closest("div.field").addClass("error").removeClass("success");
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).closest(".error").removeClass("error").addClass("success");
+            }
+        });
+        $.validator.messages.required = 'Campo obrigatório';
+        $('#form').validate({
+            onkeyup: false,
+            focusInvalid: true,
+            rules: {
+                sltTipoChamado: {
+                    required: true
+                },
+                txtMsgChamado: {
+                    required: true
+                },
+                captcha_code: {
+                    required: true,
+                    remote:
+                            {
+                                url: "index.php",
+                                dataType: "json",
+                                type: "POST",
+                                data: {
+                                    hdnEntidade: "Usuario",
+                                    hdnAcao: "validarCaptcha"
+                                }
+                            }
+                },
+            },
+            messages: {
+                captcha_code: {
+                    remote: "Código Inválido"
+                },
+            },
+            submitHandler: function (form) {
+                   $.ajax({
+                    url: "index.php",
+                    dataType: "json",
+                    type: "POST",
+                    data: $('#form').serialize(),
+                    
+                    beforeSend: function () {
+                        
+                        $('#txtAssuntoChamado').attr("disabled", "disabled");
+                        
+                        $("#divRetorno").html("<div><div class='ui active inverted dimmer'>\n\
+                            <div class='ui text loader'>Processando. Aguarde...</div></div></div>");
+                    },
+                    success: function (resposta) {
+                        $("#divRetorno").empty();
+   
+                        $("#txtMsgChamado").attr("disabled", "disabled");
+                        
+                        $("#botoesChamado").hide();
+                        
+                        $("#duvidaCaptcha").hide();
+                        
+                        if (resposta.resultado == 1) {
+                            $("#divRetorno").html('<div class="ui positive message">\n\
+                            <i class="big green check circle outline icon"></i>Seu chamado de número <strong>'+resposta.numeroChamado+'</strong> foi cadastrado. Acompanhe o status pelo Meu PIP. Você também receberá um e-mail quando seu chamado mudar de status</div>');
+
+                        } else {
+                            $("#divRetorno").html('<div class="ui negative message">\n\
+                            <i class="big red remove circle outline icon"></i>Tente novamente mais tarde. Houve um erro no processamento</div>');
+                        }
+                        
+                        $("#botaoVoltar").show();
+                        
+                    }
+                })
+                return false;
+            }
+        })          
+    })
+}
+
+function visualizarModalChamado(valor) {
+     
+    $(document).ready(function () {   
+
+        $('#btnDetalhesChamado' + valor).click(function () {
+        
+        $("#formChamado" + valor).find("#hdnAcao").val('UsuarioRespondeChamado');
+        
+        $("#formChamado" + valor).find("#hdnEntidade").val('ChamadoResposta');
+
+        $("#divModalMenorCancelar" + valor).hide();
+        
+        $("#botaoCancelarChamado" + valor).hide();
+        
+        $("#divAtencaoCancela" + valor).hide();
+        
+        $("#botaoResponderNovaMensagem" + valor).show();
+        
+        $("#divModalVisualizar" + valor).show();
+
+            $('#modalChamado' + valor).modal({
+                transition: "fade up",
+                observeChanges: true,
+                onSubmit: function () {
+                return false; //deixar o modal fixo
+            },
+            }).modal('show');
+
+        }) 
+        
+        $('#btnCancelarChamado' + valor).click(function () {
+        
+        $("#formChamado" + valor).find("#hdnEntidade").val('Usuario');
+        
+        $("#formChamado" + valor).find("#hdnAcao").val('cancelarChamadoUsuario');
+            
+        $("#divModalVisualizar" + valor).hide();
+        
+        $("#botaoResponderNovaMensagem" + valor).hide();
+        
+        $("#botaoCancelarChamado" + valor).show();
+        
+        $("#divAtencaoCancela" + valor).show();
+        
+        $("#divModalMenorCancelar" + valor).show();
+
+            $('#modalChamado' + valor).modal({
+                transition: "fade up",
+                observeChanges: true,
+                onSubmit: function () {
+                return false; //deixar o modal fixo
+            },
+            }).modal('show');
+
+        })
+
+        $("#botaoResponderNovaMensagem" + valor).click(function () {
+
+            $.ajax({
+                url: "index.php",
+                dataType: "json",
+                type: "POST",
+                data: $('#formChamado'+valor).serialize(),
+                beforeSend: function () {
+                    $("#divRetornoNovoStatus"+valor).html("<div><div class='ui active inverted dimmer'>\n\
+                        <div class='ui text loader'>Processando. Aguarde...</div></div></div>");
+                },
+                success: function (resposta) {
+                    if (resposta.resultado == 1) {
+                        $("#divRetornoNovoStatus" + valor).html("<div class='ui positive message'>\n\
+                        <i class='big green check circle outline icon'></i>Resposta Cadastrada com sucesso</div>");
+                        $("#botaoResponderNovaMensagem" + valor).hide();
+
+                        $("#botaoFecharChamado" + valor).click(function () {
+                            window.location = "index.php?entidade=Usuario&acao=MeuPIP";
+                        });
+
+                        } else {
+                        $("#botaoResponderNovaMensagem" + valor).hide();
+                        $("#divRetornoNovoStatus" + valor).html("<div class='ui negative message'>\n\
+                        <i class='big red remove circle outline icon'></i>Erro. Tente novamente em alguns minutos</div>");
+                        $("#botaoFecharChamado" + valor).click(function () {
+                            window.location = "index.php?entidade=Usuario&acao=MeuPIP";
+                        });
+                        }
+                }
+            })
+
+        })
+        
+        $("#botaoCancelarChamado" + valor).click(function () {
+
+            $.ajax({
+                url: "index.php",
+                dataType: "json",
+                type: "POST",
+                data: $('#formChamado'+valor).serialize(),
+                beforeSend: function () {
+                    $("#divRetornoNovoStatus"+valor).html("<div><div class='ui active inverted dimmer'>\n\
+                        <div class='ui text loader'>Processando. Aguarde...</div></div></div>");
+                },
+                success: function (resposta) {
+                    if (resposta.resultado == 1) {
+                        $("#divRetornoNovoStatus" + valor).html("<div class='ui positive message'>\n\
+                        <i class='big green check circle outline icon'></i>Chamado cancelado com sucesso</div>");
+                        $("#botaoCancelarChamado" + valor).hide();
+                        $("#divAtencaoCancela" + valor).hide();
+
+                        $("#botaoFecharChamado" + valor).click(function () {
+                            window.location = "index.php?entidade=Usuario&acao=MeuPIP";
+                        });
+
+                        } else {
+                        $("#botaoCancelarChamado" + valor).hide();
+                        $("#divRetornoNovoStatus" + valor).html("<div class='ui negative message'>\n\
+                        <i class='big red remove circle outline icon'></i>Erro. Tente novamente em alguns minutos</div>");
+                        $("#botaoFecharChamado" + valor).click(function () {
+                            window.location = "index.php?entidade=Usuario&acao=MeuPIP";
+                        });
+                        }
+                }
+            })
+
+        })
+
+    })     
+
+}
+
+function inativarUsuario(valor) {
+    
+    $(document).ready(function () {
+        $('#btnInativar' + valor).click(function () {
+            $("#botaoFecharInativar" + valor).hide();
+            
+            $('#modalInativar' + valor).modal({
+                closable: true,
+                transition: "fade up",
+                observeChanges: true,
+                onDeny: function () {
+                },
+                onApprove: function () {
+                    $("#formInativarUsuario" + valor).submit();
+                    return false; //deixar o modal fixo
+                },
+            }).modal('show');
+      
+            $("#formInativarUsuario" + valor).validate({                
+                onkeyup: false,
+                focusInvalid: true,     
+
+                submitHandler: function (form) {
+                    $.ajax({
+                        url: "index.php",
+                        dataType: "json",
+                        type: "POST",
+                        data: $("#formInativarUsuario" + valor).serialize(),
+                        beforeSend: function () {
+                            $("#botaoInativar" + valor).hide();
+                            $("#botaoCancelarInativar" + valor).hide();
+                            $("#divDescricaoInativar" + valor).hide();
+                            $("#divRetornoInativar" + valor).html("<div><div class='ui active inverted dimmer'>\n\
+                        <div class='ui text loader'>Processando. Aguarde...</div></div></div>");
+                        },
+                        success: function (resposta) {
+                            $("#divRetornoInativar" + valor).empty();
+                            $("#botaoFecharInativar" + valor).show();
+                            $("#botaoFecharInativar" + valor).click(function () {
+                                window.location = "index.php?entidade=Usuario&acao=listarUsuarios";
+                            });
+                            if (resposta.resultado == 1) {
+                                $("#divRetornoInativar" + valor).html("<div class='ui positive message'>\n\
+                            <i class='big green check circle outline icon'></i>Usuário Inativado com Sucesso</div>");
+
+                            } else {
+                                $("#divRetornoInativar" + valor).html("<div class='ui negative message'>\n\
+                            <i class='big red remove circle outline icon'></i>Erro. Tente novamente em alguns minutos</div>");
+                            }
+                        }
+                    })
+                    return false;
+                }
+            })
+
+        })
+
+    })  
+}
+
+function ativarUsuario(valor) {
+    
+    $(document).ready(function () {
+        $('#btnAtivar' + valor).click(function () {
+            $("#botaoFecharAtivar" + valor).hide();
+            
+            $('#modalAtivar' + valor).modal({
+                closable: true,
+                transition: "fade up",
+                observeChanges: true,
+                onDeny: function () {
+                },
+                onApprove: function () {
+                    $("#formAtivarUsuario" + valor).submit();
+                    return false; //deixar o modal fixo
+                },
+            }).modal('show');
+      
+            $("#formAtivarUsuario" + valor).validate({                
+                onkeyup: false,
+                focusInvalid: true,     
+
+                submitHandler: function (form) {
+                    $.ajax({
+                        url: "index.php",
+                        dataType: "json",
+                        type: "POST",
+                        data: $("#formAtivarUsuario" + valor).serialize(),
+                        beforeSend: function () {
+                            $("#botaoAtivar" + valor).hide();
+                            $("#botaoCancelarAtivar" + valor).hide();
+                            $("#divDescricaoAtivar" + valor).hide();
+                            $("#divRetornoAtivar" + valor).html("<div><div class='ui active inverted dimmer'>\n\
+                        <div class='ui text loader'>Processando. Aguarde...</div></div></div>");
+                        },
+                        success: function (resposta) {
+                            $("#divRetornoAtivar" + valor).empty();
+                            $("#botaoFecharAtivar" + valor).show();
+                            $("#botaoFecharAtivar" + valor).click(function () {
+                                window.location = "index.php?entidade=Usuario&acao=listarUsuarioDesativado";
+                            });
+                            if (resposta.resultado == 1) {
+                                $("#divRetornoAtivar" + valor).html("<div class='ui positive message'>\n\
+                            <i class='big green check circle outline icon'></i>Usuário Ativado com Sucesso</div>");
+
+                            } else {
+                                $("#divRetornoAtivar" + valor).html("<div class='ui negative message'>\n\
+                            <i class='big red remove circle outline icon'></i>Erro. Tente novamente em alguns minutos</div>");
+                            }
+                        }
+                    })
+                    return false;
+                }
+            })
+
+        })
+
+    })  
 }
