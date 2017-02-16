@@ -257,5 +257,31 @@ class Usuario {
         
         return $this;
     }
+    
+    public function inativar($parametros){
+        
+      
+        
+        $usuario = new Usuario();
+        
+        $usuario->setId($parametros["hdnUsuario"]);
+                
+        $usuario->setStatus("inativo");
+        
+        return $usuario;
+    }
+    
+    public function ativar($parametros){
+        
+      
+        
+        $usuario = new Usuario();
+        
+        $usuario->setId($parametros["hdnUsuario"]);
+                
+        $usuario->setStatus("ativo");
+        
+        return $usuario;
+    }
 
 }

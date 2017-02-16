@@ -376,6 +376,20 @@ class ConsultasAdHoc extends GenericoDAO {
         return $resultado;
         
     }
+    
+    public function consultaUsuarioDenuncia(){
+     
+        $sql = "select tipousuario, nome, cpfcnpj, login, email, 
+            count(d.id) as 'denuncias' from usuario u left join 
+            denuncia d on u.id = d.idusuario where status like 'ativo'
+            order by denuncias";
+
+        $statement = $this->conexao->prepare($sql);
+        $statement->execute();
+        $resultado = $statement->fetchAll(PDO::FETCH_CLASS, "Usuario");
+        return $resultado;
+        
+    }
     public function ConsultarAnunciosPendentesPorUsuario($idUsuario, $administrador, $statusAnuncio = null) {
         $allow = $statusAnuncio;
         

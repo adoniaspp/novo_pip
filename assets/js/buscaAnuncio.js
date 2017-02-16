@@ -34,8 +34,8 @@ function buscarAnuncio() {
                 .dropdown({
                     on: 'hover',
                     message: {
-                      noResults     : 'Nenhum resultado.'
-                    }            
+                        noResults: 'Nenhum resultado.'
+                    }
                 });
         $('.ui.checkbox')
                 .checkbox();
@@ -465,7 +465,7 @@ function formatarValor(valor) {
         limit: 8,
         thousandsSeparator: '.'
     })
-      
+
     $("#txtTitulo" + valor).maxlength({
         threshold: 50,
         warningClass: "ui small green circular label",
@@ -627,13 +627,142 @@ function inserirValidacao() {
     });
 }
 
+function enviarDenuncia() {
+    $(document).ready(function () {
+        
+        $("#botaoFecharDenuncia").hide();
 
+        $("#sltTipoDenuncia").dropdown('clear');
+        $.post('index.php?hdnEntidade=Denuncia&hdnAcao=buscarTipoDenuncia',
+                function (resposta) {
+                    $("#retornoTipoDenuncia").html(resposta);
+                }
+        )
+
+        $('.ui.dropdown')
+                .dropdown()
+                ;
+
+        $('#txtMsgDenuncia').maxlength({
+            alwaysShow: true,
+            threshold: 500,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+        $('#txtEmailDenuncia').maxlength({
+            alwaysShow: true,
+            threshold: 100,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+
+        $('#btnDenuncia').click(function () {
+            $('#modalDenunciaAnuncio').modal({
+                closable: true,
+                transition: "fade up",
+                onDeny: function () {
+                },
+                onApprove: function () {
+                    $("#formDenunciaAnuncio").submit();
+                    return false; //deixar o modal fixo
+                }
+            }).modal('show');
+            $.validator.setDefaults({
+                ignore: [],
+                errorClass: 'errorField',
+                errorElement: 'div',
+                errorPlacement: function (error, element) {
+                    error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).closest("div.field").addClass("error").removeClass("success");
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).closest(".error").removeClass("error").addClass("success");
+                }
+            });
+            $.validator.messages.required = 'Campo obrigatório';
+            $('#formDenunciaAnuncio').validate({
+                onkeyup: false,
+                focusInvalid: true,
+                rules: {
+                    txtEmailDenuncia: {
+                        email: true
+                    },
+                    txtMsgDenuncia: {
+                        required: true
+                    },
+                    captcha_code: {
+                        required: true,
+                        remote:
+                                {
+                                    url: "index.php",
+                                    dataType: "json",
+                                    type: "POST",
+                                    data: {
+                                        hdnEntidade: "Usuario",
+                                        hdnAcao: "validarCaptcha"
+                                    }
+                                }
+                    }
+                },
+                messages: {
+                    txtEmailDenuncia: {
+                        email: "Informe um email válido"
+                    },
+                    captcha_code: {
+                        remote: "Código Inválido"
+                    },
+                },
+                submitHandler: function (form) {
+                    $.ajax({
+                        url: "index.php",
+                        dataType: "json",
+                        type: "POST",
+                        data: $('#formDenunciaAnuncio').serialize(),
+                        beforeSend: function () {
+                            $("#botaoEnviarDenuncia").hide();
+                            $("#botaoCancelarDenuncia").hide();
+                            $("#camposDenuncia").hide();
+                            $("#divRetornoDenuncia").html("<div><div class='ui active inverted dimmer'>\n\
+                        <div class='ui text loader'>Enviando denúncia. Aguarde...</div></div></div>");
+                        },
+                        success: function (resposta) {
+                            $("#divRetornoDenuncia").empty();
+                            $("#botaoCancelarDenuncia").hide();
+                            $("#botaoFecharDenuncia").show();
+                            if (resposta.resultado == 1) {                               
+                                $("#divRetornoDenuncia").html("<div class='ui positive message'>\n\
+<i class='big green check circle outline icon'></i>Denúncia Enviada com Sucesso</div>");
+                                $("#btnDenuncia").attr("disabled", "disabled");
+
+                            } else {
+                                $("#divRetornoDenuncia").html("<div class='ui negative message'>\n\
+<i class='big red remove circle outline icon'></i>Erro no Envio. Tente novamente em alguns minutos</div>");
+                            }
+                        }
+                    })
+                    return false;
+                }
+            })
+
+        })
+    })
+}
 
 function enviarDuvidaAnuncio() {
     $(document).ready(function () {
 
         $("#botaoFecharDuvida").hide();
-        
+
         $('#txtNomeDuvida').maxlength({
             alwaysShow: true,
             threshold: 50,
@@ -1423,9 +1552,9 @@ function validarArea(validacao) {
 }
 
 function enviarDuvidaUsuario() {
-    
+
     $(document).ready(function () {
-        
+
         $('#txtNomeDuvida').maxlength({
             alwaysShow: true,
             threshold: 50,
@@ -1470,7 +1599,7 @@ function enviarDuvidaUsuario() {
         $("#botaoEnviarDuvida").click(function () {
             if ($("#form").valid()) {
                 $("#form").submit();
-            } 
+            }
         });
 
         $.validator.setDefaults({
@@ -1526,29 +1655,28 @@ function enviarDuvidaUsuario() {
             },
             submitHandler: function (form) {
                 //form.submit();
-                   $.ajax({
+                $.ajax({
                     url: "index.php",
                     dataType: "json",
                     type: "POST",
                     data: $('#form').serialize(),
-                    
                     beforeSend: function () {
                         $("#divRetorno").html("<div><div class='ui active inverted dimmer'>\n\
                             <div class='ui text loader'>Processando. Aguarde...</div></div></div>");
                     },
                     success: function (resposta) {
                         $("#divRetorno").empty();
-                        
+
                         $("input[type^='text']").each(function () {
                             $(this).attr("disabled", "disabled");
                         });
-                        
+
                         $("#txtMsgDuvida").attr("disabled", "disabled");
-                        
+
                         $("#botoesDuvidas").hide();
-                        
+
                         $("#duvidaCaptcha").hide();
-                        
+
                         if (resposta.resultado == 1) {
                             $("#divRetorno").html('<div class="ui positive message">\n\
                             <i class="big green check circle outline icon"></i>Dúvida enviada com sucesso. Em breve responderemos a você</div>');
@@ -1560,7 +1688,7 @@ function enviarDuvidaUsuario() {
                     }
                 })
                 return false;
-                
+
             }
         });
 
