@@ -103,4 +103,16 @@ class ImagemAprovacao {
         $arquivo = substr($this->diretorio, $posicao+1);
         return $diretorio . "/thumbnail/" . $arquivo;
     }
+    
+        
+    public function imagemAprovado($imagemAprovado,$idAnuncio){
+        $imagemAprovado->setIdAnuncio($idAnuncio);
+        $imagemAprovado->setDiretorio($this->getDiretorio() ? $this->getDiretorio() : "");       
+        $imagemAprovado->setLegenda($this->getLegenda() ? $this->getLegenda() : "");       
+        $imagemAprovado->setDestaque($this->getDestaque() ? $this->getDestaque() : "");       
+        $imagemAprovado->setNome($this->getNome() ? $this->getNome() : "");       
+        $imagemAprovado->setTipo($this->getTipo() ? $this->getTipo() : "");       
+        $imagemAprovado->setTamanho($this->getTamanho() ? $this->getTamanho() : "");       
+        return $imagemAprovado;
+    }
 }

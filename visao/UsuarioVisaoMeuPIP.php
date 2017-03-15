@@ -152,6 +152,9 @@ foreach ($imoveis as $qtdAnuncios) {
     if ($qtdAnuncios->getAnuncio()) {
         $totalAnuncios = $totalAnuncios + 1;
     }
+    if ($qtdAnuncios->getAnuncioAprovacao()) {
+        $totalAnuncios = $totalAnuncios + 1;
+    }
 }
 ?>
 
@@ -257,10 +260,10 @@ foreach ($imoveis as $qtdAnuncios) {
         </h2>
     </div>
     <div class="ui stackable red inverted container menu">
-        <a href="index.php?entidade=Anuncio&acao=listarPendente" class="item">            
-            <i class="large edit icon"></i> Ativar/Desativar Anúncios           
+        <a href="index.php?entidade=AnuncioAprovacao&acao=listarPendente" class="item">            
+            <i class="large edit icon"></i> Aprovar Anúncios           
         </a>
-        <a href="index.php?entidade=Anuncio&acao=listarNegado" class="item">            
+        <a href="index.php?entidade=AnuncioAprovacao&acao=listarNegado" class="item">            
             <i class="large remove icon"></i> Anúncios Negados           
         </a>
         <a href="index.php?entidade=Usuario&acao=listarUsuario" class="item">            
@@ -669,8 +672,8 @@ foreach ($imoveis as $qtdAnuncios) {
                         <a href="index.php?entidade=Anuncio&acao=listarAtivo" class="item"> 
                             <i class="large list icon"></i> Anúncios Ativos
                         </a>
-                        <a href="index.php?entidade=Anuncio&acao=listarPendente" class="item"> 
-                            <i class="large warning icon"></i> Pendentes de Ativação
+                        <a href="index.php?entidade=AnuncioAprovacao&acao=listarPendente" class="item"> 
+                            <i class="large warning icon"></i> Pendentes de Aprovação
                         </a>
                         <a href="index.php?entidade=Anuncio&acao=listarFinalizado" class="item"> 
                             <i class="large thumbs outline up icon"></i> Anúncios Não Ativos
@@ -700,6 +703,7 @@ foreach ($imoveis as $qtdAnuncios) {
                     $anuncioAtivo = 0;
                     $anuncioFinalizado = 0;
                     $anuncioExpirado = 0;
+                    $anuncioPendente = 0;
 
                     $anuncioAtivoAluguel = 0;
                     $anuncioAtivoVenda = 0;
@@ -714,7 +718,6 @@ foreach ($imoveis as $qtdAnuncios) {
                     $anuncioPendenteVenda = 0;
 
                     foreach ($imoveis as $anuncio) {
-                        $anuncios = $anuncio->getAnuncio();
                         if ($anuncio->getAnuncio()) {
 
                             switch ($anuncio->getAnuncio()->getStatus()) {
@@ -745,10 +748,18 @@ foreach ($imoveis as $qtdAnuncios) {
                                         $anuncioExpiradoVenda = $anuncioExpiradoVenda + 1;
 
                                     break;
-                                case "pendenteativacao":
+                            }
+                        }
+                    }
+                    foreach ($imoveis as $anuncio) {
+                        if ($anuncio->getAnuncioaprovacao()) {
+
+                            switch ($anuncio->getAnuncioaprovacao()->getStatus()) {
+                                case "pendenteaprovacao":
+                                case "emanalise":
                                     $anuncioPendente = $anuncioPendente + 1;
 
-                                    if ($anuncio->getAnuncio()->getFinalidade() == "Aluguel") {
+                                    if ($anuncio->getAnuncioaprovacao()->getFinalidade() == "Aluguel") {
                                         $anuncioPendenteAluguel = $anuncioPendenteAluguel + 1;
                                     } else
                                         $anuncioPendenteVenda = $anuncioPendenteVenda + 1;
@@ -902,7 +913,7 @@ foreach ($imoveis as $qtdAnuncios) {
                 </div>
             </div>
 
-
+ <?php if ($anuncioAtivo > 0) { ?>
             <div class="row">         
                 <div class="column">
                     <table class="ui striped brown celled fixed table">
@@ -1008,6 +1019,7 @@ foreach ($imoveis as $qtdAnuncios) {
                     </div>
                 </div>
             </div>  
+ <?php } ?>            
             <div id="linkPlanos"></div>
             <?php
         }
@@ -1094,7 +1106,7 @@ foreach ($imoveis as $qtdAnuncios) {
                                 echo "<td>" . $statusPlano . "</td>";
                                 
                                 //seta o valor de nenhum anuncio
-                                $vinculado = "<h4 class='ui red header'>Nenhum Anúncio</h4>";
+                                $vinculado = "<h4 class='ui red header'>Nenhum anúncio aprovado</h4>";
 
                                 foreach ($imoveis as $anuncios) {
                                     if (count($anuncios->getAnuncio()) > 0) {//verifica se tem anuncios.

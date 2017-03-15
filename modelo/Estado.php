@@ -4,6 +4,7 @@ class Estado {
 
     private $id;
     private $uf;
+    private $nome;
 
     public function getId() {
         return $this->id;
@@ -20,11 +21,18 @@ class Estado {
     public function setUf($uf) {
         $this->uf = $uf;
     }
-    
-     function cadastrar($parametros) {
-        $estado = new Estado();
+
+    function getNome() {
+        return $this->nome;
+    }
+
+    function setNome($nome) {
+        $this->nome = $nome;
+    }
+
+    function cadastrar($parametros) {
         $estado->setUf($parametros['txtEstado']);
-        return $estado;
-     }
+        $estado->setNome($parametros['txtNome']);
+    }
 
 }

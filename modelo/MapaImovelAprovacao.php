@@ -1,12 +1,12 @@
 <?php
 
 class MapaImovelAprovacao {
-    
+
     private $id;
     private $idanuncioaprovacao;
     private $latitude;
     private $longitude;
-    
+
     function getId() {
         return $this->id;
     }
@@ -39,10 +39,17 @@ class MapaImovelAprovacao {
         $this->longitude = $longitude;
     }
 
-    function cadastrar($parametros, $idAnuncio){
+    function cadastrar($parametros, $idAnuncio) {
         $this->setIdanuncioaprovacao($idAnuncio);
         $this->setLatitude($parametros["hdnLatitude"]);
         $this->setLongitude($parametros["hdnLongitude"]);
     }
-    
+
+    function mapaImovelAprovado($mapaImovelAprovado,$idAnuncio) {
+        $mapaImovelAprovado->setIdAnuncio($idAnuncio);
+        $mapaImovelAprovado->setLatitude($this->getLatitude());
+        $mapaImovelAprovado->setLongitude($this->getLongitude());
+        return $mapaImovelAprovado;
+    }
+
 }

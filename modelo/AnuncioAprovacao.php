@@ -20,10 +20,8 @@ class AnuncioAprovacao {
  
     protected $imovel;
     protected $usuarioplano;
-    protected $historicoaluguelvenda;
-    protected $novovaloranuncio;
-    protected $mapaimovel;
-    protected $imagem;
+    protected $mapaimovelaprovacao;
+    protected $imagemaprovacao;
             
     function getId() {
         return $this->id;
@@ -89,20 +87,12 @@ class AnuncioAprovacao {
         return $this->usuarioplano;
     }
 
-    function getHistoricoaluguelvenda() {
-        return $this->historicoaluguelvenda;
+    function getMapaimovelaprovacao() {
+        return $this->mapaimovelaprovacao;
     }
 
-    function getNovovaloranuncio() {
-        return $this->novovaloranuncio;
-    }
-
-    function getMapaimovel() {
-        return $this->mapaimovel;
-    }
-
-    function getImagem() {
-        return $this->imagem;
+    function getImagemaprovacao() {
+        return $this->imagemaprovacao;
     }
 
     function setId($id) {
@@ -169,20 +159,13 @@ class AnuncioAprovacao {
         $this->usuarioplano = $usuarioplano;
     }
 
-    function setHistoricoaluguelvenda($historicoaluguelvenda) {
-        $this->historicoaluguelvenda = $historicoaluguelvenda;
-    }
 
-    function setNovovaloranuncio($novovaloranuncio) {
-        $this->novovaloranuncio = $novovaloranuncio;
-    }
-
-    function setMapaimovel($mapaimovel) {
-        $this->mapaimovel = $mapaimovel;
+    function setMapaimovelaprovacao($mapaimovelaprovacao) {
+        $this->mapaimovelaprovacao = $mapaimovelaprovacao;
     }
     
-    function setImagem($imagem) {
-        $this->imagem = $imagem;
+    function setImagemaprovacao($imagemaprovacao) {
+        $this->imagemaprovacao = $imagemaprovacao;
     }
 
                    
@@ -216,12 +199,8 @@ class AnuncioAprovacao {
     }
     
     public function alterarStatus($parametros){
-        
-        $this->setId($parametros['hdnAnuncio']);        
         $this->setStatus($parametros['sltStatusAnuncio']);
         $this->setDatahoraalteracao(date("Y/m/d H:i:s"));
-        
-        return $this;
     }
     
     private function limpaValorNumerico($valor) {
@@ -230,6 +209,23 @@ class AnuncioAprovacao {
         $valor = str_replace(",", ".", $valor);
         $valor = trim($valor);
         return $valor;
+    }
+    
+    public function anuncioAprovado($anuncioAprovado){
+        $anuncioAprovado->setIdImovel($this->getIdimovel());
+        $anuncioAprovado->setIdAnuncio($this->getIdanuncio());       
+        $anuncioAprovado->setFinalidade($this->getFinalidade());
+        $anuncioAprovado->setTituloAnuncio($this->getTituloanuncio());
+        $anuncioAprovado->setDescricaoAnuncio($this->getDescricaoanuncio());
+        $anuncioAprovado->setStatus('cadastrado');
+        $anuncioAprovado->setDatahoraalteracao(date("Y/m/d H:i:s"));
+        $anuncioAprovado->setDatahoracadastro($this->getDatahoracadastro());
+        $anuncioAprovado->setDatahoradesativacao('');
+        $anuncioAprovado->setPublicarmapa($this->getPublicarmapa());
+        $anuncioAprovado->setPublicarcontato($this->getPublicarcontato());
+        $anuncioAprovado->setIdusuarioplano($this->getIdusuarioplano());
+        $anuncioAprovado->setValormin($this->getValormin());
+        return $anuncioAprovado;
     }
     
 }

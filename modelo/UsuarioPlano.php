@@ -79,4 +79,10 @@ class UsuarioPlano {
         return $permitido;
     }
 
+    public function reativarPlano() {
+        if ($_SESSION['login'] === "pipdiministrador") {
+            $this->setStatus("ativo");
+        }
+    }
+
 }

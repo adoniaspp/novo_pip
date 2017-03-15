@@ -13,6 +13,7 @@ class Imovel {
     private $status;
     private $datahoraexclusao;
     protected $anuncio;
+    protected $anuncioaprovacao;
     protected $endereco;
     protected $casa;
     protected $apartamento;
@@ -191,8 +192,15 @@ class Imovel {
     function setImoveldiferencial($imoveldiferencial) {
         $this->imoveldiferencial = $imoveldiferencial;
     }
+    function getAnuncioaprovacao() {
+        return $this->anuncioaprovacao;
+    }
 
-            
+    function setAnuncioaprovacao($anuncioaprovacao) {
+        $this->anuncioaprovacao = $anuncioaprovacao;
+    }
+
+                
     public function Referencia() {
 
         return substr($this->getDatahoracadastro(), 0, -15) . substr($this->getDatahoracadastro(), 5, 2) . str_pad($this->getId(), 5, "0", STR_PAD_LEFT);
