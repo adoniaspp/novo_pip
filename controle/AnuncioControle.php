@@ -872,7 +872,18 @@ class AnuncioControle {
    }
    
     function enviarEmail($parametros) {
+        
+        //array criada para retirar os valores "SIM" que estão sendo passados
+        $selecionadosCorrigidos = array();
+        
+        foreach($parametros['listaAnuncio'] as $idsAnun){
+            
+            if($idsAnun != "SIM"){
+                $selecionadosCorrigidos[] = $idsAnun;
+            } 
 
+        }
+        
         $genericoDAO = new GenericoDAO();
         $genericoDAO->iniciarTransacao();
 
@@ -880,7 +891,8 @@ class AnuncioControle {
         $dadosEmail['contato'] = "PIP-Online";
         $dadosEmail['assunto'] = "PIP-Online - Selecionou imóvel(is) para você";
 
-        $totalAunciosSelecionados = count($parametros['anunciosSelecionados']);
+        //$totalAunciosSelecionados = count($parametros['anunciosSelecionados']);
+        $totalAunciosSelecionados = count($selecionadosCorrigidos);
 
         if ($parametros['txtNomeEmail'] != "") {
 
@@ -903,12 +915,11 @@ class AnuncioControle {
         } else
             $mensagemEmail = "";
 
-
         //Utilizado se for envio de e-mail para o correto através da tela de detalhes 
         if ($parametros['hdnAnuncio']) {
-            $parametros['anunciosSelecionados'] = array($parametros['hdnAnuncio']);
+                $parametros['anunciosSelecionados'] = array($parametros['hdnAnuncio']);           
         }
-
+        
         if ($totalAunciosSelecionados > 1) {
 
             $textoSelecionados = "Imóveis selecionados através do PIP Online";
@@ -1023,8 +1034,9 @@ class AnuncioControle {
 
         $contador = 1;
 
-        foreach ($parametros['anunciosSelecionados'] as $idanuncio) {
-
+        //foreach ($parametros['anunciosSelecionados'] as $idanuncio) {
+        foreach ($selecionadosCorrigidos as $idanuncio) {
+            
             $item["anuncio"] = $genericoDAO->consultar(new Anuncio(), true, array("id" => $idanuncio));
 
             $item["imovel"] = $genericoDAO->consultar(new Imovel(), true, array("id" => $item["anuncio"][0]->getIdImovel()));
@@ -1138,7 +1150,17 @@ class AnuncioControle {
     }
 
     function enviarEmailPDF($parametros) {
+        
+        $selecionadosCorrigidos = array();
+        
+        foreach($parametros['anunciosSelecionados'] as $idsAnun){
+            
+            if($idsAnun != "SIM"){
+                $selecionadosCorrigidos[] = $idsAnun;
+            } 
 
+        }
+        
         $genericoDAO = new GenericoDAO();
         $genericoDAO->iniciarTransacao();
         $dadosEmail['destino'] = $parametros['txtEmailEmail'];
@@ -1149,11 +1171,12 @@ class AnuncioControle {
 
         $dadosEmail['msg'] .= 'Mensagem: ' . $parametros['txtMsgEmail'] . "<br><br>";
 
-        //Utilizado se for envio de e-mail para o correto através da tela de detalhes 
-        if ($parametros['hdnAnuncio']) {
-            $parametros['anunciosSelecionados'] = array($parametros['hdnAnuncio']);
-        }
-
+        //Utilizado se for envio de e-mail para o corretor através da tela de detalhes 
+        /*if (isset($parametros['chkAnuncio'])) {
+            $parametros['anunciosSelecionados'] = array($parametros['chkAnuncio']);
+            
+        }*/
+ 
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
         $pdf->SetAuthor('PIP ONLINE');
@@ -1194,14 +1217,16 @@ class AnuncioControle {
 
         $contadorPaginas = 0;
 
-        $numeroAnuncios = count($parametros['anunciosSelecionados']);
-
-        foreach ($parametros['anunciosSelecionados'] as $idanuncio) {
-
+        //$numeroAnuncios = count($parametros['anunciosSelecionados']);
+        $numeroAnuncios = count($selecionadosCorrigidos);
+        
+        //foreach ($parametros['anunciosSelecionados'] as $idanuncio) {
+        foreach ($selecionadosCorrigidos as $idanuncio) {    
+            
             $contadorPaginas = $contadorPaginas + 1;
 
             $item["anuncio"] = $genericoDAO->consultar(new Anuncio(), true, array("id" => $idanuncio));
-
+            
             $item["imovel"] = $genericoDAO->consultar(new Imovel(), true, array("id" => $item["anuncio"][0]->getIdImovel()));
 
             $item["endereco"] = $genericoDAO->consultar(new Endereco(), true, array("id" => $item["imovel"][0]->getIdEndereco()));
@@ -1232,7 +1257,7 @@ class AnuncioControle {
             } else if ($item["imovel"][0]->getSalaComercial() != null) {
                 $html = $html . "Banheiro(s): "
                         . $item["imovel"][0]->getSalaComercial()->getBanheiro() . "<br>Vaga(s) de Garagem: "
-                        . $item["imovel"][0]->getSalaComercial()->getGaragem() . "<br>";
+                        . $item["imovel"][0]->getSalaComercial()->getGaragem() . "<br><br>";
             } else if ($item["imovel"][0]->getApartamento() != null) {
                 $html = $html . "Quarto(s): " . $item["imovel"][0]->getApartamento()->getQuarto() . "<br>"
                         . "Banheiro(s): " . $item["imovel"][0]->getApartamento()->getBanheiro() . "<br>"
@@ -1241,7 +1266,6 @@ class AnuncioControle {
                         . "Unidade(s) por Andar: " . $item["imovel"][0]->getApartamento()->getUnidadesAndar() . "<br>"
                         . "Andar do Apartamento: " . $item["imovel"][0]->getApartamento()->getAndar() . "º <br>"
                         . "Condominio: R($) " . $item["imovel"][0]->getApartamento()->getCondominio() . "<br>"
-                        . "Está na Cobertura: " . $item["imovel"][0]->getApartamento()->getCobertura() . "<br>"
                         . "Área: " . $item["imovel"][0]->getApartamento()->getArea() . " m<sup>2</sup><br>";
             } else if ($item["imovel"][0]->getApartamentoPlanta() != null) {
                 $html = $html . "Andares: " . $item["imovel"][0]->getApartamentoPlanta()->getAndares() . "<br>"
@@ -1308,6 +1332,7 @@ class AnuncioControle {
             if ($contadorPaginas < $numeroAnuncios) { //adicionar quebra de página ao final do anúncio
                 $pdf->AddPage();
             }
+
         }
 
         $pdf->Output(PIPROOT . '/pdf/' . "anunciosEscolhidos" . $_SESSION["login"]
@@ -1488,10 +1513,6 @@ class AnuncioControle {
         }
     }
 
-    function fimCadastroAnuncio($parametros) {
-        $this->detalhar(array("hdnTipoImovel" => $parametros["hdnTipo"], "hdnCodAnuncio" => $parametros["hdnCodAnuncio"]));
-    }
-
     function alterarValor($parametros) {
 
         if (Sessao::verificarSessaoUsuario()) {
@@ -1566,40 +1587,7 @@ class AnuncioControle {
         } else { //caso o usuário não esteja logado
             echo json_encode(array("resultado" => 3));
         }
-    }
-    
-    function listarPendente() {
-        if (Sessao::verificarSessaoUsuario()) {
-            $anuncio = new Anuncio();
-            $genericoDAO = new GenericoDAO();
-            $consultasAdHoc = new ConsultasAdHoc();
-            
-            $administrador = false;     
-            
-            if(($_SESSION['login'] === "pipdiministrador")){
-                $administrador = true; 
-            }    
-            
-                $listaAnuncio = $consultasAdHoc->ConsultarAnunciosPendentesPorUsuario($_SESSION['idusuario'], $administrador, array('pendenteaprovacao', 'emanalise'));
-                foreach ($listaAnuncio as $anuncio) {
-                    $imovel = $genericoDAO->consultar(new Imovel(), false, array("id" => $anuncio->getIdImovel()));
-                    $anuncio->setImovel($imovel[0]);
-
-                    $usuarioplano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $anuncio->getIdusuarioplano()));
-                    $anuncio->setUsuarioplano($usuarioplano[0]);
-
-                    $novoValor = $genericoDAO->consultar(new NovoValorAnuncio(), false, array("idanuncio" => $anuncio->getId()));
-                    $anuncio->setNovovaloranuncio($novoValor);
-
-                    $listarAnuncios[] = $anuncio;
-                }
-            
-            $visao = new Template();
-            $item["listaAnuncio"] = $listarAnuncios;
-            $visao->setItem($item);
-            $visao->exibir('AnuncioVisaoListagemPendente.php');
-        }
-    }
+    }    
     
     function listarNegado() {
         if (Sessao::verificarSessaoUsuario()) {
@@ -1648,9 +1636,9 @@ class AnuncioControle {
             $novoStatus = $genericoDAO->editar($setarStatus);       
             
             //enviar email ao usuário, avisando sobre a mudança de status
-            $email = $this->enviarEmailGenerico($parametros);
+            //$email = $this->enviarEmailGenerico($parametros);
             
-            if ($novoStatus && $email) {
+            if ($novoStatus){// && $email) {
 
                 $genericoDAO->commit();
 

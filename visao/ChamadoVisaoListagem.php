@@ -65,7 +65,7 @@
     Sessao::gerarToken();
    
     $item = $this->getItem();    
-    
+
     $totalChamados = count($item["listaChamado"]);
     
     if($totalChamados < 1){      
@@ -96,7 +96,8 @@
         
         <thead>
             <tr>
-                <th>Cód. Chamado</th>
+                <th>Código</th>
+                <th>Usuário</th>
                 <th>Tipo</th>
                 <th>Assunto</th>
                 <th>Mensagem</th>
@@ -115,6 +116,9 @@
                     <tr>
                         <td>                          
                             <?php echo $chamado->getCodigoChamado() ?>
+                        </td>
+                        <td>                          
+                            <?php echo $chamado->getUsuario()->getLogin(); ?>
                         </td>
                         <td><?php echo Chamado::retornarTipo($chamado->getChamadoAssunto()->getIdTipo()) ?></td>
                         <td><?php 
@@ -164,7 +168,7 @@
                                 
                                 echo $statusChamado;
                         ?> </td>
-                        <td><a class='ui circular inverted icon button' id="btnDetalhesChamado<?php echo $chamado->getId()?>"><i class='ui big green zoom icon'></i></a>Visualizar</td>                        
+                        <td><a class='ui circular inverted icon button' id="btnDetalhesChamado<?php echo $chamado->getId()?>"><i class='ui big green zoom icon'></i></a></td>                        
                     </tr>
                     
                     <!-- MODAL DA RESPOSTA-->
@@ -184,6 +188,7 @@
                                         <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="ChamadoResposta"  />
                                         <input type="hidden" id="hdnAcao" name="hdnAcao" value="responderChamado" />  
                                         <input type="hidden" id="hdnAdmin" name="hdnAdmin" value="SIM" /> 
+                                        <input type="hidden" id="hdnUsuario" name="hdnUsuario" value="<?php echo $chamado->getUsuario()->getId() ?>" /> 
                                         <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
                                         <input type="hidden" id="hdnChamado" name="hdnChamado" value="<?php echo $chamado->getId() ?>" />
 

@@ -127,7 +127,7 @@ function cadastrarAnuncio() {
                                     <div class='row'>\n\
                                         <div class='column'>\n\
                                             <div class='ui horizontal segments'>\n\
-                                            <div class='ui segment center aligned'><a target='_blank' href='index.php?entidade=Anuncio&acao=fimCadastroAnuncio&hdnCodAnuncio=" + resposta.id + "&hdnTipo=" + resposta.tipoImovel + "' class='ui circular inverted icon button'><i class='big brown zoom icon'></i></a>\n\
+                                            <div class='ui segment center aligned'><a target='_blank' href='index.php?entidade=AnuncioAprovacao&acao=fimCadastroAnuncio&hdnCodAnuncio=" + resposta.id + "&hdnTipo=" + resposta.tipoImovel + "' class='ui circular inverted icon button'><i class='big brown zoom icon'></i></a>\n\
                                                     Visualizar Anúncio\n\
                                             </div>\n\
                                             <div class='ui segment center aligned'>\n\
@@ -966,12 +966,11 @@ function exibirEmailPDFListaAnuncio(){
             beforeChecked: function () { //ao clicar no anuncio, marcar de vermelho   
 
                 var NumeroMaximo = 5;
-                if ($("input[name^='listaAnuncio']").length >= NumeroMaximo) {
-                    //console.log(selecionado);
+                if (selecionado == NumeroMaximo) {
                     alert('Selecione no máximo ' + NumeroMaximo + ' anúncios');
                     return false;
                 } else {
-                    $('#hdnTipoImovel').after('<input type="hidden" name="listaAnuncio[]" id=anuncio_' + $(this).val() + ' value=' + $(this).val() + '>');
+                    $('#hdsHidden').append('<input type="hidden" name="listaAnuncio[]" id=anuncio_' + $(this).val() + ' value=' + $(this).val() + '>');
                     selecionado = selecionado + 1;
                     var botaoEmailPDF = ("<div class='ui buttons'>\n\
                         <button class='ui button' id='btnEmail'>Enviar Por Email</button>\n\
@@ -979,7 +978,7 @@ function exibirEmailPDFListaAnuncio(){
                         <button class='ui positive button' id='btnEmailPDF'>Enviar Por Email - PDF</button>\n\
                         </div>");
                     if (selecionado == 1) {
-                        $("#divEmailPDF").append(botaoEmailPDF);
+                        $("#divEmailPDF").html(botaoEmailPDF);
                         confirmarEmail();
                         confirmarEmailPDF();
                     }
@@ -993,6 +992,7 @@ function exibirEmailPDFListaAnuncio(){
                 }
 
             }}
+
         );
     
     })
@@ -1125,11 +1125,17 @@ function confirmarEmailPDF() {
             {
                 $("#idAnuncios").append("<input type='hidden' name='anunciosSelecionados[]' value='" + $(this).val() + "'>");
                 var codigos = $( "input[name^='hdnCodAnuncioFormatado']" );
-                arr.push($(this).parent().parent().parent().find(codigos).val());
+                
+                if(codigos != ""){
+                    arr.push($(this).parent().parent().parent().find(codigos).val());
+                }      
+                
             });
 
             //retira a vírgula do último elemento
+            
             var anuncios = arr.join(", ");
+            
 
             $("#idAnunciosCabecalho").append("<div class='ui horizontal list'>\n\
                                         <div class='item'>\n\
@@ -1513,7 +1519,7 @@ function alterarStatusAnuncio(valor) {
                             $("#divRetornoNovoStatus" + valor).empty();
                             $("#botaoFecharStatus" + valor).show();
                             $("#botaoFecharStatus" + valor).click(function () {
-                                window.location = "index.php?entidade=Anuncio&acao=listarPendente";
+                                window.location = "index.php?entidade=AnuncioAprovacao&acao=listarPendente";
                             });
                             if (resposta.resultado == 1) {
                                 $("#divRetornoNovoStatus" + valor).html("<div class='ui positive message'>\n\

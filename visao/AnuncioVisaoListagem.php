@@ -23,6 +23,9 @@
         $.fn.dataTable.moment( 'DD/MM/YYYY HH:mm:ss' );
         
         $('#tabela').DataTable({
+            
+            
+            
             "language": {
                 "url": "assets/libs/datatables/js/Portuguese-Brasil.json",
             },
@@ -32,7 +35,12 @@
             "columnDefs": [
                 {"orderable": false, "targets": 0}, {"orderable": false, "targets": 7}
             ]
+            
         });
+        
+        /*$('#tabela').bind('page', function () {
+            exibirEmailPDFListaAnuncio();
+        });*/
 
     })
 
@@ -124,6 +132,9 @@
     <div class="ui middle aligned stackable grid container">
         <div class="row">
     <div class="column">
+        
+    <div id="hdsHidden"></div>    
+        
     <table class="ui brown stackable table" id="tabela">
         
         <thead>

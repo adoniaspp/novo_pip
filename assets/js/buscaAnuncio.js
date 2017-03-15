@@ -299,7 +299,7 @@ function carregarAnuncio() { //valor = quantidade de anuncios
 
     $(document).ready(function () {
 
-        var selecionado = 0;
+        exibirEnviarComparar();
 
         $('.special.cards .image').dimmer({
             on: 'hover'
@@ -311,49 +311,30 @@ function carregarAnuncio() { //valor = quantidade de anuncios
             panelPath: '.jplist-panel',
 //          Executa a action do botão de detalhes a cada vez que os cards são renderizados pela paginação.  
             redrawCallback: function () {
+                
+                $('.ui.checkbox')
+                    .checkbox();
+            
+                exibirEnviarComparar();
+
+                $(".valor").priceFormat({
+                    prefix: 'R$ ',
+                    centsSeparator: ',',
+                    centsLimit: 0,
+                    limit: 8,
+                    thousandsSeparator: '.'
+                })
+
                 $('.special.cards .image .button').on('click', function () {
-                    $("#hdnCodAnuncio").val($(this).siblings().val());
-                    $("#hdnTipoImovel").val($(this).siblings().next().val());
-                    $("#hdnEntidade").val("Anuncio");
-                    $("#hdnAcao").val("detalhar");
-                    $('#form').submit();
+                $("#hdnCodAnuncio").val($(this).siblings().val());
+                $("#hdnTipoImovel").val($(this).siblings().next().val());
+                $("#hdnEntidade").val("Anuncio");
+                $("#hdnAcao").val("detalhar");
+                $('#form').submit();
                 })
             }
         })
 
-        $('.ui.checkbox')
-                .checkbox({
-                    beforeChecked: function () { //ao clicar no anuncio, marcar de vermelho                                               
-                        var NumeroMaximo = 5;
-                        if ($("input[name^='listaAnuncio']").length >= NumeroMaximo) {
-                            alert('Selecione no máximo ' + NumeroMaximo + ' imóveis para a comparação');
-                            return false;
-                        } else {
-                            $('#hdnTipoImovel').after('<input type="hidden" name="listaAnuncio[]" id=anuncio_' + $(this).val() + ' value=' + $(this).val() + '>');
-                            $(this).closest('.card').attr("class", "red card");
-                            selecionado = selecionado + 1;
-                            var botaoEmailComparar = ("<div class='ui buttons'><button class='ui button' type='submit' id='btnEmail'>Enviar Por Email</button><div class='or' data-text='ou'></div><button class='ui positive button' type='submit' id='btnComparar'>Comparar</button></div>");
-                            if (selecionado == 1) {
-                                $("#divBotoes").append(botaoEmailComparar);
-                                confirmarEmail();
-                                $('#btnComparar').on('click', function () {
-                                    $("#hdnEntidade").val("Anuncio");
-                                    $("#hdnAcao").val("comparar");
-                                    $('#form').submit();
-                                })
-                            }
-                        }
-                    },
-                    onUnchecked: function () { //ao desmarcar o anuncio, tirar o vermelho
-                        $('#anuncio_' + $(this).val()).remove();
-                        $(this).closest('.card').attr("class", "card");
-                        selecionado = selecionado - 1;
-                        if (selecionado == 0) {
-                            $("#divBotoes").empty();
-                        }
-
-                    }}
-                );
 
         $("#spanValor").priceFormat({
             prefix: 'R$ ',
@@ -375,6 +356,49 @@ function carregarAnuncio() { //valor = quantidade de anuncios
     })
 
 }
+
+function exibirEnviarComparar(){
+    
+    $(document).ready(function () {
+        
+    var selecionado = 0;
+        
+    $('.ui.checkbox').checkbox({
+            beforeChecked: function () { //ao clicar no anuncio, marcar de vermelho                                               
+                var NumeroMaximo = 5;
+                if ($("input[name^='listaAnuncio']").length >= NumeroMaximo) {
+                    alert('Selecione no máximo ' + NumeroMaximo + ' imóveis para a comparação');
+                    return false;
+                } else {
+
+                    $('#hdnTipoImovel').after('<input type="hidden" name="listaAnuncio[]" id=anuncio_' + $(this).val() + ' value=' + $(this).val() + '>');
+                    $(this).closest('.card').attr("class", "red card");
+                    selecionado = selecionado + 1;
+                    var botaoEmailComparar = ("<div class='ui buttons'><button class='ui button' type='submit' id='btnEmail'>Enviar Por Email</button><div class='or' data-text='ou'></div><button class='ui positive button' type='submit' id='btnComparar'>Comparar</button></div>");
+                    if (selecionado == 1) {
+                        $("#divBotoes").html(botaoEmailComparar);
+                        confirmarEmail();
+                        $('#btnComparar').on('click', function () {
+                            $("#hdnEntidade").val("Anuncio");
+                            $("#hdnAcao").val("comparar");
+                            $('#form').submit();
+                        })
+                    }
+                }
+            },
+            onUnchecked: function () { //ao desmarcar o anuncio, tirar o vermelho
+                $('#anuncio_' + $(this).val()).remove();
+                $(this).closest('.card').attr("class", "card");
+                selecionado = selecionado - 1;
+                if (selecionado == 0) {
+                    $("#divBotoes").empty();
+                }
+
+            }}
+        );
+    })
+}
+
 function carregarAnuncioUsuario() {
 
     $('.special.cards .image').dimmer({

@@ -800,21 +800,18 @@ function trocarSenha() { //alterar a senha esquecida
                             $("#divCamposTrocaSenha").hide();
                             $("#divBotoesTrocarSenha").hide();
                             location.href = "index.php?entidade=Usuario&acao=MeuPIP";
-                            /*$("#divRetorno").html("<div class='ui negative message'>\n\
-                            <i class='big red remove circle outline icon'>\n\
-                            </i>Erro ao processar requisição. Tente novamente em alguns minutos - 000");*/
+
                         } else if (resposta.resultado == 1) {
                             $("#divCamposTrocaSenha").hide();
                             $("#divBotoesTrocarSenha").hide();
                             location.href = "index.php?entidade=Usuario&acao=MeuPIP";
-                            /*$("#divRetorno").html('<div class="ui inverted green center aligned segment">\n\
-    <p>Senha alterada com sucesso</p>');*/
+
                         } else if (resposta.resultado == 2) {
                             $("#divRetorno").html("<div class='ui negative message'>\n\
                             <i class='big red remove circle outline icon'>\n\
                             </i>A senha atual está incorreta. Tente novamente.");
                             
-                        } else if (resposta.resultado == 3) {
+                        } else if (resposta.resultado == 3) { //erro de token
                             location.href = "index.php?entidade=Usuario&acao=MeuPIP";
                             $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
     <p>Erro ao processar requisição - 005</p>');

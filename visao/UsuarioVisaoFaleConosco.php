@@ -9,18 +9,37 @@ enviarDuvidaUsuario();
 
 <div class="ui column doubling grid container">
     <div class="column">
+        
+        <h3 class="ui dividing header">Tira suas dúvidas sobre o PIP Online</h3>
+        <div class="ui message">                
+            Entre em contato conosco e tire suas dúvidas sobre o PIP Online. Iremos respondê-lo o mais breve possível 
+        </div>
+        
+        <?php 
+
+        if(!isset($_SESSION["idusuario"])){ //se o usuário não estiver logado, exibir os campos para cadastrado. 
+
+        ?>
+        
         <form id="form" class="ui form" action="index.php" method="post">
             <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
             <input type="hidden" id="hdnAcao" name="hdnAcao" value="faleConosco" />
             <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
-            <h3 class="ui dividing header">Tira suas dúvidas sobre o PIP Online</h3>
-            <div class="ui message">                
-                Entre em contato conosco e tire suas dúvidas sobre o PIP Online. Iremos respondê-lo o mais breve possível 
-            </div>              
-            <div class="field">
-                <label id="labelNome">Seu Nome</label>
-                <input name="txtNomeDuvida" id="txtNomeDuvida" placeholder="Digite Seu Nome" type="text" maxlength="50">
-            </div>
+
+            <div class="two fields">
+                
+                <div class="field">
+                    <label id="labelNome">Seu Nome</label>
+                    <input name="txtNomeDuvida" id="txtNomeDuvida" placeholder="Digite Seu Nome" type="text" maxlength="50">
+                </div>
+                
+                <div class="field">
+                    <label>Seu E-mail</label>
+                    <input name="txtEmailDuvida"  id="txtEmailDuvida" placeholder="Digite seu email" type="text" maxlength="50">
+                </div>
+                
+            </div>    
+      
             <div class="field">
                 <label id="labelNome">Título Mensagem</label>
                 <input name="txtTituloDuvida" id="txtTituloDuvida" placeholder="Título Email" type="text" maxlength="50">
@@ -29,10 +48,7 @@ enviarDuvidaUsuario();
                 <label>Sua Mensagem</label>
                 <textarea rows="2" id="txtMsgDuvida" name="txtMsgDuvida" maxlength="200"></textarea>
             </div>
-            <div class="field">
-                <label>Seu E-mail</label>
-                <input name="txtEmailDuvida"  id="txtEmailDuvida" placeholder="Digite seu email" type="text" maxlength="50">
-            </div>
+            
 
             <div class="five wide field" id="duvidaCaptcha">
                 <label>Digite o código abaixo:</label>
@@ -59,6 +75,22 @@ enviarDuvidaUsuario();
             <div id="divRetorno"></div>
             
             <br>
+        
         </form>
+            
+<?php 
+
+    } if(isset($_SESSION["idusuario"])){ //se o usuário estiver logado, informar que ele deve cadastrar a duvida na Central de Relacionamento 
+
+?>  
+        <div class="sixteen column">
+            <div class="ui warning message">
+                <i class='big yellow warning circle icon'></i>
+                <strong>Caro usuário</strong>, acesse a Central de Relacionamento do MeuPIP para cadastrar sua dúvida.
+            </div>
+        </div>
+    
+<?php } ?>        
+        
     </div>
 </div>

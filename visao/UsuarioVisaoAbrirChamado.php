@@ -38,6 +38,9 @@ Sessao::gerarToken();
         <form id="form" class="ui form" action="index.php" method="post">
             <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
             <input type="hidden" id="hdnAcao" name="hdnAcao" value="cadastrarChamadoUsuario" />
+            <input type="hidden" id="hdnUsuario" name="hdnUsuario" value="<?php echo $_SESSION['idusuario']; ?>" />
+            <input type="hidden" id="hdnEmailAssunto" name="hdnEmailAssunto" value="Abertura Chamado" />
+            <input type="hidden" id="hdnEnviadoPor" name="hdnEnviadoPor" value="PIP Online" />
             <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
             <h3 class="ui dividing header">Fale com o PIP Online</h3>
             <div class="ui message">                
@@ -61,7 +64,7 @@ Sessao::gerarToken();
                             </div>
                         </div>
                     </div>
-                    <div class="four wide required field">
+                    <div class="four wide required field" id="escolhaTipo">
                         <label>Assunto</label>
                         <div class="ui selection dropdown">
                             <input type="hidden" name="sltChamado" id="sltChamado">
