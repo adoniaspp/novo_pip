@@ -30,9 +30,9 @@ class EmailAnuncio {
     }
 
     function cadastrar($idanuncio) {
-        $emailanuncio = new EmailAnuncio();
+        $emailanuncio = new EmailAnuncio();        
+        $emailanuncio->setHash(md5(uniqid(rand(), TRUE)));
         $emailanuncio->setIdanuncio($idanuncio);
-        $emailanuncio->setHash(md5(uniqid(rand(), TRUE)));       
         return $emailanuncio;
     }
 

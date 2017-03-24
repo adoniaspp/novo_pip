@@ -458,7 +458,7 @@ function confirmarEmail() {
             $("#idAnuncios").empty();
             $("#idAnunciosCabecalho").empty();
 
-            var arr = [];
+            /*var arr = [];
             $("input[type^='checkbox']:checked").each(function ()
             {
                 $("#idAnuncios").append("<input type='hidden' name='anunciosSelecionados[]' value='" + $(this).val() + "'>");
@@ -469,6 +469,17 @@ function confirmarEmail() {
             //retira a vírgula do último elemento
             var anuncios = arr.join(", ");
 
+            $("#idAnunciosCabecalho").append("<div class='ui horizontal list'>\n\
+                                        <div class='item'>\n\
+                                        <div class='content'>" + anuncios + "</div>\n\
+                         </div>\n\
+                         </div>");*/
+            var arr = [];
+                $("#idAnuncios").append($("input[name^='listaAnuncio']"));
+                $(("input[name^='listaAnuncio']")).each(function(){
+                    arr.push($(this).val());                    
+                });
+            var anuncios = arr.join(", ");;
             $("#idAnunciosCabecalho").append("<div class='ui horizontal list'>\n\
                                         <div class='item'>\n\
                                         <div class='content'>" + anuncios + "</div>\n\

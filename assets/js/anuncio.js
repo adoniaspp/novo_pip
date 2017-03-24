@@ -959,6 +959,44 @@ function formatarValorUnico(valor) {
 function exibirEmailPDFListaAnuncio(){
     
     $(document).ready(function () {
+
+        var selecionado = 0;
+
+        $("input[name^='chkAnuncio']").parent().checkbox({
+            beforeChecked: function () { //ao clicar no anuncio, marcar de vermelho   
+                var NumeroMaximo = 5;
+                if ($("input[name^='listaAnuncio']").length >= NumeroMaximo) {
+                    //console.log(selecionado);
+                    alert('Selecione no máximo ' + NumeroMaximo + ' anúncios');
+                    return false;
+                } else {
+                    $('#form').after('<input type="hidden" name="listaAnuncio[]" id=anuncio_' + $(this).val() + ' value=' + $(this).val() + '>');
+                    selecionado = selecionado + 1;
+                    var botaoEmailPDF = ("<div class='ui buttons'>\n\
+                        <button class='ui button' id='btnEmail'>Enviar Por Email</button>\n\
+                            <div class='or' data-text='ou'></div>\n\
+                        <button class='ui positive button' id='btnEmailPDF'>Enviar Por Email - PDF</button>\n\
+                        </div>");
+                    if (selecionado == 1) {
+                        $("#divEmailPDF").append(botaoEmailPDF);
+                        confirmarEmail();
+                        confirmarEmailPDF();
+                    }
+                }
+            },
+            onUnchecked: function () { //ao desmarcar o anuncio
+                $('#anuncio_' + $(this).val()).remove();
+                selecionado = selecionado - 1;
+                if (selecionado == 0) {
+                    $("#divEmailPDF").empty();
+                }
+
+            }}
+        );
+
+    })
+    
+    /*$(document).ready(function () {
         
         var selecionado = 0;
       
@@ -995,7 +1033,7 @@ function exibirEmailPDFListaAnuncio(){
 
         );
     
-    })
+    })*/
     
 }
 
@@ -1119,7 +1157,20 @@ function confirmarEmailPDF() {
 
             $("#idAnuncios").empty();
             $("#idAnunciosCabecalho").empty();
-
+            
+             var arr = [];
+                $("#idAnuncios").append($("input[name^='listaAnuncio']"));
+                $(("input[name^='listaAnuncio']")).each(function(){
+                    arr.push($(this).val());                    
+                });
+            var anuncios = arr.join(", ");;
+            $("#idAnunciosCabecalho").append("<div class='ui horizontal list'>\n\
+                                        <div class='item'>\n\
+                                        <div class='content'>" + anuncios + "</div>\n\
+                         </div>\n\
+                         </div>");
+            
+            /*
             var arr = [];
             $("input[type^='checkbox']:checked").each(function ()
             {
@@ -1141,7 +1192,7 @@ function confirmarEmailPDF() {
                                         <div class='item'>\n\
                                         <div class='content'>" + anuncios + "</div>\n\
                          </div>\n\
-                         </div>");          
+                         </div>");   */       
         })
     })
 }

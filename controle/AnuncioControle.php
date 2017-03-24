@@ -1036,8 +1036,8 @@ class AnuncioControle {
 
         //foreach ($parametros['anunciosSelecionados'] as $idanuncio) {
         foreach ($selecionadosCorrigidos as $idanuncio) {
-            
-            $item["anuncio"] = $genericoDAO->consultar(new Anuncio(), true, array("id" => $idanuncio));
+
+            $item["anuncio"] = $genericoDAO->consultar(new Anuncio(), true, array("idanuncio" => $idanuncio));
 
             $item["imovel"] = $genericoDAO->consultar(new Imovel(), true, array("id" => $item["anuncio"][0]->getIdImovel()));
 
@@ -1072,9 +1072,9 @@ class AnuncioControle {
             $item["endereco"] = $genericoDAO->consultar(new Endereco(), true, array("id" => $item["imovel"][0]->getIdEndereco()));
 
             $emailanuncio = new EmailAnuncio();
-
-            $selecionaremailanuncio = $emailanuncio->cadastrar($idanuncio);
-
+            
+            $selecionaremailanuncio = $emailanuncio->cadastrar($item["anuncio"][0]->getId());
+            
             $idemailanuncio = $genericoDAO->cadastrar($selecionaremailanuncio);
 
             $dadosEmail['msg'] .= "              
@@ -1153,13 +1153,15 @@ class AnuncioControle {
         
         $selecionadosCorrigidos = array();
         
-        foreach($parametros['anunciosSelecionados'] as $idsAnun){
+        foreach($parametros['listaAnuncio'] as $idsAnun){
             
             if($idsAnun != "SIM"){
                 $selecionadosCorrigidos[] = $idsAnun;
             } 
 
         }
+        
+        //var_dump($selecionadosCorrigidos); die();
         
         $genericoDAO = new GenericoDAO();
         $genericoDAO->iniciarTransacao();
@@ -1225,18 +1227,18 @@ class AnuncioControle {
             
             $contadorPaginas = $contadorPaginas + 1;
 
-            $item["anuncio"] = $genericoDAO->consultar(new Anuncio(), true, array("id" => $idanuncio));
+            $item["anuncio"] = $genericoDAO->consultar(new Anuncio(), true, array("idanuncio" => $idanuncio));
             
             $item["imovel"] = $genericoDAO->consultar(new Imovel(), true, array("id" => $item["anuncio"][0]->getIdImovel()));
 
             $item["endereco"] = $genericoDAO->consultar(new Endereco(), true, array("id" => $item["imovel"][0]->getIdEndereco()));
 
-            $item["imagem"] = $genericoDAO->consultar(new Imagem(), true, array("idanuncio" => $idanuncio, "destaque" => "SIM"));
+            $item["imagem"] = $genericoDAO->consultar(new Imagem(), true, array("idanuncio" => $item["anuncio"][0]->getId(), "destaque" => "SIM"));
 
             $emailanuncio = new EmailAnuncio();
 
-            $selecionaremailanuncio = $emailanuncio->cadastrar($idanuncio);
-
+            $selecionaremailanuncio = $emailanuncio->cadastrar($item["anuncio"][0]->getId());
+            
             $idemailanuncio = $genericoDAO->cadastrar($selecionaremailanuncio);
 
             $html = "Código: " . $item["anuncio"][0]->getIdAnuncio()
