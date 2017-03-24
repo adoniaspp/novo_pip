@@ -97,6 +97,7 @@ if ($totalUsuariosCadastrados < 1) {
                             <th>Login</th>
                             <th>Data Cadastro</th>
                             <th>E-mail</th>  
+                            <th>Nº de Denúncias</th>  
                             <th>Operações</th>
                         </tr>
                     </thead>
@@ -123,7 +124,8 @@ if ($totalUsuariosCadastrados < 1) {
                                     <td><?php echo $usuario->getLogin(); ?></td>
 
                                     <td> <?php echo date('d/m/Y H:i:s', strtotime($usuario->getDataHoraCadastro())); ?> </td>
-                                    <td><?php echo $usuario->getEmail(); ?></td>                              
+                                    <td><?php echo $usuario->getEmail(); ?></td>    
+                                    <td><?php echo $usuario->denuncias; ?></td>            
                                     <td> <?php
                                         echo "<a id='btnInativar" . $usuario->getId() . "' class='ui circular inverted icon button'><i class='big red thumbs down icon'></i></a>Inativar";
                                         ?> </td>                                               
