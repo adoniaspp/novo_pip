@@ -266,7 +266,7 @@ foreach ($imoveis as $qtdAnuncios) {
         <a href="index.php?entidade=AnuncioAprovacao&acao=listarNegado" class="item">            
             <i class="large remove icon"></i> Anúncios Negados           
         </a>
-        <a href="index.php?entidade=Usuario&acao=listarUsuario" class="item">            
+        <a href="index.php?entidade=Usuario&acao=listarUsuarios" class="item">            
             <i class="large edit icon"></i> Ativar/Desativar Usuário        
         </a>
         <a href="index.php?entidade=Usuario&acao=listarUsuarioDesativado" class="item">            
