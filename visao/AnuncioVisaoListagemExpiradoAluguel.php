@@ -47,7 +47,7 @@ $item = $this->getItem();
                 <i class="right chevron icon divider"></i>
                 <i class="block layout small icon"></i><a class="section" href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
                 <i class="right chevron icon divider"></i>
-                <a class="active section">Reativar Anúncios (aluguel)</a>
+                <div class="active section"><i class="refresh small icon"></i>Reativar Anúncios (aluguel)</div>
             </div>
         </div>
     </div>
@@ -55,13 +55,29 @@ $item = $this->getItem();
     <div class="row">
         <div class="column">
             <div class="ui message">
-                <p>Caso deseja reativar um anúncio do tipo Aluguel sem precisar cadastrá-lo novamente,
+                <p>Caso deseje reativar um anúncio do tipo Aluguel sem precisar cadastrá-lo novamente,
                 clique em "Reativar", escolha o plano e, caso queria, edite as características do anúncio
                 </p>
             </div>
         </div>
     </div>  
 
+    <div class="row">
+        <div class="column">
+            <div class="ui horizontal segments">
+
+                <div class="ui segment center aligned ">
+                    <i class='big red refresh icon'></i> Reativar Anúncio
+                </div>
+
+                <div class="ui segment center aligned ">
+                    <i class='big disabled refresh icon'></i>Não é possível reativar o anúncio
+                </div>
+
+            </div>           
+        </div>
+    </div>
+    
 </div>
 
 <div class="ui hidden divider"></div>
@@ -122,16 +138,17 @@ if ($totalAnunciosFinalizados < 1 && $totalAnunciosExpirados < 1) {
                     <tr>
                         <th>Cód. Anúncio</th>
                         <th>Tipo</th>
+                        <th>Titulo do Anúncio</th>
                         <th>Valor</th>
-                        <th>Data Cadastro</th>
+                        <th>Data de Cadastro</th>
                         <th>Status</th>
-                        <th></th>
+                        <th>Opções</th>
                     </tr>
                 </thead>
                 <tbody>
     <?php
     if ($item) {
-        foreach ($item["listaAnuncioExpirado"] as $anuncio) {
+        foreach ($item["listaAnuncioExpirado"] as $anuncio) { 
 
             switch ($anuncio->getImovel()->getIdTipoImovel()) {
 
@@ -185,21 +202,22 @@ if ($totalAnunciosFinalizados < 1 && $totalAnunciosExpirados < 1) {
             }
             ?>
                                 </td>
+                                <td><?php echo $anuncio->getTituloanuncio(); ?></td>
                                 <td id="tdValor<?php echo $anuncio->getId(); ?>"><?php echo $anuncio->getValorMin(); ?></td>
                                 <td><?php echo date('d/m/Y H:i:s', strtotime($anuncio->getDataHoraCadastro())); ?></td>
                                 <td> <?php
                         if ($anuncio->getStatus() == 'finalizado') {
-                            echo "<i class='big thumbs up red icon'></i>Finalizado em " . $anuncio->getHistoricoAluguelVenda()->getDatahora();
+                            echo "<i class='big thumbs up red icon'></i>Finalizado em " . date('d/m/Y \à\s H:i:s \h', strtotime($anuncio->getHistoricoAluguelVenda()->getDatahora()));
                         } else {
-                            echo "<i class='big remove circle red icon'></i>Expirado em " . $anuncio->getDataHoraDesativacao();
+                            echo "<i class='big remove circle red icon'></i>Expirado em " . date('d/m/Y', strtotime($anuncio->getDataHoraDesativacao()));
                         }
             ?>
                                 </td>
                                 <td><?php
                         if (count($item["listaPlanos"]) > 0) {
-                            echo "<a id='btnReativar" . $anuncio->getId() . "' class='ui circular inverted icon button'><i class='big red refresh icon'></i></a>Reativar Anúncio";
+                            echo "<a id='btnReativar" . $anuncio->getId() . "' class='ui circular inverted icon button'><i class='big red refresh icon'></i></a>";
                         } else {
-                            echo "<span class='ui circular inverted icon' data-content='Você precisa adquirir um plano para poder reativar este anúncio' data-variation='inverted'><i class='big red disabled refresh icon'></i>Compre Um Anúncio Para Reativar</span>";
+                            echo "<span class='ui circular inverted icon' data-content='Você precisa adquirir um plano para poder reativar este anúncio' data-variation='inverted'><i class='big disabled refresh icon'></i></span>";
                         }
             ?></td>
                             </tr>

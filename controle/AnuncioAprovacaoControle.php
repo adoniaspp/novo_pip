@@ -52,7 +52,7 @@ class AnuncioAprovacaoControle {
                 $administrador = true; 
             }    
             
-                $listaAnuncio = $consultasAdHoc->ConsultarAnunciosPendentesPorUsuario($_SESSION['idusuario'], $administrador, array('pendenteaprovacao', 'emanalise'));
+                $listaAnuncio = $consultasAdHoc->ConsultarAnunciosPendentesPorUsuario($_SESSION['idusuario'], $administrador, array('pendenteanalise', 'emanalise'));
                 foreach ($listaAnuncio as $anuncio) {
                     $imovel = $genericoDAO->consultar(new Imovel(), false, array("id" => $anuncio->getIdImovel()));
                     $anuncio->setImovel($imovel[0]);
@@ -99,7 +99,7 @@ class AnuncioAprovacaoControle {
         $anuncio = $genericoDAO->consultar(new AnuncioAprovacao(), true, array("id" => $parametros["idanuncio"]));
         $anuncio = $anuncio[0];
         
-        if (($anuncio->getUsuarioplano()->getIdUsuario() == $parametros["sessaoUsuario"] && $anuncio->getStatus() != "emanalise" && $anuncio->getStatus() != "pendenteaprovacao" && $anuncio->getStatus() != "aprovacaonegada") || ($anuncio->getUsuarioplano()->getIdUsuario() != $parametros["sessaoUsuario"] && !$administrador)) {
+        if (($anuncio->getUsuarioplano()->getIdUsuario() == $parametros["sessaoUsuario"] && $anuncio->getStatus() != "emanalise" && $anuncio->getStatus() != "pendenteanalise" && $anuncio->getStatus() != "aprovacaonegada") || ($anuncio->getUsuarioplano()->getIdUsuario() != $parametros["sessaoUsuario"] && !$administrador)) {
             $item = "errousuarioouanuncio";
             $pagina = "VisaoErrosGenerico.php";
             $visao = new Template();
@@ -338,7 +338,7 @@ class AnuncioAprovacaoControle {
                                 <font style='text-decoration: underline;'>ATENÇÃO: Este é um email automático. Favor, não responder</font>
                                 <br><br>
 
-                                <strong>PIP On-Line 2016. Todos os Direitos Reservados</strong><br>
+                                <strong>PIP On-Line 2017. Todos os Direitos Reservados</strong><br>
 
                                 <a href='http://www.pipbeta.com.br' style='color:#aaaaaa'>http://www.pipbeta.com.br</a><br>
 
@@ -406,8 +406,7 @@ class AnuncioAprovacaoControle {
 
 
                 //enviar email ao usuário, avisando sobre a mudança de status
-                //$email = $this->enviarEmailGenerico($parametros);
-                $email = 1;
+                $email = $this->enviarEmailGenerico($parametros);
 
                 if ($novoStatus && $email) {
                     $genericoDAO->commit();

@@ -26,6 +26,16 @@
             "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
             "stateSave": true,
             "order": [[4, "desc"]]
+            
+           <?php
+            if ($_SESSION['login'] === 'pipdiministrador') {
+                ?>                                
+            ,"columnDefs": [
+                {"orderable": false, "targets": 7}
+            ]
+           <?php
+            }
+            ?>
         });
 
     })
@@ -40,7 +50,7 @@
                 <i class="right chevron icon divider"></i>
                 <i class="block layout small icon"></i><a class="section" href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
                 <i class="right chevron icon divider"></i>
-                <a class="active section">Anúncios Pendentes de Aprovação</a>
+                <div class="active section"><i class="warning small icon"></i>Anúncios Pendentes de Aprovação</div>
             </div>
         </div>
     </div>
@@ -65,7 +75,7 @@
                     </div>
 
                     <div class="ui segment center aligned ">
-                        <i class='big blue hourglass half icon'></i>Em Análise: Seu anúncio está em analise pela Administração do PIP Online e, em breve, pode estar disponível para ser visualizado
+                        <i class='big blue hourglass half icon'></i>Em Análise: Seu anúncio está em análise pela Administração do PIP Online e, em breve, pode estar disponível para ser visualizado
                     </div>
                 </div>           
             </div>
@@ -131,9 +141,10 @@ if ($totalAnunciosCadastrados < 1) {
                         <tr>
                             <th>Cód. Anúncio</th>
                             <th>Tipo</th>
+                            <th>Título do Anúncio</th>
                             <th>Finalidade</th>
                             <th>Valor</th>
-                            <th>Data Cadastro</th>
+                            <th>Data de Cadastro</th>
                             <?php
                             if ($_SESSION['login'] === 'pipdiministrador') {
                                 echo "<th>Status</th>";
@@ -143,7 +154,7 @@ if ($totalAnunciosCadastrados < 1) {
                             if ($_SESSION['login'] != 'pipdiministrador') {
                                 echo "Status";
                             } else
-                                echo "Operações";
+                                echo "Opções";
                             ?></th>
                         </tr>
                     </thead>
@@ -201,6 +212,7 @@ if ($totalAnunciosCadastrados < 1) {
                                                 break;
                                         }
                                         ?></td>
+                                    <td><?php echo $anuncio->getTituloanuncio(); ?></td>
                                     <td><?php echo $anuncio->getFinalidade(); ?></td>
                                     <td id="tdValor<?php echo $anuncio->getId(); ?>">
             <?php
@@ -214,7 +226,7 @@ if ($totalAnunciosCadastrados < 1) {
                                     <?php
                                     if ($_SESSION['login'] == 'pipdiministrador') {
                                         echo "<td> ";
-                                        if ($anuncio->getStatus() == "pendenteaprovacao") {
+                                        if ($anuncio->getStatus() == "pendenteanalise") {
                                             echo "<i class='disabled big gray hourglass half icon'></i>Pendente de Análise";
                                         } else if ($anuncio->getStatus() == "emanalise") {
                                             echo "<i class='big blue hourglass half icon'></i>Em Análise";
@@ -227,7 +239,7 @@ if ($totalAnunciosCadastrados < 1) {
 
                                     <td> <?php
                                         if ($_SESSION['login'] != 'pipdiministrador') {
-                                            if ($anuncio->getStatus() == "pendenteaprovacao") {
+                                            if ($anuncio->getStatus() == "pendenteanalise") {
                                                 echo "<i class='disabled big gray hourglass half icon'></i>Pendente de Análise";
                                             } else if ($anuncio->getStatus() == "emanalise") {
                                                 echo "<i class='big blue hourglass half icon'></i>Em Análise";

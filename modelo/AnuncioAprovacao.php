@@ -179,7 +179,7 @@ class AnuncioAprovacao {
         $this->setFinalidade($parametros['sltFinalidade']);
         $this->setTituloAnuncio($parametros['txtTitulo']);
         $this->setDescricaoAnuncio($parametros['txtDescricao']);
-        $this->setStatus('pendenteaprovacao');
+        $this->setStatus('pendenteanalise');
         $this->setDatahoracadastro(date("Y/m/d H:i:s"));
         $this->setDatahoraalteracao('');
         $this->setDatahoradesativacao('');

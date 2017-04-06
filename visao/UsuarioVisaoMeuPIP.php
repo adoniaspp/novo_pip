@@ -11,35 +11,35 @@
 
 <script>
     $(document).ready(function () {
-        
+
         $(function () {
-       //incluso essa variavel para setar atributos do css depois
+            //incluso essa variavel para setar atributos do css depois
             var elemento = $('#divMiniMenu');
-            
+
             var deviceAgent = navigator.userAgent.toLowerCase();
             var agentID = deviceAgent.match(/(iphone|ipod|ipad|android|blackberry)/);
 
             if (agentID) {
-                 $('#divMiniMenu').hide();// caso seja iphone|ipod|ipad|android|blackberry
+                $('#divMiniMenu').hide();// caso seja iphone|ipod|ipad|android|blackberry
             } else {
                 //alert('você está em um computador');
                 $(window).scroll(function () {
-                //distancia que o scroll devera rolar para aparecer o box da div
-                if ($(this).scrollTop() > 0) {
-                    //bloco incluso para setar o css
-                    elemento.css({
-                        'position': 'fixed',
+                    //distancia que o scroll devera rolar para aparecer o box da div
+                    if ($(this).scrollTop() > 0) {
+                        //bloco incluso para setar o css
+                        elemento.css({
+                            'position': 'fixed',
                             'bottom': '30%'
-                    });
+                        });
 
-                    $('#divMiniMenu').fadeIn();
-                } 
-            });
+                        $('#divMiniMenu').fadeIn();
+                    }
+                });
             }
-            
-            
+
+
         });
-        
+
         //função que ordena a data, de acordo com o formato
         $.fn.dataTable.moment('DD/MM/YYYY HH:mm:ss');
 
@@ -52,7 +52,7 @@
             "stateSave": true,
             "searching": false
         });
-        
+
         $('#tabelaChamados').DataTable({
             "language": {
                 "url": "assets/libs/datatables/js/Portuguese-Brasil.json",
@@ -68,73 +68,73 @@
 </script>
 
 <style>
-.ui.menu .item:before {
-    width: 4px !important;
-}
+    .ui.menu .item:before {
+        width: 4px !important;
+    }
 
-#divMiniMenu{
-position: absolute;
-z-index: 9999; /* número máximo é 9999 */
-}
+    #divMiniMenu{
+        position: absolute;
+        z-index: 9999; /* número máximo é 9999 */
+    }
 
 
-@media screen and (max-width: 1200px){
-  #divMiniMenu {
-   display: none;
- }
-}
-    
-.miniMenu1 {
-    width: 65px;
-    padding: 1em;
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    border-top: #0084B4 3px solid;
-    text-align: center;
-    font-size: 12px;
-}
-.miniMenu2 {
-    width: 65px;
-    padding: 1em;
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    border-top: #1fc231 3px solid;
-    text-align: center;
-    font-size: 12px;
-}
-.miniMenu3 {
-    width: 65px;
-    padding: 1em;
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    border-top: #794B02 3px solid;
-    text-align: center;
-    font-size: 12px;
-}
-.miniMenu4 {
-    width: 65px;
-    padding: 1em;
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    border-top: #FF851B 3px solid;
-    text-align: center;
-    font-size: 12px;
-}
-.miniMenu5 {
-    width: 65px;
-    padding: 1em;
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    border-top: #FF2733 3px solid;
-    text-align: center;
-    font-size: 12px;
-}
-    
+    @media screen and (max-width: 1200px){
+        #divMiniMenu {
+            display: none;
+        }
+    }
+
+    .miniMenu1 {
+        width: 65px;
+        padding: 1em;
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-top: #0084B4 3px solid;
+        text-align: center;
+        font-size: 12px;
+    }
+    .miniMenu2 {
+        width: 65px;
+        padding: 1em;
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-top: #1fc231 3px solid;
+        text-align: center;
+        font-size: 12px;
+    }
+    .miniMenu3 {
+        width: 65px;
+        padding: 1em;
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-top: #794B02 3px solid;
+        text-align: center;
+        font-size: 12px;
+    }
+    .miniMenu4 {
+        width: 65px;
+        padding: 1em;
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-top: #FF851B 3px solid;
+        text-align: center;
+        font-size: 12px;
+    }
+    .miniMenu5 {
+        width: 65px;
+        padding: 1em;
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-top: #FF2733 3px solid;
+        text-align: center;
+        font-size: 12px;
+    }
+
 </style>
 <?php
 $item = $this->getItem();
 
- Sessao::gerarToken();
+Sessao::gerarToken();
 
 $usuario = $item["usuario"];
 $imoveis = $item["imovelCadastrado"];
@@ -247,37 +247,37 @@ foreach ($imoveis as $qtdAnuncios) {
     </div>
 </div>
 
-<?php if($_SESSION['login'] == 'pipdiministrador'){ ?>
+<?php if ($_SESSION['login'] == 'pipdiministrador') { ?>
 
-<div class="ui middle aligned stackable grid container">
-    <div class="row">
-        <h2 class="ui header">
-            <i class="laptop icon"></i>
-            <div class="content">
-                Administração do PIP - Online
-                <div class="sub header">Anúncios</div>
-            </div>
-        </h2>
-    </div>
-    <div class="ui stackable red inverted container menu">
-        <a href="index.php?entidade=AnuncioAprovacao&acao=listarPendente" class="item">            
-            <i class="large edit icon"></i> Aprovar Anúncios           
-        </a>
-        <a href="index.php?entidade=AnuncioAprovacao&acao=listarNegado" class="item">            
-            <i class="large remove icon"></i> Anúncios Negados           
-        </a>
-        <a href="index.php?entidade=Usuario&acao=listarUsuarios" class="item">            
-            <i class="large edit icon"></i> Ativar/Desativar Usuário        
-        </a>
-        <a href="index.php?entidade=Usuario&acao=listarUsuarioDesativado" class="item">            
-            <i class="large remove icon"></i> Usuários Desativados         
-        </a>
-        <a href="index.php?entidade=Chamado&acao=listarChamados" class="item">            
-            <i class="large comment outline icon"></i> Responder Chamado        
-        </a>
-    </div>
+    <div class="ui middle aligned stackable grid container">
+        <div class="row">
+            <h2 class="ui header">
+                <i class="laptop icon"></i>
+                <div class="content">
+                    Administração do PIP - Online
+                    <div class="sub header">Anúncios</div>
+                </div>
+            </h2>
+        </div>
+        <div class="ui stackable red inverted container menu">
+            <a href="index.php?entidade=AnuncioAprovacao&acao=listarPendente" class="item">            
+                <i class="large edit icon"></i> Aprovar Anúncios           
+            </a>
+            <a href="index.php?entidade=AnuncioAprovacao&acao=listarNegado" class="item">            
+                <i class="large remove icon"></i> Anúncios Negados           
+            </a>
+            <a href="index.php?entidade=Usuario&acao=listarUsuarios" class="item">            
+                <i class="large edit icon"></i> Ativar/Desativar Usuário        
+            </a>
+            <a href="index.php?entidade=Usuario&acao=listarUsuarioDesativado" class="item">            
+                <i class="large remove icon"></i> Usuários Desativados         
+            </a>
+            <a href="index.php?entidade=Chamado&acao=listarChamados" class="item">            
+                <i class="large comment outline icon"></i> Responder Chamado        
+            </a>
+        </div>
 
-</div>
+    </div>
 
 <?php } ?>
 
@@ -350,7 +350,7 @@ foreach ($imoveis as $qtdAnuncios) {
             <div class="description"> <?php echo $endereco; ?></div>
         </div>
     </div>    
-    
+
     <div class="column">
         <div class="ui segment"><a class="header">Telefone(s):</a>
             <div id="linkImoveis"></div>
@@ -616,7 +616,7 @@ foreach ($imoveis as $qtdAnuncios) {
             <script>
                 graficoBarrasTotal('graficoImoveisEcharts', 'Número de Imóveis', '#21ba45', <?php echo $casa ?>, <?php echo $ap ?>, <?php echo $apPlanta ?>, <?php echo $sala ?>, <?php echo $predio ?>, <?php echo $terreno ?>);
             </script>
-            
+
             <div class="row">
                 <div class="column">
                     <div id="graficoImoveisEcharts" 
@@ -630,12 +630,12 @@ foreach ($imoveis as $qtdAnuncios) {
                     <div id="area_grafico"></div>
                 </div>
             </div>
-            
+
             <?php
         }
     }
     ?>
-            
+
     <div class="row">
         <div class="column">
             <h3 class="ui dividing header"></h3>
@@ -752,19 +752,23 @@ foreach ($imoveis as $qtdAnuncios) {
                         }
                     }
                     foreach ($imoveis as $anuncio) {
-                        if ($anuncio->getAnuncioaprovacao()) {
-
-                            switch ($anuncio->getAnuncioaprovacao()->getStatus()) {
-                                case "pendenteaprovacao":
-                                case "emanalise":
-                                    $anuncioPendente = $anuncioPendente + 1;
-
-                                    if ($anuncio->getAnuncioaprovacao()->getFinalidade() == "Aluguel") {
-                                        $anuncioPendenteAluguel = $anuncioPendenteAluguel + 1;
-                                    } else
-                                        $anuncioPendenteVenda = $anuncioPendenteVenda + 1;
-
-                                    break;
+                        $anuncioAprovacao = $anuncio->getAnuncioaprovacao();
+                        if ($anuncioAprovacao) {
+                            if (!is_array($anuncioAprovacao)) {
+                                $anuncioAprovacao = array($anuncioAprovacao);
+                            }
+                            foreach ($anuncioAprovacao as $aprovacao) {
+                                switch ($aprovacao->getStatus()) {
+                                    case "pendenteanalise":
+                                    case "emanalise":
+                                        $anuncioPendente = $anuncioPendente + 1;
+                                        if ($aprovacao->getFinalidade() == "Aluguel") {
+                                            $anuncioPendenteAluguel = $anuncioPendenteAluguel + 1;
+                                        } else {
+                                            $anuncioPendenteVenda = $anuncioPendenteVenda + 1;
+                                        }
+                                        break;
+                                }
                             }
                         }
                     }
@@ -913,113 +917,113 @@ foreach ($imoveis as $qtdAnuncios) {
                 </div>
             </div>
 
- <?php if ($anuncioAtivo > 0) { ?>
-            <div class="row">         
-                <div class="column">
-                    <table class="ui striped brown celled fixed table">
-                        <thead>
-                            <tr>
-                                <th colspan="7">Você possui
-                                    <?php
-                                    if ($anuncioAtivo > 1) {
-                                        echo $anuncioAtivo . " anúncios ativos";
-                                    } else {
-                                        echo " 1 anúncio ativo";
-                                    }
-                                    ?>
-                                </th>
-                            </tr>
+            <?php if ($anuncioAtivo > 0) { ?>
+                <div class="row">         
+                    <div class="column">
+                        <table class="ui striped brown celled fixed table">
+                            <thead>
+                                <tr>
+                                    <th colspan="7">Você possui
+                                        <?php
+                                        if ($anuncioAtivo > 1) {
+                                            echo $anuncioAtivo . " anúncios ativos";
+                                        } else {
+                                            echo " 1 anúncio ativo";
+                                        }
+                                        ?>
+                                    </th>
+                                </tr>
 
-                            <tr>
+                                <tr>
 
-                                <th class="ui center aligned"></th>
+                                    <th class="ui center aligned"></th>
 
-                                <th class="ui center aligned"><?php
-                                    if ($casaAnuncio > 1) {
-                                        echo "Casas";
-                                    } else
-                                        echo "Casa";
-                                    ?></th>
-                                <th class="ui center aligned"><?php
-                                    if ($apAnuncio > 1) {
-                                        echo "Apartamentos";
-                                    } else
-                                        echo "Apartamento";
-                                    ?></th>
-                                <th class="ui center aligned"><?php
-                                    if ($apPlantaAnuncio > 1) {
-                                        echo "Apartamentos na Planta";
-                                    } else
-                                        echo "Apartamento na Planta";
-                                    ?></th>
-                                <th class="ui center aligned"><?php
-                                    if ($salaAnuncio > 1) {
-                                        echo "Salas Comerciais";
-                                    } else
-                                        echo "Sala Comercial";
-                                    ?></th>
-                                <th class="ui center aligned"><?php
-                                    if ($predioAnuncio > 1) {
-                                        echo "Prédios Comerciais";
-                                    } else
-                                        echo "Prédio Comercial";
-                                    ?></th>
-                                <th class="ui center aligned"><?php
-                                    if ($terrenoAnuncio > 1) {
-                                        echo "Terrenos";
-                                    } else
-                                        echo "Terreno";
-                                    ?></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Aluguel</td>
-                                <td><?php echo $casaAnuncioAluguel; ?></td>
-                                <td><?php echo $apAnuncioAluguel; ?></td>
-                                <td><?php echo $apPlantaAnuncioAluguel; ?></td>
-                                <td><?php echo $salaAnuncioAluguel; ?></td>
-                                <td><?php echo $predioAnuncioAluguel; ?></td>
-                                <td><?php echo $terrenoAnuncioAluguel; ?></td>
-                            </tr>
+                                    <th class="ui center aligned"><?php
+                                        if ($casaAnuncio > 1) {
+                                            echo "Casas";
+                                        } else
+                                            echo "Casa";
+                                        ?></th>
+                                    <th class="ui center aligned"><?php
+                                        if ($apAnuncio > 1) {
+                                            echo "Apartamentos";
+                                        } else
+                                            echo "Apartamento";
+                                        ?></th>
+                                    <th class="ui center aligned"><?php
+                                        if ($apPlantaAnuncio > 1) {
+                                            echo "Apartamentos na Planta";
+                                        } else
+                                            echo "Apartamento na Planta";
+                                        ?></th>
+                                    <th class="ui center aligned"><?php
+                                        if ($salaAnuncio > 1) {
+                                            echo "Salas Comerciais";
+                                        } else
+                                            echo "Sala Comercial";
+                                        ?></th>
+                                    <th class="ui center aligned"><?php
+                                        if ($predioAnuncio > 1) {
+                                            echo "Prédios Comerciais";
+                                        } else
+                                            echo "Prédio Comercial";
+                                        ?></th>
+                                    <th class="ui center aligned"><?php
+                                        if ($terrenoAnuncio > 1) {
+                                            echo "Terrenos";
+                                        } else
+                                            echo "Terreno";
+                                        ?></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Aluguel</td>
+                                    <td><?php echo $casaAnuncioAluguel; ?></td>
+                                    <td><?php echo $apAnuncioAluguel; ?></td>
+                                    <td><?php echo $apPlantaAnuncioAluguel; ?></td>
+                                    <td><?php echo $salaAnuncioAluguel; ?></td>
+                                    <td><?php echo $predioAnuncioAluguel; ?></td>
+                                    <td><?php echo $terrenoAnuncioAluguel; ?></td>
+                                </tr>
 
-                            <tr>
-                                <td>Venda</td>
-                                <td><?php echo $casaAnuncioVenda; ?></td>
-                                <td><?php echo $apAnuncioVenda; ?></td>
-                                <td><?php echo $apPlantaAnuncioVenda; ?></td>
-                                <td><?php echo $salaAnuncioVenda; ?></td>
-                                <td><?php echo $predioAnuncioVenda; ?></td>
-                                <td><?php echo $terrenoAnuncioVenda; ?></td>
-                            </tr>
+                                <tr>
+                                    <td>Venda</td>
+                                    <td><?php echo $casaAnuncioVenda; ?></td>
+                                    <td><?php echo $apAnuncioVenda; ?></td>
+                                    <td><?php echo $apPlantaAnuncioVenda; ?></td>
+                                    <td><?php echo $salaAnuncioVenda; ?></td>
+                                    <td><?php echo $predioAnuncioVenda; ?></td>
+                                    <td><?php echo $terrenoAnuncioVenda; ?></td>
+                                </tr>
 
-                            <tr>
-                                <td>Total</td>
-                                <td><?php echo $casaAnuncio; ?></td>
-                                <td><?php echo $apAnuncio; ?></td>
-                                <td><?php echo $apPlantaAnuncio; ?></td>
-                                <td><?php echo $salaAnuncio; ?></td>
-                                <td><?php echo $predioAnuncio; ?></td>
-                                <td><?php echo $terrenoAnuncio; ?></td>
-                            </tr>
+                                <tr>
+                                    <td>Total</td>
+                                    <td><?php echo $casaAnuncio; ?></td>
+                                    <td><?php echo $apAnuncio; ?></td>
+                                    <td><?php echo $apPlantaAnuncio; ?></td>
+                                    <td><?php echo $salaAnuncio; ?></td>
+                                    <td><?php echo $predioAnuncio; ?></td>
+                                    <td><?php echo $terrenoAnuncio; ?></td>
+                                </tr>
 
-                        </tbody>
-                    </table>
-                </div>  
-            </div> 
+                            </tbody>
+                        </table>
+                    </div>  
+                </div> 
 
-            <script>
-                graficoBarrasTotal('graficoAnunciosEcharts', 'Número de Anúncios', '#a5673f', <?php echo $casaAnuncio ?>, <?php echo $apAnuncio ?>, <?php echo $apPlantaAnuncio ?>, <?php echo $salaAnuncio ?>, <?php echo $predioAnuncio ?>, <?php echo $terrenoAnuncio ?>);
-            </script>
-            
-            <div class="row">
-                <div class="column">
-                    <div id="graficoAnunciosEcharts" 
-                         style="height:450px; max-width: 40%; min-width: 90%;width: 850px">
+                <script>
+                    graficoBarrasTotal('graficoAnunciosEcharts', 'Número de Anúncios', '#a5673f', <?php echo $casaAnuncio ?>, <?php echo $apAnuncio ?>, <?php echo $apPlantaAnuncio ?>, <?php echo $salaAnuncio ?>, <?php echo $predioAnuncio ?>, <?php echo $terrenoAnuncio ?>);
+                </script>
+
+                <div class="row">
+                    <div class="column">
+                        <div id="graficoAnunciosEcharts" 
+                             style="height:450px; max-width: 40%; min-width: 90%;width: 850px">
+                        </div>
                     </div>
-                </div>
-            </div>  
- <?php } ?>            
+                </div>  
+            <?php } ?>            
             <div id="linkPlanos"></div>
             <?php
         }
@@ -1104,7 +1108,7 @@ foreach ($imoveis as $qtdAnuncios) {
                                     echo "<td> Já Ativado </td>";
                                 }
                                 echo "<td>" . $statusPlano . "</td>";
-                                
+
                                 //seta o valor de nenhum anuncio
                                 $vinculado = "<h4 class='ui red header'>Nenhum anúncio aprovado</h4>";
 
@@ -1184,7 +1188,7 @@ foreach ($imoveis as $qtdAnuncios) {
             <i class="large book icon"></i> Dúvidas Mais Frequentes
         </a>
     </div>
-    
+
     <div class="row">
         <div class="column">
             <?php
@@ -1196,271 +1200,283 @@ foreach ($imoveis as $qtdAnuncios) {
                     <?php
                 } else {
                     ?>                 
-                    
-                            <?php
-                            $listagemChamado;
-                            foreach ($item["chamados"] as $chamados) {
-                                
-                                if ($chamados->getStatus() == "aberto") {
-                                    $statusChamado = "<a class='ui green small header'>Aberto</a>";
-                                }
 
-                                if ($chamados->getStatus() == "atendimento") {
-                                    $statusChamado = "<a class='ui yellow small header'>Em Atendimento</a>";
-                                }
+                    <?php
+                    $listagemChamado;
+                    foreach ($item["chamados"] as $chamados) {
 
-                                if ($chamados->getStatus() == "respondido") {
-                                    $statusChamado = "<a class='ui blue small header'>Respondido</a>";
-                                }
-                                
-                                if ($chamados->getStatus() == "cancelado") {
-                                    $statusChamado = "<a class='ui red small header'>Cancelado</a>";
-                                }
-                                
-                                if ($chamados->getStatus() == "aguardandousuario") {
-                                    $statusChamado = "<a class='ui small header'>Aguardando</a>";
-                                }
-                                
-                                if($chamados->getAssuntoParametrizado() == "NAO"){
-                                    $titulo        = $chamados->getChamadoTitulo()->getTitulo();
-                                    $chamadoTipo   = $chamados->getIdChamadoAssunto();
-                                } else {
-                                    $titulo = $chamados->getChamadoAssunto()->getAssunto();
-                                    $chamadoTipo   = $chamados->getChamadoAssunto()->getIdTipo();
-                                } 
-                                
-                                $limite = 25;
-                                $escreverAssunto = (strlen(trim($titulo)) >= $limite) ? trim(substr($titulo, 0, strrpos(substr($titulo, 0, $limite), " "))) . "..." : $titulo;
-                                
-                                $limiteMsg = 30;
-                                $mensagem = $chamados->getMensagem();
-                                $escreverMsg = (strlen(trim($mensagem)) >= $limiteMsg) ? trim(substr($mensagem, 0, strrpos(substr($mensagem, 0, $limiteMsg), " "))) . "..." : $mensagem;
-                                
-                                $listagemChamado .= "<tr>";
-                                $listagemChamado .= "<td><strong>" . $chamados->getCodigoChamado()."</strong></td>";
-                                $listagemChamado .= "<td>" . Chamado::retornarTipo($chamadoTipo) . "</td>";
-                                $listagemChamado .= "<td>" . $escreverAssunto . " </td>";
-                                $listagemChamado .= "<td>" . $escreverMsg . "</td>";
-                                $listagemChamado .= "<td>" . date('d/m/Y H:i:s', strtotime($chamados->getDataHoraCadastro())) . "</td>";
-                                $listagemChamado .= "<td>" . $statusChamado . "</td>";
-                                
-                                if($chamados->getStatus() != "cancelado" && $chamados->getStatus() != "respondido"){
-                                
-                                $listagemChamado .= "<td> <a class='ui circular inverted icon button' id='btnDetalhesChamado" . $chamados->getId() . "' ><i class='ui big green zoom icon'></i></a>Visualizar"
-                                        . "<a class='ui circular inverted icon button' id='btnCancelarChamado" . $chamados->getId() . "' ><i class='big red remove circle outline icon'></i></a>Cancelar"
-                                . "</td>";
-                                } else {
-                                $listagemChamado .= "<td> <a class='ui circular inverted icon button' id='btnDetalhesChamado" . $chamados->getId() . "' ><i class='ui big green zoom icon'></i></a>Visualizar"
-                                . "</td>";
-                                }
-                                $listagemChamado .= "</tr>";
-                            ?>    
-                            
-                            <script>
-                                visualizarModalChamado('<?php echo $chamados->getId()?>');
-                            </script>
-                            
-                            <div class="ui standart modal" id="modalChamado<?php echo $chamados->getId() ?>">
-               
-                                <div class="header">
-                                    Chamado <?php echo $chamados->getCodigoChamado() ?>
-                                </div>
-                                <div class="content" id="camposAlterarStatus<?php echo $chamados->getId() ?>">
+                        if ($chamados->getStatus() == "aberto") {
+                            $statusChamado = "<a class='ui green small header'>Aberto</a>";
+                        }
 
-                                    <form class="ui form" id="formChamado<?php echo $chamados->getId() ?>" action="index.php" method="post">
-                                                <input type="hidden" id="hdnEntidade" name="hdnEntidade" value=""  />
-                                                <input type="hidden" id="hdnAcao" name="hdnAcao" value="" />  
-                                                <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
-                                                <input type="hidden" id="hdnAnuncio" name="hdnChamado" value="<?php echo $chamados->getId() ?>" />
-                                                <input type="hidden" id="hdnAdmin" name="hdnAdmin" value="NAO" />
-                                                <input type="hidden" id="sltStatusChamadoResposta" name="sltStatusChamadoResposta" value="<?php echo $chamados->getStatus() ?>" />
-                                                
-                                                <div id="divModalVisualizar<?php echo $chamados->getId() ?>">
-                                                    <?php
-                                                    if($chamados->getChamadoTitulo() != null){
-                                                        $titulo = $chamados->getChamadoTitulo()->getTitulo();
-                                                    } else {
-                                                        $titulo = $chamados->getChamadoAssunto()->getAssunto();
-                                                    } 
-                                                    ?>
-                                                <div class="stackable two column ui grid container">
-                                                    <div class="column">
-                                                        <div class="ui segment">
-                                                            <a class="header">Tipo de Chamado</a>
-                                                            <div class="description"> <?php echo Chamado::retornarTipo($chamadoTipo)//echo Chamado::retornarTipo($chamados->getChamadoAssunto()->getIdTipo())?></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="column">
-                                                        <div class="ui segment">
-                                                            <a class="header">Assunto</a>
-                                                            <div class="description"><?php echo $titulo; ?></div>
-                                                        </div>
-                                                    </div>
-                                                </div>   
-                                                
-                                                <div class="stackable one column ui grid container">
-                                                    <div class="column">
-                                                        <div class="ui segment"><a class="header">Mensagem</a>
-                                                            <div class="description"> <?php echo $chamados->getMensagem(); ?></div>
-                                                        </div>
-                                                    </div>    
+                        if ($chamados->getStatus() == "atendimento") {
+                            $statusChamado = "<a class='ui yellow small header'>Em Atendimento</a>";
+                        }
+
+                        if ($chamados->getStatus() == "respondido") {
+                            $statusChamado = "<a class='ui blue small header'>Respondido</a>";
+                        }
+
+                        if ($chamados->getStatus() == "cancelado") {
+                            $statusChamado = "<a class='ui red small header'>Cancelado</a>";
+                        }
+
+                        if ($chamados->getStatus() == "aguardandousuario") {
+                            $statusChamado = "<a class='ui small header'>Aguardando</a>";
+                        }
+
+                        if ($chamados->getAssuntoParametrizado() == "NAO") {
+                            $titulo = $chamados->getChamadoTitulo()->getTitulo();
+                            $chamadoTipo = $chamados->getIdChamadoAssunto();
+                        } else {
+                            $titulo = $chamados->getChamadoAssunto()->getAssunto();
+                            $chamadoTipo = $chamados->getChamadoAssunto()->getIdTipo();
+                        }
+
+                        $limite = 25;
+                        $escreverAssunto = (strlen(trim($titulo)) >= $limite) ? trim(substr($titulo, 0, strrpos(substr($titulo, 0, $limite), " "))) . "..." : $titulo;
+
+                        $limiteMsg = 30;
+                        $mensagem = $chamados->getMensagem();
+                        $escreverMsg = (strlen(trim($mensagem)) >= $limiteMsg) ? trim(substr($mensagem, 0, strrpos(substr($mensagem, 0, $limiteMsg), " "))) . "..." : $mensagem;
+
+                        $listagemChamado .= "<tr>";
+                        $listagemChamado .= "<td><strong>" . $chamados->getCodigoChamado() . "</strong></td>";
+                        $listagemChamado .= "<td>" . Chamado::retornarTipo($chamadoTipo) . "</td>";
+                        $listagemChamado .= "<td>" . $escreverAssunto . " </td>";
+                        $listagemChamado .= "<td>" . $escreverMsg . "</td>";
+                        $listagemChamado .= "<td>" . date('d/m/Y H:i:s', strtotime($chamados->getDataHoraCadastro())) . "</td>";
+                        $listagemChamado .= "<td>" . $statusChamado . "</td>";
+
+                        if ($chamados->getStatus() != "cancelado" && $chamados->getStatus() != "respondido") {
+
+                            $listagemChamado .= "<td> <a class='ui circular inverted icon button' id='btnDetalhesChamado" . $chamados->getId() . "' ><i class='ui big green zoom icon'></i></a>Visualizar"
+                                    . "<a class='ui circular inverted icon button' id='btnCancelarChamado" . $chamados->getId() . "' ><i class='big red remove circle outline icon'></i></a>Cancelar"
+                                    . "</td>";
+                        } else {
+                            $listagemChamado .= "<td> <a class='ui circular inverted icon button' id='btnDetalhesChamado" . $chamados->getId() . "' ><i class='ui big green zoom icon'></i></a>Visualizar"
+                                    . "</td>";
+                        }
+                        $listagemChamado .= "</tr>";
+                        ?>    
+
+                        <script>
+                            visualizarModalChamado('<?php echo $chamados->getId() ?>');
+                        </script>
+
+                        <div class="ui standart modal" id="modalChamado<?php echo $chamados->getId() ?>">
+
+                            <div class="header">
+                                Chamado <?php echo $chamados->getCodigoChamado() ?>
+                            </div>
+                            <div class="content" id="camposAlterarStatus<?php echo $chamados->getId() ?>">
+
+                                <form class="ui form" id="formChamado<?php echo $chamados->getId() ?>" action="index.php" method="post">
+                                    <input type="hidden" id="hdnEntidade" name="hdnEntidade" value=""  />
+                                    <input type="hidden" id="hdnAcao" name="hdnAcao" value="" />  
+                                    <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
+                                    <input type="hidden" id="hdnAnuncio" name="hdnChamado" value="<?php echo $chamados->getId() ?>" />
+                                    <input type="hidden" id="hdnAdmin" name="hdnAdmin" value="NAO" />
+                                    <input type="hidden" id="sltStatusChamadoResposta" name="sltStatusChamadoResposta" value="<?php echo $chamados->getStatus() ?>" />
+
+                                    <div id="divModalVisualizar<?php echo $chamados->getId() ?>">
+                                        <?php
+                                        if ($chamados->getChamadoTitulo() != null) {
+                                            $titulo = $chamados->getChamadoTitulo()->getTitulo();
+                                        } else {
+                                            $titulo = $chamados->getChamadoAssunto()->getAssunto();
+                                        }
+                                        ?>
+                                        <div class="stackable two column ui grid container">
+                                            <div class="column">
+                                                <div class="ui segment">
+                                                    <a class="header">Tipo de Chamado</a>
+                                                    <div class="description"> <?php echo Chamado::retornarTipo($chamadoTipo)//echo Chamado::retornarTipo($chamados->getChamadoAssunto()->getIdTipo())  ?></div>
                                                 </div>
-                                                
-                                                <div class="stackable two column ui grid container">
-                                                
-                                                    <div class="column">
-                                                        <div class="ui segment"><a class="header">Data do Cadastro</a>
-                                                            <div class="description"><?php echo $chamados->getDataHoraCadastro(); ?>
-                                                            </div>
-                                                        </div>       
-                                                    </div>
-                                                    
-                                                    <div class="column">
-                                                        <div class="ui segment"><a class="header">Status do Chamado</a>
-                                                            <div class="description"><?php 
-                                                                                        if($chamados->getStatus() == "aberto"){
-                                                                                            $mensagemPadrao = "Seu chamado será respondido em breve";
-                                                                                            } if($chamados->getStatus() == "atendimento"){
-                                                                                            $mensagemPadrao =  "Seu chamado já está em análise por nossa equipe e em breve será respondido";
-                                                                                            } if($chamados->getStatus() == "cancelado"){
-                                                                                            $mensagemPadrao =  "Você cancelou o chamado em ".$chamados->getDataHoraCancela();
-                                                                                            }if($chamados->getStatus() == "aguardandousuario"){
-                                                                                            $mensagemPadrao =  "Aguardando sua resposta";}
-                                                                                            if($chamados->getStatus() == "respondido"){
-                                                                                            $mensagemPadrao =  "Seu chamado foi respondido por nossa equipe";
-                                                                                            }
-                                                                                        echo $statusChamado." - ".$mensagemPadrao; ?>
-                                                            </div>
-                                                        </div>       
-                                                    </div>
-                                                </div>    
-                                                
-                                                <?php if($chamados->getStatus() == "aberto" || $chamados->getStatus() == "atendimento" || $chamados->getStatus() == "aguardandousuario"){ ?>    
-                                                    
-                                                <div class="stackable one column ui grid container">
-                                                    <div class="column">
-                                                        <div class="ui segment"><a class="header">Nova Mensagem</a>
-                                                                
-                                                                <div class="description">
-                                                                    <textarea rows="5" cols="100" id="txtRespostaChamado" name="txtRespostaChamado" maxlength="1000"></textarea>
-                                                                </div>
-                                                        </div>       
-                                                    </div>
-                                                    
-                                                </div>           
-                                                
-                                                <?php } ?>    
-                                                    
-                                                </div>    
-                                                
-                                                <div id="divModalMenorCancelar<?php echo $chamados->getId() ?>">
-                                                    
-                                                    <div class="stackable two column ui grid container">
-                                                        <div class="header">
-                                                            <strong style="font-size: 18px">Deseja realmente cancelar o chamado?</strong>
-                                                        </div>
-                                                    </div>
-                                                    
+                                            </div>
+                                            <div class="column">
+                                                <div class="ui segment">
+                                                    <a class="header">Assunto</a>
+                                                    <div class="description"><?php echo $titulo; ?></div>
                                                 </div>
-                                                
-                                                <div class="stackable one column ui grid container">
-                                                    <div class="column">
-                                                        <div class="ui segment">
-                                                              <a class="header">Mensagem(ns) já cadastrada(s)</a><br>
-                                                              <?php 
-                                                              $totalResposta = count($chamados->getChamadoResposta());  
-                                                              
-                                                              if($totalResposta >= 1){
+                                            </div>
+                                        </div>   
 
-                                                                    if($totalResposta == 1){
-                                                                        
-                                                                        if($chamados->getChamadoResposta()->getAdministracao() == "SIM"){
-                                                                            $adminPIP = "PIP Cadastrou";
-                                                                        } else $adminPIP = "Você Cadastrou";
+                                        <div class="stackable one column ui grid container">
+                                            <div class="column">
+                                                <div class="ui segment"><a class="header">Mensagem</a>
+                                                    <div class="description"> <?php echo $chamados->getMensagem(); ?></div>
+                                                </div>
+                                            </div>    
+                                        </div>
 
-                                                                        switch ($chamados->getChamadoResposta()->getStatus()){
-                                                                              case "aberto": $respChamado = "<a class='ui small green  header'>Aberto</a>"; break;
-                                                                              case "atendimento": $respChamado = "<a class='ui small yellow header'>Em Atendimento</a>"; break;
-                                                                              case "aguardandousuario": $respChamado = "<a class='ui small header'>Aguardando Usuário</a>"; break;
-                                                                              case "respondido": $respChamado = "<a class='ui small blue header'>Respondido</a>"; break;
-                                                                              case "cancelado": $respChamado = "<a class='ui small red header'>Cancelado</a>"; break;
-                                                                          }  
+                                        <div class="stackable two column ui grid container">
 
-                                                                        echo $adminPIP." - ".$chamados->getChamadoResposta()->getDatahoracadastro()." - ".$respChamado." - ".$chamados->getChamadoResposta()->getResposta()."<br>";
-
-                                                                    } if($totalResposta > 1){
-
-                                                                        for($x=0; $x < $totalResposta; $x++){    
-                                                                          
-                                                                          if($chamados->getChamadoResposta()[$x]->getAdministracao() == "SIM"){
-                                                                            $adminPIP = "PIP Cadastrou";
-                                                                        } else $adminPIP = "Você Cadastrou";  
-                                                                            
-                                                                          switch ($chamados->getChamadoResposta()[$x]->getStatus()){
-                                                                              case "aberto": $respChamado = "<a class='ui small green  header'>Aberto</a>"; break;
-                                                                              case "atendimento": $respChamado = "<a class='ui small yellow header'>Em Atendimento</a>"; break;
-                                                                              case "aguardandousuario": $respChamado = "<a class='ui small header'>Aguardando Usuário</a>"; break;
-                                                                              case "respondido": $respChamado = "<a class='ui small blue header'>Respondido</a>"; break;
-                                                                              case "cancelado": $respChamado = "<a class='ui small red header'>Cancelado</a>"; break;
-                                                                          }  
-                                                                          echo $adminPIP." - ".$chamados->getChamadoResposta()[$x]->getDatahoracadastro()." - ".$respChamado." - ".$chamados->getChamadoResposta()[$x]->getResposta()."<br>";
-                                                                        } 
-                                                                      }                                                              
-                                                                    //}                                                       
-
-                                                                  } else echo "Nenhuma resposta cadastrada para o chamado"
-
-                                                              ?>
-                                                        </div>
+                                            <div class="column">
+                                                <div class="ui segment"><a class="header">Data do Cadastro</a>
+                                                    <div class="description"><?php echo $chamados->getDataHoraCadastro(); ?>
                                                     </div>
-                                               </div>
-                                                
-                                            </form>
-                                 
+                                                </div>       
+                                            </div>
+
+                                            <div class="column">
+                                                <div class="ui segment"><a class="header">Status do Chamado</a>
+                                                    <div class="description"><?php
+                                                        if ($chamados->getStatus() == "aberto") {
+                                                            $mensagemPadrao = "Seu chamado será respondido em breve";
+                                                        } if ($chamados->getStatus() == "atendimento") {
+                                                            $mensagemPadrao = "Seu chamado já está em análise por nossa equipe e em breve será respondido";
+                                                        } if ($chamados->getStatus() == "cancelado") {
+                                                            $mensagemPadrao = "Você cancelou o chamado em " . $chamados->getDataHoraCancela();
+                                                        }if ($chamados->getStatus() == "aguardandousuario") {
+                                                            $mensagemPadrao = "Aguardando sua resposta";
+                                                        }
+                                                        if ($chamados->getStatus() == "respondido") {
+                                                            $mensagemPadrao = "Seu chamado foi respondido por nossa equipe";
+                                                        }
+                                                        echo $statusChamado . " - " . $mensagemPadrao;
+                                                        ?>
+                                                    </div>
+                                                </div>       
+                                            </div>
+                                        </div>    
+
+                                        <?php if ($chamados->getStatus() == "aberto" || $chamados->getStatus() == "atendimento" || $chamados->getStatus() == "aguardandousuario") { ?>    
+
+                                            <div class="stackable one column ui grid container">
+                                                <div class="column">
+                                                    <div class="ui segment"><a class="header">Nova Mensagem</a>
+
+                                                        <div class="description">
+                                                            <textarea rows="5" cols="100" id="txtRespostaChamado" name="txtRespostaChamado" maxlength="1000"></textarea>
+                                                        </div>
+                                                    </div>       
+                                                </div>
+
+                                            </div>           
+
+                                        <?php } ?>    
+
+                                    </div>    
+
+                                    <div id="divModalMenorCancelar<?php echo $chamados->getId() ?>">
+
+                                        <div class="stackable two column ui grid container">
+                                            <div class="header">
+                                                <strong style="font-size: 18px">Deseja realmente cancelar o chamado?</strong>
+                                            </div>
+                                        </div>
+
                                     </div>
-                         
-                                <div id="divRetornoNovoStatus<?php echo $chamados->getId(); ?>"></div>
-  
-                                <div class="actions">
-                                    
-                                    <?php if($chamados->getStatus() != "cancelado" && $chamados->getStatus() != "respondido"){?>
+
+                                    <div class="stackable one column ui grid container">
+                                        <div class="column">
+                                            <div class="ui segment">
+                                                <a class="header">Mensagem(ns) já cadastrada(s)</a><br>
+                                                <?php
+                                                $totalResposta = count($chamados->getChamadoResposta());
+
+                                                if ($totalResposta >= 1) {
+
+                                                    if ($totalResposta == 1) {
+
+                                                        if ($chamados->getChamadoResposta()->getAdministracao() == "SIM") {
+                                                            $adminPIP = "PIP Cadastrou";
+                                                        } else
+                                                            $adminPIP = "Você Cadastrou";
+
+                                                        switch ($chamados->getChamadoResposta()->getStatus()) {
+                                                            case "aberto": $respChamado = "<a class='ui small green  header'>Aberto</a>";
+                                                                break;
+                                                            case "atendimento": $respChamado = "<a class='ui small yellow header'>Em Atendimento</a>";
+                                                                break;
+                                                            case "aguardandousuario": $respChamado = "<a class='ui small header'>Aguardando Usuário</a>";
+                                                                break;
+                                                            case "respondido": $respChamado = "<a class='ui small blue header'>Respondido</a>";
+                                                                break;
+                                                            case "cancelado": $respChamado = "<a class='ui small red header'>Cancelado</a>";
+                                                                break;
+                                                        }
+
+                                                        echo $adminPIP . " - " . $chamados->getChamadoResposta()->getDatahoracadastro() . " - " . $respChamado . " - " . $chamados->getChamadoResposta()->getResposta() . "<br>";
+                                                    } if ($totalResposta > 1) {
+
+                                                        for ($x = 0; $x < $totalResposta; $x++) {
+
+                                                            if ($chamados->getChamadoResposta()[$x]->getAdministracao() == "SIM") {
+                                                                $adminPIP = "PIP Cadastrou";
+                                                            } else
+                                                                $adminPIP = "Você Cadastrou";
+
+                                                            switch ($chamados->getChamadoResposta()[$x]->getStatus()) {
+                                                                case "aberto": $respChamado = "<a class='ui small green  header'>Aberto</a>";
+                                                                    break;
+                                                                case "atendimento": $respChamado = "<a class='ui small yellow header'>Em Atendimento</a>";
+                                                                    break;
+                                                                case "aguardandousuario": $respChamado = "<a class='ui small header'>Aguardando Usuário</a>";
+                                                                    break;
+                                                                case "respondido": $respChamado = "<a class='ui small blue header'>Respondido</a>";
+                                                                    break;
+                                                                case "cancelado": $respChamado = "<a class='ui small red header'>Cancelado</a>";
+                                                                    break;
+                                                            }
+                                                            echo $adminPIP . " - " . $chamados->getChamadoResposta()[$x]->getDatahoracadastro() . " - " . $respChamado . " - " . $chamados->getChamadoResposta()[$x]->getResposta() . "<br>";
+                                                        }
+                                                    }
+                                                    //}                                                       
+                                                } else
+                                                    echo "Nenhuma resposta cadastrada para o chamado"
+                                                    ?>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+
+                            <div id="divRetornoNovoStatus<?php echo $chamados->getId(); ?>"></div>
+
+                            <div class="actions">
+
+                                <?php if ($chamados->getStatus() != "cancelado" && $chamados->getStatus() != "respondido") { ?>
                                     <div class="stackable one column ui grid container" id="divAtencaoCancela<?php echo $chamados->getId(); ?>">
                                         <div class="column">                                           
                                             <div class='ui compact yellow icon message'><i class='big warning circle icon'></i>
                                                 <p><strong>ATENÇÃO</strong>: Ao clicar em "Cancelar Chamado", seu chamado não será mais analisado pelo PIP Online</p>
                                             </div>                                            
-         
-                                        
+
+
                                         </div>    
-                                            
+
                                     </div>
                                     <br>
                                     <div  id="botaoCancelarChamado<?php echo $chamados->getId(); ?>" class="ui red labeled icon button">
-                                            <i class='big white remove outline circle icon'></i>Cancelar Chamado
+                                        <i class='big white remove outline circle icon'></i>Cancelar Chamado
                                     </div>
- 
-                                    <?php } ?>
-                                    
-                                    <?php if($chamados->getStatus() == "aberto" || $chamados->getStatus() == "atendimento" || $chamados->getStatus() == "aguardandousuario"){?>
-                                    
+
+                                <?php } ?>
+
+                                <?php if ($chamados->getStatus() == "aberto" || $chamados->getStatus() == "atendimento" || $chamados->getStatus() == "aguardandousuario") { ?>
+
                                     <div  id="botaoResponderNovaMensagem<?php echo $chamados->getId(); ?>" class="ui green labeled icon button">
                                         <i class='big white check icon'></i>Cadastrar
                                     </div>
-                                    
-                                    <?php } ?>
-                                                                                                          
-                                    <div  id="botaoFecharChamado<?php echo $chamados->getId(); ?>" class="ui red deny button">
-                                        Fechar
-                                    </div>
+
+                                <?php } ?>
+
+                                <div  id="botaoFecharChamado<?php echo $chamados->getId(); ?>" class="ui red deny button">
+                                    Fechar
                                 </div>
-                                
-                                
-                            </div>    
-                            
-                            <?php    
-                            }
-                            ?>
-                            <table class="ui striped pink stackable table" id="tabelaChamados">
+                            </div>
+
+
+                        </div>    
+
+                        <?php
+                    }
+                    ?>
+                    <table class="ui striped pink stackable table" id="tabelaChamados">
                         <thead>
                             <tr>
                                 <th>Código</th>
@@ -1473,13 +1489,14 @@ foreach ($imoveis as $qtdAnuncios) {
                             </tr>
                         </thead>
                         <tbody>
-                            <?php echo $listagemChamado;?>
+                            <?php echo $listagemChamado; ?>
                         </tbody>
                     </table>
-                            
-                    <?php die();
+
+                    <?php
+                    die();
                 }
-            } 
+            }
             ?>
         </div>
     </div>

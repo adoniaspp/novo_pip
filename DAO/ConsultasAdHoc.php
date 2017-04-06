@@ -105,7 +105,7 @@ class ConsultasAdHoc extends GenericoDAO {
                 $sql = $sql . ' ASC ';
             }
         }
-        
+
         $statement = $this->conexao->prepare($sql);
         if ($diferencial != NULL) {
             foreach ($diferencial as $valor) {
@@ -353,7 +353,7 @@ class ConsultasAdHoc extends GenericoDAO {
                      AND NOT EXISTS
                     (SELECT 1
                      FROM anuncioaprovacao aa
-                     WHERE aa.idimovel = i.id AND aa.status = 'pendenteaprovacao')";
+                     WHERE aa.idimovel = i.id AND aa.status = 'pendenteanalise')";
         $sql = $sql . " ORDER BY i.ID DESC";
         $statement = $this->conexao->prepare($sql);
         $statement->bindParam(':idUsuario', $idUsuario);

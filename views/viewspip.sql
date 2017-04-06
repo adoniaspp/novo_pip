@@ -409,8 +409,6 @@ JOIN `cidade` `ci`
 JOIN `bairro` `b` 
     ON (`b`.`id` = `en`.`idbairro`)
 
-WHERE `a`.`status` = 'cadastrado';
-
 /* BUSCA ANUNCIO TODOS */
 CREATE 
     ALGORITHM = UNDEFINED 

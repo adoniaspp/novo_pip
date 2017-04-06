@@ -38,7 +38,8 @@
                 <i class="right chevron icon divider"></i>
                 <i class="block layout small icon"></i><a class="section" href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
                 <i class="right chevron icon divider"></i>
-                <a class="active section">Visualizar Anúncios Não Ativos</a>
+                <a class="active section"></a>
+                <div class="active section"><i class="thumbs outline up small icon"></i>Visualizar Anúncios Não Ativos</div>
             </div>
         </div>
     </div>

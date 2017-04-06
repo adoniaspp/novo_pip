@@ -73,7 +73,7 @@ if ($item["mapaImovel"]) {
 
 <div class="ui hidden divider"></div>
 
-<?php if ($item["anuncio"]->getStatus() === "pendenteaprovacao" && $_SESSION['login'] == "pipdiministrador") { ?>
+<?php if (($item["anuncio"]->getStatus() === "pendenteanalise" || $item["anuncio"]->getStatus() === "emanalise") && $_SESSION['login'] == "pipdiministrador") { ?>
 
     <div class="ui middle aligned stackable grid container">
         <div class="sixteen column">
@@ -102,7 +102,7 @@ if ($item["anuncio"]->getStatus() === "aprovacaonegada" && $_SESSION['login'] ==
 
 
 
-<?php if ($item["anuncio"]->getStatus() === "pendenteaprovacao") { ?>
+<?php if ($item["anuncio"]->getStatus() === "pendenteanalise" || $item["anuncio"]->getStatus() === "emanalise" ) { ?>
 
     <div class="ui middle aligned stackable grid container">
         <div class="sixteen column">
