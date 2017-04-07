@@ -278,7 +278,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                             </div>
                             <div class="extra content">      
                                 <div class="ui checkbox">
-                                    <input type="checkbox" name="selecionarAnuncio[]" id="selecionarAnuncio_<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" value="<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">
+                                    <input type="checkbox" name="selecionarAnuncio[]" id="selecionarAnuncio_<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" value="<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>">
                                     <label id="idsAnuncios">Selecionar</label>
                                 </div>
                             </div>                        
