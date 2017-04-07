@@ -19,6 +19,8 @@ include_once 'configuracao/cookies.php';
 <?php
 $item = $this->getItem();
 
+$numeroDiferencial = count($item['anuncio'][0]['diferenciais']);
+
 $latitude = "";
 $longitude = "";
 $expirado = "";
@@ -725,15 +727,17 @@ z-index: 9999; /* número máximo é 9999 */
                             <div id="txtDiferencialAnuncio"></div>                     
                         </div>                     
                     </div>
-                    
+                    <div class="ui hidden divider"></div>
                     <div class="fields">
                         
                     <?php 
                     
+                    if($numeroDiferencial <= 7){
+    
                            foreach ($item['anuncio'][0]['diferenciais'] as $diferenciais) { 
                        
                     ?>
-  
+                            
                             <div class="twelve wide field">
                                 <div class="ui tiny header">
                                     <div class="content">
@@ -741,7 +745,52 @@ z-index: 9999; /* número máximo é 9999 */
                                     </div>
                                 </div>
                             </div>
-                    <?php } ?>                            
+                    <?php } 
+                    
+                           }//caso o número de diferenciais seja maior que 7
+                    
+                    else { ?> 
+
+                       <div class="ui stackable four column grid"> 
+                       <?php
+                        
+                       $contadorDif = 1; 
+                        
+                       foreach ($item['anuncio'][0]['diferenciais'] as $diferenciais) {
+                           
+                       if($contadorDif <= 7) { //echo $contadorDif?>     
+                        
+                                
+                           <div class="column">
+                                    <div class="content">
+                                        <i class="green checkmark icon"></i><?php echo $diferenciais['descricao'] ?>
+                                    </div>
+                           </div>
+                            
+                        
+                       <?php    
+                           
+                       $contadorDif = $contadorDif + 1;    //echo $contadorDif;
+                           
+                       } else {?>
+                        
+                           <div class="column">
+                                    <div class="content">
+                                        <i class="green checkmark icon"></i><?php echo $diferenciais['descricao'] ?>
+                                    </div>
+                           </div>
+                                
+                            
+                        
+                            <?php
+                            //echo $contadorDif;
+                            }
+                       
+                         }?> </div> <?php 
+                       
+                       }
+                    
+                    ?>                            
                       
                     </div>    
                     <div class="ui hidden divider"></div>
