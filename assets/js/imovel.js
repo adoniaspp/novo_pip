@@ -1392,21 +1392,11 @@ function carregaDadosModalImovel($div) {
         }
         
         //diferencial
-        var diferencial;
+//        var diferencial;
         var totalDiferencial = $('input[type=checkbox]:checked').not('input[id^=chkDiferencialPlanta]').length;
 
-        if (totalDiferencial == 0) {
-
-            $div.append("<div class='ui horizontal list'>\n\
-                                        <div class='item'>\n\
-                                        <div class='content'>\n\
-                                        <div class='header'>Diferenciais</div><h4 class='ui red header'>Não Informado</h4></div>\n\
-                                        </div>\n\
-                                </div>\n\
-                <div class='ui hidden divider'></div>");
-        } else {
-
-            //transforma os elementos do checkbox em um array
+        if (totalDiferencial != 0) 
+        {
             var arr = [];
             $("input[type^='checkbox']:checked").not('input[name^="chkDiferencialPlanta"]').parent().find("#diferencial").each(function ()
             {
