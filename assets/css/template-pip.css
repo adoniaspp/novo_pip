@@ -457,7 +457,7 @@ input[id*="modal_"]:checked + div.modal .modal-content {
 /*exibir whatsapp em dispositivo móvel. Div em AnuncioVisaoBusca.php*/
 @media screen and (min-width: 600px){
  .compartilhar-whatsapp {
-   display: none;
+   display: none !important;   
  }
 }
 /*Não oculta os controles do jplist em telas de dispositivos móveis.*/

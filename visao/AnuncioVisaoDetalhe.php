@@ -59,22 +59,34 @@ if($item["anuncio"][0]["status"] == "finalizado" || $item["anuncio"][0]["status"
 <script>
     $(document).ready(function () {
         
+        
         $(function () {
-       //incluso essa variavel para setar atributos do css depois
+            //incluso essa variavel para setar atributos do css depois
             var elemento = $('#divMiniMenu');
-            
-            $(window).scroll(function () {
-                //distancia que o scroll devera rolar para aparecer o box da div
-                if ($(this).scrollTop() > 0) {
-                    //bloco incluso para setar o css
-                    elemento.css({
-                        'position': 'fixed',
-                            'bottom': '30%'
-                    });
 
-                    $('#divMiniMenu').fadeIn();
-                } 
-            });
+            var deviceAgent = navigator.userAgent.toLowerCase();
+            var agentID = deviceAgent.match(/(iphone|ipod|ipad|android|blackberry)/);
+
+            if (agentID) {
+                $('#divMiniMenu').hide();// caso seja iphone|ipod|ipad|android|blackberry
+                $('#textoCompartilhar').hide();
+            } else {
+                //alert('você está em um computador');
+                $(window).scroll(function () {
+                    //distancia que o scroll devera rolar para aparecer o box da div
+                    if ($(this).scrollTop() > 0) {
+                        //bloco incluso para setar o css
+                        elemento.css({
+                            'position': 'fixed',
+                            'bottom': '30%'
+                        });
+
+                        $('#divMiniMenu').fadeIn();
+                    }
+                });
+            }
+
+
         });
                 
         if('<?php echo $expirado ?>' === 'SIM' 
@@ -304,11 +316,11 @@ z-index: 9999; /* número máximo é 9999 */
 <div class="stackable two column ui grid container" id="linkInfo">
     
     <div class="center aligned column">
-               Compartilhar
+        <div id="textoCompartilhar">Compartilhar</div>
                <a class="ui circular inverted icon button" href="http://www.facebook.com/sharer.php?u=http://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>" target="_blank"><i class="big blue facebook square icon"></i></a>
                <a class="ui circular inverted icon button" href="https://twitter.com/intent/tweet?text=Anúncio%20Compartilhado%20via%20PIP-OnLine%20http%3A%2F%2Fwww.pipbeta.com.br%2F<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>" target="_blank"><i class="big blue twitter icon"></i></a>
                <a class="ui circular inverted icon button" href="https://plus.google.com/share?url=http://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>" target="_blank"><i class="big red google plus circle icon"></i></a>
-               <a class="compartilhar-whatsapp" href='whatsapp://send?text=http://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>'><i class="big green whatsapp icon"></i></a>
+               <a class="ui circular inverted icon button compartilhar-whatsapp" href='whatsapp://send?text=http://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>'><i class="big green whatsapp icon"></i></a>
    </div>
    <div class="center aligned column">
                Denunciar
@@ -1059,10 +1071,12 @@ foreach ($item['anuncio'][0]['telefone'] as $telefone) {
                                 <?php if ($item["qtdAnuncios"] >= 2) { ?>
 
                                     <?php if ($item['anuncio'][0]['status'] == "cadastrado") { ?>
-                           <div class="ui icon message">
-                        <i class="blue user icon"></i>
-                        <div class="header"> Este vendedor possui <?php echo $item["qtdAnuncios"] ?> anúncios cadastrados. <a href='index.php?entidade=Anuncio&acao=buscarAnuncioCorretor&login=<?php echo $item["loginUsuario"] ?>' target="_blank">Veja mais anúncios dele.</a></div>
-                        </div>
+                        <div class="column">    
+                            <div class="ui icon message">
+                                <i class="blue user icon"></i>
+                                <div class="header"> Este vendedor possui <?php echo $item["qtdAnuncios"] ?> anúncios cadastrados. <a href='index.php?entidade=Anuncio&acao=buscarAnuncioCorretor&login=<?php echo $item["loginUsuario"] ?>' target="_blank">Veja mais anúncios dele.</a></div>
+                            </div>   
+                        </div>     
                                 <?php } ?>
 
                             <?php } ?>                            
@@ -1078,13 +1092,21 @@ if (Sessao::verificarSessaoUsuario()) {
         if ($item["qtdMensagem"] >= 1) {
             ?>
 
-                    <div class="ui dividing header"><div class="ui big brown label">Mensagem(ns) do Anúncio</div></div>
-
+                    <!--<div class="ui dividing header"><div class="ui big brown label">Mensagem(ns) do Anúncio</div></div>-->
+                    <div class="row">
+                        <h2 class="ui header">
+                            <i class="mail brown icon"></i>
+                            <div class="content">
+                                Mensagem(ns)
+                                <div class="sub header">Resposta a(s) dúvida(s) sobre seu(s) anúncio(s)</div>
+                            </div>
+                        </h2>
+                    </div>
                     <script>
                         esconderResposta();
                     </script>
 
-                    <div class="row">
+                    <!--<div class="row">-->
 
                         <div class="column">
 
@@ -1254,7 +1276,7 @@ if (Sessao::verificarSessaoUsuario()) {
                                 </div>
                             </div>
 
-                        </div>
+                        <!--</div>-->
 
 
             <?php }
@@ -1266,6 +1288,7 @@ if (Sessao::verificarSessaoUsuario()) {
         </div>
     </div>
 </div>
+
 
 <div class="ui standart modal" id="modalDuvidaAnuncio">
     <i class="close icon"></i>

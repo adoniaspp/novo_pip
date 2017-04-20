@@ -107,8 +107,10 @@ class ChamadoRespostaControle {
         
         $usuario = new Usuario();
         
-        $destino = $genericoDAO->consultar($usuario, false, array("id" => $parametros['hdnUsuario']));
-        
+        $chamado  = $genericoDAO->consultar(new Chamado(), false, array("id" => $parametros['hdnChamado']));
+                
+        $destino = $genericoDAO->consultar($usuario, false, array("id" => $chamado[0]->getIdUsuario()));
+ 
         $nomeUsuario = explode(" ", $destino[0]->getNome());
         
         $nome = ucfirst(strtolower($nomeUsuario[0]));

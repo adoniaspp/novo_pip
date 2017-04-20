@@ -188,6 +188,7 @@
                                         <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="ChamadoResposta"  />
                                         <input type="hidden" id="hdnAcao" name="hdnAcao" value="responderChamado" />  
                                         <input type="hidden" id="hdnAdmin" name="hdnAdmin" value="SIM" /> 
+                                        <input type="hidden" id="hdnAdmin" name="hdnEmailAssunto" value="Resposta Chamado" />
                                         <input type="hidden" id="hdnUsuario" name="hdnUsuario" value="<?php echo $chamado->getUsuario()->getId() ?>" /> 
                                         <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
                                         <input type="hidden" id="hdnChamado" name="hdnChamado" value="<?php echo $chamado->getId() ?>" />

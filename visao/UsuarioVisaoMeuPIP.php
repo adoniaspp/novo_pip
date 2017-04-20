@@ -1494,7 +1494,7 @@ foreach ($imoveis as $qtdAnuncios) {
                     </table>
 
                     <?php
-                    die();
+
                 }
             }
             ?>
