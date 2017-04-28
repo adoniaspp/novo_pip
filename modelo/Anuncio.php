@@ -1,10 +1,9 @@
 <?php
 
-
 class Anuncio {
-   
-    private $id;   
-    private $idimovel;    
+
+    private $id;
+    private $idimovel;
     private $idanuncio;
     private $finalidade;
     private $tituloanuncio;
@@ -17,14 +16,13 @@ class Anuncio {
     private $publicarcontato;
     private $idusuarioplano;
     private $valormin;
- 
     protected $imovel;
     protected $usuarioplano;
     protected $historicoaluguelvenda;
     protected $novovaloranuncio;
     protected $mapaimovel;
     protected $imagem;
-            
+
     function getId() {
         return $this->id;
     }
@@ -180,56 +178,16 @@ class Anuncio {
     function setMapaimovel($mapaimovel) {
         $this->mapaimovel = $mapaimovel;
     }
-    
+
     function setImagem($imagem) {
         $this->imagem = $imagem;
     }
 
-                   
-    public function cadastrar($parametros) {
-        $this->setIdImovel($_SESSION["anuncio"]["idimovel"]);
-        
-        $idrand = substr(date("Y/m/d H:i:s"), 0, -15) . substr(date("Y/m/d H:i:s"), 5, 2) . str_pad($_SESSION["anuncio"]["idimovel"], 5, "0", STR_PAD_LEFT);
-        //ano, mês e id do imóvel
-        
-        $this->setIdAnuncio($idrand);       
-        $this->setFinalidade($parametros['sltFinalidade']);
-        $this->setTituloAnuncio($parametros['txtTitulo']);
-        $this->setDescricaoAnuncio($parametros['txtDescricao']);
-        $this->setStatus('pendenteativacao');
-        $this->setDatahoracadastro(date("Y/m/d H:i:s"));
-        $this->setDatahoraalteracao('');
-        $this->setDatahoradesativacao('');
-        $this->setPublicarmapa((isset($parametros['chkMapa']) ? "SIM" : "NAO"));
-        $this->setPublicarcontato((isset($parametros['chkContato']) ? "SIM" : "NAO"));
-        $this->setIdusuarioplano($parametros['sltPlano']);
-        return $this;
-    }
-    
-    public function editar($parametros){
-        $this->setFinalidade($parametros['sltFinalidade']);
-        $this->setTituloAnuncio($parametros['txtTitulo']);
-        $this->setDescricaoAnuncio($parametros['txtDescricao']);
-        $this->setDatahoraalteracao(date("Y/m/d H:i:s"));
-        $this->setPublicarmapa((isset($parametros['chkMapa']) ? "SIM" : "NAO"));
-        $this->setPublicarcontato((isset($parametros['chkContato']) ? "SIM" : "NAO"));
-    }
-    
-    public function alterarStatus($parametros){
-        
-        $this->setId($parametros['hdnAnuncio']);        
+    public function alterarStatus($parametros) {
+        $this->setId($parametros['hdnAnuncio']);
         $this->setStatus($parametros['sltStatusAnuncio']);
         $this->setDatahoraalteracao(date("Y/m/d H:i:s"));
-        
         return $this;
     }
-    
-    private function limpaValorNumerico($valor) {
-        $valor = str_replace("R$", "", $valor);
-        $valor = str_replace(".", "", $valor);
-        $valor = str_replace(",", ".", $valor);
-        $valor = trim($valor);
-        return $valor;
-    }
-    
+
 }

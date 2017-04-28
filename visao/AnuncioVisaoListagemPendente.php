@@ -16,28 +16,26 @@
 <script>
     $(document).ready(function () {
 
-        //função que ordena a data, de acordo com o formato
-        $.fn.dataTable.moment('DD/MM/YYYY HH:mm:ss');
-
-        $('#tabela').DataTable({
-            "language": {
-                "url": "assets/libs/datatables/js/Portuguese-Brasil.json",
-            },
-            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
+    //função que ordena a data, de acordo com o formato
+    $.fn.dataTable.moment('DD/MM/YYYY HH:mm:ss');
+    $('#tabela').DataTable({
+    "language": {
+    "url": "assets/libs/datatables/js/Portuguese-Brasil.json",
+    },
+            "lengthMenu": [[5, 10, 25, 50, - 1], [5, 10, 25, 50, "Todos"]],
             "stateSave": true,
             "order": [[4, "desc"]]
-            
-           <?php
-            if ($_SESSION['login'] === 'pipdiministrador') {
-                ?>                                
-            ,"columnDefs": [
-                {"orderable": false, "targets": 7}
-            ]
-           <?php
-            }
-            ?>
-        });
 
+<?php
+if ($_SESSION['login'] === 'pipdiministrador') {
+    ?>
+        , "columnDefs": [
+        {"orderable": false, "targets": 7}
+        ]
+    <?php
+}
+?>
+    });
     })
 
 </script>
@@ -71,6 +69,10 @@
                 <div class="ui horizontal segments">
 
                     <div class="ui segment center aligned ">
+                        <i class='big orange edit icon'></i>Edição de Anúncio: A edição do seu anúncio precisa ser aprovado pela Administração do PIP Online 
+                    </div>
+
+                    <div class="ui segment center aligned ">
                         <i class='disabled big gray hourglass half icon'></i>Pendente de Análise: Seu anúncio ainda será analisado pela Administração do PIP Online 
                     </div>
 
@@ -87,6 +89,10 @@
             <div class="column">
                 <div class="ui horizontal segments">
 
+                     <div class="ui segment center aligned ">
+                        <i class='big orange edit icon'></i>Edição de Anúncio: A edição do seu anúncio precisa ser aprovado pela Administração do PIP Online 
+                    </div>
+                    
                     <div class="ui segment center aligned ">
                         <i class='disabled big gray hourglass half icon'></i>Pendente de Análise: Anúncio ainda não está em análise
                     </div>
@@ -151,19 +157,18 @@ if ($totalAnunciosCadastrados < 1) {
                             }
                             ?>
                             <th><?php
-                            if ($_SESSION['login'] != 'pipdiministrador') {
-                                echo "Status";
-                            } else
-                                echo "Opções";
-                            ?></th>
+                                if ($_SESSION['login'] != 'pipdiministrador') {
+                                    echo "Status";
+                                } else
+                                    echo "Opções";
+                                ?></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         if ($item) {
                             foreach ($item["listaAnuncio"] as $anuncio) {
-
-                                switch ($anuncio->getImovel()->getIdTipoImovel()) {
+                                switch ($anuncio["imovel"]->getIdTipoImovel()) {
 
                                     case 1: $tipoImovel = "casa";
                                         break;
@@ -180,23 +185,22 @@ if ($totalAnunciosCadastrados < 1) {
                                 }
                                 ?>
                                 <tr>
-                                    <td>                          
-
-                                        <form id="form<?php echo $anuncio->getId() ?>" action="index.php" method="post" target='_blank'>
+                                    <td>
+                                        <form id="form<?php echo $anuncio["id"] ?>" action="index.php" method="post" target='_blank'>
                                             <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="AnuncioAprovacao" />
                                             <input type="hidden" id="hdnAcao" name="hdnAcao" value="detalharPendente"/>
-                                            <input type="hidden" id="hdnCodAnuncio" name="hdnCodAnuncio" value="<?php echo $anuncio->getId() ?>"/>
+                                            <input type="hidden" id="hdnCodAnuncio" name="hdnCodAnuncio" value="<?php echo $anuncio["id"] ?>"/>
                                             <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" value="<?php echo $tipoImovel ?>"/>                                                                               
 
                                             <button class="ui labeled icon button">
                                                 <i class="zoom icon"></i>
-                                        <?php echo $anuncio->getIdAnuncio(); ?>
+                                                <?php echo $anuncio["idanuncio"]; ?>
                                             </button>
-                                            <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $anuncio->getIdAnuncio() ?>" />
+                                            <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $anuncio["idanuncio"] ?>" />
                                         </form>     
                                     </td>
                                     <td><?php
-                                        switch ($anuncio->getImovel()->getIdTipoImovel()) {
+                                        switch ($anuncio["imovel"]->getIdTipoImovel()) {
 
                                             case 1: echo "Casa";
                                                 break;
@@ -212,51 +216,49 @@ if ($totalAnunciosCadastrados < 1) {
                                                 break;
                                         }
                                         ?></td>
-                                    <td><?php echo $anuncio->getTituloanuncio(); ?></td>
-                                    <td><?php echo $anuncio->getFinalidade(); ?></td>
-                                    <td id="tdValor<?php echo $anuncio->getId(); ?>">
-            <?php
-            echo $anuncio->getValorMin();
-            ?>
-
+                                    <td><?php echo $anuncio["tituloanuncio"]; ?></td>
+                                    <td><?php echo $anuncio["finalidade"]; ?></td>
+                                    <td id="tdValor<?php echo $anuncio["id"]; ?>"><?php echo $anuncio["valormin"]; ?>
                                     </td>
 
-                                    <td> <?php echo date('d/m/Y H:i:s', strtotime($anuncio->getDataHoraCadastro())); ?> </td>
+                                    <td> <?php echo date('d/m/Y H:i:s', strtotime($anuncio["datahoracadastro"])); ?> </td>
 
                                     <?php
-                                    if ($_SESSION['login'] == 'pipdiministrador') {
-                                        echo "<td> ";
-                                        if ($anuncio->getStatus() == "pendenteanalise") {
-                                            echo "<i class='disabled big gray hourglass half icon'></i>Pendente de Análise";
-                                        } else if ($anuncio->getStatus() == "emanalise") {
-                                            echo "<i class='big blue hourglass half icon'></i>Em Análise";
-                                        } else if ($anuncio->getStatus() == "aprovacaonegada") {
-                                            echo "<i class='big red thumbs down icon'></i>Aprovação Negada";
-                                        }
-                                        "</td>";
-                                    }
                                     ?>        
 
-                                    <td> <?php
-                                        if ($_SESSION['login'] != 'pipdiministrador') {
-                                            if ($anuncio->getStatus() == "pendenteanalise") {
-                                                echo "<i class='disabled big gray hourglass half icon'></i>Pendente de Análise";
-                                            } else if ($anuncio->getStatus() == "emanalise") {
-                                                echo "<i class='big blue hourglass half icon'></i>Em Análise";
-                                            } else if ($anuncio->getStatus() == "aprovacaonegada") {
-                                                echo "<i class='big red thumbs down icon'></i>Aprovação Negada";
-                                            }
-                                        } else {
-                                            echo "<a id='btnMudarStatus" . $anuncio->getId() . "' class='ui circular inverted icon button'><i class='big teal edit icon'></i></a>Alterar Status";
-                                        }
-                                        ?> </td>
+                                    <td>
+                     <?php
+                     
+                        if($anuncio["edicao"]){
+                            echo "<i class='big orange edit icon'></i>";
+                        }
+                     
+                        if ($_SESSION['login'] != 'pipdiministrador') {
+                            if ($anuncio["status"] == "pendenteanalise") {
+                                echo "<i class='disabled big gray hourglass half icon'></i>";
+                            } else if ($anuncio["status"] == "emanalise") {
+                                echo "<i class='big blue hourglass half icon'></i>";
+                            } else if ($anuncio["status"] == "aprovacaonegada") {
+                                echo "<i class='big red thumbs down icon'></i>";
+                            }
+                        } elseif ($_SESSION['login'] == 'pipdiministrador') {
+                            if ($anuncio["status"] == "pendenteanalise") {
+                                echo "<i class='disabled big gray hourglass half icon'></i>";
+                            } else if ($anuncio["status"] == "emanalise") {
+                                echo "<i class='big blue hourglass half icon'></i>";
+                            } else if ($anuncio["status"] == "aprovacaonegada") {
+                                echo "<i class='big red thumbs down icon'></i>";
+                            }
+                            echo "<td> <a id='btnMudarStatus" . $anuncio["id"] . "' class='ui circular inverted icon button'><i class='big teal exchange icon'></i></a>Alterar Status</td>";
+                        }
+                                    ?> </td>
 
                                 </tr>
 
-            <?php
-        }
-    }
-    ?>
+                                <?php
+                            }
+                        }
+                        ?>
                     </tbody>
 
                 </table>
@@ -272,60 +274,60 @@ if ($totalAnunciosCadastrados < 1) {
             ?>
 
             <script>
-                formatarValor(<?php echo $anuncio->getId() ?>);
-                alterarStatusAnuncio(<?php echo $anuncio->getId() ?>)
+                        formatarValor(<?php echo $anuncio["id"] ?>);
+                alterarStatusAnuncio(<?php echo $anuncio["id"] ?>)
             </script>
 
             <!-- MODAL DA EDIÇÃO DO STATUS DO ANÚNCIO-->
 
-            <div class="ui standart modal" id="modalMudarStatus<?php echo $anuncio->getId() ?>">
+            <div class="ui standart modal" id="modalMudarStatus<?php echo $anuncio["id"] ?>">
                 <div class="header">
-                    Alterar Status do Anúncio <?php echo $anuncio->getIdAnuncio() ?>
+                    Alterar Status do Anúncio <?php echo $anuncio["idanuncio"] ?>
                 </div>
-                
-                        <div class="row">
-            <div class="column">
-                <div class="ui horizontal segments">
-                    <div class="ui segment center aligned ">
-                        <i class='big blue hourglass half icon'></i>Em Análise: informar qe o anúncio está sendo analisado
+
+                <div class="row">
+                    <div class="column">
+                        <div class="ui horizontal segments">
+                            <div class="ui segment center aligned ">
+                                <i class='big blue hourglass half icon'></i>Em Análise: informar qe o anúncio está sendo analisado
+                            </div>
+
+                            <div class="ui segment center aligned ">
+                                <i class='big green thumbs up icon'></i>Aprovado: Anúncio aprovado e disponibilizado no sistema
+                            </div>
+
+
+                            <div class="ui segment center aligned ">
+                                <i class='big red thumbs down icon'></i>Aprovação Negada: Anúncio não foi aprovado, o plano comprado pelo usuário será reativado
+                            </div>
+
+                        </div>           
                     </div>
-
-                    <div class="ui segment center aligned ">
-                        <i class='big green thumbs up icon'></i>Aprovado: Anúncio aprovado e disponibilizado no sistema
-                    </div>
+                </div>
 
 
-                    <div class="ui segment center aligned ">
-                        <i class='big red thumbs down icon'></i>Aprovação Negada: Anúncio não foi aprovado, o plano comprado pelo usuário será reativado
-                    </div>
+                <div class="content" id="camposAlterarStatus<?php echo $anuncio["id"] ?>">
 
-                </div>           
-            </div>
-        </div>
-                
-                
-                <div class="content" id="camposAlterarStatus<?php echo $anuncio->getId() ?>">
-
-                    <form class="ui form" id="formAlterarStatusAnuncio<?php echo $anuncio->getId() ?>" action="index.php" method="post">
+                    <form class="ui form" id="formAlterarStatusAnuncio<?php echo $anuncio["id"] ?>" action="index.php" method="post">
                         <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="AnuncioAprovacao"  />
                         <input type="hidden" id="hdnAcao" name="hdnAcao" value="alterarStatus" />  
                         <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
-                        <input type="hidden" id="hdnAnuncio" name="hdnAnuncio" value="<?php echo $anuncio->getId() ?>" />
-                        <input type="hidden" id="hdnStatusAtual<?php echo $anuncio->getId() ?>" name="hdnStatusAtual" value="<?php echo $anuncio->getStatus() ?>"/>    
-                        <input type="hidden" id="hdnMsgEmailEmAnalise" name="hdnMsgEmailEmAnalise" value="Seu anúncio <?php echo $anuncio->getIdAnuncio() ?> está em análise pela equipe do PIP Online e em alguns momentos pode ser aprovado."/>
-                        <input type="hidden" id="hdnMsgEmailAprovado" name="hdnMsgEmailAprovado" value="Parabéns! Seu anúncio <?php echo $anuncio->getIdAnuncio() ?> foi aprovado. Clique no link abaixo para visualizá-lo e obrigado por anunciar no PIP Online."/>
-                        <input type="hidden" id="hdnMsgEmailAprovacaoNegada" name="hdnMsgEmailAprovacaoNegada" value="Atenção! A aprovação do anúncio <?php echo $anuncio->getIdAnuncio() ?> foi negada. O plano utilizado estará disponivel novamente em alguns miinutos."/>
+                        <input type="hidden" id="hdnAnuncio" name="hdnAnuncio" value="<?php echo $anuncio["id"] ?>" />
+                        <input type="hidden" id="hdnStatusAtual<?php echo $anuncio["id"] ?>" name="hdnStatusAtual" value="<?php echo $anuncio["status"] ?>"/>    
+                        <input type="hidden" id="hdnMsgEmailEmAnalise" name="hdnMsgEmailEmAnalise" value="Seu anúncio <?php echo $anuncio["idanuncio"] ?> está em análise pela equipe do PIP Online e em alguns momentos pode ser aprovado."/>
+                        <input type="hidden" id="hdnMsgEmailAprovado" name="hdnMsgEmailAprovado" value="Parabéns! Seu anúncio <?php echo $anuncio["idanuncio"] ?> foi aprovado. Clique no link abaixo para visualizá-lo e obrigado por anunciar no PIP Online."/>
+                        <input type="hidden" id="hdnMsgEmailAprovacaoNegada" name="hdnMsgEmailAprovacaoNegada" value="Atenção! A aprovação do anúncio <?php echo $anuncio["idanuncio"] ?> foi negada. O plano utilizado estará disponivel novamente em alguns miinutos."/>
                         <input type="hidden" id="hdnEnviadoPor" name="hdnEnviadoPor" value=""/>
-                        <input type="hidden" id="hdnUsuario" name="hdnUsuario" value="<?php echo $anuncio->getImovel()->getIdUsuario() ?>"/>
+                        <input type="hidden" id="hdnUsuario" name="hdnUsuario" value="<?php echo $anuncio["imovel"]->getIdUsuario() ?>"/>
                         <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" value="<?php echo $tipoImovel ?>"/>
                         <input type="hidden" id="hdnEmailAssunto" name="hdnEmailAssunto" value="Alteração Status - PIP OnLine"/>
 
-                        <div class="four wide required field" id="listaStatus<?php echo $anuncio->getId() ?>">
+                        <div class="four wide required field" id="listaStatus<?php echo $anuncio["id"] ?>">
                             <label>Alterar Status</label>
                             <div class="ui selection dropdown">
-                                <input type="hidden" name="sltStatusAnuncio" id="sltStatusAnuncio<?php echo $anuncio->getId() ?>">
+                                <input type="hidden" name="sltStatusAnuncio" id="sltStatusAnuncio<?php echo $anuncio["id"] ?>">
                                 <div class="text">Novo Status do Anúncio</div>
-                                <i class="dropdown icon" id="dropDown<?php echo $anuncio->getId() ?>"></i>
+                                <i class="dropdown icon" id="dropDown<?php echo $anuncio["id"] ?>"></i>
                                 <div class="menu">
                                     <div class="item" data-value="emanalise">Em Análise</div>
                                     <div class="item" data-value="aprovado">Aprovado</div>
@@ -338,17 +340,17 @@ if ($totalAnunciosCadastrados < 1) {
 
                 </div>
 
-                <div id="divRetornoNovoStatus<?php echo $anuncio->getId(); ?>"></div>
+                <div id="divRetornoNovoStatus<?php echo $anuncio["id"]; ?>"></div>
 
                 <div class="actions">
-                    <div  id="botaoCancelaAlterarStatus<?php echo $anuncio->getId(); ?>" class="ui orange deny button">
+                    <div  id="botaoCancelaAlterarStatus<?php echo $anuncio["id"]; ?>" class="ui orange deny button">
                         Cancelar
                     </div>
-                    <div  id="botaoAlterarStatus<?php echo $anuncio->getId(); ?>" class="ui positive right labeled icon button">
+                    <div  id="botaoAlterarStatus<?php echo $anuncio["id"]; ?>" class="ui positive right labeled icon button">
                         Alterar
                         <i class="checkmark icon"></i>
                     </div>
-                    <div  id="botaoFecharStatus<?php echo $anuncio->getId(); ?>" class="ui red deny button">
+                    <div  id="botaoFecharStatus<?php echo $anuncio["id"]; ?>" class="ui red deny button">
                         Fechar
                     </div>
                 </div>
@@ -359,5 +361,5 @@ if ($totalAnunciosCadastrados < 1) {
     }
     ?>
 
-<?php } //fim do else, caso haja anuncios ativos  ?> 
+<?php } //fim do else, caso haja anuncios ativos   ?> 
 

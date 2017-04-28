@@ -104,7 +104,7 @@ class AnuncioControle {
                         $selecionarDiferencial = $genericoDAO->consultar(new ImovelDiferencial(), true, array("idimovel" => $selecionarImovel[0]->getId()));
                         $selecionarImovel[0]->setImovelDiferencial($selecionarDiferencial);
                         $selecionarNovoValor = $genericoDAO->consultar(new NovoValorAnuncio(), false, array("idanuncio" => $selecionarAnuncio[0]->getId(), "status" => "ativo"));
-                        
+
                         //configurar sessao anuncio
                         $sessao["idimovel"] = $selecionarImovel[0]->getId();
                         $sessao["tipoimovel"] = $selecionarImovel[0]->getIdtipoImovel();
@@ -112,29 +112,45 @@ class AnuncioControle {
 
                         //configurar sessao imagens
                         $imagemAnuncio = $selecionarAnuncio[0]->getImagem();
-                        if (is_array($imagemAnuncio)) {
-                            foreach ($imagemAnuncio as $imagem) {
-                                $fotos=new stdClass();
-                                $fotos->name = $imagem->getNome();
-                                $fotos->size = $imagem->getTamanho();
-                                $fotos->type = $imagem->getTipo();
-                                $fotos->legenda = $imagem->getLegenda();
-                                $fotos->idImage = $imagem->getId();
-                                $fotos->url = PIPURL . "fotos/imoveis/" . $imagem->getDiretorio() . "/" . $imagem->getNome();
-                                $fotos->thumbnailUrl = PIPURL . "fotos/imoveis/" . $imagem->getDiretorio() . "/thumbnail/" . $imagem->getNome();
-                                $fotos->deleteUrl = PIPURL . "?file=" . $imagem->getNome();
+                        if ($imagemAnuncio) {
+                            if (is_array($imagemAnuncio)) {
+                                foreach ($imagemAnuncio as $imagem) {
+                                    $fotos = new stdClass();
+                                    $fotos->name = $imagem->getNome();
+                                    $fotos->size = $imagem->getTamanho();
+                                    $fotos->type = $imagem->getTipo();
+                                    $fotos->legenda = "".$imagem->getLegenda();
+                                    $fotos->idImage = $imagem->getId();
+                                    $fotos->url = PIPURL . "fotos/imoveis/" . $imagem->getDiretorio() . "/" . $imagem->getNome();
+                                    $fotos->thumbnailUrl = PIPURL . "fotos/imoveis/" . $imagem->getDiretorio() . "/thumbnail/" . $imagem->getNome();
+                                    $fotos->deleteUrl = PIPURL . "?file=" . $imagem->getNome();
+                                    $fotos->deleteType = "DELETE";
+                                    $fotos->id = $imagem->getid();
+                                    sessao::configurarSessaoImagemAnuncio("inserir", $imagem->getNome(), $fotos);
+                                }
+                            } else {
+                                $fotos = new stdClass();
+                                $fotos->name = $imagemAnuncio->getNome();
+                                $fotos->size = $imagemAnuncio->getTamanho();
+                                $fotos->type = $imagemAnuncio->getTipo();
+                                $fotos->legenda = "".$imagemAnuncio->getLegenda();
+                                $fotos->idImage = $imagemAnuncio->getId();
+                                $fotos->url = PIPURL . "fotos/imoveis/" . $imagemAnuncio->getDiretorio() . "/" . $imagemAnuncio->getNome();
+                                $fotos->thumbnailUrl = PIPURL . "fotos/imoveis/" . $imagemAnuncio->getDiretorio() . "/thumbnail/" . $imagemAnuncio->getNome();
+                                $fotos->deleteUrl = PIPURL . "?file=" . $imagemAnuncio->getNome();
                                 $fotos->deleteType = "DELETE";
-                                $fotos->id = $imagem->getid();
-                                sessao::configurarSessaoImagemAnuncio("inserir", $imagem->getNome(), $fotos);
+                                $fotos->id = $imagemAnuncio->getid();
+                                sessao::configurarSessaoImagemAnuncio("inserir", $imagemAnuncio->getNome(), $fotos);
                             }
                         }
+
                         $tipoAnuncio = $selecionarImovel[0]->getIdtipoimovel();
-                        if ($tipoAnuncio == "2"){
+                        if ($tipoAnuncio == "2") {
                             
                         }
+
                         #TODO:configurar sessao de apartamento na planta
                         #Sessao::configurarSessaoImagemPlanta($ordem, $imagem, $diretorio)
-
                         //prepara itens para visao
                         $formAnuncio = array();
                         $formAnuncio["usuarioPlano"] = $selecionarUsuarioPlano;
@@ -165,13 +181,13 @@ class AnuncioControle {
         unset($parametros["tipoImovel"]);
         unset($parametros["hdnEntidade"]);
         unset($parametros["hdnAcao"]);
-        if($parametros["idbairro"] != ""){
-        $parametros["idbairro"] = explode(",", $parametros["idbairro"]);
+        if ($parametros["idbairro"] != "") {
+            $parametros["idbairro"] = explode(",", $parametros["idbairro"]);
         }
         $parametros["predicados"] = $parametros;
-        
+
         $listaAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
-        
+
         if (count($listaAnuncio['anuncio']) == 0) {
             $visao->setItem("errosemresultadobusca");
             $visao->exibir('VisaoErrosGenerico.php');
@@ -220,9 +236,8 @@ class AnuncioControle {
         // buscar o diretorio e o nome da foto destaque para as redes sociais
         foreach ($listarAnuncio["anuncio"][0]["imagem"] as $imagemPrincipal) {
 
-            if ($imagemPrincipal["destaque"] == "SIM")               
-
-            $imagemPrincipalDiretorio = $imagemPrincipal["diretorio"];
+            if ($imagemPrincipal["destaque"] == "SIM")
+                $imagemPrincipalDiretorio = $imagemPrincipal["diretorio"];
             $imagemPrincipalNome = $imagemPrincipal["nome"];
 
             break;
@@ -236,15 +251,14 @@ class AnuncioControle {
             $visao = new Template();
             $visao->setItem($item);
             $visao->exibir($pagina);
-            
         } else {
-            
-            $administrador = false; 
-            
-            if(($_SESSION['login'] === "pipdiministrador")){
-                $administrador = true; 
+
+            $administrador = false;
+
+            if (($_SESSION['login'] === "pipdiministrador")) {
+                $administrador = true;
             }
-            
+
             $usuarioQtdAnuncio = count($consultasAdHoc->ConsultarAnunciosPorUsuario($parametros["idUsuario"], $administrador, null, array('cadastrado')));
 
             $listarAnuncio["qtdAnuncios"] = $usuarioQtdAnuncio;
@@ -415,7 +429,7 @@ class AnuncioControle {
             $anuncio = new Anuncio();
             $genericoDAO = new GenericoDAO();
             $consultasAdHoc = new ConsultasAdHoc();
-            
+
             $listaAnuncio = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null, null, array('cadastrado'));
             foreach ($listaAnuncio as $anuncio) {
                 $imovel = $genericoDAO->consultar(new Imovel(), false, array("id" => $anuncio->getIdImovel()));
@@ -425,8 +439,8 @@ class AnuncioControle {
                 $anuncio->setUsuarioplano($usuarioplano[0]);
 
                 $novoValor = $genericoDAO->consultar(new NovoValorAnuncio(), false, array("idanuncio" => $anuncio->getId()));
-                $anuncio->setNovovaloranuncio($novoValor );
-                
+                $anuncio->setNovovaloranuncio($novoValor);
+
                 $listarAnuncios[] = $anuncio;
             }
 
@@ -483,9 +497,9 @@ class AnuncioControle {
                 include_once 'controle/ImagemControle.php';
                 $imagem = new ImagemControle($parametros);
             } else {
-                    $genericoDAO = new GenericoDAO();
-                    $entidadeUsuarioPlano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $parametros["sltPlano"]));
-                    $entidadeUsuarioPlano = $entidadeUsuarioPlano[0];                    
+                $genericoDAO = new GenericoDAO();
+                $entidadeUsuarioPlano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $parametros["sltPlano"]));
+                $entidadeUsuarioPlano = $entidadeUsuarioPlano[0];
                 if (Sessao::verificarToken($parametros) && $entidadeUsuarioPlano->permitidoCadastrar()) {
                     //INICIA TRANSACAO
                     $genericoDAO = new GenericoDAO();
@@ -499,10 +513,10 @@ class AnuncioControle {
                     $anuncio = new AnuncioAprovacao();
                     $entidadeAnuncio = $anuncio->cadastrar($parametros);
                     $this->verificaValorMinimo($entidadeAnuncio, $parametros);
-                    
+
                     //SALVA ANUNCIO
                     $idAnuncio = $genericoDAO->cadastrar($entidadeAnuncio);
-           
+
                     //VERIFICA O TIPO DO IMOVEL
                     //se for apartamento na planta
                     if ($_SESSION["anuncio"]["tipoimovel"] == 2) {
@@ -559,7 +573,7 @@ class AnuncioControle {
                         $entidadeMapaImovel = new MapaImovelAprovacao();
                         $entidadeMapaImovel->cadastrar($parametros, $idAnuncio);
                         $genericoDAO->cadastrar($entidadeMapaImovel);
-                    } 
+                    }
 
                     if ($idAnuncio) {
                         //COMMIT!
@@ -585,8 +599,7 @@ class AnuncioControle {
         }
     }
 
-    
-        function editar($parametros) {
+    function editar($parametros) {
 
         if (Sessao::verificarSessaoUsuario()) {
             if (isset($parametros['upload']) & $parametros['upload'] === "1") {
@@ -594,120 +607,110 @@ class AnuncioControle {
                 $imagem = new ImagemControle($parametros);
             } else {
                 if (Sessao::verificarToken($parametros)) {
-
+//INICIA TRANSACAO
                     $genericoDAO = new GenericoDAO();
                     $genericoDAO->iniciarTransacao();
 
-                    $selecionarAnuncio = $genericoDAO->consultar(new Anuncio(), true, array("idimovel" => $_SESSION["anuncio"]["idimovel"], "status" => "cadastrado"));
-                    $entidadeAnuncio = $selecionarAnuncio[0];
-                    $entidadeAnuncio->editar($parametros);
-
+                    //CRIA INSTANCIA ANUNCIO
+                    $anuncio = new AnuncioAprovacao();
+                    $entidadeAnuncio = $anuncio->cadastrar($parametros);
                     $this->verificaValorMinimo($entidadeAnuncio, $parametros);
-                    $genericoDAO->editar($entidadeAnuncio);
-                    
-                    //dados do anúncio para serem enviados via ajax, após a publicação
-                    $dadosAnuncio = $genericoDAO->consultar(new Anuncio, true, array("id" => $entidadeAnuncio->getId()));
-                    $tipoImovel = new TipoImovel();
-                    $tipo = $entidadeAnuncio->getImovel()->getIdTipoImovel();
-                    $retornaTipoImovel = $tipoImovel->retornaDescricaoTipo($tipo);
+                    //BUSCA O MESMO IDANUNCIO
+                    $selecionarAnuncio = $genericoDAO->consultar(new Anuncio(), true, array("idimovel" => $_SESSION["anuncio"]["idimovel"], "status" => "cadastrado"));
+                    $entidadeAnuncio->setIdanuncio($selecionarAnuncio[0]->getIdanuncio());
+
+                    //SALVA ANUNCIO
+                    $idAnuncio = $genericoDAO->cadastrar($entidadeAnuncio);
+
 
                     //se for apartamento na planta
                     if ($_SESSION["anuncio"]["tipoimovel"] == 2) {
-                        /*$valor = new Valor();
-                        $valor->setIdanuncio($idAnuncio);
-                        //traz todas as plantas
-                        $plantas = $genericoDAO->consultar(new Imovel(), true, array("id" => $_SESSION["anuncio"]["idimovel"]));
-                        $plantas = $plantas[0]->getPlanta();
-                        if (is_object($plantas))
-                            $plantas = array($plantas);
-                        //itera para cada planta
-                        //criar vetor para guardar os valores de cada planta
-                        $vetorValor = array();
+                        /* $valor = new Valor();
+                          $valor->setIdanuncio($idAnuncio);
+                          //traz todas as plantas
+                          $plantas = $genericoDAO->consultar(new Imovel(), true, array("id" => $_SESSION["anuncio"]["idimovel"]));
+                          $plantas = $plantas[0]->getPlanta();
+                          if (is_object($plantas))
+                          $plantas = array($plantas);
+                          //itera para cada planta
+                          //criar vetor para guardar os valores de cada planta
+                          $vetorValor = array();
 
-                        foreach ($plantas as $planta) {
-                            $valor->setIdplanta($planta->getId());
-                            //monta os parametros que vem do formulario
-                            $parametroAndarInicial = "hdnAndarInicial" . $planta->getOrdemplantas();
-                            $parametroAndarFinal = "hdnAndarFinal" . $planta->getOrdemplantas();
-                            $parametroValor = "hdnValor" . $planta->getOrdemplantas();
+                          foreach ($plantas as $planta) {
+                          $valor->setIdplanta($planta->getId());
+                          //monta os parametros que vem do formulario
+                          $parametroAndarInicial = "hdnAndarInicial" . $planta->getOrdemplantas();
+                          $parametroAndarFinal = "hdnAndarFinal" . $planta->getOrdemplantas();
+                          $parametroValor = "hdnValor" . $planta->getOrdemplantas();
 
-                            //verifica se tem algum valor informado para cada planta
-                            if (isset($parametros[$parametroAndarInicial])) {
+                          //verifica se tem algum valor informado para cada planta
+                          if (isset($parametros[$parametroAndarInicial])) {
 
-                                //itera pela quantidade de registros por planta
-                                for ($i = 0; $i <= count($parametros[$parametroAndarInicial]) - 1; $i++) {
+                          //itera pela quantidade de registros por planta
+                          for ($i = 0; $i <= count($parametros[$parametroAndarInicial]) - 1; $i++) {
 
-                                    $entidadeValor = $valor;
-                                    $entidadeValor->setAndarinicial($parametros[$parametroAndarInicial][$i]);
-                                    $entidadeValor->setAndarFinal($parametros[$parametroAndarFinal][$i]);
-                                    $entidadeValor->setValor($parametros[$parametroValor][$i]);
+                          $entidadeValor = $valor;
+                          $entidadeValor->setAndarinicial($parametros[$parametroAndarInicial][$i]);
+                          $entidadeValor->setAndarFinal($parametros[$parametroAndarFinal][$i]);
+                          $entidadeValor->setValor($parametros[$parametroValor][$i]);
 
-                                    $genericoDAO->cadastrar($entidadeValor);
-                                }
-                            }
+                          $genericoDAO->cadastrar($entidadeValor);
+                          }
+                          }
 
-                            //imagens das plantas
-                            $sessaoImagemPlanta = $_SESSION["imagemPlanta"][$planta->getOrdemplantas()];
-                            if (isset($sessaoImagemPlanta)) {
-                                $planta->setImagemdiretorio($sessaoImagemPlanta["diretorio"]);
-                                $planta->setImagemnome($sessaoImagemPlanta["name"]);
-                                $planta->setImagemtamanho($sessaoImagemPlanta["size"]);
-                                $planta->setImagemtipo($sessaoImagemPlanta["type"]);
-                                $genericoDAO->editar($planta);
-                            }
-                        }*/
+                          //imagens das plantas
+                          $sessaoImagemPlanta = $_SESSION["imagemPlanta"][$planta->getOrdemplantas()];
+                          if (isset($sessaoImagemPlanta)) {
+                          $planta->setImagemdiretorio($sessaoImagemPlanta["diretorio"]);
+                          $planta->setImagemnome($sessaoImagemPlanta["name"]);
+                          $planta->setImagemtamanho($sessaoImagemPlanta["size"]);
+                          $planta->setImagemtipo($sessaoImagemPlanta["type"]);
+                          $genericoDAO->editar($planta);
+                          }
+                          } */
                     }
+
+                    #TODO: testar com o applanta
                     //somente salva fotos se houver
-                    
-                    
-                    #TODO: fazer um foreach com cada imagem do anuncio para excluir 
-                    
-                    ##OK ate aqui
-                    $imagemAnuncioApagar = $genericoDAO->consultar(new Imagem(), true, array("idanuncio" => $entidadeAnuncio->getId()));
-                    foreach ($imagemAnuncioApagar as $apagar) {
-                        $genericoDAO->excluir(new Imagem(), $apagar->getId());                        
-                    }
-                    
                     if (isset($_SESSION["imagemAnuncio"])) {
                         foreach ($_SESSION["imagemAnuncio"] as $file) {
-                            $imagem = new Imagem();
-                            $entidadeImagem = $imagem->cadastrar($file, $entidadeAnuncio->getId(), $parametros["rdbDestaque"]);
+                            $entidadeImagem = new ImagemAprovacao();
+                            $entidadeImagem->cadastrar($file, $idAnuncio, $parametros["rdbDestaque"]);
                             $genericoDAO->cadastrar($entidadeImagem);
                         }
                     }
 
-                    $statusMapa = false;
                     //cadastro da latitude e longitude se houver alteração no mapa
                     if ($parametros["hdnLatitude"] != "" && $parametros["hdnLongitude"] != "") {
-                        $mapaImovel = new MapaImovel();
-                        $cadastrarMapa = $mapaImovel->cadastrar($parametros, $idAnuncio);
-                        $statusCadastroMapa = $genericoDAO->cadastrar($cadastrarMapa);
-                        if ($statusCadastroMapa) {
-                            $statusMapa = true;
-                        }
-                    } else {
-                        $statusMapa = true;
+                        $entidadeMapaImovel = new MapaImovelAprovacao();
+                        $entidadeMapaImovel->cadastrar($parametros, $idAnuncio);
+                        $genericoDAO->cadastrar($entidadeMapaImovel);
                     }
-                    
+
                     try {
-                    $genericoDAO->commit();
+                        //COMMIT!
+                        $genericoDAO->commit();
                         $genericoDAO->fecharConexao();
+                        //dados do anúncio para serem enviados via ajax, após a publicação
+                        $tipoImovel = new TipoImovel();
+                        $retornaTipoImovel = $tipoImovel->retornaDescricaoTipo($_SESSION["anuncio"]["tipoimovel"]);
+                        //LIMPA AS SESSOES
                         Sessao::desconfigurarVariavelSessao("anuncio");
                         Sessao::desconfigurarVariavelSessao("imagemAnuncio");
                         Sessao::desconfigurarVariavelSessao("imagemPlanta");
-
-                        echo json_encode(array("resultado" => 1, "idanuncio" => $entidadeAnuncio->getIdAnuncio(), "id" => $entidadeAnuncio->getId(), "tipoImovel" => $retornaTipoImovel));
-                        
+                        //RETORNA SUCESSO
+                        echo json_encode(array("resultado" => 1, "idanuncio" => $entidadeAnuncio->getIdAnuncio(), "id" => $idAnuncio, "tipoImovel" => $retornaTipoImovel));
                     } catch (Exception $exc) {
+                        //ROLLBACK!
                         $genericoDAO->rollback();
+                        //RETORNA ERRO
                         echo json_encode(array("resultado" => 0));
                     }
                 }
             }
         }
     }
-    
-    
+
     function cadastrarAnuncioImagemPlanta($parametros) {
         $sucesso = 1;
         $resposta = "";
@@ -818,72 +821,68 @@ class AnuncioControle {
         $valor = trim($valor);
         return $valor;
     }
-    
+
     function buscarAnuncioCorretor($parametros) {
-       
-       $visao = new Template();
-       $emailanuncio = new EmailAnuncio();
-       $usuario = new Usuario();
-       $genericoDAO = new GenericoDAO();
 
-       $selecionarAnuncioUsuario = $genericoDAO->consultar($usuario, true, array("id" => $parametros["login"]));
+        $visao = new Template();
+        $emailanuncio = new EmailAnuncio();
+        $usuario = new Usuario();
+        $genericoDAO = new GenericoDAO();
 
-       if ($selecionarAnuncioUsuario == null) {
+        $selecionarAnuncioUsuario = $genericoDAO->consultar($usuario, true, array("id" => $parametros["login"]));
 
-           $selecionarAnuncioUsuario = $genericoDAO->consultar($usuario, true, array("login" => $parametros["login"]));
-       }
+        if ($selecionarAnuncioUsuario == null) {
 
-       if (!$selecionarAnuncioUsuario) {
-           //verifica se o usuario existe na base ou se está inativo
-           $visao->setItem("errousuarioinativo");
-           $visao->exibir('VisaoErrosGenerico.php');
-       } else {
-           $item["usuario"] = $genericoDAO->consultar(new Usuario(), false, array("id" => $selecionarAnuncioUsuario[0]->getId()));
+            $selecionarAnuncioUsuario = $genericoDAO->consultar($usuario, true, array("login" => $parametros["login"]));
+        }
 
-           $statusUsuario = $item["usuario"] = $genericoDAO->consultar(new Usuario(), false, array("id" => $selecionarAnuncioUsuario[0]->getId()));
-           $verificarStatus = $selecionarAnuncioUsuario[0]->getStatus();
+        if (!$selecionarAnuncioUsuario) {
+            //verifica se o usuario existe na base ou se está inativo
+            $visao->setItem("errousuarioinativo");
+            $visao->exibir('VisaoErrosGenerico.php');
+        } else {
+            $item["usuario"] = $genericoDAO->consultar(new Usuario(), false, array("id" => $selecionarAnuncioUsuario[0]->getId()));
 
-           //$verificarStatus = $statusUsuario[0]->getStatus();
-           $id = $selecionarAnuncioUsuario[0]->getId();
+            $statusUsuario = $item["usuario"] = $genericoDAO->consultar(new Usuario(), false, array("id" => $selecionarAnuncioUsuario[0]->getId()));
+            $verificarStatus = $selecionarAnuncioUsuario[0]->getStatus();
 
-           if ($verificarStatus == 'ativo') {
+            //$verificarStatus = $statusUsuario[0]->getStatus();
+            $id = $selecionarAnuncioUsuario[0]->getId();
 
-               $consultasAdHoc = new ConsultasAdHoc();
-               $parametrosBusca["atributos"] = "*";
-               $parametrosBusca["tabela"] = "todos";
-               $parametrosBusca["predicados"]["id"] = $id; //Id do corretor. 
-               $parametrosBusca["predicados"]["garagem"] = "false";
+            if ($verificarStatus == 'ativo') {
 
-               $visao = new Template();
-               $item["usuario"] = $genericoDAO->consultar(new Usuario(), true, array("id" => $selecionarAnuncioUsuario[0]->getId()));
-               $item["cidadeEstado"] = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarAnuncioUsuario[0]->getIdEndereco()));
-               $item["anuncio"] = $consultasAdHoc->buscaAnuncios($parametrosBusca);
+                $consultasAdHoc = new ConsultasAdHoc();
+                $parametrosBusca["atributos"] = "*";
+                $parametrosBusca["tabela"] = "todos";
+                $parametrosBusca["predicados"]["id"] = $id; //Id do corretor. 
+                $parametrosBusca["predicados"]["garagem"] = "false";
 
-               $visao->setItem($item);
-               $visao->exibir('AnuncioVisaoUsuario.php');
-           }
-           
-           else if($verificarStatus == 'desativadousuario'){ // caso o usuário tenha desabilitado-se
-               $visao->setItem($item = "usuariodesabilitado");
-               $visao->exibir('VisaoErrosGenerico.php');
-           }
-           
-       }
-   }
-   
+                $visao = new Template();
+                $item["usuario"] = $genericoDAO->consultar(new Usuario(), true, array("id" => $selecionarAnuncioUsuario[0]->getId()));
+                $item["cidadeEstado"] = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarAnuncioUsuario[0]->getIdEndereco()));
+                $item["anuncio"] = $consultasAdHoc->buscaAnuncios($parametrosBusca);
+
+                $visao->setItem($item);
+                $visao->exibir('AnuncioVisaoUsuario.php');
+            } else if ($verificarStatus == 'desativadousuario') { // caso o usuário tenha desabilitado-se
+                $visao->setItem($item = "usuariodesabilitado");
+                $visao->exibir('VisaoErrosGenerico.php');
+            }
+        }
+    }
+
     function enviarEmail($parametros) {
-        
+
         //array criada para retirar os valores "SIM" que estão sendo passados
         $selecionadosCorrigidos = array();
-        
-        foreach($parametros['listaAnuncio'] as $idsAnun){
-            
-            if($idsAnun != "SIM"){
-                $selecionadosCorrigidos[] = $idsAnun;
-            } 
 
+        foreach ($parametros['listaAnuncio'] as $idsAnun) {
+
+            if ($idsAnun != "SIM") {
+                $selecionadosCorrigidos[] = $idsAnun;
+            }
         }
-        
+
         $genericoDAO = new GenericoDAO();
         $genericoDAO->iniciarTransacao();
 
@@ -917,9 +916,9 @@ class AnuncioControle {
 
         //Utilizado se for envio de e-mail para o correto através da tela de detalhes 
         if ($parametros['hdnAnuncio']) {
-                $parametros['anunciosSelecionados'] = array($parametros['hdnAnuncio']);           
+            $parametros['anunciosSelecionados'] = array($parametros['hdnAnuncio']);
         }
-        
+
         if ($totalAunciosSelecionados > 1) {
 
             $textoSelecionados = "Imóveis selecionados através do PIP Online";
@@ -1072,9 +1071,9 @@ class AnuncioControle {
             $item["endereco"] = $genericoDAO->consultar(new Endereco(), true, array("id" => $item["imovel"][0]->getIdEndereco()));
 
             $emailanuncio = new EmailAnuncio();
-            
+
             $selecionaremailanuncio = $emailanuncio->cadastrar($item["anuncio"][0]->getId());
-            
+
             $idemailanuncio = $genericoDAO->cadastrar($selecionaremailanuncio);
 
             $dadosEmail['msg'] .= "              
@@ -1111,7 +1110,6 @@ class AnuncioControle {
             </tr>";
 
             $contador = $contador + 1;
-    
         }
 
         $dadosEmail['msg'] .= "
@@ -1150,19 +1148,18 @@ class AnuncioControle {
     }
 
     function enviarEmailPDF($parametros) {
-        
-        $selecionadosCorrigidos = array();
-        
-        foreach($parametros['listaAnuncio'] as $idsAnun){
-            
-            if($idsAnun != "SIM"){
-                $selecionadosCorrigidos[] = $idsAnun;
-            } 
 
+        $selecionadosCorrigidos = array();
+
+        foreach ($parametros['listaAnuncio'] as $idsAnun) {
+
+            if ($idsAnun != "SIM") {
+                $selecionadosCorrigidos[] = $idsAnun;
+            }
         }
-        
+
         //var_dump($selecionadosCorrigidos); die();
-        
+
         $genericoDAO = new GenericoDAO();
         $genericoDAO->iniciarTransacao();
         $dadosEmail['destino'] = $parametros['txtEmailEmail'];
@@ -1174,11 +1171,11 @@ class AnuncioControle {
         $dadosEmail['msg'] .= 'Mensagem: ' . $parametros['txtMsgEmail'] . "<br><br>";
 
         //Utilizado se for envio de e-mail para o corretor através da tela de detalhes 
-        /*if (isset($parametros['chkAnuncio'])) {
-            $parametros['anunciosSelecionados'] = array($parametros['chkAnuncio']);
-            
-        }*/
- 
+        /* if (isset($parametros['chkAnuncio'])) {
+          $parametros['anunciosSelecionados'] = array($parametros['chkAnuncio']);
+
+          } */
+
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
         $pdf->SetAuthor('PIP ONLINE');
@@ -1221,14 +1218,14 @@ class AnuncioControle {
 
         //$numeroAnuncios = count($parametros['anunciosSelecionados']);
         $numeroAnuncios = count($selecionadosCorrigidos);
-        
+
         //foreach ($parametros['anunciosSelecionados'] as $idanuncio) {
-        foreach ($selecionadosCorrigidos as $idanuncio) {    
-            
+        foreach ($selecionadosCorrigidos as $idanuncio) {
+
             $contadorPaginas = $contadorPaginas + 1;
 
             $item["anuncio"] = $genericoDAO->consultar(new Anuncio(), true, array("idanuncio" => $idanuncio));
-            
+
             $item["imovel"] = $genericoDAO->consultar(new Imovel(), true, array("id" => $item["anuncio"][0]->getIdImovel()));
 
             $item["endereco"] = $genericoDAO->consultar(new Endereco(), true, array("id" => $item["imovel"][0]->getIdEndereco()));
@@ -1238,7 +1235,7 @@ class AnuncioControle {
             $emailanuncio = new EmailAnuncio();
 
             $selecionaremailanuncio = $emailanuncio->cadastrar($item["anuncio"][0]->getId());
-            
+
             $idemailanuncio = $genericoDAO->cadastrar($selecionaremailanuncio);
 
             $html = "Código: " . $item["anuncio"][0]->getIdAnuncio()
@@ -1334,7 +1331,6 @@ class AnuncioControle {
             if ($contadorPaginas < $numeroAnuncios) { //adicionar quebra de página ao final do anúncio
                 $pdf->AddPage();
             }
-
         }
 
         $pdf->Output(PIPROOT . '/pdf/' . "anunciosEscolhidos" . $_SESSION["login"]
@@ -1589,43 +1585,43 @@ class AnuncioControle {
         } else { //caso o usuário não esteja logado
             echo json_encode(array("resultado" => 3));
         }
-    }    
-    
+    }
+
     function listarNegado() {
         if (Sessao::verificarSessaoUsuario()) {
             $anuncio = new Anuncio();
             $genericoDAO = new GenericoDAO();
             $consultasAdHoc = new ConsultasAdHoc();
-            
-            $administrador = false;     
-            
-            if(($_SESSION['login'] === "pipdiministrador")){
-                $administrador = true; 
-            }    
-            
-                $listaAnuncio = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], $administrador, null, array('ativacaonegada'));
-                foreach ($listaAnuncio as $anuncio) {
-                    $imovel = $genericoDAO->consultar(new Imovel(), false, array("id" => $anuncio->getIdImovel()));
-                    $anuncio->setImovel($imovel[0]);
 
-                    $usuarioplano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $anuncio->getIdusuarioplano()));
-                    $anuncio->setUsuarioplano($usuarioplano[0]);
+            $administrador = false;
 
-                    $novoValor = $genericoDAO->consultar(new NovoValorAnuncio(), false, array("idanuncio" => $anuncio->getId()));
-                    $anuncio->setNovovaloranuncio($novoValor );
+            if (($_SESSION['login'] === "pipdiministrador")) {
+                $administrador = true;
+            }
 
-                    $listarAnuncios[] = $anuncio;
-                }
-            
+            $listaAnuncio = $consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], $administrador, null, array('ativacaonegada'));
+            foreach ($listaAnuncio as $anuncio) {
+                $imovel = $genericoDAO->consultar(new Imovel(), false, array("id" => $anuncio->getIdImovel()));
+                $anuncio->setImovel($imovel[0]);
+
+                $usuarioplano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $anuncio->getIdusuarioplano()));
+                $anuncio->setUsuarioplano($usuarioplano[0]);
+
+                $novoValor = $genericoDAO->consultar(new NovoValorAnuncio(), false, array("idanuncio" => $anuncio->getId()));
+                $anuncio->setNovovaloranuncio($novoValor);
+
+                $listarAnuncios[] = $anuncio;
+            }
+
             $visao = new Template();
             $item["listaAnuncio"] = $listarAnuncios;
             $visao->setItem($item);
             $visao->exibir('AnuncioVisaoListagemNegado.php');
         }
     }
-    
+
     function alterarStatus($parametros) {
-        
+
         if (Sessao::verificarSessaoUsuario()) {
             $anuncio = new Anuncio();
             $genericoDAO = new GenericoDAO();
@@ -1635,30 +1631,28 @@ class AnuncioControle {
 
             $genericoDAO->iniciarTransacao();
             //passar o objeto para edição
-            $novoStatus = $genericoDAO->editar($setarStatus);       
-            
+            $novoStatus = $genericoDAO->editar($setarStatus);
+
             //enviar email ao usuário, avisando sobre a mudança de status
             //$email = $this->enviarEmailGenerico($parametros);
-            
-            if ($novoStatus){// && $email) {
 
+            if ($novoStatus) {// && $email) {
                 $genericoDAO->commit();
 
                 echo json_encode(array("resultado" => 1, "novoValor" => $parametros["sltStatusAnuncio"]));
-                
-                } else {
+            } else {
 
-                    echo json_encode(array("resultado" => 0));
+                echo json_encode(array("resultado" => 0));
 
-                    $genericoDAO->rollback();
-                }
+                $genericoDAO->rollback();
+            }
         }
     }
-    
+
     function enviarEmailGenerico($parametros) {
 
         $genericoDAO = new GenericoDAO();
-       
+
         switch ($parametros['hdnTipoImovel']) {
             case "casa": $tipoImovelEmail = "Casa";
                 break;
@@ -1673,26 +1667,26 @@ class AnuncioControle {
             case "terreno": $tipoImovelEmail = "Terreno";
                 break;
         }
-        
+
         $usuario = new Usuario();
-        
+
         $destino = $genericoDAO->consultar($usuario, false, array("id" => $parametros['hdnUsuario']));
-        
+
         $nomeUsuario = explode(" ", $destino[0]->getNome());
-        
+
         $nome = ucfirst(strtolower($nomeUsuario[0]));
-        
+
         $dadosEmail['destino'] = $destino[0]->getEmail();
         $dadosEmail['contato'] = "PIP-Online";
-        $dadosEmail['assunto'] = $tipoImovelEmail." - ".$parametros['hdnEmailAssunto'];
-        
+        $dadosEmail['assunto'] = $tipoImovelEmail . " - " . $parametros['hdnEmailAssunto'];
+
         $emailEnviadoPor = $parametros['hdnEnviadoPor'];
-        
-        if($parametros['sltStatusAnuncio'] == 'emanalise'){
+
+        if ($parametros['sltStatusAnuncio'] == 'emanalise') {
             $mensagemEmail = $parametros['hdnMsgEmailEmAnalise'];
         }
-        
-        if($parametros['sltStatusAnuncio'] == 'cadastrado'){
+
+        if ($parametros['sltStatusAnuncio'] == 'cadastrado') {
             $mensagemEmail = $parametros['hdnMsgEmailAtivado'];
         }
 
@@ -1793,7 +1787,7 @@ class AnuncioControle {
                       <br><br>
                       " . $emailEnviadoPor . "
                       <br>
-                      ".$nome.", " . $mensagemEmail . "
+                      " . $nome . ", " . $mensagemEmail . "
                     </td>
                     </tr>";
 
@@ -1827,5 +1821,5 @@ class AnuncioControle {
             return false;
         }
     }
-    
+
 }

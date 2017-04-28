@@ -46,7 +46,7 @@
                 <i class="block layout small icon"></i><a class="section" href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
                 <i class="right chevron icon divider"></i>
                 <a class="active section"></a>
-                <div class="active section"><i class="list small icon"></i>Visualizar Anúncios</div>
+                <div class="active section"><i class="list small icon"></i>Anúncios Ativos</div>
             </div>
         </div>
     </div>
@@ -124,9 +124,7 @@ if ($totalAnunciosCadastrados < 1) {
     <div class="ui middle aligned stackable grid container">
         <div class="row">
             <div class="column">
-                <form id="form" action="index.php" method="post" target='_blank'>                              
                     <table class="ui brown stackable table" id="tabela">
-
                         <thead>
                             <tr>
                                 <th></th>
@@ -172,21 +170,19 @@ if ($totalAnunciosCadastrados < 1) {
 
                                         </td>
                                         <td>                          
-
-                                            <!--                                        <form id="form" action="index.php" method="post" target='_blank'>-->
+                                        <form id="form<?php echo $anuncio->getIdAnuncio(); ?>" action="index.php" method="post" target='_blank'>
                                             <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio" />
                                             <input type="hidden" id="hdnAcao" name="hdnAcao" value="detalhar"/>
-                                            <input type="hidden" id="hdnCodAnuncio" name="hdnCodAnuncio" value="<?php echo $anuncio->getId() ?>"/>
-                                            <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" value="<?php echo $tipoImovel ?>"/>
-
-
+                                            <input type="hidden" id="hdnCodAnuncio" name="hdnCodAnuncio" value="<?php echo $anuncio->getId(); ?>"/>
+                                            <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" value="<?php echo $tipoImovel ?>"/>                                                                               
 
                                             <button class="ui labeled icon button">
                                                 <i class="zoom icon"></i>
                                                 <?php echo $anuncio->getIdAnuncio(); ?>
                                             </button>
-<!--                                            <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $anuncio->getIdAnuncio() ?>" />-->
-                                            <!--                                        </form>     -->
+                                            <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $anuncio->getIdanuncio(); ?>" />
+                                        </form>     
+
                                         </td>
                                         <td><?php
                                             switch ($anuncio->getImovel()->getIdTipoImovel()) {
@@ -262,9 +258,7 @@ if ($totalAnunciosCadastrados < 1) {
                             }
                             ?>
                         </tbody>
-
                     </table>
-                </form>     
             </div>
         </div>
     </div>

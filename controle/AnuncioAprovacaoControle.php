@@ -39,26 +39,27 @@ include_once 'modelo/MapaImovelAprovacao.php';
 include_once 'modelo/FuncoesAuxiliares.php';
 
 class AnuncioAprovacaoControle {
-    
-        function listarPendente() {
+
+    function listarPendente() {
         if (Sessao::verificarSessaoUsuario()) {
             $anuncio = new Anuncio();
             $genericoDAO = new GenericoDAO();
             $consultasAdHoc = new ConsultasAdHoc();
-            
-            $administrador = false;     
-            
-            if(($_SESSION['login'] === "pipdiministrador")){
-                $administrador = true; 
-            }    
-            
-                $listaAnuncio = $consultasAdHoc->ConsultarAnunciosPendentesPorUsuario($_SESSION['idusuario'], $administrador, array('pendenteanalise', 'emanalise'));
-                foreach ($listaAnuncio as $anuncio) {
-                    $imovel = $genericoDAO->consultar(new Imovel(), false, array("id" => $anuncio->getIdImovel()));
-                    $anuncio->setImovel($imovel[0]);
-                    $listarAnuncios[] = $anuncio;
-                }
-            
+
+            $administrador = false;
+
+            if (($_SESSION['login'] === "pipdiministrador")) {
+                $administrador = true;
+            }
+
+            $listaAnuncio = $consultasAdHoc->ConsultarAnunciosPendentesPorUsuario($_SESSION['idusuario'], $administrador, array('pendenteanalise', 'emanalise'));
+
+            foreach ($listaAnuncio as $anuncio) {
+                $imovel = $genericoDAO->consultar(new Imovel(), false, array("id" => $anuncio["idimovel"]));
+                $anuncio["imovel"] = $imovel[0];
+                $listarAnuncios[] = $anuncio;
+            }
+
             $visao = new Template();
             $item["listaAnuncio"] = $listarAnuncios;
             $visao->setItem($item);
@@ -98,7 +99,7 @@ class AnuncioAprovacaoControle {
 
         $anuncio = $genericoDAO->consultar(new AnuncioAprovacao(), true, array("id" => $parametros["idanuncio"]));
         $anuncio = $anuncio[0];
-        
+
         if (($anuncio->getUsuarioplano()->getIdUsuario() == $parametros["sessaoUsuario"] && $anuncio->getStatus() != "emanalise" && $anuncio->getStatus() != "pendenteanalise" && $anuncio->getStatus() != "aprovacaonegada") || ($anuncio->getUsuarioplano()->getIdUsuario() != $parametros["sessaoUsuario"] && !$administrador)) {
             $item = "errousuarioouanuncio";
             $pagina = "VisaoErrosGenerico.php";
@@ -388,23 +389,9 @@ class AnuncioAprovacaoControle {
 
                 //se for aprovado cria anuncio
                 if ($parametros["sltStatusAnuncio"] == "aprovado") {
-                    $anuncioAprovado = $anuncioSelecionado->anuncioAprovado(new Anuncio());
-                    $idAnuncio = $genericoDAO->cadastrar($anuncioAprovado);
-                    if ($anuncioSelecionado->getImagemaprovacao()) {
-                        foreach ($anuncioSelecionado->getImagemaprovacao() as $imagem) {
-                            $imagemAprovado = $imagem->imagemAprovado(new Imagem(),$idAnuncio);
-                            $genericoDAO->cadastrar($imagemAprovado);
-                        }
-                    }
-                    $mapaImovelAprovacao = $anuncioSelecionado->getMapaimovelaprovacao();
-                    if ($mapaImovelAprovacao != null) {
-                        $mapaImovelAprovado = $mapaImovelAprovacao->mapaImovelAprovado(new MapaImovel(),$idAnuncio);
-                        $genericoDAO->cadastrar($mapaImovelAprovado);
-                    }
-                    ###TODO:aprovacao apartamento na planta
+                    $this->aprovarAnuncio($anuncioSelecionado, $genericoDAO);
                 }
-
-
+                
                 //enviar email ao usuário, avisando sobre a mudança de status
                 $email = $this->enviarEmailGenerico($parametros);
 
@@ -425,39 +412,96 @@ class AnuncioAprovacaoControle {
     function fimCadastroAnuncio($parametros) {
         $this->detalharPendente(array("hdnTipoImovel" => $parametros["hdnTipo"], "hdnCodAnuncio" => $parametros["hdnCodAnuncio"]));
     }
-    
-    
+
     function listarNegado() {
         if (Sessao::verificarSessaoUsuario()) {
             $anuncioAprovacao = new AnuncioAprovacao();
             $genericoDAO = new GenericoDAO();
             $consultasAdHoc = new ConsultasAdHoc();
-            
-            $administrador = false;     
-            
-            if(($_SESSION['login'] === "pipdiministrador")){
-                $administrador = true; 
-            }    
-            
-                $listaAnuncio = $consultasAdHoc->ConsultarAnunciosPendentesPorUsuario($_SESSION['idusuario'], $administrador, array('aprovacaonegada'));
-                foreach ($listaAnuncio as $anuncioAprovacao) {
-                    $imovel = $genericoDAO->consultar(new Imovel(), false, array("id" => $anuncioAprovacao->getIdImovel()));
-                    $anuncioAprovacao->setImovel($imovel[0]);
 
-                    $usuarioplano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $anuncioAprovacao->getIdusuarioplano()));
-                    $anuncioAprovacao->setUsuarioplano($usuarioplano[0]);
+            $administrador = false;
 
-//                    $novoValor = $genericoDAO->consultar(new NovoValorAnuncio(), false, array("idanuncio" => $anuncioAprovacao->getId()));
-//                    $anuncioAprovacao->setNovovaloranuncio($novoValor );
+            if (($_SESSION['login'] === "pipdiministrador")) {
+                $administrador = true;
+            }
 
-                    $listarAnuncios[] = $anuncioAprovacao;
-                }
-            
+            $listaAnuncio = $consultasAdHoc->ConsultarAnunciosPendentesPorUsuario($_SESSION['idusuario'], $administrador, array('aprovacaonegada'));
+            foreach ($listaAnuncio as $consulta) {
+                $anuncioAprovacao = $genericoDAO->consultar(new AnuncioAprovacao(), true, array("id" => $consulta["id"]));
+                $listarAnuncios[] = $anuncioAprovacao[0];
+            }
+
             $visao = new Template();
             $item["listaAnuncio"] = $listarAnuncios;
             $visao->setItem($item);
             $visao->exibir('AnuncioVisaoListagemNegado.php');
         }
+    }
+
+    private function aprovarAnuncio($anuncioSelecionado, $genericoDAO) {
+        //verifica se existe anuncio cadastrado com o mesmo codigo de anuncio
+        $verificaAnuncio = $genericoDAO->consultar(new Anuncio(), true, array("idanuncio" => $anuncioSelecionado->getIdAnuncio(), "status" => "cadastrado"));
+        if ($verificaAnuncio != null) {
+            $anuncioEditado = $verificaAnuncio[0];
+            $anuncioAprovadoEdicao = $anuncioSelecionado->anuncioAprovadoEdicao($anuncioEditado);
+            $genericoDAO->editar($anuncioAprovadoEdicao);
+            //exclui todas as fotos, se houver
+            if ($anuncioEditado->getImagem() != null) {
+                if (is_array($anuncioEditado->getImagem())) {
+                    foreach ($anuncioEditado->getImagem() as $imagemExclusao) {
+                        $genericoDAO->excluir(new Imagem(), $imagemExclusao->getId());
+                    }
+                } else {
+                    $genericoDAO->excluir(new Imagem(), $anuncioEditado->getImagem()->getId());
+                }
+            }
+            //cadastra todas as fotos se houver
+            if ($anuncioSelecionado->getImagemaprovacao()) {
+                if (is_array($anuncioSelecionado->getImagemaprovacao())) {
+                    foreach ($anuncioSelecionado->getImagemaprovacao() as $imagem) {
+                        $imagemAprovadoEdicao = $imagem->imagemAprovado(new Imagem(), $anuncioAprovadoEdicao->getId());
+                        $genericoDAO->cadastrar($imagemAprovadoEdicao);
+                    }
+                } else {
+                    $imagemAprovadoEdicao = $anuncioSelecionado->getImagemaprovacao()->imagemAprovado(new Imagem(), $anuncioAprovadoEdicao->getId());
+                    $genericoDAO->cadastrar($imagemAprovadoEdicao);
+                }
+            }
+            //exclui a mudança no mapa se houver
+            if ($anuncioEditado->getMapaimovel() != null) {
+                $genericoDAO->excluir(new MapaImovel(), $anuncioEditado->getMapaimovel()->getId());
+            }
+            //cadastra a mudança no mapa se houver
+            $mapaImovelAprovacao = $anuncioSelecionado->getMapaimovelaprovacao();
+            if ($mapaImovelAprovacao != null) {
+                $mapaImovelAprovadoEdicao = $mapaImovelAprovacao->mapaImovelAprovado(new MapaImovel(), $anuncioAprovadoEdicao->getId());
+                $genericoDAO->cadastrar($mapaImovelAprovadoEdicao);
+            }
+        }
+        ///não é uma edição
+        else {
+            $anuncioAprovado = $anuncioSelecionado->anuncioAprovado(new Anuncio());
+            $idAnuncio = $genericoDAO->cadastrar($anuncioAprovado);
+            //cadastra todas as fotos se houver
+            if ($anuncioSelecionado->getImagemaprovacao()) {
+                if (is_array($anuncioSelecionado->getImagemaprovacao())) {
+                    foreach ($anuncioSelecionado->getImagemaprovacao() as $imagem) {
+                        $imagemAprovado = $imagem->imagemAprovado(new Imagem(), $idAnuncio);
+                        $genericoDAO->cadastrar($imagemAprovado);
+                    }
+                } else {
+                    $imagemAprovado = $anuncioSelecionado->getImagemaprovacao()->imagemAprovado(new Imagem(), $idAnuncio);
+                    $genericoDAO->cadastrar($imagemAprovado);
+                }
+            }
+            //cadastra a muudança no mapa se houver
+            $mapaImovelAprovacao = $anuncioSelecionado->getMapaimovelaprovacao();
+            if ($mapaImovelAprovacao != null) {
+                $mapaImovelAprovado = $mapaImovelAprovacao->mapaImovelAprovado(new MapaImovel(), $idAnuncio);
+                $genericoDAO->cadastrar($mapaImovelAprovado);
+            }
+        }
+        ###TODO:aprovacao apartamento na planta
     }
 
 }

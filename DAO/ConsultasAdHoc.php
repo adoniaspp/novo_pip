@@ -393,7 +393,7 @@ class ConsultasAdHoc extends GenericoDAO {
     public function ConsultarAnunciosPendentesPorUsuario($idUsuario, $administrador, $statusAnuncio = null) {
         $allow = $statusAnuncio;
         
-        $sql = "SELECT aa.* "
+        $sql = "SELECT aa.*, (SELECT 1 FROM anuncio a WHERE a.idanuncio = aa.idanuncio AND a.status = 'cadastrado') as edicao"
                 . " FROM anuncioaprovacao aa"
                 . " JOIN usuarioplano up ON up.id = aa.idusuarioplano"
                 . " JOIN usuario u ON up.idusuario = u.id"
@@ -425,7 +425,7 @@ class ConsultasAdHoc extends GenericoDAO {
                 $statement->bindValue('allow_' . $k, $v);
             }
         $statement->execute();
-        $resultado = $statement->fetchAll(PDO::FETCH_CLASS, "AnuncioAprovacao");
+        $resultado = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $resultado;
     }
     

@@ -159,7 +159,6 @@ class AnuncioAprovacao {
         $this->usuarioplano = $usuarioplano;
     }
 
-
     function setMapaimovelaprovacao($mapaimovelaprovacao) {
         $this->mapaimovelaprovacao = $mapaimovelaprovacao;
     }
@@ -167,7 +166,6 @@ class AnuncioAprovacao {
     function setImagemaprovacao($imagemaprovacao) {
         $this->imagemaprovacao = $imagemaprovacao;
     }
-
                    
     public function cadastrar($parametros) {
         $this->setIdImovel($_SESSION["anuncio"]["idimovel"]);
@@ -212,20 +210,32 @@ class AnuncioAprovacao {
     }
     
     public function anuncioAprovado($anuncioAprovado){
-        $anuncioAprovado->setIdImovel($this->getIdimovel());
-        $anuncioAprovado->setIdAnuncio($this->getIdanuncio());       
+        $anuncioAprovado->setIdimovel($this->getIdimovel());
+        $anuncioAprovado->setIdanuncio($this->getIdanuncio());       
         $anuncioAprovado->setFinalidade($this->getFinalidade());
-        $anuncioAprovado->setTituloAnuncio($this->getTituloanuncio());
-        $anuncioAprovado->setDescricaoAnuncio($this->getDescricaoanuncio());
+        $anuncioAprovado->setTituloanuncio($this->getTituloanuncio());
+        $anuncioAprovado->setDescricaoanuncio($this->getDescricaoanuncio());
         $anuncioAprovado->setStatus('cadastrado');
-        $anuncioAprovado->setDatahoraalteracao(date("Y/m/d H:i:s"));
-        $anuncioAprovado->setDatahoracadastro($this->getDatahoracadastro());
-        $anuncioAprovado->setDatahoradesativacao('');
+        $anuncioAprovado->setDatahoracadastro(date("Y/m/d H:i:s"));
         $anuncioAprovado->setPublicarmapa($this->getPublicarmapa());
         $anuncioAprovado->setPublicarcontato($this->getPublicarcontato());
         $anuncioAprovado->setIdusuarioplano($this->getIdusuarioplano());
         $anuncioAprovado->setValormin($this->getValormin());
         return $anuncioAprovado;
+    }
+    
+    public function anuncioAprovadoEdicao($anuncioEditado){
+        $anuncioEditado->setIdimovel($this->getIdimovel());
+        $anuncioEditado->setIdanuncio($this->getIdanuncio());       
+        $anuncioEditado->setFinalidade($this->getFinalidade());
+        $anuncioEditado->setTituloanuncio($this->getTituloanuncio());
+        $anuncioEditado->setDescricaoanuncio($this->getDescricaoanuncio());
+        $anuncioEditado->setDatahoraalteracao(date("Y/m/d H:i:s"));
+        $anuncioEditado->setPublicarmapa($this->getPublicarmapa());
+        $anuncioEditado->setPublicarcontato($this->getPublicarcontato());
+        $anuncioEditado->setIdusuarioplano($this->getIdusuarioplano());
+        $anuncioEditado->setValormin($this->getValormin());
+        return $anuncioEditado;
     }
     
 }
