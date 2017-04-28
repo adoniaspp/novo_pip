@@ -25,6 +25,23 @@ class FuncoesAuxiliares {
      else return $years == 1 ? 'um ano atrás':$years.' anos atrás';
      }
      
-     
+     public static function diasRestantes($dataCompra){        
+        
+        $dataAtual = date('Y-m-d');
+        
+        $dataCompraSemHora = substr($dataCompra, 0, 10);
+        
+        $dataFinal = strtotime('+60 days', strtotime($dataCompraSemHora));
+        
+        $dataInicial = substr($dataCompra, 0, 10);         
+        
+        // Calcula a diferença em segundos entre as datas
+        //$diferenca = strtotime('+60 days', strtotime($dataFinal)) - strtotime($dataInicial);
+        $diferenca = $dataFinal - strtotime($dataAtual);
+        //Calcula a diferença em dias
+        $dias = floor($diferenca / (60 * 60 * 24));  
+        
+        return $dias;
+     }
      
 }

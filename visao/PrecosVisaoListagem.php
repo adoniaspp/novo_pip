@@ -98,7 +98,7 @@
             <div class="column">
                 <div class="ui segment">
                     <div class="ui bulleted list">
-                        <div class="item">Gratuitamente por 2 semanas</div>
+                        <div class="item">Grátis</div>
                         <div class="item">Sem cobranças adicionais</div>  
                         <div class="item">Poste até 3 fotos do anúncio</div>
                     </div>

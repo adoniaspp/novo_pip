@@ -22,7 +22,7 @@ class UsuarioPlanoControle {
             $genericoDAO = new GenericoDAO();
 
             $listarUsuarioPlano = $genericoDAO->consultar($usuarioPlano, true, array("idusuario" => $_SESSION["idusuario"]));
-            $condicoes["status"] = "ativo";
+            $condicoes["status"] = "pago"; //status do plano
             if ($_SESSION["tipopessoa"] == "pf") {
                 $condicoes["tipo"] = "pf";
             }

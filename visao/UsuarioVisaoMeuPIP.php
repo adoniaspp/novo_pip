@@ -1074,7 +1074,7 @@ foreach ($imoveis as $qtdAnuncios) {
                                 <th>Plano</th>
                                 <th>Descrição</th>
                                 <th>Data de Compra</th>
-                                <th>Prazo para ativação</th>
+                                <th>Prazo para Utilização</th>
                                 <th>Status</th>
                                 <th>Anúncio Vinculado</th>
                             </tr>
@@ -1082,8 +1082,8 @@ foreach ($imoveis as $qtdAnuncios) {
                         <tbody>
                             <?php
                             foreach ($item["usuarioPlano"] as $usuarioPlano) {
-                                if ($usuarioPlano->getStatus() == "ativo") {
-                                    $statusPlano = "<h4 class='ui green header'>Ativado</h4>";
+                                if ($usuarioPlano->getStatus() == "pago") {
+                                    $statusPlano = "<h4 class='ui green header'>Pago</h4>";
                                 }
 
                                 if ($usuarioPlano->getStatus() == "utilizado") {
@@ -1097,15 +1097,29 @@ foreach ($imoveis as $qtdAnuncios) {
                                 if ($usuarioPlano->getStatus() == "expirado") {
                                     $statusPlano = "<h4 class='ui red header'>Expirado</h4>";
                                 }
-
+                                
                                 echo "<tr>";
                                 echo "<td>" . $usuarioPlano->getPlano()->getTitulo() . " (" . $usuarioPlano->getPlano()->getValidadepublicacao() . " dias)</td>";
                                 echo "<td>" . $usuarioPlano->getPlano()->getDescricao() . "</td>";
                                 echo "<td>" . date('d/m/Y H:i:s', strtotime($usuarioPlano->getDataCompra())) . "</td>";
-                                if ($usuarioPlano->getStatus() == "pagamento pendente") {
-                                    echo "<td>" . $usuarioPlano->DataExpiracao($usuarioPlano->getPlano()->getValidadeativacao()) . "</td>";
+                                if ($usuarioPlano->getStatus() == "pagamento pendente" || $usuarioPlano->getStatus() == "pago") {
+                                    $diasRestantes = FuncoesAuxiliares::diasRestantes($usuarioPlano->getDataCompra());
+                                    
+                                    if($diasRestantes > 6 && $diasRestantes < 1){
+                                        $diasRestantesModulo = "<a class='ui small yellow header'>".$diasRestantes."</a> dias"; 
+                                    }
+                                    
+                                    if($diasRestantes == 1){
+                                        $diasRestantesModulo = "<a class='ui small red header'>".$diasRestantes."</a> dia"; 
+                                    }
+                                    
+                                    if($diasRestantes > 5){
+                                        $diasRestantesModulo = "<a class='ui small header'>".$diasRestantes."</a> dias"; 
+                                    }
+                                    
+                                    echo "<td>" . $usuarioPlano->DataExpiracao(60) ." - ". $diasRestantesModulo ."</td>";
                                 } else {
-                                    echo "<td> Já Ativado </td>";
+                                    echo "<td> Já Utilizado </td>";
                                 }
                                 echo "<td>" . $statusPlano . "</td>";
 
@@ -1386,7 +1400,7 @@ foreach ($imoveis as $qtdAnuncios) {
                                                             $adminPIP = "Você Cadastrou";
 
                                                         switch ($chamados->getChamadoResposta()->getStatus()) {
-                                                            case "aberto": $respChamado = "<a class='ui small green  header'>Aberto</a>";
+                                                            case "aberto": $respChamado = "<a class='ui small green header'>Aberto</a>";
                                                                 break;
                                                             case "atendimento": $respChamado = "<a class='ui small yellow header'>Em Atendimento</a>";
                                                                 break;

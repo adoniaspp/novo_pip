@@ -77,7 +77,7 @@ class AnuncioControle {
                     }
                     $usuarioPlano = new UsuarioPlano();
                     $condicoes["idusuario"] = $_SESSION["idusuario"];
-                    $condicoes["status"] = 'ativo';
+                    $condicoes["status"] = 'pago'; //status do plano
                     $listarUsuarioPlano = $genericoDAO->consultar($usuarioPlano, true, $condicoes);
                     $sessao["idimovel"] = $selecionarImovel[0]->getId();
                     $sessao["tipoimovel"] = $selecionarImovel[0]->getIdtipoImovel();

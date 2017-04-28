@@ -38,19 +38,19 @@ class PagSeguroControle {
                 case 'PAID' :
                     //echo "Paga: a transação foi paga pelo comprador e o PagSeguro já recebeu uma confirmação da instituição financeira responsável pelo processamento.";
                     $mensagem = 'Pedido "' . $requestId . '" foi pago. Ativando o plano!';
-                    $statusPagseguro = "ativo";
+                    $statusPagseguro = "pago";
                     break;
 
                 case 'AVAILABLE' :
                     //echo "Disponível: a transação foi paga e chegou ao final de seu prazo de liberação sem ter sido retornada e sem que haja nenhuma disputa aberta.";
                     $mensagem = 'Pedido "' . $requestId . '" se ainda não estiver ativo. Vamos ativar!';
-                    $statusPagseguro = "ativo";
+                    $statusPagseguro = "pago";
                     break;
 
                 case 'IN_DISPUTE' :
                     //echo "Em disputa: o comprador, dentro do prazo de liberação da transação, abriu uma disputa.";
                     $mensagem = 'Pedido "' . $requestId . '" em disputa!';
-                    $statusPagseguro = "ativo";
+                    $statusPagseguro = "pago";
                     break;
 
                 case 'REFUNDED' :
@@ -131,8 +131,8 @@ class PagSeguroControle {
                 $mensagemLog = "referencia = " . $referencia . " atualizada com sucesso.";
                 $statusAtualPIP = $entidadeUsuarioPlano->getStatus();
 
-                if ($statusAtualPIP == "pagamento pendente" && $statusPagSeguro == "ativo") {
-                    $entidadeUsuarioPlano->setStatus("ativo");
+                if ($statusAtualPIP == "pagamento pendente" && $statusPagSeguro == "pago") {
+                    $entidadeUsuarioPlano->setStatus("pago");
                 }
 
                 if ($statusAtualPIP == "pagamento pendente" && $statusPagSeguro == "cancelado") {
@@ -144,7 +144,7 @@ class PagSeguroControle {
                     $mensagemLog = "referência = " . $referencia . " - não atualizada por estar com a mesma situação: " . $statusAtualPIP;
                 }
 
-                if ($statusAtualPIP == "ativo" && $statusPagSeguro != "ativo") {
+                if ($statusAtualPIP == "pago" && $statusPagSeguro != "pago") {
                     $atualizacao = false;
                     $mensagemLog = "referência = " . $referencia . " não foi atualizada por ja estar ativa. status da referência no pagseguro = " . $statusPagSeguro;
                 }
