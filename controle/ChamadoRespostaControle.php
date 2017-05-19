@@ -233,7 +233,7 @@ class ChamadoRespostaControle {
                                 <font style='text-decoration: underline;'>ATENÇÃO: Este é um email automático. Favor, não responder</font>
                                 <br><br>
 
-                                <strong>PIP On-Line 2016. Todos os Direitos Reservados</strong><br>
+                                <strong>PIP On-Line 2017. Todos os Direitos Reservados</strong><br>
 
                                 <a href='http://www.pipbeta.com.br' style='color:#aaaaaa'>http://www.pipbeta.com.br</a><br>
 

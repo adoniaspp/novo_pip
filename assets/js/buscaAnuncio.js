@@ -635,7 +635,7 @@ function enviarEmail() {
                         $("#botaoFecharEmail").show();
                         if (resposta.resultado == 1) {
                             $("#divRetorno").html('<div class="ui positive message">\n\
-<i class="big green check circle outline icon"></i>Anúncio(s) Enviados com Sucesso</div>');
+<i class="big green check circle outline icon"></i>Anúncio(s) enviado(s) com sucesso</div>');
 
                         } else {
                             $("#divRetorno").html('<div class="ui negative message">\n\

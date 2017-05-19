@@ -19,8 +19,6 @@ function cancelar(entidade, acao) {
     })
 }
 
-
-
 function cadastrarAnuncio() {
     $(document).ready(function () {
         $('.ui.dropdown')
@@ -296,6 +294,281 @@ function cadastrarAnuncio() {
 
     });
 }
+
+
+function editarAnuncio() {
+    $(document).ready(function () {
+        $('.ui.dropdown')
+                .dropdown({
+                    on: 'hover'
+                });
+        $('.ui.checkbox')
+                .checkbox()
+                ;
+        $('#chkMapa').parent().checkbox('set checked');
+        $('#chkContato').parent().checkbox('set checked');
+        $('#txtDescricao').maxlength({
+            alwaysShow: true,
+            threshold: 150,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+        $('#txtTitulo').maxlength({
+            alwaysShow: true,
+            threshold: 50,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+        $('.txtValor').priceFormat({
+            prefix: 'R$ ',
+            centsSeparator: ',',
+            centsLimit: 0,
+            limit: 8,
+            thousandsSeparator: '.'
+        });
+        $.validator.setDefaults({
+            ignore: [],
+            errorClass: 'errorField',
+            errorElement: 'div',
+            errorPlacement: function (error, element) {
+                error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).closest("div.field").addClass("error").removeClass("success");
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).closest(".error").removeClass("error").addClass("success");
+            }
+        });
+        $.validator.messages.required = 'Campo obrigatório';
+        $('#fileupload').validate({
+            onkeyup: false,
+            focusInvalid: true,
+            rules: {
+                sltPlano: {
+                    required: true
+                },
+                sltFinalidade: {
+                    required: true
+                },
+                txtTitulo: {
+                    required: true
+                },
+                txtDescricao: {
+                    required: true
+                },
+                chkAceite: {
+                    required: true
+                }
+            },
+            messages: {
+                chkAceite: {
+                    required: "A confirmação é obrigatória"
+                }
+            },
+            submitHandler: function (form) {
+                $.ajax({
+                    url: "index.php",
+                    dataType: "json",
+                    type: "POST",
+                    data: $('#fileupload').serialize(),
+                    beforeSend: function () {
+                        $('button').attr('disabled', 'disabled');
+                    },
+                    success: function (resposta) {
+                        $("div[id^='step']").hide();
+                        $("#step6").show();
+                        if (resposta.resultado == 1) {
+                            $("#divRetorno").html("\
+                                <div class='ui two column center aligned grid'>\n\
+                                    <div class='ui compact positive message'>\n\
+                                            <i class='big green check circle outline icon'></i>Edição do anúncio " + resposta.idanuncio + " feita com sucesso. As alterações realizadas estão em análise e em breve serão visualizadas\n\</div>\n\
+                                </div>\n\
+                                <div class='ui hidden divider'></div>\n\
+                                      <div class='ui vertical segment'>\n\
+                                        Se desejar, escolha uma das opções abaixo. Obrigado por fazer parte do universo PIP Online <i class='big gray thumbs outline up icon'></i>\n\
+                                      </div>\n\
+                                    <div class='row'>\n\
+                                        <div class='column'>\n\
+                                            <div class='ui horizontal segments'>\n\
+                                            <div class='ui segment center aligned'><a target='_blank' href='index.php?entidade=AnuncioAprovacao&acao=fimCadastroAnuncio&hdnCodAnuncio=" + resposta.id + "&hdnTipo=" + resposta.tipoImovel + "' class='ui circular inverted icon button'><i class='big brown zoom icon'></i></a>\n\
+                                                    Visualizar Anúncio\n\
+                                            </div>\n\
+                                            <div class='ui segment center aligned'>\n\
+                                                <a href='index.php?entidade=Anuncio&acao=listarCadastrar' class='ui circular inverted icon button'><i class='big green announcement icon'></i></a>\n\
+                                                    Cadastrar Novo Anúncio\n\
+                                            </div>\n\
+                                            <div class='ui segment center aligned'>\n\
+                                               <a href='index.php?entidade=Usuario&acao=MeuPIP'  class='ui circular inverted icon button'><i class='big blue home icon'></i></a>\n\
+                                                    Retornar ao Meu PIP\n\
+                                           </div>\n\
+                                        </div>\n\
+                                    </div>\n\
+                                </div>");
+                            $('#botaoDetalhesImovel').hide();
+                            $('#divTextoPublicacao').html("Anúncio editado com sucesso");
+
+                        } else {
+                            $("#divRetorno").html("<div class='ui warning icon message'>\n\
+                                 <i class='checkmark icon'></i>\n\
+                                 <div class='content'>\n\
+                                     <div class='header'>Erro ao Cadastrar</div>Ocorreu um erro ao cadastrar o anúncio. \n\
+                                    Tente novamente em alguns minutos</div>\n\
+                                 </div>\n\
+                             </div>");
+                            $('button').removeAttr('disabled');
+                        }
+                    }
+                })
+                return false;
+            }
+        })
+
+
+// UPLOAD FOTOS
+        $('#fileupload').fileupload({
+            dropZone: null,
+            pasteZone: null,
+            autoUpload: false,
+            url: 'index.php?upload=1',
+            maxNumberOfFiles: 5,
+            maxFileSize: 3000000,
+            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+            disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator && navigator.userAgent),
+            imageMaxWidth: 800,
+            imageMaxHeight: 800,
+            imageCrop: true,
+            loadImageFileTypes: /^image\/(gif|jpeg|png)$/,
+            imageType: 'image/jpg',
+            imageForceResize: true,
+            loadImageMaxFileSize: 2,
+            messages: {
+                maxNumberOfFiles: 'Quantidade máxima de fotos atingida (5 fotos)',
+                acceptFileTypes: 'Arquivo não permitido. Apenas imagens (gif, jpeg, png)',
+                maxFileSize: 'Arquivo muito grande (3 MB)',
+                minFileSize: 'Arquivo muito pequeno (0 MB)'
+            }
+        }).on('fileuploadadd', function (e, data) {
+            //console.log("adicionando foto");
+            //metodo para testar de qual upload esta vindo a imagem
+            //se for apartamento na planta
+            if (data.paramName.substring(0, 14) === "attachmentName") {
+                //fazer a validacao do arquivo
+                //#configuracao de variaveis
+                var EXTENSOES_PERMITIDAS = '.jpg .jpeg .png .gif';
+                var TAMANHO_MAXIMO = 3; // MB
+                var labelArquivo = data.files[0].name;
+                var postfix = labelArquivo.substr(labelArquivo.lastIndexOf('.'));
+                var ordemPlanta = data.paramName.substring(14, 15);
+                var imagemPreview = $("#uploadPreview" + ordemPlanta);
+                var tamanhoArquivo = data.files[0].size;
+                var FOTO_PADRAO = "assets/imagens/logo.png";
+                var sucesso;
+                sucesso = true;
+                //validacao tipo arquivo
+                if (EXTENSOES_PERMITIDAS.indexOf(postfix.toLowerCase()) > -1) {
+                    //validacao tamanho
+                    if (tamanhoArquivo > 1024 * 1024 * TAMANHO_MAXIMO) {
+                        alert('Tamanho máximo da imagem:' + TAMANHO_MAXIMO + ' MB');
+                        $(imagemPreview).attr("src", FOTO_PADRAO);
+                        sucesso = false;
+                    } else {
+                        //mostrar preview da foto
+                        var oFReader = new FileReader();
+                        oFReader.readAsDataURL(data.fileInput[0].files[0]);
+                        oFReader.onload = function (oFREvent) {
+                            $(imagemPreview).attr("src", oFREvent.target.result);
+                            var novoFormulario = new FormData();
+                            $.each(data.fileInput[0].files, function (i, file) {
+                                novoFormulario.append(data.paramName, file);
+                            });
+                            novoFormulario.append("hdnEntidade", "Anuncio");
+                            novoFormulario.append("hdnAcao", "cadastrarAnuncioImagemPlanta");
+                            novoFormulario.append("ordem", ordemPlanta);
+                            novoFormulario.append("hdnToken", $("#hdnToken").val());
+
+                            $.ajax({
+                                url: "index.php",
+                                dataType: "json",
+                                type: "POST",
+                                data: novoFormulario,
+                                contentType: false,
+                                processData: false,
+                                cache: false,
+                                success: function (resposta) {
+                                    //console.log(resposta);
+                                    if (resposta.resultado === 1) {
+                                        alert("Imagem da planta " + (parseInt(ordemPlanta) + 1) + " foi carregada com sucesso");
+                                    } else {
+                                        alert(resposta.retorno);
+                                        $(imagemPreview).attr("src", FOTO_PADRAO);
+                                    }
+                                }
+                            })
+                        }
+                    }
+                } else {
+                    alert('Tipo de arquivo inválido. São aceitos os tipos:' + EXTENSOES_PERMITIDAS);
+                    $(imagemPreview).attr("src", FOTO_PADRAO);
+                    sucesso = false;
+                }
+                e.preventDefault();//nao mostrar no template do fileupload
+
+                if (!sucesso) {
+                    //falha cria formulario e envia erro
+                    var novoFormulario = new FormData();
+                    novoFormulario.append("hdnEntidade", "Anuncio");
+                    novoFormulario.append("hdnAcao", "apagarImagemPlanta");
+                    novoFormulario.append("ordem", ordemPlanta);
+                    novoFormulario.append("hdnToken", $("#hdnToken").val());
+                    $.ajax({
+                        url: "index.php",
+                        type: "POST",
+                        data: novoFormulario,
+                        contentType: false,
+                        processData: false,
+                        cache: false,
+                        success: function () {
+                        }
+                    });
+                }
+            }
+        }).on('fileuploadsubmit', function (e, data) {
+            data.formData = $("#fileupload").serializeArray();
+        }).on('fileuploadalways', function (e, data) {
+            $('.ui.checkbox').checkbox();
+            $("p[class='error']").each(function () {
+                var error = $(this).html();
+                if (error !== "") {
+                    //$(this).html('<div class="ui error message"><div class="header">Ocorreu um erro</div><p>' + error + '</p></div>');
+                }
+            })
+        }).on('fileuploadfail', function (e, data) {
+            //# metodo para testar de qual upload esta vindo a imagem
+            var input = data.fileInput[0];
+            //#se for apartamento na planta
+            if ($(input).attr("name") == "attachmentName[]") {
+                $($('#fileupload  .cancel ')[parseInt(data.context[0].rowIndex) + 1]).click();
+            }
+        });
+
+        $('.special.cards .image').dimmer({
+            on: 'hover'
+        });
+        timeoutSessao();
+// FIM UPLOAD FOTOS
+
+    });
+}
+
 
 function stepsSemPlanta() {
     $(document).ready(function () {

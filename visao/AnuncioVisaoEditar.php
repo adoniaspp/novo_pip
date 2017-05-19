@@ -46,7 +46,7 @@ $valorAnuncio = (isset($item["novovalor"][0])) ? $item["novovalor"][0]->getNovov
 <script src="assets/libs/fileupload/cors/jquery.xdr-transport.js"></script>
 <![endif]-->
 <script>
-    cadastrarAnuncio();
+    editarAnuncio();
     cancelar('Anuncio', 'listarCadastrar');
 <?php if ($tipoImovel == "apartamentoplanta") { ?>
         stepsComPlanta();

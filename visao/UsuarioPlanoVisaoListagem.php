@@ -55,6 +55,7 @@ Sessao::gerarToken();
                     <tbody>                       
                         <?php
                         $item = $this->getItem();
+                        
                         if ($item) {
                             foreach ($item["plano"] as $plano) {
                                 echo "<tr>";

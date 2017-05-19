@@ -364,9 +364,12 @@ class AnuncioControle {
     }
 
     function comparar($parametros) {
+        
+        
+        
         $genericoDAO = new GenericoDAO();
         $indice = 0;
-        $idsAnuncio = $parametros['listaAnuncio'];
+        $idsAnuncio = $parametros['selecionarAnuncio'];
         unset($parametros["hdnEntidade"]);
         unset($parametros["hdnAcao"]);
         unset($parametros["tabela_length"]);
@@ -375,23 +378,31 @@ class AnuncioControle {
         unset($parametros["hdnCodAnuncio"]);
         unset($parametros["hdnTipoImovel"]);
         unset($parametros["hdnCodAnuncioFormatado"]);
-
+        
+        
+        
+        
         foreach ($idsAnuncio as $idanuncio) {
-            $item["anuncio"] = $genericoDAO->consultar(new Anuncio(), false, array("id" => $idanuncio));
+            $item["anuncio"] = $genericoDAO->consultar(new Anuncio(), false, array("idanuncio" => $idanuncio));
+            $idFormatado = $item["anuncio"][0]->getId();
             $item["imovel"] = $genericoDAO->consultar(new Imovel(), true, array("id" => $item["anuncio"][0]->getIdimovel()));
+                                   
             $descricaoTipoImovel = $item["imovel"][0]->getTipoimovel()->getDescricao();
+   
             $consultasAdHoc = new ConsultasAdHoc();
-            $parametros["idanuncio"] = $idanuncio;
             $parametros["tabela"] = $descricaoTipoImovel;
             $parametros["atributos"] = "*";
-            $parametros["predicados"] = $parametros;
+            $parametros["predicados"] = array("idanuncio" => $idFormatado);
+                        
             $anuncio = $consultasAdHoc->buscaAnuncios($parametros);
+
             $listarAnuncio[$indice] = $anuncio['anuncio'][0];
+
             $parametros = "";
 
             $indice++;
         }
-
+            
         $visao = new Template();
         $visao->setItem($listarAnuncio);
         $visao->exibir('AnuncioVisaoComparar.php');
@@ -493,6 +504,7 @@ class AnuncioControle {
     function cadastrar($parametros) {
 
         if (Sessao::verificarSessaoUsuario()) {
+            
             if (isset($parametros['upload']) & $parametros['upload'] === "1") {
                 include_once 'controle/ImagemControle.php';
                 $imagem = new ImagemControle($parametros);
@@ -500,7 +512,8 @@ class AnuncioControle {
                 $genericoDAO = new GenericoDAO();
                 $entidadeUsuarioPlano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $parametros["sltPlano"]));
                 $entidadeUsuarioPlano = $entidadeUsuarioPlano[0];
-                if (Sessao::verificarToken($parametros) && $entidadeUsuarioPlano->permitidoCadastrar()) {
+                if (Sessao::verificarToken($parametros) && $entidadeUsuarioPlano->permitidoCadastrar()) {  
+                    
                     //INICIA TRANSACAO
                     $genericoDAO = new GenericoDAO();
                     $genericoDAO->iniciarTransacao();
@@ -1121,7 +1134,7 @@ class AnuncioControle {
                                 <font style='text-decoration: underline;'>ATENÇÃO: Este é um email automático. Favor, não responder</font>
                                 <br><br>
 
-                                <strong>PIP On-Line 2016. Todos os Direitos Reservados</strong><br>
+                                <strong>PIP On-Line 2017. Todos os Direitos Reservados</strong><br>
 
                                 <a href='http://www.pipbeta.com.br' style='color:#aaaaaa'>http://www.pipbeta.com.br</a><br>
 
@@ -1800,7 +1813,7 @@ class AnuncioControle {
                                 <font style='text-decoration: underline;'>ATENÇÃO: Este é um email automático. Favor, não responder</font>
                                 <br><br>
 
-                                <strong>PIP On-Line 2016. Todos os Direitos Reservados</strong><br>
+                                <strong>PIP On-Line 2017. Todos os Direitos Reservados</strong><br>
 
                                 <a href='http://www.pipbeta.com.br' style='color:#aaaaaa'>http://www.pipbeta.com.br</a><br>
 

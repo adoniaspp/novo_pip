@@ -26,8 +26,8 @@ class UsuarioPlanoControle {
             if ($_SESSION["tipopessoa"] == "pf") {
                 $condicoes["tipo"] = "pf";
             }
-            $listarPlano = $genericoDAO->consultar($plano, true, $condicoes);
-
+            $listarPlano = $genericoDAO->consultar($plano, true, array("status" => "ativo"));
+            
             $formUsuarioPlano = array();
             $formUsuarioPlano["usuarioPlano"] = $listarUsuarioPlano;
             $formUsuarioPlano["plano"] = $listarPlano;

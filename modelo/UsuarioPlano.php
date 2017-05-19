@@ -73,7 +73,7 @@ class UsuarioPlano {
     public function permitidoCadastrar() {
         $permitido = false;
         //verifica se status esta ativo e se eh o mesmo usuario logado
-        if ($this->getStatus() == "ativo" && $_SESSION['idusuario'] == $this->getIdusuario()) {
+        if ($this->getStatus() == "pago" && $_SESSION['idusuario'] == $this->getIdusuario()) {
             $permitido = true;
         }
         return $permitido;
