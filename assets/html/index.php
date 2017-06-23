@@ -134,12 +134,12 @@ if ($item) {
         </div>
         <div class="ui column" ></div>
     </div>
+<div class="ui divider"></div>
+
                 <?php
             }
             ?>
 
-
-<div class="ui divider"></div>
 
 <div class="ui hidden divider"></div>
 <div class="ui grid container">

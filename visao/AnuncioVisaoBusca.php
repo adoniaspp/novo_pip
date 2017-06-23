@@ -17,7 +17,7 @@
 $item = $this->getItem();
 
 foreach ($item["anuncio"] as $buscaAnuncio) {
-    
+
     if (!$item["page"]) {
         ?>
             marcarMapa("<?php echo $buscaAnuncio["logradouro"] ?>",
@@ -48,11 +48,8 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
     <input type="hidden" id="hdnAcao" name="hdnAcao" />
     <input type="hidden" id="hdnCodAnuncio" name="hdnCodAnuncio" />
     <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" />
-    <!--    <div class="ui center aligned three column page grid" id="resultadoBusca">-->
-    <!--    <div class="ui middle aligned stackable one column grid container" id="lista">-->
     <div class="ui middle aligned one column grid container" id="lista">
-        <!--        <div class="sixteen wide row">-->
-        <?php  if (count($item['anuncio']) > 0) { ?>
+        <?php if (count($item['anuncio']) > 0) { ?>
             <div class="ui column">
                 <div class="jplist-panel">
                     <div 
@@ -64,7 +61,6 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                             <li><span data-number="8" data-default="true"> 8 resultados </span></li>
                             <li><span data-number="16"> 16 resultados </span></li>
                             <li><span data-number="24"> 24 resultados </span></li>
-    <!--                            <li><span data-number="all"> view all </span></li>-->
                         </ul>
                     </div>
                     <div 
@@ -100,31 +96,32 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
             </div>
             <div class="ui ten wide column">
             </div>
-        
-            <?php                            
-                //verificar maior e menor número de quartos, banheiros e garagens de cada planta
-                function maximoMinimo($item, $coluna) {
-                    if ($item['tipo'] == 'apartamentoplanta') {
-                        
-                        foreach ($item['plantas'] as $planta) {
-                            $conjunto[] = $planta[$coluna];
-                        }                                                               
-                        return min($conjunto) . ' a ' . max($conjunto);
-                    } else if ($planta[$coluna]) {
-                        return $planta[$coluna];
-                    } else {
-                        return ' - ';
+
+            <?php
+
+            //verificar maior e menor número de quartos, banheiros e garagens de cada planta
+            function maximoMinimo($item, $coluna) {
+                if ($item['tipo'] == 'apartamentoplanta') {
+
+                    foreach ($item['plantas'] as $planta) {
+                        $conjunto[] = $planta[$coluna];
                     }
+                    return min($conjunto) . ' a ' . max($conjunto);
+                } else if ($planta[$coluna]) {
+                    return $planta[$coluna];
+                } else {
+                    return ' - ';
                 }
+            }
             ?>
-        
+
             <!--<div class="ui stackable special cards list">-->
             <div class="ui stackable column grid">
                 <div class="ui stackable special cards list">
                     <?php
-                    for ($crtl = 0; $crtl < count($item['anuncio']); $crtl++) {                        
+                    for ($crtl = 0; $crtl < count($item['anuncio']); $crtl++) {
                         ?>
-                    
+
                         <script>
                             formatarValor("<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>");
                         </script>       
@@ -139,15 +136,15 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                 ?>                                                                       
                             </div>  
                             <div class="ui grid">
-                            <div class="ui centered row">
-                            <div class="header"><b>
-                                <?php
-                                $limite = 24;
-                                $titulo = $item['anuncio'][$crtl]['tituloanuncio'];
-                                echo (strlen(trim($titulo)) >= $limite) ? trim(substr($titulo, 0, strrpos(substr($titulo, 0, $limite), " "))) . "..." : $titulo;
-                                ?></b>
-                            </div>
-                            </div>
+                                <div class="ui centered row">
+                                    <div class="header"><b>
+                                            <?php
+                                            $limite = 24;
+                                            $titulo = $item['anuncio'][$crtl]['tituloanuncio'];
+                                            echo (strlen(trim($titulo)) >= $limite) ? trim(substr($titulo, 0, strrpos(substr($titulo, 0, $limite), " "))) . "..." : $titulo;
+                                            ?></b>
+                                    </div>
+                                </div>
                             </div>
                             <br>
 
@@ -181,47 +178,56 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                 ?>
                             </div>
                             <div class="content">
-                                
-                                <div class="ui grid">
-                            
-                                    <div class="ui centered row">
-                                        <div class="ui menu">
-                                            <div class="item">
-
-                                              <img class="ui center image dimmable" src="../assets/imagens/icones/iconeQuartoPequeno.jpg">&nbsp;
-                                              <div style="font-size: 12px">  
-                                              <?php if($item['anuncio'][$crtl]['tipo'] == "casa" 
-                                                      || $item['anuncio'][$crtl]['tipo'] == "apartamento"){ 
-                                                  echo $item['anuncio'][$crtl]['quarto'];}
-                                                  else if($item['anuncio'][$crtl]['tipo'] == "salacomercial" || $item['anuncio'][$crtl]['tipo'] == "prediocomercial" || $item['anuncio'][$crtl]['tipo'] == "terreno"){
-                                                      echo "&nbsp; - ";
-                                                  }
-                                              else if($item['anuncio'][$crtl]['tipo'] == "apartamentoplanta"){
-                                                  echo maximoMinimo($item['anuncio'][$crtl], 'quarto');}?></div>
+                                <div class="ui segment">    
+                                    <div class="ui stackable three column centered grid">
+                                        <div class="column">
+                                            <img class="ui center image dimmable" src="../assets/imagens/icones/iconeQuartoPequeno.jpg">&nbsp;
+                                            <div style="font-size: 12px">  
+                                                <?php
+                                                if ($item['anuncio'][$crtl]['tipo'] == "casa" || $item['anuncio'][$crtl]['tipo'] == "apartamento") {
+                                                    echo $item['anuncio'][$crtl]['quarto'];
+                                                } else if ($item['anuncio'][$crtl]['tipo'] == "salacomercial" || $item['anuncio'][$crtl]['tipo'] == "prediocomercial" || $item['anuncio'][$crtl]['tipo'] == "terreno") {
+                                                    echo "&nbsp; - ";
+                                                } else if ($item['anuncio'][$crtl]['tipo'] == "apartamentoplanta") {
+                                                    echo maximoMinimo($item['anuncio'][$crtl], 'quarto');
+                                                }
+                                                ?>
                                             </div>
-                                            <div class="item">
+                                        </div>
 
-                                              <img class="ui left image" src="../assets/imagens/icones/iconeBanheiroPequeno.jpg">&nbsp;
-                                              <div style="font-size: 12px"><?php if($item['anuncio'][$crtl]['tipo'] == "casa" || $item['anuncio'][$crtl]['tipo'] == "apartamento" || $item['anuncio'][$crtl]['tipo'] == "salacomercial"){ echo $item['anuncio'][$crtl]['banheiro'];} 
-                                              else if($item['anuncio'][$crtl]['tipo'] == "salacomercial" || $item['anuncio'][$crtl]['tipo'] == "prediocomercial" || $item['anuncio'][$crtl]['tipo'] == "terreno"){
-                                                      echo "&nbsp; - ";
-                                                  }
-                                              else if($item['anuncio'][$crtl]['tipo'] == "apartamentoplanta"){echo maximoMinimo($item['anuncio'][$crtl], 'banheiro');}?></div>
-                                              
-                                              </div>
-                                            <div class="item">
-                                              <img class="ui left image " src="../assets/imagens/icones/iconeGaragemPequeno.jpg">&nbsp;
-                                              <div style="font-size: 12px"><?php if($item['anuncio'][$crtl]['tipo'] == "casa" || $item['anuncio'][$crtl]['tipo'] == "apartamento" || $item['anuncio'][$crtl]['tipo'] == "salacomercial"){ echo $item['anuncio'][$crtl]['garagem'];} 
-                                              else if($item['anuncio'][$crtl]['tipo'] == "salacomercial" || $item['anuncio'][$crtl]['tipo'] == "prediocomercial" || $item['anuncio'][$crtl]['tipo'] == "terreno"){
-                                                      echo "&nbsp; - ";
-                                                  }
-                                              else if($item['anuncio'][$crtl]['tipo'] == "apartamentoplanta"){echo maximoMinimo($item['anuncio'][$crtl], 'garagem');}?></div>
+                                        <div class="column">
+                                            <img class="ui left image" src="../assets/imagens/icones/iconeBanheiroPequeno.jpg">&nbsp;
+                                            <div style="font-size: 12px"><?php
+                                                if ($item['anuncio'][$crtl]['tipo'] == "casa" || $item['anuncio'][$crtl]['tipo'] == "apartamento" || $item['anuncio'][$crtl]['tipo'] == "salacomercial") {
+                                                    echo $item['anuncio'][$crtl]['banheiro'];
+                                                } else if ($item['anuncio'][$crtl]['tipo'] == "salacomercial" || $item['anuncio'][$crtl]['tipo'] == "prediocomercial" || $item['anuncio'][$crtl]['tipo'] == "terreno") {
+                                                    echo "&nbsp; - ";
+                                                } else if ($item['anuncio'][$crtl]['tipo'] == "apartamentoplanta") {
+                                                    echo maximoMinimo($item['anuncio'][$crtl], 'banheiro');
+                                                }
+                                                ?>
                                             </div>
-                                        </div> 
+                                        </div>
+
+                                        <div class="column">
+                                            <img class="ui left image " src="../assets/imagens/icones/iconeGaragemPequeno.jpg">&nbsp;
+                                            <div style="font-size: 12px"><?php
+                                                if ($item['anuncio'][$crtl]['tipo'] == "casa" || $item['anuncio'][$crtl]['tipo'] == "apartamento" || $item['anuncio'][$crtl]['tipo'] == "salacomercial") {
+                                                    echo $item['anuncio'][$crtl]['garagem'];
+                                                } else if ($item['anuncio'][$crtl]['tipo'] == "salacomercial" || $item['anuncio'][$crtl]['tipo'] == "prediocomercial" || $item['anuncio'][$crtl]['tipo'] == "terreno") {
+                                                    echo "&nbsp; - ";
+                                                } else if ($item['anuncio'][$crtl]['tipo'] == "apartamentoplanta") {
+                                                    echo maximoMinimo($item['anuncio'][$crtl], 'garagem');
+                                                }
+                                                ?>
+                                            </div>
+                                        </div>
                                     </div> 
-
                                 </div>
-                                
+                                <!--                                    <div class="ui divider"></div>-->
+
+                                <!--                                </div>-->
+
                                 <div class="description"> 
                                     <?php
                                     if ($item['anuncio'][$crtl]['tipo'] == "prediocomercial") {
@@ -239,41 +245,44 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                     <span hidden="true" class="data" id="spanData<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>"> 
                                         <?php echo $item['anuncio'][$crtl]['datahoracadastro']; ?> </span>
                                     <!-- CASO SEJA UM APARTAMENTO NA PLANTA, NÃO EXIBIR O VALOR-->
-                                    <?php if($item['anuncio'][$crtl]['tipo'] !== "apartamentoplanta"){?>
-                                    
-                                    <span class="valor" id="spanValor<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>"> 
-                                        <?php echo ($item['anuncio'][$crtl]['novovalor'] != "") ? $item['anuncio'][$crtl]['novovalor'] : $item['anuncio'][$crtl]['valormin']; ?> 
-                                    
-                                    <?php } else {                                    
-                                    
-                                        if($item['anuncio'][$crtl]['valormin'] != 0){
-                                        
-                                    ?>
-                                    
-                                    A Partir de 
-                                    <span class="valor" id="spanValor<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">     
-                                        
-                                        <?php echo $item['anuncio'][$crtl]['valormin'];
-                                        
-                                    } if($item['anuncio'][$crtl]['valormin'] == 0){ echo "Valor não informado"; } } 
-                                    ?>
-                                    </span>
-                                    <!--<br />
-                                    Cod. <?php $item['anuncio'][$crtl]['idanuncioformatado'] ?> -->
-                                    <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" />
-                                    <input type="hidden" id="hiddenAnuncioFormatadaoCopiar" value="<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" />
-                                    <br />
-                                    <?php echo FuncoesAuxiliares::tempo_corrido($item['anuncio'][$crtl]['datahoracadastro']) ?> <?php /*echo date('d/m/Y', strtotime($item['anuncio'][$crtl]['datahoracadastro'])) */?>
-                                    <br />
-                                    <div class="ui grid">
-                                        <div class="ui centered row">
-                                        <a href="http://www.facebook.com/sharer.php?u=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big blue facebook square icon"></i></a>
-                                        <a href="https://twitter.com/intent/tweet?text=Anúncio%20Compartilhado%20via%20PIP-OnLine%20http%3A%2F%2Fwww.pipbeta.com.br%2F<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big blue twitter icon"></i></a>
-                                        <a href="https://plus.google.com/share?url=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big red google plus circle icon"></i></a>
-                                        <a class="compartilhar-whatsapp" href='whatsapp://send?text=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>'><i class="big green whatsapp icon"></i></a>
-                                        <!--<div class="ui primary button" id="copiarBotao" onclick="copiar()">Copiar Link Anúncio</div>-->
+                                    <?php if ($item['anuncio'][$crtl]['tipo'] !== "apartamentoplanta") { ?>
+
+                                        <span class="valor" id="spanValor<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>"> 
+                                            <?php echo ($item['anuncio'][$crtl]['novovalor'] != "") ? $item['anuncio'][$crtl]['novovalor'] : $item['anuncio'][$crtl]['valormin']; ?> 
+
+                                            <?php
+                                        } else {
+
+                                            if ($item['anuncio'][$crtl]['valormin'] != 0) {
+                                                ?>
+
+                                                A Partir de 
+                                                <span class="valor" id="spanValor<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">     
+
+                                                    <?php
+                                                    echo $item['anuncio'][$crtl]['valormin'];
+                                                } if ($item['anuncio'][$crtl]['valormin'] == 0) {
+                                                    echo "Valor não informado";
+                                                }
+                                            }
+                                            ?>
+                                        </span>
+                                        <!--<br />
+                                        Cod. <?php $item['anuncio'][$crtl]['idanuncioformatado'] ?> -->
+                                        <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" />
+                                        <input type="hidden" id="hiddenAnuncioFormatadaoCopiar" value="<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" />
+                                        <br />
+                                        <?php echo FuncoesAuxiliares::tempo_corrido($item['anuncio'][$crtl]['datahoracadastro']) ?> <?php /* echo date('d/m/Y', strtotime($item['anuncio'][$crtl]['datahoracadastro'])) */ ?>
+                                        <br />
+                                        <div class="ui grid">
+                                            <div class="ui centered row">
+                                                <a href="http://www.facebook.com/sharer.php?u=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big blue facebook square icon"></i></a>
+                                                <a href="https://twitter.com/intent/tweet?text=Anúncio%20Compartilhado%20via%20PIP-OnLine%20http%3A%2F%2Fwww.pipbeta.com.br%2F<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big blue twitter icon"></i></a>
+                                                <a href="https://plus.google.com/share?url=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big red google plus circle icon"></i></a>
+                                                <a class="compartilhar-whatsapp" href='whatsapp://send?text=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>'><i class="big green whatsapp icon"></i></a>
+                                                <!--<div class="ui primary button" id="copiarBotao" onclick="copiar()">Copiar Link Anúncio</div>-->
+                                            </div>
                                         </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="extra content">      

@@ -30,10 +30,10 @@ class Email {
                     
                     $mail->IsSMTP();
                     $mail->SMTPAuth = true;
-                    $mail->Host = "ssl://smtp.googlemail.com";
-                    $mail->Port = 465;
-                    $mail->Username = 'pipcontato@gmail.com';
-                    $mail->Password = 'osestudantes1';
+                    $mail->Host = "smtp.pipbeta.com.br";
+                    $mail->Port = 587;
+                    $mail->Username = 'contato_naoresponda@pipbeta.com.br';
+                    $mail->Password = 'osestudantes';
 
                     $mail->AddAddress($dadosEmail['destino'], $dadosEmail['nome']);
 
