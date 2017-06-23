@@ -30,6 +30,7 @@ include_once 'modelo/PredioComercial.php';
 include_once 'modelo/Terreno.php';
 include_once 'modelo/TipoImovel.php';
 include_once 'modelo/Valor.php';
+include_once 'modelo/ValorAprovacao.php';
 include_once 'modelo/ImovelDiferencial.php';
 include_once 'modelo/ImovelDiferencialPlanta.php';
 include_once 'modelo/Diferencial.php';
@@ -79,12 +80,14 @@ class AnuncioControle {
                     $condicoes["idusuario"] = $_SESSION["idusuario"];
                     $condicoes["status"] = 'pago'; //status do plano
                     $listarUsuarioPlano = $genericoDAO->consultar($usuarioPlano, true, $condicoes);
+                    $listarPlanos = $genericoDAO->consultar(new Plano, false, array("gratuito" => "SIM")); //somente listar o plano gratuito para escrever no combo da listagem de planos ativos
                     $sessao["idimovel"] = $selecionarImovel[0]->getId();
                     $sessao["tipoimovel"] = $selecionarImovel[0]->getIdtipoImovel();
                     Sessao::configurarSessaoAnuncio($sessao);
                     $formAnuncio = array();
                     $formAnuncio["usuarioPlano"] = $listarUsuarioPlano;
                     $formAnuncio["imovel"] = $selecionarImovel;
+                    $formAnuncio["planos"] = $listarPlanos;
                     $formAnuncio["anuncio"] = ($anuncios != NULL ? $anuncios : new Anuncio());
                     $item = $formAnuncio;
                     $pagina = "AnuncioVisaoPublicar.php";
@@ -119,7 +122,7 @@ class AnuncioControle {
                                     $fotos->name = $imagem->getNome();
                                     $fotos->size = $imagem->getTamanho();
                                     $fotos->type = $imagem->getTipo();
-                                    $fotos->legenda = "".$imagem->getLegenda();
+                                    $fotos->legenda = "" . $imagem->getLegenda();
                                     $fotos->idImage = $imagem->getId();
                                     $fotos->url = PIPURL . "fotos/imoveis/" . $imagem->getDiretorio() . "/" . $imagem->getNome();
                                     $fotos->thumbnailUrl = PIPURL . "fotos/imoveis/" . $imagem->getDiretorio() . "/thumbnail/" . $imagem->getNome();
@@ -133,7 +136,7 @@ class AnuncioControle {
                                 $fotos->name = $imagemAnuncio->getNome();
                                 $fotos->size = $imagemAnuncio->getTamanho();
                                 $fotos->type = $imagemAnuncio->getTipo();
-                                $fotos->legenda = "".$imagemAnuncio->getLegenda();
+                                $fotos->legenda = "" . $imagemAnuncio->getLegenda();
                                 $fotos->idImage = $imagemAnuncio->getId();
                                 $fotos->url = PIPURL . "fotos/imoveis/" . $imagemAnuncio->getDiretorio() . "/" . $imagemAnuncio->getNome();
                                 $fotos->thumbnailUrl = PIPURL . "fotos/imoveis/" . $imagemAnuncio->getDiretorio() . "/thumbnail/" . $imagemAnuncio->getNome();
@@ -364,9 +367,9 @@ class AnuncioControle {
     }
 
     function comparar($parametros) {
-        
-        
-        
+
+
+
         $genericoDAO = new GenericoDAO();
         $indice = 0;
         $idsAnuncio = $parametros['selecionarAnuncio'];
@@ -378,22 +381,22 @@ class AnuncioControle {
         unset($parametros["hdnCodAnuncio"]);
         unset($parametros["hdnTipoImovel"]);
         unset($parametros["hdnCodAnuncioFormatado"]);
-        
-        
-        
-        
+
+
+
+
         foreach ($idsAnuncio as $idanuncio) {
             $item["anuncio"] = $genericoDAO->consultar(new Anuncio(), false, array("idanuncio" => $idanuncio));
             $idFormatado = $item["anuncio"][0]->getId();
             $item["imovel"] = $genericoDAO->consultar(new Imovel(), true, array("id" => $item["anuncio"][0]->getIdimovel()));
-                                   
+
             $descricaoTipoImovel = $item["imovel"][0]->getTipoimovel()->getDescricao();
-   
+
             $consultasAdHoc = new ConsultasAdHoc();
             $parametros["tabela"] = $descricaoTipoImovel;
             $parametros["atributos"] = "*";
             $parametros["predicados"] = array("idanuncio" => $idFormatado);
-                        
+
             $anuncio = $consultasAdHoc->buscaAnuncios($parametros);
 
             $listarAnuncio[$indice] = $anuncio['anuncio'][0];
@@ -402,7 +405,7 @@ class AnuncioControle {
 
             $indice++;
         }
-            
+
         $visao = new Template();
         $visao->setItem($listarAnuncio);
         $visao->exibir('AnuncioVisaoComparar.php');
@@ -504,7 +507,7 @@ class AnuncioControle {
     function cadastrar($parametros) {
 
         if (Sessao::verificarSessaoUsuario()) {
-            
+
             if (isset($parametros['upload']) & $parametros['upload'] === "1") {
                 include_once 'controle/ImagemControle.php';
                 $imagem = new ImagemControle($parametros);
@@ -512,8 +515,8 @@ class AnuncioControle {
                 $genericoDAO = new GenericoDAO();
                 $entidadeUsuarioPlano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $parametros["sltPlano"]));
                 $entidadeUsuarioPlano = $entidadeUsuarioPlano[0];
-                if (Sessao::verificarToken($parametros) && $entidadeUsuarioPlano->permitidoCadastrar()) {  
-                    
+                if (Sessao::verificarToken($parametros) && $entidadeUsuarioPlano->permitidoCadastrar()) {
+
                     //INICIA TRANSACAO
                     $genericoDAO = new GenericoDAO();
                     $genericoDAO->iniciarTransacao();
@@ -528,20 +531,20 @@ class AnuncioControle {
                     $this->verificaValorMinimo($entidadeAnuncio, $parametros);
 
                     //SALVA ANUNCIO
-                    $idAnuncio = $genericoDAO->cadastrar($entidadeAnuncio);
+                    $idAnuncioAprovacao = $genericoDAO->cadastrar($entidadeAnuncio);
 
                     //VERIFICA O TIPO DO IMOVEL
                     //se for apartamento na planta
                     if ($_SESSION["anuncio"]["tipoimovel"] == 2) {
-                        $entidadeValor = new Valor();
-                        $valor->setIdanuncio($idAnuncio);
+                        $entidadeValor = new ValorAprovacao();
+                        $entidadeValor->setIdanuncioaprovacao($idAnuncioAprovacao);
                         //traz todas as plantas
-                        $plantas = $genericoDAO->consultar(new Imovel(), true, array("id" => $_SESSION["anuncio"]["idimovel"]));
-                        $plantas = $plantas[0]->getPlanta();
-                        if (is_object($plantas))
-                            $plantas = array($plantas);
+                        $todasPlantas = $genericoDAO->consultar(new Imovel(), true, array("id" => $_SESSION["anuncio"]["idimovel"]));
+                        $todasPlantas = $todasPlantas[0]->getPlanta();
+                        if (is_object($todasPlantas))
+                            $todasPlantas = array($todasPlantas);
                         //itera para cada planta
-                        foreach ($plantas as $planta) {
+                        foreach ($todasPlantas as $planta) {
                             $entidadeValor->setIdplanta($planta->getId());
                             //monta os parametros que vem do formulario
                             $parametroAndarInicial = "hdnAndarInicial" . $planta->getOrdemplantas();
@@ -564,10 +567,10 @@ class AnuncioControle {
                             //imagens das plantas
                             $sessaoImagemPlanta = $_SESSION["imagemPlanta"][$planta->getOrdemplantas()];
                             if (isset($sessaoImagemPlanta)) {
-                                $planta->setImagemdiretorio($sessaoImagemPlanta["diretorio"]);
-                                $planta->setImagemnome($sessaoImagemPlanta["name"]);
-                                $planta->setImagemtamanho($sessaoImagemPlanta["size"]);
-                                $planta->setImagemtipo($sessaoImagemPlanta["type"]);
+                                $planta->setImagemaprovacaodiretorio($sessaoImagemPlanta["diretorio"]);
+                                $planta->setImagemaprovacaonome($sessaoImagemPlanta["name"]);
+                                $planta->setImagemaprovacaotamanho($sessaoImagemPlanta["size"]);
+                                $planta->setImagemaprovacaotipo($sessaoImagemPlanta["type"]);
                                 $genericoDAO->editar($planta);
                             }
                         }
@@ -576,7 +579,7 @@ class AnuncioControle {
                     if (isset($_SESSION["imagemAnuncio"])) {
                         foreach ($_SESSION["imagemAnuncio"] as $file) {
                             $entidadeImagem = new ImagemAprovacao();
-                            $entidadeImagem->cadastrar($file, $idAnuncio, $parametros["rdbDestaque"]);
+                            $entidadeImagem->cadastrar($file, $idAnuncioAprovacao, $parametros["rdbDestaque"]);
                             $genericoDAO->cadastrar($entidadeImagem);
                         }
                     }
@@ -584,11 +587,11 @@ class AnuncioControle {
                     //cadastro da latitude e longitude se houver alteração no mapa
                     if ($parametros["hdnLatitude"] != "" && $parametros["hdnLongitude"] != "") {
                         $entidadeMapaImovel = new MapaImovelAprovacao();
-                        $entidadeMapaImovel->cadastrar($parametros, $idAnuncio);
+                        $entidadeMapaImovel->cadastrar($parametros, $idAnuncioAprovacao);
                         $genericoDAO->cadastrar($entidadeMapaImovel);
                     }
 
-                    if ($idAnuncio) {
+                    if ($idAnuncioAprovacao) {
                         //COMMIT!
                         $genericoDAO->commit();
                         $genericoDAO->fecharConexao();
@@ -600,7 +603,7 @@ class AnuncioControle {
                         Sessao::desconfigurarVariavelSessao("imagemAnuncio");
                         Sessao::desconfigurarVariavelSessao("imagemPlanta");
                         //RETORNA SUCESSO
-                        echo json_encode(array("resultado" => 1, "idanuncio" => $entidadeAnuncio->getIdAnuncio(), "id" => $idAnuncio, "tipoImovel" => $retornaTipoImovel));
+                        echo json_encode(array("resultado" => 1, "idanuncio" => $entidadeAnuncio->getIdAnuncio(), "id" => $idAnuncioAprovacao, "tipoImovel" => $retornaTipoImovel));
                     } else {
                         //ROLLBACK!
                         $genericoDAO->rollback();

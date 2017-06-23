@@ -17,6 +17,10 @@ class Planta {
     private $imagemnome;
     private $imagemtamanho;
     private $imagemtipo;
+    private $imagemaprovacaodiretorio;
+    private $imagemaprovacaonome;
+    private $imagemaprovacaotamanho;
+    private $imagemaprovacaotipo;
     
     public function getId() {
         return $this->id;
@@ -129,7 +133,38 @@ class Planta {
     public function setImagemtipo($imagemtipo) {
         $this->imagemtipo = $imagemtipo;
     }
+    
+    function getImagemaprovacaodiretorio() {
+        return $this->imagemaprovacaodiretorio;
+    }
 
+    function getImagemaprovacaonome() {
+        return $this->imagemaprovacaonome;
+    }
+
+    function getImagemaprovacaotamanho() {
+        return $this->imagemaprovacaotamanho;
+    }
+
+    function getImagemaprovacaotipo() {
+        return $this->imagemaprovacaotipo;
+    }
+
+    function setImagemaprovacaodiretorio($imagemaprovacaodiretorio) {
+        $this->imagemaprovacaodiretorio = $imagemaprovacaodiretorio;
+    }
+
+    function setImagemaprovacaonome($imagemaprovacaonome) {
+        $this->imagemaprovacaonome = $imagemaprovacaonome;
+    }
+
+    function setImagemaprovacaotamanho($imagemaprovacaotamanho) {
+        $this->imagemaprovacaotamanho = $imagemaprovacaotamanho;
+    }
+
+    function setImagemaprovacaotipo($imagemaprovacaotipo) {
+        $this->imagemaprovacaotipo = $imagemaprovacaotipo;
+    }
                     
     function cadastrar($parametros, $idApartamentoPlanta, $idimovel, $indiceControle) {
 
