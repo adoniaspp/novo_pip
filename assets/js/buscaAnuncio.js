@@ -121,9 +121,9 @@ function buscarAnuncio() {
                 id: $('#hdUsuario').val(),
                 diferencial: $('#carregarDiferenciais').val(),
                 garagem: $('#sltGaragem').val()},
-            function () {
-                $("#load").addClass('ui active inverted dimmer');
-            });
+                    function () {
+                        $("#load").addClass('ui active inverted dimmer');
+                    });
             setTimeout(function () {
                 $('#load').removeClass("ui active inverted dimmer");
             }, 1000);
@@ -311,10 +311,10 @@ function carregarAnuncio() { //valor = quantidade de anuncios
             panelPath: '.jplist-panel',
 //          Executa a action do botão de detalhes a cada vez que os cards são renderizados pela paginação.  
             redrawCallback: function () {
-                
+
                 $('.ui.checkbox')
-                    .checkbox();
-            
+                        .checkbox();
+
                 exibirEnviarComparar();
 
                 $(".valor").priceFormat({
@@ -326,11 +326,11 @@ function carregarAnuncio() { //valor = quantidade de anuncios
                 })
 
                 $('.special.cards .image .button').on('click', function () {
-                $("#hdnCodAnuncio").val($(this).siblings().val());
-                $("#hdnTipoImovel").val($(this).siblings().next().val());
-                $("#hdnEntidade").val("Anuncio");
-                $("#hdnAcao").val("detalhar");
-                $('#form').submit();
+                    $("#hdnCodAnuncio").val($(this).siblings().val());
+                    $("#hdnTipoImovel").val($(this).siblings().next().val());
+                    $("#hdnEntidade").val("Anuncio");
+                    $("#hdnAcao").val("detalhar");
+                    $('#form').submit();
                 })
             }
         })
@@ -357,13 +357,13 @@ function carregarAnuncio() { //valor = quantidade de anuncios
 
 }
 
-function exibirEnviarComparar(){
-    
+function exibirEnviarComparar() {
+
     $(document).ready(function () {
-        
-    var selecionado = 0;
-        
-    $('.ui.checkbox').checkbox({
+
+        var selecionado = 0;
+
+        $('.ui.checkbox').checkbox({
             beforeChecked: function () { //ao clicar no anuncio, marcar de vermelho                                               
                 var NumeroMaximo = 5;
                 if ($("input[name^='listaAnuncio']").length >= NumeroMaximo) {
@@ -459,27 +459,28 @@ function confirmarEmail() {
             $("#idAnunciosCabecalho").empty();
 
             /*var arr = [];
-            $("input[type^='checkbox']:checked").each(function ()
-            {
-                $("#idAnuncios").append("<input type='hidden' name='anunciosSelecionados[]' value='" + $(this).val() + "'>");
-                var codigos = $("input[name^='hdnCodAnuncioFormatado']");
-                arr.push($(this).parent().parent().parent().find(codigos).val());
-            });
-
-            //retira a vírgula do último elemento
-            var anuncios = arr.join(", ");
-
-            $("#idAnunciosCabecalho").append("<div class='ui horizontal list'>\n\
-                                        <div class='item'>\n\
-                                        <div class='content'>" + anuncios + "</div>\n\
-                         </div>\n\
-                         </div>");*/
+             $("input[type^='checkbox']:checked").each(function ()
+             {
+             $("#idAnuncios").append("<input type='hidden' name='anunciosSelecionados[]' value='" + $(this).val() + "'>");
+             var codigos = $("input[name^='hdnCodAnuncioFormatado']");
+             arr.push($(this).parent().parent().parent().find(codigos).val());
+             });
+             
+             //retira a vírgula do último elemento
+             var anuncios = arr.join(", ");
+             
+             $("#idAnunciosCabecalho").append("<div class='ui horizontal list'>\n\
+             <div class='item'>\n\
+             <div class='content'>" + anuncios + "</div>\n\
+             </div>\n\
+             </div>");*/
             var arr = [];
-                $("#idAnuncios").append($("input[name^='listaAnuncio']"));
-                $(("input[name^='listaAnuncio']")).each(function(){
-                    arr.push($(this).val());                    
-                });
-            var anuncios = arr.join(", ");;
+            $("#idAnuncios").append($("input[name^='listaAnuncio']"));
+            $(("input[name^='listaAnuncio']")).each(function () {
+                arr.push($(this).val());
+            });
+            var anuncios = arr.join(", ");
+            ;
             $("#idAnunciosCabecalho").append("<div class='ui horizontal list'>\n\
                                         <div class='item'>\n\
                                         <div class='content'>" + anuncios + "</div>\n\
@@ -664,7 +665,7 @@ function inserirValidacao() {
 
 function enviarDenuncia() {
     $(document).ready(function () {
-        
+
         $("#botaoFecharDenuncia").hide();
 
         $("#sltTipoDenuncia").dropdown('clear');
@@ -774,7 +775,7 @@ function enviarDenuncia() {
                             $("#divRetornoDenuncia").empty();
                             $("#botaoCancelarDenuncia").hide();
                             $("#botaoFecharDenuncia").show();
-                            if (resposta.resultado == 1) {                               
+                            if (resposta.resultado == 1) {
                                 $("#divRetornoDenuncia").html("<div class='ui positive message'>\n\
 <i class='big green check circle outline icon'></i>Denúncia Enviada com Sucesso</div>");
                                 $("#btnDenuncia").attr("disabled", "disabled");
@@ -1287,7 +1288,7 @@ function inicio() {
         $("#divValorVenda").hide();
         $("#divValorAluguel").hide();
         $("#divQuarto").hide();
-        $("#divCondicao").hide();
+//        $("#divCondicao").hide();
         $("#divCondicaoAvancado").hide();
         $("#divQuarto").hide();
         $("#divBanheiro").hide();
@@ -1406,7 +1407,7 @@ function inicio() {
                     $("#divGaragemAvancado").show();
                     $("#divBanheiro").show();
                     $("#divSuite").show();
-                    $("#divAreaCasaTerreno").show();
+                    $("#divAreaApartamento").show();
                     $("#divDiferencial").show();
                     $("#divOutrasCaracteristicas").show();
                     $("#textoEspecifico").show();
@@ -1458,14 +1459,18 @@ function inicio() {
                     $("#divAreaTerreno").hide();
                     $("#divUnidadesAndar").hide();
                     $("#divAndares").hide();
-                    $("#divAreaApartamento").show();
+                    $("#divOutrasCaracteristicas").hide();
+                    $("#divAreaApartamento").hide();
+                    $("#divUnidadesAndar").hide();
+                    $("#divDiferencial").hide();
+                    $("#divAndares").hide();
+                    $("#divAreaApartamento").hide();
                     $("#divCondicaoAvancado").show();
                     $("#divGaragemAvancado").show();
                     $("#divBanheiro").show();
                     $("#divDiferencial").show();
                     $("#textoEspecifico").show();
                     $("#textoEspecifico").html("<div class='ui white large label'>Específico da Sala Comercial</div>");
-                    $("#divOutrasCaracteristicas").show();
                     break;
 
                 case "prediocomercial":
@@ -1481,9 +1486,10 @@ function inicio() {
                     $("#divAndares").hide();
                     $("#textoEspecifico").hide();
                     $("#divBanheiro").hide();
-                    $("#divArea").show();
-                    $("#divDiferencial").show();
-                    $("#divOutrasCaracteristicas").show();
+                    $("#divOutrasCaracteristicas").hide();
+//                    $("#divArea").show();
+//                    $("#divDiferencial").show();
+//                    $("#divOutrasCaracteristicas").show();
                     break;
 
                 case "terreno":
@@ -1499,6 +1505,7 @@ function inicio() {
                     $("#divAreaApartamento").hide();
                     $("#divAreaCasaTerreno").show();
                     $("#textoEspecifico").hide();
+                    $("#divOutrasCaracteristicas").hide();
                     break;
             }
 

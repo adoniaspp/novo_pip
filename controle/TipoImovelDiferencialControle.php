@@ -129,7 +129,7 @@ class TipoImovelDiferencialControle {
         
         foreach ($diferenciais as $diferencial) {
             
-            echo "<option value='".$diferencial->getDiferencial()->getId()."' name='sltDiferencial[]'>".$diferencial->getDiferencial()->getDescricao()."</option>";
+            echo "<div class='item' data-value='" . $diferencial->getDiferencial()->getId(). "'>" . $diferencial->getDiferencial()->getDescricao()."</div>";
       
         }
     }
