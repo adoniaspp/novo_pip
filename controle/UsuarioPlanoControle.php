@@ -14,7 +14,8 @@ include_once 'DAO/ConsultasAdHoc.php';
 
 class UsuarioPlanoControle {
 
-    public function listar() {
+    public function listar() { //lista os planos disponíveis para compra. Os gratuitos não aparecem na listagem
+                               // do arquivo UsuarioPlanoVisaoListagem.php
         if (Sessao::verificarSessaoUsuario()) {
             //modelo
             $usuarioPlano = new UsuarioPlano();
@@ -26,7 +27,7 @@ class UsuarioPlanoControle {
             if ($_SESSION["tipopessoa"] == "pf") {
                 $condicoes["tipo"] = "pf";
             }
-            $listarPlano = $genericoDAO->consultar($plano, true, array("status" => "ativo"));
+            $listarPlano = $genericoDAO->consultar($plano, true, array("status" => "ativo", "gratuito" => "NAO"));
             
             $formUsuarioPlano = array();
             $formUsuarioPlano["usuarioPlano"] = $listarUsuarioPlano;

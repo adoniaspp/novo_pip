@@ -1198,7 +1198,7 @@ foreach ($imoveis as $qtdAnuncios) {
         <a href="index.php?entidade=Usuario&acao=AbrirChamado" class="item">            
             <i class="large comment outline icon"></i>Fale Com o PIP Online
         </a>
-        <a href="index.php?entidade=UsuarioPlano&acao=listar" class="item">            
+        <a href="index.php?entidade=Institucional&acao=duvidasFrequentes" class="item">            
             <i class="large book icon"></i> Dúvidas Mais Frequentes
         </a>
     </div>

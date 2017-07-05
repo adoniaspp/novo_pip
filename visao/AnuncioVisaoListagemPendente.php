@@ -316,7 +316,7 @@ if ($totalAnunciosCadastrados < 1) {
                         <input type="hidden" id="hdnStatusAtual<?php echo $anuncio["id"] ?>" name="hdnStatusAtual" value="<?php echo $anuncio["status"] ?>"/>    
                         <input type="hidden" id="hdnMsgEmailEmAnalise" name="hdnMsgEmailEmAnalise" value="Seu anúncio <?php echo $anuncio["idanuncio"] ?> está em análise pela equipe do PIP Online e em alguns momentos pode ser aprovado."/>
                         <input type="hidden" id="hdnMsgEmailAprovado" name="hdnMsgEmailAprovado" value="Parabéns! Seu anúncio <?php echo $anuncio["idanuncio"] ?> foi aprovado. Obrigado por anunciar no PIP Online."/>
-                        <input type="hidden" id="hdnMsgEmailAprovacaoNegada" name="hdnMsgEmailAprovacaoNegada" value="Atenção! A aprovação do anúncio <?php echo $anuncio["idanuncio"] ?> foi negada. O plano utilizado estará disponivel novamente em alguns miinutos."/>
+                        <input type="hidden" id="hdnMsgEmailAprovacaoNegada" name="hdnMsgEmailAprovacaoNegada" value="Atenção! A aprovação do anúncio <?php echo $anuncio["idanuncio"] ?> foi negada. O plano utilizado estará disponível novamente em alguns minutos."/>
                         <input type="hidden" id="hdnEnviadoPor" name="hdnEnviadoPor" value=""/>
                         <input type="hidden" id="hdnUsuario" name="hdnUsuario" value="<?php echo $anuncio["imovel"]->getIdUsuario() ?>"/>
                         <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" value="<?php echo $tipoImovel ?>"/>

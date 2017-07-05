@@ -66,7 +66,7 @@ class UsuarioPlano {
     public function cadastrar($idplano) {
         $this->setIdplano($idplano);
         $this->setIdusuario($_SESSION["idusuario"]);
-        $this->setDatacompra(date("Y/m/d H:i:s"));
+        $this->setDatacompra(date("Y/m/d H:i:s"));       
         $this->setStatus("pagamento pendente");
     }
 
@@ -76,12 +76,13 @@ class UsuarioPlano {
         if ($this->getStatus() == "pago" && $_SESSION['idusuario'] == $this->getIdusuario()) {
             $permitido = true;
         }
+        
         return $permitido;
     }
 
     public function reativarPlano() {
         if ($_SESSION['login'] === "pipdiministrador") {
-            $this->setStatus("ativo");
+            $this->setStatus("pago");
         }
     }
 

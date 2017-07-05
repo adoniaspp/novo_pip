@@ -16,7 +16,7 @@ if ($item) {
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/js/anuncio.js"></script>
 <script src="assets/js/buscaAnuncio.js"></script>
-<script type="text/javascript" src="http://maps.google.com/maps/api/js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyDz33V1ZfI7o7ToZnRlecSljXHUVzdXmDE"></script>
 <script src="assets/libs/gmaps/gmap3.min.js"></script>
 <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
 <script src="assets/libs/fileupload/vendor/jquery.ui.widget.js"></script>
@@ -197,8 +197,18 @@ if ($item) {
                                     <div class="menu">                            
                                         <?php
                                         foreach ($item["usuarioPlano"] as $usuarioPlano) {
+                                            
+                                            
+                                            if($usuarioPlano->getIdPlano() != 5){ //não mostrar o plano gratuito
+                                                
                                             ?>
                                             <div class="item" data-value="<?php echo $usuarioPlano->getId() ?>"><?php echo $usuarioPlano->getPlano()->getTitulo() . " (" . $usuarioPlano->getPlano()->getValidadepublicacao() . " dias) - Expira em: " . $usuarioPlano->DataExpiracao($usuarioPlano->getPlano()->getValidadeativacao()); ?></div>
+                                            <?php
+                                            }
+                                        }
+                                        foreach ($item["planos"] as $plano) {
+                                            ?>
+                                            <div class="item" data-value="gratuito"><?php echo $plano->getTitulo() . " - Sem Cobranças Adicionais"; ?></div>
                                             <?php
                                         }
                                         ?>

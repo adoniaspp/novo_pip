@@ -505,34 +505,65 @@ class AnuncioControle {
     }
 
     function cadastrar($parametros) {
-
+        
         if (Sessao::verificarSessaoUsuario()) {
 
             if (isset($parametros['upload']) & $parametros['upload'] === "1") {
                 include_once 'controle/ImagemControle.php';
                 $imagem = new ImagemControle($parametros);
             } else {
-                $genericoDAO = new GenericoDAO();
-                $entidadeUsuarioPlano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $parametros["sltPlano"]));
-                $entidadeUsuarioPlano = $entidadeUsuarioPlano[0];
+                    $genericoDAO = new GenericoDAO(); 
+                    //INICIA TRANSACAO
+                    $genericoDAO->iniciarTransacao();
+                    $entidadeUsuarioPlano = new UsuarioPlano();
+                    
+                    //verifica se o plano eh gratuito
+                    if($parametros["sltPlano"] == "gratuito"){
+                    //consultar se ja existe algum plano gratuito que seja pago (administrador negou)
+                        $verificarPlanoGratuito = $genericoDAO->consultar($entidadeUsuarioPlano, false, array("status" => "pago", "idplano" => 5, "idusuario" => $_SESSION["idusuario"]));
+                        //se nao tem cadastra um novo
+                        if(empty($verificarPlanoGratuito)){                          
+                            $entidadeUsuarioPlano->cadastrar(5);    
+                            $entidadeUsuarioPlano->setStatus("pago");
+                            $genericoDAO->cadastrar($entidadeUsuarioPlano);
+                            $verificarPlanoGratuito = $genericoDAO->consultar($entidadeUsuarioPlano, false, array("status" => "pago", "idplano" => 5, "idusuario" => $_SESSION["idusuario"]));
+                       } 
+                           //busca o usuarioplano na base
+                            $entidadeUsuarioPlano = $verificarPlanoGratuito[0];
+                        
+                     //fim do gratuito
+                    } else {
+                    
+                    $entidadeUsuarioPlano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $parametros["sltPlano"]));
+                    $entidadeUsuarioPlano = $entidadeUsuarioPlano[0];
+                    }
+                    
                 if (Sessao::verificarToken($parametros) && $entidadeUsuarioPlano->permitidoCadastrar()) {
 
-                    //INICIA TRANSACAO
-                    $genericoDAO = new GenericoDAO();
-                    $genericoDAO->iniciarTransacao();
 
                     //ATUALIZA O PLANO UTILIZADO
                     $entidadeUsuarioPlano->setStatus("utilizado");
                     $genericoDAO->editar($entidadeUsuarioPlano);
-
+           
+              
+                    //inicio se o plano for gratuito
+                  
                     //CRIA INSTANCIA ANUNCIO
                     $anuncio = new AnuncioAprovacao();
                     $entidadeAnuncio = $anuncio->cadastrar($parametros);
+                    
+                    //fazer atualização do idusuarioplano para o plano gratuito recém criado.
+                    if($parametros["sltPlano"] == "gratuito"){
+                        $entidadeAnuncio->setIdusuarioplano($entidadeUsuarioPlano->getId());
+                        //var_dump($entidadeAnuncio);
+                        
+                    }
+                    
                     $this->verificaValorMinimo($entidadeAnuncio, $parametros);
-
+                    
                     //SALVA ANUNCIO
                     $idAnuncioAprovacao = $genericoDAO->cadastrar($entidadeAnuncio);
-
+                    //die();
                     //VERIFICA O TIPO DO IMOVEL
                     //se for apartamento na planta
                     if ($_SESSION["anuncio"]["tipoimovel"] == 2) {
@@ -610,7 +641,12 @@ class AnuncioControle {
                         //RETORNA ERRO
                         echo json_encode(array("resultado" => 0));
                     }
-                }
+                } else {
+                        //ROLLBACK!
+                        $genericoDAO->rollback();
+                        //RETORNA ERRO
+                        echo json_encode(array("resultado" => 0));
+                    }
             }
         }
     }
