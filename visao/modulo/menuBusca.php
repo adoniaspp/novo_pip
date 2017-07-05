@@ -64,23 +64,26 @@
                 </div>    
             </div>
 
-            <div class="column" id="divCondicao">             
-                <div class="ui fluid selection dropdown">
-                    <input type="hidden" name="sltCondicao" id="sltCondicao">
-                    <div class="default text">Condição</div>
-                    <i class="dropdown icon"></i>
-                    <div class="menu">
-                        <div class="item" data-value="novo">Novo</div>
-                        <div class="item" data-value="usado">Usado</div>
+                        <div class="column" id="divCondicao">             
+                            <div class="ui fluid selection dropdown">
+                                <input type="hidden" name="sltCondicao" id="sltCondicao">
+                                <div class="default text">Condição</div>
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                    <div class="item" data-value="novo">Novo</div>
+                                    <div class="item" data-value="usado">Usado</div>
+                                </div>
+                            </div>                       
+                        </div>    
+<!--            <div class="column" id="divGaragem">  
+                <div class="ui left floated compact segment">
+                    <div class="ui fitted toggle checkbox">
+                        <input type="checkbox" name="checkgaragem" id="checkgaragem">
+                        
                     </div>
-                </div>                       
-            </div>    
-            <!--            <div class="column" id="divGaragem">            
-                            <label>Garagem</label>
-                            <div class="ui toggle checkbox">
-                                <input type="checkbox" name="checkgaragem" id="checkgaragem">
-                            </div>
-                        </div>-->
+                    <label>Garagem</label>
+                </div>
+            </div>-->
         </div>
         <div class="ui stackable one column centered grid"> 
             <div class="column">            
@@ -222,7 +225,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="column" id="divBanheiro">
                 <div class="ui fluid multiple selection dropdown" name="sltBanheiros" id="sltBanheiros">
                     <div class="default text">Banheiro(s)</div>
@@ -341,7 +344,7 @@
                     <div class="default text">Diferencial</div>
                     <i class="large dropdown icon"></i>
                     <div class="menu" name="carregarDiferenciais" id="carregarDiferenciais">
-                        
+
                     </div>
                 </div>
             </div>

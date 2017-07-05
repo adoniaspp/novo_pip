@@ -85,16 +85,11 @@ function buscarAnuncio() {
                 areaMin: $('#sltAreaMin').val(),
                 areaMax: $('#sltAreaMax').val(),
                 id: $('#hdUsuario').val(),
-                diferencial: $('#carregarDiferenciais').val()},
-//                garagem: $('#checkgaragem').parent().checkbox('is checked')}, 
-            function () {
-                $("#load").addClass('ui active inverted dimmer');
-            });
-            setTimeout(function () {
-                $('#load').removeClass("ui active inverted dimmer");
-            }, 1000);
+                diferencial: $('#carregarDiferenciais').val(),
+ //           },
+ //               garagem: $('#checkgaragem').parent().checkbox('is checked') 
         });
-
+    });
 
         $("#btnBuscarAnuncioAvancado").on('click', function () {
 
@@ -119,180 +114,18 @@ function buscarAnuncio() {
                 area: $('#sltArea').val(),
                 id: $('#hdUsuario').val(),
                 diferencial: $('#carregarDiferenciais').val(),
-                garagem: $('#sltGaragem').val()},
-                    function () {
-                        $("#load").addClass('ui active inverted dimmer');
-                    });
-            setTimeout(function () {
-                $('#load').removeClass("ui active inverted dimmer");
-            }, 1000);
+                garagem: $('#sltGaragem').val()
+            //},
+//                    function () {
+//                        $("#load").addClass('ui active inverted dimmer');
+//                    });
+//            setTimeout(function () {
+//                $('#load').removeClass("ui active inverted dimmer");
+//            }, 1000);
         });
-
-
     });
+});
 }
-
-/*
- function buscarAnuncioUsuario() {
- $(document).ready(function () {
- 
- $("#divCaracteristicas").hide();
- $("#divValorVenda").hide(); //oculta a div dos valores de venda 
- $("#divValorAluguel").hide(); //oculta a div dos valores de aluguel
- 
- $("#sltTipoImovel").change(function () {
- if ($(this).val() == "casa") {
- $("#divCaracteristicas").show();
- $("#condicao").show();
- }
- if ($(this).val() == "apartamentoplanta") {
- $("#divCaracteristicas").show();
- $("#condicao").hide();
- //$("#divCaracteristicas").hide();
- }
- if ($(this).val() == "apartamento") {
- $("#divCaracteristicas").show();
- $("#condicao").hide();
- }
- if ($(this).val() == "salacomercial") {
- $("#divCaracteristicas").hide();
- $("#condicao").show();
- }
- if ($(this).val() == "terreno") {
- $("#divCaracteristicas").hide();
- $("#condicao").show();
- }
- if ($(this).val() == "") {
- $("#divCaracteristicas").hide();
- $("#condicao").hide();
- }
- })
- 
- $("#sltFinalidade").change(function () {
- 
- if ($(this).val() == "venda") {
- $("#divValorAluguel").hide();
- $("#divValorVenda").show();
- 
- }
- if ($(this).val() == "aluguel") {
- $("#divValorVenda").hide();
- $("#divValorAluguel").show();
- }
- 
- })
- 
- $("input[name=sltCidade]").change(function () {
- $("#defaultBairro").html("<option value=''>Procurando...</div>");
- $.post('index.php?hdnEntidade=Bairro&hdnAcao=selecionarBairro&idcidade=' + $('#sltCidade').val(),
- function (resposta) {
- $("#defaultBairro").html("Selecione o Bairro");
- $("#menuBairro").html(resposta);
- }
- );
- });
- 
- $("input[name=sltCidadeAvancado]").change(function () {
- $("#defaultBairroAvancado").html("<option value=''>Procurando...</div>");
- $.post('index.php?hdnEntidade=Bairro&hdnAcao=selecionarBairro&idcidade=' + $('#sltCidadeAvancado').val(),
- function (resposta) {
- $("#defaultBairroAvancado").html("Selecione o Bairro");
- $("#menuBairroAvancado").html(resposta);
- }
- );
- });
- 
- $("#spanValor").priceFormat({
- prefix: 'R$ ',
- centsSeparator: ',',
- centsLimit: 0,
- limit: 8,
- thousandsSeparator: '.'
- })
- 
- $('.ui.dropdown')
- .dropdown({
- on: 'hover'
- });
- $('.ui.checkbox')
- .checkbox();
- 
- $('.special.cards .image').dimmer({
- on: 'hover'
- });
- 
- 
- $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
- tipoImovel: 'todos',
- valor: '',
- finalidade: '',
- cidade: '',
- bairro: '',
- quarto: '',
- condicao: '',
- id: $('#hdUsuario').val(),
- garagem: 'false'});
- 
- 
- $("#btnBuscarAnuncioUsuario").on('click', function () {
- $("#load").addClass('ui active inverted dimmer');
- if ($('#sltTipoImovel').val() == "") {
- tipoimovel = "todos"
- } else {
- tipoimovel = $('#sltTipoImovel').val()
- }
- ;
- $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
- tipoImovel: tipoimovel,
- valor: $('#sltValor').val(),
- finalidade: $('#sltFinalidade').val(),
- idcidade: $('#sltCidade').val(),
- idbairro: $('#sltBairro').val(),
- quarto: $('#sltQuartos').val(),
- banheiro: $('#sltBanheiros').val(),
- suite: $('#sltSuites').val(),
- condicao: $('#sltCondicao').val(),
- id: $('#hdUsuario').val(),
- garagem: $('#checkgaragem').parent().checkbox('is checked')}, function () {
- $("#load").addClass('ui active inverted dimmer');
- });
- setTimeout(function () {
- $('#load').removeClass("ui active inverted dimmer");
- }, 1000);
- });
- 
- $("#btnBuscarAnuncioUsuarioAvancado").on('click', function () {
- $("#load").addClass('ui active inverted dimmer');
- if ($('#sltTipoImovelAvancado').val() == "") {
- tipoimovel = "todos"
- } else {
- tipoimovel = $('#sltTipoImovelAvancado').val()
- }
- ;
- $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
- tipoImovel: tipoimovel,
- valor: $('#sltValor').val(),
- finalidade: $('#sltFinalidadeAvancado').val(),
- idcidade: $('#sltCidadeAvancado').val(),
- idbairro: $('#sltBairroAvancado').val(),
- quarto: $('#sltQuartos').val(),
- banheiro: $('#sltBanheiros').val(),
- suite: $('#sltSuites').val(),
- condicao: $('#sltCondicaoAvancado').val(),
- unidadesandar: $('#sltUnidadesAndar').val(),
- area: $('#sltArea').val(),
- diferencial: $('#carregarDiferenciais').val(),
- id: $('#hdUsuario').val(),
- garagem: $('#sltGaragem').val()}, function () {
- $("#load").addClass('ui active inverted dimmer');
- });
- setTimeout(function () {
- $('#load').removeClass("ui active inverted dimmer");
- }, 1000);
- });
- 
- });
- }*/
 
 function carregarAnuncio() { //valor = quantidade de anuncios
 
@@ -1329,12 +1162,12 @@ function inicio() {
             switch ($(this).val()) {
 
                 case "":
-                    $("#divGaragem").hide();
+//                    $("#divGaragem").hide();
                     $("#divCondicao").hide();
                     break;
 
                 case "casa":
-                    //$("#divGaragem").show();
+//                  $("#divGaragem").show();
                     $("#divCondicao").show();
                     break;
 
