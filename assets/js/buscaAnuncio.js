@@ -63,7 +63,6 @@ function buscarAnuncio() {
 
 
         $("#btnBuscarAnuncioBasico").on('click', function () {
-
             $("#divOrdenacao").show(); //mostrar a ordenação, caso esteja oculta quando a buscar não retornar nada
 
             $("#load").addClass('ui active inverted dimmer');
@@ -72,7 +71,7 @@ function buscarAnuncio() {
             } else {
                 tipoimovel = $('#sltTipoImovel').val()
             }
-            ;
+            alert($('#filtroBairro').val());
             $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
                 tipoImovel: tipoimovel,
                 valor: $('#sltValor').val(),
@@ -87,8 +86,9 @@ function buscarAnuncio() {
                 areaMin: $('#sltAreaMin').val(),
                 areaMax: $('#sltAreaMax').val(),
                 id: $('#hdUsuario').val(),
-                diferencial: $('#carregarDiferenciais').val(),
-                garagem: $('#checkgaragem').parent().checkbox('is checked')}, function () {
+                diferencial: $('#carregarDiferenciais').val()},
+//                garagem: $('#checkgaragem').parent().checkbox('is checked')}, 
+            function () {
                 $("#load").addClass('ui active inverted dimmer');
             });
             setTimeout(function () {
