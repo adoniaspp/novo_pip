@@ -71,7 +71,6 @@ function buscarAnuncio() {
             } else {
                 tipoimovel = $('#sltTipoImovel').val()
             }
-            alert($('#filtroBairro').val());
             $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
                 tipoImovel: tipoimovel,
                 valor: $('#sltValor').val(),
