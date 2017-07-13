@@ -130,10 +130,49 @@ class AnuncioAprovacaoControle {
                 }
             }
             if ($anuncio->getImovel()->getIdtipoimovel() == '2') {
+
+                //traz os dados do apartamento na planta
                 $sth = $genericoDAO->consultar(new ApartamentoPlanta(), false, array("idimovel" => $anuncio->getIdimovel()));
                 $sth = (array) $sth[0];
                 foreach ($sth as $key => $value) {
                     $listarAnuncio["dados"][trim(str_replace("ApartamentoPlanta", "", $key))] = $value;
+                }
+
+                //traz os dados da planta
+                $sth = $genericoDAO->consultar(new Planta(), false, array("idimovel" => $anuncio->getIdimovel()));
+                if (!is_array($sth)) {
+                    $sth = (array) $sth[0];
+                }
+                //como a exibição de detalhes requer um array então monta array de plantas
+                foreach ($sth as $key => $value) {
+                    $arrayPlantas = null;
+                    $arrayPlantas[] = $value;
+
+                    //traz dados dos valores da planta
+                    $substh = $genericoDAO->consultar(new ValorAprovacao(), false, array("idplanta" => $value->getId()));
+                    if (!is_array($substh)) {
+                        $substh = (array) $substh[0];
+                    }
+                    //monta array dos valores da planta
+                    $arrayValores = null;
+                    foreach ($substh as $subkey => $subvalue) {
+                        $arrayValores[] = $subvalue;
+                    }
+                    $arrayPlantas["valores"] = $arrayValores;
+
+                    //traz dados dos diferenciais da planta
+                    $substh = $genericoDAO->consultar(new ImovelDiferencialPlanta(), true, array("idplanta" => $value->getId()));
+                    if (!is_array($substh)) {
+                        $substh = (array) $substh[0];
+                    }
+                    //monta array dos diferenciais da planta
+                    $arrayDiferenciais = null;
+                    foreach ($substh as $subkey => $subvalue) {
+                        $arrayDiferenciais[] = $subvalue;
+                    }
+                    $arrayPlantas["diferenciais"] = $arrayDiferenciais;
+
+                    $listarAnuncio["plantas"][trim(str_replace("Planta", "", $key))] = array($arrayPlantas);
                 }
             }
             if ($anuncio->getImovel()->getIdtipoimovel() == '3') {
@@ -164,18 +203,6 @@ class AnuncioAprovacaoControle {
                     $listarAnuncio["dados"][trim(str_replace("Terreno", "", $key))] = $value;
                 }
             }
-
-            /* TODO:fazer aprovação de plantas
-              $numeroPlantas = count($listarAnuncio["anuncio"][0]["plantas"]);
-
-              //trazer os diferenciais da planta
-              for ($x = 0; $x < $numeroPlantas; $x++) {
-
-              $dif[$listarAnuncio["anuncio"][0]["plantas"][$x]["id"]] = $genericoDAO->consultar(new ImovelDiferencialPlanta(), true, array("idplanta" => $listarAnuncio["anuncio"][0]["plantas"][$x]["id"]));
-              }
-
-              $listarAnuncio["difPlantas"] = $dif;
-             */
 
             $listarAnuncio["anuncio"] = $anuncio;
             $visao->setItem($listarAnuncio);
@@ -379,19 +406,23 @@ class AnuncioAprovacaoControle {
 
                 //passar o objeto para edição
                 $novoStatus = $genericoDAO->editar($anuncioSelecionado);
-
-                //se for negado reativa o plano
-                if ($parametros["sltStatusAnuncio"] == "aprovacaonegada") {
-                    $usuarioPlano = $anuncioSelecionado->getUsuarioplano();
-                    $usuarioPlano->reativarPlano();
-                    $genericoDAO->editar($usuarioPlano);
-                }
-
-                //se for aprovado cria anuncio
-                if ($parametros["sltStatusAnuncio"] == "aprovado") {
-                    $this->aprovarAnuncio($anuncioSelecionado, $genericoDAO);
-                }
                 
+                //verifica qual o status para dar tratamento ao anuncio
+                switch ($parametros["sltStatusAnuncio"]) {
+                    case "aprovacaonegada":
+                        //se for NEGADO reativa o plano
+                        $this->negarAnuncio($anuncioSelecionado, $genericoDAO);
+                        break;
+
+                    case "aprovado":
+                        //se for APROVADO cria anuncio
+                        $this->aprovarAnuncio($anuncioSelecionado, $genericoDAO);
+                        break;
+
+                    default:
+                        //nao faz nada com o anuncio
+                        break;
+                }
                 //enviar email ao usuário, avisando sobre a mudança de status
                 $email = $this->enviarEmailGenerico($parametros);
 
@@ -438,70 +469,135 @@ class AnuncioAprovacaoControle {
         }
     }
 
-    private function aprovarAnuncio($anuncioSelecionado, $genericoDAO) {
+    private function negarAnuncio($anuncioAprovacao, $genericoDAO) {
         //verifica se existe anuncio cadastrado com o mesmo codigo de anuncio
-        $verificaAnuncio = $genericoDAO->consultar(new Anuncio(), true, array("idanuncio" => $anuncioSelecionado->getIdAnuncio(), "status" => "cadastrado"));
+        $verificaAnuncio = $genericoDAO->consultar(new Anuncio(), true, array("idanuncio" => $anuncioAprovacao->getIdAnuncio(), "status" => "cadastrado"));
+        if ($verificaAnuncio == null) {
+            $usuarioPlano = $anuncioAprovacao->getUsuarioplano();
+            //reativa o plano (somente se for um anuncio novo)
+            $usuarioPlano->reativarPlano();
+            $genericoDAO->editar($usuarioPlano);
+        }
+    }
+
+    private function aprovarAnuncio($anuncioAprovacao, $genericoDAO) {
+        //echo "<pre>";        print_r($anuncioAprovacao);        die();
+        //verifica se existe anuncio cadastrado com o mesmo codigo de anuncio
+        $novoAnuncio = true;
+        $verificaAnuncio = $genericoDAO->consultar(new Anuncio(), true, array("idanuncio" => $anuncioAprovacao->getIdAnuncio(), "status" => "cadastrado"));
         if ($verificaAnuncio != null) {
+            $novoAnuncio = false;
+        }
+        //verifica se eh APARTAMENTO NA PLANTA
+        $apartamentoNaPlanta = false;
+        if ($anuncioAprovacao->getImovel()->getIdtipoimovel() == 2) {
+            $apartamentoNaPlanta = true;
+        }
+        $idAnuncio = 0;
+        //se for um anuncio novo
+        if ($novoAnuncio) {
+            $anuncioAprovado = $anuncioAprovacao->anuncioAprovado(new Anuncio());
+            $idAnuncio = $genericoDAO->cadastrar($anuncioAprovado);
+        } else {
             $anuncioEditado = $verificaAnuncio[0];
-            $anuncioAprovadoEdicao = $anuncioSelecionado->anuncioAprovadoEdicao($anuncioEditado);
+            $anuncioAprovadoEdicao = $anuncioAprovacao->anuncioAprovadoEdicao($anuncioEditado);
             $genericoDAO->editar($anuncioAprovadoEdicao);
-            //exclui todas as fotos, se houver
-            if ($anuncioEditado->getImagem() != null) {
-                if (is_array($anuncioEditado->getImagem())) {
-                    foreach ($anuncioEditado->getImagem() as $imagemExclusao) {
-                        $genericoDAO->excluir(new Imagem(), $imagemExclusao->getId());
-                    }
-                } else {
-                    $genericoDAO->excluir(new Imagem(), $anuncioEditado->getImagem()->getId());
-                }
-            }
-            //cadastra todas as fotos se houver
-            if ($anuncioSelecionado->getImagemaprovacao()) {
-                if (is_array($anuncioSelecionado->getImagemaprovacao())) {
-                    foreach ($anuncioSelecionado->getImagemaprovacao() as $imagem) {
-                        $imagemAprovadoEdicao = $imagem->imagemAprovado(new Imagem(), $anuncioAprovadoEdicao->getId());
-                        $genericoDAO->cadastrar($imagemAprovadoEdicao);
-                    }
-                } else {
-                    $imagemAprovadoEdicao = $anuncioSelecionado->getImagemaprovacao()->imagemAprovado(new Imagem(), $anuncioAprovadoEdicao->getId());
-                    $genericoDAO->cadastrar($imagemAprovadoEdicao);
-                }
-            }
-            //exclui a mudança no mapa se houver
+            $idAnuncio = $anuncioAprovadoEdicao->getId();
+            //EXCLUI todas as FOTOS, se houver
+            $this->excluirImagem($genericoDAO, $anuncioEditado);
+            //EXCLUI a mudança no mapa se houver
             if ($anuncioEditado->getMapaimovel() != null) {
                 $genericoDAO->excluir(new MapaImovel(), $anuncioEditado->getMapaimovel()->getId());
             }
-            //cadastra a mudança no mapa se houver
-            $mapaImovelAprovacao = $anuncioSelecionado->getMapaimovelaprovacao();
-            if ($mapaImovelAprovacao != null) {
-                $mapaImovelAprovadoEdicao = $mapaImovelAprovacao->mapaImovelAprovado(new MapaImovel(), $anuncioAprovadoEdicao->getId());
-                $genericoDAO->cadastrar($mapaImovelAprovadoEdicao);
+            //EXCLUI todos os valores das plantas se houver
+            if ($apartamentoNaPlanta) {
+                $this->excluirValorPlanta($genericoDAO, $idAnuncio);
             }
         }
-        ///não é uma edição
-        else {
-            $anuncioAprovado = $anuncioSelecionado->anuncioAprovado(new Anuncio());
-            $idAnuncio = $genericoDAO->cadastrar($anuncioAprovado);
-            //cadastra todas as fotos se houver
-            if ($anuncioSelecionado->getImagemaprovacao()) {
-                if (is_array($anuncioSelecionado->getImagemaprovacao())) {
-                    foreach ($anuncioSelecionado->getImagemaprovacao() as $imagem) {
-                        $imagemAprovado = $imagem->imagemAprovado(new Imagem(), $idAnuncio);
-                        $genericoDAO->cadastrar($imagemAprovado);
-                    }
-                } else {
-                    $imagemAprovado = $anuncioSelecionado->getImagemaprovacao()->imagemAprovado(new Imagem(), $idAnuncio);
+        //CADASTRA todas as fotos se houver
+        $this->aprovarImagem($genericoDAO, $anuncioAprovacao, $idAnuncio);
+        //CADASTRA novo mapa se houver
+        $this->aprovarMapa($genericoDAO, $anuncioAprovacao, $idAnuncio);
+        //CADASTRA novos valores e imagens das plantas
+        if ($apartamentoNaPlanta) {
+            $this->aprovarValorEImagemPlanta($genericoDAO, $anuncioAprovacao, $idAnuncio);
+        }
+    }
+
+    private function excluirImagem($genericoDAO, $anuncioEditado) {
+        if ($anuncioEditado->getImagem() != null) {
+            if (is_array($anuncioEditado->getImagem())) {
+                foreach ($anuncioEditado->getImagem() as $imagemExclusao) {
+                    $genericoDAO->excluir(new Imagem(), $imagemExclusao->getId());
+                }
+            } else {
+                $genericoDAO->excluir(new Imagem(), $anuncioEditado->getImagem()->getId());
+            }
+        }
+    }
+
+    private function excluirValorPlanta($genericoDAO, $idAnuncio) {
+        //verifica se existe valores cadastrados para plantas
+        $verificaValoresPlanta = $genericoDAO->consultar(new Valor(), false, array("idanuncio" => $idAnuncio));
+        //EXCLUI todos os valores das plantas se houver
+        if ($verificaValoresPlanta != null) {
+            if (!is_array($verificaValoresPlanta)) {
+                $verificaValoresPlanta = (array) $verificaValoresPlanta[0];
+            }
+            foreach ($verificaValoresPlanta as $valorExclusao) {
+                $genericoDAO->excluir(new Valor(), $valorExclusao->getId());
+            }
+        }
+    }
+
+    private function aprovarImagem($genericoDAO, $anuncioAprovacao, $idAnuncio) {
+        if ($anuncioAprovacao->getImagemaprovacao()) {
+            if (is_array($anuncioAprovacao->getImagemaprovacao())) {
+                foreach ($anuncioAprovacao->getImagemaprovacao() as $imagem) {
+                    $imagemAprovado = $imagem->imagemAprovado(new Imagem(), $idAnuncio);
                     $genericoDAO->cadastrar($imagemAprovado);
                 }
-            }
-            //cadastra a muudança no mapa se houver
-            $mapaImovelAprovacao = $anuncioSelecionado->getMapaimovelaprovacao();
-            if ($mapaImovelAprovacao != null) {
-                $mapaImovelAprovado = $mapaImovelAprovacao->mapaImovelAprovado(new MapaImovel(), $idAnuncio);
-                $genericoDAO->cadastrar($mapaImovelAprovado);
+            } else {
+                $imagemAprovado = $anuncioAprovacao->getImagemaprovacao()->imagemAprovado(new Imagem(), $idAnuncio);
+                $genericoDAO->cadastrar($imagemAprovado);
             }
         }
-        ###TODO:aprovacao apartamento na planta
+    }
+
+    private function aprovarMapa($genericoDAO, $anuncioAprovacao, $idAnuncio) {
+        $mapaImovelAprovacao = $anuncioAprovacao->getMapaimovelaprovacao();
+        if ($mapaImovelAprovacao != null) {
+            $mapaImovelAprovado = $mapaImovelAprovacao->mapaImovelAprovado(new MapaImovel(), $idAnuncio);
+            $genericoDAO->cadastrar($mapaImovelAprovado);
+        }
+    }
+
+    private function aprovarValorEImagemPlanta($genericoDAO, $anuncioAprovacao, $idAnuncio) {
+        $verificaValoresPlanta = $genericoDAO->consultar(new ValorAprovacao(), false, array("idanuncioaprovacao" => $anuncioAprovacao->getId()));
+        if ($verificaValoresPlanta != null) {
+            if (!is_array($verificaValoresPlanta)) {
+                $verificaValoresPlanta = (array) $verificaValoresPlanta[0];
+            }
+            foreach ($verificaValoresPlanta as $valorAprovacao) {
+                $valorAprovado = $valorAprovacao->valorAprovado(new Valor(), $idAnuncio);
+                $genericoDAO->cadastrar($valorAprovado);
+            }
+        }
+
+        $verificaDadosPlanta = $genericoDAO->consultar(new Planta(), false, array("idimovel" => $anuncioAprovacao->getImovel()->getId()));
+        if ($verificaDadosPlanta != null) {
+            if (!is_array($verificaDadosPlanta)) {
+                $verificaDadosPlanta = (array) $verificaDadosPlanta[0];
+            }
+            foreach ($verificaDadosPlanta as $plantaAprovacao) {
+                $entidadePlanta = $plantaAprovacao;
+                $entidadePlanta->setImagemdiretorio($plantaAprovacao->getImagemaprovacaodiretorio());
+                $entidadePlanta->setImagemnome($plantaAprovacao->getImagemaprovacaonome());
+                $entidadePlanta->setImagemtamanho($plantaAprovacao->getImagemaprovacaotamanho());
+                $entidadePlanta->setImagemtipo($plantaAprovacao->getImagemaprovacaotipo());
+                $genericoDAO->editar($entidadePlanta);
+            }
+        }
     }
 
 }

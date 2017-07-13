@@ -7,7 +7,7 @@
 <script src="assets/js/resposta.js"></script>
 <script src="assets/js/usuario.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
-<script type="text/javascript" src="http://maps.google.com/maps/api/js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyDz33V1ZfI7o7ToZnRlecSljXHUVzdXmDE"></script>
 <script src="assets/libs/gmaps/gmap3.min.js"></script>
 
 <?php
@@ -102,7 +102,7 @@ if ($item["anuncio"]->getStatus() === "aprovacaonegada" && $_SESSION['login'] ==
 
 
 
-<?php if ($item["anuncio"]->getStatus() === "pendenteanalise" || $item["anuncio"]->getStatus() === "emanalise" ) { ?>
+<?php if ($item["anuncio"]->getStatus() === "pendenteanalise" || $item["anuncio"]->getStatus() === "emanalise") { ?>
 
     <div class="ui middle aligned stackable grid container">
         <div class="sixteen column">
@@ -165,7 +165,7 @@ switch ($item['anuncio']->getImovel()->getIdtipoimovel()) {
     <div class="column">
         <div class="ui segment">
             <a class="header">Descrição do Anúncio</a>
-            <div class="description"><?php echo nl2br($item['anuncio']->getDescricaoanuncio()) //função nl2br usada para formatar o texto cadastrado na textarea  ?></div>
+            <div class="description"><?php echo nl2br($item['anuncio']->getDescricaoanuncio()) //função nl2br usada para formatar o texto cadastrado na textarea     ?></div>
         </div>
     </div>
     <div class="column">
@@ -176,7 +176,7 @@ switch ($item['anuncio']->getImovel()->getIdtipoimovel()) {
     <div class="column">
         <div class="ui segment"><a class="header">Data de Cadastro</a>
             <div class="description">
-                <?php echo date('d/m/Y H:i:s', strtotime($item['anuncio']->getDatahoracadastro())) ?>
+                 <?php echo FuncoesAuxiliares::tempo_corrido($item['anuncio']->getDatahoracadastro())." - ". date('d/m/Y H:i:s', strtotime($item['anuncio']->getDatahoracadastro())) ?>
             </div></div>
     </div>
 
@@ -358,7 +358,7 @@ switch ($item['anuncio']->getImovel()->getIdtipoimovel()) {
                                     </div>
                                 </div>
                             </div>
-                        <?php
+                            <?php
                         }
                     }
                     ?>     
@@ -393,133 +393,145 @@ switch ($item['anuncio']->getImovel()->getIdtipoimovel()) {
 
                 <?php
                 if ($item['anuncio']->getImovel()->getIdtipoimovel() == '2') {
+                    //apartamento na planta
+                    $plantasOrdenadas = $item['plantas'];
+                    //ordenar as plantas pelo ID
+                    usort($plantasOrdenadas, function( $a, $b ) {
+                        $a = $a[0];
+                        $b = $b[0];
+                        $primeiroElemento = $a[0];
+                        $segundoElemento = $b[0];
+                        return ( $primeiroElemento->getOrdemplantas() > $segundoElemento->getOrdemplantas() );
+                    });
                     ?>
 
                     <div class="fields">
 
                         <div class="ui styled fluid accordion">
                             <?php
-                            /*   foreach ($item['anuncio'][0]['plantas'] as $planta) {
-                              ?>
-                              <div class="active title">
-                              <i class="dropdown icon"></i>
-                              <?php
-                              if (count($item['anuncio'][0]['plantas']) > 1) {
+                            foreach ($plantasOrdenadas as $arrayPlanta) {
+                                $dadosPlanta = $arrayPlanta[0];
+                                $planta = $dadosPlanta[0];
+                                ?>
+                                <div class="active title">
+                                    <i class="dropdown icon"></i>
+                                    <?php
+                                    if (count($plantasOrdenadas) > 1) {
+                                        echo "<font size = '4' color = 'maroon'>Planta " . ($planta->getOrdemplantas() + 1) . " - " . $planta->getTituloplanta() . "</font>";
+                                    } else {
+                                        echo "<font size = '4' color = 'maroon'>" . $planta->getTituloplanta() . "</font>";
+                                    }
+                                    ?>
+                                </div>
+                                <div class="active content">
+                                    <div class="ui six column stackable grid container">
+                                        <div class="column">
+                                            <div class="fotorama" data-allowfullscreen="true">
+                                                <img class="ui medium image" src="<?php echo PIPURL . "fotos/plantas/" . $planta->getImagemdiretorio() . "/" . $planta->getImagemnome(); ?>">
+                                            </div>
+                                        </div>
 
-                              echo "<font size = '4' color = 'maroon'>Planta " . ($planta['ordemplantas'] + 1) . " - " . $planta['tituloplanta'] . "</font>";
-                              } else {
+                                        <div class="column">
+                                            <div class="ui tiny header">
+                                                <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeQuarto.jpg">
+                                                <label>Quarto(s)</label>
+                                                <br>
+                                                <div class="content">
+                                                    <div class="sub header">
+        <?php echo $planta->getQuarto(); ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                              echo "<font size = '4' color = 'maroon'>" . $planta['tituloplanta'] . "</font>";
-                              }
-                              ?>
-                              </div>
-                              <div class="active content">
-                              <div class="ui six column stackable grid container">
-                              <div class="column">
-                              <div class="fotorama" data-allowfullscreen="true">
-                              <img class="ui medium image" src="<?php echo PIPURL . "fotos/plantas/" . $planta['imagemdiretorio'] . "/" . $planta['imagemnome'] ?>">
-                              </div>
-                              </div>
+                                        <div class="column">
+                                            <div class="ui tiny header">
+                                                <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeBanheiro.jpg">
+                                                <label>Banheiro(s)</label>
+                                                <br>
+                                                <div class="content">
+                                                    <div class="sub header">
+        <?php echo $planta->getBanheiro(); ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                              <div class="column">
-                              <div class="ui tiny header">
-                              <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeQuarto.jpg">
-                              <label>Quarto(s)</label>
-                              <br>
-                              <div class="content">
-                              <div class="sub header">
-                              <?php echo $planta['quarto'] ?>
-                              </div>
-                              </div>
-                              </div>
-                              </div>
+                                        <div class="column">
+                                            <div class="ui tiny header">
+                                                <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeQuarto.jpg">
+                                                <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeBanheiro.jpg">
+                                                <label>Suite(s)</label>
+                                                <br>
+                                                <div class="content">
+                                                    <div class="sub header">
+        <?php echo $planta->getSuite(); ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                              <div class="column">
-                              <div class="ui tiny header">
-                              <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeBanheiro.jpg">
-                              <label>Banheiro(s)</label>
-                              <br>
-                              <div class="content">
-                              <div class="sub header">
-                              <?php echo $planta['banheiro'] ?>
-                              </div>
-                              </div>
-                              </div>
-                              </div>
-
-                              <div class="column">
-                              <div class="ui tiny header">
-                              <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeQuarto.jpg">
-                              <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeBanheiro.jpg">
-                              <label>Suite(s)</label>
-                              <br>
-                              <div class="content">
-                              <div class="sub header">
-                              <?php echo $planta['suite'] ?>
-                              </div>
-                              </div>
-                              </div>
-                              </div>
-
-                              <div class="column">
-                              <div class="ui tiny header">
-                              <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeGaragem.jpg">
-                              <label>Garagem(ns)</label>
-                              <br>
-                              <div class="content">
-                              <div class="sub header">
-                              <?php echo $planta['garagem'] ?>
-                              </div>
-                              </div>
-                              </div>
-                              </div>
-                              <div class="column">
-                              <div class="ui tiny header">
-                              <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeArea.jpg">
-                              <label>Area m<sup>2</sup></label>
-                              <br>
-                              <div class="content">
-                              <div class="sub header">
-                              <?php echo $planta['area'] ?>
-                              </div>
-                              </div>
-                              </div>
-                              </div>
-
-
-                              </div>
+                                        <div class="column">
+                                            <div class="ui tiny header">
+                                                <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeGaragem.jpg">
+                                                <label>Garagem(ns)</label>
+                                                <br>
+                                                <div class="content">
+                                                    <div class="sub header">
+        <?php echo $planta->getGaragem(); ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="column">
+                                            <div class="ui tiny header">
+                                                <img class="ui mini left floated image" src="../../assets/imagens/icones/iconeArea.jpg">
+                                                <label>Area m<sup>2</sup></label>
+                                                <br>
+                                                <div class="content">
+                                                    <div class="sub header">
+        <?php echo $planta->getArea(); ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
 
-                              <?php
-                              $numeroDifPlantas = count($item['difPlantas'][$planta['id']]);
+                                    </div>
 
-                              if ($numeroDifPlantas > 0) {
-                              ?>
 
-                              <div class="ui  items">
-                              <div class="item">
-                              <div class="content">
-                              <a class="header">Diferencial da Planta</a>
-                              <div class="description">
-                              <?php
-                              foreach ($item['difPlantas'][$planta['id']] as $dif) {
+        <?php
+        
+        
+        $numeroDifPlantas = count($dadosPlanta['diferenciais']);
 
-                              echo "<i class='large green checkmark icon'></i>" . $dif->getDiferencial()->getDescricao();
-                              }
-                              ?>
-                              </div>
-                              </div>
-                              </div>
-                              </div>
+        if ($numeroDifPlantas > 0) {
+            ?>
 
-                              <?php
-                              }//fim do If se existir mais de um diferencial da planta
-                              ?>
+                                        <div class="ui  items">
+                                            <div class="item">
+                                                <div class="content">
+                                                    <a class="header">Diferencial da Planta</a>
+                                                    <div class="description">
+            <?php
+            foreach ($dadosPlanta['diferenciais'] as $dif) {
 
-                              </div>
-                              <?php
-                              } */
-                            ?>
+                echo "<i class='large green checkmark icon'></i>" . $dif->getDiferencial()->getDescricao();
+            }
+            ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+            <?php
+        }//fim do If se existir mais de um diferencial da planta
+        ?>
+
+                                </div>
+        <?php
+    }
+    ?>
 
                         </div> 
 
@@ -527,9 +539,9 @@ switch ($item['anuncio']->getImovel()->getIdtipoimovel()) {
 
                     </div>    
                     <div class="ui hidden divider"></div>
-                <?php } ?>
+<?php } ?>
 
-<?php if (($item['anuncio']->getImovel()->getImoveldiferencial())) { ?>
+                <?php if (($item['anuncio']->getImovel()->getImoveldiferencial())) { ?>
 
 
                     <div class="ui horizontal divider" id="divisorTextoEspecifico">
@@ -540,10 +552,10 @@ switch ($item['anuncio']->getImovel()->getIdtipoimovel()) {
 
                     <div class="fields">
 
-                        <?php
-                        if (is_array($item['anuncio']->getImovel()->getImoveldiferencial())) {
-                            foreach ($item['anuncio']->getImovel()->getImoveldiferencial() as $diferenciais) {
-                                ?>
+    <?php
+    if (is_array($item['anuncio']->getImovel()->getImoveldiferencial())) {
+        foreach ($item['anuncio']->getImovel()->getImoveldiferencial() as $diferenciais) {
+            ?>
 
                                 <div class="twelve wide field">
                                     <div class="ui tiny header">
@@ -552,8 +564,10 @@ switch ($item['anuncio']->getImovel()->getIdtipoimovel()) {
                                         </div>
                                     </div>
                                 </div>
-        <?php }
-    } else { ?>                            
+            <?php
+        }
+    } else {
+        ?>                            
                             <div class="twelve wide field">
                                 <div class="ui tiny header">
                                     <div class="content">
@@ -561,7 +575,7 @@ switch ($item['anuncio']->getImovel()->getIdtipoimovel()) {
                                     </div>
                                 </div>
                             </div>
-                    <?php } ?>                            
+    <?php } ?>                            
 
                     </div>    
                     <div class="ui hidden divider"></div>
@@ -579,45 +593,45 @@ switch ($item['anuncio']->getImovel()->getIdtipoimovel()) {
                     </h2>
                 </div>
 
-                <?php
-                if ($item['anuncio']->getValormin() == 0) { //caso não haja valor cadastrado para o anúncio
-                    echo "<div class='ui compact yellow message'><i class='big warning circle icon'></i>Valor não informado. Entre em contato com o anunciante para mais detalhes.</div>";
-                } else {
-                    if ($item['anuncio']->getImovel()->getIdtipoimovel() != '2') {
+<?php
+if ($item['anuncio']->getValormin() == 0) { //caso não haja valor cadastrado para o anúncio
+    echo "<div class='ui compact yellow message'><i class='big warning circle icon'></i>Valor não informado. Entre em contato com o anunciante para mais detalhes.</div>";
+} else {
+    if ($item['anuncio']->getImovel()->getIdtipoimovel() != '2') {
 
-                        if ($item["novoValor"] != null) {
-                            ?>
+        if ($item["novoValor"] != null) {
+            ?>
 
                             <div class="ui hidden divider"></div>
 
                             <div class="item"> 
 
-                                <?php
-                                $contador = 0;
-                                foreach ($item["novoValor"] as $novoValor) {
+            <?php
+            $contador = 0;
+            foreach ($item["novoValor"] as $novoValor) {
 
-                                    $contador = $contador + 1;
-                                    if ($contador == 1) {
-                                        ?>
+                $contador = $contador + 1;
+                if ($contador == 1) {
+                    ?>
 
                                         <script>
                                             formatarValorUnico(<?php echo $novoValor->getId() ?>);
                                         </script>
 
-                                        <?php
-                                        echo "</div><div class='ui big label'><span id='formatarValorUnicoJS" . $novoValor->getId() . "'>" . $novoValor->getNovoValor() . "</div></span>&nbsp;&nbsp;&nbsp;&nbsp";
-                                    } else {
-                                        ?>
+                    <?php
+                    echo "</div><div class='ui big label'><span id='formatarValorUnicoJS" . $novoValor->getId() . "'>" . $novoValor->getNovoValor() . "</div></span>&nbsp;&nbsp;&nbsp;&nbsp";
+                } else {
+                    ?>
 
                                         <script>
                                             formatarValorCampos(<?php echo $novoValor->getId() ?>);
                                         </script>
 
-                                        <?php
-                                        echo "<div class='ui big label'><strike id='formatarValorJS" . $novoValor->getId() . "'>" . $novoValor->getNovoValor() . "</div></strike>&nbsp;&nbsp;&nbsp;&nbsp";
-                                    }
-                                }
-                                ?>
+                    <?php
+                    echo "<div class='ui big label'><strike id='formatarValorJS" . $novoValor->getId() . "'>" . $novoValor->getNovoValor() . "</div></strike>&nbsp;&nbsp;&nbsp;&nbsp";
+                }
+            }
+            ?>
 
                                 <script>
                                     formatarValorUnico(<?php echo $item['anuncio'][0]['id'] ?>);
@@ -635,27 +649,27 @@ switch ($item['anuncio']->getImovel()->getIdtipoimovel()) {
                                 formatarValorUnico(<?php echo $item['anuncio']->getId() ?>);
                             </script>
 
-                            <?php
-                            echo "<div class='ui hidden divider'></div><div class='ui big label'><span id='formatarValorUnicoJS" . $item['anuncio']->getId() . "'>" . $item['anuncio']->getValormin() . "</span></div>&nbsp;&nbsp;&nbsp;&nbsp";
-                        }
-                        ?>
+            <?php
+            echo "<div class='ui hidden divider'></div><div class='ui big label'><span id='formatarValorUnicoJS" . $item['anuncio']->getId() . "'>" . $item['anuncio']->getValormin() . "</span></div>&nbsp;&nbsp;&nbsp;&nbsp";
+        }
+        ?>
 
                     <?php } else { ?>
 
                         <div class="ui hidden divider"></div>
 
-                        <?php
-                        $plantasOrdenadas = $item['anuncio'][0]['plantas'];
-                        //ordenar as plantas pelo ID
-                        usort($plantasOrdenadas, function( $a, $b ) {
-                            //ID da planta será usado para comparação
-                            return ( $a['ordemplantas'] > $b['ordemplantas'] );
-                        });
+        <?php
+        foreach ($plantasOrdenadas as $arrayPlanta) {
+            $dadosPlanta = $arrayPlanta[0];
+            $planta = $dadosPlanta[0];
+            $valores = $dadosPlanta["valores"];
+            //ordenar valores crescentes por andar inicial
+            usort($valores, function( $primeiroElemento, $segundoElemento ) {
+                return ( $primeiroElemento->getAndarinicial() > $segundoElemento->getAndarinicial() );
+            });
+            ?>
 
-                        foreach ($plantasOrdenadas as $planta) {
-                            ?>
-
-                            <div><?php echo "<font size = '4' color = 'maroon'>Planta " . ($planta['ordemplantas'] + 1) . " - " . $planta['tituloplanta'] . "</font>"; ?></div>
+                            <div><?php echo "<font size = '4' color = 'maroon'>Planta " . ($planta->getOrdemplantas() + 1) . " - " . $planta->getTituloplanta() . "</font>"; ?></div>
 
                             <table class="ui celled structured striped table">
                                 <thead>
@@ -667,33 +681,33 @@ switch ($item['anuncio']->getImovel()->getIdtipoimovel()) {
 
                                 <tbody>
 
-                                    <?php
-                                    echo "<tr>";
+            <?php
+            echo "<tr>";
 
-                                    for ($x = 0; $x < count($planta['valores']); $x++) {
+            for ($x = 0; $x < count($valores); $x++) {
 
-                                        echo "<td>";
+                echo "<td>";
 
-                                        echo $planta['valores'][$x]['andarinicial'] . "º ao " . $planta['valores'][$x]['andarfinal'] . "º";
+                echo $valores[$x]->getAndarinicial() . "º ao " . $valores[$x]->getAndarfinal() . "º";
 
-                                        echo "</td>";
-                                        ?>
+                echo "</td>";
+                ?>
 
                                     <script>
-                                        formatarValorCampos(<?php echo $planta['valores'][$x]['id'] ?>);
+                                        formatarValorCampos(<?php echo $valores[$x]->getId(); ?>);
                                     </script>
 
-                                    <td id="formatarValorJS<?php echo $planta['valores'][$x]['id'] ?>"><?php echo $planta['valores'][$x]['valor'] ?></td>
+                                    <td id="formatarValorJS<?php echo $valores[$x]->getId(); ?>"><?php echo $valores[$x]->getValor(); ?></td>
 
-                                    <?php
-                                    echo "</tr>";
-                                }
-                                ?>
+                <?php
+                echo "</tr>";
+            }
+            ?>
 
                                 </tbody>    
                             </table>    
 
-        <?php
+            <?php
         }
     }
 }
@@ -721,19 +735,19 @@ switch ($item['anuncio']->getImovel()->getIdtipoimovel()) {
                         <i class="red marker icon"></i>
                         <div class="header">
 
-                            <?php
-                            if ($item["anuncio"]->getImovel()->getEndereco()->getNumero() != "" && $item["anuncio"]->getImovel()->getEndereco()->getComplemento() != "") {
-                                $endereco = $item["anuncio"]->getImovel()->getEndereco()->getLogradouro() . " - " . $item["anuncio"]->getImovel()->getEndereco()->getBairro()->getNome() . ", " . $item["anuncio"]->getImovel()->getEndereco()->getNumero() . ", " . $item["anuncio"]->getImovel()->getEndereco()->getComplemento() . " - " . $item["anuncio"]->getImovel()->getEndereco()->getCidade()->getNome() . ", " . $item["anuncio"]->getImovel()->getEndereco()->getEstado()->getNome();
-                            } elseif ($item["anuncio"]->getImovel()->getEndereco()->getNumero() != "" && $item["anuncio"]->getImovel()->getEndereco()->getComplemento() == "") {
-                                $endereco = $item["anuncio"]->getImovel()->getEndereco()->getLogradouro() . " - " . $item["anuncio"]->getImovel()->getEndereco()->getBairro()->getNome() . ", " . $item["anuncio"]->getImovel()->getEndereco()->getNumero() . " - " . $item["anuncio"]->getImovel()->getEndereco()->getCidade()->getNome() . ", " . $item["anuncio"]->getImovel()->getEndereco()->getEstado()->getNome();
-                            } elseif ($item["anuncio"]->getImovel()->getEndereco()->getNumero() == "" && $item["anuncio"]->getImovel()->getEndereco()->getComplemento() == "") {
-                                $endereco = $item["anuncio"]->getImovel()->getEndereco()->getLogradouro() . " - " . $item["anuncio"]->getImovel()->getEndereco()->getBairro()->getNome() . " - " . $item["anuncio"]->getImovel()->getEndereco()->getCidade()->getNome() . ", " . $item["anuncio"]->getImovel()->getEndereco()->getEstado()->getNome();
-                            } elseif ($item["anuncio"]->getImovel()->getEndereco()->getNumero() == "" && $item["anuncio"]->getImovel()->getEndereco()->getComplemento() != "") {
-                                $endereco = $item["anuncio"]->getImovel()->getEndereco()->getLogradouro() . " - " . $item["anuncio"]->getImovel()->getEndereco()->getBairro()->getNome() . ", " . $item["anuncio"]->getImovel()->getEndereco()->getComplemento() . " - " . $item["anuncio"]->getImovel()->getEndereco()->getCidade()->getNome() . ", " . $item["anuncio"]->getImovel()->getEndereco()->getEstado()->getNome();
-                            }
+<?php
+if ($item["anuncio"]->getImovel()->getEndereco()->getNumero() != "" && $item["anuncio"]->getImovel()->getEndereco()->getComplemento() != "") {
+    $endereco = $item["anuncio"]->getImovel()->getEndereco()->getLogradouro() . " - " . $item["anuncio"]->getImovel()->getEndereco()->getBairro()->getNome() . ", " . $item["anuncio"]->getImovel()->getEndereco()->getNumero() . ", " . $item["anuncio"]->getImovel()->getEndereco()->getComplemento() . " - " . $item["anuncio"]->getImovel()->getEndereco()->getCidade()->getNome() . ", " . $item["anuncio"]->getImovel()->getEndereco()->getEstado()->getNome();
+} elseif ($item["anuncio"]->getImovel()->getEndereco()->getNumero() != "" && $item["anuncio"]->getImovel()->getEndereco()->getComplemento() == "") {
+    $endereco = $item["anuncio"]->getImovel()->getEndereco()->getLogradouro() . " - " . $item["anuncio"]->getImovel()->getEndereco()->getBairro()->getNome() . ", " . $item["anuncio"]->getImovel()->getEndereco()->getNumero() . " - " . $item["anuncio"]->getImovel()->getEndereco()->getCidade()->getNome() . ", " . $item["anuncio"]->getImovel()->getEndereco()->getEstado()->getNome();
+} elseif ($item["anuncio"]->getImovel()->getEndereco()->getNumero() == "" && $item["anuncio"]->getImovel()->getEndereco()->getComplemento() == "") {
+    $endereco = $item["anuncio"]->getImovel()->getEndereco()->getLogradouro() . " - " . $item["anuncio"]->getImovel()->getEndereco()->getBairro()->getNome() . " - " . $item["anuncio"]->getImovel()->getEndereco()->getCidade()->getNome() . ", " . $item["anuncio"]->getImovel()->getEndereco()->getEstado()->getNome();
+} elseif ($item["anuncio"]->getImovel()->getEndereco()->getNumero() == "" && $item["anuncio"]->getImovel()->getEndereco()->getComplemento() != "") {
+    $endereco = $item["anuncio"]->getImovel()->getEndereco()->getLogradouro() . " - " . $item["anuncio"]->getImovel()->getEndereco()->getBairro()->getNome() . ", " . $item["anuncio"]->getImovel()->getEndereco()->getComplemento() . " - " . $item["anuncio"]->getImovel()->getEndereco()->getCidade()->getNome() . ", " . $item["anuncio"]->getImovel()->getEndereco()->getEstado()->getNome();
+}
 
-                            echo $endereco;
-                            ?>
+echo $endereco;
+?>
                         </div>
                     </div>
                 </div>
@@ -753,20 +767,20 @@ switch ($item['anuncio']->getImovel()->getIdtipoimovel()) {
                     <div class="column"> 
 
                         <div class="fotorama" data-allowfullscreen="native" data-nav="thumbs" data-width="100%" data-ratio="800/600">                            
-                            <?php
-                            $imagemAprovacao = $item['anuncio']->getImagemaprovacao();
-                            if ($imagemAprovacao) {
-                                if(is_array($imagemAprovacao)){
-                                foreach ($imagemAprovacao as $imagem) {
-                                    echo '<a href="'. PIPURL . '/fotos/imoveis/' . $imagem->getDiretorio() . '/' . $imagem->getNome() .'" data-caption="'. $imagem->getLegenda() .'" data-thumb="'. PIPURL . '/fotos/imoveis/' . $imagem->getDiretorio() . '/' . 'thumbnail/' . $imagem->getNome() .'"></a>';
-                                }
-                                } else {
-                                    echo '<a href="'. PIPURL . '/fotos/imoveis/' . $imagemAprovacao->getDiretorio() . '/' . $imagemAprovacao->getNome() .'" data-caption="'. $imagemAprovacao->getLegenda() .'" data-thumb="'. PIPURL . '/fotos/imoveis/' . $imagemAprovacao->getDiretorio() . '/' . 'thumbnail/' . $imagemAprovacao->getNome() .'"></a>';
-                                }
-                            } else {
-                                echo '<a href="' . PIPURL . "/assets/imagens/foto_padrao.png" .'" data-thumb="'. PIPURL . "/assets/imagens/thumbnail/foto_padrao.png" . '"></a>';
-                            }
-                            ?>
+<?php
+$imagemAprovacao = $item['anuncio']->getImagemaprovacao();
+if ($imagemAprovacao) {
+    if (is_array($imagemAprovacao)) {
+        foreach ($imagemAprovacao as $imagem) {
+            echo '<a href="' . PIPURL . '/fotos/imoveis/' . $imagem->getDiretorio() . '/' . $imagem->getNome() . '" data-caption="' . $imagem->getLegenda() . '" data-thumb="' . PIPURL . '/fotos/imoveis/' . $imagem->getDiretorio() . '/' . 'thumbnail/' . $imagem->getNome() . '"></a>';
+        }
+    } else {
+        echo '<a href="' . PIPURL . '/fotos/imoveis/' . $imagemAprovacao->getDiretorio() . '/' . $imagemAprovacao->getNome() . '" data-caption="' . $imagemAprovacao->getLegenda() . '" data-thumb="' . PIPURL . '/fotos/imoveis/' . $imagemAprovacao->getDiretorio() . '/' . 'thumbnail/' . $imagemAprovacao->getNome() . '"></a>';
+    }
+} else {
+    echo '<a href="' . PIPURL . "/assets/imagens/foto_padrao.png" . '" data-thumb="' . PIPURL . "/assets/imagens/thumbnail/foto_padrao.png" . '"></a>';
+}
+?>
                         </div>
                     </div>
 
@@ -792,34 +806,34 @@ switch ($item['anuncio']->getImovel()->getIdtipoimovel()) {
 
                             <div class="ui segment">
                                 <a class="header"><?php echo $item['contato'][0]->getNome() ?></a>
-                                    <?php
-                                    if (is_array($item['contato'][0]->getTelefone())) {
-                                        foreach ($item['contato'][0]->getTelefone() as $telefone) {
-                                            ?>
+    <?php
+    if (is_array($item['contato'][0]->getTelefone())) {
+        foreach ($item['contato'][0]->getTelefone() as $telefone) {
+            ?>
 
                                         <div class="description">
 
-                                        <?php echo $telefone->getNumero() ?> - <?php echo $telefone->getOperadora() ?>                    
-                                        <?php if ($telefone->getWhatsapp() == "SIM") { ?>                        
+            <?php echo $telefone->getNumero() ?> - <?php echo $telefone->getOperadora() ?>                    
+                                            <?php if ($telefone->getWhatsapp() == "SIM") { ?>                        
                                                 <i class="large green whatsapp icon"></i>
-                                        <?php } ?>
+                                            <?php } ?>
 
                                         </div>
-                                            <?php
-                                        }
-                                        ?>
-                                    <?php } else { ?>
+            <?php
+        }
+        ?>
+                                <?php } else { ?>
                                     <div class="description">
 
-                                    <?php echo $item['contato'][0]->getTelefone()->getNumero() ?> - <?php echo $item['contato'][0]->getTelefone()->getOperadora() ?>                    
-                                <?php if ($item['contato'][0]->getTelefone()->getWhatsapp() == "SIM") { ?>                        
+        <?php echo $item['contato'][0]->getTelefone()->getNumero() ?> - <?php echo $item['contato'][0]->getTelefone()->getOperadora() ?>                    
+                                        <?php if ($item['contato'][0]->getTelefone()->getWhatsapp() == "SIM") { ?>                        
                                             <i class="large green whatsapp icon"></i>
-        <?php } ?>
+                                        <?php } ?>
 
                                     </div>
     <?php } ?>
                             </div>
-<?php } ?>
+                            <?php } ?>
 
                     </div>
                 </div>

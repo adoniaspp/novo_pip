@@ -16,6 +16,7 @@ class Anuncio {
     private $publicarcontato;
     private $idusuarioplano;
     private $valormin;
+    
     protected $imovel;
     protected $usuarioplano;
     protected $historicoaluguelvenda;

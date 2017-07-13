@@ -585,7 +585,7 @@ include_once "modal/ImovelListagemModal.php";
 
 <script>
     $(document).ready(function () {
-<?php if ($valorAnuncio == "") { ?>
+<?php if ($valorAnuncio == "0") { ?>
             $('#chkValor').parent().checkbox('uncheck');
 <?php } ?>
 <?php if ($anuncio->getPublicarmapa() == "NAO") { ?>

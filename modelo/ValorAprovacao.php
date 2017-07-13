@@ -1,15 +1,14 @@
 <?php
 
-
 class ValorAprovacao {
-    
+
     private $id;
     private $idanuncioaprovacao;
     private $idplanta;
     private $andarinicial;
     private $andarfinal;
     private $valor;
-    
+
     function getId() {
         return $this->id;
     }
@@ -55,9 +54,9 @@ class ValorAprovacao {
     }
 
     function setValor($valor) {
-         $this->valor = $this->limpaValorNumerico($valor);
+        $this->valor = $this->limpaValorNumerico($valor);
     }
-    
+
     private function limpaValorNumerico($valor) {
         $valor = str_replace("R$", "", $valor);
         $valor = str_replace(".", "", $valor);
@@ -65,5 +64,14 @@ class ValorAprovacao {
         $valor = trim($valor);
         return $valor;
     }
-    
+
+    function valorAprovado($valorAprovado, $idAnuncio) {
+        $valorAprovado->setIdAnuncio($idAnuncio);
+        $valorAprovado->setIdplanta($this->getIdplanta());
+        $valorAprovado->setAndarinicial($this->getAndarinicial());
+        $valorAprovado->setAndarfinal($this->getAndarfinal());
+        $valorAprovado->setValor($this->getValor());
+        return $valorAprovado;
+    }
+
 }
