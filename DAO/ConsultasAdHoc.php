@@ -240,7 +240,7 @@ class ConsultasAdHoc extends GenericoDAO {
                     $resultado['anuncio'][$i] = array_merge($imovel['ap'][0], $resultado['anuncio'][$i]);
                 }
                 if ($tiposImoveis[$i] == 'salacomercial') {
-                    $sth = $this->conexao->prepare("SELECT area, banheiro, garagem, condominio FROM buscaAnunciosalacomercial WHERE idimovel = :idimovel");
+                    $sth = $this->conexao->prepare("SELECT area, banheiro, garagem, condominio FROM buscaAnuncioSalacomercial WHERE idimovel = :idimovel");
                     $sth->bindValue(':idimovel', $idsImoveis[$i]);
                     $sth->execute();
                     $imovel['sala'] = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -379,7 +379,7 @@ class ConsultasAdHoc extends GenericoDAO {
     
     public function consultaUsuarioDenuncia(){
      
-        $sql = "select tipousuario, nome, cpfcnpj, login, email, 
+        $sql = "select u.id, tipousuario, nome, cpfcnpj, login, email, 
             count(d.id) as 'denuncias' from usuario u left join 
             denuncia d on u.id = d.idusuario where status like 'ativo'
             order by denuncias";
