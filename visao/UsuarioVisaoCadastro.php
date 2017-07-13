@@ -107,7 +107,7 @@ Sessao::gerarToken();
                 <h3 class="ui dividing header">Informações de Acesso</h3>
                 <div class="three fields">
                     <div class="required field">
-                        <label>Login</label>
+                        <label>Nome de Usuário</label>
                         <div class="ui left icon input">
                             <i class="user icon"></i>                            
                             <input type="text" name="txtLogin" id="txtLogin" placeholder="Informe um login" maxlength="25">

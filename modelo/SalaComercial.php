@@ -76,28 +76,23 @@ class SalaComercial {
         $salaComercial->setBanheiro($parametros["sltBanheiro"]);   
         $salaComercial->setGaragem($parametros["sltGaragem"]);
         $salaComercial->setArea($parametros["txtArea"]);
-        $salaComercial->setCondominio($parametros["txtCondominio"]);
-        
+        $novoCondominio = str_replace("R$ ", "",$parametros["txtCondominio"]);
+        $salaComercial->setCondominio($novoCondominio);
+   
         return $salaComercial;
     }
     
     function editar($parametros, $idSalaComercial) {
-        
-        
-        /*echo "<pre>";
-        var_dump($parametros);
-        echo "</pre>";
-        echo "ID:".$idSalaComercial;
-        die();*/
-        
+
         $salaComercial = new SalaComercial();
         $salaComercial->setId($idSalaComercial);
         $salaComercial->setIdimovel($_SESSION["imovel"]["id"]);
         $salaComercial->setBanheiro($parametros["sltBanheiro"]);        
         $salaComercial->setGaragem($parametros["sltGaragem"]);
         $salaComercial->setArea($parametros["txtArea"]);
-        $novoCondominio = str_replace(",", "",$parametros["txtCondominio"]); 
+        $novoCondominio = str_replace("R$ ", "",$parametros["txtCondominio"]); 
         $salaComercial->setCondominio($novoCondominio);
+        
         return $salaComercial;
     }
     

@@ -80,6 +80,22 @@ foreach ($item as $usuario) {
                         </div>
                 </div>  
                 
+                <div class="two fields" id="divMudarConfiguracoesEmail">
+                
+                <div class="field">
+                        <div class="ui toggle checkbox">
+                            <?php //if ($usuario->getExibirEndereco() == 'SIM') { ?>
+                                <input name="chkEmail" id="chkEmail" type="checkbox" value="SIM" checked="checked">
+                            <?php //} else { ?>
+                                <input name="chkEmail" id="chkEmail" type="checkbox" value="SIM">
+                            <?php //} ?>
+
+                            <label>Receber e-mails de alerta do PIP (dúvidas de usuários, anúncios aprovados, etc.)</label>
+                        </div>
+                </div>
+                    
+                </div>    
+                
                 <div id="divDesabilitarPagina">
                 
                     <div class='ui compact yellow message'><i class='big warning circle icon'>                    

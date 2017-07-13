@@ -155,11 +155,11 @@ if ($item) {
 <div class="ui hidden divider"></div>
 
 <div class="ui center aligned grid">
-    <div class="column"><i class="teal big help icon"></i>COMO FUNCIONA</div>
+    <div class="column"><i class="teal big help icon"></i>COMO ANUNCIAR</div>
 </div>
 
 <div class="ui center aligned equal width grid">
-    <div class="column"><i class="teal big add user icon"></i>1 - FAÇA SEU CADASTRO PARA ANUNCIAR
+    <div class="column"><i class="teal big add user icon"></i>1 - FAÇA SEU CADASTRO
         <br>
         Cadastre seus dados (Nome, Endereço, Tipo de Pessoa, Telefone, Email, etc) e escolha um login
         para ser sua identificação no PIP On-Line (Ex: www.piponline.com.br/joaosilva1980)

@@ -286,7 +286,7 @@ foreach ($this->getItem() as $modal) {
                                 <div class='item'>
                                   <div class='content'>
                                     <div class='header'>Condomínio</div>
-                                    " . $modal->getSalaComercial()->getCondominio() . "
+                                    R$ " . $modal->getSalaComercial()->getCondominio() . "
                                   </div>
                                 </div>
                                 <div class='item'>

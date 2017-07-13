@@ -79,7 +79,7 @@
                 
                 <div class="four fields" id="divCamposTrocaSenha">
                     <div class="required field">
-                        <label>Login</label>
+                        <label>Nome de Usuário</label>
                         <div class="ui left icon input">
                             <i class="user icon"></i>                            
                             <input type="text" name="txtLogin" id="txtLogin" placeholder="Digite o Login" maxlength="25">

@@ -256,7 +256,7 @@
 
             <div class="column" id="divGaragemAvancado">
                 <div class="ui fluid multiple selection dropdown" name="sltGaragem" id="sltGaragem">
-                    <div class="default text">Vaga(s) de Garagem</div>
+                    <div class="default text">Garagem</div>
                     <i class="dropdown icon"></i>
                     <div class="menu">                                                         
                         <div class="item" data-value="1">1</div>
