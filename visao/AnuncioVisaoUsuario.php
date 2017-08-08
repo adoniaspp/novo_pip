@@ -5,7 +5,6 @@
 <script src="http://maps.google.com/maps/api/js?key=AIzaSyDz33V1ZfI7o7ToZnRlecSljXHUVzdXmDE"></script>
 <script src="assets/libs/gmaps/gmap3.min.js"></script>
 
-
 <script>
      
         inicio();
@@ -117,7 +116,7 @@
     <?php } ?>
     
     <div class="ui hidden divider"></div>
-    
+    <input type="hidden" value="<?php echo $usuario->getId()?>" id="hdUsuario"/> <!-- Buscar o usuário específico --> 
 </div>
 
 
@@ -140,7 +139,7 @@
     </div> 
 </div>     
     
-  
+
     
 <div class="stackable one column ui grid container">
  
@@ -210,46 +209,6 @@
     <div id="divAnuncios"></div> <!-- Exibe os resultados dos anuncios-->
     
 <?php } //fim da verificação da exibição dos anúncios?>      
-    
-<script>
-  /*  $(document).ready(function() {
-    $('[id^=btnAnuncioModal]').click(function() {
-            $("#lblAnuncioModal").html("<span class='glyphicon glyphicon-bullhorn'></span> " + $(this).attr('data-title'));
-            $("#modal-body").html('<img src="assets/imagens/loading.gif" /><h2>Aguarde... Carregando...</h2>');
-            $("#modal-body").load("index.php", {hdnEntidade:'Anuncio', hdnAcao:'modal', hdnToken:'<?php //Sessao::gerarToken(); echo $_SESSION["token"]; ?>', hdnModal:$(this).attr('data-modal')});
-        })
-        
-     var NumeroMaximo = 10;
-        $("input[id^='selecoes_']").click(function() {
-            if ($("input[id^='selecoes_']").filter(':checked').size() > NumeroMaximo) {
-                alert('Selecione no máximo ' + NumeroMaximo + ' imóveis para a comparação');
-                return false;
-            }
-        })
-
-        $("#btncomparar").click(function() {
-            //alert('teste');
-            if ($("input[id^='selecoes_']").filter(':checked').size() <= 1)
-            {
-                alert('Selecione no mínimo 2 imóveis para a comparação');
-                return false;
-            }
-        })
-        
-        $("#btnEnviarEmail").click(function() {
-            //alert('teste');
-            if ($("input[id^='selecoes_']").filter(':checked').size() <= 0)
-            {
-                alert('Selecione no mínimo 1 imóvel para envio');
-                return false;
-            }
-        })
-     
-     });
-*/
-
-</script>
-
 
 <!-- Modal Para Abrir a Div do Enviar Anuncios por Email -->
 <?php

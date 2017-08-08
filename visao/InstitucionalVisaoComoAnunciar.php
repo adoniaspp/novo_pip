@@ -9,7 +9,9 @@
     
         <div class="ui center aligned equal width grid">
             <div class="column">
-                <i class="teal big add user icon"></i>1 - FAÇA SEU CADASTRO
+                <h4 class="ui horizontal divider header">
+                    <i class="teal big add user icon"></i>1 - FAÇA SEU CADASTRO
+                </h4>    
             </div>
         </div>    
         
@@ -19,21 +21,21 @@
                     <div class="left aligned item">
                       <i class="checkmark icon"></i>
                       <div class="content">
-                        <a class="header">Cadastre seus dados básicos</a>
+                        <div class="header">Cadastre seus dados básicos</div>
                         <div class="description">Nome, Endereço, Tipo de Pessoa, Telefone, Email, etc.</div>
                       </div><br>
                     </div>
                     <div class="item">
                       <i class="checkmark icon"></i>
                       <div class="content">
-                        <a class="header">Escolha um nome de usuário e uma senha</a>
+                        <div class="header">Escolha um nome de usuário e uma senha</div>
                         <div class="description">Seu nome de usuário será sua identificação no PIP Online (Ex: www.piponline.com.br/joaosilva)</div>                      
                       </div><br>
                     </div>
                     <div class="item">
                       <i class="checkmark icon"></i>
                       <div class="content">
-                        <a class="header">Escolha uma foto</a>
+                        <div class="header">Escolha uma foto</div>
                         <div class="description">Se desejar, escolha uma foto. Ela será exibida em seus anúncios e em sua página pessoal</div>
                       </div><br>
                     </div>
@@ -44,12 +46,20 @@
                       </div><br>
                     </div>
                   </div>
+            </div>            
+        </div>
+        
+        <div class="ui center aligned equal width grid">
+            <div class="center align column">
+                    <img class="ui image" src="<?php echo PIPURL; ?>assets/imagens/comoAnunciar1.jpg">
             </div>
         </div>
         
         <div class="ui center aligned equal width grid">                
             <div class="column">
-                <i class="teal big edit icon"></i>2 - CADASTRE SEU IMÓVEL
+                <h4 class="ui horizontal divider header">
+                    <i class="teal big edit icon"></i>2 - CADASTRE SEU IMÓVEL
+                </h4>    
             </div>           
         </div>    
         
@@ -59,28 +69,28 @@
                     <div class="left aligned item">
                       <i class="checkmark icon"></i>
                       <div class="content">
-                        <a class="header">Selecione o tipo de imóvel</a>
-                        <div class="description">Apartamento, Apartamento na planta, casa, sala comercial, prédio comercial ou terreno.</div>
+                        <div class="header">Selecione o tipo de imóvel</div>
+                        <div class="description">Em "Meu PIP", clique em "Cadastrar Imóvel". Selecione o tipo de imóvel (Apartamento, Apartamento na planta, casa, sala comercial, prédio comercial ou terreno).</div>
                       </div><br>
                     </div>
                     <div class="item">
                       <i class="checkmark icon"></i>
                       <div class="content">
-                        <a class="header">Cadastre as características de seu imóvel</a>
+                        <div class="header">Cadastre as características de seu imóvel</div>
                         <div class="description">Área (Ex: 200 metros quadrados), número de quartos, banheiros, suites, garagens, etc.</div>
                       </div><br>
                     </div>
                     <div class="item">
                       <i class="checkmark icon"></i>
                       <div class="content">
-                        <a class="header">Diferenciais do imóvel</a>
+                        <div class="header">Diferenciais do imóvel</div>
                         <div class="description">Marque os diferenciais que seu imóvel possua. Ex: piscina, quadra de esportes, amplo estacionamento, quintal, etc.</div>
                       </div><br>
                     </div>
                     <div class="item">
                       <i class="checkmark icon"></i>
                       <div class="content">
-                        <a class="header">Endereço</a>
+                        <div class="header">Endereço</div>
                         <div class="description">Digite o CEP do imóvel e o sistema fará a busca automática do endereço, bastando que você insira o número e o complemento (Ex: Apartamento 1001, próximo ao aeroporto, etc.)</div>
                       </div><br>
                     </div>
@@ -92,13 +102,21 @@
                       </div><br>
                     </div>
                   </div>
-            </div>
+            </div>            
         </div>
+        
+        <div class="ui center aligned equal width grid">
+            <div class="column">
+                    <img class="ui image" src="<?php echo PIPURL; ?>assets/imagens/comoAnunciar2.jpg">
+            </div>
+        </div>    
         
         <div class="ui center aligned equal width grid">
             
             <div class="column">
-                <i class="teal big add to cart icon"></i>3 - COMPRE O PLANO
+                <h4 class="ui horizontal divider header">
+                    <i class="teal big add to cart icon"></i>3 - COMPRE O PLANO
+                </h4>    
                 <br>
             </div>
             
@@ -110,26 +128,33 @@
                     <div class="left aligned item">
                       <i class="checkmark icon"></i>
                       <div class="content">
-                        <a class="header">Selecione o tipo de plano que deseja comprar</a>
-                        <div class="description">Na sua página principal, clique em "Meus Planos", clique em "Comprar" e veja quais planos se adequam as suas necessidades.</div>
+                        <div class="header">Selecione o tipo de plano que deseja comprar</div>
+                        <div class="description">Acesse "Meu PIP", clique em "Meus Planos", clique em "Comprar" e veja quais planos se adequam as suas necessidades.</div>
                       </div><br>
                     </div>
                     <div class="item">
                       <i class="checkmark icon"></i>
                       <div class="content">
-                        <a class="header">Confirme a compra</a>
+                        <div class="header">Confirme a compra</div>
                         <div class="description">Após selecionar os planos, você será redirecionado ao site do PagSeguro, um serviço 100% confiável. Escolha a forma de pagamento e confirme sua compra.</div>
                       </div><br>
                     </div>                                       
                   </div>
-            </div>
+            </div>            
         </div>
-            
         
         <div class="ui center aligned equal width grid">
-            
             <div class="column">
-                <i class="teal big object group icon"></i>4 - VINCULE SEU IMÓVEL AO PLANO PARA ANUNCIAR
+                    <img class="ui image" src="<?php echo PIPURL; ?>assets/imagens/comoAnunciar3.jpg">
+            </div>
+        </div>    
+        
+        <div class="ui stackable grid">
+            
+            <div class="ui stackable column">
+                <h4 class="ui horizontal divider header">
+                    <i class="teal big object group icon"></i>4 - VINCULE O IMÓVEL AO PLANO
+                </h4>    
                 <br>
             </div>
             
@@ -141,35 +166,35 @@
                     <div class="left aligned item">
                       <i class="checkmark icon"></i>
                       <div class="content">
-                        <a class="header">Publique seu anúncio</a>
-                        <div class="description">Clique em "Publicar Anúncio" e escolha o imóvel.</div>
+                        <div class="header">Publique seu anúncio</div>
+                        <div class="description">Em "Meu PIP", Clique em "Publicar Anúncio" e escolha o imóvel.</div>
                       </div><br>
                     </div>
                     <div class="item">
                       <i class="checkmark icon"></i>
                       <div class="content">
-                        <a class="header">Escolha o Plano</a>
+                        <div class="header">Escolha o Plano</div>
                         <div class="description">Escolha um dos planos que você comprou para vincular ao imóvel, ou anuncie gratuitamente.</div>
                       </div><br>
                     </div>
                     <div class="item">
                       <i class="checkmark icon"></i>
                       <div class="content">
-                        <a class="header">Preencha as informações</a>
+                        <div class="header">Preencha as informações</div>
                         <div class="description">Selecione tipo (aluguel ou venda), valor, título e descrição do anúncio, além de verificar se a localização no mapa está correta.</div>
                       </div><br>
                     </div>   
                     <div class="item">
                       <i class="checkmark icon"></i>
                       <div class="content">
-                        <a class="header">Selecione as imagens</a>
+                        <div class="header">Selecione as imagens</div>
                         <div class="description">Adicione as fotos de seu anúncio, digitando, caso queira, a descrição das fotos e escolha a foto principal.</div>
                       </div><br>
                     </div> 
                     <div class="item">
                       <i class="checkmark icon"></i>
                       <div class="content">
-                        <a class="header">Revise seu anúncio, concordando com os termos</a>
+                        <div class="header">Revise seu anúncio, concordando com os termos</div>
                         <div class="description">Após a confirmação, seu anúncio será revisado pela administração do PIP Online e em alguns instantes poderá ser visualizado.</div>
                       </div><br>
                     </div>
@@ -180,9 +205,16 @@
                       </div><br>
                     </div>
                   </div>
-            </div>
+            </div>  
         </div>
         
+        <div class="ui left aligned equal width grid">
+            <div class="column">
+                <img class="ui image" src="<?php echo PIPURL; ?>assets/imagens/comoAnunciar4.jpg"><br>
+                <img class="ui image" src="<?php echo PIPURL; ?>assets/imagens/comoAnunciar41.jpg"><br>
+                <img class="ui image" src="<?php echo PIPURL; ?>assets/imagens/comoAnunciar42.jpg">
+            </div>
+        </div>
         
         </div> 
     </div>    

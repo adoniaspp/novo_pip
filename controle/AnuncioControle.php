@@ -160,6 +160,11 @@ class AnuncioControle {
                         $formAnuncio["imovel"] = $selecionarImovel;
                         $formAnuncio["anuncio"] = $selecionarAnuncio[0];
                         $formAnuncio["novovalor"] = $selecionarNovoValor;
+                        
+                        $consultasAdHoc = new ConsultasAdHoc();
+                        $existeAlteracaoNaoAprovada = $consultasAdHoc->ConsultarAnunciosPendentesPorUsuario($_SESSION['idusuario'], false, array("pendenteanalise","emanalise"),  $selecionarAnuncio[0]->getIdanuncio());
+                        $formAnuncio["existeAlteracaoNaoAprovada"] = count($existeAlteracaoNaoAprovada)>0;
+                        
                         $item = $formAnuncio;
                         $pagina = "AnuncioVisaoEditar.php";
                     }
@@ -881,39 +886,53 @@ class AnuncioControle {
         $usuario = new Usuario();
         $genericoDAO = new GenericoDAO();
 
-        $selecionarAnuncioUsuario = $genericoDAO->consultar($usuario, true, array("id" => $parametros["login"]));
+        
+        
+        $selecionarAnuncioUsuario = $genericoDAO->consultar($usuario, true, array("login" => $parametros["login"]));
+        //var_dump($selecionarAnuncioUsuario); die();
+        
+        //var_dump($selecionarAnuncioUsuario); die();
+        
+        //if ($selecionarAnuncioUsuario == null) {
 
-        if ($selecionarAnuncioUsuario == null) {
-
-            $selecionarAnuncioUsuario = $genericoDAO->consultar($usuario, true, array("login" => $parametros["login"]));
-        }
+        //    $selecionarAnuncioUsuario = $genericoDAO->consultar($usuario, true, array("login" => $parametros["login"]));
+            
+            //var_dump($selecionarAnuncioUsuario);
+            
+            //echo "NULO"; die();
+            
+        //}
 
         if (!$selecionarAnuncioUsuario) {
             //verifica se o usuario existe na base ou se está inativo
             $visao->setItem("errousuarioinativo");
             $visao->exibir('VisaoErrosGenerico.php');
         } else {
-            $item["usuario"] = $genericoDAO->consultar(new Usuario(), false, array("id" => $selecionarAnuncioUsuario[0]->getId()));
-
-            $statusUsuario = $item["usuario"] = $genericoDAO->consultar(new Usuario(), false, array("id" => $selecionarAnuncioUsuario[0]->getId()));
+            //$item["usuario"] = $genericoDAO->consultar(new Usuario(), false, array("id" => $selecionarAnuncioUsuario[0]->getId()));
+            
+            //var_dump($selecionarAnuncioUsuario); die();
+            
+            //$statusUsuario = $item["usuario"] = $genericoDAO->consultar(new Usuario(), false, array("id" => $selecionarAnuncioUsuario[0]->getId()));
             $verificarStatus = $selecionarAnuncioUsuario[0]->getStatus();
+            
+            //var_dump($item["usuario"]); die();
 
             //$verificarStatus = $statusUsuario[0]->getStatus();
             $id = $selecionarAnuncioUsuario[0]->getId();
 
             if ($verificarStatus == 'ativo') {
 
-                $consultasAdHoc = new ConsultasAdHoc();
+                /*$consultasAdHoc = new ConsultasAdHoc();
                 $parametrosBusca["atributos"] = "*";
                 $parametrosBusca["tabela"] = "todos";
                 $parametrosBusca["predicados"]["id"] = $id; //Id do corretor. 
-                $parametrosBusca["predicados"]["garagem"] = "false";
+                $parametrosBusca["predicados"]["garagem"] = "false";*/
 
                 $visao = new Template();
                 $item["usuario"] = $genericoDAO->consultar(new Usuario(), true, array("id" => $selecionarAnuncioUsuario[0]->getId()));
                 $item["cidadeEstado"] = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarAnuncioUsuario[0]->getIdEndereco()));
-                $item["anuncio"] = $consultasAdHoc->buscaAnuncios($parametrosBusca);
-
+                //$item["anuncio"] = $consultasAdHoc->buscaAnuncios($parametrosBusca);
+                
                 $visao->setItem($item);
                 $visao->exibir('AnuncioVisaoUsuario.php');
             } else if ($verificarStatus == 'desativadousuario') { // caso o usuário tenha desabilitado-se
@@ -1420,7 +1439,7 @@ class AnuncioControle {
                 $anuncio->setImovel($expirado[0]);
                 $listarAnunciosExpirados[] = $anuncio;
             }
-            $item["listaPlanos"] = $planos = $genericoDAO->consultar(new UsuarioPlano(), true, array("idusuario" => $_SESSION['idusuario'], "status" => "ativo"));
+            $item["listaPlanos"] = $planos = $genericoDAO->consultar(new UsuarioPlano(), true, array("idusuario" => $_SESSION['idusuario'], "status" => "pago"));
 
             //visao
             $visao = new Template();
