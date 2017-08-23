@@ -6,13 +6,17 @@
     validarArea(true);
 </script>
 
-<div class="ui form" id="divBusca">
+<div class="ui form" id="divBusca" 
+     style="background-color: #FFFFFF; border-style: solid; border-color: #9d9d9c;
+     border-bottom-width: 10px; border-top-width: 10px; border-right-width: 10px; border-left-width: 10px;">
 
-    <div class="ui pointing secondary menu" id="tabsTwo">
+    <div class="ui stackable pointing secondary menu" id="tabsTwo">
         <a class="active blue item" data-tab="first"><i class="large search icon"></i>Busca Básica</a>
         <a class="blue item" data-tab="second"><i class="large search icon"></i>Busca Avançada</a>
+        <a class="blue item" data-tab="third"><i class="large search icon"></i>Busca por Corretor</a>
 
     </div>
+    
     <div class="ui basic tab segment active" data-tab="first">
         <div class="ui stackable five column grid"> 
             <div class="column">
@@ -85,13 +89,8 @@
                 </div>
             </div>-->
         </div>
-        <div class="ui stackable one column centered grid"> 
-            <div class="column">            
-                <div class="teal ui icon button" id="btnBuscarAnuncioBasico">
-                    <i class="search icon"></i>Filtrar</div>
-            </div>
-        </div>
     </div>            
+    
     <div class="ui basic tab segment" data-tab="second">
 
         <div class="ui stackable five column grid"> 
@@ -350,8 +349,23 @@
             </div>
 
         </div>   
+        
+        </div>
 
-        <br>
+        <div class="ui basic tab segment active" data-tab="third" id="porCorretor">
+            <div class="ui stackable five column grid" id="divBuscaCorretor"> 
+                <div class="column">            
+                <div class="ui fluid multiple search selection dropdown">
+                    <input type="hidden" name="filtroCorretor[]" id="sltCorretorAvancado">
+                    <span class="default text">Selecione o(s) corretor(res)</span>
+                    <i class="dropdown icon"></i>
+                    <div class="menu" id="sltCorretor">
+                    </div>
+                </div>    
+            </div>
+            </div>
+        </div>
+        
         <div class="ui stackable one column centered grid"> 
             <div class="column">
                 <div class="teal ui icon button" id="btnBuscarAnuncioAvancado">
@@ -360,10 +374,7 @@
                 </div>
             </div>
         </div>
-    </div>
 
     <br>
 
 </div>
-
-<div class="ui divider"></div>

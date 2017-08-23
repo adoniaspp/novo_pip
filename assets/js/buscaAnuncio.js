@@ -21,6 +21,14 @@ function buscarAnuncio() {
                     }
             );
         });
+        
+        $("#porCorretor").click(function () {
+            $.post('index.php?hdnEntidade=Usuario&hdnAcao=exibirListaUsuario',  
+                    function (resposta) {
+                        $("#sltCorretor").html(resposta);
+                    }
+            );
+        });
 
         $("#spanValor").priceFormat({
             prefix: 'R$ ',
@@ -1569,3 +1577,4 @@ function enviarDuvidaUsuario() {
 
     });
 }
+

@@ -3,7 +3,7 @@
 body {
     padding-top: 5px;
     padding-bottom: 10px;
-    background-color: #ffffff
+    background-color: #f2f0f3/*f2f0f3*/;
 }
 
 #form  .bootstrap-touchspin input {
@@ -38,7 +38,7 @@ header {
   top: 0;
   right: 0;
   left: 0;
-  border-bottom: 0px solid #ccc;
+  border-bottom: 3px solid #ccc;
   background: #ECECEC;
   z-index: 2;
 }
