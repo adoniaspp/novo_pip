@@ -89,6 +89,16 @@
                 </div>
             </div>-->
         </div>
+        
+        <div class="ui stackable one column centered grid"> 
+            <div class="column">
+                <div class="teal ui icon button" id="btnBuscarAnuncioBasico">
+                    <i class="search icon"></i> 
+                    Filtrar
+                </div>
+            </div>
+        </div>
+        
     </div>            
     
     <div class="ui basic tab segment" data-tab="second">
@@ -350,6 +360,15 @@
 
         </div>   
         
+        <div class="ui stackable one column centered grid"> 
+            <div class="column">
+                <div class="teal ui icon button" id="btnBuscarAnuncioAvancado">
+                    <i class="search icon"></i> 
+                    Filtrar
+                </div>
+            </div>
+        </div>
+        
         </div>
 
         <div class="ui basic tab segment active" data-tab="third" id="porCorretor">
@@ -364,17 +383,17 @@
                 </div>    
             </div>
             </div>
-        </div>
-        
-        <div class="ui stackable one column centered grid"> 
-            <div class="column">
-                <div class="teal ui icon button" id="btnBuscarAnuncioAvancado">
-                    <i class="search icon"></i> 
-                    Filtrar
+            
+            <div class="ui stackable one column centered grid"> 
+                <div class="column">
+                    <div class="teal ui icon button" id="btnBuscarAnuncioCorretor">
+                        <i class="search icon"></i> 
+                        Filtrar
+                    </div>
                 </div>
             </div>
+            
         </div>
-
     <br>
 
 </div>

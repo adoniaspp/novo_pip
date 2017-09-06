@@ -132,6 +132,30 @@ function buscarAnuncio() {
 //            }, 1000);
         });
     });
+    
+    $("#btnBuscarAnuncioCorretor").on('click', function () {
+
+            $("#load").addClass('ui active inverted dimmer');
+
+            ;
+            $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
+                tipoImovel: 'todos',
+                valor: '',
+                finalidade: '',
+                cidade: '',
+                bairro: '',
+                quarto: '',
+                banheiro: '',
+                suite: '',
+                condicao: '',
+                unidadesandar: '',
+                area: '',
+                id: $('#sltCorretorAvancado').val(),
+                garagem: 'false',
+                page: 'index'
+        });
+    });
+    
 });
 }
 
