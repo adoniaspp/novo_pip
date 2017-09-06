@@ -165,7 +165,7 @@ function cadastrarAnuncio() {
             pasteZone: null,
             autoUpload: false,
             url: 'index.php?upload=1',
-            maxNumberOfFiles: 5,
+            //maxNumberOfFiles: 5,
             maxFileSize: 3000000,
             acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
             disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator && navigator.userAgent),
@@ -177,7 +177,6 @@ function cadastrarAnuncio() {
             imageForceResize: true,
             loadImageMaxFileSize: 2,
             messages: {
-                maxNumberOfFiles: 'Quantidade máxima de fotos atingida (5 fotos)',
                 acceptFileTypes: 'Arquivo não permitido. Apenas imagens (gif, jpeg, png)',
                 maxFileSize: 'Arquivo muito grande (3 MB)',
                 minFileSize: 'Arquivo muito pequeno (0 MB)'
@@ -439,7 +438,7 @@ function editarAnuncio() {
             pasteZone: null,
             autoUpload: false,
             url: 'index.php?upload=1',
-            maxNumberOfFiles: 5,
+            maxNumberOfFiles: 3,
             maxFileSize: 3000000,
             acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
             disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator && navigator.userAgent),
@@ -581,6 +580,7 @@ function stepsSemPlanta() {
         $('#chkValor').parent().checkbox('set checked');
         $("div[id^='btnAnterior']").hide();
         $("#sltPlano").change(function () {
+            mudouPlano($(this).val());
             $(this).valid();
         })
 
@@ -621,8 +621,8 @@ function stepsSemPlanta() {
                     $("#btnCancelar").hide();
                 } else
                     $("div[id^='btnProximo']").show();
-                $("#mapaGmapsBusca").width("100%").height(300).gmap3({trigger:"resize"});
-                $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({get:"marker"}).getPosition());
+                $("#mapaGmapsBusca").width("100%").height(300).gmap3({trigger: "resize"});
+                $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({get: "marker"}).getPosition());
             }
         })
 
@@ -646,8 +646,8 @@ function stepsSemPlanta() {
                 $("div[id^='btnAnterior']").show();
             else
                 $("div[id^='btnAnterior']").hide();
-            $("#mapaGmapsBusca").width("100%").height(300).gmap3({trigger:"resize"});
-            $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({get:"marker"}).getPosition());
+            $("#mapaGmapsBusca").width("100%").height(300).gmap3({trigger: "resize"});
+            $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({get: "marker"}).getPosition());
         })
     })
 }
@@ -674,14 +674,19 @@ function validarStepSemPlanta() {
                     alert("Informe uma Foto para ser Destaque do seu anúncio");
                     validacao = false;
                 }
+                if (($("input[name=rdbDestaque]").length) > $("#hdnMaxImagens").val()) {
+                    alert("Atenção verifique a quantidade máxima de fotos permitidas para o plano selecionado (" + $("#hdnMaxImagens").val() + " fotos).");
+                    validacao = false;
+                }
             }
+            
             $("#tdPlano").html($('#sltPlano').parent().find(".selected").html());
+            $("#tdImagens").html($('#hdnMaxImagens').val());
             $("#tdFinalidade").html($('#sltFinalidade').parent().find(".selected").html());
             $("#tdTitulo").html($("#txtTitulo").val());
             $("#tdDescricao").html($("#txtDescricao").val());
             $("#tdValor").html(
                     (typeof ($("input[name=chkValor]:checked").val()) === "undefined" ? "Não Informado" : $("#txtValor").val())
-
                     );
             $("#tdMapa").html((typeof ($("input[name=chkMapa]:checked").val()) === "undefined" ? "Não" : "Sim"));
             $("#tdContato").html((typeof ($("input[name=chkContato]:checked").val()) === "undefined" ? "Não" : "Sim"));
@@ -712,6 +717,7 @@ function stepsComPlanta() {
         $("#tdValor").hide();
         $("div[id^='btnAnterior']").hide();
         $("#sltPlano").change(function () {
+            mudouPlano($(this).val());
             $(this).valid();
         })
 
@@ -740,8 +746,8 @@ function stepsComPlanta() {
                     $("#btnCancelar").hide();
                 } else
                     $("div[id^='btnProximo']").show();
-                $("#mapaGmapsBusca").width("100%").height(300).gmap3({trigger:"resize"});
-                $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({get:"marker"}).getPosition());
+                $("#mapaGmapsBusca").width("100%").height(300).gmap3({trigger: "resize"});
+                $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({get: "marker"}).getPosition());
             }
         })
 
@@ -760,8 +766,8 @@ function stepsComPlanta() {
                 $("div[id^='btnAnterior']").show();
             else
                 $("div[id^='btnAnterior']").hide();
-            $("#mapaGmapsBusca").width("100%").height(300).gmap3({trigger:"resize"});
-            $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({get:"marker"}).getPosition());
+            $("#mapaGmapsBusca").width("100%").height(300).gmap3({trigger: "resize"});
+            $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({get: "marker"}).getPosition());
         })
     })
 }
@@ -792,8 +798,13 @@ function validarStepComPlanta() {
                     alert("Informe uma Foto para ser Destaque do seu anúncio");
                     validacao = false;
                 }
+                if (($("input[name=rdbDestaque]").length) > $("#hdnMaxImagens").val()) {
+                    alert("Atenção verifique a quantidade máxima de fotos permitidas para o plano selecionado (" + $("#hdnMaxImagens").val() + " fotos).");
+                    validacao = false;
+                }
             }
             $("#tdPlano").html($('#sltPlano').parent().find(".selected").html());
+            $("#tdImagens").html($('#hdnMaxImagens').val());
             $("#tdFinalidade").html($('#sltFinalidade').parent().find(".selected").html());
             $("#tdTitulo").html($("#txtTitulo").val());
             $("#tdDescricao").html($("#txtDescricao").val());
@@ -835,7 +846,7 @@ function validarTodosAndaresInformados() {
             for (j = 0; j < (inicial.length); j++) {
                 arrayAndaresIntervaloInicialFinal = gerarNumerosIntervalos($(inicial[j]).val(), $(final[j]).val(), arrayAndaresIntervaloInicialFinal);
             }
-             //metodo para remover elementos duplicados do array
+            //metodo para remover elementos duplicados do array
             Array.prototype.duplicates = function () {
                 return this.filter(function (x, y, k) {
                     return y === k.lastIndexOf(x);
@@ -844,7 +855,7 @@ function validarTodosAndaresInformados() {
             //remove elementos duplicados
             var andaresAdicionados = arrayAndaresIntervaloInicialFinal.duplicates();
             //verifica se a quantidade de andares eh a mesma
-            if(andaresAdicionados.length != qtdAndares){
+            if (andaresAdicionados.length != qtdAndares) {
                 alert("É obrigatório informar todos os valores por andar, se desejar informar valores para uma planta");
                 return false;
             }
@@ -1038,13 +1049,39 @@ function validarValorProposta(validacao) {
     })
 }
 
+function mudouPlano(plano) {
+    $(document).ready(function () {
+        var maximo = $("#hdnMaxImagens").val();
+        $.ajax({
+            url: "index.php",
+            dataType: "json",
+            type: "POST",
+            data: {
+                hdnEntidade: "Plano",
+                hdnAcao: "maximoDeImagens",
+                plano: plano
+            },
+            success: function (resposta) {
+                maximo = resposta.resultado;
+                $("#hdnMaxImagens").val(maximo);
+                $('#fileupload').fileupload({
+                    maxNumberOfFiles: Number(maximo),
+                    messages: {
+                        maxNumberOfFiles: 'A quantidade máxima de fotos permitidas para o plano selecionado foi atingida (' + maximo + ' fotos) - clique no botão cancelar'
+                    }
+                })
+            }
+        })
+    })
+}
+
 function reativar(botao) {
     $(document).ready(function () {
         $('.ui.dropdown')
                 .dropdown({
                     on: 'hover'
                 });
-                
+
         $('#btnReativar' + botao).click(function () {
             $("#btnFecharReativar" + botao).hide();
             $("#sltPlano" + botao).dropdown('restore defaults');
@@ -1055,7 +1092,7 @@ function reativar(botao) {
                 limit: 8,
                 thousandsSeparator: '.'
             });
-            
+
             $("#chkValor" + botao).parent().checkbox('set checked');
             $("#chkValor" + botao).change(function () {
                 if ($(this).parent().checkbox('is checked')) {
@@ -1093,9 +1130,9 @@ function reativar(botao) {
             });
 
             $.validator.messages.required = 'Campo obrigatório';
-            
-            
-            
+
+
+
             $("#formReativar" + botao).validate({
                 onkeyup: false,
                 focusInvalid: true,
@@ -1163,7 +1200,7 @@ function reativar(botao) {
 function formatarDetalhe() {
     $(document).ready(function () {
         $('.ui.accordion').accordion();
-        
+
         $("#divValor").priceFormat({
             prefix: 'R$ ',
             centsSeparator: ',',
@@ -1189,10 +1226,10 @@ function formatarDetalhe() {
 }
 
 function formatarValor(vetor) {
-    
+
     $('.ui.checkbox')
-        .checkbox();
-    
+            .checkbox();
+
     $("#tdValor" + vetor).priceFormat({
         prefix: 'R$ ',
         centsSeparator: ',',
@@ -1200,7 +1237,7 @@ function formatarValor(vetor) {
         limit: 8,
         thousandsSeparator: '.'
     })
- 
+
 }
 
 function formatarValorCampos(vetor) {
@@ -1229,8 +1266,8 @@ function formatarValorUnico(valor) {
     })
 }
 
-function exibirEmailPDFListaAnuncio(){
-    
+function exibirEmailPDFListaAnuncio() {
+
     $(document).ready(function () {
 
         var selecionado = 0;
@@ -1268,64 +1305,63 @@ function exibirEmailPDFListaAnuncio(){
         );
 
     })
-    
+
     /*$(document).ready(function () {
-        
-        var selecionado = 0;
-      
-        $("input[name^='chkAnuncio']").parent().checkbox({
-            beforeChecked: function () { //ao clicar no anuncio, marcar de vermelho   
+     
+     var selecionado = 0;
+     
+     $("input[name^='chkAnuncio']").parent().checkbox({
+     beforeChecked: function () { //ao clicar no anuncio, marcar de vermelho   
+     
+     var NumeroMaximo = 5;
+     if (selecionado == NumeroMaximo) {
+     alert('Selecione no máximo ' + NumeroMaximo + ' anúncios');
+     return false;
+     } else {
+     $('#hdsHidden').append('<input type="hidden" name="listaAnuncio[]" id=anuncio_' + $(this).val() + ' value=' + $(this).val() + '>');
+     selecionado = selecionado + 1;
+     var botaoEmailPDF = ("<div class='ui buttons'>\n\
+     <button class='ui button' id='btnEmail'>Enviar Por Email</button>\n\
+     <div class='or' data-text='ou'></div>\n\
+     <button class='ui positive button' id='btnEmailPDF'>Enviar Por Email - PDF</button>\n\
+     </div>");
+     if (selecionado == 1) {
+     $("#divEmailPDF").html(botaoEmailPDF);
+     confirmarEmail();
+     confirmarEmailPDF();
+     }
+     }
+     },
+     onUnchecked: function () { //ao desmarcar o anuncio
+     $('#anuncio_' + $(this).val()).remove();
+     selecionado = selecionado - 1;
+     if (selecionado == 0) {
+     $("#divEmailPDF").empty();
+     }
+     
+     }}
+     
+     );
+     
+     })*/
 
-                var NumeroMaximo = 5;
-                if (selecionado == NumeroMaximo) {
-                    alert('Selecione no máximo ' + NumeroMaximo + ' anúncios');
-                    return false;
-                } else {
-                    $('#hdsHidden').append('<input type="hidden" name="listaAnuncio[]" id=anuncio_' + $(this).val() + ' value=' + $(this).val() + '>');
-                    selecionado = selecionado + 1;
-                    var botaoEmailPDF = ("<div class='ui buttons'>\n\
-                        <button class='ui button' id='btnEmail'>Enviar Por Email</button>\n\
-                            <div class='or' data-text='ou'></div>\n\
-                        <button class='ui positive button' id='btnEmailPDF'>Enviar Por Email - PDF</button>\n\
-                        </div>");
-                    if (selecionado == 1) {
-                        $("#divEmailPDF").html(botaoEmailPDF);
-                        confirmarEmail();
-                        confirmarEmailPDF();
-                    }
-                }
-            },
-            onUnchecked: function () { //ao desmarcar o anuncio
-                $('#anuncio_' + $(this).val()).remove();
-                selecionado = selecionado - 1;
-                if (selecionado == 0) {
-                    $("#divEmailPDF").empty();
-                }
-
-            }}
-
-        );
-    
-    })*/
-    
 }
 
 function confirmarEmailPDF() {
     $(document).ready(function () {
-        
+
         $('#btnEmailPDF').click(function () {
-            
+
             $("#divMsg").empty();
-            
+
             $("#txtNomeEmail").hide();
-            $("#labelNome").hide();  
-            
+            $("#labelNome").hide();
+
             $('.emailPDF').attr('value', 'enviarEmailPDF'); //alterar o método para enviarEmailPDF 
-            
+
             $("#divMsg").append("Preencha os campos abaixo para enviar para o email desejado os anúncios selecidados em PDF");
-            
+
             $('#modalEmail').modal({
-                
                 closable: true,
                 transition: "fade up",
                 onDeny: function () {
@@ -1335,7 +1371,7 @@ function confirmarEmailPDF() {
                     return false; //deixar o modal fixo
                 }
             }).modal('show');
-            
+
             $.validator.setDefaults({
                 ignore: [],
                 errorClass: 'errorField',
@@ -1381,7 +1417,6 @@ function confirmarEmailPDF() {
                     txtEmailEmail: {
                         email: "Informe um email válido"
                     },
-                    
                     captcha_code: {
                         remote: "Código Inválido"
                     },
@@ -1416,12 +1451,12 @@ function confirmarEmailPDF() {
                     return false;
                 }
             })
-            
+
             /*if ("#hdnMsgDuvida") {
-                $("#txtMsgEmail").rules("add", {
-                    required: true
-                });
-            }*/
+             $("#txtMsgEmail").rules("add", {
+             required: true
+             });
+             }*/
             $("#camposEmail").show();
             $("#botaoEnviarEmail").show();
             $("#botaoCancelarEmail").show();
@@ -1430,42 +1465,43 @@ function confirmarEmailPDF() {
 
             $("#idAnuncios").empty();
             $("#idAnunciosCabecalho").empty();
-            
-             var arr = [];
-                $("#idAnuncios").append($("input[name^='listaAnuncio']"));
-                $(("input[name^='listaAnuncio']")).each(function(){
-                    arr.push($(this).val());                    
-                });
-            var anuncios = arr.join(", ");;
+
+            var arr = [];
+            $("#idAnuncios").append($("input[name^='listaAnuncio']"));
+            $(("input[name^='listaAnuncio']")).each(function () {
+                arr.push($(this).val());
+            });
+            var anuncios = arr.join(", ");
+            ;
             $("#idAnunciosCabecalho").append("<div class='ui horizontal list'>\n\
                                         <div class='item'>\n\
                                         <div class='content'>" + anuncios + "</div>\n\
                          </div>\n\
                          </div>");
-            
+
             /*
-            var arr = [];
-            $("input[type^='checkbox']:checked").each(function ()
-            {
-                $("#idAnuncios").append("<input type='hidden' name='anunciosSelecionados[]' value='" + $(this).val() + "'>");
-                var codigos = $( "input[name^='hdnCodAnuncioFormatado']" );
-                
-                if(codigos != ""){
-                    arr.push($(this).parent().parent().parent().find(codigos).val());
-                }      
-                
-            });
-
-            //retira a vírgula do último elemento
-            
-            var anuncios = arr.join(", ");
-            
-
-            $("#idAnunciosCabecalho").append("<div class='ui horizontal list'>\n\
-                                        <div class='item'>\n\
-                                        <div class='content'>" + anuncios + "</div>\n\
-                         </div>\n\
-                         </div>");   */       
+             var arr = [];
+             $("input[type^='checkbox']:checked").each(function ()
+             {
+             $("#idAnuncios").append("<input type='hidden' name='anunciosSelecionados[]' value='" + $(this).val() + "'>");
+             var codigos = $( "input[name^='hdnCodAnuncioFormatado']" );
+             
+             if(codigos != ""){
+             arr.push($(this).parent().parent().parent().find(codigos).val());
+             }      
+             
+             });
+             
+             //retira a vírgula do último elemento
+             
+             var anuncios = arr.join(", ");
+             
+             
+             $("#idAnunciosCabecalho").append("<div class='ui horizontal list'>\n\
+             <div class='item'>\n\
+             <div class='content'>" + anuncios + "</div>\n\
+             </div>\n\
+             </div>");   */
         })
     })
 }
@@ -1494,7 +1530,9 @@ function finalizar(botao) {
                 closable: false,
                 transition: "fade up",
                 onVisible: function () {
-                    $("#radioSucessoSim:visible").change(function () { $(this).valid();})
+                    $("#radioSucessoSim:visible").change(function () {
+                        $(this).valid();
+                    })
                 },
                 onDeny: function () {
                 },
@@ -1606,7 +1644,7 @@ function alterarValor(valor) {
             limit: 8,
             thousandsSeparator: '.'
         })
-    
+
         $("#txtTitulo" + valor).maxlength({
             threshold: 50,
             warningClass: "ui small green circular label",
@@ -1742,49 +1780,49 @@ function alterarValor(valor) {
 
 }
 
-function escreverTextoEspecificoDetalhe(tipoAnuncio){
+function escreverTextoEspecificoDetalhe(tipoAnuncio) {
     $(document).ready(function () {
-        
-    switch (tipoAnuncio){
-  
-        case "apartamento":
-            $("#textoEspecifico").html("Específico do Apartamento");
-        break;
-        case "casa":
-            $("#textoEspecifico").html("Específico da Casa");
-        break;
-        case "apartamentoplanta":
-            $("#textoEspecifico").html("Específico do Apartamento na Planta");
-        break;
-        case "salacomercial":
-            $("#textoEspecifico").html("Específico da Sala Comercial");
-        break;
-        case "prediocomercial":
-            $("#textoEspecifico").html("Específico do Prédio Comercial");
-        break;
-        case "terreno":
-            $("#textoEspecifico").html("Específico do Terremo");
-        break;
-        }    
+
+        switch (tipoAnuncio) {
+
+            case "apartamento":
+                $("#textoEspecifico").html("Específico do Apartamento");
+                break;
+            case "casa":
+                $("#textoEspecifico").html("Específico da Casa");
+                break;
+            case "apartamentoplanta":
+                $("#textoEspecifico").html("Específico do Apartamento na Planta");
+                break;
+            case "salacomercial":
+                $("#textoEspecifico").html("Específico da Sala Comercial");
+                break;
+            case "prediocomercial":
+                $("#textoEspecifico").html("Específico do Prédio Comercial");
+                break;
+            case "terreno":
+                $("#textoEspecifico").html("Específico do Terremo");
+                break;
+        }
     })
 }
 
 function alterarStatusAnuncio(valor) {
-     
+
     $(document).ready(function () {
         $('.ui.dropdown')
                 .dropdown({
                     on: 'hover'
                 });
-                
-        $("#sltStatusAnuncio"+valor).change(function () {
+
+        $("#sltStatusAnuncio" + valor).change(function () {
             $(this).valid();
         })
-    
+
         $("input[name^='sltStatusAnuncio']").parent().dropdown({
-             on: 'hover'
-        })        
-                
+            on: 'hover'
+        })
+
         $('#btnMudarStatus' + valor).click(function () {
             $("#botaoFecharStatus" + valor).hide();
 
@@ -1816,7 +1854,7 @@ function alterarStatusAnuncio(valor) {
             });
 
             $.validator.messages.required = 'Campo obrigatório';
-      
+
             $("#formAlterarStatusAnuncio" + valor).validate({
                 onkeyup: false,
                 focusInvalid: true,
@@ -1825,7 +1863,6 @@ function alterarStatusAnuncio(valor) {
                         required: true
                     },
                 },
-
                 submitHandler: function (form) {
                     $.ajax({
                         url: "index.php",
@@ -1861,110 +1898,110 @@ function alterarStatusAnuncio(valor) {
 
         })
 
-    })    
-        
+    })
+
     /*
-    $('#btnMudarStatus' + valor).click(function () {
-        
-        $('#botaoFecharStatus' + valor).hide();
-        
-         $('#modalMudarStatus' + valor).modal({
-                closable: false,
-                transition: "fade up",
-                onDeny: function () {
-                },
-                onApprove: function () {
-                    $("#formAlterarStatusAnuncio" + valor).submit();
-                    return false; //deixar o modal fixo
-                }
-            }).modal('show');
-
-        $.validator.setDefaults({
-            ignore: [],
-            errorClass: 'errorField',
-            errorElement: 'div',
-            errorPlacement: function (error, element) {
-                error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
-            },
-            highlight: function (element, errorClass, validClass) {
-                $(element).closest("div.field").addClass("error").removeClass("success");
-            },
-            unhighlight: function (element, errorClass, validClass) {
-                $(element).closest(".error").removeClass("error").addClass("success");
-            }
-        });
-
-        $.validator.messages.required = 'Campo obrigatório';
-
-        $('#formAlterarValorAnuncio' + valor).validate({
-            onkeyup: false,
-            focusInvalid: true,
-            
-            rules:{
-                sltStatusAnuncio: {
-                    required: true
-                },
-            },
-            
-            submitHandler: function (form) {
-                $.ajax({
-                    url: "index.php",
-                    dataType: "json",
-                    type: "POST",
-                    data: $('#formAlterarStatusAnuncio' + valor).serialize(),
-                    beforeSend: function () {
-                        $("#camposAlterarStatus" + valor).html("<div><div class='ui active inverted dimmer'>\n\
-                        <div class='ui text loader'>Editando. Aguarde...</div></div></div>");
-                    },/*
-                    success: function (resposta) {
-
-                        $("#camposAlterarStatus" + valor).html("");
-                        $("#listaStatus" + valor).hide();
-                        $("#botaoCancelaAlterarStatus" + valor).hide();
-                        $("#botaoAlterarStatus" + valor).show();
-
-                        if (resposta.resultado == 1) {
-                            $("#divRetornoNovoStatus" + valor).html("<div class='ui positive message'>\n\
-                                    <i class='big green check circle outline icon'></i>Status Alterado Com Sucesso\n\
-                                </div>");
-
-                            $("#botaoFecharAlterarValor" + valor).click(function () {
-                                window.location.reload();
-                            })
-
-                        }
-
-                        if (resposta.resultado == 2) {
-                            $("#divRetornoNovoStatus" + valor).html("<div class='ui negative message'>\n\
-                                    <div class='content'><div class='header'>Erro</div>Ocorreu um erro ao \n\
-                                    alterar o status. Tente novamente em alguns minutos (Cód. 002)\n\
-                                </div></div>");
-
-                            $("#botaoFecharAlterarValor" + valor).click(function () {
-                                window.location.reload();
-                            })
-                        }
-
-                        if (resposta.resultado == 3) { //caso o usuário não esteja logado
-
-                            location.href = "index.php?entidade=Usuario&acao=form&tipo=login";
-
-                        }
-
-                        if (resposta.resultado == 0) {
-                            $("#divRetornoNovoStatus" + valor).html("<div class='ui negative message'>\n\
-                                    <div class='content'><div class='header'>Erro</div>\n\
-                                Ocorreu um erro ao alterar o status. Tente novamente em alguns minutos\n\
-                                </div></div>");
-                            $("#botaoFecharStatus" + valor).click(function () {
-                                window.location.reload();
-                            })
-                        }
-                    }
-                })
-                return false;
-            }
-        })
-    })*/
+     $('#btnMudarStatus' + valor).click(function () {
+     
+     $('#botaoFecharStatus' + valor).hide();
+     
+     $('#modalMudarStatus' + valor).modal({
+     closable: false,
+     transition: "fade up",
+     onDeny: function () {
+     },
+     onApprove: function () {
+     $("#formAlterarStatusAnuncio" + valor).submit();
+     return false; //deixar o modal fixo
+     }
+     }).modal('show');
+     
+     $.validator.setDefaults({
+     ignore: [],
+     errorClass: 'errorField',
+     errorElement: 'div',
+     errorPlacement: function (error, element) {
+     error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
+     },
+     highlight: function (element, errorClass, validClass) {
+     $(element).closest("div.field").addClass("error").removeClass("success");
+     },
+     unhighlight: function (element, errorClass, validClass) {
+     $(element).closest(".error").removeClass("error").addClass("success");
+     }
+     });
+     
+     $.validator.messages.required = 'Campo obrigatório';
+     
+     $('#formAlterarValorAnuncio' + valor).validate({
+     onkeyup: false,
+     focusInvalid: true,
+     
+     rules:{
+     sltStatusAnuncio: {
+     required: true
+     },
+     },
+     
+     submitHandler: function (form) {
+     $.ajax({
+     url: "index.php",
+     dataType: "json",
+     type: "POST",
+     data: $('#formAlterarStatusAnuncio' + valor).serialize(),
+     beforeSend: function () {
+     $("#camposAlterarStatus" + valor).html("<div><div class='ui active inverted dimmer'>\n\
+     <div class='ui text loader'>Editando. Aguarde...</div></div></div>");
+     },/*
+     success: function (resposta) {
+     
+     $("#camposAlterarStatus" + valor).html("");
+     $("#listaStatus" + valor).hide();
+     $("#botaoCancelaAlterarStatus" + valor).hide();
+     $("#botaoAlterarStatus" + valor).show();
+     
+     if (resposta.resultado == 1) {
+     $("#divRetornoNovoStatus" + valor).html("<div class='ui positive message'>\n\
+     <i class='big green check circle outline icon'></i>Status Alterado Com Sucesso\n\
+     </div>");
+     
+     $("#botaoFecharAlterarValor" + valor).click(function () {
+     window.location.reload();
+     })
+     
+     }
+     
+     if (resposta.resultado == 2) {
+     $("#divRetornoNovoStatus" + valor).html("<div class='ui negative message'>\n\
+     <div class='content'><div class='header'>Erro</div>Ocorreu um erro ao \n\
+     alterar o status. Tente novamente em alguns minutos (Cód. 002)\n\
+     </div></div>");
+     
+     $("#botaoFecharAlterarValor" + valor).click(function () {
+     window.location.reload();
+     })
+     }
+     
+     if (resposta.resultado == 3) { //caso o usuário não esteja logado
+     
+     location.href = "index.php?entidade=Usuario&acao=form&tipo=login";
+     
+     }
+     
+     if (resposta.resultado == 0) {
+     $("#divRetornoNovoStatus" + valor).html("<div class='ui negative message'>\n\
+     <div class='content'><div class='header'>Erro</div>\n\
+     Ocorreu um erro ao alterar o status. Tente novamente em alguns minutos\n\
+     </div></div>");
+     $("#botaoFecharStatus" + valor).click(function () {
+     window.location.reload();
+     })
+     }
+     }
+     })
+     return false;
+     }
+     })
+     })*/
 }
 

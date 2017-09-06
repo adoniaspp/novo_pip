@@ -160,11 +160,11 @@ class AnuncioControle {
                         $formAnuncio["imovel"] = $selecionarImovel;
                         $formAnuncio["anuncio"] = $selecionarAnuncio[0];
                         $formAnuncio["novovalor"] = $selecionarNovoValor;
-                        
+
                         $consultasAdHoc = new ConsultasAdHoc();
-                        $existeAlteracaoNaoAprovada = $consultasAdHoc->ConsultarAnunciosPendentesPorUsuario($_SESSION['idusuario'], false, array("pendenteanalise","emanalise"),  $selecionarAnuncio[0]->getIdanuncio());
-                        $formAnuncio["existeAlteracaoNaoAprovada"] = count($existeAlteracaoNaoAprovada)>0;
-                        
+                        $existeAlteracaoNaoAprovada = $consultasAdHoc->ConsultarAnunciosPendentesPorUsuario($_SESSION['idusuario'], false, array("pendenteanalise", "emanalise"), $selecionarAnuncio[0]->getIdanuncio());
+                        $formAnuncio["existeAlteracaoNaoAprovada"] = count($existeAlteracaoNaoAprovada) > 0;
+
                         $item = $formAnuncio;
                         $pagina = "AnuncioVisaoEditar.php";
                     }
@@ -190,7 +190,11 @@ class AnuncioControle {
         unset($parametros["hdnEntidade"]);
         unset($parametros["hdnAcao"]);
         if ($parametros["idbairro"] != "") {
-            $parametros["idbairro"] = explode(",", $parametros["idbairro"]);
+            $parametros["idbairro"] = explode(",", $parametros["idbairro"]); //caso mais de um bairro seja escolhido
+        }
+
+        if ($parametros["id"] != "") {
+            $parametros["id"] = explode(",", $parametros["id"]); //caso mais de um corretor seja escolhido
         }
         $parametros["predicados"] = $parametros;
 
@@ -510,62 +514,60 @@ class AnuncioControle {
     }
 
     function cadastrar($parametros) {
-        
+
         if (Sessao::verificarSessaoUsuario()) {
 
             if (isset($parametros['upload']) & $parametros['upload'] === "1") {
                 include_once 'controle/ImagemControle.php';
                 $imagem = new ImagemControle($parametros);
             } else {
-                    $genericoDAO = new GenericoDAO(); 
-                    //INICIA TRANSACAO
-                    $genericoDAO->iniciarTransacao();
-                    $entidadeUsuarioPlano = new UsuarioPlano();
-                    
-                    //verifica se o plano eh gratuito
-                    if($parametros["sltPlano"] == "gratuito"){
+                $genericoDAO = new GenericoDAO();
+                //INICIA TRANSACAO
+                $genericoDAO->iniciarTransacao();
+                $entidadeUsuarioPlano = new UsuarioPlano();
+
+                //verifica se o plano eh gratuito
+                if ($parametros["sltPlano"] == "gratuito") {
                     //consultar se ja existe algum plano gratuito que seja pago (administrador negou)
+                    $verificarPlanoGratuito = $genericoDAO->consultar($entidadeUsuarioPlano, false, array("status" => "pago", "idplano" => 5, "idusuario" => $_SESSION["idusuario"]));
+                    //se nao tem cadastra um novo
+                    if (empty($verificarPlanoGratuito)) {
+                        $entidadeUsuarioPlano->cadastrar(5);
+                        $entidadeUsuarioPlano->setStatus("pago");
+                        $genericoDAO->cadastrar($entidadeUsuarioPlano);
                         $verificarPlanoGratuito = $genericoDAO->consultar($entidadeUsuarioPlano, false, array("status" => "pago", "idplano" => 5, "idusuario" => $_SESSION["idusuario"]));
-                        //se nao tem cadastra um novo
-                        if(empty($verificarPlanoGratuito)){                          
-                            $entidadeUsuarioPlano->cadastrar(5);    
-                            $entidadeUsuarioPlano->setStatus("pago");
-                            $genericoDAO->cadastrar($entidadeUsuarioPlano);
-                            $verificarPlanoGratuito = $genericoDAO->consultar($entidadeUsuarioPlano, false, array("status" => "pago", "idplano" => 5, "idusuario" => $_SESSION["idusuario"]));
-                       } 
-                           //busca o usuarioplano na base
-                            $entidadeUsuarioPlano = $verificarPlanoGratuito[0];
-                        
-                     //fim do gratuito
-                    } else {
-                    
+                    }
+                    //busca o usuarioplano na base
+                    $entidadeUsuarioPlano = $verificarPlanoGratuito[0];
+
+                    //fim do gratuito
+                } else {
+
                     $entidadeUsuarioPlano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $parametros["sltPlano"]));
                     $entidadeUsuarioPlano = $entidadeUsuarioPlano[0];
-                    }
-                    
+                }
+
                 if (Sessao::verificarToken($parametros) && $entidadeUsuarioPlano->permitidoCadastrar()) {
 
 
                     //ATUALIZA O PLANO UTILIZADO
                     $entidadeUsuarioPlano->setStatus("utilizado");
                     $genericoDAO->editar($entidadeUsuarioPlano);
-           
-              
+
+
                     //inicio se o plano for gratuito
-                  
                     //CRIA INSTANCIA ANUNCIO
                     $anuncio = new AnuncioAprovacao();
                     $entidadeAnuncio = $anuncio->cadastrar($parametros);
-                    
+
                     //fazer atualização do idusuarioplano para o plano gratuito recém criado.
-                    if($parametros["sltPlano"] == "gratuito"){
+                    if ($parametros["sltPlano"] == "gratuito") {
                         $entidadeAnuncio->setIdusuarioplano($entidadeUsuarioPlano->getId());
                         //var_dump($entidadeAnuncio);
-                        
                     }
-                    
+
                     $this->verificaValorMinimo($entidadeAnuncio, $parametros);
-                    
+
                     //SALVA ANUNCIO
                     $idAnuncioAprovacao = $genericoDAO->cadastrar($entidadeAnuncio);
                     //die();
@@ -611,12 +613,22 @@ class AnuncioControle {
                             }
                         }
                     }
+
                     //somente salva fotos se houver
                     if (isset($_SESSION["imagemAnuncio"])) {
+                        //gravara apenas a qtd permitida para o plano selecionado
+                        $planoSelecionado = $genericoDAO->consultar(new Plano(), true, array("id" => $entidadeUsuarioPlano->getIdplano()));
+                        $planoSelecionado = $planoSelecionado[0];
+                        $maximoDeImagensPermitidas = $planoSelecionado->getMaximoimagens();
+                        $contadorImagens = 0;
                         foreach ($_SESSION["imagemAnuncio"] as $file) {
                             $entidadeImagem = new ImagemAprovacao();
                             $entidadeImagem->cadastrar($file, $idAnuncioAprovacao, $parametros["rdbDestaque"]);
                             $genericoDAO->cadastrar($entidadeImagem);
+                            $contadorImagens++;
+                            if ($contadorImagens > $maximoDeImagensPermitidas) {
+                                break;
+                            }
                         }
                     }
 
@@ -647,11 +659,11 @@ class AnuncioControle {
                         echo json_encode(array("resultado" => 0));
                     }
                 } else {
-                        //ROLLBACK!
-                        $genericoDAO->rollback();
-                        //RETORNA ERRO
-                        echo json_encode(array("resultado" => 0));
-                    }
+                    //ROLLBACK!
+                    $genericoDAO->rollback();
+                    //RETORNA ERRO
+                    echo json_encode(array("resultado" => 0));
+                }
             }
         }
     }
@@ -886,21 +898,15 @@ class AnuncioControle {
         $usuario = new Usuario();
         $genericoDAO = new GenericoDAO();
 
-        
-        
+
+
         $selecionarAnuncioUsuario = $genericoDAO->consultar($usuario, true, array("login" => $parametros["login"]));
         //var_dump($selecionarAnuncioUsuario); die();
-        
         //var_dump($selecionarAnuncioUsuario); die();
-        
         //if ($selecionarAnuncioUsuario == null) {
-
         //    $selecionarAnuncioUsuario = $genericoDAO->consultar($usuario, true, array("login" => $parametros["login"]));
-            
-            //var_dump($selecionarAnuncioUsuario);
-            
-            //echo "NULO"; die();
-            
+        //var_dump($selecionarAnuncioUsuario);
+        //echo "NULO"; die();
         //}
 
         if (!$selecionarAnuncioUsuario) {
@@ -909,30 +915,27 @@ class AnuncioControle {
             $visao->exibir('VisaoErrosGenerico.php');
         } else {
             //$item["usuario"] = $genericoDAO->consultar(new Usuario(), false, array("id" => $selecionarAnuncioUsuario[0]->getId()));
-            
             //var_dump($selecionarAnuncioUsuario); die();
-            
             //$statusUsuario = $item["usuario"] = $genericoDAO->consultar(new Usuario(), false, array("id" => $selecionarAnuncioUsuario[0]->getId()));
             $verificarStatus = $selecionarAnuncioUsuario[0]->getStatus();
-            
-            //var_dump($item["usuario"]); die();
 
+            //var_dump($item["usuario"]); die();
             //$verificarStatus = $statusUsuario[0]->getStatus();
             $id = $selecionarAnuncioUsuario[0]->getId();
 
             if ($verificarStatus == 'ativo') {
 
-                /*$consultasAdHoc = new ConsultasAdHoc();
-                $parametrosBusca["atributos"] = "*";
-                $parametrosBusca["tabela"] = "todos";
-                $parametrosBusca["predicados"]["id"] = $id; //Id do corretor. 
-                $parametrosBusca["predicados"]["garagem"] = "false";*/
+                /* $consultasAdHoc = new ConsultasAdHoc();
+                  $parametrosBusca["atributos"] = "*";
+                  $parametrosBusca["tabela"] = "todos";
+                  $parametrosBusca["predicados"]["id"] = $id; //Id do corretor.
+                  $parametrosBusca["predicados"]["garagem"] = "false"; */
 
                 $visao = new Template();
                 $item["usuario"] = $genericoDAO->consultar(new Usuario(), true, array("id" => $selecionarAnuncioUsuario[0]->getId()));
                 $item["cidadeEstado"] = $genericoDAO->consultar(new Endereco(), true, array("id" => $selecionarAnuncioUsuario[0]->getIdEndereco()));
                 //$item["anuncio"] = $consultasAdHoc->buscaAnuncios($parametrosBusca);
-                
+
                 $visao->setItem($item);
                 $visao->exibir('AnuncioVisaoUsuario.php');
             } else if ($verificarStatus == 'desativadousuario') { // caso o usuário tenha desabilitado-se

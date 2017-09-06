@@ -6,6 +6,7 @@ if ($item) {
     foreach ($item["imovel"] as $objImovel) {
         $idImovel = $objImovel->getId();
         $tipoImovel = $objImovel->getTipoImovel()->getDescricao();
+        $tipoImovelDescricao = $objImovel->tipoImovelRetornar($objImovel->getTipoImovel()->getId());
     }
     $anuncio = $item["anuncio"];
 }
@@ -79,6 +80,17 @@ $valorAnuncio = (isset($item["novovalor"][0])) ? $item["novovalor"][0]->getNovov
 
 
 <div class="ui middle aligned stackable grid container">
+    <?php if ($item["existeAlteracaoNaoAprovada"]===true) { ?>
+    <div class="row">
+        <div class="column">
+            <div class="ui horizontal segments">
+                <div class="ui segment center aligned ">
+                    <i class="big orange edit icon"></i>Atenção: existe alteração registrada para esse anúncio que ainda não foi aprovada. <br>O envio de uma nova alteração não sobrescreverá as anteriores.
+                </div>
+            </div>           
+        </div>
+    </div>
+    <?php } ?>
     <div class="row">
         <div class="ui fluid small ordered steps">
             <?php if ($tipoImovel == "apartamentoplanta") { ?>
@@ -149,7 +161,7 @@ $valorAnuncio = (isset($item["novovalor"][0])) ? $item["novovalor"][0]->getNovov
         <div class="ui basic right aligned segment" id="botaoDetalhesImovel">
 
             <div class="ui animated fade green button" id="detalhes<?php echo $idImovel; ?>">
-                <div class="visible content"><i class="home icon"></i> <?php echo ucfirst($tipoImovel) ?></div>
+                <div class="visible content"><i class="home icon"></i> <?php echo ucfirst($tipoImovelDescricao); ?></div>
                 <div class="hidden content">
                     Ver detalhes
                 </div>

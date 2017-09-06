@@ -398,7 +398,7 @@ class AnuncioAprovacaoControle {
             $anuncioSelecionado = $genericoDAO->consultar($anuncioAprovacao, true, array("id" => $parametros["hdnAnuncio"]));
             $anuncioSelecionado = $anuncioSelecionado[0];
 
-            if ($anuncioSelecionado) {
+            if ($anuncioSelecionado && $this->permiteAlterarStatus($anuncioSelecionado)) {
                 //setar apenas os campos que se quer editar
                 $anuncioSelecionado->alterarStatus($parametros);
 
@@ -406,7 +406,7 @@ class AnuncioAprovacaoControle {
 
                 //passar o objeto para edição
                 $novoStatus = $genericoDAO->editar($anuncioSelecionado);
-                
+
                 //verifica qual o status para dar tratamento ao anuncio
                 switch ($parametros["sltStatusAnuncio"]) {
                     case "aprovacaonegada":
@@ -433,11 +433,20 @@ class AnuncioAprovacaoControle {
                     echo json_encode(array("resultado" => 0));
                     $genericoDAO->rollback();
                 }
+            } else {
+                echo json_encode(array("resultado" => 0));
             }
         } else {
             echo json_encode(array("resultado" => 0));
-            $genericoDAO->rollback();
         }
+    }
+
+    private function permiteAlterarStatus($anuncio) {
+        $genericoDAO = new GenericoDAO();
+        $verificaExisteCadastrado = $genericoDAO->consultar(new Anuncio(), false, array("idanuncio" => $anuncio->getIdAnuncio(), "status" => "cadastrado"));
+        $verificaSeNaoExiste = $genericoDAO->consultar(new Anuncio(), false, array("idanuncio" => $anuncio->getIdAnuncio()));
+        $permite = ($verificaExisteCadastrado || !$verificaSeNaoExiste);
+        return $permite;
     }
 
     function fimCadastroAnuncio($parametros) {

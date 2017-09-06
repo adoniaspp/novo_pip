@@ -7,7 +7,7 @@ class ImagemControle extends UploadHandler {
 
     private $parametros;
     private $idImagem;
-
+    
     public function __construct($parametros = NULL) {
         $this->parametros = $parametros;
         parent::__construct(array(
@@ -29,7 +29,7 @@ class ImagemControle extends UploadHandler {
             'max_file_size' => 'Arquivo muito grande (3 MB)',
             'min_file_size' => 'Arquivo muito pequeno (0 MB)',
             'accept_file_types' => 'Arquivo não permitido. Apenas imagens (gif, jpeg, png)',
-            'max_number_of_files' => 'Quantidade máxima de fotos atingida (5 fotos)',
+            'max_number_of_files' => 'Quantidade máxima de fotos atingida',
             'max_width' => 'Largura máxima atingida',
             'min_width' => 'Image requires a minimum width',
             'max_height' => 'Altura máxima atingida',

@@ -6,6 +6,7 @@ if ($item) {
     foreach ($item["imovel"] as $objImovel) {
         $idImovel = $objImovel->getId();
         $tipoImovel = $objImovel->getTipoImovel()->getDescricao();
+        $tipoImovelDescricao = $objImovel->tipoImovelRetornar($objImovel->getTipoImovel()->getId());
     }
 }
 ?>
@@ -146,7 +147,7 @@ if ($item) {
         <div class="ui basic right aligned segment" id="botaoDetalhesImovel">
 
             <div class="ui animated fade green button" id="detalhes<?php echo $idImovel; ?>">
-                <div class="visible content"><i class="home icon"></i> <?php echo ucfirst($tipoImovel) ?></div>
+                <div class="visible content"><i class="home icon"></i> <?php echo ucfirst($tipoImovelDescricao); ?></div>
                 <div class="hidden content">
                     Ver detalhes
                 </div>
@@ -216,7 +217,8 @@ if ($item) {
                                     <?php
                                 } else {
                                     ?>
-                                    <div class="text">Você ainda não possui planos ativos.</div>
+                                    <div class="text">Escolha um plano</div>
+                                    <div class="item" data-value="gratuito"><?php echo $plano->getTitulo() . " - Sem Cobranças Adicionais"; ?></div>
                                     <?php
                                 }
                                 ?>
@@ -228,6 +230,7 @@ if ($item) {
                                 <div class="content">
                                     Comprar planos!
                                     <div class="sub header">  <a href="index.php?entidade=Plano&acao=listar"> Para anunciar é preciso ter planos ativos! </a></div>
+                                    <input type="hidden" name="hdnMaxImagens" id="hdnMaxImagens" value="3" />
                                 </div>
                             </div>
                         </div>
@@ -495,6 +498,7 @@ if ($item) {
                                 <thead>
                                     <tr>
                                         <th>Plano</th>
+                                        <th>Máximo de Imagens</th>
                                         <th>Finalidade</th>
                                         <th>Título</th>
                                         <th>Descrição</th>
@@ -506,6 +510,7 @@ if ($item) {
                                 <tbody>
                                     <tr class="center aligned">
                                         <td id="tdPlano"></td>
+                                        <td id="tdImagens"></td>
                                         <td id="tdFinalidade"></td>
                                         <td id="tdTitulo"></td>
                                         <td id="tdDescricao"></td>
@@ -519,8 +524,8 @@ if ($item) {
                                 <textarea readonly="true"><?php include_once 'assets/txt/termo.php'; ?></textarea>
                             </div>
                             <div class="ui warning message ">
-                                Aceito os termos do contrato e reconheço como verdadeiras as informações constantes nesse anuncio e desde logo,
-                                responsabiliza-se integralmente pela veracidade e exatidão das informações aqui fornecidas, sob pena de incorrer nas sanções
+                                Ao continuar, você aceita os termos do contrato e assim se
+                                responsabiliza integralmente pela veracidade e exatidão das informações aqui fornecidas, sob pena de incorrer nas sanções
                                 previstas no art. 299 do Decreto Lei 2848/40 (Código Penal). 
                             </div>               
                         </div>               
