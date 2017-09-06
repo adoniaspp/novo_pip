@@ -126,46 +126,6 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                             formatarValor("<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>");
                         </script>       
                         <div class="card list-item" style="width: 263px; border-radius: 2.285714rem; box-shadow: 0 1px 3px 0 #D4D4DD,0 0 0 1px #000000" id="cartao<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">
-                            <!--                            <div class="content">
-                            <?php
-                            if ($item['anuncio'][$crtl]['finalidade'] == "Venda") {
-                                echo "<div class='ui blue ribbon label'> Venda </div>";
-                            } else {
-                                echo "<div class='ui green ribbon label'> Aluguel </div>";
-                            }
-                            ?>            
-                                                            <div class="ui grid">
-                                                                <div class="ui centered row">
-                                                                    <a href="http://www.facebook.com/sharer.php?u=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big blue facebook square icon"></i></a>
-                                                                    <a href="https://twitter.com/intent/tweet?text=Anúncio%20Compartilhado%20via%20PIP-OnLine%20http%3A%2F%2Fwww.pipbeta.com.br%2F<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big blue twitter icon"></i></a>
-                                                                    <a href="https://plus.google.com/share?url=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big red google plus circle icon"></i></a>
-                                                                    <a class="compartilhar-whatsapp" href='whatsapp://send?text=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>'><i class="big green whatsapp icon"></i></a>
-                                                                    <div class="ui primary button" id="copiarBotao" onclick="copiar()">Copiar Link Anúncio</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="ui grid">
-                                                            <div class="ui centered row">
-                                                                <div class="header">
-                                                                    <b>
-                            <?php
-                            if ($item['anuncio'][$crtl]['tipo'] == "prediocomercial") {
-                                echo "Prédio Comercial";
-                            } else if
-                            ($item['anuncio'][$crtl]['tipo'] == "apartamentoplanta") {
-                                echo "Apartamento na Planta";
-                            } else if
-                            ($item['anuncio'][$crtl]['tipo'] == "salacomercial") {
-                                echo "Sala Comercial";
-                            } else
-                                echo ucfirst($item['anuncio'][$crtl]['tipo'])
-                                ?>                                           
-                                                                    </b>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <br>-->
-
                             <div class="content">
                                 <?php
                                 if ($item['anuncio'][$crtl]['finalidade'] == "Venda") {
@@ -173,36 +133,20 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                 } else {
                                     echo "<div class='ui green ribbon label'> Aluguel </div>";
                                 }
-                                ?> 
-                                <!--                                <div class="left floated header">Venda</div>-->
-                                <div class="right floated meta">
-                                    <a href="http://www.facebook.com/sharer.php?u=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big blue facebook square icon"></i></a>
-                                    <a href="https://twitter.com/intent/tweet?text=Anúncio%20Compartilhado%20via%20PIP-OnLine%20http%3A%2F%2Fwww.pipbeta.com.br%2F<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big blue twitter icon"></i></a>
-                                    <a href="https://plus.google.com/share?url=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big red google plus circle icon"></i></a>
-                                    <a class="compartilhar-whatsapp" href='whatsapp://send?text=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>'><i class="big green whatsapp icon"></i></a>
-                                    <!--                                        <div class="ui primary button" id="copiarBotao" onclick="copiar()">Copiar Link Anúncio</div>-->
-                                </div>                                
-                            </div>
-                            <!--                             <div class="ui divider"></div>-->
+                                ?>                                                                       
+                            </div>  
                             <div class="ui grid">
                                 <div class="ui centered row">
-                                    <div class="header">
-                                        <?php
-                                        if ($item['anuncio'][$crtl]['tipo'] == "prediocomercial") {
-                                            echo "Prédio Comercial";
-                                        } else if
-                                        ($item['anuncio'][$crtl]['tipo'] == "apartamentoplanta") {
-                                            echo "Apartamento na Planta";
-                                        } else if
-                                        ($item['anuncio'][$crtl]['tipo'] == "salacomercial") {
-                                            echo "Sala Comercial";
-                                        } else
-                                            echo ucfirst($item['anuncio'][$crtl]['tipo'])
-                                            ?>                                           
+                                    <div class="header"><b>
+                                            <?php
+                                            $limite = 24;
+                                            $titulo = $item['anuncio'][$crtl]['tituloanuncio'];
+                                            echo (strlen(trim($titulo)) >= $limite) ? trim(substr($titulo, 0, strrpos(substr($titulo, 0, $limite), " "))) . "..." : $titulo;
+                                            ?></b>
                                     </div>
                                 </div>
                             </div>
-
+                            <br>
 
                             <div class="dimmable image" style=" text-align: center;
                                  margin: 0px auto;
@@ -283,60 +227,70 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                 <!--                                    <div class="ui divider"></div>-->
 
                                 <!--                                </div>-->
-                                <?php if ($item['anuncio'][$crtl]['tipo'] !== "apartamentoplanta") { ?>
-                                    <div class="left floated header" id="spanValor<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">       
-                                        <?php echo ($item['anuncio'][$crtl]['novovalor'] != "") ? $item['anuncio'][$crtl]['novovalor'] : $item['anuncio'][$crtl]['valormin']; ?>                                         
-                                    </div>
-                                    <?php
-                                } else {
 
-                                    if ($item['anuncio'][$crtl]['valormin'] != 0) {
-                                        ?>
-
-                                        A partir de  
-                                        <span class="left floated header" id="spanValor<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">     
-                                            <?php
-                                            echo $item['anuncio'][$crtl]['valormin'];
-                                        } if ($item['anuncio'][$crtl]['valormin'] == 0) {
-                                            echo "Valor não informado";
-                                        }
-                                    }
-                                    ?>
-                                </span>
-                                <div class="right floated header"> <?php echo $item['anuncio'][$crtl]['bairro'] ?> </div>
                                 <div class="description"> 
-                                    <!--                                    <br />-->
+                                    <?php
+                                    if ($item['anuncio'][$crtl]['tipo'] == "prediocomercial") {
+                                        echo "Prédio Comercial";
+                                    } else if
+                                    ($item['anuncio'][$crtl]['tipo'] == "apartamentoplanta") {
+                                        echo "Apartamento na Planta";
+                                    } else if
+                                    ($item['anuncio'][$crtl]['tipo'] == "salacomercial") {
+                                        echo "Sala Comercial";
+                                    } else
+                                        echo ucfirst($item['anuncio'][$crtl]['tipo'])
+                                        ?>
+                                    <br />
                                     <span hidden="true" class="data" id="spanData<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>"> 
                                         <?php echo $item['anuncio'][$crtl]['datahoracadastro']; ?> </span>
                                     <!-- CASO SEJA UM APARTAMENTO NA PLANTA, NÃO EXIBIR O VALOR-->
+                                    <?php if ($item['anuncio'][$crtl]['tipo'] !== "apartamentoplanta") { ?>
 
-                                    <!--<br />
-                                    Cod. <?php $item['anuncio'][$crtl]['idanuncioformatado'] ?> -->
-                                    <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" />
-                                    <input type="hidden" id="hiddenAnuncioFormatadaoCopiar" value="<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" />
+                                        <span class="valor" id="spanValor<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>"> 
+                                            <?php echo ($item['anuncio'][$crtl]['novovalor'] != "") ? $item['anuncio'][$crtl]['novovalor'] : $item['anuncio'][$crtl]['valormin']; ?> 
 
+                                            <?php
+                                        } else {
 
+                                            if ($item['anuncio'][$crtl]['valormin'] != 0) {
+                                                ?>
+
+                                                A Partir de 
+                                                <span class="valor" id="spanValor<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">     
+
+                                                    <?php
+                                                    echo $item['anuncio'][$crtl]['valormin'];
+                                                } if ($item['anuncio'][$crtl]['valormin'] == 0) {
+                                                    echo "Valor não informado";
+                                                }
+                                            }
+                                            ?>
+                                        </span>
+                                        <!--<br />
+                                        Cod. <?php $item['anuncio'][$crtl]['idanuncioformatado'] ?> -->
+                                        <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" />
+                                        <input type="hidden" id="hiddenAnuncioFormatadaoCopiar" value="<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" />
+                                        <br />
+                                        <?php echo FuncoesAuxiliares::tempo_corrido($item['anuncio'][$crtl]['datahoracadastro']) ?> <?php /* echo date('d/m/Y', strtotime($item['anuncio'][$crtl]['datahoracadastro'])) */ ?>
+                                        <br />
+                                        <div class="ui grid">
+                                            <div class="ui centered row">
+                                                <a href="http://www.facebook.com/sharer.php?u=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big blue facebook square icon"></i></a>
+                                                <a href="https://twitter.com/intent/tweet?text=Anúncio%20Compartilhado%20via%20PIP-OnLine%20http%3A%2F%2Fwww.pipbeta.com.br%2F<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big blue twitter icon"></i></a>
+                                                <a href="https://plus.google.com/share?url=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big red google plus circle icon"></i></a>
+                                                <a class="compartilhar-whatsapp" href='whatsapp://send?text=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>'><i class="big green whatsapp icon"></i></a>
+                                                <!--<div class="ui primary button" id="copiarBotao" onclick="copiar()">Copiar Link Anúncio</div>-->
+                                            </div>
+                                        </div>
                                 </div>
-                                <br />
-                                <div class="ui one column centered grid">
-                                    <div class="column">
-                                        <button class="ui twitter button">
-                                            <i class="plus icon"></i>
-                                            Detalhes
-                                        </button> 
-                                    </div>
-                                </div>       
                             </div>
                             <div class="extra content">      
                                 <div class="ui checkbox">
                                     <input type="checkbox" name="selecionarAnuncio[]" id="selecionarAnuncio_<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" value="<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>">
                                     <label id="idsAnuncios">Selecionar</label>
                                 </div>
-                                <span class="right floated">
-                                    <?php echo FuncoesAuxiliares::tempo_corrido($item['anuncio'][$crtl]['datahoracadastro']) ?> <?php ?>
-                                </span>
-                            </div> 
-
+                            </div>                        
                         </div> 
                     <?php }
                     ?>
