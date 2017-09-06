@@ -18,6 +18,7 @@
 
 
 <?php
+$menuCorretor = true;
 include_once "visao/modulo/menuBusca.php";
 ?>
 
