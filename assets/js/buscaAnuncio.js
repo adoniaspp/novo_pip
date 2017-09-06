@@ -137,7 +137,6 @@ function buscarAnuncio() {
 
             $("#load").addClass('ui active inverted dimmer');
 
-            ;
             $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
                 tipoImovel: 'todos',
                 valor: '',
@@ -1148,11 +1147,11 @@ function inicio() {
     $(document).ready(function () {
 
         $('.menu .item').tab();
-
+        
+        $("#porCorretor").hide();
         $("#divValorVenda").hide();
         $("#divValorAluguel").hide();
         $("#divQuarto").hide();
-//        $("#divCondicao").hide();
         $("#divCondicaoAvancado").hide();
         $("#divQuarto").hide();
         $("#divBanheiro").hide();
@@ -1164,7 +1163,24 @@ function inicio() {
         $("#divGaragem").hide();
         $("#divGaragemAvancado").hide();
         $("#divAndares").hide();
-        $("#divOutrasCaracteristicas").hide();
+        $("#divOutrasCaracteristicas").hide();     
+        
+        $("#abaBasica").click(function () {
+            $("#porCorretor").hide();
+            $("#abaBasicaMenu").show();
+        });
+        
+        $("#abaAvancada").click(function () {
+            $("#porCorretor").hide();
+            $("#abaBasicaMenu").hide();
+            $("#abaAvancadaMenu").show();
+        });
+        
+        $("#abaCorretor").click(function () {
+            $("#porCorretor").show();
+            $("#abaBasicaMenu").hide();
+            $("#abaAvancadaMenu").hide();
+        });      
 
         $("#sltFinalidadeAvancado").change(function () {
             if ($(this).val() == "venda") {

@@ -10,69 +10,78 @@ class Plano {
     private $status;
     private $validadeativacao;
     private $validadepublicacao;
+    private $maximoimagens;
     
-    public function getId() {
+    function getId() {
         return $this->id;
     }
 
-    public function getTitulo() {
+    function getTitulo() {
         return $this->titulo;
     }
 
-    public function getDescricao() {
+    function getDescricao() {
         return $this->descricao;
     }
 
-    public function getPreco() {
+    function getPreco() {
         return $this->preco;
     }
-    
+
     function getTipo() {
         return $this->tipo;
+    }
+
+    function getStatus() {
+        return $this->status;
+    }
+
+    function getValidadeativacao() {
+        return $this->validadeativacao;
+    }
+
+    function getValidadepublicacao() {
+        return $this->validadepublicacao;
+    }
+
+    function getMaximoimagens() {
+        return $this->maximoimagens;
+    }
+
+    function setId($id) {
+        $this->id = $id;
+    }
+
+    function setTitulo($titulo) {
+        $this->titulo = $titulo;
+    }
+
+    function setDescricao($descricao) {
+        $this->descricao = $descricao;
+    }
+
+    function setPreco($preco) {
+        $this->preco = $preco;
     }
 
     function setTipo($tipo) {
         $this->tipo = $tipo;
     }
 
-    public function getStatus() {
-        return $this->status;
-    }
-
-    public function getValidadeativacao() {
-        return $this->validadeativacao;
-    }
-
-    public function getValidadepublicacao() {
-        return $this->validadepublicacao;
-    }
-
-    public function setId($id) {
-        $this->id = $id;
-    }
-
-    public function setTitulo($titulo) {
-        $this->titulo = $titulo;
-    }
-
-    public function setDescricao($descricao) {
-        $this->descricao = $descricao;
-    }
-
-    public function setPreco($preco) {
-        $this->preco = $preco;
-    }
-
-    public function setStatus($status) {
+    function setStatus($status) {
         $this->status = $status;
     }
 
-    public function setValidadeativacao($validadeativacao) {
+    function setValidadeativacao($validadeativacao) {
         $this->validadeativacao = $validadeativacao;
     }
 
-    public function setValidadepublicacao($validadepublicacao) {
+    function setValidadepublicacao($validadepublicacao) {
         $this->validadepublicacao = $validadepublicacao;
+    }
+
+    function setMaximoimagens($maximoimagens) {
+        $this->maximoimagens = $maximoimagens;
     }
 
 }

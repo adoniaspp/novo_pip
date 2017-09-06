@@ -50,8 +50,8 @@
                 <p>
                     Abaixo estão os anúncios <strong>finalizados</strong> por você e os <strong>expirados</strong> 
                     (finalizados automaticamente pelo sistema devido ao prazo do anúncio).
-                    Clique no códido ao lado de cada anúncio para mais detalhes
-                </p>
+                    Clique no código ao lado de cada anúncio para mais detalhes
+                </p>dido
             </div>
         </div>
     </div>

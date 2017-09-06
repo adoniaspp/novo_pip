@@ -196,7 +196,7 @@
     <div class="column">
     
     <?php
-    
+    $menuCorretor = false;
     include_once "modulo/menuBusca.php";
     
     ?>

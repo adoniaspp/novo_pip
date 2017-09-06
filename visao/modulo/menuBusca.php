@@ -7,17 +7,27 @@
 </script>
 
 <div class="ui form" id="divBusca" 
-     style="background-color: #FFFFFF; border-style: solid; border-color: #9d9d9c;
+     
+     style="background-color: #FFFFFF; border-style: solid; border-color: #9d9d9c; border-radius: 30px;
      border-bottom-width: 10px; border-top-width: 10px; border-right-width: 10px; border-left-width: 10px;">
 
     <div class="ui stackable pointing secondary menu" id="tabsTwo">
-        <a class="active blue item" data-tab="first"><i class="large search icon"></i>Busca Básica</a>
-        <a class="blue item" data-tab="second"><i class="large search icon"></i>Busca Avançada</a>
-        <a class="blue item" data-tab="third"><i class="large search icon"></i>Busca por Corretor</a>
-
+        <a class="active blue item" data-tab="first" id="abaBasica"><i class="large search icon"></i>Busca Básica</a>
+        <a class="blue item" data-tab="second" id="abaAvancada"><i class="large search icon"></i>Busca Avançada</a>
+        
+        <?php  
+        
+        if($menuCorretor){ //verificar se o menu está na página do MySpace do corretor
+        
+        ?>
+        
+        <a class="blue item" data-tab="third" id="abaCorretor"><i class="large search icon"></i>Busca por Corretor</a>
+        
+        <?php } //fim da verificação se o menu está no MySpace do corretor ?>
+        
     </div>
     
-    <div class="ui basic tab segment active" data-tab="first">
+    <div class="ui basic tab segment active" data-tab="first" id="abaBasicaMenu">
         <div class="ui stackable five column grid"> 
             <div class="column">
                 <div class="ui fluid selection dropdown">
@@ -101,7 +111,7 @@
         
     </div>            
     
-    <div class="ui basic tab segment" data-tab="second">
+    <div class="ui basic tab segment" data-tab="second" id="abaAvancadaMenu">
 
         <div class="ui stackable five column grid"> 
             <div class="column">
@@ -370,18 +380,25 @@
         </div>
         
         </div>
-
+    
+        <?php  
+        
+        if($menuCorretor){ //verificar se o menu está na página do MySpace do corretor
+        
+        ?>
+    
         <div class="ui basic tab segment active" data-tab="third" id="porCorretor">
+            
             <div class="ui stackable five column grid" id="divBuscaCorretor"> 
                 <div class="column">            
-                <div class="ui fluid multiple search selection dropdown">
-                    <input type="hidden" name="filtroCorretor[]" id="sltCorretorAvancado">
-                    <span class="default text">Selecione o(s) corretor(res)</span>
-                    <i class="dropdown icon"></i>
-                    <div class="menu" id="sltCorretor">
-                    </div>
-                </div>    
-            </div>
+                    <div class="ui fluid multiple search selection dropdown">
+                        <input type="hidden" name="filtroCorretor[]" id="sltCorretorAvancado">
+                        <span class="default text">Corretor(res)</span>
+                        <i class="dropdown icon"></i>
+                        <div class="menu" id="sltCorretor">
+                        </div>
+                    </div>    
+                </div>
             </div>
             
             <div class="ui stackable one column centered grid"> 
@@ -394,6 +411,7 @@
             </div>
             
         </div>
+    
     <br>
-
+        <?php } //fim da verificação se o menu está no MySpace do corretor?>
 </div>
