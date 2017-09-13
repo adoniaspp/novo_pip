@@ -37,7 +37,7 @@ if ($item) {
         </div>
         <div class="swiper-wrapper">
 
-            <div class="ui stackable special cards "> 
+            <div class="ui stackable cards "> 
     <?php
     for ($crtl = 0; $crtl <= count($anuncios); $crtl++) {
         for ($k = 0; $k <= count($anuncios[$crtl]['anuncio']); $k++) {
@@ -58,19 +58,19 @@ if ($item) {
                 ?>                                                                       
                                 </div>
 
-                                <div class="dimmable image" style=" text-align: center;
+                                <div class="image" style=" text-align: center;
                                      margin: 0px auto;
                                      max-height: 200px !important;">
-                                    <div class="ui inverted dimmer">
+<!--                                    <div class="ui inverted dimmer">-->
                                         <div class="content">
                                             <div class="center">
-                                                <div class="ui blue basic button"> Detalhes </div>                                          
+<!--                                                <div class="ui blue basic button"> Detalhes </div>                                          -->
                                                 <input type="hidden" id="anuncio<?php echo $anuncio['id'] ?>"
                                                        value="<?php echo $anuncio['idanuncio'] ?>"/>
                                                 <input type="hidden" id="anuncio<?php echo $anuncio['tipo'] ?>"
                                                        value="<?php echo $anuncio['tipo'] ?>"/>                                                   
                                             </div>
-                                        </div>
+<!--                                        </div>-->
                                     </div>
                 <?php
                 if ($anuncio['imagem']) {
@@ -87,7 +87,100 @@ if ($item) {
                                     <?php }
                                     ?>
                                 </div>
+                                
                                 <div class="content">
+                                <div class="ui segment">    
+                                    <div class="ui stackable three column centered grid">
+                                        <div class="column">
+                                            <img class="ui center image dimmable" src="../assets/imagens/icones/iconeQuartoPequeno.jpg">&nbsp;
+                                            <div style="font-size: 12px">  
+                                                <?php
+                                                if ($$anuncio['tipo'] == "casa" || $$anuncio['tipo'] == "apartamento") {
+                                                    echo $anuncio['quarto'];
+                                                } else if ($anuncio['tipo'] == "salacomercial" || $anuncio['tipo'] == "prediocomercial" || $anuncio['tipo'] == "terreno") {
+                                                    echo "&nbsp; - ";
+                                                } else if ($anuncio['tipo'] == "apartamentoplanta") {
+                                                    echo maximoMinimo($anuncio, 'quarto');
+                                                }
+                                                ?>
+                                            </div>
+                                        </div>
+
+                                        <div class="column">
+                                            <img class="ui left image" src="../assets/imagens/icones/iconeBanheiroPequeno.jpg">&nbsp;
+                                            <div style="font-size: 12px"><?php
+                                                if ($anuncio['tipo'] == "casa" || $anuncio['tipo'] == "apartamento" || $anuncio['tipo'] == "salacomercial") {
+                                                    echo $anuncio['banheiro'];
+                                                } else if ($anuncio['tipo'] == "salacomercial" || $anuncio['tipo'] == "prediocomercial" || $anuncio['tipo'] == "terreno") {
+                                                    echo "&nbsp; - ";
+                                                } else if ($anuncio['tipo'] == "apartamentoplanta") {
+                                                    echo maximoMinimo($anuncio, 'banheiro');
+                                                }
+                                                ?>
+                                            </div>
+                                        </div>
+
+                                        <div class="column">
+                                            <img class="ui left image " src="../assets/imagens/icones/iconeGaragemPequeno.jpg">&nbsp;
+                                            <div style="font-size: 12px"><?php
+                                                if ($anuncio['tipo'] == "casa" || $anuncio['tipo'] == "apartamento" || $anuncio['tipo'] == "salacomercial") {
+                                                    echo $anuncio['garagem'];
+                                                } else if ($anuncio['tipo'] == "salacomercial" || $anuncio['tipo'] == "prediocomercial" || $$anuncio['tipo'] == "terreno") {
+                                                    echo "&nbsp; - ";
+                                                } else if ($anuncio['tipo'] == "apartamentoplanta") {
+                                                    echo maximoMinimo($anuncio, 'garagem');
+                                                }
+                                                ?>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </div>
+                                <!--                                    <div class="ui divider"></div>-->
+
+                                <!--                                </div>-->
+                                <?php if ($anuncio['tipo'] !== "apartamentoplanta") { ?>
+                                    <div class="left floated header" id="spanValor<?php echo $anuncio['idanuncio'] ?>">       
+                                        <?php echo ($anuncio['novovalor'] != "") ? $anuncio['novovalor'] : $anuncio['valormin']; ?>                                         
+                                    </div>
+                                    <?php
+                                } else {
+
+                                    if ($anuncio['valormin'] != 0) {
+                                        ?>
+
+                                        A partir de  
+                                        <span class="left floated header" id="spanValor<?php echo $anuncio['idanuncio'] ?>">     
+                                            <?php
+                                            echo $anuncio['valormin'];
+                                        } if ($anuncio['valormin'] == 0) {
+                                            echo "Valor não informado";
+                                        }
+                                    }
+                                    ?>
+                                </span>
+                                <div class="right floated header"> <?php echo $anuncio['bairro'] ?> </div>
+                                <div class="description"> 
+                                    <!--                                    <br />-->
+                                    <span hidden="true" class="data" id="spanData<?php echo $anuncio['idanuncio'] ?>"> 
+                                        <?php echo $anuncio['datahoracadastro']; ?> </span>
+                                    <!-- CASO SEJA UM APARTAMENTO NA PLANTA, NÃO EXIBIR O VALOR-->
+
+                                    <!--<br />
+                                    Cod. <?php $anuncio['idanuncioformatado'] ?> -->
+                                    <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $anuncio['idanuncioformatado'] ?>" />
+                                    <input type="hidden" id="hiddenAnuncioFormatadaoCopiar" value="<?php echo $anuncio['idanuncioformatado'] ?>" />
+
+
+                                </div>
+                                <br />
+                                <div class="ui one column centered grid">
+                                    <div class="column">
+                                        <a class='ui twitter button' href="<?php echo PIPURL;?><?php echo $anuncio['idanuncioformatado']?>" target="_blank">+ Detalhes</a>
+                                    </div>
+                                </div>       
+                            </div>
+                                
+<!--                                <div class="content">;
                                     <div class="header"><b>
                                     <?php
                                     $limite = 24;
@@ -118,7 +211,7 @@ if ($item) {
                                         <br />
                                         Data Cadastro: <?php echo date('d/m/Y', strtotime($anuncio['datahoracadastro'])) ?>
                                     </div>
-                                </div>
+                                </div>-->
 
                             </div> 
                 <?php ?>

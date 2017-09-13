@@ -117,11 +117,14 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
 
             <!--<div class="ui stackable special cards list">-->
             <div class="ui stackable column grid">
-                <div class="ui stackable special cards list">
+                <div class="ui stackable cards list">
                     <?php
                     for ($crtl = 0; $crtl < count($item['anuncio']); $crtl++) {
+//                        echo '<pre>';
+//                        print_r($item['anuncio'][$crtl]['idanuncioformatado']);
+//                        echo '</pre>';
                         ?>
-
+                                
                         <script>
                             formatarValor("<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>");
                         </script>       
@@ -204,19 +207,19 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                             </div>
 
 
-                            <div class="dimmable image" style=" text-align: center;
+                            <div class="image" style=" text-align: center;
                                  margin: 0px auto;
                                  max-height: 200px !important;">
-                                <div class="ui inverted dimmer">
+<!--                                <div class="ui inverted dimmer">-->
                                     <div class="content">
                                         <div class="center">
-                                            <div class="ui blue basic button"> Detalhes </div>                                          
+<!--                                            <div class="ui blue basic button"> Detalhes </div>                                          -->
                                             <input type="hidden" id="anuncio<?php echo $item['anuncio'][$crtl]['id'] ?>"
                                                    value="<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>"/>
                                             <input type="hidden" id="anuncio<?php echo $item['anuncio'][$crtl]['tipo'] ?>"
                                                    value="<?php echo $item['anuncio'][$crtl]['tipo'] ?>"/>                                                   
                                         </div>
-                                    </div>
+<!--                                    </div>-->
                                 </div>
                                 <?php
                                 if ($item['anuncio'][$crtl]['imagem']) {
@@ -320,10 +323,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                 <br />
                                 <div class="ui one column centered grid">
                                     <div class="column">
-                                        <button class="ui twitter button">
-                                            <i class="plus icon"></i>
-                                            Detalhes
-                                        </button> 
+                                        <a class='ui twitter button' href="<?php echo PIPURL;?><?php echo $item['anuncio'][$crtl]['idanuncioformatado']?>" target="_blank">+ Detalhes</a>
                                     </div>
                                 </div>       
                             </div>
