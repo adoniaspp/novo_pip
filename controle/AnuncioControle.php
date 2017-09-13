@@ -742,12 +742,25 @@ class AnuncioControle {
                     #TODO: testar com o applanta
                     //somente salva fotos se houver
                     if (isset($_SESSION["imagemAnuncio"])) {
+                        //gravara apenas a qtd permitida para o plano selecionado
+                        $entidadeUsuarioPlano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $parametros["sltPlano"]));
+                        $entidadeUsuarioPlano = $entidadeUsuarioPlano[0];
+                        $planoSelecionado = $genericoDAO->consultar(new Plano(), true, array("id" => $entidadeUsuarioPlano->getIdplano()));
+                        $planoSelecionado = $planoSelecionado[0];
+                        $maximoDeImagensPermitidas = $planoSelecionado->getMaximoimagens();
+                        $contadorImagens = 0;
                         foreach ($_SESSION["imagemAnuncio"] as $file) {
                             $entidadeImagem = new ImagemAprovacao();
                             $entidadeImagem->cadastrar($file, $idAnuncio, $parametros["rdbDestaque"]);
                             $genericoDAO->cadastrar($entidadeImagem);
+                            $contadorImagens++;
+                            if ($contadorImagens > $maximoDeImagensPermitidas) {
+                                break;
+                            }
                         }
                     }
+                    
+                    
 
                     //cadastro da latitude e longitude se houver alteração no mapa
                     if ($parametros["hdnLatitude"] != "" && $parametros["hdnLongitude"] != "") {

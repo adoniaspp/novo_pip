@@ -29,23 +29,23 @@ class Mensagem {
     }
 
     function getNome() {
-        return $this->nome;
+        return htmlspecialchars($this->nome);
     }
 
     function getEmail() {
-        return $this->email;
+        return htmlspecialchars($this->email);
     }
 
     function getTelefone() {
-        return $this->telefone;
+        return htmlspecialchars($this->telefone);
     }
 
     function getMensagem() {
-        return $this->mensagem;
+        return htmlspecialchars($this->mensagem);
     }
 
     function getProposta() {
-        return $this->proposta;
+        return htmlspecialchars($this->proposta);
     }
 
     function getStatus() {

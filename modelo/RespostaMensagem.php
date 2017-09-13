@@ -16,7 +16,7 @@ class RespostaMensagem{
     }
 
     public function getResposta() {
-        return $this->resposta;
+        return htmlspecialchars($this->resposta);
     }
 
     public function getDatahora() {

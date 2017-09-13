@@ -40,11 +40,11 @@ class AnuncioAprovacao {
     }
 
     function getTituloanuncio() {
-        return $this->tituloanuncio;
+        return htmlspecialchars($this->tituloanuncio);
     }
 
     function getDescricaoanuncio() {
-        return $this->descricaoanuncio;
+        return htmlspecialchars($this->descricaoanuncio);
     }
 
     function getStatus() {

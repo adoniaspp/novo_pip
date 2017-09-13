@@ -56,6 +56,7 @@ $valorAnuncio = (isset($item["novovalor"][0])) ? $item["novovalor"][0]->getNovov
         stepsSemPlanta();
         validarValor(true);
 <?php } ?>
+    mudouPlano(<?php echo $item["usuarioPlano"][0]->getId(); ?>);
 </script>
 
 <div class="ui column doubling grid container">
@@ -237,6 +238,7 @@ $valorAnuncio = (isset($item["novovalor"][0])) ? $item["novovalor"][0]->getNovov
                                 <div class="content">
                                     Comprar planos!
                                     <div class="sub header">  <a href="index.php?entidade=Plano&acao=listar"> Para anunciar é preciso ter planos ativos! </a></div>
+                                    <input type="hidden" name="hdnMaxImagens" id="hdnMaxImagens" value="3" />
                                 </div>
                             </div>
                         </div>
