@@ -389,7 +389,7 @@
     
         <div class="ui basic tab segment active" data-tab="third" id="porCorretor">
             
-            <div class="ui stackable five column grid" id="divBuscaCorretor"> 
+            <div class="ui stackable four column grid" id="divBuscaCorretor"> 
                 <div class="column">            
                     <div class="ui fluid multiple search selection dropdown">
                         <input type="hidden" name="filtroCorretor[]" id="sltCorretorAvancado">
