@@ -28,166 +28,50 @@ $item = $this->getItem();
 if ($item) {
     $anuncios = $item;
     ?>
-<div class="ui hidden divider"></div>
-<div class="ui grid container">
-    <h2 class="ui header">Sugestões baseadas nos anúncios que você viu</h2>    
-</div>
+    <div class="ui hidden divider"></div>
+    <div class="ui grid container">
+        <h2 class="ui header">Sugestões baseadas nos anúncios que você viu</h2>    
+    </div>
     <div class="ui middle aligned one column grid container swiper-container">
         <div class="ui ten wide column">
         </div>
         <div class="swiper-wrapper">
 
             <div class="ui stackable cards "> 
-    <?php
-    for ($crtl = 0; $crtl <= count($anuncios); $crtl++) {
-        for ($k = 0; $k <= count($anuncios[$crtl]['anuncio']); $k++) {
-            if ($anuncios[$crtl]['anuncio'][$k]) {
-                $anuncio = $anuncios[$crtl]['anuncio'][$k];
-                ?>
+                <?php
+                for ($crtl = 0; $crtl <= count($anuncios); $crtl++) {
+                    for ($k = 0; $k <= count($anuncios[$crtl]['anuncio']); $k++) {
+                        if ($anuncios[$crtl]['anuncio'][$k]) {
+                            $anuncio = $anuncios[$crtl]['anuncio'][$k];
+                            ?>
                             <script>
                                 formatarValor("<?php echo $anuncio['idanuncio'] ?>");
                             </script>  
                             <div class="card" style="width: 263px; border-radius: 2.285714rem; box-shadow: 0 1px 3px 0 #D4D4DD,0 0 0 1px #000000" id="cartao<?php echo $anuncio['idanuncio'] ?>">
-                                <div class="content">
-                <?php
-                if ($anuncio['finalidade'] == "Venda") {
-                    echo "<div class='ui blue ribbon label'> Venda </div>";
-                } else {
-                    echo "<div class='ui green ribbon label'> Aluguel </div>";
-                }
-                ?>                                                                       
-                                </div>
 
-                                <div class="image" style=" text-align: center;
-                                     margin: 0px auto;
-                                     max-height: 200px !important;">
-<!--                                    <div class="ui inverted dimmer">-->
-                                        <div class="content">
-                                            <div class="center">
-<!--                                                <div class="ui blue basic button"> Detalhes </div>                                          -->
-                                                <input type="hidden" id="anuncio<?php echo $anuncio['id'] ?>"
-                                                       value="<?php echo $anuncio['idanuncio'] ?>"/>
-                                                <input type="hidden" id="anuncio<?php echo $anuncio['tipo'] ?>"
-                                                       value="<?php echo $anuncio['tipo'] ?>"/>                                                   
-                                            </div>
-<!--                                        </div>-->
-                                    </div>
-                <?php
-                if ($anuncio['imagem']) {
-                    foreach ($anuncio['imagem'] as $imagem) {
-                        if ($imagem['destaque'] == 'SIM') {
-                            ?>
-                                                <img style="display: block; margin-left: auto; margin-right: auto; width: auto; max-height: 140px; overflow: scroll;position: relative; max-width: 165px" src="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . '/' . $imagem['nome'] ?>">
-                                                <?php
-                                            }
-                                        }
+
+
+                                <div class="content">
+                                    <?php
+                                    if ($anuncio['finalidade'] == "Venda") {
+                                        echo "<div class='ui blue ribbon label'> Venda </div>";
                                     } else {
-                                        ?>
-                                        <img src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>">
-                                    <?php }
-                                    ?>
-                                </div>
-                                
-                                <div class="content">
-                                <div class="ui segment">    
-                                    <div class="ui stackable three column centered grid">
-                                        <div class="column">
-                                            <img class="ui center image dimmable" src="../assets/imagens/icones/iconeQuartoPequeno.jpg">&nbsp;
-                                            <div style="font-size: 12px">  
-                                                <?php
-                                                if ($$anuncio['tipo'] == "casa" || $$anuncio['tipo'] == "apartamento") {
-                                                    echo $anuncio['quarto'];
-                                                } else if ($anuncio['tipo'] == "salacomercial" || $anuncio['tipo'] == "prediocomercial" || $anuncio['tipo'] == "terreno") {
-                                                    echo "&nbsp; - ";
-                                                } else if ($anuncio['tipo'] == "apartamentoplanta") {
-                                                    echo maximoMinimo($anuncio, 'quarto');
-                                                }
-                                                ?>
-                                            </div>
-                                        </div>
-
-                                        <div class="column">
-                                            <img class="ui left image" src="../assets/imagens/icones/iconeBanheiroPequeno.jpg">&nbsp;
-                                            <div style="font-size: 12px"><?php
-                                                if ($anuncio['tipo'] == "casa" || $anuncio['tipo'] == "apartamento" || $anuncio['tipo'] == "salacomercial") {
-                                                    echo $anuncio['banheiro'];
-                                                } else if ($anuncio['tipo'] == "salacomercial" || $anuncio['tipo'] == "prediocomercial" || $anuncio['tipo'] == "terreno") {
-                                                    echo "&nbsp; - ";
-                                                } else if ($anuncio['tipo'] == "apartamentoplanta") {
-                                                    echo maximoMinimo($anuncio, 'banheiro');
-                                                }
-                                                ?>
-                                            </div>
-                                        </div>
-
-                                        <div class="column">
-                                            <img class="ui left image " src="../assets/imagens/icones/iconeGaragemPequeno.jpg">&nbsp;
-                                            <div style="font-size: 12px"><?php
-                                                if ($anuncio['tipo'] == "casa" || $anuncio['tipo'] == "apartamento" || $anuncio['tipo'] == "salacomercial") {
-                                                    echo $anuncio['garagem'];
-                                                } else if ($anuncio['tipo'] == "salacomercial" || $anuncio['tipo'] == "prediocomercial" || $$anuncio['tipo'] == "terreno") {
-                                                    echo "&nbsp; - ";
-                                                } else if ($anuncio['tipo'] == "apartamentoplanta") {
-                                                    echo maximoMinimo($anuncio, 'garagem');
-                                                }
-                                                ?>
-                                            </div>
-                                        </div>
-                                    </div> 
-                                </div>
-                                <!--                                    <div class="ui divider"></div>-->
-
-                                <!--                                </div>-->
-                                <?php if ($anuncio['tipo'] !== "apartamentoplanta") { ?>
-                                    <div class="left floated header" id="spanValor<?php echo $anuncio['idanuncio'] ?>">       
-                                        <?php echo ($anuncio['novovalor'] != "") ? $anuncio['novovalor'] : $anuncio['valormin']; ?>                                         
-                                    </div>
-                                    <?php
-                                } else {
-
-                                    if ($anuncio['valormin'] != 0) {
-                                        ?>
-
-                                        A partir de  
-                                        <span class="left floated header" id="spanValor<?php echo $anuncio['idanuncio'] ?>">     
-                                            <?php
-                                            echo $anuncio['valormin'];
-                                        } if ($anuncio['valormin'] == 0) {
-                                            echo "Valor não informado";
-                                        }
+                                        echo "<div class='ui green ribbon label'> Aluguel </div>";
                                     }
-                                    ?>
-                                </span>
-                                <div class="right floated header"> <?php echo $anuncio['bairro'] ?> </div>
-                                <div class="description"> 
-                                    <!--                                    <br />-->
-                                    <span hidden="true" class="data" id="spanData<?php echo $anuncio['idanuncio'] ?>"> 
-                                        <?php echo $anuncio['datahoracadastro']; ?> </span>
-                                    <!-- CASO SEJA UM APARTAMENTO NA PLANTA, NÃO EXIBIR O VALOR-->
-
-                                    <!--<br />
-                                    Cod. <?php $anuncio['idanuncioformatado'] ?> -->
-                                    <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $anuncio['idanuncioformatado'] ?>" />
-                                    <input type="hidden" id="hiddenAnuncioFormatadaoCopiar" value="<?php echo $anuncio['idanuncioformatado'] ?>" />
-
-
+                                    ?> 
+                                    <!--                                <div class="left floated header">Venda</div>-->
+                                    <div class="right floated meta">
+                                        <a href="http://www.facebook.com/sharer.php?u=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="large blue facebook square icon"></i></a>
+                                        <a href="https://twitter.com/intent/tweet?text=Anúncio%20Compartilhado%20via%20PIP-OnLine%20http%3A%2F%2Fwww.pipbeta.com.br%2F<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="large blue twitter icon"></i></a>
+                                        <a href="https://plus.google.com/share?url=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="large red google plus circle icon"></i></a>
+                                        <a class="compartilhar-whatsapp" href='whatsapp://send?text=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>'><i class="large green whatsapp icon"></i></a>
+                                        <!--                                        <div class="ui primary button" id="copiarBotao" onclick="copiar()">Copiar Link Anúncio</div>-->
+                                    </div>                                
                                 </div>
-                                <br />
-                                <div class="ui one column centered grid">
-                                    <div class="column">
-                                        <a class='ui twitter button' href="<?php echo PIPURL;?><?php echo $anuncio['idanuncioformatado']?>" target="_blank">+ Detalhes</a>
-                                    </div>
-                                </div>       
-                            </div>
-                                
-<!--                                <div class="content">;
-                                    <div class="header"><b>
-                                    <?php
-                                    $limite = 24;
-                                    $titulo = $anuncio['tituloanuncio'];
-                                    echo (strlen(trim($titulo)) >= $limite) ? trim(substr($titulo, 0, strrpos(substr($titulo, 0, $limite), " "))) . "..." : $titulo;
-                                    ?></b></div>
-                                    <div class="description"> 
+                                <!--                             <div class="ui divider"></div>-->
+                                <div class="ui grid">
+                                    <div class="ui centered row">
+                                        <div class="header">
                                             <?php
                                             if ($anuncio['tipo'] == "prediocomercial") {
                                                 echo "Prédio Comercial";
@@ -199,40 +83,187 @@ if ($item) {
                                                 echo "Sala Comercial";
                                             } else
                                                 echo ucfirst($anuncio['tipo'])
-                                                ?>
-                                        <br />
-                                        <span hidden="true" class="data" id="spanData<?php echo $anuncio['idanuncio'] ?>"> 
-                                        <?php echo $anuncio['datahoracadastro']; ?> </span>
-                                        <span class="valor" id="spanValor<?php echo $anuncio['idanuncio'] ?>"> 
-                                        <?php echo ($anuncio['novovalor'] != "") ? $anuncio['novovalor'] : $anuncio['valormin']; ?> </span>
-                                        <br />
-                                        Cod. <?php echo $anuncio['idanuncioformatado'] ?>
-                                        <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $anuncio['idanuncioformatado'] ?>" />
-                                        <br />
-                                        Data Cadastro: <?php echo date('d/m/Y', strtotime($anuncio['datahoracadastro'])) ?>
+                                                ?>                                           
+                                        </div>
                                     </div>
-                                </div>-->
+                                </div>
+
+                                <!--                                Imagem-->
+                                <div class="image" style=" text-align: center;
+                                     margin: 0px auto;
+                                     max-height: 200px !important;">
+                                    <!--                                <div class="ui inverted dimmer">-->
+                                    <div class="content">
+                                        <div class="center">
+                                            <!--                                            <div class="ui blue basic button"> Detalhes </div>                                          -->
+                                            <input type="hidden" id="anuncio<?php echo $anuncio['id'] ?>"
+                                                   value="<?php echo $anuncio['idanuncio'] ?>"/>
+                                            <input type="hidden" id="anuncio<?php echo $anuncio['tipo'] ?>"
+                                                   value="<?php echo $anuncio['tipo'] ?>"/>                                                   
+                                        </div>
+                                        <!--                                    </div>-->
+                                    </div>
+                                    <?php
+                                    if ($anuncio['imagem']) {
+                                        foreach ($anuncio['imagem'] as $imagem) {
+                                            if ($imagem['destaque'] == 'SIM') {
+                                                ?>
+                                                <img style="display: block; margin-left: auto; margin-right: auto; width: auto; max-height: 140px; overflow: scroll;position: relative; max-width: 165px" src="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . '/' . $imagem['nome'] ?>">
+                                                <?php
+                                            }
+                                        }
+                                    } else {
+                                        ?>
+                                        <img src="<?php echo PIPURL . "/assets/imagens/foto_padrao.png" ?>">
+                                    <?php }
+                                    ?>
+                                </div>
+
+                                <div class="content">
+                                    <div class="ui segment">    
+                                        <div class="ui stackable three column centered grid">
+                                            <div class="ui three wide column">
+                                                <img class="ui center image dimmable" src="../assets/imagens/icones/iconeQuartoPequeno.jpg">&nbsp;
+                                                <div style="font-size: 12px">  
+                                                    <?php
+                                                    if ($anuncio['tipo'] == "casa" || $$anuncio['tipo'] == "apartamento") {
+                                                        echo $anuncio['quarto'];
+                                                    } else if ($anuncio['tipo'] == "salacomercial" || $anuncio['tipo'] == "prediocomercial" || $anuncio['tipo'] == "terreno") {
+                                                        echo "&nbsp; - ";
+                                                    } else if ($anuncio['tipo'] == "apartamentoplanta") {
+                                                        echo maximoMinimo($anuncio, 'quarto');
+                                                    }
+                                                    ?>
+                                                </div>
+                                            </div>
+
+                                            <div class="ui three wide column">
+                                                <img class="ui left image" src="../assets/imagens/icones/iconeBanheiroPequeno.jpg">&nbsp;
+                                                <div style="font-size: 12px"><?php
+                                                    if ($anuncio['tipo'] == "casa" || $anuncio['tipo'] == "apartamento" || $anuncio['tipo'] == "salacomercial") {
+                                                        echo $anuncio['banheiro'];
+                                                    } else if ($anuncio['tipo'] == "salacomercial" || $anuncio['tipo'] == "prediocomercial" || $anuncio['tipo'] == "terreno") {
+                                                        echo "&nbsp; - ";
+                                                    } else if ($anuncio['tipo'] == "apartamentoplanta") {
+                                                        echo maximoMinimo($anuncio, 'banheiro');
+                                                    }
+                                                    ?>
+                                                </div>
+                                            </div>
+
+                                            <div class="ui three wide column">
+                                                <img class="ui left image " src="../assets/imagens/icones/iconeGaragemPequeno.jpg">&nbsp;
+                                                <div style="font-size: 12px"><?php
+                                                    if ($anuncio['tipo'] == "casa" || $anuncio['tipo'] == "apartamento" || $anuncio['tipo'] == "salacomercial") {
+                                                        echo $anuncio['garagem'];
+                                                    } else if ($anuncio['tipo'] == "salacomercial" || $anuncio['tipo'] == "prediocomercial" || $$anuncio['tipo'] == "terreno") {
+                                                        echo "&nbsp; - ";
+                                                    } else if ($anuncio['tipo'] == "apartamentoplanta") {
+                                                        echo maximoMinimo($anuncio, 'garagem');
+                                                    }
+                                                    ?>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                    <!--                                    <div class="ui divider"></div>-->
+
+                                    <!--                                </div>-->
+                                    <?php if ($anuncio['tipo'] !== "apartamentoplanta") { ?>
+                                        <div class="left floated header" id="spanValor<?php echo $anuncio['idanuncio'] ?>">       
+                                            <?php echo ($anuncio['novovalor'] != "") ? $anuncio['novovalor'] : $anuncio['valormin']; ?>                                         
+                                        </div>
+                                        <?php
+                                    } else {
+
+                                        if ($anuncio['valormin'] != 0) {
+                                            ?>
+
+                                            <!--                                        A partir de  -->
+                                            <span class="left floated header" id="spanValor<?php echo $anuncio['idanuncio'] ?>">     
+                                                <?php
+                                                echo $anuncio['valormin'];
+                                            } if ($anuncio['valormin'] == 0) {
+                                                echo "Valor não informado";
+                                            }
+                                        }
+                                        ?>
+                                    </span>
+                                    <div class="right floated header"> <?php echo $anuncio['bairro'] ?> </div>
+                                    <div class="description"> 
+                                        <!--                                    <br />-->
+                                        <span hidden="true" class="data" id="spanData<?php echo $anuncio['idanuncio'] ?>"> 
+                                            <?php echo $anuncio['datahoracadastro']; ?> </span>
+                                        <!-- CASO SEJA UM APARTAMENTO NA PLANTA, NÃO EXIBIR O VALOR-->
+
+                                        <!--<br />
+                                        Cod. <?php $anuncio['idanuncioformatado'] ?> -->
+                                        <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $anuncio['idanuncioformatado'] ?>" />
+                                        <input type="hidden" id="hiddenAnuncioFormatadaoCopiar" value="<?php echo $anuncio['idanuncioformatado'] ?>" />
+
+
+                                    </div>
+                                    <br />
+                                    <div class="ui one column centered grid">
+                                        <div class="column">
+                                            <a class='ui twitter button' href="<?php echo PIPURL; ?><?php echo $anuncio['idanuncioformatado'] ?>" target="_blank">+ Detalhes</a>
+                                        </div>
+                                    </div>       
+                                </div>
+
+                                <!--                                <div class="content">;
+                                                                    <div class="header"><b>
+                                <?php
+                                $limite = 24;
+                                $titulo = $anuncio['tituloanuncio'];
+                                echo (strlen(trim($titulo)) >= $limite) ? trim(substr($titulo, 0, strrpos(substr($titulo, 0, $limite), " "))) . "..." : $titulo;
+                                ?></b></div>
+                                                                    <div class="description"> 
+                                <?php
+                                if ($anuncio['tipo'] == "prediocomercial") {
+                                    echo "Prédio Comercial";
+                                } else if
+                                ($anuncio['tipo'] == "apartamentoplanta") {
+                                    echo "Apartamento na Planta";
+                                } else if
+                                ($anuncio['tipo'] == "salacomercial") {
+                                    echo "Sala Comercial";
+                                } else
+                                    echo ucfirst($anuncio['tipo'])
+                                    ?>
+                                                                        <br />
+                                                                        <span hidden="true" class="data" id="spanData<?php echo $anuncio['idanuncio'] ?>"> 
+                                <?php echo $anuncio['datahoracadastro']; ?> </span>
+                                                                        <span class="valor" id="spanValor<?php echo $anuncio['idanuncio'] ?>"> 
+                                <?php echo ($anuncio['novovalor'] != "") ? $anuncio['novovalor'] : $anuncio['valormin']; ?> </span>
+                                                                        <br />
+                                                                        Cod. <?php echo $anuncio['idanuncioformatado'] ?>
+                                                                        <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $anuncio['idanuncioformatado'] ?>" />
+                                                                        <br />
+                                                                        Data Cadastro: <?php echo date('d/m/Y', strtotime($anuncio['datahoracadastro'])) ?>
+                                                                    </div>
+                                                                </div>-->
 
                             </div> 
-                <?php ?>
+                            <?php ?>
 
-                <?php
-            }
-        }
-    }
-    ?>
+                            <?php
+                        }
+                    }
+                }
+                ?>
 
                 <div class="swiper-pagination"></div>
             </div>
-            
+
         </div>
         <div class="ui column" ></div>
     </div>
-<div class="ui divider"></div>
+    <div class="ui divider"></div>
 
-                <?php
-            }
-            ?>
+    <?php
+}
+?>
 
 
 <div class="ui hidden divider"></div>
