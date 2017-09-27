@@ -218,7 +218,9 @@ if ($item) {
                                 } else {
                                     ?>
                                     <div class="text">Escolha um plano</div>
+                                    <div class="menu"> 
                                     <div class="item" data-value="gratuito"> Gratuito - Sem Cobranças Adicionais</div>
+                                    </div>
                                     <?php
                                 }
                                 ?>
