@@ -117,11 +117,14 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
 
             <!--<div class="ui stackable special cards list">-->
             <div class="ui stackable column grid">
-                <div class="ui stackable special cards list">
+                <div class="ui stackable cards list">
                     <?php
                     for ($crtl = 0; $crtl < count($item['anuncio']); $crtl++) {
+//                        echo '<pre>';
+//                        print_r($item['anuncio'][$crtl]['idanuncioformatado']);
+//                        echo '</pre>';
                         ?>
-
+                                
                         <script>
                             formatarValor("<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>");
                         </script>       
@@ -134,20 +137,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                 echo "<div class='ui green ribbon label'> Aluguel </div>";
                             }
                             ?>            
-                                                            <div class="ui grid">
-                                                                <div class="ui centered row">
-                                                                    <a href="http://www.facebook.com/sharer.php?u=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big blue facebook square icon"></i></a>
-                                                                    <a href="https://twitter.com/intent/tweet?text=Anúncio%20Compartilhado%20via%20PIP-OnLine%20http%3A%2F%2Fwww.pipbeta.com.br%2F<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big blue twitter icon"></i></a>
-                                                                    <a href="https://plus.google.com/share?url=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big red google plus circle icon"></i></a>
-                                                                    <a class="compartilhar-whatsapp" href='whatsapp://send?text=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>'><i class="big green whatsapp icon"></i></a>
-                                                                    <div class="ui primary button" id="copiarBotao" onclick="copiar()">Copiar Link Anúncio</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="ui grid">
-                                                            <div class="ui centered row">
-                                                                <div class="header">
-                                                                    <b>
+                                                            
                             <?php
                             if ($item['anuncio'][$crtl]['tipo'] == "prediocomercial") {
                                 echo "Prédio Comercial";
@@ -176,17 +166,17 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                 ?> 
                                 <!--                                <div class="left floated header">Venda</div>-->
                                 <div class="right floated meta">
-                                    <a href="http://www.facebook.com/sharer.php?u=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big blue facebook square icon"></i></a>
-                                    <a href="https://twitter.com/intent/tweet?text=Anúncio%20Compartilhado%20via%20PIP-OnLine%20http%3A%2F%2Fwww.pipbeta.com.br%2F<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big blue twitter icon"></i></a>
-                                    <a href="https://plus.google.com/share?url=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="big red google plus circle icon"></i></a>
-                                    <a class="compartilhar-whatsapp" href='whatsapp://send?text=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>'><i class="big green whatsapp icon"></i></a>
+                                    <a href="http://www.facebook.com/sharer.php?u=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="large blue facebook square icon"></i></a>
+                                    <a href="https://twitter.com/intent/tweet?text=Anúncio%20Compartilhado%20via%20PIP-OnLine%20http%3A%2F%2Fwww.pipbeta.com.br%2F<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="large blue twitter icon"></i></a>
+                                    <a href="https://plus.google.com/share?url=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="large red google plus circle icon"></i></a>
+                                    <a class="compartilhar-whatsapp" href='whatsapp://send?text=http://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>'><i class="large green whatsapp icon"></i></a>
                                     <!--                                        <div class="ui primary button" id="copiarBotao" onclick="copiar()">Copiar Link Anúncio</div>-->
                                 </div>                                
                             </div>
                             <!--                             <div class="ui divider"></div>-->
                             <div class="ui grid">
                                 <div class="ui centered row">
-                                    <div class="header">
+                                    <h3 class="ui header">
                                         <?php
                                         if ($item['anuncio'][$crtl]['tipo'] == "prediocomercial") {
                                             echo "Prédio Comercial";
@@ -199,25 +189,15 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                         } else
                                             echo ucfirst($item['anuncio'][$crtl]['tipo'])
                                             ?>                                           
-                                    </div>
+                                    </h3>
                                 </div>
                             </div>
 
 
-                            <div class="dimmable image" style=" text-align: center;
+                            <div class="image" style=" text-align: center;
                                  margin: 0px auto;
                                  max-height: 200px !important;">
-                                <div class="ui inverted dimmer">
-                                    <div class="content">
-                                        <div class="center">
-                                            <div class="ui blue basic button"> Detalhes </div>                                          
-                                            <input type="hidden" id="anuncio<?php echo $item['anuncio'][$crtl]['id'] ?>"
-                                                   value="<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>"/>
-                                            <input type="hidden" id="anuncio<?php echo $item['anuncio'][$crtl]['tipo'] ?>"
-                                                   value="<?php echo $item['anuncio'][$crtl]['tipo'] ?>"/>                                                   
-                                        </div>
-                                    </div>
-                                </div>
+
                                 <?php
                                 if ($item['anuncio'][$crtl]['imagem']) {
                                     foreach ($item['anuncio'][$crtl]['imagem'] as $imagem) {
@@ -233,6 +213,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                 <?php }
                                 ?>
                             </div>
+                            
                             <div class="content">
                                 <div class="ui segment">    
                                     <div class="ui stackable three column centered grid">
@@ -293,7 +274,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                     if ($item['anuncio'][$crtl]['valormin'] != 0) {
                                         ?>
 
-                                        A partir de  
+<!--                                        A partir de  -->
                                         <span class="left floated header" id="spanValor<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">     
                                             <?php
                                             echo $item['anuncio'][$crtl]['valormin'];
@@ -320,10 +301,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                 <br />
                                 <div class="ui one column centered grid">
                                     <div class="column">
-                                        <button class="ui twitter button">
-                                            <i class="plus icon"></i>
-                                            Detalhes
-                                        </button> 
+                                        <a class='ui twitter button' href="<?php echo PIPURL;?><?php echo $item['anuncio'][$crtl]['idanuncioformatado']?>" target="_blank">+ Detalhes</a>
                                     </div>
                                 </div>       
                             </div>

@@ -104,7 +104,8 @@ if ($totalUsuariosCadastrados < 1) {
                     <tbody>
                         <?php
                         if ($item) {
-                            foreach ($item["listaUsuarios"] as $usuario) {                                
+                            foreach ($item["listaUsuarios"] as $usuario) {
+                                if($usuario->denuncias > 0){                                 
                                 ?>
                                 <tr>
                                     <td>                                                      
@@ -132,6 +133,7 @@ if ($totalUsuariosCadastrados < 1) {
                                 </tr>
 
                                 <?php
+                            }
                             }
                         }
                         ?>

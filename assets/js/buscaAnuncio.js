@@ -188,13 +188,13 @@ function carregarAnuncio() { //valor = quantidade de anuncios
                     thousandsSeparator: '.'
                 })
 
-                $('.special.cards .image .button').on('click', function () {
-                    $("#hdnCodAnuncio").val($(this).siblings().val());
-                    $("#hdnTipoImovel").val($(this).siblings().next().val());
-                    $("#hdnEntidade").val("Anuncio");
-                    $("#hdnAcao").val("detalhar");
-                    $('#form').submit();
-                })
+//                $('.special.cards .image .button').on('click', function () {
+//                    $("#hdnCodAnuncio").val($(this).siblings().val());
+//                    $("#hdnTipoImovel").val($(this).siblings().next().val());
+//                    $("#hdnEntidade").val("Anuncio");
+//                    $("#hdnAcao").val("detalhar");
+//                    $('#form').submit();
+//                })
             }
         })
 
