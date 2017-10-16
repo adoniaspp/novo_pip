@@ -71,7 +71,7 @@ if ($item) {
                                 <!--                             <div class="ui divider"></div>-->
                                 <div class="ui grid">
                                     <div class="ui centered row">
-                                        <div class="header">
+                                        <h4>
                                             <?php
                                             if ($anuncio['tipo'] == "prediocomercial") {
                                                 echo "Prédio Comercial";
@@ -84,7 +84,7 @@ if ($item) {
                                             } else
                                                 echo ucfirst($anuncio['tipo'])
                                                 ?>                                           
-                                        </div>
+                                        </h4>
                                     </div>
                                 </div>
 
@@ -179,7 +179,7 @@ if ($item) {
                                         if ($anuncio['valormin'] != 0) {
                                             ?>
 
-                                            <!--                                        A partir de  -->
+                                            A partir de  <br>
                                             <span class="left floated header" id="spanValor<?php echo $anuncio['idanuncio'] ?>">     
                                                 <?php
                                                 echo $anuncio['valormin'];
@@ -189,7 +189,7 @@ if ($item) {
                                         }
                                         ?>
                                     </span>
-                                    <div class="right floated header"> <?php echo $anuncio['bairro'] ?> </div>
+                                            <div class="right floated"> <h4> <?php echo $anuncio['bairro'] ?> </h4></div>
                                     <div class="description"> 
                                         <!--                                    <br />-->
                                         <span hidden="true" class="data" id="spanData<?php echo $anuncio['idanuncio'] ?>"> 

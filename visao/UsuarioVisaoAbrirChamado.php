@@ -117,9 +117,10 @@ Sessao::gerarToken();
                 <button class="ui green button" type="button" id="botaoCadastrarChamado">Cadastrar Chamado</button>
    
                 <div id="botaoCancelarChamado" >
-                <a href="index.php" class="ui orange deny button">            
+                    <button class="ui orange button" type="button" id="btnCancelar">Cancelar</button>
+<!--                <a href="index.php" class="ui orange deny button">            
                      Cancelar
-                </a>
+                </a>-->
                 </div>
 
             </div>
@@ -139,4 +140,26 @@ Sessao::gerarToken();
         </div>
     </div>
 </div>
+</div>
+
+<!-- MODAIS -->
+<div class="ui standart modal" id="modalCancelar">
+    <i class="close icon"></i>
+    <div class="header">
+        Cancelar
+    </div>
+    <div class="content">
+        <div class="description">
+            <div class="ui header">Deseja realmente cancelar e perder as informações não gravadas?</div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui deny red button">
+            Não
+        </div>
+        <div class="ui positive right labeled icon button">
+            Sim
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
 </div>

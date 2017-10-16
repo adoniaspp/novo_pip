@@ -176,7 +176,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                             <!--                             <div class="ui divider"></div>-->
                             <div class="ui grid">
                                 <div class="ui centered row">
-                                    <h3 class="ui header">
+                                    <h4>
                                         <?php
                                         if ($item['anuncio'][$crtl]['tipo'] == "prediocomercial") {
                                             echo "Prédio Comercial";
@@ -189,7 +189,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                         } else
                                             echo ucfirst($item['anuncio'][$crtl]['tipo'])
                                             ?>                                           
-                                    </h3>
+                                    </h4>
                                 </div>
                             </div>
 
@@ -274,7 +274,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                     if ($item['anuncio'][$crtl]['valormin'] != 0) {
                                         ?>
 
-<!--                                        A partir de  -->
+                                        A partir de  <br>
                                         <span class="left floated header" id="spanValor<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">     
                                             <?php
                                             echo $item['anuncio'][$crtl]['valormin'];
@@ -284,7 +284,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                     }
                                     ?>
                                 </span>
-                                <div class="right floated header"> <?php echo $item['anuncio'][$crtl]['bairro'] ?> </div>
+                                        <div class="right floated"> <h4><?php echo $item['anuncio'][$crtl]['bairro'] ?> </h4></div>
                                 <div class="description"> 
                                     <!--                                    <br />-->
                                     <span hidden="true" class="data" id="spanData<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>"> 
