@@ -427,7 +427,11 @@ switch ($item['anuncio']->getImovel()->getIdtipoimovel()) {
                                     <div class="ui six column stackable grid container">
                                         <div class="column">
                                             <div class="fotorama" data-allowfullscreen="true">
-                                                <img class="ui medium image" src="<?php echo PIPURL . "fotos/plantas/" . $planta->getImagemdiretorio() . "/" . $planta->getImagemnome(); ?>">
+                                                <?php if($planta->getImagemaprovacaodiretorio() == "") { ?>
+                                                <img class="ui medium image" src="<?php echo PIPURL . "assets/imagens/logo.png" ?>">
+                                                <?php } else { ?>
+                                                <img class="ui medium image" src="<?php echo PIPURL . "fotos/plantas/" . $planta->getImagemaprovacaodiretorio() . "/" . $planta->getImagemaprovacaonome(); ?>">
+                                                <?php } ?>
                                             </div>
                                         </div>
 

@@ -73,7 +73,14 @@ foreach ($plantas as $planta) {
                                         </div>
                                     </div>
                                 </div>
+                                <?php  if($planta->getImagemdiretorio()!=""){ ?>
+                                <img id="uploadPreview<?php echo $planta->getOrdemplantas(); ?>" class="ui small uploadPreview rounded image" src="/fotos/plantas/<?php echo $planta->getImagemdiretorio() . "/" . $planta->getImagemnome(); ?>">
+<?php } else { ?>
+                                
                                 <img id="uploadPreview<?php echo $planta->getOrdemplantas(); ?>" class="ui small uploadPreview rounded image" src="/assets/imagens/logo.png">
+                                
+<?php } ?>
+                                
                             </div>
                             <div class="extra content">
                                 <a>
@@ -93,4 +100,18 @@ foreach ($plantas as $planta) {
 ?>
 <script>
     planta();
+</script>
+
+<script>    
+    $(document).ready(function () {
+        <?php if(isset($item["ValoresPlanta"])){
+            foreach ($item["ValoresPlanta"] as $valor) { ?>
+    $($($(".btnAdicionarValor")[<?php echo $valor->getPlanta()->getOrdemplantas(); ?>]).parent().parent().find("input")[0]).parent().dropdown('set selected', '<?php echo $valor->getAndarinicial(); ?>');
+    $($($(".btnAdicionarValor")[<?php echo $valor->getPlanta()->getOrdemplantas(); ?>]).parent().parent().find("input")[1]).parent().dropdown('set selected', '<?php echo $valor->getAndarfinal(); ?>');
+    $($($(".btnAdicionarValor")[<?php echo $valor->getPlanta()->getOrdemplantas(); ?>]).parent().parent().find("input")[2]).val('<?php echo $valor->getValor(); ?>').priceFormat({prefix: 'R$ ',centsSeparator: ',',centsLimit: 0,limit: 8,thousandsSeparator: '.'});
+    $($(".btnAdicionarValor")[<?php echo $valor->getPlanta()->getOrdemplantas(); ?>]).click();
+            <?php } } ?>
+    
+    })
+    
 </script>

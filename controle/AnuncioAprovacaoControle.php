@@ -149,7 +149,7 @@ class AnuncioAprovacaoControle {
                     $arrayPlantas[] = $value;
 
                     //traz dados dos valores da planta
-                    $substh = $genericoDAO->consultar(new ValorAprovacao(), false, array("idplanta" => $value->getId()));
+                    $substh = $genericoDAO->consultar(new ValorAprovacao(), false, array("idplanta" => $value->getId(), "idanuncioaprovacao" => $anuncio->getId()));
                     if (!is_array($substh)) {
                         $substh = (array) $substh[0];
                     }

@@ -10,6 +10,8 @@ class Valor {
     private $andarfinal;
     private $valor;
     
+    protected $planta;
+            
     function getId() {
         return $this->id;
     }
@@ -65,5 +67,15 @@ class Valor {
         $valor = trim($valor);
         return $valor;
     }
+    
+    function getPlanta() {
+        return $this->planta;
+    }
+
+    function setPlanta($planta) {
+        $this->planta = $planta;
+    }
+
+
     
 }

@@ -147,15 +147,41 @@ class AnuncioControle {
                             }
                         }
 
-                        $tipoAnuncio = $selecionarImovel[0]->getIdtipoimovel();
-                        if ($tipoAnuncio == "2") {
-                            
-                        }
-
-                        #TODO:configurar sessao de apartamento na planta
-                        #Sessao::configurarSessaoImagemPlanta($ordem, $imagem, $diretorio)
                         //prepara itens para visao
                         $formAnuncio = array();
+                        $tipoAnuncio = $selecionarImovel[0]->getIdtipoimovel();
+                        //carrega dados no apartamento na planta
+                        if ($tipoAnuncio == "2") {
+                            $selecionarValoresPlanta = $genericoDAO->consultar(new Valor(), true, array("idanuncio" => $selecionarAnuncio[0]->getId()));
+                            $formAnuncio["ValoresPlanta"] = $selecionarValoresPlanta;
+
+                            #configurar sessao de apartamento na planta
+                            $imagemPlantas = $selecionarImovel[0]->getPlanta();
+                            if ($imagemPlantas) {
+                                if (is_array($imagemPlantas)) {
+                                    foreach ($imagemPlantas as $imagem) {
+                                        $fotos = array();
+                                        $fotos["name"] = $imagem->getImagemnome();
+                                        $fotos["type"] = $imagem->getImagemtipo();
+                                        $fotos["tmp_name"] = "";
+                                        $fotos["error"] = 0;
+                                        $fotos["size"] = $imagem->getImagemtamanho();
+                                        $diretorio = $imagem->getImagemdiretorio();
+                                        Sessao::configurarSessaoImagemPlanta($imagem->getOrdemplantas(), $fotos, $diretorio);
+                                    }
+                                } else {
+                                    $fotos = new stdClass();
+                                    $fotos["name"] = $imagemPlantas->getImagemnome();
+                                    $fotos["type"] = $imagemPlantas->getImagemtipo();
+                                    $fotos["tmp_name"] = "";
+                                    $fotos["error"] = 0;
+                                    $fotos["size"] = $imagemPlantas->getImagemtamanho();
+                                    $diretorio = $imagemPlantas->getImagemdiretorio();
+                                    Sessao::configurarSessaoImagemPlanta($imagem->getOrdemplantas(), $fotos, $diretorio);
+                                }
+                            }
+                        }
+
                         $formAnuncio["usuarioPlano"] = $selecionarUsuarioPlano;
                         $formAnuncio["imovel"] = $selecionarImovel;
                         $formAnuncio["anuncio"] = $selecionarAnuncio[0];
@@ -669,14 +695,13 @@ class AnuncioControle {
     }
 
     function editar($parametros) {
-
         if (Sessao::verificarSessaoUsuario()) {
             if (isset($parametros['upload']) & $parametros['upload'] === "1") {
                 include_once 'controle/ImagemControle.php';
                 $imagem = new ImagemControle($parametros);
             } else {
                 if (Sessao::verificarToken($parametros)) {
-//INICIA TRANSACAO
+                    //INICIA TRANSACAO
                     $genericoDAO = new GenericoDAO();
                     $genericoDAO->iniciarTransacao();
 
@@ -691,55 +716,60 @@ class AnuncioControle {
                     //SALVA ANUNCIO
                     $idAnuncio = $genericoDAO->cadastrar($entidadeAnuncio);
 
-
                     //se for apartamento na planta
                     if ($_SESSION["anuncio"]["tipoimovel"] == 2) {
-                        /* $valor = new Valor();
-                          $valor->setIdanuncio($idAnuncio);
-                          //traz todas as plantas
-                          $plantas = $genericoDAO->consultar(new Imovel(), true, array("id" => $_SESSION["anuncio"]["idimovel"]));
-                          $plantas = $plantas[0]->getPlanta();
-                          if (is_object($plantas))
-                          $plantas = array($plantas);
-                          //itera para cada planta
-                          //criar vetor para guardar os valores de cada planta
-                          $vetorValor = array();
+                        //cria instacia valoraprovacao
+                        $valor = new ValorAprovacao();
+                        $valor->setIdanuncioaprovacao($idAnuncio);
+                        //traz todas as plantas
+                        $plantas = $genericoDAO->consultar(new Imovel(), true, array("id" => $_SESSION["anuncio"]["idimovel"]));
+                        $plantas = $plantas[0]->getPlanta();
+                        if (is_object($plantas))
+                            $plantas = array($plantas);
+                        //itera para cada planta
+                        //criar vetor para guardar os valores de cada planta
+                        $vetorValor = array();
 
-                          foreach ($plantas as $planta) {
-                          $valor->setIdplanta($planta->getId());
-                          //monta os parametros que vem do formulario
-                          $parametroAndarInicial = "hdnAndarInicial" . $planta->getOrdemplantas();
-                          $parametroAndarFinal = "hdnAndarFinal" . $planta->getOrdemplantas();
-                          $parametroValor = "hdnValor" . $planta->getOrdemplantas();
+                        foreach ($plantas as $planta) {
+                            $valor->setIdplanta($planta->getId());
+                            //monta os parametros que vem do formulario
+                            $parametroAndarInicial = "hdnAndarInicial" . $planta->getOrdemplantas();
+                            $parametroAndarFinal = "hdnAndarFinal" . $planta->getOrdemplantas();
+                            $parametroValor = "hdnValor" . $planta->getOrdemplantas();
 
-                          //verifica se tem algum valor informado para cada planta
-                          if (isset($parametros[$parametroAndarInicial])) {
+                            //verifica se tem algum valor informado para cada planta
+                            if (isset($parametros[$parametroAndarInicial])) {
+                                //itera pela quantidade de registros por planta
+                                for ($i = 0; $i <= count($parametros[$parametroAndarInicial]) - 1; $i++) {
+                                    $entidadeValor = $valor;
+                                    $entidadeValor->setAndarinicial($parametros[$parametroAndarInicial][$i]);
+                                    $entidadeValor->setAndarFinal($parametros[$parametroAndarFinal][$i]);
+                                    $entidadeValor->setValor($parametros[$parametroValor][$i]);
+                                    $genericoDAO->cadastrar($entidadeValor);
+                                }
+                            }
 
-                          //itera pela quantidade de registros por planta
-                          for ($i = 0; $i <= count($parametros[$parametroAndarInicial]) - 1; $i++) {
-
-                          $entidadeValor = $valor;
-                          $entidadeValor->setAndarinicial($parametros[$parametroAndarInicial][$i]);
-                          $entidadeValor->setAndarFinal($parametros[$parametroAndarFinal][$i]);
-                          $entidadeValor->setValor($parametros[$parametroValor][$i]);
-
-                          $genericoDAO->cadastrar($entidadeValor);
-                          }
-                          }
-
-                          //imagens das plantas
-                          $sessaoImagemPlanta = $_SESSION["imagemPlanta"][$planta->getOrdemplantas()];
-                          if (isset($sessaoImagemPlanta)) {
-                          $planta->setImagemdiretorio($sessaoImagemPlanta["diretorio"]);
-                          $planta->setImagemnome($sessaoImagemPlanta["name"]);
-                          $planta->setImagemtamanho($sessaoImagemPlanta["size"]);
-                          $planta->setImagemtipo($sessaoImagemPlanta["type"]);
-                          $genericoDAO->editar($planta);
-                          }
-                          } */
+                            //imagens das plantas DEV OK TESTAR
+                            if (isset($_SESSION["imagemPlanta"][$planta->getOrdemplantas()])) {
+                                $sessaoImagemPlanta = $_SESSION["imagemPlanta"][$planta->getOrdemplantas()];
+                                if (isset($sessaoImagemPlanta) && $sessaoImagemPlanta["tmp_name"] != "") {
+                                    $planta->setImagemaprovacaodiretorio($sessaoImagemPlanta["diretorio"]);
+                                    $planta->setImagemaprovacaonome($sessaoImagemPlanta["name"]);
+                                    $planta->setImagemaprovacaotamanho($sessaoImagemPlanta["size"]);
+                                    $planta->setImagemaprovacaotipo($sessaoImagemPlanta["type"]);
+                                    $genericoDAO->editar($planta);
+                                }
+                            } else {
+                                //'exclui' imagem planta se nao houver na sessao
+                                $planta->setImagemaprovacaodiretorio("");
+                                $planta->setImagemaprovacaonome("");
+                                $planta->setImagemaprovacaotamanho("");
+                                $planta->setImagemaprovacaotipo("");
+                                $genericoDAO->editar($planta);
+                            }
+                        }
                     }
 
-                    #TODO: testar com o applanta
                     //somente salva fotos se houver
                     if (isset($_SESSION["imagemAnuncio"])) {
                         //gravara apenas a qtd permitida para o plano selecionado
@@ -759,8 +789,6 @@ class AnuncioControle {
                             }
                         }
                     }
-                    
-                    
 
                     //cadastro da latitude e longitude se houver alteração no mapa
                     if ($parametros["hdnLatitude"] != "" && $parametros["hdnLongitude"] != "") {
