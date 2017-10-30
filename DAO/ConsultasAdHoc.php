@@ -376,10 +376,11 @@ class ConsultasAdHoc extends GenericoDAO {
 
     public function consultaUsuarioDenuncia() {
 
-        $sql = "select u.id, tipousuario, nome, cpfcnpj, login, email, 
-            count(d.id) as 'denuncias' from usuario u right join 
-            denuncia d on u.id = d.idusuario where status like 'ativo'
-            order by denuncias";
+        $sql = "select u.id, tipousuario, nome, cpfcnpj, login, email, u.datahoracadastro, 
+            d.descricao as 'descricaoDenuncia',
+            count(u.id) as 'denuncias' from denuncia d left join 
+            usuario u on u.id = d.idusuario where status like 'ativo'
+            group by u.id order by denuncias";
 
         $statement = $this->conexao->prepare($sql);
         $statement->execute();

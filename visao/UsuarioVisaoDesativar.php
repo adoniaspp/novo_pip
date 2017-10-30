@@ -28,7 +28,6 @@
         });
 
     })
-
 </script>
 
 <div class="ui middle aligned stackable grid container">
@@ -91,13 +90,12 @@ if ($totalUsuariosCadastrados < 1) {
 
                     <thead>
                         <tr>
-                            <th>Tipo de Usuário</th>
                             <th>Nome</th>
-                            <th>CPF/CNPJ</th>
                             <th>Login</th>
                             <th>Data Cadastro</th>
                             <th>E-mail</th>  
                             <th>Nº de Denúncias</th>  
+                            <th>Denuncia</th> 
                             <th>Operações</th>
                         </tr>
                     </thead>
@@ -111,22 +109,19 @@ if ($totalUsuariosCadastrados < 1) {
                                     <td>                                                      
                                         <?php
                                         if ($usuario->getTipoUsuario() == "pf") {
-                                            echo "Pessoa Física";
+                                            echo $usuario->getNome() . " - PF";
                                         } else {
-                                            echo "Pessoa Jurídica";
+                                            echo $usuario->getNome() . " - PJ";
                                         }
                                         ?>
                                     </td>
-                                    <td><?php
-                                        echo $usuario->getNome();
-                                        ?>
-                                    </td>
-                                    <td><?php echo $usuario->getCpfcnpj(); ?></td>
+
                                     <td><?php echo $usuario->getLogin(); ?></td>
 
                                     <td> <?php echo date('d/m/Y H:i:s', strtotime($usuario->getDataHoraCadastro())); ?> </td>
                                     <td><?php echo $usuario->getEmail(); ?></td>    
-                                    <td><?php echo $usuario->denuncias; ?></td>            
+                                    <td><?php echo $usuario->denuncias; ?></td> 
+                                    <td><?php echo "<a id='btnMostrarDenuncia" . $usuario->getId() . "' class='ui circular inverted basic icon button'><i class='big red search icon'></i></i></a>"?></td>;
                                     <td> <?php
                                         echo "<a id='btnInativar" . $usuario->getId() . "' class='ui circular inverted icon button'><i class='big red thumbs down icon'></i></a>Inativar";
                                         ?> </td>                                               
@@ -150,9 +145,10 @@ if ($totalUsuariosCadastrados < 1) {
     if ($item) {
         foreach ($item["listaUsuarios"] as $usuario) {
             ?>
-
+    
             <script>
                 inativarUsuario(<?php echo $usuario->getId() ?>);
+                modalDenuncia(<?php echo $usuario->getId() ?>);
             </script>
 
             <!-- MODAL DA EDIÇÃO DO STATUS DO ANÚNCIO-->
@@ -196,13 +192,28 @@ if ($totalUsuariosCadastrados < 1) {
                 </div>
 
             </div>
+                     
+<!-- MODAL DENUNCIA -->            
+ <div class="ui standart modal" id="modalMostrarDenuncia<?php echo $usuario->getId() ?>">
+                <div class="header">
+                    Denúncia
+                </div>
+                <div class="content" id="camposMostrarDenuncia<?php echo $usuario->getId() ?>">
 
-            <?php
+                    <?php echo $usuario->descricaoDenuncia; ?>
+
+                </div>
+
+                <div class="actions">
+                    <div  id="botaoFecharMostrarValor<?php echo $usuario->getId(); ?>" class="ui red deny button">
+                        Fechar
+                    </div>
+                </div>
+            </div>
+
+ <?php
         }
     }
     ?>
 
 <?php } //fim do else, caso haja anuncios ativos ?> 
-
-
-

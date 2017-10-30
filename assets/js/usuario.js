@@ -1786,6 +1786,17 @@ function inativarUsuario(valor) {
     })  
 }
 
+function modalDenuncia(valor){
+    $('#btnMostrarDenuncia' + valor).click(function () {
+
+        $('#modalMostrarDenuncia' + valor).modal({
+            closable: true,
+            transition: "fade up"
+        }).modal('show');
+
+    })
+}
+
 function ativarUsuario(valor) {
     
     $(document).ready(function () {
