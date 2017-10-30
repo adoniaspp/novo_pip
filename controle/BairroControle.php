@@ -14,9 +14,41 @@ class BairroControle {
         
        $listarBairros = $genericoDAO->consultar($bairro, true, array("idcidade" => $parametros["idcidade"]));
        
+       usort($listarBairros, function( $a, $b ) { //ordenar por ordem alfabética
+
+           return (strtr(
+
+                $a->getNome(),
+
+                array (
+
+                  'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A',
+                  'Æ' => 'A', 'Ç' => 'C', 'È' => 'E', 'É' => 'E', 'Ê' => 'E', 'Ë' => 'E',
+                  'Ì' => 'I', 'Í' => 'I', 'Î' => 'I', 'Ï' => 'I', 'Ð' => 'D', 'Ñ' => 'N',
+                  'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O', 'Ö' => 'O', 'Ø' => 'O',
+                  'Ù' => 'U', 'Ú' => 'U', 'Û' => 'U', 'Ü' => 'U'
+                )
+            ) > strtr(
+
+                $b->getNome(),
+
+                array (
+
+                  'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A',
+                  'Æ' => 'A', 'Ç' => 'C', 'È' => 'E', 'É' => 'E', 'Ê' => 'E', 'Ë' => 'E',
+                  'Ì' => 'I', 'Í' => 'I', 'Î' => 'I', 'Ï' => 'I', 'Ð' => 'D', 'Ñ' => 'N',
+                  'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O', 'Ö' => 'O', 'Ø' => 'O',
+                  'Ù' => 'U', 'Ú' => 'U', 'Û' => 'U', 'Ü' => 'U'
+                )
+            ));
+            
+       });   
+       
+       
        foreach ($listarBairros as $valor){
+
             echo '<div class="item" data-value="'.$valor->getId().'">'.$valor->getNome().'</div>';
-            //echo "<option value='".$valor->getId()."' name='sltBairro[]'>".$valor->getNome()."</option>";
+            
        }
         
     }

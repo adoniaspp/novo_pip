@@ -34,11 +34,12 @@
                     <input type="hidden" name="sltTipoImovel" id="sltTipoImovel">
                     <div class="default text">Tipo de Imóvel</div>
                     <i class="dropdown icon"></i>
-                    <div class="menu">                                                         
+                    <div class="menu">   
+                        <div class="item" data-value="">Todos os tipos</div>
                         <div class="item" data-value="apartamento">Apartamento</div>
                         <div class="item" data-value="apartamentoplanta">Apartamento na Planta</div>
                         <div class="item" data-value="casa">Casa</div>
-                        <div class="item" data-value="prediocomercial">Predio Comercial</div>
+                        <div class="item" data-value="prediocomercial">Prédio Comercial</div>
                         <div class="item" data-value="salacomercial">Sala Comercial</div>                               
                         <div class="item" data-value="terreno">Terreno</div>
                     </div>
@@ -50,6 +51,7 @@
                     <div class="default text">Finalidade</div>                                      
                     <i class="dropdown icon"></i>
                     <div class="menu">
+                        <div class="item" data-value="">Todas as finalidades</div>
                         <div class="item" data-value="aluguel">Aluguel</div>
                         <div class="item" data-value="venda">Venda</div>                            
                     </div>
@@ -61,6 +63,7 @@
                     <div class="default text">Cidade</div>
                     <i class="dropdown icon"></i>
                     <div class="menu">
+                        <div class="item" data-value="">Todas as cidades</div>
                         <div class="item" data-value="1">Belém</div>
                         <div class="item" data-value="2">Ananindeua</div>
                         <div class="item" data-value="3">Marituba</div>
@@ -120,10 +123,11 @@
                     <div class="default text">Tipo de Imóvel</div>
                     <i class="large dropdown icon"></i>
                     <div class="menu">
+                        <div class="item" data-value="">Todos os tipos</div>
                         <div class="item" data-value="apartamento">Apartamento</div>
                         <div class="item" data-value="apartamentoplanta">Apartamento na Planta</div>
                         <div class="item" data-value="casa">Casa</div>
-                        <div class="item" data-value="prediocomercial">Predio Comercial</div>
+                        <div class="item" data-value="prediocomercial">Prédio Comercial</div>
                         <div class="item" data-value="salacomercial">Sala Comercial</div>                            
                         <div class="item" data-value="terreno">Terreno</div>
                     </div>
@@ -135,6 +139,7 @@
                     <div class="default text">Finalidade</div>
                     <i class="large dropdown icon"></i>
                     <div class="menu">
+                        <div class="item" data-value="">Todas as finalidades</div>
                         <div class="item" data-value="aluguel">Aluguel</div>
                         <div class="item" data-value="venda">Venda</div>                          
                     </div>
@@ -146,6 +151,7 @@
                     <div class="default text">Cidade</div>
                     <i class="large dropdown icon"></i>
                     <div class="menu">
+                        <div class="item" data-value="">Todas as cidades</div>
                         <div class="item" data-value="1">Belém</div>
                         <div class="item" data-value="2">Ananindeua</div>
                         <div class="item" data-value="3">Marituba</div>
