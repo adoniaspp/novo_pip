@@ -1032,14 +1032,24 @@ function alterarSenha() { //alterar a senha esquecida
                         $("#divRetorno").html("<div><div class='ui active inverted dimmer'><div class='ui text loader'>Processando. Aguarde...</div></div></div>");
                     },
                     success: function (resposta) {
+                        
                         $("#divRetorno").empty();
 
                         if (resposta.resultado == 0) {
                             
-                            location.href = "index.php?entidade=Usuario&tipo=MeuPIP";
+                        $("#divRetorno").html("<div class='ui negative message'>\n\
+                            <i class='big red remove circle outline icon'></i>Erro ao realizar a operação. Tente novamente em alguns minutos.</div>");                            
+                            
                         } else if (resposta.resultado == 1) {
                             
-                            location.href = "index.php?entidade=Usuario&tipo=MeuPIP";
+                            $("#divRetorno").html("<div class='ui positive message'>\n\
+                            <i class='big green check circle outline icon'></i>Senha alterada com sucesso. Clique em fazer login para entrar no PIP Online</div>");                            
+                            
+                        } else if (resposta.resultado == 5) {
+                            
+                            $("#divRetorno").html("<div class='ui negative message'>\n\
+                            <i class='big red remove circle outline icon'></i>Erro ao realizar a operação. Tente novamente em alguns minutos.</div>");
+                            
                         }
                     }
                 })

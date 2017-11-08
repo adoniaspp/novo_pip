@@ -421,37 +421,26 @@ switch ($tipo) {
                     <?php } ?>
                     
                     <div class="ui hidden divider"></div>
-                    
-                    <div class="ui middle aligned stackable grid container">
-                        <div class="row">
-                            <div class="column">                                  
 
-                                <div class="row">
+                        <a href="index.php?entidade=Anuncio&acao=listarCadastrar">
+                            <button type="button"  class="ui brown button">
+                                <i class="announcement icon"></i><i class="add icon"></i> 
+                                Publicar Anúncio
+                            </button>
+                        </a>
 
-                                    <a href="index.php?entidade=Anuncio&acao=listarCadastrar">
-                                        <button type="button"  class="ui brown button">
-                                            <i class="announcement icon"></i><i class="add icon"></i> 
-                                            Publicar Anúncio
-                                        </button>
-                                    </a>
+                        <a href="index.php?entidade=Imovel&acao=form">
+                            <button type="button"  class="ui green button">
+                                <i class="add icon"></i>Cadastrar Outro Imóvel
+                            </button>
+                        </a> 
 
-                                    <a href="index.php?entidade=Imovel&acao=form">
-                                        <button type="button"  class="ui green button">
-                                            <i class="add icon"></i>Cadastrar Outro Imóvel
-                                        </button>
-                                    </a> 
-
-                                    <a href="index.php?entidade=Usuario&acao=MeuPIP">
-                                        <button type="button"  class="ui blue button">
-                                            <i class="home icon"></i>Retornar ao Meu PIP
-                                        </button>
-                                    </a>
-
-                                </div>
-
-                            </div>   
-                        </div>
-                    </div>   
+                        <a href="index.php?entidade=Usuario&acao=MeuPIP">
+                            <button type="button"  class="ui blue button">
+                                <i class="home icon"></i>Retornar ao Meu PIP
+                            </button>
+                        </a>
+ 
 
                     <?php
                     break;
