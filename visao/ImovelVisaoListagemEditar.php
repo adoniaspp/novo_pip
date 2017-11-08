@@ -48,7 +48,7 @@
                 </div>
                 
                 <div class="ui segment center aligned ">
-                    <i class='big red remove circle outline icon'></i>Imóvel com Anúncio <strong>Inativo ou Explirado</strong>
+                    <i class='big red remove circle outline icon'></i>Imóvel com Anúncio <strong>Inativo ou Expirado</strong>
                 </div>
                 
             </div>
@@ -124,7 +124,7 @@
         <form id="form" action="index.php" method="POST">
             <input type="hidden" id="hdnImovel" name="hdnImovel" class="hdnImovel" value="" />
             <input type="hidden" id="hdnToken" name="hdnToken" class="hdnToken" value="" />
-            <input type="hidden" id="hdnEntidade" name="hdnEntidade" class="hdnEntidade" value="imovel" />
+            <input type="hidden" id="hdnEntidade" name="hdnEntidade" class="hdnEntidade" value="Imovel" />
             <input type="hidden" id="hdnAcao" name="hdnAcao" class="hdnAcao" value="excluir" />
         </form>
         <div class="ui orange button">Cancelar</div>

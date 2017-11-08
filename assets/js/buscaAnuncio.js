@@ -23,7 +23,7 @@ function buscarAnuncio() {
         });
         
         $("#porCorretor").click(function () {
-            $.post('index.php?hdnEntidade=Usuario&hdnAcao=exibirListaUsuario',  
+            $.post('index.php?hdnEntidade=Usuario&hdnAcao=exibirListaUsuario&usuarios=' + $("#sltCorretorAvancado").val(),  
                     function (resposta) {
                         $("#sltCorretor").html(resposta);
                     }
