@@ -9,6 +9,7 @@ class Denuncia{
     private $descricao;
     private $datahoracadastro;
     private $emaildenunciante;
+    protected $denunciatipo;
     
     function getIdusuario() {
         return $this->idusuario;
@@ -64,6 +65,14 @@ class Denuncia{
 
     function setEmaildenunciante($emailanunciante) {
         $this->emaildenunciante = $emailanunciante;
+    }
+    
+    function getDenunciatipo() {
+        return $this->denunciatipo;
+    }
+
+    function setDenunciatipo($denunciatipo) {
+        $this->denunciatipo = $denunciatipo;
     }
 
     public function criarDenuncia($parametros){

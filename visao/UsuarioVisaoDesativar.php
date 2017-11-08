@@ -103,32 +103,32 @@ if ($totalUsuariosCadastrados < 1) {
                         <?php
                         if ($item) {
                             foreach ($item["listaUsuarios"] as $usuario) {
-                                if($usuario->denuncias > 0){                                 
-                                ?>
-                                <tr>
-                                    <td>                                                      
-                                        <?php
-                                        if ($usuario->getTipoUsuario() == "pf") {
-                                            echo $usuario->getNome() . " - PF";
-                                        } else {
-                                            echo $usuario->getNome() . " - PJ";
-                                        }
-                                        ?>
-                                    </td>
+                                if ($usuario["denuncias"] > 0) {
+                                    ?>
+                                    <tr>
+                                        <td>                                                      
+                                            <?php
+                                            if ($usuario["tipousuario"] == "pf") {
+                                                echo $usuario["nome"] . " - PF";
+                                            } else {
+                                                echo $usuario["nome"] . " - PJ";
+                                            }
+                                            ?>
+                                        </td>
 
-                                    <td><?php echo $usuario->getLogin(); ?></td>
+                                        <td><?php echo $usuario["login"]; ?></td>
 
-                                    <td> <?php echo date('d/m/Y H:i:s', strtotime($usuario->getDataHoraCadastro())); ?> </td>
-                                    <td><?php echo $usuario->getEmail(); ?></td>    
-                                    <td><?php echo $usuario->denuncias; ?></td> 
-                                    <td><?php echo "<a id='btnMostrarDenuncia" . $usuario->getId() . "' class='ui circular inverted basic icon button'><i class='big red search icon'></i></i></a>"?></td>;
-                                    <td> <?php
-                                        echo "<a id='btnInativar" . $usuario->getId() . "' class='ui circular inverted icon button'><i class='big red thumbs down icon'></i></a>Inativar";
-                                        ?> </td>                                               
-                                </tr>
+                                        <td> <?php echo date('d/m/Y H:i:s', strtotime($usuario["datahoracadastro"])); ?> </td>
+                                        <td><?php echo $usuario["email"]; ?></td>    
+                                        <td><?php echo $usuario["denuncias"]; ?></td> 
+                                        <td><?php echo "<a id='btnMostrarDenuncia" . $usuario["id"] . "' class='ui circular inverted basic icon button'><i class='big red search icon'></i></i></a>" ?></td>;
+                                        <td> <?php
+                                            echo "<a id='btnInativar" . $usuario["id"] . "' class='ui circular inverted icon button'><i class='big red thumbs down icon'></i></a>Inativar";
+                                            ?> </td>                                               
+                                    </tr>
 
-                                <?php
-                            }
+                                    <?php
+                                }
                             }
                         }
                         ?>
@@ -145,30 +145,30 @@ if ($totalUsuariosCadastrados < 1) {
     if ($item) {
         foreach ($item["listaUsuarios"] as $usuario) {
             ?>
-    
+
             <script>
-                inativarUsuario(<?php echo $usuario->getId() ?>);
-                modalDenuncia(<?php echo $usuario->getId() ?>);
+                inativarUsuario(<?php echo $usuario["id"] ?>);
+                modalDenuncia(<?php echo $usuario["id"] ?>);
             </script>
 
             <!-- MODAL DA EDIÇÃO DO STATUS DO ANÚNCIO-->
 
-            <div class="ui standart modal" id="modalInativar<?php echo $usuario->getId() ?>">
+            <div class="ui standart modal" id="modalInativar<?php echo $usuario["id"] ?>">
                 <i class="close icon"></i>
                 <div class="header">
                     Inativar Usuário
                 </div>
-                <div class="content" id="divInativarUsuario<?php echo $usuario->getId() ?>">
+                <div class="content" id="divInativarUsuario<?php echo $usuario["id"] ?>">
 
-                    <form class="ui form" id="formInativarUsuario<?php echo $usuario->getId() ?>" action="index.php" method="post">
+                    <form class="ui form" id="formInativarUsuario<?php echo $usuario["id"] ?>" action="index.php" method="post">
                         <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
                         <input type="hidden" id="hdnAcao" name="hdnAcao" value="inativarUsuario" />  
                         <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
-                        <input type="hidden" id="hdnUsuario" name="hdnUsuario" value="<?php echo $usuario->getId() ?>" />
+                        <input type="hidden" id="hdnUsuario" name="hdnUsuario" value="<?php echo $usuario["id"] ?>" />
 
-                        <div class="content" id="divDescricaoInativar<?php echo $usuario->getId(); ?>">
+                        <div class="content" id="divDescricaoInativar<?php echo $usuario["id"]; ?>">
                             <div class="description">
-                                <div class="ui header">Deseja realmente inativar o usuário <?php echo $usuario->getNome() ?> ?</div>
+                                <div class="ui header">Deseja realmente inativar o usuário <?php echo $usuario["nome"] ?> ?</div>
                             </div>
                         </div>
 
@@ -176,44 +176,71 @@ if ($totalUsuariosCadastrados < 1) {
 
                 </div>
 
-                <div id="divRetornoInativar<?php echo $usuario->getId(); ?>"></div>
+                <div id="divRetornoInativar<?php echo $usuario["id"]; ?>"></div>
 
                 <div class="actions">
-                    <div id="botaoCancelarInativar<?php echo $usuario->getId(); ?>" class="ui red deny button">
+                    <div id="botaoCancelarInativar<?php echo $usuario["id"]; ?>" class="ui red deny button">
                         Não
                     </div>
-                    <div id="botaoInativar<?php echo $usuario->getId(); ?>" class="ui positive right labeled icon button">
+                    <div id="botaoInativar<?php echo $usuario["id"]; ?>" class="ui positive right labeled icon button">
                         Sim
                         <i class="checkmark icon"></i>
                     </div>
-                    <div  id="botaoFecharInativar<?php echo $usuario->getId(); ?>" class="ui red deny button">
+                    <div  id="botaoFecharInativar<?php echo $usuario["id"]; ?>" class="ui red deny button">
                         Fechar
                     </div>
                 </div>
 
             </div>
-                     
-<!-- MODAL DENUNCIA -->            
- <div class="ui standart modal" id="modalMostrarDenuncia<?php echo $usuario->getId() ?>">
+
+            <!-- MODAL DENUNCIA -->            
+            <div class="ui standart modal" id="modalMostrarDenuncia<?php echo $usuario["id"] ?>">
                 <div class="header">
                     Denúncia
                 </div>
-                <div class="content" id="camposMostrarDenuncia<?php echo $usuario->getId() ?>">
-
-                    <?php echo $usuario->descricaoDenuncia; ?>
-
+                <div class="content" id="camposMostrarDenuncia<?php echo $usuario["id"] ?>">
+                    <table class='ui table'>
+                        <thead>
+                            <tr>
+                                <th>Tipo de Denúncia</th>
+                                <th>Descrição</th>
+                                <th>Data/Hora Cadastro</th>
+                                <th>Identificador do Anúncio</th>
+                            </tr>
+                        </thead>
+                        <tbody> 
+                            <?php
+                            for ($indice = 0; $indice < count($usuario) - 8; $indice++) {
+                                ?>
+                                <tr>
+                                    <td id = "TipoDenuncia<?php echo $usuario[$indice]["id"] ?>"> <?php echo $usuario[$indice]["tipodenuncia"];
+                                            ?> </td> 
+                                    <td id = "Descricao<?php echo $usuario[$indice]["id"] ?>"> <?php echo $usuario[$indice]["denuncia"];
+                                            ?> </td> 
+                                    <td id = "Datahoracadastro<?php echo $usuario[$indice]["id"] ?>"> <?php echo $usuario[$indice]["datahoracadastro"];
+                                            ?> </td> 
+                                    <td id = "Descricao<?php echo $usuario[$indice]["id"] ?>"> <?php echo $usuario[$indice]["idanuncio"];
+                                            ?> </td>
+                                </tr>
+                                <!--                echo $usuario[$indice]["denuncia"];
+                                                echo "<br>";-->
+                                <?php
+                            }
+                            ?>
+                        </tbody> 
+                    </table>
                 </div>
 
                 <div class="actions">
-                    <div  id="botaoFecharMostrarValor<?php echo $usuario->getId(); ?>" class="ui red deny button">
+                    <div  id="botaoFecharMostrarValor<?php echo $usuario["id"]; ?>" class="ui red deny button">
                         Fechar
                     </div>
                 </div>
             </div>
 
- <?php
+            <?php
         }
     }
     ?>
 
-<?php } //fim do else, caso haja anuncios ativos ?> 
+<?php } //fim do else, caso haja anuncios ativos   ?> 

@@ -377,14 +377,24 @@ class ConsultasAdHoc extends GenericoDAO {
     public function consultaUsuarioDenuncia() {
 
         $sql = "select u.id, tipousuario, nome, cpfcnpj, login, email, u.datahoracadastro, 
-            d.descricao as 'descricaoDenuncia',
             count(u.id) as 'denuncias' from denuncia d left join 
             usuario u on u.id = d.idusuario where status like 'ativo'
             group by u.id order by denuncias";
 
         $statement = $this->conexao->prepare($sql);
         $statement->execute();
-        $resultado = $statement->fetchAll(PDO::FETCH_CLASS, "Usuario");
+        $resultado = $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $resultado;
+    }
+    
+    public function consultarDenuncia(){
+        $sql = "select d.id, d.idanuncio, d.idusuario, dt.descricao as 'tipodenuncia', 
+            d.descricao as denuncia, d.datahoracadastro
+            from denuncia d left join 
+            denunciatipo dt on d.idtipodenuncia = dt.id";
+        $statement = $this->conexao->prepare($sql);
+        $statement->execute();
+        $resultado = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $resultado;
     }
 
