@@ -132,10 +132,10 @@ class ConsultasAdHoc extends GenericoDAO {
 
         $statement->execute();
         $resultado['anuncio'] = $statement->fetchAll(PDO::FETCH_ASSOC);
-        
+
         $idsImoveis = array_column($resultado['anuncio'], 'idimovel');
         $idsAnuncios = array_column($resultado['anuncio'], 'idanuncio');
-        
+
         /* Imagens do anuncio */
         if (count($resultado['anuncio']) != 0) {
             $allow = $idsAnuncios;
@@ -216,8 +216,8 @@ class ConsultasAdHoc extends GenericoDAO {
                 }
             }
         }
-        
-        
+
+
         /* Apartamento na Planta */
         if (count($resultado['anuncio']) != 0) {
             $idsImoveis = array_column($resultado['anuncio'], 'idimovel');
@@ -243,8 +243,8 @@ class ConsultasAdHoc extends GenericoDAO {
                     }
                 }
             }
-        }        
-        
+        }
+
         /* Telefone */
         if (count($idsUsuarios) != 0) {
             $idsUsuarios = array_column($resultado['anuncio'], 'id');
@@ -271,9 +271,9 @@ class ConsultasAdHoc extends GenericoDAO {
                     $resultado['anuncio'][$indice]['telefone'][] = $retorno;
                 }
             }
-        }    
-        
-        
+        }
+
+
         /* Informacoes do tipo do imóvel */
         if (count($resultado['anuncio']) != 0) {
             $idsImoveis = array_column($resultado['anuncio'], 'idimovel');
@@ -281,28 +281,28 @@ class ConsultasAdHoc extends GenericoDAO {
             for ($i = 0; $i < count($idsImoveis); $i++) {
                 switch ($tiposImoveis[$i]) {
                     case 'casa':
-                     $idsCasa[$i] = $idsImoveis[$i];
+                        $idsCasa[$i] = $idsImoveis[$i];
                         break;
                     case 'apartamentoplanta':
-                     $idsApartamentoPlanta[$i] = $idsImoveis[$i];
+                        $idsApartamentoPlanta[$i] = $idsImoveis[$i];
                         break;
                     case 'apartamento':
-                     $idsApartamento[$i] = $idsImoveis[$i];
+                        $idsApartamento[$i] = $idsImoveis[$i];
                         break;
                     case 'salacomercial':
-                     $idsSalaComercial[$i] = $idsImoveis[$i];
+                        $idsSalaComercial[$i] = $idsImoveis[$i];
                         break;
                     case 'terreno':
-                     $idsTerreno[$i] = $idsImoveis[$i];
+                        $idsTerreno[$i] = $idsImoveis[$i];
                         break;
                     default:
                         break;
                 }
-            }            
+            }
         }
-            
+
         /* Casas */
-             if (count($idsCasa) != 0) {
+        if (count($idsCasa) != 0) {
             $allow = $idsCasa;
             $sql = "SELECT idimovel, quarto, banheiro, suite, garagem, area FROM buscaAnuncioCasa WHERE ";
             $sql .= sprintf(" idimovel in( %s )", implode(
@@ -326,8 +326,116 @@ class ConsultasAdHoc extends GenericoDAO {
                     $resultado['anuncio'][$indice] = array_merge($retorno, $resultado['anuncio'][$indice]);
                 }
             }
-        }    
-                
+        }
+
+        /* Apartamento na Planta */
+        if (count($idsApartamentoPlanta) != 0) {
+            $allow = $idsApartamentoPlanta;
+            $sql = "SELECT idimovel, andares, unidadesandar, totalunidades, numerotorres FROM buscaAnuncioApartamentoplanta WHERE ";
+            $sql .= sprintf(" idimovel in( %s )", implode(
+                            ',', array_map(
+                                    function($v) {
+                                static $x = 0;
+                                return ':allow_' . $x++;
+                            }, $allow
+                            )
+                    )
+            );
+            $sth = $this->conexao->prepare($sql);
+            foreach ($allow as $k => $v) {
+                $sth->bindValue('allow_' . $k, $v);
+            }
+            $sth->execute();
+            $retornoConsulta = $sth->fetchAll(PDO::FETCH_ASSOC);
+            if (count($retornoConsulta) != 0) {
+                foreach ($retornoConsulta as $retorno) {
+                    $indice = array_search($retorno["idimovel"], $idsApartamentoPlanta);
+                    $resultado['anuncio'][$indice] = array_merge($retorno, $resultado['anuncio'][$indice]);
+                }
+            }
+        }
+
+        /* Apartamento  */
+        if (count($idsApartamento) != 0) {
+            $allow = $idsApartamento;
+            $sql = "SELECT idimovel, quarto, suite, banheiro, garagem, area, unidadesandar, andar, condominio FROM buscaAnuncioApartamento WHERE ";
+            $sql .= sprintf(" idimovel in( %s )", implode(
+                            ',', array_map(
+                                    function($v) {
+                                static $x = 0;
+                                return ':allow_' . $x++;
+                            }, $allow
+                            )
+                    )
+            );
+            $sth = $this->conexao->prepare($sql);
+            foreach ($allow as $k => $v) {
+                $sth->bindValue('allow_' . $k, $v);
+            }
+            $sth->execute();
+            $retornoConsulta = $sth->fetchAll(PDO::FETCH_ASSOC);
+            if (count($retornoConsulta) != 0) {
+                foreach ($retornoConsulta as $retorno) {
+                    $indice = array_search($retorno["idimovel"], $idsApartamento);
+                    $resultado['anuncio'][$indice] = array_merge($retorno, $resultado['anuncio'][$indice]);
+                }
+            }
+        }
+
+        /* Sala Comercial  */
+        if (count($idsSalaComercial) != 0) {
+            $allow = $idsSalaComercial;
+            $sql = "SELECT idimovel,  area, banheiro, garagem, condominio FROM buscaAnuncioSalacomercial WHERE ";
+            $sql .= sprintf(" idimovel in( %s )", implode(
+                            ',', array_map(
+                                    function($v) {
+                                static $x = 0;
+                                return ':allow_' . $x++;
+                            }, $allow
+                            )
+                    )
+            );
+            $sth = $this->conexao->prepare($sql);
+            foreach ($allow as $k => $v) {
+                $sth->bindValue('allow_' . $k, $v);
+            }
+            $sth->execute();
+            $retornoConsulta = $sth->fetchAll(PDO::FETCH_ASSOC);
+            if (count($retornoConsulta) != 0) {
+                foreach ($retornoConsulta as $retorno) {
+                    $indice = array_search($retorno["idimovel"], $idsSalaComercial);
+                    $resultado['anuncio'][$indice] = array_merge($retorno, $resultado['anuncio'][$indice]);
+                }
+            }
+        }
+
+        /* Terreno  */
+        if (count($idsTerreno) != 0) {
+            $allow = $idsTerreno;
+            $sql = "SELECT idimovel,  area FROM buscaAnuncioTerreno WHERE ";
+            $sql .= sprintf(" idimovel in( %s )", implode(
+                            ',', array_map(
+                                    function($v) {
+                                static $x = 0;
+                                return ':allow_' . $x++;
+                            }, $allow
+                            )
+                    )
+            );
+            $sth = $this->conexao->prepare($sql);
+            foreach ($allow as $k => $v) {
+                $sth->bindValue('allow_' . $k, $v);
+            }
+            $sth->execute();
+            $retornoConsulta = $sth->fetchAll(PDO::FETCH_ASSOC);
+            if (count($retornoConsulta) != 0) {
+                foreach ($retornoConsulta as $retorno) {
+                    $indice = array_search($retorno["idimovel"], $idsTerreno);
+                    $resultado['anuncio'][$indice] = array_merge($retorno, $resultado['anuncio'][$indice]);
+                }
+            }
+        }
+
         return $resultado;
     }
 
