@@ -21,9 +21,9 @@ function buscarAnuncio() {
                     }
             );
         });
-        
+
         $("#porCorretor").click(function () {
-            $.post('index.php?hdnEntidade=Usuario&hdnAcao=exibirListaUsuario&usuarios=' + $("#sltCorretorAvancado").val(),  
+            $.post('index.php?hdnEntidade=Usuario&hdnAcao=exibirListaUsuario&usuarios=' + $("#sltCorretorAvancado").val(),
                     function (resposta) {
                         $("#sltCorretor").html(resposta);
                     }
@@ -94,10 +94,10 @@ function buscarAnuncio() {
                 areaMax: $('#sltAreaMax').val(),
                 id: $('#hdUsuario').val(),
                 diferencial: $('#carregarDiferenciais').val(),
- //           },
- //               garagem: $('#checkgaragem').parent().checkbox('is checked') 
+                //           },
+                //               garagem: $('#checkgaragem').parent().checkbox('is checked') 
+            });
         });
-    });
 
         $("#btnBuscarAnuncioAvancado").on('click', function () {
 
@@ -123,17 +123,17 @@ function buscarAnuncio() {
                 id: $('#hdUsuario').val(),
                 diferencial: $('#carregarDiferenciais').val(),
                 garagem: $('#sltGaragem').val()
-            //},
+                        //},
 //                    function () {
 //                        $("#load").addClass('ui active inverted dimmer');
 //                    });
 //            setTimeout(function () {
 //                $('#load').removeClass("ui active inverted dimmer");
 //            }, 1000);
+            });
         });
-    });
-    
-    $("#btnBuscarAnuncioCorretor").on('click', function () {
+
+        $("#btnBuscarAnuncioCorretor").on('click', function () {
 
             $("#load").addClass('ui active inverted dimmer');
 
@@ -152,69 +152,144 @@ function buscarAnuncio() {
                 id: $('#sltCorretorAvancado').val(),
                 garagem: 'false',
                 page: 'index'
+            });
         });
+
     });
-    
-});
 }
 
 function carregarAnuncio() { //valor = quantidade de anuncios
 
     $(document).ready(function () {
+        
+        $('.ui.dropdown')
+                    .dropdown()
+                    ;
 
-        exibirEnviarComparar();
+        $(function () {
 
-        $('.special.cards .image').dimmer({
-            on: 'hover'
+            $("div.holder").jPages({
+                containerID: "itemContainer",
+                perPage: 8,
+                previous: 'Anterior',
+                next: 'Próximo',
+                first: 'Primeiro',
+                last: 'Último'
+            });
+            $
+            $(".holder").addClass("ui pagination menu");
+            $("a").addClass("item");
+            $(".jp-current").addClass("active");
+            $("span").addClass("item");
+
+            $(".item").on('click', function () {
+                $(".item").removeClass("active");
+                $(this).addClass("active");
+                $(".jp-first").removeClass("active");
+                $(".jp-previous").removeClass("active");
+                $(".jp-next").removeClass("active");
+                $(".jp-last").removeClass("active");
+            });
+
+            $(".jp-previous").on('click', function () {
+                $(".item").removeClass("active");
+                $(".jp-current").addClass("active");
+            })
+
+            $(".jp-next").on('click', function () {
+                $(".item").removeClass("active");
+                $(".jp-current").addClass("active");
+            })
+
+            $(".jp-last").on('click', function () {
+                $(".item").removeClass("active");
+                $(".jp-current").addClass("active");
+            })
+
+            $(".jp-first").on('click', function () {
+                $(".item").removeClass("active");
+                $(".jp-current").addClass("active");
+            })
+
+            
+
         });
 
-        $('#lista').jplist({
-            itemsBox: '.list',
-            itemPath: '.list-item',
-            panelPath: '.jplist-panel',
-//          Executa a action do botão de detalhes a cada vez que os cards são renderizados pela paginação.  
-            redrawCallback: function () {
-
-                $('.ui.checkbox')
-                        .checkbox();
-
-                exibirEnviarComparar();
-
-                $(".valor").priceFormat({
-                    prefix: 'R$ ',
-                    centsSeparator: ',',
-                    centsLimit: 0,
-                    limit: 8,
-                    thousandsSeparator: '.'
-                })
-
-//                $('.special.cards .image .button').on('click', function () {
-//                    $("#hdnCodAnuncio").val($(this).siblings().val());
-//                    $("#hdnTipoImovel").val($(this).siblings().next().val());
-//                    $("#hdnEntidade").val("Anuncio");
-//                    $("#hdnAcao").val("detalhar");
-//                    $('#form').submit();
-//                })
-            }
-        })
 
 
-        $("#spanValor").priceFormat({
+
+
+//        var cards = $('#cards');
+//
+//            cards.pager({
+//                perPage: 8,
+//                useHash: true
+//            });
+//
+//            $('.action2').click(function () {
+//                var action = this.getAttribute('rel'); // get the appropriate action from the rel attribute
+//                cards.trigger("pager:" + action);
+//                return false;
+//            });
+
+//        $('#lista').jplist({
+//            itemsBox: '.list',
+//            itemPath: '.list-item',
+//            panelPath: '.jplist-panel',
+////          Executa a action do botão de detalhes a cada vez que os cards são renderizados pela paginação.  
+//            redrawCallback: function () {
+//
+//                $('.ui.checkbox')
+//                        .checkbox();
+//
+        exibirEnviarComparar();
+
+        $("div[id^='spanValor']").priceFormat({
             prefix: 'R$ ',
             centsSeparator: ',',
             centsLimit: 0,
             limit: 8,
             thousandsSeparator: '.'
         })
+//
+//                $("span[id^='spanValor']").priceFormat({
+//                    prefix: 'R$ ',
+//                    centsSeparator: ',',
+//                    centsLimit: 0,
+//                    limit: 8,
+//                    thousandsSeparator: '.'
+//                })
+//
+////                $("#txtTitulo" + valor).maxlength({
+////                    threshold: 50,
+////                    warningClass: "ui small green circular label",
+////                    limitReachedClass: "ui small red circular label",
+////                    separator: ' de ',
+////                    preText: 'Voc&ecirc; digitou ',
+////                    postText: ' caracteres permitidos.',
+////                    validate: true
+////                })
+////
+////                $("#txtDescricao" + valor).maxlength({
+////                    threshold: 200,
+////                    warningClass: "ui small green circular label",
+////                    limitReachedClass: "ui small red circular label",
+////                    separator: ' de ',
+////                    preText: 'Voc&ecirc; digitou ',
+////                    postText: ' caracteres permitidos.',
+////                    validate: true
+////                })
+//            }
+//        })
 
-        $("#hdnOrdTipoImovel").val($('#sltTipoImovel').val());
-        $("#hdnOrdValor").val($('#sltValor').val());
-        $("#hdnOrdFinalidade").val($('#sltFinalidade').val());
-        $("#hdnOrdIdcidade").val($('#sltCidade').val());
-        $("#hdnOrdIdbairro").val($('#sltBairro').val());
-        $("#hdnOrdQuarto").val($('#sltQuartos').val());
-        $("#hdnOrdCondicao").val($('#sltCondicao').val());
-        $("#hdnOrdGaragem").val($('#checkgaragem').parent().checkbox('is checked'));
+//        $("#hdnOrdTipoImovel").val($('#sltTipoImovel').val());
+//        $("#hdnOrdValor").val($('#sltValor').val());
+//        $("#hdnOrdFinalidade").val($('#sltFinalidade').val());
+//        $("#hdnOrdIdcidade").val($('#sltCidade').val());
+//        $("#hdnOrdIdbairro").val($('#sltBairro').val());
+//        $("#hdnOrdQuarto").val($('#sltQuartos').val());
+//        $("#hdnOrdCondicao").val($('#sltCondicao').val());
+//        $("#hdnOrdGaragem").val($('#checkgaragem').parent().checkbox('is checked'));
 
     })
 
@@ -338,7 +413,6 @@ function confirmarEmail() {
              </div>\n\
              </div>");*/
             var arr = [];
-            $("#idAnuncios").append($("input[name^='listaAnuncio']"));
             $(("input[name^='listaAnuncio']")).each(function () {
                 arr.push($(this).val());
             });
@@ -365,25 +439,25 @@ function formatarValor(valor) {
         thousandsSeparator: '.'
     })
 
-    $("#txtTitulo" + valor).maxlength({
-        threshold: 50,
-        warningClass: "ui small green circular label",
-        limitReachedClass: "ui small red circular label",
-        separator: ' de ',
-        preText: 'Voc&ecirc; digitou ',
-        postText: ' caracteres permitidos.',
-        validate: true
-    })
-
-    $("#txtDescricao" + valor).maxlength({
-        threshold: 200,
-        warningClass: "ui small green circular label",
-        limitReachedClass: "ui small red circular label",
-        separator: ' de ',
-        preText: 'Voc&ecirc; digitou ',
-        postText: ' caracteres permitidos.',
-        validate: true
-    })
+//    $("#txtTitulo" + valor).maxlength({
+//        threshold: 50,
+//        warningClass: "ui small green circular label",
+//        limitReachedClass: "ui small red circular label",
+//        separator: ' de ',
+//        preText: 'Voc&ecirc; digitou ',
+//        postText: ' caracteres permitidos.',
+//        validate: true
+//    })
+//
+//    $("#txtDescricao" + valor).maxlength({
+//        threshold: 200,
+//        warningClass: "ui small green circular label",
+//        limitReachedClass: "ui small red circular label",
+//        separator: ' de ',
+//        preText: 'Voc&ecirc; digitou ',
+//        postText: ' caracteres permitidos.',
+//        validate: true
+//    })
 
 }
 
@@ -1147,7 +1221,7 @@ function inicio() {
     $(document).ready(function () {
 
         $('.menu .item').tab();
-        
+
         $("#porCorretor").hide();
         $("#divValorVenda").hide();
         $("#divValorAluguel").hide();
@@ -1163,24 +1237,24 @@ function inicio() {
         $("#divGaragem").hide();
         $("#divGaragemAvancado").hide();
         $("#divAndares").hide();
-        $("#divOutrasCaracteristicas").hide();     
-        
+        $("#divOutrasCaracteristicas").hide();
+
         $("#abaBasica").click(function () {
             $("#porCorretor").hide();
             $("#abaBasicaMenu").show();
         });
-        
+
         $("#abaAvancada").click(function () {
             $("#porCorretor").hide();
             $("#abaBasicaMenu").hide();
             $("#abaAvancadaMenu").show();
         });
-        
+
         $("#abaCorretor").click(function () {
             $("#porCorretor").show();
             $("#abaBasicaMenu").hide();
             $("#abaAvancadaMenu").hide();
-        });      
+        });
 
         $("#sltFinalidadeAvancado").change(function () {
             if ($(this).val() == "venda") {

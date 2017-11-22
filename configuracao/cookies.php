@@ -78,7 +78,10 @@ class Cookies {
                     }
                 }   
             }
-            }               
+            }                
+//            echo "<pre>";
+//            print_r($listaPreferencias);
+//            die();
             return $listaPreferencias;
         }
     }

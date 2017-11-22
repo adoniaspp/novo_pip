@@ -43,7 +43,7 @@ if ($item) {
                     for ($k = 0; $k <= count($anuncios[$crtl]['anuncio']); $k++) {
                         if ($anuncios[$crtl]['anuncio'][$k]) {
                             $anuncio = $anuncios[$crtl]['anuncio'][$k];
-                            ?>
+                            ?>                            
                             <script>
                                 formatarValor("<?php echo $anuncio['idanuncio'] ?>");
                             </script>  

@@ -2,12 +2,14 @@
 <script src="assets/libs/gmaps/gmap3.min.js"></script>
 <script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
 <script src="assets/libs/jquery/jquery.validate.min.js"></script>
-<script src="assets/libs/jplist/jplist.core.min.js"></script>
+<script src="assets/libs/pagination/jPages.min.js"></script>
+<!--<script src="assets/libs/jplist/jplist.core.min.js"></script>
 <link href="assets/libs/jplist/jplist.core.min.css" rel="stylesheet" type="text/css" />
 <script src="assets/libs/jplist/jplist.sort-bundle.min.js"></script>
 <link href="assets/libs/jplist/jplist.pagination-bundle.min.css" rel="stylesheet" type="text/css" />
-<script src="assets/libs/jplist/jplist.pagination-bundle.min.js"></script>
+<script src="assets/libs/jplist/jplist.pagination-bundle.min.js"></script>-->
 <link href="assets/css/template-pip.css" rel="stylesheet" type="text/css" />
+<!--<link href="assets/libs/pagination/jPages.css" rel="stylesheet" type="text/css" />-->
 
 <script>
     carregarAnuncio();
@@ -51,48 +53,60 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
     <div class="ui middle aligned one column grid container" id="lista">
         <?php if (count($item['anuncio']) > 0) { ?>
             <div class="ui column">
-                <div class="jplist-panel">
-                    <div 
-                        class="jplist-drop-down" 
-                        data-control-type="items-per-page-drop-down" 
-                        data-control-name="paging" 
-                        data-control-action="paging">
-                        <ul>
-                            <li><span data-number="8" data-default="true"> 8 resultados </span></li>
-                            <li><span data-number="16"> 16 resultados </span></li>
-                            <li><span data-number="24"> 24 resultados </span></li>
-                        </ul>
-                    </div>
-                    <div 
-                        class="jplist-label" 
-                        data-type="{start} - {end} de {all}"
-                        data-control-type="pagination-info" 
-                        data-control-name="paging" 
-                        data-control-action="paging">
-                    </div>	
-                    <div 
-                        class="jplist-pagination" 
-                        data-control-type="pagination" 
-                        data-control-name="paging" 
-                        data-control-action="paging">
-                    </div>
+                <div class="holder"></div>
+<!--                    <div class="ui compact selection dropdown">
+                        <input type="hidden" name="gender">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Itens</div>
+                        <div class="menu">
+                            <div class="item" data-value="1">Male</div>
+                            <div class="item" data-value="0">Female</div>
+                        </div>
+                    </div>-->
 
-                    <div 
-                        class="jplist-drop-down" 
-                        data-control-type="sort-drop-down" 
-                        data-control-name="sort" 
-                        data-control-action="sort"
-                        data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">  
 
-                        <ul>
-                            <li><span data-path="default">Escolha a ordem</span></li>
-                            <li><span data-path=".valor" data-order="desc" data-type="number">Maior Preço</span></li>
-                            <li><span data-path=".valor" data-order="asc" data-type="number">Menor Preço</span></li>
-                            <li><span data-path=".data" data-order="desc" data-type="datetime">Mais Recente</span></li>
-                            <li><span data-path=".data" data-order="asc" data-type="datetime">Menos Recente</span></li>
-                        </ul>
-                    </div>
-                </div>
+                <!--                <div class="jplist-panel">
+                                    <div 
+                                        class="jplist-drop-down" 
+                                        data-control-type="items-per-page-drop-down" 
+                                        data-control-name="paging" 
+                                        data-control-action="paging">
+                                        <ul>
+                                            <li><span data-number="8" data-default="true"> 8 resultados </span></li>
+                                            <li><span data-number="16"> 16 resultados </span></li>
+                                            <li><span data-number="24"> 24 resultados </span></li>
+                                        </ul>
+                                    </div>
+                                    <div 
+                                        class="jplist-label" 
+                                        data-type="{start} - {end} de {all}"
+                                        data-control-type="pagination-info" 
+                                        data-control-name="paging" 
+                                        data-control-action="paging">
+                                    </div>	
+                                    <div 
+                                        class="jplist-pagination" 
+                                        data-control-type="pagination" 
+                                        data-control-name="paging" 
+                                        data-control-action="paging">
+                                    </div>
+                
+                                    <div 
+                                        class="jplist-drop-down" 
+                                        data-control-type="sort-drop-down" 
+                                        data-control-name="sort" 
+                                        data-control-action="sort"
+                                        data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">  
+                
+                                        <ul>
+                                            <li><span data-path="default">Escolha a ordem</span></li>
+                                            <li><span data-path=".valor" data-order="desc" data-type="number">Maior Preço</span></li>
+                                            <li><span data-path=".valor" data-order="asc" data-type="number">Menor Preço</span></li>
+                                            <li><span data-path=".data" data-order="desc" data-type="datetime">Mais Recente</span></li>
+                                            <li><span data-path=".data" data-order="asc" data-type="datetime">Menos Recente</span></li>
+                                        </ul>
+                                    </div>
+                                </div>-->
             </div>
             <div class="ui ten wide column">
             </div>
@@ -117,18 +131,15 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
 
             <!--<div class="ui stackable special cards list">-->
             <div class="ui stackable column grid">
-                <div class="ui stackable cards list">
+                <div id="itemContainer" class="ui stackable cards list">
+
                     <?php
                     for ($crtl = 0; $crtl < count($item['anuncio']); $crtl++) {
 //                        echo '<pre>';
 //                        print_r($item['anuncio'][$crtl]['idanuncioformatado']);
 //                        echo '</pre>';
-                        ?>
-                                
-                        <script>
-                            formatarValor("<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>");
-                        </script>       
-                        <div class="card list-item" style="width: 263px; border-radius: 2.285714rem; box-shadow: 0 1px 3px 0 #D4D4DD,0 0 0 1px #000000" id="cartao<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">
+                        ?> 
+                        <div class="card list-item" style="width: 263px; border-radius: 2.285714rem; box-shadow: 0 1px 3px 0 #D4D4DD,0 0 0 1px #000000" id="cartao<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">                            
                             <!--                            <div class="content">
                             <?php
                             if ($item['anuncio'][$crtl]['finalidade'] == "Venda") {
@@ -213,10 +224,10 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                 <?php }
                                 ?>
                             </div>
-                            
+
                             <div class="content">
                                 <div class="ui segment">    
-                                    <div class="ui stackable three column centered grid">
+                                    <div class="ui three column center aligned grid">                                       
                                         <div class="column">
                                             <img class="ui center image dimmable" src="../assets/imagens/icones/iconeQuartoPequeno.jpg">&nbsp;
                                             <div style="font-size: 12px">  
@@ -284,7 +295,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                     }
                                     ?>
                                 </span>
-                                        <div class="right floated"> <h4><?php echo $item['anuncio'][$crtl]['bairro'] ?> </h4></div>
+                                <div class="right floated"> <h4><?php echo $item['anuncio'][$crtl]['bairro'] ?> </h4></div>
                                 <div class="description"> 
                                     <!--                                    <br />-->
                                     <span hidden="true" class="data" id="spanData<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>"> 
@@ -299,9 +310,9 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
 
                                 </div>
                                 <br />
-                                <div class="ui one column centered grid">
+                                <div class="ui one column center aligned grid">
                                     <div class="column">
-                                        <a class='ui twitter button' href="<?php echo PIPURL;?><?php echo $item['anuncio'][$crtl]['idanuncioformatado']?>" target="_blank">+ Detalhes</a>
+                                        <a class='ui twitter button' href="<?php echo PIPURL; ?><?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank">+ Detalhes</a>
                                     </div>
                                 </div>       
                             </div>
@@ -314,42 +325,52 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                     <?php echo FuncoesAuxiliares::tempo_corrido($item['anuncio'][$crtl]['datahoracadastro']) ?> <?php ?>
                                 </span>
                             </div> 
-
                         </div> 
                     <?php }
-                    ?>
+                    ?>                    
                 </div>
-            </div>
+                <div id="pagination-container"></div>
+                <!--                <div class="column">
+                                <div class="ui pagination menu">
+                                    <a class="action2 active item" href="#" rel="first">Primeiro</a>
+                                    <a class="action2 item" href="#" rel="prev">Anterior</a>
+                                    <a class="action2 item" href="#" rel="next">Próximo</a>
+                                    <a class="action2 item" href="#" rel="last">Último</a>
+                                <div class="ui pagination menu">
+                                </div>-->
+            </div>            
         <?php }
         ?>
         <div class="ui column">
-            <div class="jplist-panel">
-                <div 
-                    class="jplist-drop-down" 
-                    data-control-type="items-per-page-drop-down" 
-                    data-control-name="paging" 
-                    data-control-action="paging">
-                    <ul>
-                        <li><span data-number="8" data-default="true"> 8 resultados </span></li>
-                        <li><span data-number="16"> 16 resultados </span></li>
-                        <li><span data-number="24"> 24 resultados </span></li>
-<!--                            <li><span data-number="all"> view all </span></li>-->
-                    </ul>
-                </div>
-                <div 
-                    class="jplist-label" 
-                    data-type="{start} - {end} de {all}"
-                    data-control-type="pagination-info" 
-                    data-control-name="paging" 
-                    data-control-action="paging">
-                </div>
-                <div 
-                    class="jplist-pagination" 
-                    data-control-type="pagination" 
-                    data-control-name="paging" 
-                    data-control-action="paging">
-                </div>
-            </div>
+            <div class="holder"></div>
+
+            <!--            <div class="jplist-panel">
+                            <div 
+                                class="jplist-drop-down" 
+                                data-control-type="items-per-page-drop-down" 
+                                data-control-name="paging" 
+                                data-control-action="paging">
+                                <ul>
+                                    <li><span data-number="8" data-default="true"> 8 resultados </span></li>
+                                    <li><span data-number="16"> 16 resultados </span></li>
+                                    <li><span data-number="24"> 24 resultados </span></li>
+                                        <li><span data-number="all"> view all </span></li>
+                                </ul>
+                            </div>
+                            <div 
+                                class="jplist-label" 
+                                data-type="{start} - {end} de {all}"
+                                data-control-type="pagination-info" 
+                                data-control-name="paging" 
+                                data-control-action="paging">
+                            </div>
+                            <div 
+                                class="jplist-pagination" 
+                                data-control-type="pagination" 
+                                data-control-name="paging" 
+                                data-control-action="paging">
+                            </div>
+                        </div>-->
         </div>
     </div>
     <div class="one wide column"></div>

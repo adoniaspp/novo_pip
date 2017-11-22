@@ -403,47 +403,43 @@ class AnuncioControle {
 
     function comparar($parametros) {
 
+                 $genericoDAO = new GenericoDAO();
+         $indice = 0;
+        $idsAnuncio = $parametros['listaAnuncio'];
+         unset($parametros["hdnEntidade"]);
+         unset($parametros["hdnAcao"]);
+         unset($parametros["tabela_length"]);
+         unset($parametros["selecionarAnuncio"]);
+         unset($parametros["listaAnuncio"]);
+         unset($parametros["hdnCodAnuncio"]);
+         unset($parametros["hdnTipoImovel"]);
+         unset($parametros["hdnCodAnuncioFormatado"]);
 
-
-        $genericoDAO = new GenericoDAO();
-        $indice = 0;
-        $idsAnuncio = $parametros['selecionarAnuncio'];
-        unset($parametros["hdnEntidade"]);
-        unset($parametros["hdnAcao"]);
-        unset($parametros["tabela_length"]);
-        unset($parametros["selecionarAnuncio"]);
-        unset($parametros["listaAnuncio"]);
-        unset($parametros["hdnCodAnuncio"]);
-        unset($parametros["hdnTipoImovel"]);
-        unset($parametros["hdnCodAnuncioFormatado"]);
-
-
-
-
-        foreach ($idsAnuncio as $idanuncio) {
+         foreach ($idsAnuncio as $idanuncio) {
             $item["anuncio"] = $genericoDAO->consultar(new Anuncio(), false, array("idanuncio" => $idanuncio));
             $idFormatado = $item["anuncio"][0]->getId();
-            $item["imovel"] = $genericoDAO->consultar(new Imovel(), true, array("id" => $item["anuncio"][0]->getIdimovel()));
-
-            $descricaoTipoImovel = $item["imovel"][0]->getTipoimovel()->getDescricao();
-
-            $consultasAdHoc = new ConsultasAdHoc();
-            $parametros["tabela"] = $descricaoTipoImovel;
-            $parametros["atributos"] = "*";
+             $item["imovel"] = $genericoDAO->consultar(new Imovel(), true, array("id" => $item["anuncio"][0]->getIdimovel()));
+                                   
+             $descricaoTipoImovel = $item["imovel"][0]->getTipoimovel()->getDescricao();
+   
+             $consultasAdHoc = new ConsultasAdHoc();
+             $parametros["tabela"] = $descricaoTipoImovel;
+             $parametros["atributos"] = "*";
             $parametros["predicados"] = array("idanuncio" => $idFormatado);
+                        
+             $anuncio = $consultasAdHoc->buscaAnuncios($parametros);
 
-            $anuncio = $consultasAdHoc->buscaAnuncios($parametros);
+             $listarAnuncio[$indice] = $anuncio['anuncio'][0];
 
-            $listarAnuncio[$indice] = $anuncio['anuncio'][0];
+             $parametros = "";
+ 
+             $indice++;
+         }
+            
+         $visao = new Template();
+         $visao->setItem($listarAnuncio);
+         $visao->exibir('AnuncioVisaoComparar.php');
 
-            $parametros = "";
-
-            $indice++;
-        }
-
-        $visao = new Template();
-        $visao->setItem($listarAnuncio);
-        $visao->exibir('AnuncioVisaoComparar.php');
     }
 
     function listarCadastrar() {
