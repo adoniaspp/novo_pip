@@ -161,67 +161,71 @@ function buscarAnuncio() {
 function carregarAnuncio() { //valor = quantidade de anuncios
 
     $(document).ready(function () {
-        
+
         $('.ui.dropdown')
-                    .dropdown()
-                    ;
+                .dropdown()
+                ;
+        $("#sltOrdenacao").change(function () {
+            if ($(this).val() == "mnvalor") {
+                var $valor = $('#itemContainer'),
+                        $valorli = $valor.children('div');
 
-        $(function () {
+                $valorli.sort(function (a, b) {
+                    var an = a.getAttribute('data-valor'),
+                            bn = b.getAttribute('data-valor');
 
-            $("div.holder").jPages({
-                containerID: "itemContainer",
-                perPage: 8,
-                previous: 'Anterior',
-                next: 'Próximo',
-                first: 'Primeiro',
-                last: 'Último'
-            });
-            
-            
-            $(".holder").addClass("ui pagination menu");
-            $("a").addClass("item");
-            $(".jp-current").addClass("active");
-            $("span").addClass("item");
+                    if (an > bn) {
+                        return 1;
+                    }
+                    if (an < bn) {
+                        return -1;
+                    }
+                    return 0;
+                });
 
-            $(".item").on('click', function () {
-                $("#itemContainer").css("min-height", "460px");
-                $(".item").removeClass("active");
-                $(this).addClass("active");
-                $(".jp-first").removeClass("active");
-                $(".jp-previous").removeClass("active");
-                $(".jp-next").removeClass("active");
-                $(".jp-last").removeClass("active");
-            });
 
-            $(".jp-previous").on('click', function () {
-                $(".item").removeClass("active");
-                $(".jp-current").addClass("active");
-            })
+            } else if ($(this).val() == "mrvalor") {
+                var $valor = $('#itemContainer'),
+                        $valorli = $valor.children('div');
 
-            $(".jp-next").on('click', function () {
-                $(".item").removeClass("active");
-                $(".jp-current").addClass("active");
-                $("#itemContainer").css("min-height", "460px");
-            })
+                $valorli.sort(function (a, b) {
+                    var an = a.getAttribute('data-valor'),
+                           bn = b.getAttribute('data-valor');
 
-            $(".jp-last").on('click', function () {
-                $(".item").removeClass("active");
-                $(".jp-current").addClass("active");
-                $("#itemContainer").css("min-height", "460px");
-            })
-
-            $(".jp-first").on('click', function () {
-                $(".item").removeClass("active");
-                $(".jp-current").addClass("active");
-            })
-
-            
-
+                    if (an < bn) {
+                        return 1;
+                    }
+                    if (an > bn) {
+                        return -1;
+                    }
+                    return 0;
+                });
+            }
+            $valorli.detach().appendTo($valor);
+            $("div.holder").jPages("destroy");
+            paginarAnuncio();
         });
-
-
-
-
+//        $("#btnOrdenar").on('click', function () {
+//            var $valor = $('#itemContainer'),
+//                    $valorli = $valor.children('div');
+//
+//            $valorli.sort(function (a, b) {
+//                var an = a.getAttribute('data-valor'),
+//                        bn = b.getAttribute('data-valor');
+//
+//                if (an > bn) {
+//                    return 1;
+//                }
+//                if (an < bn) {
+//                    return -1;
+//                }
+//                return 0;
+//            });
+//
+//            $valorli.detach().appendTo($valor);
+//            $("div.holder").jPages("destroy");
+//            paginarAnuncio();
+//        });
 
 //        var cards = $('#cards');
 //
@@ -295,6 +299,57 @@ function carregarAnuncio() { //valor = quantidade de anuncios
 //        $("#hdnOrdCondicao").val($('#sltCondicao').val());
 //        $("#hdnOrdGaragem").val($('#checkgaragem').parent().checkbox('is checked'));
 
+    })
+
+}
+
+function paginarAnuncio() {
+
+    $("div.holder").jPages({
+        containerID: "itemContainer",
+        perPage: 8,
+        previous: 'Anterior',
+        next: 'Próximo',
+        first: 'Primeiro',
+        last: 'Último'
+    });
+
+
+    $(".holder").addClass("ui pagination menu");
+    $("a").addClass("item");
+    $(".jp-current").addClass("active");
+    $("span").addClass("item");
+
+    $(".item").on('click', function () {
+        $("#itemContainer").css("min-height", "460px");
+        $(".item").removeClass("active");
+        $(this).addClass("active");
+        $(".jp-first").removeClass("active");
+        $(".jp-previous").removeClass("active");
+        $(".jp-next").removeClass("active");
+        $(".jp-last").removeClass("active");
+    });
+
+    $(".jp-previous").on('click', function () {
+        $(".item").removeClass("active");
+        $(".jp-current").addClass("active");
+    })
+
+    $(".jp-next").on('click', function () {
+        $(".item").removeClass("active");
+        $(".jp-current").addClass("active");
+        $("#itemContainer").css("min-height", "460px");
+    })
+
+    $(".jp-last").on('click', function () {
+        $(".item").removeClass("active");
+        $(".jp-current").addClass("active");
+        $("#itemContainer").css("min-height", "460px");
+    })
+
+    $(".jp-first").on('click', function () {
+        $(".item").removeClass("active");
+        $(".jp-current").addClass("active");
     })
 
 }
