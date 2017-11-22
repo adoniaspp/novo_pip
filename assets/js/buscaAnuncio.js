@@ -176,13 +176,15 @@ function carregarAnuncio() { //valor = quantidade de anuncios
                 first: 'Primeiro',
                 last: 'Último'
             });
-            $
+            
+            
             $(".holder").addClass("ui pagination menu");
             $("a").addClass("item");
             $(".jp-current").addClass("active");
             $("span").addClass("item");
 
             $(".item").on('click', function () {
+                $("#itemContainer").css("min-height", "460px");
                 $(".item").removeClass("active");
                 $(this).addClass("active");
                 $(".jp-first").removeClass("active");
@@ -199,11 +201,13 @@ function carregarAnuncio() { //valor = quantidade de anuncios
             $(".jp-next").on('click', function () {
                 $(".item").removeClass("active");
                 $(".jp-current").addClass("active");
+                $("#itemContainer").css("min-height", "460px");
             })
 
             $(".jp-last").on('click', function () {
                 $(".item").removeClass("active");
                 $(".jp-current").addClass("active");
+                $("#itemContainer").css("min-height", "460px");
             })
 
             $(".jp-first").on('click', function () {

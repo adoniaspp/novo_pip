@@ -108,8 +108,6 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                     </div>
                                 </div>-->
             </div>
-            <div class="ui ten wide column">
-            </div>
 
             <?php
 
@@ -139,7 +137,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
 //                        print_r($item['anuncio'][$crtl]['idanuncioformatado']);
 //                        echo '</pre>';
                         ?> 
-                        <div class="card list-item" style="width: 263px; border-radius: 2.285714rem; box-shadow: 0 1px 3px 0 #D4D4DD,0 0 0 1px #000000" id="cartao<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">                            
+                        <div class="card list-item" style="width: 263px; height: 429.73px; border-radius: 2.285714rem; box-shadow: 0 1px 3px 0 #D4D4DD,0 0 0 1px #000000" id="cartao<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">                            
                             <!--                            <div class="content">
                             <?php
                             if ($item['anuncio'][$crtl]['finalidade'] == "Venda") {
