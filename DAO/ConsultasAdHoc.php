@@ -129,48 +129,96 @@ class ConsultasAdHoc extends GenericoDAO {
                 }
             }
         }
+
         $statement->execute();
         $resultado['anuncio'] = $statement->fetchAll(PDO::FETCH_ASSOC);
+        
+        $idsImoveis = array_column($resultado['anuncio'], 'idimovel');
+        $idsAnuncios = array_column($resultado['anuncio'], 'idanuncio');
+        
         /* Imagens do anuncio */
         if (count($resultado['anuncio']) != 0) {
-            $idsAnuncios = array_column($resultado['anuncio'], 'idanuncio');
-            for ($i = 0; $i < count($idsAnuncios); $i++) {
-                $sth = $this->conexao->prepare("SELECT diretorio, legenda, nome, destaque FROM imagem WHERE idanuncio = :idanuncio");
-                $sth->bindValue(':idanuncio', $idsAnuncios[$i]);
-                $sth->execute();
-                $imovel['imagem'] = $sth->fetchAll(PDO::FETCH_ASSOC);
-                if (count($imovel['imagem']) > 0) {
-                    $resultado['anuncio'][$i]['imagem'] = ($imovel['imagem']);
+            $allow = $idsAnuncios;
+            $sql = "SELECT idanuncio, diretorio, legenda, nome, destaque FROM imagem WHERE ";
+            $sql .= sprintf(" idanuncio in( %s )", implode(
+                            ',', array_map(
+                                    function($v) {
+                                static $x = 0;
+                                return ':allow_' . $x++;
+                            }, $allow
+                            )
+                    )
+            );
+            $sth = $this->conexao->prepare($sql);
+            foreach ($allow as $k => $v) {
+                $sth->bindValue('allow_' . $k, $v);
+            }
+            $sth->execute();
+            $retornoConsulta = $sth->fetchAll(PDO::FETCH_ASSOC);
+            if (count($retornoConsulta) != 0) {
+                foreach ($retornoConsulta as $retorno) {
+                    $indice = array_search($retorno["idanuncio"], $idsAnuncios);
+                    $resultado['anuncio'][$indice]['imagem'][] = $retorno;
                 }
             }
         }
+
         /* Valores do anuncio */
         if (count($resultado['anuncio']) != 0) {
-            $idsAnuncios = array_column($resultado['anuncio'], 'idanuncio');
-            for ($i = 0; $i < count($idsAnuncios); $i++) {
-                $sth = $this->conexao->prepare("SELECT novovalor, status FROM novovaloranuncio WHERE idanuncio = :idanuncio");
-                $sth->bindValue(':idanuncio', $idsAnuncios[$i]);
-                $sth->execute();
-                $imovel['valores'] = $sth->fetchAll(PDO::FETCH_ASSOC);
-                if (count($imovel['valores']) > 0) {
-                    $resultado['anuncio'][$i]['valores'] = ($imovel['valores']);
+            $allow = $idsAnuncios;
+            $sql = "SELECT idanuncio, novovalor, status FROM novovaloranuncio WHERE ";
+            $sql .= sprintf(" idanuncio in( %s )", implode(
+                            ',', array_map(
+                                    function($v) {
+                                static $x = 0;
+                                return ':allow_' . $x++;
+                            }, $allow
+                            )
+                    )
+            );
+            $sth = $this->conexao->prepare($sql);
+            foreach ($allow as $k => $v) {
+                $sth->bindValue('allow_' . $k, $v);
+            }
+            $sth->execute();
+            $retornoConsulta = $sth->fetchAll(PDO::FETCH_ASSOC);
+            if (count($retornoConsulta) != 0) {
+                foreach ($retornoConsulta as $retorno) {
+                    $indice = array_search($retorno["idanuncio"], $idsAnuncios);
+                    $resultado['anuncio'][$indice]['valores'][] = $retorno;
                 }
             }
         }
-        /* diferenciais do imóvel */
-        if (count($resultado['anuncio']) != 0) {
-            $idsImoveis = array_column($resultado['anuncio'], 'idimovel');
-            for ($i = 0; $i < count($idsImoveis); $i++) {
-                $sth = $this->conexao->prepare("SELECT descricao FROM imoveldiferencial as imdif "
-                        . "LEFT JOIN diferencial as d on imdif.iddiferencial = d.id WHERE idimovel = :idimovel");
-                $sth->bindValue(':idimovel', $idsImoveis[$i]);
-                $sth->execute();
-                $imovel['diferenciais'] = $sth->fetchAll(PDO::FETCH_ASSOC);
-                if (count($imovel['diferenciais']) > 0) {
-                    $resultado['anuncio'][$i]['diferenciais'] = ($imovel['diferenciais']);
+
+        /* Diferenciais do imóvel */
+        if (count($idsImoveis) != 0) {
+            $allow = $idsImoveis;
+            $sql = "SELECT idimovel, descricao FROM imoveldiferencial as imdif LEFT JOIN diferencial as d on imdif.iddiferencial = d.id WHERE ";
+            $sql .= sprintf(" idimovel in( %s )", implode(
+                            ',', array_map(
+                                    function($v) {
+                                static $x = 0;
+                                return ':allow_' . $x++;
+                            }, $allow
+                            )
+                    )
+            );
+            $sth = $this->conexao->prepare($sql);
+            foreach ($allow as $k => $v) {
+                $sth->bindValue('allow_' . $k, $v);
+            }
+            $sth->execute();
+            $retornoConsulta = $sth->fetchAll(PDO::FETCH_ASSOC);
+            if (count($retornoConsulta) != 0) {
+                foreach ($retornoConsulta as $retorno) {
+                    $indice = array_search($retorno["idimovel"], $idsAnuncios);
+                    $resultado['anuncio'][$indice]['diferenciais'][] = $retorno;
                 }
             }
         }
+        
+        
+        /* Apartamento na Planta */
         if (count($resultado['anuncio']) != 0) {
             $idsImoveis = array_column($resultado['anuncio'], 'idimovel');
             $tiposImoveis = array_column($resultado['anuncio'], 'tipo');
@@ -193,70 +241,93 @@ class ConsultasAdHoc extends GenericoDAO {
                         }
                         $resultado['anuncio'][$i]['plantas'] = ($imovel['plantas']);
                     }
-                    /* echo '<pre>';
-                      print_r($resultado);
-                      echo '</pre>';
-                      die(); */
                 }
             }
-        }
-        if (count($resultado['anuncio']) != 0) {
+        }        
+        
+        /* Telefone */
+        if (count($idsUsuarios) != 0) {
             $idsUsuarios = array_column($resultado['anuncio'], 'id');
-            for ($i = 0; $i < count($idsUsuarios); $i++) {
-                $sth = $this->conexao->prepare("SELECT tipotelefone, operadora, numero, whatsapp FROM telefone WHERE idusuario = :idusuario");
-                $sth->bindValue(':idusuario', $idsUsuarios[$i]);
-                $sth->execute();
-                $usuario['telefone'] = $sth->fetchAll(PDO::FETCH_ASSOC);
-                if (count($usuario['telefone']) > 0) {
-                    $resultado['anuncio'][$i]['telefone'] = ($usuario['telefone']);
+            $allow = $idsUsuarios;
+            $sql = "SELECT idusuario, tipotelefone, operadora, numero, whatsapp FROM telefone WHERE ";
+            $sql .= sprintf(" idusuario in( %s )", implode(
+                            ',', array_map(
+                                    function($v) {
+                                static $x = 0;
+                                return ':allow_' . $x++;
+                            }, $allow
+                            )
+                    )
+            );
+            $sth = $this->conexao->prepare($sql);
+            foreach ($allow as $k => $v) {
+                $sth->bindValue('allow_' . $k, $v);
+            }
+            $sth->execute();
+            $retornoConsulta = $sth->fetchAll(PDO::FETCH_ASSOC);
+            if (count($retornoConsulta) != 0) {
+                foreach ($retornoConsulta as $retorno) {
+                    $indice = array_search($retorno["idusuario"], $idsAnuncios);
+                    $resultado['anuncio'][$indice]['telefone'][] = $retorno;
                 }
             }
-        }
-        /* informacoes do tipo do imóvel */
+        }    
+        
+        
+        /* Informacoes do tipo do imóvel */
         if (count($resultado['anuncio']) != 0) {
             $idsImoveis = array_column($resultado['anuncio'], 'idimovel');
             $tiposImoveis = array_column($resultado['anuncio'], 'tipo');
             for ($i = 0; $i < count($idsImoveis); $i++) {
-                if ($tiposImoveis[$i] == 'casa') {
-                    $sth = $this->conexao->prepare("SELECT quarto, banheiro, suite, garagem, area FROM buscaAnuncioCasa WHERE idimovel = :idimovel");
-                    $sth->bindValue(':idimovel', $idsImoveis[$i]);
-                    $sth->execute();
-                    $imovel['casa'] = $sth->fetchAll(PDO::FETCH_ASSOC);
-                    $resultado['anuncio'][$i] = array_merge($imovel['casa'][0], $resultado['anuncio'][$i]);
+                switch ($tiposImoveis[$i]) {
+                    case 'casa':
+                     $idsCasa[$i] = $idsImoveis[$i];
+                        break;
+                    case 'apartamentoplanta':
+                     $idsApartamentoPlanta[$i] = $idsImoveis[$i];
+                        break;
+                    case 'apartamento':
+                     $idsApartamento[$i] = $idsImoveis[$i];
+                        break;
+                    case 'salacomercial':
+                     $idsSalaComercial[$i] = $idsImoveis[$i];
+                        break;
+                    case 'terreno':
+                     $idsTerreno[$i] = $idsImoveis[$i];
+                        break;
+                    default:
+                        break;
                 }
-                if ($tiposImoveis[$i] == 'apartamentoplanta') {
-                    $sth = $this->conexao->prepare("SELECT andares, unidadesandar, totalunidades, numerotorres FROM buscaAnuncioApartamentoplanta WHERE idimovel = :idimovel");
-                    $sth->bindValue(':idimovel', $idsImoveis[$i]);
-                    $sth->execute();
-                    $imovel['applanta'] = $sth->fetchAll(PDO::FETCH_ASSOC);
-                    $resultado['anuncio'][$i] = array_merge($imovel['applanta'][0], $resultado['anuncio'][$i]);
-                }
-                if ($tiposImoveis[$i] == 'apartamento') {
-                    $sth = $this->conexao->prepare("SELECT quarto, suite, banheiro, garagem, area, unidadesandar, andar, condominio FROM buscaAnuncioApartamento WHERE idimovel = :idimovel");
-                    $sth->bindValue(':idimovel', $idsImoveis[$i]);
-                    $sth->execute();
-                    $imovel['ap'] = $sth->fetchAll(PDO::FETCH_ASSOC);
-                    $resultado['anuncio'][$i] = array_merge($imovel['ap'][0], $resultado['anuncio'][$i]);
-                }
-                if ($tiposImoveis[$i] == 'salacomercial') {
-                    $sth = $this->conexao->prepare("SELECT area, banheiro, garagem, condominio FROM buscaAnuncioSalacomercial WHERE idimovel = :idimovel");
-                    $sth->bindValue(':idimovel', $idsImoveis[$i]);
-                    $sth->execute();
-                    $imovel['sala'] = $sth->fetchAll(PDO::FETCH_ASSOC);
-                    $resultado['anuncio'][$i] = array_merge($imovel['sala'][0], $resultado['anuncio'][$i]);
-                }
-                if ($tiposImoveis[$i] == 'terreno') {
-                    $sth = $this->conexao->prepare("SELECT area FROM buscaAnuncioTerreno WHERE idimovel = :idimovel");
-                    $sth->bindValue(':idimovel', $idsImoveis[$i]);
-                    $sth->execute();
-                    $imovel['terreno'] = $sth->fetchAll(PDO::FETCH_ASSOC);
-                    $resultado['anuncio'][$i] = array_merge($imovel['terreno'][0], $resultado['anuncio'][$i]);
+            }            
+        }
+            
+        /* Casas */
+             if (count($idsCasa) != 0) {
+            $allow = $idsCasa;
+            $sql = "SELECT idimovel, quarto, banheiro, suite, garagem, area FROM buscaAnuncioCasa WHERE ";
+            $sql .= sprintf(" idimovel in( %s )", implode(
+                            ',', array_map(
+                                    function($v) {
+                                static $x = 0;
+                                return ':allow_' . $x++;
+                            }, $allow
+                            )
+                    )
+            );
+            $sth = $this->conexao->prepare($sql);
+            foreach ($allow as $k => $v) {
+                $sth->bindValue('allow_' . $k, $v);
+            }
+            $sth->execute();
+            $retornoConsulta = $sth->fetchAll(PDO::FETCH_ASSOC);
+            if (count($retornoConsulta) != 0) {
+                foreach ($retornoConsulta as $retorno) {
+                    $indice = array_search($retorno["idimovel"], $idsCasa);
+                    $resultado['anuncio'][$indice] = array_merge($retorno, $resultado['anuncio'][$indice]);
                 }
             }
-        }
-        /* echo '<pre>';
-          print_r($resultado['anuncio']);
-          die(); */
+        }    
+                
         return $resultado;
     }
 
@@ -301,6 +372,7 @@ class ConsultasAdHoc extends GenericoDAO {
             }
         if ($finalidade != null)
             $statement->bindParam(':finalidade', $finalidade);
+
         $statement->execute();
         $resultado = $statement->fetchAll(PDO::FETCH_CLASS, "Anuncio");
         return $resultado;
@@ -386,8 +458,8 @@ class ConsultasAdHoc extends GenericoDAO {
         $resultado = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $resultado;
     }
-    
-    public function consultarDenuncia(){
+
+    public function consultarDenuncia() {
         $sql = "select d.id, d.idanuncio, d.idusuario, dt.descricao as 'tipodenuncia', 
             d.descricao as denuncia, d.datahoracadastro
             from denuncia d left join 
