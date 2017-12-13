@@ -53,33 +53,41 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
     <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" />
     <div class="ui middle aligned one column grid container" id="lista">
         <?php if (count($item['anuncio']) > 0) { ?>
-            <div class="stackable two column ui grid container">
+            <div class="ui vertically divided grid">
                 
-                <div class="center aligned column">
+                <div class="two column row">
+                
+                <div class="column">
                 
                     <div class="holder"></div>
-                
+                    
+                    
                 </div>
+                
+                <div class="column">
+                <div class="ui right aligned container">
+                    
+                        <div class="ui right aligned selection dropdown">
+                            <input type="hidden" name="sltOrdenacao" id="sltOrdenacao">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Ordenar</div>
+                            <div class="menu">
+                                <div class="item" data-value="">Escolha Ordenação</div>
+                                <div class="item" data-value="mnvalor">Menor Valor</div>
+                                <div class="item" data-value="mrvalor">Maior Valor</div>
+                                <div class="item" data-value="recente">Mais Recente</div>
+                                <div class="item" data-value="antigo">Mais Antigo</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                 </div>
+                    
+                </div>    
 <!--                <button class="ui button" id="btnOrdenar">
                     Ordenar
                 </button>-->
-                
-            <div class="center aligned column">
-
-                <div class="ui right aligned container">
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="sltOrdenacao" id="sltOrdenacao">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">Ordenar</div>
-                        <div class="menu">
-                            <div class="item" data-value="mnvalor">Menor Valor</div>
-                            <div class="item" data-value="mrvalor">Maior Valor</div>
-                            <div class="item" data-value="recente">Mais Recente</div>
-                            <div class="item" data-value="antigo">Mais Antigo</div>
-                        </div>
-                    </div>
-                </div>
-            </div>     
+                             
                 <!--                <div class="jplist-panel">
                                     <div 
                                         class="jplist-drop-down" 
