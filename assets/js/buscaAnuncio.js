@@ -171,8 +171,8 @@ function carregarAnuncio() { //valor = quantidade de anuncios
                         $valorli = $valor.children('div');
 
                 $valorli.sort(function (a, b) {
-                    var an = a.getAttribute('data-valor'),
-                            bn = b.getAttribute('data-valor');
+                    var an = parseInt(a.getAttribute('data-valor')),
+                        bn = parseInt(b.getAttribute('data-valor'));
 
                     if (an > bn) {
                         return 1;
@@ -189,8 +189,8 @@ function carregarAnuncio() { //valor = quantidade de anuncios
                         $valorli = $valor.children('div');
 
                 $valorli.sort(function (a, b) {
-                    var an = a.getAttribute('data-valor'),
-                           bn = b.getAttribute('data-valor');
+                    var an = parseInt(a.getAttribute('data-valor')),
+                        bn = parseInt(b.getAttribute('data-valor'));
 
                     if (an < bn) {
                         return 1;
@@ -201,6 +201,46 @@ function carregarAnuncio() { //valor = quantidade de anuncios
                     return 0;
                 });
             }
+            
+            
+            else if ($(this).val() == "antigo") {
+ 
+                var $valor = $('#itemContainer'),
+                    $valorli = $valor.children('div');
+
+                $valorli.sort(function (a, b) {
+                    
+                    var an = a.getAttribute('data-cadastro'),
+                        bn = b.getAttribute('data-cadastro');                
+                        
+                    if (an > bn) {
+                        return 1;
+                    }
+                    if (an < bn) {
+                        return -1;
+                    }
+                    return 0;
+                });
+            }
+            
+            else if ($(this).val() == "recente") {
+                var $valor = $('#itemContainer'),
+                        $valorli = $valor.children('div');
+
+                $valorli.sort(function (a, b) {
+                    var an = a.getAttribute('data-cadastro'),
+                           bn = b.getAttribute('data-cadastro');
+
+                    if (an < bn) {
+                        return 1;
+                    }
+                    if (an > bn) {
+                        return -1;
+                    }
+                    return 0;
+                });
+            }
+            
             $valorli.detach().appendTo($valor);
             $("div.holder").jPages("destroy");
             paginarAnuncio();

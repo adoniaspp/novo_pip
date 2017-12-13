@@ -53,22 +53,33 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
     <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" />
     <div class="ui middle aligned one column grid container" id="lista">
         <?php if (count($item['anuncio']) > 0) { ?>
-            <div class="ui column">
-                <div class="holder"></div>
+            <div class="stackable two column ui grid container">
+                
+                <div class="center aligned column">
+                
+                    <div class="holder"></div>
+                
+                </div>
 <!--                <button class="ui button" id="btnOrdenar">
                     Ordenar
                 </button>-->
-                <div class="ui selection dropdown">
+                
+            <div class="center aligned column">
+
+                <div class="ui right aligned container">
+                    <div class="ui selection dropdown">
                         <input type="hidden" name="sltOrdenacao" id="sltOrdenacao">
                         <i class="dropdown icon"></i>
                         <div class="default text">Ordenar</div>
                         <div class="menu">
                             <div class="item" data-value="mnvalor">Menor Valor</div>
                             <div class="item" data-value="mrvalor">Maior Valor</div>
+                            <div class="item" data-value="recente">Mais Recente</div>
+                            <div class="item" data-value="antigo">Mais Antigo</div>
                         </div>
                     </div>
-
-
+                </div>
+            </div>     
                 <!--                <div class="jplist-panel">
                                     <div 
                                         class="jplist-drop-down" 
@@ -141,7 +152,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
 //                        print_r($item['anuncio'][$crtl]['idanuncioformatado']);
 //                        echo '</pre>';
                         ?> 
-                        <div data-valor=<?php echo $item['anuncio'][$crtl]['valormin'] ?> class="card list-item" style="width: 263px; border-radius: 2.285714rem; box-shadow: 0 1px 3px 0 #D4D4DD,0 0 0 1px #000000" id="cartao<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">                            
+                        <div data-valor="<?php echo $item['anuncio'][$crtl]['valormin'] ?>" class="card list-item" style="width: 263px; border-radius: 2.285714rem; box-shadow: 0 1px 3px 0 #D4D4DD,0 0 0 1px #000000" id="cartao<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>" data-cadastro="<?php echo $item['anuncio'][$crtl]['datahoracadastro'] ?>">                            
                             <!--                            <div class="content">
                             <?php
                             if ($item['anuncio'][$crtl]['finalidade'] == "Venda") {
