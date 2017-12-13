@@ -9,6 +9,7 @@ date_default_timezone_set("America/Belem");
 define(PIPROOT, dirname(__FILE__));
 define(PIPURL, str_replace('\\', '/', "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER["SCRIPT_NAME"])));
 define(TEMPOTOKEN, 600); // 10 minutos
+define(GOOGLEMAPSURL, "https://maps.googleapis.com/maps/api/js?key=AIzaSyDcmid368ohm633cOb6NPcHywkN4O-A8sY&callback=initMap"); // api google maps
 
 ####INCLUDES##################################
 include_once 'configuracao/Template.php';
@@ -21,6 +22,13 @@ include_once 'controle/AnuncioControle.php';
 
 ####INDEX#####################################
 Sessao::criarSessaoUsuario();
+//echo "<pre>";print_r($_SESSION);die();
+/*
+echo "<pre>";
+print_r($_SESSION);
+echo "</pre>";
+
+die();*/
 
 $parte1 = strrchr($_SERVER['REQUEST_URI'], "?");
 $parte2 = str_replace($parte1, "", $_SERVER['REQUEST_URI']);

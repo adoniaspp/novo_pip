@@ -331,7 +331,7 @@ if ($item) {
 <div class="ui divider"></div>
 <div class="ui hidden divider"></div>
 
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script async defer src="<?php echo GOOGLEMAPSURL; ?>"> </script>
 
 
 
