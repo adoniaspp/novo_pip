@@ -20,7 +20,7 @@ $valorAnuncio = (isset($item["novovalor"][0])) ? $item["novovalor"][0]->getNovov
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/js/anuncio.js"></script>
 <script src="assets/js/buscaAnuncio.js"></script>
-<script type="text/javascript" src="http://maps.google.com/maps/api/js"></script>
+<script async defer src="<?php echo GOOGLEMAPSURL; ?>"> </script>
 <script src="assets/libs/gmaps/gmap3.min.js"></script>
 <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
 <script src="assets/libs/fileupload/vendor/jquery.ui.widget.js"></script>

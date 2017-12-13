@@ -5,7 +5,7 @@
 <script src="assets/libs/fotorama/fotorama.js"></script> 
 <script src="assets/js/buscaAnuncio.js"></script>
 <script src="assets/libs/gmaps/gmap3.min.js"></script>
-<script src="http://maps.google.com/maps/api/js?sensor=false&amp;language=pt"></script>
+<script async defer src="<?php echo GOOGLEMAPSURL; ?>"> </script>
 
 <?php
 $item = $this->getItem();

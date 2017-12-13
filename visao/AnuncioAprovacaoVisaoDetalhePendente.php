@@ -7,7 +7,7 @@
 <script src="assets/js/resposta.js"></script>
 <script src="assets/js/usuario.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyDz33V1ZfI7o7ToZnRlecSljXHUVzdXmDE"></script>
+<script async defer src="<?php echo GOOGLEMAPSURL; ?>"> </script>
 <script src="assets/libs/gmaps/gmap3.min.js"></script>
 
 <?php
