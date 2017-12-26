@@ -34,6 +34,15 @@ class ConsultasAdHoc extends GenericoDAO {
             $quartos = $parametros['predicados']['quarto'];
             unset($parametros['predicados']['quarto']);
         }
+        if (isset($parametros['predicados']['linha'])) {
+            $linha = $parametros['predicados']['linha'];
+            unset($parametros['predicados']['linha']);
+        }
+        if (isset($parametros['predicados']['paginaInicial'])) {
+            $paginaInicial = $parametros['predicados']['paginaInicial'];
+            unset($parametros['predicados']['paginaInicial']);
+        }
+
         if (count($parametros['predicados']) == 0)
             $crtlPred = FALSE;
         /* Atributos da Consulta */
@@ -105,6 +114,38 @@ class ConsultasAdHoc extends GenericoDAO {
                 $sql = $sql . ' ASC ';
             }
         }
+        #Calcula o valor total de anuncios da busca
+        if ($paginaInicial) {
+            $statement = $this->conexao->prepare($sql);
+            if ($diferencial != NULL) {
+                foreach ($diferencial as $valor) {
+
+                    if (count($diferencial) == 1) {
+                        $statement->bindValue(':idDiferencial' . 0, $valor);
+                    } else {
+                        foreach ($diferencial as $k => $v) {
+                            $statement->bindValue(':idDiferencial' . $k, $v);
+                        }
+                    }
+                }
+            }
+            foreach ($parametros['predicados'] as $chave => $valor) {
+                if (!is_array($valor)) {
+
+                    $statement->bindValue($chave . '_' . 0, $valor);
+                } else {
+                    foreach ($valor as $k => $v) {
+                        $statement->bindValue($chave . '_' . $k, $v);
+                    }
+                }
+            }
+
+            $statement->execute();
+            $resultado['anuncio'] = $statement->fetchAll(PDO::FETCH_ASSOC);
+            $totalAnuncios = sizeof($resultado['anuncio']);
+        }
+
+        $sql = $sql . ' limit ' . $linha . ', 4';
 
         $statement = $this->conexao->prepare($sql);
         if ($diferencial != NULL) {
@@ -132,7 +173,9 @@ class ConsultasAdHoc extends GenericoDAO {
 
         $statement->execute();
         $resultado['anuncio'] = $statement->fetchAll(PDO::FETCH_ASSOC);
-
+        if ($paginaInicial) {
+            $resultado['total'] = $totalAnuncios;
+        }
         $idsImoveis = array_column($resultado['anuncio'], 'idimovel');
         $idsAnuncios = array_column($resultado['anuncio'], 'idanuncio');
 
@@ -451,7 +494,7 @@ class ConsultasAdHoc extends GenericoDAO {
             $sql .= " AND a.id = :idAnuncio ";
         //caso o usuário não seja Administrador do sistema, listar somente os anúncios pendentes do usuário logado
         if ($administrador != true)
-            $sql.= " AND u.id = :idUsuario ";
+            $sql .= " AND u.id = :idUsuario ";
 
         if ($statusAnuncio != null)
             $sql .= sprintf(" AND a.status in( %s )", implode(
@@ -594,7 +637,7 @@ class ConsultasAdHoc extends GenericoDAO {
                 . ""; //desativadousuário = quando o próprio usuário se desativa
         //caso o usuário não seja Administrador do sistema, listar somente os anúncios pendentes do usuário logado
         if ($administrador != true)
-            $sql.= " AND u.id = :idUsuario ";
+            $sql .= " AND u.id = :idUsuario ";
 
         if ($statusAnuncio != null)
             $sql .= sprintf(" AND aa.status in( %s )", implode(
@@ -608,7 +651,7 @@ class ConsultasAdHoc extends GenericoDAO {
             );
 
         if ($codigoAnuncio != null)
-            $sql.= " AND aa.idanuncio = :codigoAnuncio";
+            $sql .= " AND aa.idanuncio = :codigoAnuncio";
 
         $sql .= " ORDER BY aa.ID DESC";
         $statement = $this->conexao->prepare($sql);

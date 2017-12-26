@@ -65,6 +65,8 @@ function buscarAnuncio() {
             condicao: '',
             unidadesandar: '',
             area: '',
+            paginaInicial: 'true',
+            linha: $('#paginaLinha').val(),
             id: $('#hdUsuario').val(),
             garagem: 'false',
             page: 'index'});
@@ -162,6 +164,70 @@ function carregarAnuncio() { //valor = quantidade de anuncios
 
     $(document).ready(function () {
 
+        $('#carregarMais').click(function () {
+            var linha = Number($('#paginaLinha').val());
+            var total = Number($('#hdnTotalAnuncios').val());
+            var itensPorLinha = 4;
+            linha = linha + itensPorLinha;
+            if (linha <= total) {
+                $("#paginaLinha").val(linha);
+                $.ajax({
+                    url: 'index.php',
+                    type: 'post',
+                    data: {
+                        tipoImovel: 'todos',
+                        valor: '',
+                        finalidade: '',
+                        cidade: '',
+                        bairro: '',
+                        quarto: '',
+                        banheiro: '',
+                        suite: '',
+                        condicao: '',
+                        unidadesandar: '',
+                        area: '',
+                        linha: linha,
+                        paginaInicial: 'false',
+                        hdnEntidade: 'Anuncio',
+                        hdnAcao: 'buscarAnuncio',
+                        garagem: 'false',
+                        page: 'index'
+                    },
+                    beforeSend: function () {
+                        $("#carregarMais").addClass("disabled loading");
+                    },
+                    success: function (response) {
+                        // Setting little delay while displaying new content
+                        setTimeout(function () {
+                            // appending posts after last post with class="post"
+                            $(".list-item:last").after(response).show().fadeIn("slow");
+                            exibirEnviarComparar();
+                            $("div[id^='spanValor']").priceFormat({
+                                prefix: 'R$ ',
+                                centsSeparator: ',',
+                                centsLimit: 0,
+                                limit: 8,
+                                thousandsSeparator: '.'
+                            })
+                            $("#carregarMais").removeClass("disabled loading");
+                            var linhanumero = linha + itensPorLinha;
+                            // checking row value is greater than allcount or not
+                            if (linhanumero > total) {
+//                                // Change the text and background
+                                $("#carregarMais").addClass("disabled");
+                            } else {
+                               
+                            }
+                        }, 2000);
+
+
+                    }
+                    //alert($("#paginaLinha").val());                     
+                });
+
+            }
+        });
+
         $('.ui.dropdown')
                 .dropdown()
                 ;
@@ -172,7 +238,7 @@ function carregarAnuncio() { //valor = quantidade de anuncios
 
                 $valorli.sort(function (a, b) {
                     var an = parseInt(a.getAttribute('data-valor')),
-                        bn = parseInt(b.getAttribute('data-valor'));
+                            bn = parseInt(b.getAttribute('data-valor'));
 
                     if (an > bn) {
                         return 1;
@@ -190,7 +256,7 @@ function carregarAnuncio() { //valor = quantidade de anuncios
 
                 $valorli.sort(function (a, b) {
                     var an = parseInt(a.getAttribute('data-valor')),
-                        bn = parseInt(b.getAttribute('data-valor'));
+                            bn = parseInt(b.getAttribute('data-valor'));
 
                     if (an < bn) {
                         return 1;
@@ -200,19 +266,16 @@ function carregarAnuncio() { //valor = quantidade de anuncios
                     }
                     return 0;
                 });
-            }
-            
-            
-            else if ($(this).val() == "antigo") {
- 
+            } else if ($(this).val() == "antigo") {
+
                 var $valor = $('#itemContainer'),
-                    $valorli = $valor.children('div');
+                        $valorli = $valor.children('div');
 
                 $valorli.sort(function (a, b) {
-                    
+
                     var an = a.getAttribute('data-cadastro'),
-                        bn = b.getAttribute('data-cadastro');                
-                        
+                            bn = b.getAttribute('data-cadastro');
+
                     if (an > bn) {
                         return 1;
                     }
@@ -221,15 +284,13 @@ function carregarAnuncio() { //valor = quantidade de anuncios
                     }
                     return 0;
                 });
-            }
-            
-            else if ($(this).val() == "recente") {
+            } else if ($(this).val() == "recente") {
                 var $valor = $('#itemContainer'),
                         $valorli = $valor.children('div');
 
                 $valorli.sort(function (a, b) {
                     var an = a.getAttribute('data-cadastro'),
-                           bn = b.getAttribute('data-cadastro');
+                            bn = b.getAttribute('data-cadastro');
 
                     if (an < bn) {
                         return 1;
@@ -240,7 +301,7 @@ function carregarAnuncio() { //valor = quantidade de anuncios
                     return 0;
                 });
             }
-            
+
             $valorli.detach().appendTo($valor);
             $("div.holder").jPages("destroy");
             paginarAnuncio();

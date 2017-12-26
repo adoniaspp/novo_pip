@@ -13,14 +13,12 @@
 
 <script>
     carregarAnuncio();
-    paginarAnuncio();
+//    paginarAnuncio();
     enviarEmail();
 
 <?php
 $item = $this->getItem();
-
 foreach ($item["anuncio"] as $buscaAnuncio) {
-
     if (!$item["page"]) {
         ?>
             marcarMapa("<?php echo $buscaAnuncio["logradouro"] ?>",
@@ -51,6 +49,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
     <input type="hidden" id="hdnAcao" name="hdnAcao" />
     <input type="hidden" id="hdnCodAnuncio" name="hdnCodAnuncio" />
     <input type="hidden" id="hdnTipoImovel" name="hdnTipoImovel" />
+    <input type="hidden" id="hdnTotalAnuncios" name="hdnTotalAnuncios" value="<?php echo $item['total'] ?>"/>   
     <div class="ui middle aligned one column grid container" id="lista">
         <?php if (count($item['anuncio']) > 0) { ?>
             <div class="ui vertically divided grid">
@@ -59,7 +58,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                 
                 <div class="column">
                 
-                    <div class="holder"></div>
+<!--                    <div class="holder"></div>-->
                     
                     
                 </div>
@@ -363,7 +362,8 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
         <?php }
         ?>
         <div class="ui column">
-            <div class="holder"></div>
+            <a class='ui twitter button' id="carregarMais">Carregar Anúncios</a>
+<!--            <div class="holder"></div>-->
 
             <!--            <div class="jplist-panel">
                             <div 

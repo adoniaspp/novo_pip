@@ -203,12 +203,12 @@ class AnuncioControle {
         $visao->exibir($pagina);
     }
 
-    function buscarAnuncio($parametros) {
+    function buscarAnuncio($parametros) {        
         $funcoesAuxiliares = new FuncoesAuxiliares();
         $visao = new Template('ajax');
         $consultasAdHoc = new ConsultasAdHoc();
         $parametros["atributos"] = "*";
-        $parametros["tabela"] = $parametros["tipoImovel"];
+        $parametros["tabela"] = $parametros["tipoImovel"];        
         if ($parametros["page"])
             $page = TRUE;
         unset($parametros["page"]);
@@ -223,7 +223,7 @@ class AnuncioControle {
             $parametros["id"] = explode(",", $parametros["id"]); //caso mais de um corretor seja escolhido
         }
         $parametros["predicados"] = $parametros;
-
+        
         $listaAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
 
         if (count($listaAnuncio['anuncio']) == 0) {
@@ -232,9 +232,15 @@ class AnuncioControle {
         }
         if ($page)
             $listaAnuncio["page"] = TRUE;
-
+                
         $visao->setItem($listaAnuncio);
-        $visao->exibir('AnuncioVisaoBusca.php');
+        
+        if($parametros["paginaInicial"] == 'true'){
+            $visao->exibir('AnuncioVisaoBusca.php');
+        }else{
+            //include_once 'visao/AnuncioVisaoCards.php';            
+            $visao->exibir('AnuncioVisaoCards.php');
+        }
     }
 
     function detalhar($parametros) {

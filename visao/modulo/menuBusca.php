@@ -26,7 +26,7 @@
         <?php } //fim da verificação se o menu está no MySpace do corretor ?>
         
     </div>
-    
+    <input type="hidden" id="paginaLinha" value="0">
     <div class="ui basic tab segment active" data-tab="first" id="abaBasicaMenu">
         <div class="ui stackable five column grid"> 
             <div class="column">
