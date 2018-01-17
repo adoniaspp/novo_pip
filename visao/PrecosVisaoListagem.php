@@ -3,29 +3,24 @@
 <div class="ui column doubling grid container">
     <div class="column">
 
-        <h3 class="ui dividing header">Planos de Anuncios</h3>
+        <h3 class="ui dividing header">Planos de An&uacute;ncios</h3>
 
         <div class="ui message">
-            Veja nossos planos e escolha um que se encaixe em suas necessidades
+            Veja nossos planos e escolha um que se encaixe em suas necessidades.
         </div>
 
         <div class="ui stackable four column centered grid">
-
-            <div class="column">
-
+            <div class="column center aligned">
                 <h2 class="ui icon header">
                     <i class="yellow diamond icon"></i>
                     <div class="content">
                         Diamante
                         <div class="sub header">3 meses + 2 semanas grátis</div>
-
                     </div>
                 </h2>
-
             </div>
 
-            <div class="column">
-
+            <div class="column center aligned">
                 <h2 class="ui icon header">
                     <i class="teal star icon"></i>
                     <div class="content">
@@ -34,24 +29,20 @@
 
                     </div>
                 </h2>
-
             </div> 
 
-            <div class="column">
-
+            <div class="column center aligned">
                 <h2 class="ui icon header">
                     <i class="brown umbrella icon"></i>
                     <div class="content">
                         Guarda Chuva
                         <div class="sub header">1 mês + 2 semanas grátis</div>
-
                     </div>
                 </h2>
 
             </div> 
 
-            <div class="column">
-
+            <div class="column center aligned">
                 <h2 class="ui icon header">
                     <i class="black child icon"></i>
                     <div class="content">
@@ -106,12 +97,9 @@
             </div>
         </div>
         <div class="ui stackable four column centered grid">
-            <div class="column">
-                <a href="index.php?entidade=UsuarioPlano&acao=listar&planos" class="ui orange button">            
-                    <i class="shop icon"></i> Comprar!
-                </a>
-            </div>
-
+            <a href="index.php?entidade=UsuarioPlano&acao=listar&planos" class="ui orange button">            
+                <i class="shop icon"></i> Comprar!
+            </a>
         </div>
     </div>
 </div>

@@ -43,7 +43,7 @@ class ImovelControle {
         }
     }
 
-    function cadastrar($parametros, $idendereco) {
+    function cadastrar($parametros) {
         $visao = new Template();
 
         if (Sessao::verificarToken($parametros)) {
