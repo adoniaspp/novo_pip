@@ -7,7 +7,7 @@ class ConsultasAdHoc extends GenericoDAO {
         if(isset($parametros['predicados']['atributos'])){
             unset($parametros['predicados']['atributos']);
         }
-        if(isset($parametros['predicados']['atributos'])){
+        if(isset($parametros['predicados']['tabela'])){
             unset($parametros['predicados']['tabela']);    
         }
         
