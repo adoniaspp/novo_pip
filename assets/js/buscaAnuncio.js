@@ -1,6 +1,13 @@
 function buscarAnuncio() {
     $(document).ready(function () {
 
+        var deviceAgent = navigator.userAgent.toLowerCase();
+        var agentID = deviceAgent.match(/(iphone|ipod|ipad|android|blackberry)/);
+
+        if (agentID) {
+            var mobile = 'true';
+        }
+
         $("#divCaracteristicas").hide();
         $("#divValor").hide();
 
@@ -66,11 +73,11 @@ function buscarAnuncio() {
             unidadesandar: '',
             area: '',
             paginaInicial: 'true',
+            mobile: mobile,
             linha: $('#paginaLinha').val(),
             id: $('#hdUsuario').val(),
             garagem: 'false',
             page: 'index'});
-
 
         $("#btnBuscarAnuncioBasico").on('click', function () {
             $("#divOrdenacao").show(); //mostrar a ordenação, caso esteja oculta quando a buscar não retornar nada
@@ -164,244 +171,183 @@ function carregarAnuncio() { //valor = quantidade de anuncios
 
     $(document).ready(function () {
 
-        $('#carregarMais').click(function () {
-            var linha = Number($('#paginaLinha').val());
-            var total = Number($('#hdnTotalAnuncios').val());
-            var itensPorLinha = 4;
-            linha = linha + itensPorLinha;
-            if (linha <= total) {
-                $("#paginaLinha").val(linha);
-                $.ajax({
-                    url: 'index.php',
-                    type: 'post',
-                    data: {
-                        tipoImovel: 'todos',
-                        valor: '',
-                        finalidade: '',
-                        cidade: '',
-                        bairro: '',
-                        quarto: '',
-                        banheiro: '',
-                        suite: '',
-                        condicao: '',
-                        unidadesandar: '',
-                        area: '',
-                        linha: linha,
-                        paginaInicial: 'false',
-                        hdnEntidade: 'Anuncio',
-                        hdnAcao: 'buscarAnuncio',
-                        garagem: 'false',
-                        page: 'index'
-                    },
-                    beforeSend: function () {
-                        $("#carregarMais").addClass("disabled loading");
-                    },
-                    success: function (response) {
-                        // Setting little delay while displaying new content
-                        setTimeout(function () {
-                            // appending posts after last post with class="post"
-                            $(".list-item:last").after(response).show().fadeIn("slow");
-                            exibirEnviarComparar();
-                            $("div[id^='spanValor']").priceFormat({
-                                prefix: 'R$ ',
-                                centsSeparator: ',',
-                                centsLimit: 0,
-                                limit: 8,
-                                thousandsSeparator: '.'
-                            })
-                            $("#carregarMais").removeClass("disabled loading");
-                            var linhanumero = linha + itensPorLinha;
-                            // checking row value is greater than allcount or not
-                            if (linhanumero > total) {
+        var deviceAgent = navigator.userAgent.toLowerCase();
+        var agentID = deviceAgent.match(/(iphone|ipod|ipad|android|blackberry)/);
+
+        if (agentID) {
+            $('.ui.dropdown')
+                    .dropdown()
+                    ;
+            $("#paginador").remove();
+            $("#divOrdenacao").removeClass("right");
+            $("#divOrdenacao").addClass("center");
+            $("#divMenuOrdPag").removeClass("two");
+            $("#divMenuOrdPag").addClass("one");
+            ordenarAnuncio();
+            exibirEnviarComparar();
+            //$(".item").removeClass("active");
+            $('#carregarMais').click(function () {
+                var linha = Number($('#paginaLinha').val());
+                var total = Number($('#hdnTotalAnuncios').val());
+                var itensPorLinha = 4;
+                linha = linha + itensPorLinha;
+                if (linha <= total) {
+                    $("#paginaLinha").val(linha);
+                    $.ajax({
+                        url: 'index.php',
+                        type: 'post',
+                        data: {
+                            tipoImovel: 'todos',
+                            valor: '',
+                            finalidade: '',
+                            cidade: '',
+                            bairro: '',
+                            quarto: '',
+                            banheiro: '',
+                            suite: '',
+                            condicao: '',
+                            unidadesandar: '',
+                            area: '',
+                            linha: linha,
+                            paginaInicial: 'false',
+                            mobile: 'true',
+                            hdnEntidade: 'Anuncio',
+                            hdnAcao: 'buscarAnuncio',
+                            garagem: 'false',
+                            page: 'index'
+                        },
+                        beforeSend: function () {
+                            $("#carregarMais").addClass("disabled loading");
+                        },
+                        success: function (response) {
+                            // Setting little delay while displaying new content
+                            setTimeout(function () {
+                                // appending posts after last post with class="post"
+                                $(".list-item:last").after(response).show().fadeIn("slow");
+                                exibirEnviarComparar();
+                                $("div[id^='spanValor']").priceFormat({
+                                    prefix: 'R$ ',
+                                    centsSeparator: ',',
+                                    centsLimit: 0,
+                                    limit: 8,
+                                    thousandsSeparator: '.'
+                                })
+                                $("#carregarMais").removeClass("disabled loading");
+                                var linhanumero = linha + itensPorLinha;
+                                // checking row value is greater than allcount or not
+                                if (linhanumero > total) {
 //                                // Change the text and background
-                                $("#carregarMais").addClass("disabled");
-                            } else {
-                               
-                            }
-                        }, 2000);
+                                    $("#carregarMais").addClass("disabled");
+                                } else {
 
+                                }
+                            }, 2000);
+                        }
+                        //alert($("#paginaLinha").val());                     
+                    });
 
-                    }
-                    //alert($("#paginaLinha").val());                     
-                });
-
-            }
-        });
-
-        $('.ui.dropdown')
-                .dropdown()
-                ;
-        $("#sltOrdenacao").change(function () {
-            if ($(this).val() == "mnvalor") {
-                var $valor = $('#itemContainer'),
-                        $valorli = $valor.children('div');
-
-                $valorli.sort(function (a, b) {
-                    var an = parseInt(a.getAttribute('data-valor')),
-                            bn = parseInt(b.getAttribute('data-valor'));
-
-                    if (an > bn) {
-                        return 1;
-                    }
-                    if (an < bn) {
-                        return -1;
-                    }
-                    return 0;
-                });
-
-
-            } else if ($(this).val() == "mrvalor") {
-                var $valor = $('#itemContainer'),
-                        $valorli = $valor.children('div');
-
-                $valorli.sort(function (a, b) {
-                    var an = parseInt(a.getAttribute('data-valor')),
-                            bn = parseInt(b.getAttribute('data-valor'));
-
-                    if (an < bn) {
-                        return 1;
-                    }
-                    if (an > bn) {
-                        return -1;
-                    }
-                    return 0;
-                });
-            } else if ($(this).val() == "antigo") {
-
-                var $valor = $('#itemContainer'),
-                        $valorli = $valor.children('div');
-
-                $valorli.sort(function (a, b) {
-
-                    var an = a.getAttribute('data-cadastro'),
-                            bn = b.getAttribute('data-cadastro');
-
-                    if (an > bn) {
-                        return 1;
-                    }
-                    if (an < bn) {
-                        return -1;
-                    }
-                    return 0;
-                });
-            } else if ($(this).val() == "recente") {
-                var $valor = $('#itemContainer'),
-                        $valorli = $valor.children('div');
-
-                $valorli.sort(function (a, b) {
-                    var an = a.getAttribute('data-cadastro'),
-                            bn = b.getAttribute('data-cadastro');
-
-                    if (an < bn) {
-                        return 1;
-                    }
-                    if (an > bn) {
-                        return -1;
-                    }
-                    return 0;
-                });
-            }
-
-            $valorli.detach().appendTo($valor);
-            $("div.holder").jPages("destroy");
+                }
+            });
+        } else {
+            $("#carregarMais").hide();
+            $('.ui.dropdown')
+                    .dropdown()
+                    ;
             paginarAnuncio();
-        });
-//        $("#btnOrdenar").on('click', function () {
-//            var $valor = $('#itemContainer'),
-//                    $valorli = $valor.children('div');
-//
-//            $valorli.sort(function (a, b) {
-//                var an = a.getAttribute('data-valor'),
-//                        bn = b.getAttribute('data-valor');
-//
-//                if (an > bn) {
-//                    return 1;
-//                }
-//                if (an < bn) {
-//                    return -1;
-//                }
-//                return 0;
-//            });
-//
-//            $valorli.detach().appendTo($valor);
-//            $("div.holder").jPages("destroy");
-//            paginarAnuncio();
-//        });
+            ordenarAnuncio();
+           
+           exibirEnviarComparar();
 
-//        var cards = $('#cards');
-//
-//            cards.pager({
-//                perPage: 8,
-//                useHash: true
-//            });
-//
-//            $('.action2').click(function () {
-//                var action = this.getAttribute('rel'); // get the appropriate action from the rel attribute
-//                cards.trigger("pager:" + action);
-//                return false;
-//            });
-
-//        $('#lista').jplist({
-//            itemsBox: '.list',
-//            itemPath: '.list-item',
-//            panelPath: '.jplist-panel',
-////          Executa a action do botão de detalhes a cada vez que os cards são renderizados pela paginação.  
-//            redrawCallback: function () {
-//
-//                $('.ui.checkbox')
-//                        .checkbox();
-//
-        exibirEnviarComparar();
-
-        $("div[id^='spanValor']").priceFormat({
-            prefix: 'R$ ',
-            centsSeparator: ',',
-            centsLimit: 0,
-            limit: 8,
-            thousandsSeparator: '.'
-        })
-//
-//                $("span[id^='spanValor']").priceFormat({
-//                    prefix: 'R$ ',
-//                    centsSeparator: ',',
-//                    centsLimit: 0,
-//                    limit: 8,
-//                    thousandsSeparator: '.'
-//                })
-//
-////                $("#txtTitulo" + valor).maxlength({
-////                    threshold: 50,
-////                    warningClass: "ui small green circular label",
-////                    limitReachedClass: "ui small red circular label",
-////                    separator: ' de ',
-////                    preText: 'Voc&ecirc; digitou ',
-////                    postText: ' caracteres permitidos.',
-////                    validate: true
-////                })
-////
-////                $("#txtDescricao" + valor).maxlength({
-////                    threshold: 200,
-////                    warningClass: "ui small green circular label",
-////                    limitReachedClass: "ui small red circular label",
-////                    separator: ' de ',
-////                    preText: 'Voc&ecirc; digitou ',
-////                    postText: ' caracteres permitidos.',
-////                    validate: true
-////                })
-//            }
-//        })
-
-//        $("#hdnOrdTipoImovel").val($('#sltTipoImovel').val());
-//        $("#hdnOrdValor").val($('#sltValor').val());
-//        $("#hdnOrdFinalidade").val($('#sltFinalidade').val());
-//        $("#hdnOrdIdcidade").val($('#sltCidade').val());
-//        $("#hdnOrdIdbairro").val($('#sltBairro').val());
-//        $("#hdnOrdQuarto").val($('#sltQuartos').val());
-//        $("#hdnOrdCondicao").val($('#sltCondicao').val());
-//        $("#hdnOrdGaragem").val($('#checkgaragem').parent().checkbox('is checked'));
-
+                $("div[id^='spanValor']").priceFormat({
+                    prefix: 'R$ ',
+                    centsSeparator: ',',
+                    centsLimit: 0,
+                    limit: 8,
+                    thousandsSeparator: '.'
+                })
+        }
     })
 
+}
+
+function ordenarAnuncio(){
+     $("#sltOrdenacao").change(function () {
+                if ($(this).val() == "mnvalor") {
+                    var $valor = $('#itemContainer'),
+                            $valorli = $valor.children('div');
+
+                    $valorli.sort(function (a, b) {
+                        var an = parseInt(a.getAttribute('data-valor')),
+                                bn = parseInt(b.getAttribute('data-valor'));
+
+                        if (an > bn) {
+                            return 1;
+                        }
+                        if (an < bn) {
+                            return -1;
+                        }
+                        return 0;
+                    });
+
+
+                } else if ($(this).val() == "mrvalor") {
+                    var $valor = $('#itemContainer'),
+                            $valorli = $valor.children('div');
+
+                    $valorli.sort(function (a, b) {
+                        var an = parseInt(a.getAttribute('data-valor')),
+                                bn = parseInt(b.getAttribute('data-valor'));
+
+                        if (an < bn) {
+                            return 1;
+                        }
+                        if (an > bn) {
+                            return -1;
+                        }
+                        return 0;
+                    });
+                } else if ($(this).val() == "antigo") {
+
+                    var $valor = $('#itemContainer'),
+                            $valorli = $valor.children('div');
+
+                    $valorli.sort(function (a, b) {
+
+                        var an = a.getAttribute('data-cadastro'),
+                                bn = b.getAttribute('data-cadastro');
+
+                        if (an > bn) {
+                            return 1;
+                        }
+                        if (an < bn) {
+                            return -1;
+                        }
+                        return 0;
+                    });
+                } else if ($(this).val() == "recente") {
+                    var $valor = $('#itemContainer'),
+                            $valorli = $valor.children('div');
+
+                    $valorli.sort(function (a, b) {
+                        var an = a.getAttribute('data-cadastro'),
+                                bn = b.getAttribute('data-cadastro');
+
+                        if (an < bn) {
+                            return 1;
+                        }
+                        if (an > bn) {
+                            return -1;
+                        }
+                        return 0;
+                    });
+                }
+
+                $valorli.detach().appendTo($valor);
+                $("div.holder").jPages("destroy");
+                paginarAnuncio();
+
+                
+            });
 }
 
 function paginarAnuncio() {

@@ -4,8 +4,13 @@ class ConsultasAdHoc extends GenericoDAO {
 
     public function buscaAnuncios($parametros) {
 
-        unset($parametros['predicados']['atributos']);
-        unset($parametros['predicados']['tabela']);
+        if(isset($parametros['predicados']['atributos'])){
+            unset($parametros['predicados']['atributos']);
+        }
+        if(isset($parametros['predicados']['atributos'])){
+            unset($parametros['predicados']['tabela']);    
+        }
+        
         $crtlPred = true;
         /* Configurações dos Parametros */
         foreach ($parametros['predicados'] as $chave => $valor) {
@@ -13,7 +18,7 @@ class ConsultasAdHoc extends GenericoDAO {
                 unset($parametros['predicados'][$chave]);
             }
         }
-        if ($parametros['predicados']['valor'] >= 0) {
+        if(isset($parametros['predicados']['valor']) && $parametros['predicados']['valor'] >= 0){        
             $preco = $parametros['predicados']['valor'];
             unset($parametros['predicados']['valor']);
         }
@@ -41,6 +46,10 @@ class ConsultasAdHoc extends GenericoDAO {
         if (isset($parametros['predicados']['paginaInicial'])) {
             $paginaInicial = $parametros['predicados']['paginaInicial'];
             unset($parametros['predicados']['paginaInicial']);
+        }
+        if (isset($parametros['predicados']['mobile'])) {
+            $mobile = $parametros['predicados']['mobile'];
+            unset($parametros['predicados']['mobile']);
         }
 
         if (count($parametros['predicados']) == 0)
@@ -115,7 +124,7 @@ class ConsultasAdHoc extends GenericoDAO {
             }
         }
         #Calcula o valor total de anuncios da busca
-        if ($paginaInicial) {
+        if ($paginaInicial && $mobile) {
             $statement = $this->conexao->prepare($sql);
             if ($diferencial != NULL) {
                 foreach ($diferencial as $valor) {
@@ -144,9 +153,11 @@ class ConsultasAdHoc extends GenericoDAO {
             $resultado['anuncio'] = $statement->fetchAll(PDO::FETCH_ASSOC);
             $totalAnuncios = sizeof($resultado['anuncio']);
         }
-
-        $sql = $sql . ' limit ' . $linha . ', 4';
-
+        
+        if($mobile){
+            $sql = $sql . ' limit ' . $linha . ', 4';
+        }
+        
         $statement = $this->conexao->prepare($sql);
         if ($diferencial != NULL) {
             foreach ($diferencial as $valor) {
@@ -173,7 +184,7 @@ class ConsultasAdHoc extends GenericoDAO {
 
         $statement->execute();
         $resultado['anuncio'] = $statement->fetchAll(PDO::FETCH_ASSOC);
-        if ($paginaInicial) {
+        if ($paginaInicial && $mobile) {
             $resultado['total'] = $totalAnuncios;
         }
         $idsImoveis = array_column($resultado['anuncio'], 'idimovel');

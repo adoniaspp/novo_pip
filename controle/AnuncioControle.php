@@ -203,12 +203,12 @@ class AnuncioControle {
         $visao->exibir($pagina);
     }
 
-    function buscarAnuncio($parametros) {        
+    function buscarAnuncio($parametros) {
         $funcoesAuxiliares = new FuncoesAuxiliares();
         $visao = new Template('ajax');
         $consultasAdHoc = new ConsultasAdHoc();
         $parametros["atributos"] = "*";
-        $parametros["tabela"] = $parametros["tipoImovel"];        
+        $parametros["tabela"] = $parametros["tipoImovel"];
         if ($parametros["page"])
             $page = TRUE;
         unset($parametros["page"]);
@@ -223,7 +223,7 @@ class AnuncioControle {
             $parametros["id"] = explode(",", $parametros["id"]); //caso mais de um corretor seja escolhido
         }
         $parametros["predicados"] = $parametros;
-        
+
         $listaAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
 
         if (count($listaAnuncio['anuncio']) == 0) {
@@ -232,15 +232,19 @@ class AnuncioControle {
         }
         if ($page)
             $listaAnuncio["page"] = TRUE;
-                
+
         $visao->setItem($listaAnuncio);
-        
-        if($parametros["paginaInicial"] == 'true'){
-            $visao->exibir('AnuncioVisaoBusca.php');
+
+        if ($parametros["mobile"] == 'true') {            
+            if ($parametros["paginaInicial"] == 'true') {
+                $visao->exibir('AnuncioVisaoBusca.php');
+            } else {
+                //include_once 'visao/AnuncioVisaoCards.php';            
+                $visao->exibir('AnuncioVisaoCards.php');
+            }
         }else{
-            //include_once 'visao/AnuncioVisaoCards.php';            
-            $visao->exibir('AnuncioVisaoCards.php');
-        }
+            $visao->exibir('AnuncioVisaoBusca.php');
+        }           
     }
 
     function detalhar($parametros) {
@@ -408,44 +412,45 @@ class AnuncioControle {
     }
 
     function comparar($parametros) {
-
-                 $genericoDAO = new GenericoDAO();
-         $indice = 0;
+       
+        $genericoDAO = new GenericoDAO();
+        $indice = 0;
         $idsAnuncio = $parametros['listaAnuncio'];
-         unset($parametros["hdnEntidade"]);
-         unset($parametros["hdnAcao"]);
-         unset($parametros["tabela_length"]);
-         unset($parametros["selecionarAnuncio"]);
-         unset($parametros["listaAnuncio"]);
-         unset($parametros["hdnCodAnuncio"]);
-         unset($parametros["hdnTipoImovel"]);
-         unset($parametros["hdnCodAnuncioFormatado"]);
+        unset($parametros["hdnEntidade"]);
+        unset($parametros["hdnAcao"]);
+        unset($parametros["tabela_length"]);
+        unset($parametros["hdnTotalAnuncios"]);
+        unset($parametros["selecionarAnuncio"]);
+        unset($parametros["sltOrdenacao"]);
+        unset($parametros["listaAnuncio"]);
+        unset($parametros["hdnCodAnuncio"]);
+        unset($parametros["hdnTipoImovel"]);
+        unset($parametros["hdnCodAnuncioFormatado"]);
 
-         foreach ($idsAnuncio as $idanuncio) {
+        foreach ($idsAnuncio as $idanuncio) {
             $item["anuncio"] = $genericoDAO->consultar(new Anuncio(), false, array("idanuncio" => $idanuncio));
             $idFormatado = $item["anuncio"][0]->getId();
-             $item["imovel"] = $genericoDAO->consultar(new Imovel(), true, array("id" => $item["anuncio"][0]->getIdimovel()));
-                                   
-             $descricaoTipoImovel = $item["imovel"][0]->getTipoimovel()->getDescricao();
-   
-             $consultasAdHoc = new ConsultasAdHoc();
-             $parametros["tabela"] = $descricaoTipoImovel;
-             $parametros["atributos"] = "*";
+            $item["imovel"] = $genericoDAO->consultar(new Imovel(), true, array("id" => $item["anuncio"][0]->getIdimovel()));
+
+            $descricaoTipoImovel = $item["imovel"][0]->getTipoimovel()->getDescricao();
+
+            $consultasAdHoc = new ConsultasAdHoc();
+            $parametros["tabela"] = $descricaoTipoImovel;
+            $parametros["atributos"] = "*";
             $parametros["predicados"] = array("idanuncio" => $idFormatado);
-                        
-             $anuncio = $consultasAdHoc->buscaAnuncios($parametros);
-
-             $listarAnuncio[$indice] = $anuncio['anuncio'][0];
-
-             $parametros = "";
- 
-             $indice++;
-         }
             
-         $visao = new Template();
-         $visao->setItem($listarAnuncio);
-         $visao->exibir('AnuncioVisaoComparar.php');
+            $anuncio = $consultasAdHoc->buscaAnuncios($parametros);
 
+            $listarAnuncio[$indice] = $anuncio['anuncio'][0];
+
+            $parametros = "";
+
+            $indice++;
+        }
+
+        $visao = new Template();
+        $visao->setItem($listarAnuncio);
+        $visao->exibir('AnuncioVisaoComparar.php');
     }
 
     function listarCadastrar() {
@@ -1042,8 +1047,7 @@ class AnuncioControle {
         } else
             $textoSelecionados = "Imóvel selecionado através do PIP Online";;
 
-        $dadosEmail['msg'] .=
-                "<!DOCTYPE html>
+        $dadosEmail['msg'] .= "<!DOCTYPE html>
             <html>
             <head>
               <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
@@ -1807,8 +1811,7 @@ class AnuncioControle {
             $mensagemEmail = $parametros['hdnMsgEmailAtivado'];
         }
 
-        $dadosEmail['msg'] .=
-                "<!DOCTYPE html>
+        $dadosEmail['msg'] .= "<!DOCTYPE html>
             <html>
             <head>
               <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>

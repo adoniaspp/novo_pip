@@ -52,83 +52,32 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
     <input type="hidden" id="hdnTotalAnuncios" name="hdnTotalAnuncios" value="<?php echo $item['total'] ?>"/>   
     <div class="ui middle aligned one column grid container" id="lista">
         <?php if (count($item['anuncio']) > 0) { ?>
-            <div class="ui vertically divided grid">
-                
-                <div class="two column row">
-                
-                <div class="column">
-                
-<!--                    <div class="holder"></div>-->
-                    
-                    
-                </div>
-                
-                <div class="column">
-                <div class="ui right aligned container">
-                    
-                        <div class="ui right aligned selection dropdown">
-                            <input type="hidden" name="sltOrdenacao" id="sltOrdenacao">
-                            <i class="dropdown icon"></i>
-                            <div class="default text">Ordenar</div>
-                            <div class="menu">
-                                <div class="item" data-value="">Escolha Ordenação</div>
-                                <div class="item" data-value="mnvalor">Menor Valor</div>
-                                <div class="item" data-value="mrvalor">Maior Valor</div>
-                                <div class="item" data-value="recente">Mais Recente</div>
-                                <div class="item" data-value="antigo">Mais Antigo</div>
-                            </div>
-                        </div>
-                        
+            <div class="ui stackable column grid">
+                <div class="two column row" id="divMenuOrdPag">
+
+                    <div id="paginador" class="column">
+                        <div class="holder"></div>                                        
                     </div>
-                 </div>
-                    
+
+                    <div class="center aligned column">
+                        <div class="ui right aligned container" id="divOrdenacao">
+                            <div class="ui right aligned selection dropdown">
+                                <input type="hidden" name="sltOrdenacao" id="sltOrdenacao">
+                                <i class="dropdown icon"></i>
+                                <div class="default text">Ordenar</div>
+                                <div class="menu">
+                                    <div class="item" data-value="">Escolha Ordenação</div>
+                                    <div class="item" data-value="mnvalor">Menor Valor</div>
+                                    <div class="item" data-value="mrvalor">Maior Valor</div>
+                                    <div class="item" data-value="recente">Mais Recente</div>
+                                    <div class="item" data-value="antigo">Mais Antigo</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
                 </div>    
-<!--                <button class="ui button" id="btnOrdenar">
-                    Ordenar
-                </button>-->
-                             
-                <!--                <div class="jplist-panel">
-                                    <div 
-                                        class="jplist-drop-down" 
-                                        data-control-type="items-per-page-drop-down" 
-                                        data-control-name="paging" 
-                                        data-control-action="paging">
-                                        <ul>
-                                            <li><span data-number="8" data-default="true"> 8 resultados </span></li>
-                                            <li><span data-number="16"> 16 resultados </span></li>
-                                            <li><span data-number="24"> 24 resultados </span></li>
-                                        </ul>
-                                    </div>
-                                    <div 
-                                        class="jplist-label" 
-                                        data-type="{start} - {end} de {all}"
-                                        data-control-type="pagination-info" 
-                                        data-control-name="paging" 
-                                        data-control-action="paging">
-                                    </div>	
-                                    <div 
-                                        class="jplist-pagination" 
-                                        data-control-type="pagination" 
-                                        data-control-name="paging" 
-                                        data-control-action="paging">
-                                    </div>
-                
-                                    <div 
-                                        class="jplist-drop-down" 
-                                        data-control-type="sort-drop-down" 
-                                        data-control-name="sort" 
-                                        data-control-action="sort"
-                                        data-datetime-format="{year}-{month}-{day} {hour}:{min}:{sec}">  
-                
-                                        <ul>
-                                            <li><span data-path="default">Escolha a ordem</span></li>
-                                            <li><span data-path=".valor" data-order="desc" data-type="number">Maior Preço</span></li>
-                                            <li><span data-path=".valor" data-order="asc" data-type="number">Menor Preço</span></li>
-                                            <li><span data-path=".data" data-order="desc" data-type="datetime">Mais Recente</span></li>
-                                            <li><span data-path=".data" data-order="asc" data-type="datetime">Menos Recente</span></li>
-                                        </ul>
-                                    </div>
-                                </div>-->
             </div>
 
             <?php
@@ -349,49 +298,20 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                     <?php }
                     ?>                    
                 </div>
-                <div id="pagination-container"></div>
-                <!--                <div class="column">
-                                <div class="ui pagination menu">
-                                    <a class="action2 active item" href="#" rel="first">Primeiro</a>
-                                    <a class="action2 item" href="#" rel="prev">Anterior</a>
-                                    <a class="action2 item" href="#" rel="next">Próximo</a>
-                                    <a class="action2 item" href="#" rel="last">Último</a>
-                                <div class="ui pagination menu">
-                                </div>-->
+               
             </div>            
         <?php }
         ?>
-        <div class="ui column">
-            <a class='ui twitter button' id="carregarMais">Carregar Anúncios</a>
-<!--            <div class="holder"></div>-->
-
-            <!--            <div class="jplist-panel">
-                            <div 
-                                class="jplist-drop-down" 
-                                data-control-type="items-per-page-drop-down" 
-                                data-control-name="paging" 
-                                data-control-action="paging">
-                                <ul>
-                                    <li><span data-number="8" data-default="true"> 8 resultados </span></li>
-                                    <li><span data-number="16"> 16 resultados </span></li>
-                                    <li><span data-number="24"> 24 resultados </span></li>
-                                        <li><span data-number="all"> view all </span></li>
-                                </ul>
-                            </div>
-                            <div 
-                                class="jplist-label" 
-                                data-type="{start} - {end} de {all}"
-                                data-control-type="pagination-info" 
-                                data-control-name="paging" 
-                                data-control-action="paging">
-                            </div>
-                            <div 
-                                class="jplist-pagination" 
-                                data-control-type="pagination" 
-                                data-control-name="paging" 
-                                data-control-action="paging">
-                            </div>
-                        </div>-->
+        <div class="ui stackable column grid">
+            <div class="one column row" id="divMenuOrdPag">
+                <div class="center aligned column">
+                <a class='ui twitter button' id="carregarMais">Carregar Anúncios</a>
+                </div>
+                <div class="column">
+                    <div class="holder"></div>
+                </div>
+                
+            </div>
         </div>
     </div>
     <div class="one wide column"></div>
