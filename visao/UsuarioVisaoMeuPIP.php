@@ -1328,7 +1328,7 @@ foreach ($imoveis as $qtdAnuncios) {
 
                                             <div class="column">
                                                 <div class="ui segment"><a class="header">Data do Cadastro</a>
-                                                    <div class="description"><?php echo $chamados->getDataHoraCadastro(); ?>
+                                                    <div class="description"><?php echo date('d/m/Y H:i:s', strtotime($chamados->getDataHoraCadastro())); ?>
                                                     </div>
                                                 </div>       
                                             </div>

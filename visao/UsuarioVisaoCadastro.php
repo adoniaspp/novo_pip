@@ -221,7 +221,7 @@ Sessao::gerarToken();
                         <br>
                         <div class="teal ui labeled icon button" id="btnAdicionarTelefone">
                             <i class="add icon"></i>
-                            Adicionar Telefone
+                            Salvar Telefone
                         </div>
                     </div>
                 </div>    
