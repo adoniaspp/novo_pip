@@ -87,6 +87,11 @@ function cadastrarUsuario() {
             // value = value of the element (file name)
             return this.optional(element) || (element.files[0].size <= param)
         });
+        
+        $.validator.addMethod("verificarEspaco", function (value, element) {
+            return this.optional(element) || /^[a-zA-Z0-9\.]+$/i.test(value);
+        }, "Somente informe letras e números");
+        
         $.validator.setDefaults({
             ignore: [],
             errorClass: 'errorField',
@@ -112,6 +117,7 @@ function cadastrarUsuario() {
                 },
                 txtLogin: {
                     required: true,
+                    verificarEspaco: true,
                     minlength: 2,
                     maxlength: 25,
                     remote:
