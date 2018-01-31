@@ -88,6 +88,11 @@ function buscarAnuncio() {
             } else {
                 tipoimovel = $('#sltTipoImovel').val()
             }
+            var deviceAgent = navigator.userAgent.toLowerCase();
+            var agentID = deviceAgent.match(/(iphone|ipod|ipad|android|blackberry)/);
+            if (agentID) {
+                var mobile = 'true';
+            }
             $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
                 tipoImovel: tipoimovel,
                 valor: $('#sltValor').val(),
@@ -101,6 +106,9 @@ function buscarAnuncio() {
                 unidadesandar: $('#sltUnidadesAndar').val(),
                 areaMin: $('#sltAreaMin').val(),
                 areaMax: $('#sltAreaMax').val(),
+                paginaInicial: 'true',
+                mobile: mobile,
+                linha: $('#paginaLinha').val(),
                 id: $('#hdUsuario').val(),
                 diferencial: $('#carregarDiferenciais').val(),
                 //           },
@@ -117,6 +125,11 @@ function buscarAnuncio() {
                 tipoimovel = $('#sltTipoImovelAvancado').val()
             }
             ;
+            var deviceAgent = navigator.userAgent.toLowerCase();
+            var agentID = deviceAgent.match(/(iphone|ipod|ipad|android|blackberry)/);
+            if (agentID) {
+                var mobile = 'true';
+            }
             $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
                 tipoImovel: tipoimovel,
                 valor: $('#sltValor').val(),
@@ -129,6 +142,9 @@ function buscarAnuncio() {
                 condicao: $('#sltCondicaoAvancado').val(),
                 unidadesandar: $('#sltUnidadesAndar').val(),
                 area: $('#sltArea').val(),
+                paginaInicial: 'true',
+                mobile: mobile,
+                linha: $('#paginaLinha').val(),
                 id: $('#hdUsuario').val(),
                 diferencial: $('#carregarDiferenciais').val(),
                 garagem: $('#sltGaragem').val()
@@ -143,6 +159,12 @@ function buscarAnuncio() {
         });
 
         $("#btnBuscarAnuncioCorretor").on('click', function () {
+            
+            var deviceAgent = navigator.userAgent.toLowerCase();
+            var agentID = deviceAgent.match(/(iphone|ipod|ipad|android|blackberry)/);
+            if (agentID) {
+                var mobile = 'true';
+            }
 
             $("#load").addClass('ui active inverted dimmer');
 
@@ -158,6 +180,9 @@ function buscarAnuncio() {
                 condicao: '',
                 unidadesandar: '',
                 area: '',
+                paginaInicial: 'true',
+                mobile: mobile,
+                linha: $('#paginaLinha').val(),
                 id: $('#sltCorretorAvancado').val(),
                 garagem: 'false',
                 page: 'index'
@@ -255,99 +280,99 @@ function carregarAnuncio() { //valor = quantidade de anuncios
                     ;
             paginarAnuncio();
             ordenarAnuncio();
-           
-           exibirEnviarComparar();
 
-                $("div[id^='spanValor']").priceFormat({
-                    prefix: 'R$ ',
-                    centsSeparator: ',',
-                    centsLimit: 0,
-                    limit: 8,
-                    thousandsSeparator: '.'
-                })
+            exibirEnviarComparar();
+
+            $("div[id^='spanValor']").priceFormat({
+                prefix: 'R$ ',
+                centsSeparator: ',',
+                centsLimit: 0,
+                limit: 8,
+                thousandsSeparator: '.'
+            })
         }
     })
 
 }
 
-function ordenarAnuncio(){
-     $("#sltOrdenacao").change(function () {
-                if ($(this).val() == "mnvalor") {
-                    var $valor = $('#itemContainer'),
-                            $valorli = $valor.children('div');
+function ordenarAnuncio() {
+    $("#sltOrdenacao").change(function () {
+        if ($(this).val() == "mnvalor") {
+            var $valor = $('#itemContainer'),
+                    $valorli = $valor.children('div');
 
-                    $valorli.sort(function (a, b) {
-                        var an = parseInt(a.getAttribute('data-valor')),
-                                bn = parseInt(b.getAttribute('data-valor'));
+            $valorli.sort(function (a, b) {
+                var an = parseInt(a.getAttribute('data-valor')),
+                        bn = parseInt(b.getAttribute('data-valor'));
 
-                        if (an > bn) {
-                            return 1;
-                        }
-                        if (an < bn) {
-                            return -1;
-                        }
-                        return 0;
-                    });
-
-
-                } else if ($(this).val() == "mrvalor") {
-                    var $valor = $('#itemContainer'),
-                            $valorli = $valor.children('div');
-
-                    $valorli.sort(function (a, b) {
-                        var an = parseInt(a.getAttribute('data-valor')),
-                                bn = parseInt(b.getAttribute('data-valor'));
-
-                        if (an < bn) {
-                            return 1;
-                        }
-                        if (an > bn) {
-                            return -1;
-                        }
-                        return 0;
-                    });
-                } else if ($(this).val() == "antigo") {
-
-                    var $valor = $('#itemContainer'),
-                            $valorli = $valor.children('div');
-
-                    $valorli.sort(function (a, b) {
-
-                        var an = a.getAttribute('data-cadastro'),
-                                bn = b.getAttribute('data-cadastro');
-
-                        if (an > bn) {
-                            return 1;
-                        }
-                        if (an < bn) {
-                            return -1;
-                        }
-                        return 0;
-                    });
-                } else if ($(this).val() == "recente") {
-                    var $valor = $('#itemContainer'),
-                            $valorli = $valor.children('div');
-
-                    $valorli.sort(function (a, b) {
-                        var an = a.getAttribute('data-cadastro'),
-                                bn = b.getAttribute('data-cadastro');
-
-                        if (an < bn) {
-                            return 1;
-                        }
-                        if (an > bn) {
-                            return -1;
-                        }
-                        return 0;
-                    });
+                if (an > bn) {
+                    return 1;
                 }
-
-                $valorli.detach().appendTo($valor);
-                $("div.holder").jPages("destroy");
-                paginarAnuncio();
-
-                
+                if (an < bn) {
+                    return -1;
+                }
+                return 0;
             });
+
+
+        } else if ($(this).val() == "mrvalor") {
+            var $valor = $('#itemContainer'),
+                    $valorli = $valor.children('div');
+
+            $valorli.sort(function (a, b) {
+                var an = parseInt(a.getAttribute('data-valor')),
+                        bn = parseInt(b.getAttribute('data-valor'));
+
+                if (an < bn) {
+                    return 1;
+                }
+                if (an > bn) {
+                    return -1;
+                }
+                return 0;
+            });
+        } else if ($(this).val() == "antigo") {
+
+            var $valor = $('#itemContainer'),
+                    $valorli = $valor.children('div');
+
+            $valorli.sort(function (a, b) {
+
+                var an = a.getAttribute('data-cadastro'),
+                        bn = b.getAttribute('data-cadastro');
+
+                if (an > bn) {
+                    return 1;
+                }
+                if (an < bn) {
+                    return -1;
+                }
+                return 0;
+            });
+        } else if ($(this).val() == "recente") {
+            var $valor = $('#itemContainer'),
+                    $valorli = $valor.children('div');
+
+            $valorli.sort(function (a, b) {
+                var an = a.getAttribute('data-cadastro'),
+                        bn = b.getAttribute('data-cadastro');
+
+                if (an < bn) {
+                    return 1;
+                }
+                if (an > bn) {
+                    return -1;
+                }
+                return 0;
+            });
+        }
+
+        $valorli.detach().appendTo($valor);
+        $("div.holder").jPages("destroy");
+        paginarAnuncio();
+
+
+    });
 }
 
 function paginarAnuncio() {

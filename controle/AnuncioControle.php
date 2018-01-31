@@ -204,6 +204,7 @@ class AnuncioControle {
     }
 
     function buscarAnuncio($parametros) {
+        
         $funcoesAuxiliares = new FuncoesAuxiliares();
         $visao = new Template('ajax');
         $consultasAdHoc = new ConsultasAdHoc();
@@ -412,7 +413,7 @@ class AnuncioControle {
     }
 
     function comparar($parametros) {
-       
+
         $genericoDAO = new GenericoDAO();
         $indice = 0;
         $idsAnuncio = $parametros['listaAnuncio'];
@@ -429,7 +430,7 @@ class AnuncioControle {
 
         foreach ($idsAnuncio as $idanuncio) {
             $item["anuncio"] = $genericoDAO->consultar(new Anuncio(), false, array("idanuncio" => $idanuncio));
-            $idFormatado = $item["anuncio"][0]->getId();
+            $idFormatado = $item["anuncio"][0]->getId();            
             $item["imovel"] = $genericoDAO->consultar(new Imovel(), true, array("id" => $item["anuncio"][0]->getIdimovel()));
 
             $descricaoTipoImovel = $item["imovel"][0]->getTipoimovel()->getDescricao();
@@ -440,10 +441,9 @@ class AnuncioControle {
             $parametros["predicados"] = array("idanuncio" => $idFormatado);
             
             $anuncio = $consultasAdHoc->buscaAnuncios($parametros);
-
             $listarAnuncio[$indice] = $anuncio['anuncio'][0];
 
-            $parametros = "";
+            unset($parametros);
 
             $indice++;
         }

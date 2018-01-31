@@ -3,7 +3,6 @@
 class ConsultasAdHoc extends GenericoDAO {
 
     public function buscaAnuncios($parametros) {
-
         if(isset($parametros['predicados']['atributos'])){
             unset($parametros['predicados']['atributos']);
         }
@@ -22,19 +21,22 @@ class ConsultasAdHoc extends GenericoDAO {
             $preco = $parametros['predicados']['valor'];
             unset($parametros['predicados']['valor']);
         }
-        if ($parametros['predicados']['area'] != "") {
+        if (isset($parametros['predicados']['valor']) && $parametros['predicados']['area'] != "") {
             $area = $parametros['predicados']['area'];
             unset($parametros['predicados']['area']);
         }
-        $ordem = $parametros['predicados']['ordem'];
-        unset($parametros['predicados']['ordem']);
-
-        if ($parametros['predicados']['garagem'] == true || $parametros['predicados']['garagem'] == false) {
+        if (isset($parametros['predicados']['ordem'])){
+            $ordem = $parametros['predicados']['ordem'];
+            unset($parametros['predicados']['ordem']);
+        }
+        if (isset($parametros['predicados']['garagem']) && ($parametros['predicados']['garagem'] == true || $parametros['predicados']['garagem'] == false)) {
             $garagem = $parametros['predicados']['garagem'];
             unset($parametros['predicados']['garagem']);
         }
-        $diferencial = $parametros['predicados']['diferencial'];
-        unset($parametros['predicados']['diferencial']);
+        if (isset($parametros['predicados']['diferencial'])){
+            $diferencial = $parametros['predicados']['diferencial'];
+            unset($parametros['predicados']['diferencial']);
+        }
         if ($parametros['predicados']['quarto'] == 5) {
             $quartos = $parametros['predicados']['quarto'];
             unset($parametros['predicados']['quarto']);
@@ -47,7 +49,8 @@ class ConsultasAdHoc extends GenericoDAO {
             $paginaInicial = $parametros['predicados']['paginaInicial'];
             unset($parametros['predicados']['paginaInicial']);
         }
-        if (isset($parametros['predicados']['mobile'])) {
+        
+        if (isset($parametros['predicados']['mobile'])) {            
             $mobile = $parametros['predicados']['mobile'];
             unset($parametros['predicados']['mobile']);
         }
@@ -140,7 +143,6 @@ class ConsultasAdHoc extends GenericoDAO {
             }
             foreach ($parametros['predicados'] as $chave => $valor) {
                 if (!is_array($valor)) {
-
                     $statement->bindValue($chave . '_' . 0, $valor);
                 } else {
                     foreach ($valor as $k => $v) {
@@ -172,16 +174,15 @@ class ConsultasAdHoc extends GenericoDAO {
             }
         }
         foreach ($parametros['predicados'] as $chave => $valor) {
-            if (!is_array($valor)) {
-
-                $statement->bindValue($chave . '_' . 0, $valor);
+            if (!is_array($valor)) {                
+                $statement->bindValue(':' . $chave . '_0', $valor);
             } else {
                 foreach ($valor as $k => $v) {
-                    $statement->bindValue($chave . '_' . $k, $v);
+                    $statement->bindValue(':' . $chave . '_' . $k, $v);
                 }
             }
         }
-
+        
         $statement->execute();
         $resultado['anuncio'] = $statement->fetchAll(PDO::FETCH_ASSOC);
         if ($paginaInicial && $mobile) {
