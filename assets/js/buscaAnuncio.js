@@ -92,6 +92,8 @@ function buscarAnuncio() {
             var agentID = deviceAgent.match(/(iphone|ipod|ipad|android|blackberry)/);
             if (agentID) {
                 var mobile = 'true';
+            }else{
+                var mobile = 'false';
             }
             $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
                 tipoImovel: tipoimovel,
@@ -159,7 +161,7 @@ function buscarAnuncio() {
         });
 
         $("#btnBuscarAnuncioCorretor").on('click', function () {
-            
+
             var deviceAgent = navigator.userAgent.toLowerCase();
             var agentID = deviceAgent.match(/(iphone|ipod|ipad|android|blackberry)/);
             if (agentID) {
@@ -210,13 +212,12 @@ function carregarAnuncio() { //valor = quantidade de anuncios
             $("#divMenuOrdPag").addClass("one");
             ordenarAnuncio();
             exibirEnviarComparar();
-            //$(".item").removeClass("active");
             $('#carregarMais').click(function () {
                 var linha = Number($('#paginaLinha').val());
                 var total = Number($('#hdnTotalAnuncios').val());
                 var itensPorLinha = 4;
                 linha = linha + itensPorLinha;
-                if (linha <= total) {
+//                if (linha <= total) {
                     $("#paginaLinha").val(linha);
                     $.ajax({
                         url: 'index.php',
@@ -245,9 +246,7 @@ function carregarAnuncio() { //valor = quantidade de anuncios
                             $("#carregarMais").addClass("disabled loading");
                         },
                         success: function (response) {
-                            // Setting little delay while displaying new content
                             setTimeout(function () {
-                                // appending posts after last post with class="post"
                                 $(".list-item:last").after(response).show().fadeIn("slow");
                                 exibirEnviarComparar();
                                 $("div[id^='spanValor']").priceFormat({
@@ -257,21 +256,26 @@ function carregarAnuncio() { //valor = quantidade de anuncios
                                     limit: 8,
                                     thousandsSeparator: '.'
                                 })
-                                $("#carregarMais").removeClass("disabled loading");
+
                                 var linhanumero = linha + itensPorLinha;
-                                // checking row value is greater than allcount or not
                                 if (linhanumero > total) {
-//                                // Change the text and background
                                     $("#carregarMais").addClass("disabled");
                                 } else {
-
+                                    $("#carregarMais").removeClass("disabled loading");
                                 }
                             }, 2000);
                         }
-                        //alert($("#paginaLinha").val());                     
                     });
 
-                }
+//                } else {
+//                    $("#carregarMais").addClass("disabled loading");
+//                    setTimeout(function () {
+//                        $('.list-item:nth-child(4)').nextAll('.list-item').remove();
+//                        $("#linha").val(0);
+//                        $('.load-more').text("Load more");
+//                        $('.load-more').css("background", "#15a9ce");
+//                    }, 2000);
+//                }
             });
         } else {
             $("#carregarMais").hide();
@@ -403,13 +407,23 @@ function paginarAnuncio() {
     });
 
     $(".jp-previous").on('click', function () {
-        $(".item").removeClass("active");
-        $(".jp-current").addClass("active");
+        $(".jp-current").removeClass("active");
+        if($(".jp-current").prev().hasClass("jp-hidden")){
+            $(".jp-current").prev().prev().addClass("active");
+        }else{
+            $(".jp-current").prev().addClass("active");
+        }
+        $("#itemContainer").css("min-height", "460px");
+        
     })
 
     $(".jp-next").on('click', function () {
-        $(".item").removeClass("active");
-        $(".jp-current").addClass("active");
+        $(".jp-current").removeClass("active");
+        if($(".jp-current").next().hasClass("jp-hidden")){
+            $(".jp-current").next().next().addClass("active");
+        }else{
+            $(".jp-current").next().addClass("active");
+        }
         $("#itemContainer").css("min-height", "460px");
     })
 

@@ -255,15 +255,17 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                         ?>
 
                                         A partir de  <br>
-                                        <span class="left floated header" id="spanValor<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">     
+                                        <div class="left floated header" id="spanValor<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>">     
                                             <?php
                                             echo $item['anuncio'][$crtl]['valormin'];
                                         } if ($item['anuncio'][$crtl]['valormin'] == 0) {
                                             echo "Valor não informado";
                                         }
+                                        ?>
+                                        </div>
+                                        <?php
                                     }
                                     ?>
-                                </span>
                                 <div class="right floated"> <h4><?php echo $item['anuncio'][$crtl]['bairro'] ?> </h4></div>
                                 <div class="description"> 
                                     <!--                                    <br />-->
