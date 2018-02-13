@@ -386,7 +386,6 @@ class ConsultasAdHoc extends GenericoDAO {
         /* Apartamento na Planta */
         if (count($idsApartamentoPlanta) != 0) {
             $allow = $idsApartamentoPlanta;
-            var_dump($allow);
             $sql = "SELECT idimovel, andares, unidadesandar, totalunidades, numerotorres FROM buscaAnuncioApartamentoplanta WHERE ";
             $sql .= sprintf(" idimovel in( %s )", implode(
                             ',', array_map(
