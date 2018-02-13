@@ -370,8 +370,8 @@ class ConsultasAdHoc extends GenericoDAO {
                     )
             );
             $sth = $this->conexao->prepare($sql);
-            foreach ($allow as $k => $v) {
-                $sth->bindValue('allow_' . $k, $v);
+            for ($index = 0; $index < count($allow); $index++) {
+                $sth->bindValue('allow_' . $index, $allow[$index]);                
             }
             $sth->execute();
             $retornoConsulta = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -386,6 +386,7 @@ class ConsultasAdHoc extends GenericoDAO {
         /* Apartamento na Planta */
         if (count($idsApartamentoPlanta) != 0) {
             $allow = $idsApartamentoPlanta;
+            var_dump($allow);
             $sql = "SELECT idimovel, andares, unidadesandar, totalunidades, numerotorres FROM buscaAnuncioApartamentoplanta WHERE ";
             $sql .= sprintf(" idimovel in( %s )", implode(
                             ',', array_map(
@@ -397,8 +398,8 @@ class ConsultasAdHoc extends GenericoDAO {
                     )
             );
             $sth = $this->conexao->prepare($sql);
-            foreach ($allow as $k => $v) {
-                $sth->bindValue('allow_' . $k, $v);
+            for ($index = 0; $index < count($allow); $index++) {
+                $sth->bindValue('allow_' . $index, $allow[$index]);                
             }
             $sth->execute();
             $retornoConsulta = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -424,8 +425,8 @@ class ConsultasAdHoc extends GenericoDAO {
                     )
             );
             $sth = $this->conexao->prepare($sql);
-            foreach ($allow as $k => $v) {
-                $sth->bindValue('allow_' . $k, $v);
+            for ($index = 0; $index < count($allow); $index++) {
+                $sth->bindValue('allow_' . $index, $allow[$index]);                
             }
             $sth->execute();
             $retornoConsulta = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -451,8 +452,8 @@ class ConsultasAdHoc extends GenericoDAO {
                     )
             );
             $sth = $this->conexao->prepare($sql);
-            foreach ($allow as $k => $v) {
-                $sth->bindValue('allow_' . $k, $v);
+            for ($index = 0; $index < count($allow); $index++) {
+                $sth->bindValue('allow_' . $index, $allow[$index]);                
             }
             $sth->execute();
             $retornoConsulta = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -478,8 +479,8 @@ class ConsultasAdHoc extends GenericoDAO {
                     )
             );
             $sth = $this->conexao->prepare($sql);
-            foreach ($allow as $k => $v) {
-                $sth->bindValue('allow_' . $k, $v);
+            for ($index = 0; $index < count($allow); $index++) {
+                $sth->bindValue('allow_' . $index, $allow[$index]);                
             }
             $sth->execute();
             $retornoConsulta = $sth->fetchAll(PDO::FETCH_ASSOC);

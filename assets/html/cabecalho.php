@@ -2,7 +2,7 @@
 <html lang=pt-br>
 <head>
 <title>PIP - Procure Im&oacute;veis Pai D'Egua</title>
-<meta charset=UTF-8>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name=viewport content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
 <?php echo $this->getTag_cabecalho(); ?>
