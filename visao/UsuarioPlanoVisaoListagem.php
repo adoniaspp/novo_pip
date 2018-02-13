@@ -2,6 +2,7 @@
 <script src="assets/libs/touchspin/jquery.bootstrap-touchspin.js"></script>
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
+<script src="assets/libs/datatables/js/dataTables.semanticui.min.js"></script>
 <script src="assets/js/plano.js"></script>
 <script>
     listagemPlano();
@@ -102,6 +103,23 @@ Sessao::gerarToken();
                         <tbody>
                             <?php
                             foreach ($item["usuarioPlano"] as $usuarioPlano) {
+                                
+                                if ($usuarioPlano->getStatus() == "pago") {
+                                    $statusPlano = "<h4 class='ui green header'>Pago</h4>";
+                                }
+
+                                if ($usuarioPlano->getStatus() == "utilizado") {
+                                    $statusPlano = "<h4 class='ui red header'>Utilizado</h4>";
+                                }
+
+                                if ($usuarioPlano->getStatus() == "pagamento pendente") {
+                                    $statusPlano = "<h4 class='ui yellow header'>Pagamento Pendente</h4>";
+                                }
+
+                                if ($usuarioPlano->getStatus() == "expirado") {
+                                    $statusPlano = "<h4 class='ui red header'>Expirado</h4>";
+                                }
+                                
                                 echo "<tr>";
                                 echo "<td>" . $usuarioPlano->getPlano()->getTitulo() . " (" . $usuarioPlano->getPlano()->getValidadepublicacao() . " dias)</td>";
                                 echo "<td>" . $usuarioPlano->getPlano()->getDescricao() . "</td>";
@@ -111,10 +129,15 @@ Sessao::gerarToken();
                                 } else {
                                     echo "<td> - </td>";
                                 }
-                                echo "<td>" . $usuarioPlano->getStatus() . "</td>";
+                                echo "<td>" . $statusPlano . "</td>";
                                 echo "</tr>";
                             }
                             ?>
+                            
+                            
+                            
+                            
+                            
                         </tbody>
                     </table>
                     <?php

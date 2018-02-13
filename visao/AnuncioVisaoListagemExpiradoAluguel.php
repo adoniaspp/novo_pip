@@ -120,7 +120,7 @@ if ($totalAnunciosFinalizados < 1 && $totalAnunciosExpirados < 1) {
             <div class="row">
                 <div class="column">
                     <div class="ui warning message">                          
-                        Atenção! Você não possui um plano ativo para reativar seu anúncio. Não perca tempo! Compre agora um novo plano clicando <a href="index.php?entidade=Plano&acao=listar">AQUI</a>.                
+                        <i class="large warning circle icon"></i>Atenção! Para reativar um anúncio de aluguel você deve ter um plano ativo. Não perca tempo e compre agora um novo plano clicando <a href="index.php?entidade=Plano&acao=listar">AQUI</a>.                
                     </div>
                 </div>
             </div>
