@@ -1,5 +1,5 @@
 <?php
-//Sessao::gerarToken();
+Sessao::gerarToken();
 $item = $this->getItem();
 
 if ($item) {

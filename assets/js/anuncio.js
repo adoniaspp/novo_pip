@@ -833,7 +833,7 @@ function validarTodosAndaresInformados() {
     //variavel da qtd total de andares
     var qtdAndares = $("#hdnAndares").val();
     //percorre todas as plantas
-    for (i = 0; i < (qtdPlantas - 1); i++) {
+    for (i = 0; i <= (qtdPlantas - 1); i++) {
         //para cada planta coletará os andares iniciais e finais a saber se tem todos cadastrados
         var hdnAndarInicial = "hdnAndarInicial" + i + "[]";
         var inicial = $("input[name='" + hdnAndarInicial + "']");
@@ -1021,7 +1021,7 @@ function sortTable(name) {
       x = rows[i].getElementsByTagName("TD")[0];
       y = rows[i + 1].getElementsByTagName("TD")[0];
       //check if the two rows should switch place:
-      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+     if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
         //if so, mark as a switch and break the loop:
         shouldSwitch= true;
         break;
