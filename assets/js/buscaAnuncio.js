@@ -92,8 +92,6 @@ function buscarAnuncio() {
             var agentID = deviceAgent.match(/(iphone|ipod|ipad|android|blackberry)/);
             if (agentID) {
                 var mobile = 'true';
-            }else{
-                var mobile = 'false';
             }
             $('#divAnuncios').load("index.php", {hdnEntidade: 'Anuncio', hdnAcao: 'buscarAnuncio',
                 tipoImovel: tipoimovel,
