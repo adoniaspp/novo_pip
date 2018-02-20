@@ -411,8 +411,7 @@ function paginarAnuncio() {
         }else{
             $(".jp-current").prev().addClass("active");
         }
-        $("#itemContainer").css("min-height", "460px");
-        
+        $("#itemContainer").css("min-height", "460px");        
     })
 
     $(".jp-next").on('click', function () {
@@ -425,15 +424,16 @@ function paginarAnuncio() {
         $("#itemContainer").css("min-height", "460px");
     })
 
-    $(".jp-last").on('click', function () {
-        $(".item").removeClass("active");
-        $(".jp-current").addClass("active");
+    $(".jp-last").on('click', function () {        
+        $(".jp-current").removeClass("active");
+        $(this).prev().prev().addClass("active");
         $("#itemContainer").css("min-height", "460px");
     })
 
-    $(".jp-first").on('click', function () {
-        $(".item").removeClass("active");
-        $(".jp-current").addClass("active");
+    $(".jp-first").on('click', function () {        
+        $(".jp-current").removeClass("active");
+        $(this).next().next().addClass("active");
+        $("#itemContainer").css("min-height", "460px");
     })
 
 }

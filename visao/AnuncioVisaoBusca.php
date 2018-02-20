@@ -52,32 +52,31 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
     <input type="hidden" id="hdnTotalAnuncios" name="hdnTotalAnuncios" value="<?php echo $item['total'] ?>"/>   
     <div class="ui middle aligned one column grid container" id="lista">
         <?php if (count($item['anuncio']) > 0) { ?>
-            <div class="ui stackable column grid">
-                <div class="two column row" id="divMenuOrdPag">
+            <div class="ui stackable grid">
 
-                    <div id="paginador" class="column">
-                        <div class="holder"></div>                                        
-                    </div>
+                <div id="paginador" class="eleven wide column">
+                    <div class="holder"></div>                                        
+                </div>
 
-                    <div class="center aligned column">
-                        <div class="ui right aligned container" id="divOrdenacao">
-                            <div class="ui right aligned selection dropdown">
-                                <input type="hidden" name="sltOrdenacao" id="sltOrdenacao">
-                                <i class="dropdown icon"></i>
-                                <div class="default text">Ordenar</div>
-                                <div class="menu">
-                                    <div class="item" data-value="">Escolha Ordenação</div>
-                                    <div class="item" data-value="mnvalor">Menor Valor</div>
-                                    <div class="item" data-value="mrvalor">Maior Valor</div>
-                                    <div class="item" data-value="recente">Mais Recente</div>
-                                    <div class="item" data-value="antigo">Mais Antigo</div>
-                                </div>
+                <div class="center aligned four wide column">
+                    <div class="ui right aligned container" id="divOrdenacao">
+                        <div class="ui right aligned selection dropdown">
+                            <input type="hidden" name="sltOrdenacao" id="sltOrdenacao">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Ordenar</div>
+                            <div class="menu">
+                                <div class="item" data-value="">Escolha Ordenação</div>
+                                <div class="item" data-value="mnvalor">Menor Valor</div>
+                                <div class="item" data-value="mrvalor">Maior Valor</div>
+                                <div class="item" data-value="recente">Mais Recente</div>
+                                <div class="item" data-value="antigo">Mais Antigo</div>
                             </div>
-
                         </div>
-                    </div>
 
+                    </div>
                 </div>    
+                <div class="one wide column">
+                </div>
             </div>
 
             <?php
@@ -262,10 +261,10 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                             echo "Valor não informado";
                                         }
                                         ?>
-                                        </div>
-                                        <?php
-                                    }
-                                    ?>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
                                 <div class="right floated"> <h4><?php echo $item['anuncio'][$crtl]['bairro'] ?> </h4></div>
                                 <div class="description"> 
                                     <!--                                    <br />-->
@@ -300,19 +299,19 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                     <?php }
                     ?>                    
                 </div>
-               
+
             </div>            
         <?php }
         ?>
         <div class="ui stackable column grid">
             <div class="one column row" id="divMenuOrdPag">
                 <div class="center aligned column">
-                <a class='ui twitter button' id="carregarMais">Carregar Anúncios</a>
+                    <a class='ui twitter button' id="carregarMais">Carregar Anúncios</a>
                 </div>
                 <div class="column">
                     <div class="holder"></div>
                 </div>
-                
+
             </div>
         </div>
     </div>
