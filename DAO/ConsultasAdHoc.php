@@ -3,13 +3,13 @@
 class ConsultasAdHoc extends GenericoDAO {
 
     public function buscaAnuncios($parametros) {
-        if(isset($parametros['predicados']['atributos'])){
+        if (isset($parametros['predicados']['atributos'])) {
             unset($parametros['predicados']['atributos']);
         }
-        if(isset($parametros['predicados']['tabela'])){
-            unset($parametros['predicados']['tabela']);    
+        if (isset($parametros['predicados']['tabela'])) {
+            unset($parametros['predicados']['tabela']);
         }
-        
+
         $crtlPred = true;
         /* Configurações dos Parametros */
         foreach ($parametros['predicados'] as $chave => $valor) {
@@ -17,7 +17,7 @@ class ConsultasAdHoc extends GenericoDAO {
                 unset($parametros['predicados'][$chave]);
             }
         }
-        if(isset($parametros['predicados']['valor']) && $parametros['predicados']['valor'] >= 0){        
+        if (isset($parametros['predicados']['valor']) && $parametros['predicados']['valor'] >= 0) {
             $preco = $parametros['predicados']['valor'];
             unset($parametros['predicados']['valor']);
         }
@@ -25,7 +25,7 @@ class ConsultasAdHoc extends GenericoDAO {
             $area = $parametros['predicados']['area'];
             unset($parametros['predicados']['area']);
         }
-        if (isset($parametros['predicados']['ordem'])){
+        if (isset($parametros['predicados']['ordem'])) {
             $ordem = $parametros['predicados']['ordem'];
             unset($parametros['predicados']['ordem']);
         }
@@ -33,7 +33,7 @@ class ConsultasAdHoc extends GenericoDAO {
             $garagem = $parametros['predicados']['garagem'];
             unset($parametros['predicados']['garagem']);
         }
-        if (isset($parametros['predicados']['diferencial'])){
+        if (isset($parametros['predicados']['diferencial'])) {
             $diferencial = $parametros['predicados']['diferencial'];
             unset($parametros['predicados']['diferencial']);
         }
@@ -49,8 +49,8 @@ class ConsultasAdHoc extends GenericoDAO {
             $paginaInicial = $parametros['predicados']['paginaInicial'];
             unset($parametros['predicados']['paginaInicial']);
         }
-        
-        if (isset($parametros['predicados']['mobile'])) {            
+
+        if (isset($parametros['predicados']['mobile'])) {
             $mobile = $parametros['predicados']['mobile'];
             unset($parametros['predicados']['mobile']);
         }
@@ -155,11 +155,11 @@ class ConsultasAdHoc extends GenericoDAO {
             $resultado['anuncio'] = $statement->fetchAll(PDO::FETCH_ASSOC);
             $totalAnuncios = sizeof($resultado['anuncio']);
         }
-        
-        if($mobile){
+
+        if ($mobile) {
             $sql = $sql . ' limit ' . $linha . ', 4';
         }
-        
+
         $statement = $this->conexao->prepare($sql);
         if ($diferencial != NULL) {
             foreach ($diferencial as $valor) {
@@ -174,7 +174,7 @@ class ConsultasAdHoc extends GenericoDAO {
             }
         }
         foreach ($parametros['predicados'] as $chave => $valor) {
-            if (!is_array($valor)) {                
+            if (!is_array($valor)) {
                 $statement->bindValue(':' . $chave . '_0', $valor);
             } else {
                 foreach ($valor as $k => $v) {
@@ -182,7 +182,7 @@ class ConsultasAdHoc extends GenericoDAO {
                 }
             }
         }
-        
+
         $statement->execute();
         $resultado['anuncio'] = $statement->fetchAll(PDO::FETCH_ASSOC);
         if ($paginaInicial && $mobile) {
@@ -370,8 +370,10 @@ class ConsultasAdHoc extends GenericoDAO {
                     )
             );
             $sth = $this->conexao->prepare($sql);
-            for ($index = 0; $index < count($allow); $index++) {
-                $sth->bindValue('allow_' . $index, $allow[$index]);                
+            $index = 0;
+            foreach ($allow as $ids) {
+                    $sth->bindValue('allow_' . $index, $ids);
+                    $index++;               
             }
             $sth->execute();
             $retornoConsulta = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -397,8 +399,10 @@ class ConsultasAdHoc extends GenericoDAO {
                     )
             );
             $sth = $this->conexao->prepare($sql);
-            for ($index = 0; $index < count($allow); $index++) {
-                $sth->bindValue('allow_' . $index, $allow[$index]);                
+            $index = 0;
+            foreach ($allow as $ids) {
+                    $sth->bindValue('allow_' . $index, $ids);
+                    $index++;               
             }
             $sth->execute();
             $retornoConsulta = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -424,11 +428,14 @@ class ConsultasAdHoc extends GenericoDAO {
                     )
             );
             $sth = $this->conexao->prepare($sql);
-            for ($index = 0; $index < count($allow); $index++) {
-                $sth->bindValue('allow_' . $index, $allow[$index]);                
+            $index = 0;
+            foreach ($allow as $ids) {
+                    $sth->bindValue('allow_' . $index, $ids);
+                    $index++;               
             }
             $sth->execute();
             $retornoConsulta = $sth->fetchAll(PDO::FETCH_ASSOC);
+
             if (count($retornoConsulta) != 0) {
                 foreach ($retornoConsulta as $retorno) {
                     $indice = array_search($retorno["idimovel"], $idsApartamento);
@@ -451,8 +458,10 @@ class ConsultasAdHoc extends GenericoDAO {
                     )
             );
             $sth = $this->conexao->prepare($sql);
-            for ($index = 0; $index < count($allow); $index++) {
-                $sth->bindValue('allow_' . $index, $allow[$index]);                
+            $index = 0;
+            foreach ($allow as $ids) {
+                    $sth->bindValue('allow_' . $index, $ids);
+                    $index++;               
             }
             $sth->execute();
             $retornoConsulta = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -478,8 +487,10 @@ class ConsultasAdHoc extends GenericoDAO {
                     )
             );
             $sth = $this->conexao->prepare($sql);
-            for ($index = 0; $index < count($allow); $index++) {
-                $sth->bindValue('allow_' . $index, $allow[$index]);                
+            $index = 0;
+            foreach ($allow as $ids) {
+                    $sth->bindValue('allow_' . $index, $ids);
+                    $index++;               
             }
             $sth->execute();
             $retornoConsulta = $sth->fetchAll(PDO::FETCH_ASSOC);
