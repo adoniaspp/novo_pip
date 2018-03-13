@@ -133,12 +133,9 @@ class GenericoDAO {
         $statement = $this->conexao->prepare($sql);
         $statement->bindParam(':idChaveEstrangeira', $idChaveEstrangeira);
         $statement->execute();
-        $statement->rowCount();
-
         $resultado = $statement->fetchAll(PDO::FETCH_CLASS, $entidadeBlindada);
-
-        if ($statement->rowCount() == 1) {
-            $resultado = $resultado[0];
+        if(count($resultado)===1){
+            $resultado = $resultado[0];            
         }
         return $resultado;
     }
