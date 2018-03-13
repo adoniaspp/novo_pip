@@ -51,7 +51,7 @@
                     Abaixo estão os anúncios <strong>finalizados</strong> por você e os <strong>expirados</strong> 
                     (finalizados automaticamente pelo sistema devido ao prazo do anúncio).
                     Clique no código ao lado de cada anúncio para mais detalhes
-                </p>dido
+                </p>
             </div>
         </div>
     </div>

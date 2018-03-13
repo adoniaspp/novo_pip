@@ -1,12 +1,12 @@
 <!-- INICIO DO MAPA --> 
-<script src="assets/js/imovel.js"></script>
-<script src="assets/js/usuario.js"></script>
 <script src="assets/libs/jquery/jquery.validate.min.js"></script>
 <script src="assets/libs/jquery/jquery.mask.min.js"></script>
 <script src="assets/js/util.validate.js"></script>
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 <script src="assets/libs/datatables/js/dataTables.semanticui.min.js"></script>
+<script src="assets/js/imovel.js"></script>
+<script src="assets/js/usuario.js"></script>
 <!-- os dois scripts abaixo realizam a formatação de data para ordenação-->
 <script src="assets/libs/datatables/js/moment.min.js"></script>
 <script src="assets/libs/datatables/js/datetime-moment.js"></script>
