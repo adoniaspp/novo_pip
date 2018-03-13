@@ -87,11 +87,11 @@ function cadastrarUsuario() {
             // value = value of the element (file name)
             return this.optional(element) || (element.files[0].size <= param)
         });
-        
+
         $.validator.addMethod("verificarEspaco", function (value, element) {
             return this.optional(element) || /^[a-zA-Z0-9\.]+$/i.test(value);
         }, "Somente informe letras e números");
-        
+
         $.validator.setDefaults({
             ignore: [],
             errorClass: 'errorField',
@@ -250,7 +250,7 @@ function mascarasFormUsuario() {
         $("#txtCEP").mask("00.000-000");
         $("#txtCPFResponsavel").mask('000.000.000-00', {reverse: false});
         $("#txtTel").mask('(00) 0000-0000');
-        
+
         $('#txtEmail').maxlength({
             threshold: 50,
             warningClass: "ui small green circular label",
@@ -382,8 +382,7 @@ function cancelar(entidade, acao) {
                 onApprove: function () {
                     if (entidade === "" && acao === "") {
                         location.href = "index.php";
-                    }
-                    else
+                    } else
                         location.href = "index.php?entidade=" + entidade + "&acao=" + acao;
                 }
             }).modal('show');
@@ -434,16 +433,17 @@ function confirmar() {
 function carregaDadosModal($div) {
     $(document).ready(function () {
         $div.html("");
-        
-        if(jQuery.type($("#txtLogin").val()) !== "undefined"){  //é cadastro
+
+        if (jQuery.type($("#txtLogin").val()) !== "undefined") {  //é cadastro
 
             var inseriLogin = "<div class='item'>\n\
                                   <div class='content'>\n\
                                     <div class='header'>Login:</div>" + $('#txtLogin').val() + "</div>\n\
                                 </div>";
-        } else inseriLogin = ""; //é edição, ou seja, não deve aparecer o login no modal
+        } else
+            inseriLogin = ""; //é edição, ou seja, não deve aparecer o login no modal
         //fim do verificar se é cadastro ou edição do usuário
-        
+
         if ($("#sltTipoUsuario").val() === "pf")
         {
             $div.append("<div class='ui horizontal list'>\n\
@@ -459,7 +459,7 @@ function carregaDadosModal($div) {
                                 <div class='item'>\n\
                                   <div class='content'>\n\
                                     <div class='header'>CPF</div>" + $("#txtCPF").val() + "</div>\n\
-                                </div>"+inseriLogin);
+                                </div>" + inseriLogin);
             $div.append("</div>");
         } else {
             $div.append("<div class='ui horizontal list'>\n\
@@ -490,8 +490,8 @@ function carregaDadosModal($div) {
                                   <div class='content'>\n\
                                     <div class='header'>Razão Social</div>\n\
                                     " + $("#txtRazaoSocial").val() + "</div>\n\
-                                </div>"+inseriLogin+"\n\
-                                </div>");  
+                                </div>" + inseriLogin + "\n\
+                                </div>");
         }
 
         $div.append("<div class='ui dividing header'></div>\n\
@@ -532,19 +532,13 @@ function carregaDadosModal($div) {
 
         var endereco;
         if ($("#txtNumero").val() !== "" && $("#txtComplemento").val() !== "") {
-            endereco = $("#txtLogradouro").val() + ", " + $("#txtNumero").val() + ", " + $("#txtComplemento").val() + " - "+$("#txtBairro").val();
-        }
-
-        else if ($("#txtNumero").val() !== "" && $("#txtComplemento").val() === "") {
-            endereco = $("#txtLogradouro").val() + ", " + $("#txtNumero").val() + " - "+$("#txtBairro").val();
-        }
-
-        else if ($("#txtNumero").val() === "" && $("#txtComplemento").val() === "") {
-            endereco = $("#txtLogradouro").val() + " - "+$("#txtBairro").val();
-        }
-
-        else if ($("#txtNumero").val() === "" && $("#txtComplemento").val() !== "") {
-            endereco = $("#txtLogradouro").val() + ", " + $("#txtComplemento").val() + " - "+$("#txtBairro").val();
+            endereco = $("#txtLogradouro").val() + ", " + $("#txtNumero").val() + ", " + $("#txtComplemento").val() + " - " + $("#txtBairro").val();
+        } else if ($("#txtNumero").val() !== "" && $("#txtComplemento").val() === "") {
+            endereco = $("#txtLogradouro").val() + ", " + $("#txtNumero").val() + " - " + $("#txtBairro").val();
+        } else if ($("#txtNumero").val() === "" && $("#txtComplemento").val() === "") {
+            endereco = $("#txtLogradouro").val() + " - " + $("#txtBairro").val();
+        } else if ($("#txtNumero").val() === "" && $("#txtComplemento").val() !== "") {
+            endereco = $("#txtLogradouro").val() + ", " + $("#txtComplemento").val() + " - " + $("#txtBairro").val();
         }
 
         $div.append("<div class='ui dividing header'></div>\n\
@@ -659,12 +653,10 @@ function buscarEmail() {
                         } else if (resposta.resultado == 2) {
                             $("#divRetorno").html('<div class="ui negative message">\n\
                             <i class="big red remove circle outline icon"></i>Erro ao processar requisição - 002</div>');
-                        }
-                        else if (resposta.resultado == 3) {
+                        } else if (resposta.resultado == 3) {
                             $("#divRetorno").html('<div class="ui negative message">\n\
                             <i class="big red remove circle outline icon"></i>Erro ao enviar email. Tente novamente em alguns minutos.</div>');
-                        }
-                        else if (resposta.resultado == 4) {
+                        } else if (resposta.resultado == 4) {
                             $("#divRetorno").html('<div class="ui negative message">\n\
                             <i class="big red remove circle outline icon"></i>Erro ao processar requisição - 004.</div>');
                         } else {
@@ -816,7 +808,7 @@ function trocarSenha() { //alterar a senha esquecida
                             $("#divRetorno").html("<div class='ui negative message'>\n\
                             <i class='big red remove circle outline icon'>\n\
                             </i>A senha atual está incorreta. Tente novamente.");
-                            
+
                         } else if (resposta.resultado == 3) { //erro de token
                             location.href = "index.php?entidade=Usuario&acao=MeuPIP";
                             $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
@@ -832,8 +824,8 @@ function trocarSenha() { //alterar a senha esquecida
 
 function trocarImagem() {
     $(document).ready(function () {
-        
-        $("#btnAlterarImagem").click(function () {           
+
+        $("#btnAlterarImagem").click(function () {
             $('#modalAlterar').modal({
                 closable: true,
                 transition: "fade up",
@@ -964,7 +956,7 @@ function esqueciSenha() {
                     }
                 })
                 return false;
-                
+
             }
         });
 
@@ -1038,24 +1030,24 @@ function alterarSenha() { //alterar a senha esquecida
                         $("#divRetorno").html("<div><div class='ui active inverted dimmer'><div class='ui text loader'>Processando. Aguarde...</div></div></div>");
                     },
                     success: function (resposta) {
-                        
+
                         $("#divRetorno").empty();
 
                         if (resposta.resultado == 0) {
-                            
-                        $("#divRetorno").html("<div class='ui negative message'>\n\
-                            <i class='big red remove circle outline icon'></i>Erro ao realizar a operação. Tente novamente em alguns minutos.</div>");                            
-                            
-                        } else if (resposta.resultado == 1) {
-                            
-                            $("#divRetorno").html("<div class='ui positive message'>\n\
-                            <i class='big green check circle outline icon'></i>Senha alterada com sucesso. Clique em fazer login para entrar no PIP Online</div>");                            
-                            
-                        } else if (resposta.resultado == 5) {
-                            
+
                             $("#divRetorno").html("<div class='ui negative message'>\n\
                             <i class='big red remove circle outline icon'></i>Erro ao realizar a operação. Tente novamente em alguns minutos.</div>");
-                            
+
+                        } else if (resposta.resultado == 1) {
+
+                            $("#divRetorno").html("<div class='ui positive message'>\n\
+                            <i class='big green check circle outline icon'></i>Senha alterada com sucesso. Clique em fazer login para entrar no PIP Online</div>");
+
+                        } else if (resposta.resultado == 5) {
+
+                            $("#divRetorno").html("<div class='ui negative message'>\n\
+                            <i class='big red remove circle outline icon'></i>Erro ao realizar a operação. Tente novamente em alguns minutos.</div>");
+
                         }
                     }
                 })
@@ -1277,12 +1269,13 @@ function telefone() {
                 });
             }
             if (validarTelefone()) {
-                
-                if($("#chkWhatsApp").is(":checked")){
+
+                if ($("#chkWhatsApp").is(":checked")) {
                     $("#chkWhatsApp").val("SIM");
-                } else 
-                        {$("#chkWhatsApp").val("NÃO");}
-                
+                } else {
+                    $("#chkWhatsApp").val("NÃO");
+                }
+
                 $("#dadosTelefone").append(
                         "<tr><td> <input type='hidden' id='hdnTipoTelefone[]' name='hdnTipoTelefone[]' value='" + $("#sltTipotelefone").val() + "'>" + $("#sltTipotelefone").val() + "</td>" +
                         "<td> <input type='hidden' id='hdnOperadora[]' name='hdnOperadora[]' value='" + $("#sltOperadora").val() + "'>" + $("#sltOperadora").val() + "</td>" +
@@ -1290,7 +1283,7 @@ function telefone() {
                         "<td> <input type='hidden' id='hdnWhatsApp[]' name='hdnWhatsApp[]' value='" + $("#chkWhatsApp").val() + "'>" + $("#chkWhatsApp").val() + "</td>" +
                         "<td class='collapsing'><div class='red ui icon button' onclick='excluirTelefone($(this))'><i class='trash icon'></i>Excluir</div></td></tr>");
                 $("#txtTel").val("");
-                $("#chkWhatsApp").attr("checked", false);  
+                $("#chkWhatsApp").parent().checkbox("uncheck");
                 $("#tabelaTelefone").show();
             }
             $("#txtTel").rules("remove");
@@ -1299,38 +1292,41 @@ function telefone() {
         });
         $("#sltTipotelefone").change(function () {
             $("#txtTel").unmask();
+            $("#chkWhatsApp").parent().checkbox("uncheck");
             if ($(this).val() == "Fixo") {
                 $("#txtTel").mask('(00) 0000-0000');
+                $("#chkWhatsApp").attr("disabled", true);
             } else {
                 $("#txtTel").mask('(00) 00000-0000');
+                $("#chkWhatsApp").attr("disabled", false);
             }
         })
     })
 }
 
-function ordenarMensagem(){
-    
+function ordenarMensagem() {
+
     $(document).ready(function () {
-        
+
         $('#lista').jplist({
             itemsBox: '.list',
             itemPath: '.list-item',
             panelPath: '.jplist-panel',
 
         })
-    
+
         $("#sltStatusMensagem").change(function () {
-            
+
             $('#form').submit();
-            
-            
+
+
         })
-    
+
     })
-    
+
 }
 
-function editarConfiguracao() { 
+function editarConfiguracao() {
     $(document).ready(function () {
         $("#btnAlterarConfiguracoes").click(function () {
             dadosModalConfiguracoes($("#textoConfirmacao"));
@@ -1341,29 +1337,29 @@ function editarConfiguracao() {
                     return true;
                 },
                 onApprove: function () {
-                   $.ajax({
-                    url: "index.php",
-                    dataType: "json",
-                    type: "POST",
-                    data: $('#form').serialize(),
-                    beforeSend: function () {
-                        $("#divRetorno").html("<div><div class='ui active inverted dimmer'>\n\
+                    $.ajax({
+                        url: "index.php",
+                        dataType: "json",
+                        type: "POST",
+                        data: $('#form').serialize(),
+                        beforeSend: function () {
+                            $("#divRetorno").html("<div><div class='ui active inverted dimmer'>\n\
                             <div class='ui text loader'>Processando. Aguarde...</div></div></div>");
-                    },
-                    success: function (resposta) {
-                        $("#divRetorno").empty();
-                        if (resposta.resultado == 0) {
-                            location.href = "index.php?entidade=Usuario&acao=MeuPIP";
-                        } else if (resposta.resultado == 1) {
-                            location.href = "index.php?entidade=Usuario&acao=MeuPIP";
+                        },
+                        success: function (resposta) {
+                            $("#divRetorno").empty();
+                            if (resposta.resultado == 0) {
+                                location.href = "index.php?entidade=Usuario&acao=MeuPIP";
+                            } else if (resposta.resultado == 1) {
+                                location.href = "index.php?entidade=Usuario&acao=MeuPIP";
+                            }
                         }
-                    }
-                })
+                    })
                 }
             }).modal('show');
         });
-        
-              
+
+
     });
 }
 
@@ -1372,134 +1368,146 @@ function editarConfiguracao() {
 
 function dadosModalConfiguracoes($div) {
     $(document).ready(function () {
-            
-            $div.html("");
-            var estiloEndereco;
-            var estiloContato;
-            var estiloAnuncios;
-            var estiloAtivo;
-            
-            if($("#chkEndereco").is(":checked")){
-                    $("#chkEndereco").val("SIM");
-                    estiloEndereco = 'green';
-                } else 
-                        {$("#chkEndereco").val("NÃO"); estiloEndereco = 'red;';}
-                        
-            if($("#chkContato").is(":checked")){
-                    $("#chkContato").val("SIM");
-                    estiloContato = 'green';
-                } else 
-                        {$("#chkContato").val("NÃO"); estiloContato = 'red;';}            
-            
-            if($("#chkAnuncios").is(":checked")){
-                    $("#chkAnuncios").val("SIM");
-                    estiloAnuncios = 'green';
-                } else 
-                        {$("#chkAnuncios").val("NÃO"); estiloAnuncios = 'red;';} 
-            
-            if($("#chkStatus").is(":checked")){
-                    $("#chkStatus").val("SIM");
-                    estiloAtivo = 'green';
-                } else 
-                        {$("#chkStatus").val("NÃO"); estiloAtivo = 'red;';}
-            
-            $div.append("<div class='ui horizontal list'>\n\
+
+        $div.html("");
+        var estiloEndereco;
+        var estiloContato;
+        var estiloAnuncios;
+        var estiloAtivo;
+
+        if ($("#chkEndereco").is(":checked")) {
+            $("#chkEndereco").val("SIM");
+            estiloEndereco = 'green';
+        } else
+        {
+            $("#chkEndereco").val("NÃO");
+            estiloEndereco = 'red;';
+        }
+
+        if ($("#chkContato").is(":checked")) {
+            $("#chkContato").val("SIM");
+            estiloContato = 'green';
+        } else
+        {
+            $("#chkContato").val("NÃO");
+            estiloContato = 'red;';
+        }
+
+        if ($("#chkAnuncios").is(":checked")) {
+            $("#chkAnuncios").val("SIM");
+            estiloAnuncios = 'green';
+        } else
+        {
+            $("#chkAnuncios").val("NÃO");
+            estiloAnuncios = 'red;';
+        }
+
+        if ($("#chkStatus").is(":checked")) {
+            $("#chkStatus").val("SIM");
+            estiloAtivo = 'green';
+        } else
+        {
+            $("#chkStatus").val("NÃO");
+            estiloAtivo = 'red;';
+        }
+
+        $div.append("<div class='ui horizontal list'>\n\
                                 <div class='item'>\n\
-                                  <div class='content' style= color:"+estiloEndereco+">\n\
+                                  <div class='content' style= color:" + estiloEndereco + ">\n\
                                     <div class='header'>Exibir Meu Endereço</div>" + $("#chkEndereco").val() + "</div>\n\
                                 </div>\n\
                                 <div class='item'>\n\
-                                  <div class='content' style= color:"+estiloContato+">\n\
+                                  <div class='content' style= color:" + estiloContato + ">\n\
                                     <div class='header'>Exibir Meu Contato</div>" + $("#chkContato").val() + "</div>\n\
                                 </div>\n\
                                 <div class='item'>\n\
-                                  <div class='content' style= color:"+estiloAnuncios+">\n\
+                                  <div class='content' style= color:" + estiloAnuncios + ">\n\
                                     <div class='header'>Exibir Meus Anúncios</div>" + $("#chkAnuncios").val() + "</div>\n\
                                 </div>\n\
                                 <div class='item'>\n\
-                                  <div class='content' style= color:"+estiloAtivo+">\n\
+                                  <div class='content' style= color:" + estiloAtivo + ">\n\
                                     <div class='header'>Habilitar Minha Página</div>" + $("#chkStatus").val() + "</div>\n\
                                 </div>");
-            $div.append("</div>");
+        $div.append("</div>");
 
     });
 }
 
-function abrirChamadoUsuario(){
+function abrirChamadoUsuario() {
     $(document).ready(function () {
-        
+
         $('.ui.dropdown').dropdown({on: 'hover'});
-        
+
         $("#botaoVoltar").hide();
         $('#assuntoDuvida').hide();
         $('#assuntoProblema').hide();
         $('#assuntoReclamacao').hide();
         $('#assuntoElogio').hide();
         $('#assuntoTitulo').hide();
-        
+
         $('#assunto').hide();
-        
+
         $("input[name=sltTipoChamado]").change(function () { //buscar os assuntos ao trocar o tipo do chamado
-            
+
             $(this).valid();
-            
-            if($("#sltTipoChamado").val() == "4"){
+
+            if ($("#sltTipoChamado").val() == "4") {
                 $("#idAssuntoChamado").attr("value", "4")
             }
-            if($("#sltTipoChamado").val() == "5"){
+            if ($("#sltTipoChamado").val() == "5") {
                 $("#idAssuntoChamado").attr("value", "5")
             }
-            if($("#sltTipoChamado").val() == "6"){
+            if ($("#sltTipoChamado").val() == "6") {
                 $("#idAssuntoChamado").attr("value", "6")
             }
-            
-            switch($("#sltTipoChamado").val()) {
-                
+
+            switch ($("#sltTipoChamado").val()) {
+
                 case "1":
                 case "2":
                 case "3":
                     $('#assuntoTitulo').hide();
                     $('#escolhaTipo').hide();
                     $('#assunto').show();
-                    
+
                     $("#sltChamadoAssunto").rules("add", {
                         required: true
                     });
-                    
+
                     $("#txtAssuntoChamado").each(function () {
                         $(this).rules("remove");
                     });
-                    
+
                     $("#assunto").dropdown('clear');
-                        $.post('index.php?hdnEntidade=ChamadoAssunto&hdnAcao=buscarChamadoLista&sltTipoChamado=' + $('#sltTipoChamado').val(),
-                                function (resposta) {
-                                    $("#retornoAssunto").html(resposta);
-                        }
+                    $.post('index.php?hdnEntidade=ChamadoAssunto&hdnAcao=buscarChamadoLista&sltTipoChamado=' + $('#sltTipoChamado').val(),
+                            function (resposta) {
+                                $("#retornoAssunto").html(resposta);
+                            }
                     )
-                break;
-                
+                    break;
+
                 case "4":
                 case "5":
                 case "6":
                     $('#assuntoTitulo').show();
                     $('#escolhaTipo').hide();
-                    $('#assunto').hide(); 
+                    $('#assunto').hide();
                     $("#txtAssuntoChamado").rules("add", {
                         required: true
                     });
                     $("#sltChamadoAssunto").each(function () {
                         $(this).rules("remove");
                     });
-   
-                break;
+
+                    break;
             }
-            
+
         });
-        
+
         $("input[name=sltChamadoAssunto]").change(function () {
             $(this).valid();
         })
-        
+
         $('#txtMsgChamado').maxlength({
             alwaysShow: true,
             threshold: 200,
@@ -1520,11 +1528,11 @@ function abrirChamadoUsuario(){
             postText: ' caracteres permitidos.',
             validate: true
         });
-        
+
         $("#botaoCadastrarChamado").click(function () {
             if ($("#form").valid()) {
                 $("#form").submit();
-            } 
+            }
         });
 
         $.validator.setDefaults({
@@ -1572,99 +1580,99 @@ function abrirChamadoUsuario(){
                 },
             },
             submitHandler: function (form) {
-                   $.ajax({
+                $.ajax({
                     url: "index.php",
                     dataType: "json",
                     type: "POST",
                     data: $('#form').serialize(),
-                    
+
                     beforeSend: function () {
-                        
+
                         $('#txtAssuntoChamado').attr("disabled", "disabled");
-                        
+
                         $("#divRetorno").html("<div><div class='ui active inverted dimmer'>\n\
                             <div class='ui text loader'>Processando. Aguarde...</div></div></div>");
                     },
                     success: function (resposta) {
                         $("#divRetorno").empty();
-   
+
                         $("#txtMsgChamado").attr("disabled", "disabled");
-                        
+
                         $("#botoesChamado").hide();
-                        
+
                         $("#duvidaCaptcha").hide();
-                        
+
                         if (resposta.resultado == 1) {
                             $("#divRetorno").html('<div class="ui positive message">\n\
-                            <i class="big green check circle outline icon"></i>Seu chamado de número <strong>'+resposta.numeroChamado+'</strong> foi cadastrado. Acompanhe o status pelo Meu PIP. Você também receberá um e-mail quando seu chamado mudar de status</div>');
+                            <i class="big green check circle outline icon"></i>Seu chamado de número <strong>' + resposta.numeroChamado + '</strong> foi cadastrado. Acompanhe o status pelo Meu PIP. Você também receberá um e-mail quando seu chamado mudar de status</div>');
 
                         } else {
                             $("#divRetorno").html('<div class="ui negative message">\n\
                             <i class="big red remove circle outline icon"></i>Tente novamente mais tarde. Houve um erro no processamento</div>');
                         }
-                        
+
                         $("#botaoVoltar").show();
-                        
+
                     }
                 })
                 return false;
             }
-        })          
+        })
     })
 }
 
 function visualizarModalChamado(valor) {
-     
-    $(document).ready(function () {   
+
+    $(document).ready(function () {
 
         $('#btnDetalhesChamado' + valor).click(function () {
-        
-        $("#formChamado" + valor).find("#hdnAcao").val('UsuarioRespondeChamado');
-        
-        $("#formChamado" + valor).find("#hdnEntidade").val('ChamadoResposta');
 
-        $("#divModalMenorCancelar" + valor).hide();
-        
-        $("#botaoCancelarChamado" + valor).hide();
-        
-        $("#divAtencaoCancela" + valor).hide();
-        
-        $("#botaoResponderNovaMensagem" + valor).show();
-        
-        $("#divModalVisualizar" + valor).show();
+            $("#formChamado" + valor).find("#hdnAcao").val('UsuarioRespondeChamado');
+
+            $("#formChamado" + valor).find("#hdnEntidade").val('ChamadoResposta');
+
+            $("#divModalMenorCancelar" + valor).hide();
+
+            $("#botaoCancelarChamado" + valor).hide();
+
+            $("#divAtencaoCancela" + valor).hide();
+
+            $("#botaoResponderNovaMensagem" + valor).show();
+
+            $("#divModalVisualizar" + valor).show();
 
             $('#modalChamado' + valor).modal({
                 transition: "fade up",
                 observeChanges: true,
                 onSubmit: function () {
-                return false; //deixar o modal fixo
-            },
+                    return false; //deixar o modal fixo
+                },
             }).modal('show');
 
-        }) 
-        
+        })
+
         $('#btnCancelarChamado' + valor).click(function () {
-        
-        $("#formChamado" + valor).find("#hdnEntidade").val('Usuario');
-        
-        $("#formChamado" + valor).find("#hdnAcao").val('cancelarChamadoUsuario');
-            
-        $("#divModalVisualizar" + valor).hide();
-        
-        $("#botaoResponderNovaMensagem" + valor).hide();
-        
-        $("#botaoCancelarChamado" + valor).show();
-        
-        $("#divAtencaoCancela" + valor).show();
-        
-        $("#divModalMenorCancelar" + valor).show();
+
+            $("#formChamado" + valor).find("#hdnEntidade").val('Usuario');
+
+            $("#formChamado" + valor).find("#hdnAcao").val('cancelarChamadoUsuario');
+
+            $("#divModalVisualizar" + valor).hide();
+
+            $("#botaoResponderNovaMensagem" + valor).hide();
+
+            $("#botaoCancelarChamado" + valor).show();
+
+            $("#divAtencaoCancela" + valor).show();
+
+            $("#divModalMenorCancelar" + valor).show();
 
             $('#modalChamado' + valor).modal({
                 transition: "fade up",
                 observeChanges: true,
                 onSubmit: function () {
-                return false; //deixar o modal fixo
-            },
+                    return false; //deixar o modal fixo
+                },
             }).modal('show');
 
         })
@@ -1675,9 +1683,9 @@ function visualizarModalChamado(valor) {
                 url: "index.php",
                 dataType: "json",
                 type: "POST",
-                data: $('#formChamado'+valor).serialize(),
+                data: $('#formChamado' + valor).serialize(),
                 beforeSend: function () {
-                    $("#divRetornoNovoStatus"+valor).html("<div><div class='ui active inverted dimmer'>\n\
+                    $("#divRetornoNovoStatus" + valor).html("<div><div class='ui active inverted dimmer'>\n\
                         <div class='ui text loader'>Processando. Aguarde...</div></div></div>");
                 },
                 success: function (resposta) {
@@ -1690,28 +1698,28 @@ function visualizarModalChamado(valor) {
                             window.location = "index.php?entidade=Usuario&acao=MeuPIP";
                         });
 
-                        } else {
+                    } else {
                         $("#botaoResponderNovaMensagem" + valor).hide();
                         $("#divRetornoNovoStatus" + valor).html("<div class='ui negative message'>\n\
                         <i class='big red remove circle outline icon'></i>Erro. Tente novamente em alguns minutos</div>");
                         $("#botaoFecharChamado" + valor).click(function () {
                             window.location = "index.php?entidade=Usuario&acao=MeuPIP";
                         });
-                        }
+                    }
                 }
             })
 
         })
-        
+
         $("#botaoCancelarChamado" + valor).click(function () {
 
             $.ajax({
                 url: "index.php",
                 dataType: "json",
                 type: "POST",
-                data: $('#formChamado'+valor).serialize(),
+                data: $('#formChamado' + valor).serialize(),
                 beforeSend: function () {
-                    $("#divRetornoNovoStatus"+valor).html("<div><div class='ui active inverted dimmer'>\n\
+                    $("#divRetornoNovoStatus" + valor).html("<div><div class='ui active inverted dimmer'>\n\
                         <div class='ui text loader'>Processando. Aguarde...</div></div></div>");
                 },
                 success: function (resposta) {
@@ -1725,29 +1733,29 @@ function visualizarModalChamado(valor) {
                             window.location = "index.php?entidade=Usuario&acao=MeuPIP";
                         });
 
-                        } else {
+                    } else {
                         $("#botaoCancelarChamado" + valor).hide();
                         $("#divRetornoNovoStatus" + valor).html("<div class='ui negative message'>\n\
                         <i class='big red remove circle outline icon'></i>Erro. Tente novamente em alguns minutos</div>");
                         $("#botaoFecharChamado" + valor).click(function () {
                             window.location = "index.php?entidade=Usuario&acao=MeuPIP";
                         });
-                        }
+                    }
                 }
             })
 
         })
 
-    })     
+    })
 
 }
 
 function inativarUsuario(valor) {
-    
+
     $(document).ready(function () {
         $('#btnInativar' + valor).click(function () {
             $("#botaoFecharInativar" + valor).hide();
-            
+
             $('#modalInativar' + valor).modal({
                 closable: true,
                 transition: "fade up",
@@ -1759,10 +1767,10 @@ function inativarUsuario(valor) {
                     return false; //deixar o modal fixo
                 },
             }).modal('show');
-      
-            $("#formInativarUsuario" + valor).validate({                
+
+            $("#formInativarUsuario" + valor).validate({
                 onkeyup: false,
-                focusInvalid: true,     
+                focusInvalid: true,
 
                 submitHandler: function (form) {
                     $.ajax({
@@ -1799,10 +1807,10 @@ function inativarUsuario(valor) {
 
         })
 
-    })  
+    })
 }
 
-function modalDenuncia(valor){
+function modalDenuncia(valor) {
     $('#btnMostrarDenuncia' + valor).click(function () {
 
         $('#modalMostrarDenuncia' + valor).modal({
@@ -1814,11 +1822,11 @@ function modalDenuncia(valor){
 }
 
 function ativarUsuario(valor) {
-    
+
     $(document).ready(function () {
         $('#btnAtivar' + valor).click(function () {
             $("#botaoFecharAtivar" + valor).hide();
-            
+
             $('#modalAtivar' + valor).modal({
                 closable: true,
                 transition: "fade up",
@@ -1830,10 +1838,10 @@ function ativarUsuario(valor) {
                     return false; //deixar o modal fixo
                 },
             }).modal('show');
-      
-            $("#formAtivarUsuario" + valor).validate({                
+
+            $("#formAtivarUsuario" + valor).validate({
                 onkeyup: false,
-                focusInvalid: true,     
+                focusInvalid: true,
 
                 submitHandler: function (form) {
                     $.ajax({
@@ -1870,5 +1878,5 @@ function ativarUsuario(valor) {
 
         })
 
-    })  
+    })
 }
