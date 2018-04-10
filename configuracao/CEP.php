@@ -7,7 +7,11 @@ class CEP {
     private $urlCorreios = "http://www.buscacep.correios.com.br/servicos/dnec/consultaLogradouroAction.do";
     //private $urlRepublica = "http://republicavirtual.com.br/web_cep.php?formato=query_string&cep="; //estava com erro, alterado para xml
     private $urlRepublica = "http://cep.republicavirtual.com.br/web_cep.php?formato=xml&cep="; //passar o valor do cep na url
-    private $tipoErro = 0; //0=sucesso;1=nao encontrado;2=fora do ar;3=formato invalido
+    /**
+     * 0=sucesso; 1=nao encontrado; 2=fora do ar; 3=formato invalido
+     * @var int
+     */
+    private $tipoErro = 0;
     private $erro;
 
     public function __construct($cep) {
@@ -25,6 +29,7 @@ class CEP {
         $resultadoCEP = $this->CurlCorreios(); //primeira opcao
         if (!$resultadoCEP) {
             $resultadoCEP = $this->WebserviceViaCEP(); //contingencia da contingencia
+            // var_dump($resultadoCEP);            var_dump($this);
             if (!$resultadoCEP) {
                 $resultadoCEP = $this->WebserviceRepublica(); //contingencia
             }
@@ -82,7 +87,7 @@ class CEP {
         $xml = @simplexml_load_file($endereco);
         if (is_a($xml, "SimpleXMLElement")) {
             if ($xml->resultado == 1) {
-                $resultado['logradouro'] = $xml->tipo_logradouro . ' ' . $xml->logradouro;
+                $resultado['logradouro'] = $this->retirarTracoLogradouro($xml->tipo_logradouro . ' ' . $xml->logradouro);
                 $resultado['bairro'] = $xml->bairro;
                 $resultado['cidade'] = $xml->cidade;
                 $resultado['uf'] = $xml->uf;
@@ -112,19 +117,25 @@ class CEP {
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 // executa o post
                 $json = curl_exec($ch);
-                $resposta = json_decode($json);
-                curl_close($ch);
-                if (!isset($resposta->erro) && isset($resposta->cep)) {
-                    $resultado['logradouro'] = $resposta->logradouro;
-                    $resultado['bairro'] = $resposta->bairro;
-                    $resultado['cidade'] = $resposta->localidade;
-                    $resultado['uf'] = $resposta->uf;
-                    $resultado['fonte'] = 'viaCEP';
-                    return $resultado;
-                } else {
-                    $this->tipoErro = 1;
-                    $this->erro = "CEP nao encontrado";
+                if ($json === false) {
+                    $this->tipoErro = 2;
+                    $this->erro = curl_error($ch);
                     return false;
+                } else {
+                    curl_close($ch);
+                    $resposta = json_decode($json);
+                    if (!isset($resposta->erro) && isset($resposta->cep)) {
+                        $resultado['logradouro'] = $resposta->logradouro;
+                        $resultado['bairro'] = $resposta->bairro;
+                        $resultado['cidade'] = $resposta->localidade;
+                        $resultado['uf'] = $resposta->uf;
+                        $resultado['fonte'] = 'viaCEP';
+                        return $resultado;
+                    } else {
+                        $this->tipoErro = 1;
+                        $this->erro = "CEP nao encontrado";
+                        return false;
+                    }
                 }
             } else {
                 $this->tipoErro = 2;

@@ -195,6 +195,7 @@ if ($item) {
                                 <div class="item" data-value="Tim">Tim</div>
                                 <div class="item" data-value="Vivo">Vivo</div>
                                 <div class="item" data-value="Claro">Claro</div>
+                                <div class="item" data-value="NET">NET</div>
                             </div>
                         </div>
                     </div>

@@ -8,7 +8,7 @@ class Telefone {
     private $numero;
     private $whatsapp;
     private $idusuario;
-    
+
     function getId() {
         return $this->id;
     }
@@ -56,22 +56,19 @@ class Telefone {
     function setIdusuario($idusuario) {
         $this->idusuario = $idusuario;
     }
-    
-    
-    function cadastrar($parametros, $idusuario, $indiceTelefone){
+
+    function cadastrar($parametros, $idusuario, $indiceTelefone) {
         $telefone = new Telefone();
         $telefone->setIdusuario($idusuario);
         $telefone->setTipotelefone($parametros['hdnTipoTelefone'][$indiceTelefone]);
         $telefone->setNumero($parametros['hdnTelefone'][$indiceTelefone]);
-        
-        echo $parametros["chkWhatsApp"]."<br>";
-        
-        if($parametros["hdnWhatsApp"][$indiceTelefone] == "SIM"){
-        $telefone->setWhatsapp("SIM");    
-        } else $telefone->setWhatsapp("NAO");
-        
+        if ($parametros["hdnWhatsApp"][$indiceTelefone] == "SIM") {
+            $telefone->setWhatsapp("SIM");
+        } else {
+            $telefone->setWhatsapp("NÃO");
+        }
         $telefone->setOperadora($parametros['hdnOperadora'][$indiceTelefone]);
         return $telefone;
     }
-   
+
 }
