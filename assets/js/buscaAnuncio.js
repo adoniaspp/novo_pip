@@ -208,6 +208,15 @@ function carregarAnuncio() { //valor = quantidade de anuncios
             $("#divOrdenacao").addClass("center");
             $("#divMenuOrdPag").removeClass("two");
             $("#divMenuOrdPag").addClass("one");
+
+            $("div[id^='spanValor']").priceFormat({
+                prefix: 'R$ ',
+                centsSeparator: ',',
+                centsLimit: 0,
+                limit: 8,
+                thousandsSeparator: '.'
+            })
+
             ordenarAnuncio();
             exibirEnviarComparar();
             $('#carregarMais').click(function () {
@@ -216,54 +225,54 @@ function carregarAnuncio() { //valor = quantidade de anuncios
                 var itensPorLinha = 4;
                 linha = linha + itensPorLinha;
 //                if (linha <= total) {
-                    $("#paginaLinha").val(linha);
-                    $.ajax({
-                        url: 'index.php',
-                        type: 'post',
-                        data: {
-                            tipoImovel: 'todos',
-                            valor: '',
-                            finalidade: '',
-                            cidade: '',
-                            bairro: '',
-                            quarto: '',
-                            banheiro: '',
-                            suite: '',
-                            condicao: '',
-                            unidadesandar: '',
-                            area: '',
-                            linha: linha,
-                            paginaInicial: 'false',
-                            mobile: 'true',
-                            hdnEntidade: 'Anuncio',
-                            hdnAcao: 'buscarAnuncio',
-                            garagem: 'false',
-                            page: 'index'
-                        },
-                        beforeSend: function () {
-                            $("#carregarMais").addClass("disabled loading");
-                        },
-                        success: function (response) {
-                            setTimeout(function () {
-                                $(".list-item:last").after(response).show().fadeIn("slow");
-                                exibirEnviarComparar();
-                                $("div[id^='spanValor']").priceFormat({
-                                    prefix: 'R$ ',
-                                    centsSeparator: ',',
-                                    centsLimit: 0,
-                                    limit: 8,
-                                    thousandsSeparator: '.'
-                                })
+                $("#paginaLinha").val(linha);
+                $.ajax({
+                    url: 'index.php',
+                    type: 'post',
+                    data: {
+                        tipoImovel: 'todos',
+                        valor: '',
+                        finalidade: '',
+                        cidade: '',
+                        bairro: '',
+                        quarto: '',
+                        banheiro: '',
+                        suite: '',
+                        condicao: '',
+                        unidadesandar: '',
+                        area: '',
+                        linha: linha,
+                        paginaInicial: 'false',
+                        mobile: 'true',
+                        hdnEntidade: 'Anuncio',
+                        hdnAcao: 'buscarAnuncio',
+                        garagem: 'false',
+                        page: 'index'
+                    },
+                    beforeSend: function () {
+                        $("#carregarMais").addClass("disabled loading");
+                    },
+                    success: function (response) {
+                        setTimeout(function () {
+                            $(".list-item:last").after(response).show().fadeIn("slow");
+                            exibirEnviarComparar();
+                            $("div[id^='spanValor']").priceFormat({
+                                prefix: 'R$ ',
+                                centsSeparator: ',',
+                                centsLimit: 0,
+                                limit: 8,
+                                thousandsSeparator: '.'
+                            })
 
-                                var linhanumero = linha + itensPorLinha;
-                                if (linhanumero > total) {
-                                    $("#carregarMais").addClass("disabled");
-                                } else {
-                                    $("#carregarMais").removeClass("disabled loading");
-                                }
-                            }, 2000);
-                        }
-                    });
+                            var linhanumero = linha + itensPorLinha;
+                            if (linhanumero > total) {
+                                $("#carregarMais").addClass("disabled");
+                            } else {
+                                $("#carregarMais").removeClass("disabled loading");
+                            }
+                        }, 2000);
+                    }
+                });
 
 //                } else {
 //                    $("#carregarMais").addClass("disabled loading");
@@ -390,13 +399,13 @@ function paginarAnuncio() {
 
 
     $(".holder").addClass("ui pagination menu");
-    $("a").addClass("item");
+    $(".holder a").addClass("item");
     $(".jp-current").addClass("active");
-    $("span").addClass("item");
+    $(".holder span").addClass("item");
 
-    $(".item").on('click', function () {
+    $(".holder .item").on('click', function () {
         $("#itemContainer").css("min-height", "460px");
-        $(".item").removeClass("active");
+        $(".holder .item").removeClass("active");
         $(this).addClass("active");
         $(".jp-first").removeClass("active");
         $(".jp-previous").removeClass("active");
@@ -406,31 +415,31 @@ function paginarAnuncio() {
 
     $(".jp-previous").on('click', function () {
         $(".jp-current").removeClass("active");
-        if($(".jp-current").prev().hasClass("jp-hidden")){
+        if ($(".jp-current").prev().hasClass("jp-hidden")) {
             $(".jp-current").prev().prev().addClass("active");
-        }else{
+        } else {
             $(".jp-current").prev().addClass("active");
         }
-        $("#itemContainer").css("min-height", "460px");        
+        $("#itemContainer").css("min-height", "460px");
     })
 
     $(".jp-next").on('click', function () {
         $(".jp-current").removeClass("active");
-        if($(".jp-current").next().hasClass("jp-hidden")){
+        if ($(".jp-current").next().hasClass("jp-hidden")) {
             $(".jp-current").next().next().addClass("active");
-        }else{
+        } else {
             $(".jp-current").next().addClass("active");
         }
         $("#itemContainer").css("min-height", "460px");
     })
 
-    $(".jp-last").on('click', function () {        
+    $(".jp-last").on('click', function () {
         $(".jp-current").removeClass("active");
         $(this).prev().prev().addClass("active");
         $("#itemContainer").css("min-height", "460px");
     })
 
-    $(".jp-first").on('click', function () {        
+    $(".jp-first").on('click', function () {
         $(".jp-current").removeClass("active");
         $(this).next().next().addClass("active");
         $("#itemContainer").css("min-height", "460px");
