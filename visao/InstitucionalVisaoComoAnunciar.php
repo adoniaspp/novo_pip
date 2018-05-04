@@ -3,14 +3,12 @@
 <div class="ui column doubling grid container">
     <div class="column">
 
-        <div class="ui message">
-            Veja abaixo como anunciar no PIP Online
-        </div>
+        <h3 class="ui dividing header">Como Anunciar</h3>
     
         <div class="ui center aligned equal width grid">
             <div class="column">
-                <h4 class="ui horizontal divider header">
-                    <i class="teal big add user icon"></i>1 - FAÇA SEU CADASTRO
+                <h4 class="ui left floated header">
+                    <i class="teal big add user icon"></i>1 - Faça seu cadastro
                 </h4>    
             </div>
         </div>    
@@ -42,23 +40,24 @@
                     <div class="item">
                       <i class="checkmark icon"></i>
                       <div class="content">
-                          <div class="header"> Clique <a target="_blank" href="index.php?entidade=Usuario&acao=form&tipo=cadastro">AQUI</a> para realizar seu cadastro</div>                        
+                          <div class="header"> Clique <a target="_blank" href="index.php?entidade=Usuario&acao=form&tipo=cadastro">AQUI</a> para realizar seu cadastro</div>                      
                       </div><br>
                     </div>
                   </div>
             </div>            
         </div>
-        
+        <!--
         <div class="ui center aligned equal width grid">
             <div class="center align column">
                     <img class="ui image" src="<?php echo PIPURL; ?>assets/imagens/comoAnunciar1.jpg">
             </div>
-        </div>
+        </div>-->
         
         <div class="ui center aligned equal width grid">                
             <div class="column">
-                <h4 class="ui horizontal divider header">
-                    <i class="teal big edit icon"></i>2 - CADASTRE SEU IMÓVEL
+                <div class="ui divider"></div>
+                <h4 class="ui left floated header">
+                    <i class="teal big edit icon"></i>2 - Cadastre seu imóvel
                 </h4>    
             </div>           
         </div>    
@@ -104,18 +103,19 @@
                   </div>
             </div>            
         </div>
-        
+        <!--
         <div class="ui center aligned equal width grid">
             <div class="column">
                     <img class="ui image" src="<?php echo PIPURL; ?>assets/imagens/comoAnunciar2.jpg">
             </div>
-        </div>    
+        </div>    -->
         
         <div class="ui center aligned equal width grid">
             
             <div class="column">
-                <h4 class="ui horizontal divider header">
-                    <i class="teal big add to cart icon"></i>3 - COMPRE O PLANO
+                <div class="ui divider"></div>
+                <h4 class="ui left floated header">
+                    <i class="teal big add to cart icon"></i>3 - Compre o plano
                 </h4>    
                 <br>
             </div>
@@ -142,18 +142,19 @@
                   </div>
             </div>            
         </div>
-        
+        <!--
         <div class="ui center aligned equal width grid">
             <div class="column">
                     <img class="ui image" src="<?php echo PIPURL; ?>assets/imagens/comoAnunciar3.jpg">
             </div>
-        </div>    
+        </div>    -->
         
         <div class="ui stackable grid">
             
             <div class="ui stackable column">
-                <h4 class="ui horizontal divider header">
-                    <i class="teal big object group icon"></i>4 - VINCULE O IMÓVEL AO PLANO
+                <div class="ui divider"></div>
+                <h4 class="ui left floated header">
+                    <i class="teal big object group icon"></i>4 - Vincule o imóvel ao plano
                 </h4>    
                 <br>
             </div>
@@ -207,14 +208,14 @@
                   </div>
             </div>  
         </div>
-        
+        <!--
         <div class="ui left aligned equal width grid">
             <div class="column">
                 <img class="ui image" src="<?php echo PIPURL; ?>assets/imagens/comoAnunciar4.jpg"><br>
                 <img class="ui image" src="<?php echo PIPURL; ?>assets/imagens/comoAnunciar41.jpg"><br>
                 <img class="ui image" src="<?php echo PIPURL; ?>assets/imagens/comoAnunciar42.jpg">
             </div>
-        </div>
+        </div>-->
         
         </div> 
     </div>    

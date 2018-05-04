@@ -19,7 +19,7 @@
         <div class="ui list">
             <a class="item" style="color:white" href="<?php echo PIPURL; ?>index.php?entidade=Institucional&acao=quemSomos">Quem Somos</a>
             <a class="item" style="color:blue" href="#"></a>
-            <a class="item" style="color:white" href="<?php echo PIPURL; ?>index.php?entidade=Institucional&acao=mapaSite">Mapa do Site</a>
+            <a class="item" style="color:white" href="<?php echo PIPURL; ?>index.php?entidade=Institucional&acao=termosUso">Termos de Uso</a>
             <a class="item" style="color:blue" href="#"></a>
             <a class="item" style="color:white" href="<?php echo PIPURL; ?>index.php?entidade=Institucional&acao=comoAnunciar">Como Anunciar</a>
             <a class="item" style="color:blue" href="#"></a>
@@ -27,8 +27,6 @@
     </div>
     <div class="teal column">
         <div class="ui list">
-            <a class="item" style="color:white" href="<?php echo PIPURL; ?>index.php?entidade=Institucional&acao=termosUso">Termos de Uso</a>
-            <a class="item" style="color:blue" href="#"></a>
             <a class="item" style="color:white" href="<?php echo PIPURL; ?>index.php?entidade=Institucional&acao=duvidasFrequentes">D&uacute;vidas Frequentes</a>
             <a class="item" style="color:blue" href="#"></a>
             <a class="item" style="color:white" href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=form&tipo=faleconosco">Fale Conosco</a>
