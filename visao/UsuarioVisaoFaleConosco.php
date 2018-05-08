@@ -1,7 +1,7 @@
 <script src="assets/libs/jquery/jquery.validate.min.js" type="text/javascript"></script>
 <script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
-<script src="assets/js/buscaAnuncio.js"></script>
+<script src="assets/js/usuario.js"></script>
 
 <script>
 cancelar("Usuario", "meuPIP");

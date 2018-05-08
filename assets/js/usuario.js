@@ -1880,3 +1880,148 @@ function ativarUsuario(valor) {
 
     })
 }
+
+function enviarDuvidaUsuario() {
+
+    $(document).ready(function () {
+
+        $('#txtNomeDuvida').maxlength({
+            alwaysShow: true,
+            threshold: 50,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+        $('#txtMsgDuvida').maxlength({
+            alwaysShow: true,
+            threshold: 200,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+        $('#txtTituloDuvida').maxlength({
+            alwaysShow: true,
+            threshold: 100,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+        $('#txtEmailDuvida').maxlength({
+            alwaysShow: true,
+            threshold: 100,
+            warningClass: "ui small green circular label",
+            limitReachedClass: "ui small red circular label",
+            separator: ' de ',
+            preText: 'Voc&ecirc; digitou ',
+            postText: ' caracteres permitidos.',
+            validate: true
+        });
+
+        $("#botaoEnviarDuvida").click(function () {
+            if ($("#form").valid()) {
+                $("#form").submit();
+            }
+        });
+
+        $.validator.setDefaults({
+            ignore: [],
+            errorClass: 'errorField',
+            errorElement: 'div',
+            errorPlacement: function (error, element) {
+                error.addClass("ui red pointing above ui label error").appendTo(element.closest('div.field'));
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).closest("div.field").addClass("error").removeClass("success");
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).closest(".error").removeClass("error").addClass("success");
+            }
+        });
+        $.validator.messages.required = 'Campo obrigatório';
+        $('#form').validate({
+            onkeyup: false,
+            focusInvalid: true,
+            rules: {
+                txtEmailDuvida: {
+                    email: true,
+                    required: true
+                },
+                txtTituloDuvida: {
+                    required: true
+                },
+                txtMsgDuvida: {
+                    required: true
+                },
+                captcha_code: {
+                    required: true,
+                    remote:
+                            {
+                                url: "index.php",
+                                dataType: "json",
+                                type: "POST",
+                                data: {
+                                    hdnEntidade: "Usuario",
+                                    hdnAcao: "validarCaptcha"
+                                }
+                            }
+                },
+            },
+            messages: {
+                txtEmailDuvida: {
+                    email: "Informe um email válido"
+                },
+                captcha_code: {
+                    remote: "Código Inválido"
+                },
+            },
+            submitHandler: function (form) {
+                //form.submit();
+                $.ajax({
+                    url: "index.php",
+                    dataType: "json",
+                    type: "POST",
+                    data: $('#form').serialize(),
+                    beforeSend: function () {
+                        $("#divRetorno").html("<div><div class='ui active inverted dimmer'>\n\
+                            <div class='ui text loader'>Processando. Aguarde...</div></div></div>");
+                    },
+                    success: function (resposta) {
+                        $("#divRetorno").empty();
+
+                        $("input[type^='text']").each(function () {
+                            $(this).attr("disabled", "disabled");
+                        });
+
+                        $("#txtMsgDuvida").attr("disabled", "disabled");
+
+                        $("#botoesDuvidas").hide();
+
+                        $("#duvidaCaptcha").hide();
+
+                        if (resposta.resultado == 1) {
+                            $("#divRetorno").html('<div class="ui positive message">\n\
+                            <i class="big green check circle outline icon"></i>Dúvida enviada com sucesso. Em breve responderemos a você</div>');
+
+                        } else {
+                            $("#divRetorno").html('<div class="ui negative message">\n\
+                            <i class="big red remove circle outline icon"></i>Tente novamente mais tarde. Houve um erro no processamento</div>');
+                        }
+                    }
+                })
+                return false;
+
+            }
+        });
+
+
+    });
+}
