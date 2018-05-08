@@ -38,5 +38,10 @@ class InstitucionalControle {
         $visao->exibir('InstitucionalDuvidasFrequentes.php');
     }
     
+        function politicaPrivacidade() {  /*ok*/
+        $visao = new Template();
+        $visao->exibir('InstitucionalPoliticaPrivacidade.php');
+    }
+    
 
 }
