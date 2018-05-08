@@ -50,7 +50,7 @@
                 Depois de publicar meu anúncio, posso fazer alterações em seu conteúdo?
             </div>
             <div class="content">
-                <p>Sim, você pode alterar qualquer dado do seu anúncio, com exceção do tipo do imóvel.</p>
+                <p>Sim, você pode alterar qualquer dado do seu anúncio, com exceção dos dados do imóvel.</p>
             </div>
             <div class="title">
                 <i class="dropdown icon"></i>
@@ -72,6 +72,13 @@
             </div>
             <div class="content">
                 <p>Em até 7 dias, entre em contato com o PIP Online através de nossa Central de Relacionamento.</p>
+            </div>
+            <div class="title">
+                <i class="dropdown icon"></i>
+                Vendi ou aluguei meu imóvel e não desejo mais manter o anúncio visível no site, o que devo fazer?
+            </div>
+            <div class="content">
+                <p>É simples, basta acessar a opção Anúncios Ativos, escolher o anúncio que deseja finalizar e clicar no botão Finalizar Anúncio.</p>
             </div>
             <div class="title">
                 <i class="dropdown icon"></i>
