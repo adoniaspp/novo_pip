@@ -314,7 +314,9 @@ function ordenarAnuncio() {
 
             $valorli.sort(function (a, b) {
                 var an = parseInt(a.getAttribute('data-valor')),
-                        bn = parseInt(b.getAttribute('data-valor'));
+                        bn = parseInt(b.getAttribute('data-valor')),
+                        ap = a.getAttribute('ordem'),
+                        bp = b.getAttribute('ordem');
 
                 if (an > bn) {
                     return 1;
@@ -322,9 +324,15 @@ function ordenarAnuncio() {
                 if (an < bn) {
                     return -1;
                 }
-                return 0;
+                if (an == bn){
+                    if(ap < bp){
+                        return 1;
+                    }else{
+                        return -1;
+                    }
+                }
+//                return 0;
             });
-
 
         } else if ($(this).val() == "mrvalor") {
             var $valor = $('#itemContainer'),
@@ -332,7 +340,9 @@ function ordenarAnuncio() {
 
             $valorli.sort(function (a, b) {
                 var an = parseInt(a.getAttribute('data-valor')),
-                        bn = parseInt(b.getAttribute('data-valor'));
+                        bn = parseInt(b.getAttribute('data-valor')),
+                        ap = a.getAttribute('ordem'),
+                        bp = b.getAttribute('ordem');
 
                 if (an < bn) {
                     return 1;
@@ -340,7 +350,14 @@ function ordenarAnuncio() {
                 if (an > bn) {
                     return -1;
                 }
-                return 0;
+                if (an == bn){
+                    if(ap < bp){
+                        return 1;
+                    }else{
+                        return -1;
+                    }
+                }
+                //return 0;
             });
         } else if ($(this).val() == "antigo") {
 
@@ -350,15 +367,24 @@ function ordenarAnuncio() {
             $valorli.sort(function (a, b) {
 
                 var an = a.getAttribute('data-cadastro'),
-                        bn = b.getAttribute('data-cadastro');
-
+                        bn = b.getAttribute('data-cadastro'),
+                        ap = a.getAttribute('ordem'),
+                        bp = b.getAttribute('ordem');
+                        
                 if (an > bn) {
                     return 1;
                 }
                 if (an < bn) {
                     return -1;
                 }
-                return 0;
+                if (an == bn){
+                    if(ap < bp){
+                        return 1;
+                    }else{
+                        return -1;
+                    }
+                }
+                //return 0;
             });
         } else if ($(this).val() == "recente") {
             var $valor = $('#itemContainer'),
@@ -366,7 +392,9 @@ function ordenarAnuncio() {
 
             $valorli.sort(function (a, b) {
                 var an = a.getAttribute('data-cadastro'),
-                        bn = b.getAttribute('data-cadastro');
+                        bn = b.getAttribute('data-cadastro'),
+                        ap = a.getAttribute('ordem'),
+                        bp = b.getAttribute('ordem');
 
                 if (an < bn) {
                     return 1;
@@ -374,7 +402,14 @@ function ordenarAnuncio() {
                 if (an > bn) {
                     return -1;
                 }
-                return 0;
+                if (an == bn){
+                    if(ap < bp){
+                        return 1;
+                    }else{
+                        return -1;
+                    }
+                }
+                //return 0;
             });
         }
 

@@ -104,10 +104,10 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                     <?php
                     for ($crtl = 0; $crtl < count($item['anuncio']); $crtl++) {
 //                        echo '<pre>';
-//                        print_r($item['anuncio'][$crtl]['idanuncioformatado']);
+//                        print_r($item['anuncio'][$crtl]);
 //                        echo '</pre>';
                         ?> 
-                        <div data-valor="<?php echo $item['anuncio'][$crtl]['valormin'] ?>" class="card list-item" style="width: 263px; border-radius: 2.285714rem; box-shadow: 0 1px 3px 0 #D4D4DD,0 0 0 1px #000000" id="cartao<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>" data-cadastro="<?php echo $item['anuncio'][$crtl]['datahoracadastro'] ?>">                            
+                        <div data-valor="<?php echo $item['anuncio'][$crtl]['valormin'] ?>" ordem="<?php echo $item['anuncio'][$crtl]['ordem'] ?>" class="card list-item" style="width: 263px; border-radius: 2.285714rem; box-shadow: 0 1px 3px 0 #D4D4DD,0 0 0 1px #000000" id="cartao<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>" data-cadastro="<?php echo $item['anuncio'][$crtl]['datahoracadastro'] ?>">                            
                             <!--                            <div class="content">
                             <?php
                             if ($item['anuncio'][$crtl]['finalidade'] == "Venda") {
