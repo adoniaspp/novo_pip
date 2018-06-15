@@ -589,7 +589,7 @@ class ConsultasAdHoc extends GenericoDAO {
     public function ConsultarImoveisNaoAnunciadosPorUsuario($idUsuario) {
         $sql = "SELECT i.id
                 FROM imovel i
-                WHERE i.idusuario = :idUsuario
+                WHERE i.status = 'cadastrado' AND i.idusuario = :idUsuario
                   AND NOT EXISTS
                     (SELECT 1
                      FROM anuncio a
