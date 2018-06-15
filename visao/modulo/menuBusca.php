@@ -71,7 +71,7 @@
                 </div>
             </div>
 
-            <div class="column">            
+            <div class="column" id="dropBairro">            
                 <div class="ui fluid multiple search selection dropdown">
                     <input type="hidden" name="filtroBairro[]" id="filtroBairro">
                     <span class="default text">Bairro</span>
