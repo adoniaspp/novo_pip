@@ -14,6 +14,7 @@ if ($item) {
 <script src="assets/libs/jquery/jquery.mask.min.js"></script>
 <script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
+<script src="assets/libs/timeout-dialog/timeout-dialog.js"></script>
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/js/anuncio.js"></script>
 <script src="assets/js/buscaAnuncio.js"></script>
@@ -227,11 +228,11 @@ if ($item) {
                             </div>
                         </div>
                         <div class="eight wide required field">
-                            <div class="ui orange dividing header">
+                            <div class="ui orange dividing small header">
                                 <i class="add to cart icon"></i>
                                 <div class="content">
-                                    Comprar planos!
-                                    <div class="sub header">  <a href="index.php?entidade=Plano&acao=listar"> Para anunciar é preciso ter planos ativos! </a></div>
+                                    Escolha um plano ao lado. Caso não tenha ou já tiver um gratuito ativo, clique abaixo para comprar
+                                    <div class="sub header">  <a href="index.php?entidade=Plano&acao=listar"> Clique AQUI para comprar planos  </a></div>
                                     <input type="hidden" name="hdnMaxImagens" id="hdnMaxImagens" value="3" />
                                 </div>
                             </div>
