@@ -1063,7 +1063,6 @@ foreach ($imoveis as $qtdAnuncios) {
                 if (!$item["usuarioPlano"]) {
                     ?>
                     <div class="ui orange message"><h4 class="ui red header">Você ainda não tem plano. Não perca tempo e COMPRE AGORA!</h4></div>
-                    <br/> <img class="ui centered image" src="http://www.prospeccao-de-clientes.com/images/gudrum-pagseguro.gif" /> 
                     <?php
                 } else {
                     ?> 
