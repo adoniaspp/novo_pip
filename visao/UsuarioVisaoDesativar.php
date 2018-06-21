@@ -121,7 +121,7 @@ if ($totalUsuariosCadastrados < 1) {
                                         <td> <?php echo date('d/m/Y H:i:s', strtotime($usuario["datahoracadastro"])); ?> </td>
                                         <td><?php echo $usuario["email"]; ?></td>    
                                         <td><?php echo $usuario["denuncias"]; ?></td> 
-                                        <td><?php echo "<a id='btnMostrarDenuncia" . $usuario["id"] . "' class='ui circular inverted basic icon button'><i class='big red search icon'></i></i></a>" ?></td>;
+                                        <td><?php echo "<a id='btnMostrarDenuncia" . $usuario["id"] . "' class='ui circular inverted basic icon button'><i class='big red search icon'></i></i></a>" ?></td>
                                         <td> <?php
                                             echo "<a id='btnInativar" . $usuario["id"] . "' class='ui circular inverted icon button'><i class='big red thumbs down icon'></i></a>Inativar";
                                             ?> </td>                                               
@@ -222,8 +222,7 @@ if ($totalUsuariosCadastrados < 1) {
                                     <td id = "Descricao<?php echo $usuario[$indice]["id"] ?>"> <?php echo $usuario[$indice]["idanuncio"];
                                             ?> </td>
                                 </tr>
-                                <!--                echo $usuario[$indice]["denuncia"];
-                                                echo "<br>";-->
+
                                 <?php
                             }
                             ?>
