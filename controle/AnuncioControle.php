@@ -561,32 +561,29 @@ class AnuncioControle {
 
                 //verifica se o plano eh gratuito
                 if ($parametros["sltPlano"] == "gratuito") {
-                    //consultar se ja existe algum plano gratuito que seja pago (administrador negou)
-                    $verificarPlanoGratuito = $genericoDAO->consultar($entidadeUsuarioPlano, false, array("status" => "pago", "idplano" => 5, "idusuario" => $_SESSION["idusuario"]));
-                    //se nao tem cadastra um novo
-                    if (empty($verificarPlanoGratuito)) {
-                        $entidadeUsuarioPlano->cadastrar(5);
-                        $entidadeUsuarioPlano->setStatus("pago");
-                        $genericoDAO->cadastrar($entidadeUsuarioPlano);
+                    if($this->verificarPlanoGratuito($parametros) == "true"){
+                        //consultar se ja existe algum plano gratuito que seja pago (administrador negou)
                         $verificarPlanoGratuito = $genericoDAO->consultar($entidadeUsuarioPlano, false, array("status" => "pago", "idplano" => 5, "idusuario" => $_SESSION["idusuario"]));
+                        //se nao tem cadastra um novo
+                        if (empty($verificarPlanoGratuito)) {
+                            $entidadeUsuarioPlano->cadastrar(5);
+                            $entidadeUsuarioPlano->setStatus("pago");
+                            $genericoDAO->cadastrar($entidadeUsuarioPlano);
+                            $verificarPlanoGratuito = $genericoDAO->consultar($entidadeUsuarioPlano, false, array("status" => "pago", "idplano" => 5, "idusuario" => $_SESSION["idusuario"]));
+                        }
+                        //busca o usuarioplano na base
+                        $entidadeUsuarioPlano = $verificarPlanoGratuito[0];
+                        //fim do gratuito
                     }
-                    //busca o usuarioplano na base
-                    $entidadeUsuarioPlano = $verificarPlanoGratuito[0];
-
-                    //fim do gratuito
                 } else {
-
                     $entidadeUsuarioPlano = $genericoDAO->consultar(new UsuarioPlano(), true, array("id" => $parametros["sltPlano"]));
                     $entidadeUsuarioPlano = $entidadeUsuarioPlano[0];
                 }
 
                 if (Sessao::verificarToken($parametros) && $entidadeUsuarioPlano->permitidoCadastrar()) {
-
-
                     //ATUALIZA O PLANO UTILIZADO
                     $entidadeUsuarioPlano->setStatus("utilizado");
                     $genericoDAO->editar($entidadeUsuarioPlano);
-
 
                     //inicio se o plano for gratuito
                     //CRIA INSTANCIA ANUNCIO
@@ -1768,6 +1765,28 @@ class AnuncioControle {
                 $genericoDAO->rollback();
             }
         }
+    }
+    
+    function verificarPlanoGratuito($parametros) {
+        if (Sessao::verificarSessaoUsuario()) {
+            if (Sessao::verificarToken($parametros)) {
+                if(isset($parametros["sltPlano"]) && $parametros["sltPlano"]=="gratuito"){
+                    $consultasAdHoc = new ConsultasAdHoc();
+                    $verifica = $consultasAdHoc->verificarPlanoGratuito($_SESSION['idusuario']);
+                    if(count($verifica) > 0){
+                        echo "false";// - possui plano gratuito";   
+                    } else {
+                        echo "true";
+                    }                    
+                } else {
+                    echo "true";
+                }
+            } else {
+                    echo "false";// - token";
+                }
+        } else {
+            echo "false";// - usuario";
+        }        
     }
 
     function enviarEmailGenerico($parametros) {

@@ -75,8 +75,19 @@ function cadastrarAnuncio() {
         $('#fileupload').validate({
             onkeyup: false,
             focusInvalid: true,
+            onfocusout: false,
             rules: {
                 sltPlano: {
+                    synchronousRemote: {
+                    url: "index.php",
+                        dataType: "json",
+                        type: "post",
+                        data: {
+                          hdnEntidade: "Anuncio",
+                          hdnAcao: "verificarPlanoGratuito",
+                          hdnToken: $("#hdnToken").val()
+                        }
+                 },
                     required: true
                 },
                 sltFinalidade: {
@@ -95,7 +106,10 @@ function cadastrarAnuncio() {
             messages: {
                 chkAceite: {
                     required: "A confirmação é obrigatória"
-                }
+                },
+                 sltPlano: {
+                     synchronousRemote: "Você já tem um anúncio gratuito e ativo. Você pode utilizar outro plano já adquirido ou comprar um novo plano."
+                 }
             },
             submitHandler: function (form) {
                 $.ajax({
@@ -297,13 +311,8 @@ function cadastrarAnuncio() {
 
 function editarAnuncio() {
     $(document).ready(function () {
-        $('.ui.dropdown')
-                .dropdown({
-                    on: 'hover'
-                });
-        $('.ui.checkbox')
-                .checkbox()
-                ;
+        $('.ui.dropdown').dropdown({ on: 'hover' });
+        $('.ui.checkbox').checkbox();
         $('#chkMapa').parent().checkbox('set checked');
         $('#chkContato').parent().checkbox('set checked');
         $('#txtDescricao').maxlength({
@@ -430,7 +439,6 @@ function editarAnuncio() {
                 return false;
             }
         })
-
 
 // UPLOAD FOTOS
         $('#fileupload').fileupload({
@@ -658,6 +666,7 @@ function validarStepSemPlanta() {
     switch (step) {
         case 0:
         case 1:
+            setTimeout(function(){  }, 3000);
             validacao = $("#sltPlano").valid();
             break;
         case 2:
@@ -780,6 +789,7 @@ function validarStepComPlanta() {
         case 0:
         case 1:
             validacao = $("#sltPlano").valid();
+            setTimeout(function(){  }, 3000);
             break;
         case 2:
             validacao = (($("#sltFinalidade").valid() & $("#txtTitulo").valid() & $("#txtDescricao").valid() & $("#txtValor").valid()));
@@ -1151,11 +1161,12 @@ function reativar(botao) {
                 transition: "fade up",
                 observeChanges: true,
                 onDeny: function () {
+                    
                 },
                 onApprove: function () {
                     $("#formReativar" + botao).submit();
                     return false; //deixar o modal fixo
-                },
+                }
             }).modal('show');
 
             $.validator.setDefaults({
@@ -1172,11 +1183,7 @@ function reativar(botao) {
                     $(element).closest(".error").removeClass("error").addClass("success");
                 }
             });
-
             $.validator.messages.required = 'Campo obrigatório';
-
-
-
             $("#formReativar" + botao).validate({
                 onkeyup: false,
                 focusInvalid: true,
@@ -1189,18 +1196,12 @@ function reativar(botao) {
                     },
                     txtDescricao: {
                         required: true
-                    },
+                    }
                 },
                 messages: {
                     sltPlano: {
-                        email: "Escolha um Plano"
-                    },
-                    txtTitulo: {
-                        remote: "Informe o Titulo do Anúncio"
-                    },
-                    txtDescricao: {
-                        remote: "Informe a Descrição do Anúncio"
-                    },
+                        required: "Escolha um Plano"
+                    }
                 },
                 submitHandler: function (form) {
                     $.ajax({
@@ -1234,11 +1235,8 @@ function reativar(botao) {
                     return false;
                 }
             })
-
         })
-
     })
-
 }
 
 function formatarDetalhe() {
