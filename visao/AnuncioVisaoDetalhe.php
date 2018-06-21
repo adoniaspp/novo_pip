@@ -915,6 +915,12 @@ if ($item['anuncio'][0]['tipo'] != 'apartamentoplanta') {
                         <?php
                         echo "<tr>";
 
+                        //ordenar os andares pelo número do andar
+                        usort($planta['valores'], function( $a, $b ) {
+                            
+                            return ( $a['andarinicial'] > $b['andarinicial'] );
+                        });
+                        
                         for ($x = 0; $x < count($planta['valores']); $x++) {
 
                             echo "<td>";
