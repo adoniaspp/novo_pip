@@ -73,7 +73,7 @@
 
             <div class="column" id="dropBairro">            
                 <div class="ui fluid multiple search selection dropdown">
-                    <input type="hidden" name="filtroBairro[]" id="filtroBairro">
+                    <input type="hidden" dropBairroname="filtroBairro[]" id="filtroBairro">
                     <span class="default text">Bairro</span>
                     <i class="dropdown icon"></i>
                     <div class="menu" id="sltBairro">
@@ -159,7 +159,7 @@
                 </div>
             </div>
 
-            <div class="column">            
+            <div class="column" id="dropBairroAvancado">            
                 <div class="ui fluid multiple search selection dropdown">
                     <input type="hidden" name="filtroBairro[]" id="sltBairroAvancado">
                     <span class="default text">Bairro</span>
