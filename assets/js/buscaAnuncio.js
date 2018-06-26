@@ -174,7 +174,7 @@ function buscarAnuncio() {
             
             $('.ui.dropdown')
                 .dropdown({
-                    on: 'hover',
+                    //on: 'hover',
                     message: {
                         noResults: 'Nenhum resultado.'
                     }
@@ -344,7 +344,7 @@ function buscarAnuncio() {
             }
              $('.ui.dropdown')
                 .dropdown({
-                    on: 'hover',
+                    //on: 'hover',
                     message: {
                         noResults: 'Nenhum resultado.'
                     }
@@ -370,7 +370,7 @@ function buscarAnuncio() {
 
         $('.ui.dropdown')
                 .dropdown({
-                    on: 'hover',
+                    //on: 'hover',
                     message: {
                         noResults: 'Nenhum resultado.'
                     }

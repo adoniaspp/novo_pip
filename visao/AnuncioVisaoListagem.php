@@ -66,26 +66,6 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="column">
-            <div class="ui horizontal segments">
-
-                <div class="ui segment center aligned ">
-                    <i class='big red thumbs up icon'></i> Finalizar Anúncio
-                </div>
-
-                <div class="ui segment center aligned ">
-                    <i class='big blue edit icon'></i>Editar Anúncio
-                </div>
-
-                <div class="ui segment center aligned ">
-                    <i class='big green money icon'></i>Valores Antigos
-                </div>
-
-            </div>           
-        </div>
-    </div>
-
 </div>
 
 <div class="ui hidden divider"></div>
@@ -121,52 +101,52 @@ if ($totalAnunciosCadastrados < 1) {
     <div class="ui middle aligned stackable grid container">
         <div class="row">
             <div class="column">
-                    <table class="ui brown stackable table" id="tabela">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Cód. Anúncio</th>
-                                <th>Tipo</th>
-                                <th>Finalidade</th>
-                                <th>Valor</th>
-                                <th>Publicação</th>
-                                <th>Expiração</th>
-                                <th>Opções</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            if ($item) {
-                                foreach ($item["listaAnuncio"] as $anuncio) {
+                <table class="ui brown stackable table" id="tabela">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Cód. Anúncio</th>
+                            <th>Tipo</th>
+                            <th>Finalidade</th>
+                            <th>Valor</th>
+                            <th>Publicação</th>
+                            <th>Expiração</th>
+                            <th>Opções</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if ($item) {
+                            foreach ($item["listaAnuncio"] as $anuncio) {
 
-                                    switch ($anuncio->getImovel()->getIdTipoImovel()) {
+                                switch ($anuncio->getImovel()->getIdTipoImovel()) {
 
-                                        case 1: $tipoImovel = "casa";
-                                            break;
-                                        case 2: $tipoImovel = "apartamentoplanta";
-                                            break;
-                                        case 3: $tipoImovel = "apartamento";
-                                            break;
-                                        case 4: $tipoImovel = "salacomercial";
-                                            break;
-                                        case 5: $tipoImovel = "prediocomercial";
-                                            break;
-                                        case 6: $tipoImovel = "terreno";
-                                            break;
-                                    }
-                                    ?>
-                                    <tr>
-                                        <td> 
+                                    case 1: $tipoImovel = "casa";
+                                        break;
+                                    case 2: $tipoImovel = "apartamentoplanta";
+                                        break;
+                                    case 3: $tipoImovel = "apartamento";
+                                        break;
+                                    case 4: $tipoImovel = "salacomercial";
+                                        break;
+                                    case 5: $tipoImovel = "prediocomercial";
+                                        break;
+                                    case 6: $tipoImovel = "terreno";
+                                        break;
+                                }
+                                ?>
+                                <tr>
+                                    <td> 
 
-                                            <div class="ui checkbox">
-                                                <input type="checkbox" tabindex="0" class="hidden" name="chkAnuncio[]" 
-                                                       id="chkAnuncio<?php echo $anuncio->getIdAnuncio(); ?>" 
-                                                       value="<?php echo $anuncio->getIdAnuncio(); ?>">
-                                                <label></label>
-                                            </div>
+                                        <div class="ui checkbox">
+                                            <input type="checkbox" tabindex="0" class="hidden" name="chkAnuncio[]" 
+                                                   id="chkAnuncio<?php echo $anuncio->getIdAnuncio(); ?>" 
+                                                   value="<?php echo $anuncio->getIdAnuncio(); ?>">
+                                            <label></label>
+                                        </div>
 
-                                        </td>
-                                        <td>                          
+                                    </td>
+                                    <td>                          
                                         <form id="form<?php echo $anuncio->getIdAnuncio(); ?>" action="index.php" method="post" target='_blank'>
                                             <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio" />
                                             <input type="hidden" id="hdnAcao" name="hdnAcao" value="detalhar"/>
@@ -180,82 +160,101 @@ if ($totalAnunciosCadastrados < 1) {
                                             <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $anuncio->getIdanuncio(); ?>" />
                                         </form>     
 
-                                        </td>
-                                        <td><?php
-                                            switch ($anuncio->getImovel()->getIdTipoImovel()) {
+                                    </td>
+                                    <td><?php
+                                        switch ($anuncio->getImovel()->getIdTipoImovel()) {
 
-                                                case 1: echo "Casa";
-                                                    break;
-                                                case 2: echo "Apartamento na Planta";
-                                                    break;
-                                                case 3: echo "Apartamento";
-                                                    break;
-                                                case 4: echo "Sala Comercial";
-                                                    break;
-                                                case 5: echo "Prédio Comercial";
-                                                    break;
-                                                case 6: echo "Terreno";
-                                                    break;
-                                            }
-                                            ?></td>
-                                        <td><?php echo $anuncio->getFinalidade(); ?></td>
-                                        <td id="tdValor<?php echo $anuncio->getId(); ?>">
-                                            <?php
-                                            if ($anuncio->getNovoValorAnuncio() != null) {
+                                            case 1: echo "Casa";
+                                                break;
+                                            case 2: echo "Apartamento na Planta";
+                                                break;
+                                            case 3: echo "Apartamento";
+                                                break;
+                                            case 4: echo "Sala Comercial";
+                                                break;
+                                            case 5: echo "Prédio Comercial";
+                                                break;
+                                            case 6: echo "Terreno";
+                                                break;
+                                        }
+                                        ?></td>
+                                    <td><?php echo $anuncio->getFinalidade(); ?></td>
+                                    <td id="tdValor<?php echo $anuncio->getId(); ?>">
+                                        <?php
+                                        if ($anuncio->getNovoValorAnuncio() != null) {
 
-                                                foreach ($anuncio->getNovoValorAnuncio() as $nValor) {
+                                            foreach ($anuncio->getNovoValorAnuncio() as $nValor) {
 
-                                                    if ($nValor->getStatus() == "ativo") {
+                                                if ($nValor->getStatus() == "ativo") {
 
-                                                        echo $nValor->getNovoValor();
-                                                        break;
-                                                    }
+                                                    echo $nValor->getNovoValor();
+                                                    break;
                                                 }
-                                            } else if ($anuncio->getValorMin() !== 0) {
-                                                echo $anuncio->getValorMin();
-                                            } else
-                                                echo "Não Informado";
-                                            ?>
+                                            }
+                                        } else if ($anuncio->getValorMin() !== 0) {
+                                            echo $anuncio->getValorMin();
+                                        } else
+                                            echo "Não Informado";
+                                        ?>
 
-                                        </td>
+                                    </td>
 
-                                        <td> <?php echo date('d/m/Y H:i:s', strtotime($anuncio->getDataHoraCadastro())); ?> </td>
+                                    <td> <?php echo date('d/m/Y H:i:s', strtotime($anuncio->getDataHoraCadastro())); ?> </td>
 
-                                        <td> <?php
-                                            $date = date_create($anuncio->getDataHoraCadastro());
-                                            date_add($date, date_interval_create_from_date_string($anuncio->getUsuarioPlano()->getPlano()->getvalidadepublicacao() . ' days'));
-                                            echo date_format($date, 'd/m/Y');
-                                            ?> </td>
+                                    <td> <?php
+                                        $date = date_create($anuncio->getDataHoraCadastro());
+                                        date_add($date, date_interval_create_from_date_string($anuncio->getUsuarioPlano()->getPlano()->getvalidadepublicacao() . ' days'));
+                                        echo date_format($date, 'd/m/Y');
+                                        ?> </td>
 
-                                        <td><?php echo "<a id='btnFinalizar" . $anuncio->getId() . "' class='ui circular inverted basic icon button'><i class='big red thumbs up icon'></i></a>" ?>
+                                    <td><?php echo "<a id='btnFinalizar" . $anuncio->getId() . "' class='ui circular inverted basic icon button'><i class='big red thumbs up icon'></i></a>" ?>
 
-                                            <?php //if ($anuncio->getImovel()->getIdTipoImovel() == 2) { //alterar valor se for Planta?>
+                                        <?php //if ($anuncio->getImovel()->getIdTipoImovel() == 2) { //alterar valor se for Planta?>
 
-                                                <?php //echo "<a id='btnAlterarValorPlanta" . $anuncio->getId() . "' class='ui circular inverted basic icon button'><i class='big blue edit icon'></i></a>" ?>
+                                        <?php //echo "<a id='btnAlterarValorPlanta" . $anuncio->getId() . "' class='ui circular inverted basic icon button'><i class='big blue edit icon'></i></a>" ?>
 
-                                            <?php //} else {//alterar valor se for outro tipo de imóvel?>
+                                        <?php //} else {//alterar valor se for outro tipo de imóvel?>
 
-                                                <?php echo "<a href='index.php?entidade=Anuncio&acao=form&idAnuncio=" . $anuncio->getId() . "&token=" . $_SESSION['token'] . "'  class='ui circular inverted basic icon button'><i class='big blue edit icon'></i></a>" ?>
+                                        <?php echo "<a href='index.php?entidade=Anuncio&acao=form&idAnuncio=" . $anuncio->getId() . "&token=" . $_SESSION['token'] . "'  class='ui circular inverted basic icon button'><i class='big blue edit icon'></i></a>" ?>
 
-                                            <?php //} ?>
+                                        <?php //} ?>
 
 
-                                            <?php
-                                            if ($anuncio->getNovoValorAnuncio() != null) {
-                                                echo "<a id='btnMostrarValor" . $anuncio->getId() . "' class='ui circular inverted basic icon button'><i class='big green money icon'></i></i></a>";
-                                            } else
-                                                echo "";
-                                            ?>
+                                        <?php
+                                        if ($anuncio->getNovoValorAnuncio() != null) {
+                                            echo "<a id='btnMostrarValor" . $anuncio->getId() . "' class='ui circular inverted basic icon button'><i class='big green money icon'></i></i></a>";
+                                        } else
+                                            echo "";
+                                        ?>
 
-                                        </td>
-                                    </tr>
+                                    </td>
+                                </tr>
 
-                                    <?php
-                                }
+                                <?php
                             }
-                            ?>
-                        </tbody>
-                    </table>
+                        }
+                        ?>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="column">
+                        <div class="ui horizontal segments">
+
+                            <div class="ui segment center aligned ">
+                                <i class='big red thumbs up icon'></i> Finalizar Anúncio
+                            </div>
+
+                            <div class="ui segment center aligned ">
+                                <i class='big blue edit icon'></i>Editar Anúncio
+                            </div>
+
+                            <div class="ui segment center aligned ">
+                                <i class='big green money icon'></i>Valores Antigos
+                            </div>
+
+                        </div>           
+                    </div>
+                </div>
             </div>
         </div>
     </div>

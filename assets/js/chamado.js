@@ -4,7 +4,7 @@ function visualizarRespostaChamado(valor) {
         
         $('.ui.dropdown')
                 .dropdown({
-                    on: 'hover'
+                    //on: 'hover'
                 });
 
         $('#btnDetalhesChamado' + valor).click(function () {

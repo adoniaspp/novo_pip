@@ -62,49 +62,7 @@ if ($_SESSION['login'] === 'pipdiministrador') {
         </div>
     </div>
 
-    <?php if ($_SESSION['login'] != 'pipdiministrador') { ?>
-
-        <div class="row">
-            <div class="column">
-                <div class="ui horizontal segments">
-
-                    <div class="ui segment center aligned ">
-                        <i class='big orange edit icon'></i>Edição de Anúncio: A edição do seu anúncio precisa ser aprovado pela Administração do PIP Online 
-                    </div>
-
-                    <div class="ui segment center aligned ">
-                        <i class='disabled big gray hourglass half icon'></i>Pendente de Análise: Seu anúncio ainda será analisado pela Administração do PIP Online 
-                    </div>
-
-                    <div class="ui segment center aligned ">
-                        <i class='big blue hourglass half icon'></i>Em Análise: Seu anúncio está em análise pela Administração do PIP Online e, em breve, pode estar disponível para ser visualizado
-                    </div>
-                </div>           
-            </div>
-        </div>
-
-    <?php } else { ?>
-
-        <div class="row">
-            <div class="column">
-                <div class="ui horizontal segments">
-
-                    <div class="ui segment center aligned ">
-                        <i class='big orange edit icon'></i>Edição de Anúncio: A edição do seu anúncio precisa ser aprovado pela Administração do PIP Online 
-                    </div>
-
-                    <div class="ui segment center aligned ">
-                        <i class='disabled big gray hourglass half icon'></i>Pendente de Análise: Anúncio ainda não está em análise
-                    </div>
-
-                    <div class="ui segment center aligned ">
-                        <i class='big blue hourglass half icon'></i>Em Análise: Anúncio sendo avaliado pela Administração
-                    </div>
-                </div>           
-            </div>
-        </div>
-
-    <?php } ?>
+    
 
 </div>
 
@@ -261,6 +219,49 @@ if ($totalAnunciosCadastrados < 1) {
                     </tbody>
 
                 </table>
+                <?php if ($_SESSION['login'] != 'pipdiministrador') { ?>
+
+        <div class="row">
+            <div class="column">
+                <div class="ui horizontal segments">
+
+                    <div class="ui segment center aligned ">
+                        <i class='big orange edit icon'></i>Edição de Anúncio: A edição do seu anúncio precisa ser aprovado pela Administração do PIP Online 
+                    </div>
+
+                    <div class="ui segment center aligned ">
+                        <i class='disabled big gray hourglass half icon'></i>Pendente de Análise: Seu anúncio ainda será analisado pela Administração do PIP Online 
+                    </div>
+
+                    <div class="ui segment center aligned ">
+                        <i class='big blue hourglass half icon'></i>Em Análise: Seu anúncio está em análise pela Administração do PIP Online e, em breve, pode estar disponível para ser visualizado
+                    </div>
+                </div>           
+            </div>
+        </div>
+
+    <?php } else { ?>
+
+        <div class="row">
+            <div class="column">
+                <div class="ui horizontal segments">
+
+                    <div class="ui segment center aligned ">
+                        <i class='big orange edit icon'></i>Edição de Anúncio: A edição do seu anúncio precisa ser aprovado pela Administração do PIP Online 
+                    </div>
+
+                    <div class="ui segment center aligned ">
+                        <i class='disabled big gray hourglass half icon'></i>Pendente de Análise: Anúncio ainda não está em análise
+                    </div>
+
+                    <div class="ui segment center aligned ">
+                        <i class='big blue hourglass half icon'></i>Em Análise: Anúncio sendo avaliado pela Administração
+                    </div>
+                </div>           
+            </div>
+        </div>
+
+    <?php } ?>
             </div>
         </div>
     </div>

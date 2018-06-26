@@ -23,7 +23,7 @@ function cadastrarAnuncio() {
     $(document).ready(function () {
         $('.ui.dropdown')
                 .dropdown({
-                    on: 'hover'
+                    //on: 'hover'
                 });
         $('.ui.checkbox')
                 .checkbox()
@@ -311,7 +311,7 @@ function cadastrarAnuncio() {
 
 function editarAnuncio() {
     $(document).ready(function () {
-        $('.ui.dropdown').dropdown({ on: 'hover' });
+        $('.ui.dropdown').dropdown({ /*on: 'hover'*/ });
         $('.ui.checkbox').checkbox();
         $('#chkMapa').parent().checkbox('set checked');
         $('#chkContato').parent().checkbox('set checked');
@@ -1133,7 +1133,7 @@ function reativar(botao) {
     $(document).ready(function () {
         $('.ui.dropdown')
                 .dropdown({
-                    on: 'hover'
+                    //on: 'hover'
                 });
 
         $('#btnReativar' + botao).click(function () {
@@ -1854,7 +1854,7 @@ function alterarStatusAnuncio(valor) {
     $(document).ready(function () {
         $('.ui.dropdown')
                 .dropdown({
-                    on: 'hover'
+                    //on: 'hover'
                 });
 
         $("#sltStatusAnuncio" + valor).change(function () {
@@ -1862,7 +1862,7 @@ function alterarStatusAnuncio(valor) {
         })
 
         $("input[name^='sltStatusAnuncio']").parent().dropdown({
-            on: 'hover'
+            //on: 'hover'
         })
 
         $('#btnMudarStatus' + valor).click(function () {

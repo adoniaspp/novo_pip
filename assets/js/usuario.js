@@ -7,10 +7,7 @@ function cadastrarUsuario() {
         $("#linhaPJ2").hide();
         $("#divCEP").hide();
         $("#tabelaTelefone").hide();
-        $('.ui.dropdown')
-                .dropdown({
-                    on: 'hover'
-                });
+        $('.ui.dropdown').dropdown();
         $("#sltTipoUsuario").parent().dropdown('restore defaults');
         $('.ui.checkbox').checkbox();
         /*eventos e acoes*/
@@ -1201,9 +1198,7 @@ function alterarUsuario() {
         });
         /*inicialização da página*/
         $('.ui.dropdown')
-                .dropdown({
-                    on: 'hover'
-                });
+                .dropdown();
         if ($('#sltTipoUsuario').val() === "pf") {
             $("#linhaPJ1").hide();
             $("#linhaPJ2").hide();
@@ -1436,7 +1431,7 @@ function dadosModalConfiguracoes($div) {
 function abrirChamadoUsuario() {
     $(document).ready(function () {
 
-        $('.ui.dropdown').dropdown({on: 'hover'});
+        $('.ui.dropdown').dropdown();
 
         $("#botaoVoltar").hide();
         $('#assuntoDuvida').hide();

@@ -27,86 +27,85 @@
             </div>
         </div>
     </div>
-    
+
     <div class="row">
         <div class="column">
             <div class="ui message">
                 <p>Escolha um imóvel para edição. <strong>ATENÇÃO</strong>: Imóvel com anúncio ativo 
-                não pode ser editado, nem excluído (exclua o anúncio expirado ou finalizado para fazer a edição do imóvel)</p>
+                    não pode ser editado, nem excluído (exclua o anúncio expirado ou finalizado para fazer a edição do imóvel)</p>
             </div>
         </div>
     </div>
-    
+
+
     <div class="row">
-        
         <div class="column">
-            
-            <div class="ui horizontal segments">
-                
-                <div class="ui segment center aligned ">
-                    <i class='big green check circle outline icon'></i> Imóvel com Anúncio <strong>Ativo</strong>
-                </div>
-                
-                <div class="ui segment center aligned ">
-                    <i class='big red remove circle outline icon'></i>Imóvel com Anúncio <strong>Inativo ou Expirado</strong>
-                </div>
-                
-            </div>
+            <table class="ui green stackable table" id="tabela">&nbsp;
+                <thead>
+                    <tr>
+                        <th class="three wide">Tipo</th>
+                        <th class="five wide">Descrição</th>
+                        <th class="three wide">Data Cadastro</th>
+                        <th class="five wide">Operações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    Sessao::gerarToken();
+                    foreach ($this->getItem() as $imovel) {
+                        ?>
+                        <tr>        
+                            <?php
+                            echo $imovel->buscarTipoImovel($imovel->getIdTipoImovel());
 
-        </div>
-    </div>
-    
-        <div class="row">
-            <div class="column">
-                <table class="ui green stackable table" id="tabela">&nbsp;
-                    <thead>
-                        <tr>
-                            <th class="three wide">Tipo</th>
-                            <th class="five wide">Descrição</th>
-                            <th class="three wide">Data Cadastro</th>
-                            <th class="five wide">Operações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        Sessao::gerarToken();
-                        foreach ($this->getItem() as $imovel) {
-                            ?>
-                            <tr>        
-                                <?php
-                                echo $imovel->buscarTipoImovel($imovel->getIdTipoImovel());
-
-                                if (trim($imovel->getIdentificacao()) == "") {
-                                    $descricao = "<h4 class='ui red header'>Não Informado</h4>";
-                                } else {
-                                    $descricao = nl2br($imovel->getIdentificacao()); //função nl2br usada para formatar o texto cadastrado na textarea
-                                }
-
-                                echo "<td>" . $descricao . "</td>";
-
-                                echo "<td>" . date('d/m/Y H:i:s', strtotime($imovel->getDatahoracadastro())) . "</td>";
-
-                                echo "<td> <a href='#' class='ui circular inverted zoom icon button' id='detalhes" . $imovel->getId() . "' ><i class='big green zoom icon'></i></a>Detalhes";
-
-                                if (count($imovel->getAnuncio()) > 0) {
-                                    if (verificaAnuncioAtivo($imovel->getAnuncio())) {
-                                        $mensagemAnuncio = "&nbsp;&nbsp;<div class='ui small compact negative message'>Possui Anúncio</div> <i class='big green check circle outline icon'></i>";
-                   
-                                    } else {
-                                        $mensagemAnuncio = "&nbsp;&nbsp;<div class='ui small compact negative message'>Possui Anúncio</div> <i class='big red remove circle outline icon'></i>";
-                                    }
-                                    echo $mensagemAnuncio;
-                                } else {
-                                    echo "<a href=index.php?entidade=Imovel&acao=selecionar&id=" . $imovel->getId() . '&token=' . $_SESSION['token'] . "  id='editar" . $imovel->getId() . "' class='ui circular inverted icon button'><i class='big teal edit icon'></i></a>Editar";
-                                    echo "<a class='ui circular inverted icon button' onclick='formExcluirImovel(" . $imovel->getId() . ",\"" . $_SESSION['token'] . "\",\"" . $imovel->buscarTipoImovel($imovel->getIdTipoImovel()) . "\")'><i class='big red trash icon'></i></a>Excluir";
-                                }
-
-                                echo "</td>";
+                            if (trim($imovel->getIdentificacao()) == "") {
+                                $descricao = "<h4 class='ui red header'>Não Informado</h4>";
+                            } else {
+                                $descricao = nl2br($imovel->getIdentificacao()); //função nl2br usada para formatar o texto cadastrado na textarea
                             }
-                            ?>                    
-                        </tr>         
-                    </tbody>
-                </table>
+
+                            echo "<td>" . $descricao . "</td>";
+
+                            echo "<td>" . date('d/m/Y H:i:s', strtotime($imovel->getDatahoracadastro())) . "</td>";
+
+                            echo "<td> <a href='#' class='ui circular inverted zoom icon button' id='detalhes" . $imovel->getId() . "' ><i class='big green zoom icon'></i></a>Detalhes";
+
+                            if (count($imovel->getAnuncio()) > 0) {
+                                if (verificaAnuncioAtivo($imovel->getAnuncio())) {
+                                    $mensagemAnuncio = "&nbsp;&nbsp;<div class='ui small compact negative message'>Possui Anúncio</div> <i class='big green check circle outline icon'></i>";
+                                } else {
+                                    $mensagemAnuncio = "&nbsp;&nbsp;<div class='ui small compact negative message'>Possui Anúncio</div> <i class='big red remove circle outline icon'></i>";
+                                }
+                                echo $mensagemAnuncio;
+                            } else {
+                                echo "<a href=index.php?entidade=Imovel&acao=selecionar&id=" . $imovel->getId() . '&token=' . $_SESSION['token'] . "  id='editar" . $imovel->getId() . "' class='ui circular inverted icon button'><i class='big teal edit icon'></i></a>Editar";
+                                echo "<a class='ui circular inverted icon button' onclick='formExcluirImovel(" . $imovel->getId() . ",\"" . $_SESSION['token'] . "\",\"" . $imovel->buscarTipoImovel($imovel->getIdTipoImovel()) . "\")'><i class='big red trash icon'></i></a>Excluir";
+                            }
+
+                            echo "</td>";
+                        }
+                        ?>                    
+                    </tr>         
+                </tbody>
+            </table>
+            <div class="row">
+
+                <div class="column">
+
+                    <div class="ui horizontal segments">
+
+                        <div class="ui segment center aligned ">
+                            <i class='big green check circle outline icon'></i> Imóvel com Anúncio <strong>Ativo</strong>
+                        </div>
+
+                        <div class="ui segment center aligned ">
+                            <i class='big red remove circle outline icon'></i>Imóvel com Anúncio <strong>Inativo ou Expirado</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -166,10 +165,10 @@ function verificaAnuncioAtivo($listaAnuncios) {
 
 <script>
     $(document).ready(function () {
-        
+
         //função que ordena a data, de acordo com o formato
-        $.fn.dataTable.moment('DD/MM/YYYY HH:mm:ss');      
-  
+        $.fn.dataTable.moment('DD/MM/YYYY HH:mm:ss');
+
         $('#tabela').DataTable({
             "language": {
                 "url": "assets/libs/datatables/js/Portuguese-Brasil.json",

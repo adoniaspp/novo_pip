@@ -4,7 +4,7 @@ function esconderCamposInicio() {
         $("#sltTipo").val('');//limpar o valor do campo tipo de imovel
         $('.ui.dropdown')
                 .dropdown({
-                    on: 'hover'
+                    //on: 'hover'
                 });
 
         $("#sltTipo").parent().dropdown('restore defaults');//reiniciar ao valor padrao do campo tipo de imovel
@@ -485,7 +485,7 @@ function esconderCamposInicio() {
                 }
 
                 $("input[name^='slt']:not('#sltTipo'):not('#sltNumeroPlantas')").parent().dropdown({
-                    on: 'hover'
+                    //on: 'hover'
                 })
 
 
@@ -548,22 +548,22 @@ function mostrarDivInfoApeCasa() {
             $("#divInfoApeCasa").append(garagem);
 
             $("#sltQuarto").parent().dropdown({
-                on: 'hover'
+                //on: 'hover'
             })
 
 
             $("#sltBanheiro").parent().dropdown({
-                on: 'hover'
+                //on: 'hover'
             })
 
 
             $("#sltSuite").parent().dropdown({
-                on: 'hover'
+                //on: 'hover'
             })
 
 
             $("#sltGaragem").parent().dropdown({
-                on: 'hover'
+                //on: 'hover'
             })
 
         }
@@ -577,11 +577,11 @@ function mostrarDivInfoApeCasa() {
             $("#divInfoApeCasa").append(garagem);
 
             $("#sltBanheiro").parent().dropdown({
-                on: 'hover'
+                //on: 'hover'
             })
 
             $("#sltGaragem").parent().dropdown({
-                on: 'hover'
+                //on: 'hover'
             })
 
         }
@@ -665,7 +665,7 @@ function mostrarCamposEdicaoCasa(tipoImovel,
 
         $('.ui.dropdown')
                 .dropdown({
-                    on: 'hover'
+                    //on: 'hover'
                 });
 
     })
@@ -726,7 +726,7 @@ function mostrarCamposEdicaoApartamento(tipoImovel,
 
         $('.ui.dropdown')
                 .dropdown({
-                    on: 'hover'
+                    //on: 'hover'
                 });
 
     })
@@ -807,7 +807,7 @@ function mostrarCamposEdicaoApartamentoPlanta(tipoImovel,
 
         $('.ui.dropdown')
                 .dropdown({
-                    on: 'hover'
+                    //on: 'hover'
                 });
 
     })
@@ -860,7 +860,7 @@ function mostrarCamposEdicaoSalaComercial(tipoImovel,
 
         $('.ui.dropdown')
                 .dropdown({
-                    on: 'hover'
+                    //on: 'hover'
                 });
     })
 }
@@ -909,7 +909,7 @@ function mostrarCamposEdicaoTerreno(tipoImovel, parametroArea) {
 
         $('.ui.dropdown')
                 .dropdown({
-                    on: 'hover'
+                    //on: 'hover'
                 });
     })
 }
@@ -947,7 +947,7 @@ function mostrarPlantas(
 
         $('.ui.dropdown')
                 .dropdown({
-                    on: 'hover'
+                    //on: 'hover'
                 });
 
         $('#txtArea' + parametroOrdem).priceFormat({

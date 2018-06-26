@@ -3,7 +3,7 @@ function esconderResposta(){
     $(document).ready(function () {
         $('.ui.dropdown')
                 .dropdown({
-                    on: 'hover'
+                    //on: 'hover'
                 });
         $("div[id^='divResposta']").hide();
         
