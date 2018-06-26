@@ -48,7 +48,7 @@ $valorAnuncio = (isset($item["novovalor"][0])) ? $item["novovalor"][0]->getNovov
 <![endif]-->
 <script>
     editarAnuncio();
-    cancelar('Anuncio', 'listarCadastrar');
+    cancelar('Anuncio', 'listarAtivo');
 <?php if ($tipoImovel == "apartamentoplanta") { ?>
         stepsComPlanta();
         //        validarValor(false);

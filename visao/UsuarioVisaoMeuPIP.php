@@ -141,6 +141,7 @@ $imoveis = $item["imovelCadastrado"];
 $mensagens = $item["mensagem"];
 $usuarioBairro = $item["usuarioBairro"];
 $chamdos = $item["chamados"];
+$planosUsu = $item["planosUsuarioGratis"];
 
 foreach ($usuarioBairro as $bairroUsuario) {
     $bUsuario = $bairroUsuario->getNome();
@@ -1059,10 +1060,18 @@ foreach ($imoveis as $qtdAnuncios) {
     <div class="row">
         <div class="column">
             <?php
+     
             if ($item) {
-                if (!$item["usuarioPlano"]) {
+
+                if($planosUsu && !$item["usuarioPlano"]){ ?>
+            
+                   <div class="ui orange message"><h4 class="ui red header">Você já utilizou um gratuito e não possui nenhum plano. Não perca tempo e COMPRE AGORA!</h4></div>
+               
+            <?php } else if 
+                
+                 (!$planosUsu && !$item["usuarioPlano"]) {
                     ?>
-                    <div class="ui orange message"><h4 class="ui red header">Você ainda não tem plano. Não perca tempo e COMPRE AGORA!</h4></div>
+                    <div class="ui orange message"><h4 class="ui red header">Você ainda não tem plano, mas pode utilizar um gratuito. Não perca tempo e COMPRE AGORA!</h4></div>
                     <?php
                 } else {
                     ?> 
@@ -1168,8 +1177,8 @@ foreach ($imoveis as $qtdAnuncios) {
                     </table>
 
                     <?php
-                }
-            }
+                  }                
+               }
             ?>
         </div>
     </div>
