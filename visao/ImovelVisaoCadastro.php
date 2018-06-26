@@ -11,7 +11,7 @@
 
     cadastrarImovel();
     esconderCamposInicio();
-    mascarasFormUsuario();
+    //mascarasFormUsuario();
     cancelar("Usuario", "meuPIP"); //caso estejam os dois parametros vazios, redirecionar para o index
     acoesCEP();
     confirmarCadastroImovel();
@@ -288,7 +288,7 @@ Sessao::gerarToken();
                 </div>
             </div>
             <h3 class="ui dividing header">Confirmação de Cadastro</h3>
-            <button class="ui blue submit button" type="submit" id="btnCadastrar">Cadastrar</button>
+            <button class="ui blue submit button" type="button" id="btnCadastrar">Cadastrar</button>
             <button class="ui orange button" type="button" id="btnCancelar">Cancelar</button>
         </form>
     </div>

@@ -561,7 +561,7 @@ class AnuncioControle {
 
                 //verifica se o plano eh gratuito
                 if ($parametros["sltPlano"] == "gratuito") {
-                    if($this->verificarPlanoGratuito($parametros) == "true"){
+                    if($this->temPlanoGratuito($parametros)){
                         //consultar se ja existe algum plano gratuito que seja pago (administrador negou)
                         $verificarPlanoGratuito = $genericoDAO->consultar($entidadeUsuarioPlano, false, array("status" => "pago", "idplano" => 5, "idusuario" => $_SESSION["idusuario"]));
                         //se nao tem cadastra um novo
@@ -1766,20 +1766,28 @@ class AnuncioControle {
             }
         }
     }
+    function temPlanoGratuito($parametros) {
+        if(isset($parametros["sltPlano"]) && $parametros["sltPlano"]=="gratuito"){
+            $consultasAdHoc = new ConsultasAdHoc();
+            $verifica = $consultasAdHoc->verificarPlanoGratuito($_SESSION['idusuario']);
+            if(count($verifica) > 0){
+                return false;// - possui plano gratuito";   
+            } else {
+                return true;
+            }                    
+        } else {
+            return true;
+        }
+    }
     
     function verificarPlanoGratuito($parametros) {
         if (Sessao::verificarSessaoUsuario()) {
             if (Sessao::verificarToken($parametros)) {
-                if(isset($parametros["sltPlano"]) && $parametros["sltPlano"]=="gratuito"){
-                    $consultasAdHoc = new ConsultasAdHoc();
-                    $verifica = $consultasAdHoc->verificarPlanoGratuito($_SESSION['idusuario']);
-                    if(count($verifica) > 0){
-                        echo "false";// - possui plano gratuito";   
-                    } else {
-                        echo "true";
-                    }                    
-                } else {
+                $resposta = $this->temPlanoGratuito($parametros);
+                if($resposta){
                     echo "true";
+                } else {
+                    echo "false";
                 }
             } else {
                     echo "false";// - token";

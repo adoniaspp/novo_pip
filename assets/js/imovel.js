@@ -475,11 +475,8 @@ function esconderCamposInicio() {
                         $(this).valid();
                     })
 
-                    $('#txtArea' + contador).priceFormat({
-                        prefix: '',
-                        centsSeparator: '',
-                        thousandsSeparator: '.',
-                        limit: 5
+                    $('#txtArea' + contador).keyup(function() {
+                        $(this).val(this.value.replace(/\D/g, ''));
                     });
 
                 }
@@ -530,7 +527,6 @@ function esconderCamposInicio() {
 }
 
 function mostrarDivInfoApeCasa() {
-    $(document).ready(function () {
         //limpa o que tiver na div de carregamento
         $("#divInfoApeCasa").empty();
         
@@ -585,8 +581,6 @@ function mostrarDivInfoApeCasa() {
             })
 
         }
-    })
-
 }
 
 function cadastrarImovel() {
@@ -950,12 +944,9 @@ function mostrarPlantas(
                     //on: 'hover'
                 });
 
-        $('#txtArea' + parametroOrdem).priceFormat({
-            prefix: '',
-            centsSeparator: '',
-            thousandsSeparator: '.',
-            limit: 8
-        });
+       $('#txtArea' + parametroOrdem).keyup(function() {
+            $(this).val(this.value.replace(/\D/g, ''));
+            });
 
     })
 }
@@ -1449,12 +1440,10 @@ function preco() {
             limit: 6
         });
 
-        $('#txtArea').priceFormat({
-            prefix: ' ',
-            centsSeparator: '',
-            thousandsSeparator: '.',
-            limit: 8
+       $('#txtArea').keyup(function() {
+            $(this).val(this.value.replace(/\D/g, ''));
         });
+        
         $('#txtDescricao').maxlength({
             alwaysShow: true,
             threshold: 150,
