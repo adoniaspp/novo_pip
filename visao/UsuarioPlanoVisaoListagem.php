@@ -10,6 +10,11 @@
 <?php
 Sessao::gerarToken();
 ?>
+<style>
+#form .bootstrap-touchspin input {
+    width: 50px;
+}
+</style>
 <div class="ui column doubling grid container">
     <div class="column">
         <div class="ui large breadcrumb">

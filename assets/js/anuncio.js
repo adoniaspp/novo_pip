@@ -173,7 +173,7 @@ function cadastrarAnuncio() {
         })
 
 
-// UPLOAD FOTOS
+// UPLOAD FOTOS CADASTRAR
         $('#fileupload').fileupload({
             dropZone: null,
             pasteZone: null,
@@ -189,12 +189,7 @@ function cadastrarAnuncio() {
             loadImageFileTypes: /^image\/(gif|jpeg|png)$/,
             imageType: 'image/jpg',
             imageForceResize: true,
-            loadImageMaxFileSize: 2,
-            messages: {
-                acceptFileTypes: 'Arquivo não permitido. Apenas imagens (gif, jpeg, png)',
-                maxFileSize: 'Arquivo muito grande (3 MB)',
-                minFileSize: 'Arquivo muito pequeno (0 MB)'
-            }
+            loadImageMaxFileSize: 2
         }).on('fileuploadadd', function (e, data) {
             //console.log("adicionando foto");
             //metodo para testar de qual upload esta vindo a imagem
@@ -286,6 +281,7 @@ function cadastrarAnuncio() {
             $('.ui.checkbox').checkbox();
             $("p[class='error']").each(function () {
                 var error = $(this).html();
+                console.log(error);
                 if (error !== "") {
                     //$(this).html('<div class="ui error message"><div class="header">Ocorreu um erro</div><p>' + error + '</p></div>');
                 }
@@ -440,7 +436,7 @@ function editarAnuncio() {
             }
         })
 
-// UPLOAD FOTOS
+// UPLOAD FOTOS EDICAO
         $('#fileupload').fileupload({
             dropZone: null,
             pasteZone: null,
@@ -456,13 +452,7 @@ function editarAnuncio() {
             loadImageFileTypes: /^image\/(gif|jpeg|png)$/,
             imageType: 'image/jpg',
             imageForceResize: true,
-            loadImageMaxFileSize: 2,
-            messages: {
-                maxNumberOfFiles: 'Quantidade máxima de fotos atingida (5 fotos)',
-                acceptFileTypes: 'Arquivo não permitido. Apenas imagens (gif, jpeg, png)',
-                maxFileSize: 'Arquivo muito grande (3 MB)',
-                minFileSize: 'Arquivo muito pequeno (0 MB)'
-            }
+            loadImageMaxFileSize: 2
         }).on('fileuploadadd', function (e, data) {
             //console.log("adicionando foto");
             //metodo para testar de qual upload esta vindo a imagem
@@ -1121,7 +1111,10 @@ function mudouPlano(plano) {
                 $('#fileupload').fileupload({
                     maxNumberOfFiles: Number(maximo),
                     messages: {
-                        maxNumberOfFiles: 'A quantidade máxima de fotos permitidas para o plano selecionado foi atingida (' + maximo + ' fotos) - clique no botão cancelar'
+                        maxNumberOfFiles: 'A quantidade máxima de fotos permitidas para o plano selecionado foi atingida (' + maximo + ' fotos) - clique no botão cancelar',
+                        acceptFileTypes: 'Arquivo não permitido. Apenas imagens (gif, jpeg, png)',
+                        maxFileSize: 'Arquivo muito grande (máximo permitido 3 MB)',
+                        minFileSize: 'Arquivo muito pequeno (0 MB)'
                     }
                 })
             }
