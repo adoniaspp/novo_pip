@@ -274,7 +274,7 @@ switch ($tipo) {
                             uma das opções abaixo");
                         })
                     </script>                    
-                    
+                    <div class="ui hidden divider"></div>
                     <a href="index.php?entidade=Anuncio&acao=listarCadastrar">
                             <button type="button"  class="ui brown button">
                                 <i class="announcement icon"></i><i class="add icon"></i> 

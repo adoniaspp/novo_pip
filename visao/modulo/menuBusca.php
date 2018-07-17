@@ -67,6 +67,8 @@
                         <div class="item" data-value="1">Belém</div>
                         <div class="item" data-value="2">Ananindeua</div>
                         <div class="item" data-value="3">Marituba</div>
+                        <div class="item" data-value="4">Benevides</div>
+                        <div class="item" data-value="6">Castanhal</div>
                     </div>                       
                 </div>
             </div>
@@ -155,6 +157,8 @@
                         <div class="item" data-value="1">Belém</div>
                         <div class="item" data-value="2">Ananindeua</div>
                         <div class="item" data-value="3">Marituba</div>
+                        <div class="item" data-value="4">Benevides</div>
+                        <div class="item" data-value="6">Castanhal</div>
                     </div>
                 </div>
             </div>
