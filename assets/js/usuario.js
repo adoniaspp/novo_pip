@@ -585,8 +585,9 @@ function buscarCep() {
                     $('#hdnCEP').val($('#txtCEP').val());
                     var endereco = 'Brazil, ' + resposta.uf + ', ' + resposta.cidade + ', ' + resposta.bairro + ', ' + resposta.logradouro;
                 }
-                $('#txtCEP').removeAttr('disabled');
+                $('#txtCEP').removeAttr('disabled');               
                 $('#btnCEP').removeAttr('disabled');
+                carregarBairro();
             }
         })
     }

@@ -42,7 +42,7 @@ class Bairro {
     function cadastrar($parametros, $idcidade) {
         $bairro = new Bairro();
         $bairro->setIdcidade($idcidade);
-        $bairro->setNome($parametros['txtBairro']);
+        $bairro->setNome($selecionarBairro[0]->getNome());
         return $bairro;
      }
     
