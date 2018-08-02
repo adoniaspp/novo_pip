@@ -323,7 +323,8 @@ z-index: 9999; /* número máximo é 9999 */
                <a class="ui circular inverted icon button compartilhar-whatsapp" href='whatsapp://send?text=http://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>'><i class="big green whatsapp icon"></i></a>
    </div>
    <div class="center aligned column">
-               Denunciar
+        <div id="textoDenunciar">Denunciar</div>
+               
                <a class="ui circular inverted icon button" id="btnDenuncia"> <i class="big red warning sign icon"></i></a>                
    </div>
 

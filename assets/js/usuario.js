@@ -170,6 +170,9 @@ function cadastrarUsuario() {
                 txtCEP: {
                     required: true
                 },
+                txtLogradouro: {
+                    required: true
+                },
                 txtNumero: {
                     required: true
                 },
@@ -529,13 +532,13 @@ function carregaDadosModal($div) {
 
         var endereco;
         if ($("#txtNumero").val() !== "" && $("#txtComplemento").val() !== "") {
-            endereco = $("#txtLogradouro").val() + ", " + $("#txtNumero").val() + ", " + $("#txtComplemento").val() + " - " + $("#txtBairro").val();
+            endereco = $("#txtLogradouro").val() + ", " + $("#txtNumero").val() + ", " + $("#txtComplemento").val() + " - " + $("#sltBairro").parent().dropdown('get text');;
         } else if ($("#txtNumero").val() !== "" && $("#txtComplemento").val() === "") {
-            endereco = $("#txtLogradouro").val() + ", " + $("#txtNumero").val() + " - " + $("#txtBairro").val();
+            endereco = $("#txtLogradouro").val() + ", " + $("#txtNumero").val() + " - " + $("#sltBairro").parent().dropdown('get text');;
         } else if ($("#txtNumero").val() === "" && $("#txtComplemento").val() === "") {
-            endereco = $("#txtLogradouro").val() + " - " + $("#txtBairro").val();
+            endereco = $("#txtLogradouro").val() + " - " + $("#sltBairro").parent().dropdown('get text');
         } else if ($("#txtNumero").val() === "" && $("#txtComplemento").val() !== "") {
-            endereco = $("#txtLogradouro").val() + ", " + $("#txtComplemento").val() + " - " + $("#txtBairro").val();
+            endereco = $("#txtLogradouro").val() + ", " + $("#txtComplemento").val() + " - " + $("#sltBairro").parent().dropdown('get text');;
         }
 
         $div.append("<div class='ui dividing header'></div>\n\
