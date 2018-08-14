@@ -1576,7 +1576,7 @@ function carregarBairro(cidade, bairro) {
         if (cidade === 'Belém' || cidade === 'Belem') {
             $("#dropBairro").html(
                     '<label>Bairro</label>' +
-                    '<div class="ui search selection dropdown">' +
+                    '<div class="ui fluid search selection dropdown">' +
                     '<input type="hidden" name="itensBairro[]" id="itensBairro">' +
                     '<span class="default text">Bairro</span>' +
                     '<i class="dropdown icon"></i>' +
@@ -1660,7 +1660,7 @@ function carregarBairro(cidade, bairro) {
         if (cidade === 'Ananindeua') {
             $("#dropBairro").html(
                     '<label>Bairro</label>' +
-                    '<div class="ui fluid multiple search selection dropdown">' +
+                    '<div class="ui fluid search selection dropdown">' +
                     '<input type="hidden" name="itensBairro[]" id="itensBairro">' +
                     '<span class="default text">Bairro</span>' +
                     '<i class="dropdown icon"></i>' +
@@ -1698,7 +1698,7 @@ function carregarBairro(cidade, bairro) {
         if (cidade === 'Marituba') {
             $("#dropBairro").html(
                     '<label>Bairro</label>' +
-                    '<div class="ui fluid multiple search selection dropdown">' +
+                    '<div class="ui fluid search selection dropdown">' +
                     '<input type="hidden" name="itensBairro[]" id="itensBairro">' +
                     '<span class="default text">Bairro</span>' +
                     '<i class="dropdown icon"></i>' +
@@ -1724,7 +1724,7 @@ function carregarBairro(cidade, bairro) {
         if (cidade === 'Benevides') {
             $("#dropBairro").html(
                     '<label>Bairro</label>' +
-                    '<div class="ui fluid multiple search selection dropdown">' +
+                    '<div class="ui fluid search selection dropdown">' +
                     '<input type="hidden" name="itensBairro[]" id="itensBairro">' +
                     '<span class="default text">Bairro</span>' +
                     '<i class="dropdown icon"></i>' +
@@ -1750,7 +1750,7 @@ function carregarBairro(cidade, bairro) {
         if (cidade === 'Castanhal') {
             $("#dropBairro").html(
                     '<label>Bairro</label>' +
-                    '<div class="ui fluid multiple search selection dropdown">' +
+                    '<div class="ui fluid search selection dropdown">' +
                     '<input type="hidden" name="itensBairro[]" id="itensBairro">' +
                     '<span class="default text">Bairro</span>' +
                     '<i class="dropdown icon"></i>' +
