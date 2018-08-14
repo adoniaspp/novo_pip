@@ -1570,13 +1570,10 @@ function campoNaoInformado(campo){
     else return campo = campo;
 }
 
-function carregarBairro() {
+function carregarBairro(cidade, bairro) {
     $(document).ready(function () {
-
-        var cidade = $("#txtCidade").val();
-        var bairro = $('#txtBairro').val();
-
-        if (cidade === 'Belém') {
+       
+        if (cidade === 'Belém' || cidade === 'Belem') {
             $("#dropBairro").html(
                     '<label>Bairro</label>' +
                     '<div class="ui search selection dropdown">' +

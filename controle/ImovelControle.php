@@ -372,9 +372,9 @@ class ImovelControle {
             }
             //consultar existencia de bairro, se não existir gravar no banco e utilizar idcidade
             $bairro = new Bairro();
-            $selecionarBairro = $genericoDAO->consultar($bairro, false, array("nome" => $parametros['txtBairro'], "idcidade" => $idCidade));
+            $selecionarBairro = $genericoDAO->consultar($bairro, false, array("id" => $parametros['itensBairro'][0]));
             if (!count($selecionarBairro) > 0) {
-                $entidadeBairro = $bairro->cadastrar($parametros, $idCidade);
+                $entidadeBairro = $bairro->cadastrar($selecionarBairro, $idCidade);
                 $idBairro = $genericoDAO->cadastrar($entidadeBairro);
             } else {
                 $idBairro = $selecionarBairro[0]->getId();

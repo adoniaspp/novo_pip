@@ -6,6 +6,12 @@
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
 <script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
+
+<?php
+Sessao::gerarToken();
+$item = $this->getItem();
+?>
+
 <script>
 
     cadastrarImovel();
@@ -15,14 +21,10 @@
     confirmarCadastroImovel(); //chama o mesmo modal da confirmação do Cadastro
     buscarCep();
     preco();
-
+    carregarBairro("<?php echo $item[0]->getEndereco()->getCidade()->getNome();?>", "<?php echo $item[0]->getEndereco()->getBairro()->getNome();?>");
 </script>
 
-
-
 <?php
-Sessao::gerarToken();
-$item = $this->getItem();
 /*
   echo "<pre>";
   var_dump($item);
@@ -334,24 +336,23 @@ if ($item) {
                         <div class="five wide field"><div id="msgCEP"></div> </div>
                     </div>
                     <div id="divCEP" class="ui">
-                        <div class="three disabled fields">
-                            <div class="field">
+                        <div class="three fields">
+                            <div class="disabled field">
                                 <label>Cidade</label>
                                 <input type="text" name="txtCidade" id="txtCidade" readonly="readonly" value="<?php echo $imovel->getEndereco()->getCidade()->getNome() ?>">
                             </div>
-                            <div class="two wide field">
+                            <div class="two wide disabled field">
                                 <label>Estado</label>
                                 <input type="text" name="txtEstado" id="txtEstado" readonly="readonly" value="<?php echo $imovel->getEndereco()->getEstado()->getUF() ?>">
                             </div>
-                            <div class="field">
-                                <label>Bairro</label>
-                                <input type="text" name="txtBairro" id="txtBairro" readonly="readonly" value="<?php echo $imovel->getEndereco()->getBairro()->getNome() ?>">
+                            <div class="field" id="dropBairro">    
+                            
                             </div>
                         </div>
                         <div class="two fields">
-                            <div class="disabled field">
+                            <div class="field">
                                 <label>Logradouro</label>
-                                <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly" value="<?php echo $imovel->getEndereco()->getLogradouro() ?>">
+                                <input type="text" name="txtLogradouro" id="txtLogradouro" value="<?php echo $imovel->getEndereco()->getLogradouro() ?>">
                             </div>
                             <div class="three wide required field">
                                 <label>Número</label>

@@ -587,10 +587,10 @@ function buscarCep() {
                     $('#txtLogradouro').val(resposta.logradouro);
                     $('#hdnCEP').val($('#txtCEP').val());
                     var endereco = 'Brazil, ' + resposta.uf + ', ' + resposta.cidade + ', ' + resposta.bairro + ', ' + resposta.logradouro;
+                    carregarBairro(resposta.cidade, resposta.bairro);
                 }
                 $('#txtCEP').removeAttr('disabled');               
-                $('#btnCEP').removeAttr('disabled');
-                carregarBairro();
+                $('#btnCEP').removeAttr('disabled');              
             }
         })
     }
@@ -1182,6 +1182,9 @@ function alterarUsuario() {
                                     hdnToken: $("#hdnToken").val()
                                 }
                             }
+                },
+                txtLogradouro: {
+                    required: true
                 },
                 txtCEP: {
                     required: true

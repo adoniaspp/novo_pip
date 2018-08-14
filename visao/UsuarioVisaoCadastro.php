@@ -51,7 +51,6 @@ Sessao::gerarToken();
         <form id="form" class="ui form" action="index.php" method="post" enctype="multipart/form-data">
             <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
             <input type="hidden" id="hdnAcao" name="hdnAcao" value="cadastrar" />
-            <input type="hidden" name="txtBairro" id="txtBairro">
             <input type="hidden" id="hdnCEP" name="hdnCEP" />
             <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
             <h3 class="ui dividing header">Informações Básicas</h3>

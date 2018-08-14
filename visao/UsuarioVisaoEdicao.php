@@ -5,6 +5,13 @@
 <!-- JS -->
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/js/usuario.js"></script>
+<script src="assets/js/imovel.js"></script>
+
+<?php
+Sessao::gerarToken();
+$item = $this->getItem();
+?>
+
 <script>
     cancelar("Usuario", "meuPIP");
     alterarUsuario();
@@ -12,10 +19,9 @@
     acoesCEP();
     confirmar();
     telefone();
+    carregarBairro("<?php echo $item[0]->getEndereco()->getCidade()->getNome();?>", "<?php echo $item[0]->getEndereco()->getBairro()->getNome();?>");
 </script>
 <?php
-Sessao::gerarToken();
-$item = $this->getItem();
 
 if ($item) {
     foreach ($item as $usuario) {
@@ -54,6 +60,7 @@ if ($item) {
             <form id="form" class="ui form" action="index.php" method="post">
                 <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
                 <input type="hidden" id="hdnAcao" name="hdnAcao" value="alterar" />
+                <input type="hidden" name="txtBairro" id="txtBairro" value="<?php echo $usuario->getEndereco()->getBairro()->getNome() ?>">
                 <input type="hidden" id="hdnCEP" name="hdnCEP" value="<?php echo $usuario->getEndereco()->getCep() ?>"/>
                 <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
                 <h3 class="ui dividing header">Informações Básicas</h3>
@@ -141,24 +148,23 @@ if ($item) {
                 <div class="five wide field"><div id="msgCEP"></div> </div>
                 </div>
                 <div id="divCEP" class="ui">
-                    <div class="three disabled fields">
-                        <div class="field">
+                    <div class="three fields">
+                        <div class="disabled field">
                             <label>Cidade</label>
                             <input type="text" name="txtCidade" id="txtCidade" readonly="readonly" value="<?php echo $usuario->getEndereco()->getCidade()->getNome(); ?>">
                         </div>
-                        <div class="two wide field">
+                        <div class="two wide disabled field">
                             <label>Estado</label>
                             <input type="text" name="txtEstado" id="txtEstado" readonly="readonly" value="<?php echo $usuario->getEndereco()->getEstado()->getUf() ?>">
                         </div>
-                        <div class="field">
-                            <label>Bairro</label>
-                            <input type="text" name="txtBairro" id="txtBairro" readonly="readonly" value="<?php echo $usuario->getEndereco()->getBairro()->getNome() ?>">
+                        <div class="field" id="dropBairro">    
+                            
                         </div>
                     </div>
                     <div class="two fields">
-                        <div class="disabled field">
+                        <div class="field">
                             <label>Logradouro</label>
-                            <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly" value="<?php echo $usuario->getEndereco()->getLogradouro() ?>">
+                            <input type="text" name="txtLogradouro" id="txtLogradouro" value="<?php echo $usuario->getEndereco()->getLogradouro() ?>">
                         </div>
                         <div class="three wide required field">
                             <label>Número</label>
