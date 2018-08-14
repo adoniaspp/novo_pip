@@ -4,6 +4,8 @@
 <script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/js/usuario.js"></script>
+<script src="assets/js/imovel.js"></script>
+
 
 <script>
     cadastrarUsuario();
@@ -49,6 +51,7 @@ Sessao::gerarToken();
         <form id="form" class="ui form" action="index.php" method="post" enctype="multipart/form-data">
             <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
             <input type="hidden" id="hdnAcao" name="hdnAcao" value="cadastrar" />
+            <input type="hidden" name="txtBairro" id="txtBairro">
             <input type="hidden" id="hdnCEP" name="hdnCEP" />
             <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
             <h3 class="ui dividing header">Informações Básicas</h3>
@@ -141,24 +144,22 @@ Sessao::gerarToken();
                 <div class="five wide field"><div id="msgCEP"></div> </div>
             </div>
             <div id="divCEP" class="ui">
-                <div class="three disabled fields">
-                    <div class="field">
+                <div class="three fields">
+                    <div class="disabled field">
                         <label>Cidade</label>
                         <input type="text" name="txtCidade" id="txtCidade" readonly="readonly">
                     </div>
-                    <div class="two wide field">
+                    <div class="two wide disabled field">
                         <label>Estado</label>
                         <input type="text" name="txtEstado" id="txtEstado" readonly="readonly">
                     </div>
-                    <div class="field">
-                        <label>Bairro</label>
-                        <input type="text" name="txtBairro" id="txtBairro" readonly="readonly">
+                    <div class="field" id="dropBairro">
                     </div>
                 </div>
                 <div class="two fields">
-                    <div class="disabled field">
+                    <div class="field">
                         <label>Logradouro</label>
-                        <input type="text" name="txtLogradouro" id="txtLogradouro" readonly="readonly">
+                        <input type="text" name="txtLogradouro" id="txtLogradouro">
                     </div>
                     <div class="three wide required field">
                         <label>Número </label>

@@ -536,22 +536,13 @@ if ($item) {
                 </div>
 
                 <!--PUBLICAÇÃO-->
-                <div class="ui middle aligned stackable grid container" id="step6">
-                    <div class="ui hidden divider"></div>
-                    <h3 class="ui dividing header" id="divTextoPublicacao">Publicação</h3>
-
-                </div>
-
+                <div class="ui middle aligned stackable grid container" id="step6"></div>
             </div>
         </div>
     </form>
 
-    <div class="ui hidden divider"></div><div class="ui hidden divider"></div>
-
     <div class="ui centered aligned stackable grid container">
-        <div id="divRetorno">
-            <p></p>
-        </div>
+        <div id="divRetorno"></div>
     </div>
 
     <div class="ui hidden divider"></div>
