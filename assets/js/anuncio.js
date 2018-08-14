@@ -119,15 +119,16 @@ function cadastrarAnuncio() {
                     data: $('#fileupload').serialize(),
                     beforeSend: function () {
                         $('button').attr('disabled', 'disabled');
+                        $("#step6").show();
+                        $("#step6").html('<br /><br /><br /><br /><br /><br /><br /><br /><br /><div class="ui active inverted dimmer"><div class="ui text small loader"><p style="color:red">Processando...</p></div></div>');
                     },
                     success: function (resposta) {
                         $("div[id^='step']").hide();
-                        $("#step6").show();
                         if (resposta.resultado == 1) {
                             $("#divRetorno").html("\
                                 <div class='ui two column center aligned grid'>\n\
                                     <div class='ui compact positive message'>\n\
-                                            <i class='big green check circle outline icon'></i>Seu anúncio foi cadastrado com sucesso. Aguarde a confirmação da publicação para que ele possa ser visualizado\n\</div>\n\
+                                            <i class='big green check circle outline icon'></i>Seu anúncio foi cadastrado com sucesso. Aguarde a confirmação da publicação para que ele possa ser visualizado.\n\</div>\n\
                                 </div>\n\
                                 <div class='ui hidden divider'></div>\n\
                                     <div class='ui vertical segment'>\n\
@@ -154,8 +155,6 @@ function cadastrarAnuncio() {
                                     </div>\n\
                                 </div>");
                             $('#botaoDetalhesImovel').hide();
-                            $('#divTextoPublicacao').html("Anúncio Publicado Com Sucesso");
-
                         } else {
                             $("#divRetorno").html("<div class='ui warning icon message'>\n\
                                  <i class='checkmark icon'></i>\n\
@@ -386,15 +385,16 @@ function editarAnuncio() {
                     data: $('#fileupload').serialize(),
                     beforeSend: function () {
                         $('button').attr('disabled', 'disabled');
+                        $("#step6").show();
+                        $("#step6").html('<br /><br /><br /><br /><br /><br /><br /><br /><br /><div class="ui active inverted dimmer"><div class="ui text small loader"><p style="color:red">Processando...</p></div></div>');
                     },
                     success: function (resposta) {
                         $("div[id^='step']").hide();
-                        $("#step6").show();
                         if (resposta.resultado == 1) {
                             $("#divRetorno").html("\
                                 <div class='ui two column center aligned grid'>\n\
                                     <div class='ui compact positive message'>\n\
-                                            <i class='big green check circle outline icon'></i>Edição do anúncio " + resposta.idanuncio + " feita com sucesso. As alterações realizadas estão em análise e em breve serão visualizadas\n\</div>\n\
+                                            <i class='big green check circle outline icon'></i>Edição do anúncio " + resposta.idanuncio + " feita com sucesso. As alterações realizadas estão em análise e em breve serão visualizadas.\n\</div>\n\
                                 </div>\n\
                                 <div class='ui hidden divider'></div>\n\
                                       <div class='ui vertical segment'>\n\
@@ -418,8 +418,6 @@ function editarAnuncio() {
                                     </div>\n\
                                 </div>");
                             $('#botaoDetalhesImovel').hide();
-                            $('#divTextoPublicacao').html("Anúncio editado com sucesso");
-
                         } else {
                             $("#divRetorno").html("<div class='ui warning icon message'>\n\
                                  <i class='checkmark icon'></i>\n\
