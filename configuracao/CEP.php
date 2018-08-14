@@ -29,12 +29,13 @@ class CEP {
         $resultadoCEP = $this->CurlCorreios(); //primeira opcao
         if (!$resultadoCEP) {
             $resultadoCEP = $this->WebserviceViaCEP(); //contingencia da contingencia
-            // var_dump($resultadoCEP);            var_dump($this);
+             //var_dump($resultadoCEP);            var_dump($this);
             if (!$resultadoCEP) {
                 $resultadoCEP = $this->WebserviceRepublica(); //contingencia
             }
         }
-        return $resultadoCEP;
+        
+        return $this->limparEspacoEmBranco($resultadoCEP);
     }
 
     public function CurlCorreios() {
@@ -179,6 +180,22 @@ class CEP {
             $logradouro = $trata_endereco[0];
         }
         return $logradouro;
+    }
+
+    private function limparEspacoEmBranco($resultado) {
+        if (isset($resultado['logradouro'])) {
+            $resultado['logradouro'] = trim(preg_replace('/\xc2\xa0/', '', $resultado['logradouro']));
+        }
+        if (isset($resultado['bairro'])) {
+            $resultado['bairro'] = trim(preg_replace('/\xc2\xa0/', '', $resultado['bairro']));
+        }
+        if (isset($resultado['cidade'])) {
+            $resultado['cidade'] = trim(preg_replace('/\xc2\xa0/', '', $resultado['cidade']));
+        }
+        if (isset($resultado['uf'])) {
+            $resultado['uf'] = trim(preg_replace('/\xc2\xa0/', '', $resultado['uf']));
+        }
+        return $resultado;
     }
 
     public function getTipoErro() {
