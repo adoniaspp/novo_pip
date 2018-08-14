@@ -293,9 +293,9 @@ if ($item) {
         <br>
         Cadastre as características do imóvel (quartos, banheiros, garagens, área, etc).
     </div>
-    <div class="column"><i class="teal big add to cart icon"></i>3 - COMPRE O ANUNCIO
+    <div class="column"><i class="teal big add to cart icon"></i>3 - COMPRE O ANÚNCIO
         <br>
-        Após cadastrar o imóvel, compre o anuncio para divulgar seu produto, escolhendo o melhor
+        Após cadastrar o imóvel, compre o anúncio para divulgar seu produto, escolhendo o melhor
         para sua necessidade (1 mês de divulgação no site, 2 meses, etc.)
     </div>
 </div>  
@@ -313,14 +313,14 @@ if ($item) {
         <div class="ui bulleted list">
             <div class="item">Cadastre vários imóveis e escolha quais anunciar </div>
             <div class="item">Enviar anuncios por e-mail</div>
-            <div class="item">Envie dúvidas sobre os anuncios</div>
+            <div class="item">Envie dúvidas sobre os anúncios</div>
             <div class="item">É vendedor? você tem sua área específica, bastando digitar seu login na barra de endereços</div>
         </div>
     </div>
     <div class="column">
         <div class="ui bulleted list">
             <div class="item">Busca completa, inclusive na área do vendedor</div>
-            <div class="item">Reative anuncios expirados, sem necessidade de recadastrar o imóvel</div>
+            <div class="item">Reative anúncios expirados, sem necessidade de recadastrar o imóvel</div>
             <div class="item">Compatível com dispositivos móveis (celular e tablet)</div>
             <div class="item">Quer saber mais detalhes sobre mais vantagens? clique AQUI</div>
         </div>  

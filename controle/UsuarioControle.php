@@ -125,9 +125,9 @@ class UsuarioControle {
             }
             //consultar existencia de bairro, se não existir gravar no banco e utilizar idcidade
             $bairro = new Bairro();
-            $selecionarBairro = $genericoDAO->consultar($bairro, false, array("nome" => $parametros['txtBairro'], "idcidade" => $idCidade));
+            $selecionarBairro = $genericoDAO->consultar($bairro, false, array("id" => $parametros['itensBairro'][0]));
             if (!count($selecionarBairro) > 0) {
-                $entidadeBairro = $bairro->cadastrar($parametros, $idCidade);
+                $entidadeBairro = $bairro->cadastrar($selecionarBairro, $idCidade);
                 $idBairro = $genericoDAO->cadastrar($entidadeBairro);
             } else {
                 $idBairro = $selecionarBairro[0]->getId();
@@ -244,11 +244,9 @@ class UsuarioControle {
 
             //consultar existencia de bairro, se não existir gravar no banco e utilizar idcidade
             $bairro = new Bairro();
-            //$genericoDAO = new GenericoDAO();
-
-            $selecionarBairro = $genericoDAO->consultar($bairro, false, array("nome" => $parametros['txtBairro'], "idcidade" => $idCidade));
+            $selecionarBairro = $genericoDAO->consultar($bairro, false, array("id" => $parametros['itensBairro'][0]));
             if (!count($selecionarBairro) > 0) {
-                $entidadeBairro = $bairro->cadastrar($parametros, $idCidade);
+                $entidadeBairro = $bairro->cadastrar($selecionarBairro, $idCidade);
                 $idBairro = $genericoDAO->cadastrar($entidadeBairro);
             } else {
                 $idBairro = $selecionarBairro[0]->getId();
@@ -684,6 +682,7 @@ class UsuarioControle {
             $itemMeuPIP["anuncio"] = count($consultasAdHoc->ConsultarAnunciosPorUsuario($_SESSION['idusuario'], null)) > 0 || count($consultasAdHoc->ConsultarAnunciosPendentesPorUsuario($_SESSION['idusuario'], null)) > 0;
             $itemMeuPIP["mensagem"] = $genericoDAO->consultar(new Mensagem(), false, array("idusuario" => $_SESSION['idusuario']));
             $itemMeuPIP["chamados"] = $genericoDAO->consultar($chamadosPIP, true, array("idusuario" => $_SESSION['idusuario']));
+            $itemMeuPIP["anuncioPendente"] = $consultasAdHoc->consultarAnunciosPendentesAprovacaoPorUsuario($_SESSION['idusuario']);
             $visao = new Template();
             $visao->setItem($itemMeuPIP);
             $visao->exibir('UsuarioVisaoMeuPIP.php');
