@@ -713,7 +713,7 @@ function mostrarCamposEdicaoApartamento(tipoImovel,
 
 
         var condominio = "<div class='three wide field'>\n\
-                                <div class='field'><label>Condominio(R$)</label>\n\
+                                <div class='field'><label>Condomínio (R$)</label>\n\
                                 <input type='text' name='txtCondominio' id='txtCondominio' value='" + parametroCondominio + "'>\n\
                             </div></div>";
 
@@ -1438,8 +1438,8 @@ function preco() {
     $(document).ready(function () {
         $('#txtCondominio').priceFormat({
             prefix: 'R$ ',
-            centsSeparator: '',
-            thousandsSeparator: '',
+            centsSeparator: ',',
+            thousandsSeparator: '.',
             limit: 6
         });
 

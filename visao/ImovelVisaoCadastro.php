@@ -222,8 +222,8 @@ Sessao::gerarToken();
 
                 <div id="divCondominio" class="one field">
                     <div class=" field">
-                        <label>Condominio(R$)</label>
-                        <input type="text" name="txtCondominio" id="txtCondominio" placeholder="Valor do Condominio">
+                        <label>Condom&iacute;nio (R$)</label>
+                        <input type="text" name="txtCondominio" id="txtCondominio" placeholder="Valor do Condom&iacute;nio">
                     </div>                                     
                 </div>
 

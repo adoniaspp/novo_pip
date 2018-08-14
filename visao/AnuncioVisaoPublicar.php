@@ -231,8 +231,8 @@ if ($item) {
                             <div class="ui orange dividing small header">
                                 <i class="add to cart icon"></i>
                                 <div class="content">
-                                    Escolha um plano ao lado. Caso não tenha ou já tiver um gratuito ativo, clique abaixo para comprar
-                                    <div class="sub header">  <a href="index.php?entidade=Plano&acao=listar"> Clique AQUI para comprar planos  </a></div>
+                                    Escolha um plano ao lado. <br>
+                                    <a href="index.php?entidade=Plano&acao=listar">Caso não tenha ou se já tiver um gratuito ativo, clique aqui para comprar</a>
                                     <input type="hidden" name="hdnMaxImagens" id="hdnMaxImagens" value="3" />
                                 </div>
                             </div>
