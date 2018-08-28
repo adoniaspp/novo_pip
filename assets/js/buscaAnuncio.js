@@ -673,9 +673,7 @@ function buscarAnuncio() {
 }
 
 function carregarAnuncio() { //valor = quantidade de anuncios
-
     $(document).ready(function () {
-
         var deviceAgent = navigator.userAgent.toLowerCase();
         var agentID = deviceAgent.match(/(iphone|ipod|ipad|android|blackberry)/);
 
@@ -697,6 +695,13 @@ function carregarAnuncio() { //valor = quantidade de anuncios
                 thousandsSeparator: '.'
             })
 
+            var linha = Number($('#paginaLinha').val());
+            var total = Number($('#hdnTotalAnuncios').val());
+            var itensPorLinha = 4;
+            linha = linha + itensPorLinha;
+            if (linha >= total) {
+                $("#carregarMais").addClass("disabled");
+            }
             ordenarAnuncio();
             exibirEnviarComparar();
             $('#carregarMais').click(function () {
@@ -704,7 +709,7 @@ function carregarAnuncio() { //valor = quantidade de anuncios
                 var total = Number($('#hdnTotalAnuncios').val());
                 var itensPorLinha = 4;
                 linha = linha + itensPorLinha;
-//                if (linha <= total) {
+                if (linha <= total) {
                 $("#paginaLinha").val(linha);
                 $.ajax({
                     url: 'index.php',
@@ -754,15 +759,15 @@ function carregarAnuncio() { //valor = quantidade de anuncios
                     }
                 });
 
-//                } else {
-//                    $("#carregarMais").addClass("disabled loading");
+                } else {
+                    $("#carregarMais").addClass("disabled");
 //                    setTimeout(function () {
 //                        $('.list-item:nth-child(4)').nextAll('.list-item').remove();
 //                        $("#linha").val(0);
 //                        $('.load-more').text("Load more");
 //                        $('.load-more').css("background", "#15a9ce");
 //                    }, 2000);
-//                }
+                }
             });
         } else {
             $("#carregarMais").hide();
