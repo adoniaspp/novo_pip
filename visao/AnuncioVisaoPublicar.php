@@ -84,6 +84,8 @@ if ($item) {
                 <div id="menuStep1" class="active step">
                     <div class="content">
                         <div class="title">Plano</div>
+                        <div class="title">Plano</div>
+                        <div class="title">Plano</div>
                     </div>
                 </div>
                 <div id="menuStep2" class="step">

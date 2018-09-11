@@ -323,7 +323,7 @@ switch ($item['anuncio'][0]['tipo']) {
     <a class="ui inverted icon" href="http://www.facebook.com/sharer.php?u=http://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>" target="_blank"><i class="big blue facebook square icon"></i></a></i>
 <a class="ui inverted icon" href="https://twitter.com/intent/tweet?text=Anúncio%20Compartilhado%20via%20PIP-OnLine%20http%3A%2F%2Fwww.pipbeta.com.br%2F<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>" target="_blank"><i class="big blue twitter icon"></i></a>
 <a class="ui inverted icon" href="https://plus.google.com/share?url=http://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>" target="_blank"><i class="big red google plus circle icon"></i></a>
-<a class="ui inverted icon" href='whatsapp://send?text=http://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>'><i class="big green whatsapp icon"></i></a>
+<a class="ui inverted icon compartilhar-whatsapp" href='whatsapp://send?text=http://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>'><i class="big green whatsapp icon"></i></a>
 </div>    
 <div class="ui hidden divider"></div>
 <div class="ui hidden divider"></div>
@@ -382,7 +382,7 @@ switch ($item['anuncio'][0]['tipo']) {
                 <h2 class="ui header">
                     <i class="dollar green icon"></i>
                     <div class="content">
-                        Valor do Anúncio
+                        Valor
                         <div class="sub header">cadastrado pelo anunciante</div>
                     </div>
                 </h2>

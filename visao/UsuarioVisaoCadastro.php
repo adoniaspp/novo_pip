@@ -59,7 +59,7 @@ Sessao::gerarToken();
                     <label>Tipo de Pessoa</label>
                     <div class="ui selection dropdown">
                         <input type="hidden" name="sltTipoUsuario" id="sltTipoUsuario">
-                        <div class="text">Física ou Jurídica</div>
+                        <div class="default text">Física ou Jurídica</div>
                         <i class="dropdown icon"></i>
                         <div class="menu">
                             <div class="item" data-value="pf">Pessoa Física</div>
@@ -222,7 +222,7 @@ Sessao::gerarToken();
                     <br>
                     <div class="teal ui labeled icon button" id="btnAdicionarTelefone">
                         <i class="add icon"></i>
-                        Salvar Telefone
+                        Adicionar Telefone
                     </div>
                 </div>
             </div>    

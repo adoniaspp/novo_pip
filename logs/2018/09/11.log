@@ -1,0 +1,52 @@
+INFO - 1969-12-31 21:00:00 ::1  login
+INFO - 1969-12-31 21:00:00 ::1  login
+INFO - 2018-09-11 16:07:16 ::1  Inicio da Operação UsuarioCadastrar
+INFO - 2018-09-11 16:07:17 ::1  INSERT INTO endereco (id, cep, idestado, idcidade, idbairro, logradouro, numero, complemento) VALUES (66053240, 1, 1, 61, Travessa Quintino Bocaiúva, 1145, 403, )
+INFO - 2018-09-11 16:07:21 ::1  INSERT INTO usuario (id, tipousuario, nome, cpfcnpj, login, senha, status, datahoracadastro, datahoraalteracao, email, idendereco, exibirendereco, exibircontato, exibiranuncios, foto) VALUES (pf, Adonias Pinheiro Pires, 828.897.162-87, adoniaspp, $2y$12$qpxPsAukdAIf2rvR2YTWN.U3S5hQeHTegOoz0cOKfhAxusFXFQXL., ativo, 2018-09-11 16:07:17, adoniaspp@gmail.com, 4, SIM, SIM, SIM, )
+INFO - 2018-09-11 16:07:22 ::1  INSERT INTO telefone (id, tipotelefone, operadora, numero, whatsapp, idusuario) VALUES (Celular, Oi, (91) 98821-9977, SIM, 3, )
+INFO - 2018-09-11 16:07:22 ::1  Término da Operação UsuarioCadastrar
+INFO - 2018-09-11 16:07:31 ::1 adoniaspp login
+INFO - 2018-09-11 16:07:36 ::1 adoniaspp login
+INFO - 2018-09-11 16:09:13 ::1 adoniaspp INSERT INTO endereco (id, cep, idestado, idcidade, idbairro, logradouro, numero, complemento) VALUES (66053240, 1, 1, 61, Travessa Quintino Bocaiúva, 1145, 403, )
+INFO - 2018-09-11 16:09:13 ::1 adoniaspp INSERT INTO imovel (id, idtipoimovel, datahoracadastro, datahoraalteracao, idusuario, idendereco, condicao, identificacao, status, datahoraexclusao) VALUES (3, 2018/09/11 16:09:13, 3, 5, Usado, Imóvel bom., cadastrado, )
+INFO - 2018-09-11 16:09:13 ::1 adoniaspp INSERT INTO apartamento (id, idimovel, quarto, suite, banheiro, garagem, area, unidadesandar, andar, condominio) VALUES (3, 3, 2, 1, 150, 4, 4, 800,00, )
+INFO - 2018-09-11 16:09:13 ::1 adoniaspp INSERT INTO imoveldiferencial (id, idimovel, iddiferencial) VALUES (3, 13, )
+INFO - 2018-09-11 16:09:13 ::1 adoniaspp INSERT INTO imoveldiferencial (id, idimovel, iddiferencial) VALUES (3, 12, )
+INFO - 2018-09-11 16:09:14 ::1 adoniaspp INSERT INTO imoveldiferencial (id, idimovel, iddiferencial) VALUES (3, 9, )
+INFO - 2018-09-11 16:09:14 ::1 adoniaspp INSERT INTO imoveldiferencial (id, idimovel, iddiferencial) VALUES (3, 8, )
+INFO - 2018-09-11 16:09:14 ::1 adoniaspp INSERT INTO imoveldiferencial (id, idimovel, iddiferencial) VALUES (3, 7, )
+INFO - 2018-09-11 16:09:14 ::1 adoniaspp INSERT INTO imoveldiferencial (id, idimovel, iddiferencial) VALUES (3, 4, )
+INFO - 2018-09-11 16:09:15 ::1 adoniaspp INSERT INTO imoveldiferencial (id, idimovel, iddiferencial) VALUES (3, 2, )
+INFO - 2018-09-11 16:13:28 ::1 adoniaspp INSERT INTO usuarioplano (id, idplano, status, datacompra, idusuario) VALUES (5, pago, 2018/09/11 16:13:28, 3, )
+INFO - 2018-09-11 16:13:29 ::1 adoniaspp UPDATE usuarioplano SET (17, 5, utilizado, 2018-09-11 16:13:28, 3, )
+INFO - 2018-09-11 16:13:29 ::1 adoniaspp INSERT INTO anuncioaprovacao (id, idimovel, idanuncio, finalidade, tituloanuncio, descricaoanuncio, status, datahoracadastro, datahoraalteracao, datahoradesativacao, publicarmapa, publicarcontato, idusuarioplano, valormin) VALUES (3, 20180900003, Aluguel, Apartamento bem localizado, Apartamento bem localizado e com ótima estrutura., pendenteanalise, 2018/09/11 16:13:29, SIM, SIM, 17, 1500, )
+INFO - 2018-09-11 16:13:29 ::1 adoniaspp INSERT INTO imagemaprovacao (id, idanuncioaprovacao, diretorio, legenda, destaque, nome, tipo, tamanho) VALUES (2, 30000P432c5a8c, Sala, SIM, apartamento_maxhaus_adriana_pierantoni_01.jpg, image/jpeg, 64394, )
+INFO - 2018-09-11 16:13:30 ::1 adoniaspp INSERT INTO imagemaprovacao (id, idanuncioaprovacao, diretorio, legenda, destaque, nome, tipo, tamanho) VALUES (2, 30000P432c5a8c, Ambiente 2, NÃO, apartamento-samy-e-ricky-lapa360-01.jpg, image/jpeg, 47932, )
+INFO - 2018-09-11 16:13:30 ::1 adoniaspp INSERT INTO imagemaprovacao (id, idanuncioaprovacao, diretorio, legenda, destaque, nome, tipo, tamanho) VALUES (2, 30000P432c5a8c, Ambiente 1, NÃO, sala-de-estar-varanda-integracao-sofa-tapete-mesa-lateral-poltrona-estampada.jpg, image/jpeg, 60549, )
+INFO - 2018-09-11 16:14:45 ::1  logout
+INFO - 2018-09-11 16:14:55 ::1 pipdiministrador login
+INFO - 2018-09-11 16:14:55 ::1 pipdiministrador login
+INFO - 2018-09-11 16:15:44 ::1 pipdiministrador UPDATE anuncioaprovacao SET (2, 3, 20180900003, Aluguel, Apartamento bem localizado, Apartamento bem localizado e com ótima estrutura., emanalise, 2018-09-11 16:13:29, 2018/09/11 16:15:43, 0000-00-00 00:00:00, SIM, SIM, 17, 1500, )
+INFO - 2018-09-11 16:16:18 ::1 pipdiministrador UPDATE anuncioaprovacao SET (2, 3, 20180900003, Aluguel, Apartamento bem localizado, Apartamento bem localizado e com ótima estrutura., aprovado, 2018-09-11 16:13:29, 2018/09/11 16:16:17, 0000-00-00 00:00:00, SIM, SIM, 17, 1500, )
+INFO - 2018-09-11 16:16:18 ::1 pipdiministrador INSERT INTO anuncio (id, idimovel, idanuncio, finalidade, tituloanuncio, descricaoanuncio, status, datahoracadastro, datahoraalteracao, datahoradesativacao, publicarmapa, publicarcontato, idusuarioplano, valormin) VALUES (3, 20180900003, Aluguel, Apartamento bem localizado, Apartamento bem localizado e com ótima estrutura., cadastrado, 2018/09/11 16:16:18, SIM, SIM, 17, 1500, )
+INFO - 2018-09-11 16:16:18 ::1 pipdiministrador INSERT INTO imagem (id, idanuncio, diretorio, legenda, destaque, nome, tipo, tamanho) VALUES (1, 30000P432c5a8c, Ambiente 1, NÃO, sala-de-estar-varanda-integracao-sofa-tapete-mesa-lateral-poltrona-estampada.jpg, image/jpeg, 60549, )
+INFO - 2018-09-11 16:16:18 ::1 pipdiministrador INSERT INTO imagem (id, idanuncio, diretorio, legenda, destaque, nome, tipo, tamanho) VALUES (1, 30000P432c5a8c, Ambiente 2, NÃO, apartamento-samy-e-ricky-lapa360-01.jpg, image/jpeg, 47932, )
+INFO - 2018-09-11 16:16:19 ::1 pipdiministrador INSERT INTO imagem (id, idanuncio, diretorio, legenda, destaque, nome, tipo, tamanho) VALUES (1, 30000P432c5a8c, Sala, SIM, apartamento_maxhaus_adriana_pierantoni_01.jpg, image/jpeg, 64394, )
+INFO - 2018-09-11 16:17:22 ::1 pipdiministrador INSERT INTO preferencia (id, idanuncio) VALUES (1, )
+INFO - 2018-09-11 16:40:27 ::1  logout
+INFO - 2018-09-11 16:40:34 ::1 adoniaspp login
+INFO - 2018-09-11 16:40:35 ::1 adoniaspp login
+INFO - 2018-09-11 16:56:10 192.168.0.100  INSERT INTO preferencia (id, idanuncio) VALUES (1, )
+INFO - 2018-09-11 16:56:45 192.168.0.100 adoniaspp login
+INFO - 2018-09-11 16:56:46 192.168.0.100 adoniaspp login
+INFO - 2018-09-11 17:33:14 192.168.0.100  login
+INFO - 2018-09-11 17:33:15 192.168.0.100  login
+INFO - 2018-09-11 17:33:30 192.168.0.100 adoniaspp login
+INFO - 2018-09-11 17:33:31 192.168.0.100 adoniaspp login
+INFO - 2018-09-11 17:46:13 ::1  logout
+INFO - 2018-09-11 17:49:15 ::1 adoniaspp login
+INFO - 2018-09-11 17:49:16 ::1 adoniaspp login
+INFO - 2018-09-11 17:58:36 192.168.0.100  logout
+INFO - 2018-09-11 17:59:30 192.168.0.100 adoniaspp login
+INFO - 2018-09-11 17:59:30 192.168.0.100 adoniaspp login
+INFO - 2018-09-11 18:11:11 ::1  logout
