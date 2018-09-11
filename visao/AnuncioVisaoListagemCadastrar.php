@@ -48,28 +48,11 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="column">
-            <div class="ui horizontal segments">
-
-                <div class="ui segment center aligned ">
-                    <i class='big yellow zoom icon'></i> Detalhes do Imóvel
-                </div>
-
-                <div class="ui segment center aligned ">
-                    <i class='big brown announcement icon'></i>Publicar Anúncio
-                </div>
-
-            </div>           
-        </div>
-    </div>
-
     <?php
     $item = $this->getItem();
 
     if ($item == null) {
         ?>    
-
 
         <div class="row">
             <div class="column">
@@ -90,10 +73,10 @@
         </div>
 
 
-    <?php
-    echo "</div>";
-} else { //caso haja algum imóvel sem anúncio ativo
-    ?>
+        <?php
+        echo "</div>";
+    } else { //caso haja algum imóvel sem anúncio ativo
+        ?>
 
         <div class="row">
             <div class="column">
@@ -114,7 +97,7 @@
                         foreach ($this->getItem() as $imovel) {
                             ?>
                             <tr>        
-                                <?php                                   
+                                <?php
                                 echo $imovel->buscarTipoImovel($imovel->getIdTipoImovel());
                                 echo "<td>" . ($imovel->getCondicao() == "nenhuma" ? "Não se aplica" : $imovel->getCondicao() ) . "</td>";
                                 if (trim($imovel->getIdentificacao()) == "") {
@@ -140,11 +123,25 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="column">
+                <div class="ui horizontal segments">
+
+                    <div class="ui segment center aligned ">
+                        <i class='big yellow zoom icon'></i> Detalhes do Imóvel
+                    </div>
+
+                    <div class="ui segment center aligned ">
+                        <i class='big brown announcement icon'></i>Publicar Anúncio
+                    </div>
+
+                </div>           
+            </div>
+        </div>
+
     </div>
 
     <div class="ui hidden divider"></div>  
-
-
 
     <?php
 } //fim do else, caso exista algum imóvel a ser publicado

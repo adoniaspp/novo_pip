@@ -53,7 +53,7 @@ class HistoricoAluguelVenda {
         $historicoAluguelVenda->setDescricao($parametros['txtFinalizar']);
         $historicoAluguelVenda->setSucesso($parametros['radioSucesso']);
         $historicoAluguelVenda->setIdanuncio($parametros['hdnAnuncio']);
-        $historicoAluguelVenda->setDatahora(date('d/m/Y H:i:s'));
+        $historicoAluguelVenda->setDatahora(date("Y/m/d H:i:s"));
         return $historicoAluguelVenda;
     }
 
