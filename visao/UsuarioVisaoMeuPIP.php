@@ -143,11 +143,12 @@ $usuarioBairro = $item["usuarioBairro"];
 $chamdos = $item["chamados"];
 $planosUsu = $item["planosUsuarioGratis"];
 $anuncioPendenteAprovacao = $item["anuncioPendente"];
+
 /*
 echo "<pre>";
-var_dump($anuncioPendenteAprovacao);
+var_dump($imoveis);
 echo "</pre>";
-
+/*
 foreach ($anuncioPendenteAprovacao as $pendente){
     echo $pendente->getId();
 }/*
@@ -161,15 +162,22 @@ foreach ($usuarioBairro as $bairroUsuario) {
 }
 
 $totalAnuncios = 0; //total de anuncios cadastrados
+$pendenteAprova = 0; //total de anuncios pendentes de aprovação
 
 foreach ($imoveis as $qtdAnuncios) {
     if ($qtdAnuncios->getAnuncio()) {
         $totalAnuncios = $totalAnuncios + 1;
     }
-    if ($qtdAnuncios->getAnuncioAprovacao()) {
-        $totalAnuncios = $totalAnuncios + 1;
+}
+
+foreach ($anuncioPendenteAprovacao as $pendente){
+    if ($pendente->getIdAnuncio()) {
+        $pendenteAprova = $pendenteAprova + 1;
     }
 }
+
+$totalAnuncios = $totalAnuncios + $pendenteAprova;
+
 ?>
 
 <script>
@@ -1054,6 +1062,8 @@ foreach ($imoveis as $qtdAnuncios) {
 
 </div> 
 
+
+
 <!-- COMPRAR -->
 <div class="ui middle aligned stackable grid container">
     <div class="row">
@@ -1144,17 +1154,12 @@ foreach ($imoveis as $qtdAnuncios) {
                                 } else {
                                     echo "<td> Já Utilizado </td>";
                                 }
-                                echo "<td>" . $statusPlano . "</td>";
-                                
-                               
-                                
-                                //seta o valor de nenhum anuncio
+                                echo "<td>" . $statusPlano . "</td>";                                                            
 
                                 foreach ($imoveis as $anuncios) {
                                     if (count($anuncios->getAnuncio()) > 0) {//verifica se tem anuncios.
-                                        echo $anuncios->getAnuncio()->getIdUsuarioPlano() . '-'. $usuarioPlano->getId().'<br><br>';
                                         if ($anuncios->getAnuncio()->getIdUsuarioPlano() == $usuarioPlano->getId()) {
-                                            echo ' sim igual ';
+
                                             $idAnuncioVinculadoFormatado = $anuncios->getAnuncio()->getIdAnuncio();
                                             $idAnuncioVinculado = $anuncios->getAnuncio()->getId();
 
@@ -1187,7 +1192,7 @@ foreach ($imoveis as $qtdAnuncios) {
                                     }  
                                     
                                     else {
-                                        echo ' não é igual ';
+                                        
                                         foreach ($item["anuncioPendente"] as $itemPendente){       
                                     
                                         if($itemPendente->getIdUsuarioPlano() == $usuarioPlano->getId() && $itemPendente->getStatus()=="pendenteanalise"){
@@ -1197,22 +1202,18 @@ foreach ($imoveis as $qtdAnuncios) {
                                             $vinculado = "<h4 class='ui yellow header'>Em Análise</h4>";
                                         }
                                         
-                                        else $vinculado = "<h4 class='ui red header'>Nenhum anúncio aprovado</h4>";
-                                    }
+                                        else //if($itemPendente->getIdUsuarioPlano() == $usuarioPlano->getId() && $itemPendente->getStatus()=="finalizado"){
+                                            $vinculado = "<h4 class='ui yellow header'>Em Análise</h4>";
+                                        //}
+                                      }
                                     }
                                 }
-                                
-                                 //foreach ($item["usuarioPlano"] as $uplanos){
-                                    //$usuarioPlano->getStatus() == "expirado"
-                                    //echo ' SIMON '.$uplanos->getStatus();
                                     
-                                    if($usuarioPlano->getStatus()=='expirado'){
-                                        //echo ' NAOVINCULO ';
+                                    if($usuarioPlano->getStatus()=='expirado' || $usuarioPlano->getStatus()=='finalizado'){
+
                                         $vinculado = "<h4 class='ui red header'>Nenhum anúncio foi vinculado</h4>";
                                         
                                     }
-                                    //else echo 'SIMVINCULO';
-                                //}
 
                                 echo "<td>" . $vinculado . "</td>"
                                 . "</tr>";

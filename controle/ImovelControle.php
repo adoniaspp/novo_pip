@@ -335,9 +335,15 @@ class ImovelControle {
 
                 $selecionarDiferencial = $genericoDAO->consultar(new ImovelDiferencial(), true, array("idimovel" => $selecionarImovel->getId()));
                 $selecionarImovel->setImovelDiferencial($selecionarDiferencial);
+                
+                $selecionarAnuncioAprovacao = $genericoDAO->consultar(new AnuncioAprovacao(), true, array("idimovel" => $selecionarImovel->getId()));
+                
+                if($selecionarAnuncioAprovacao){
+                    $selecionarImovel->setAnuncioAprovacao($selecionarAnuncioAprovacao);
+                }
 
                 $listarImovel[] = $selecionarImovel;
-            }
+            }  
 
             $visao = new Template();
             $visao->setItem($listarImovel);

@@ -13,6 +13,13 @@
 <script src="assets/libs/datatables/js/moment.min.js"></script>
 <script src="assets/libs/datatables/js/datetime-moment.js"></script>
 
+
+<?php 
+
+var_dump($this->getItem());
+
+?>
+
 <div class="ui middle aligned stackable grid container">
     <div class="row">
         <div class="column">
@@ -53,6 +60,13 @@
                     <?php
                     Sessao::gerarToken();
                     foreach ($this->getItem() as $imovel) {
+                        
+                        for($x=0; $x<=1; $x++){
+                            echo $x;//$imovel->getAnuncioAprovacao()[$x]->getStatus()." - ";
+                        }
+                        
+                        
+                        
                         ?>
                         <tr>        
                             <?php

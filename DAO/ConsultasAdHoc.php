@@ -707,7 +707,9 @@ class ConsultasAdHoc extends GenericoDAO {
                 . " select a.id FROM anuncioaprovacao a"
                 . " JOIN usuarioplano up ON up.id = a.idusuarioplano"
                 . " JOIN plano p ON p.id = up.idplano"
+                . " JOIN imovel i on i.id = a.idimovel"
                 . " WHERE p.gratuito = 'SIM' AND up.idusuario = :idUsuario AND a.status in ('emanalise', 'pendenteanalise') "
+                . " AND i.status = 'cadastrado'"
                 . " AND not exists (select 1 from anuncio an
                                     JOIN usuarioplano up2 ON up2.id = an.idusuarioplano
                                     JOIN plano p2 ON p2.id = up2.idplano
@@ -724,7 +726,7 @@ class ConsultasAdHoc extends GenericoDAO {
         $sql = "SELECT a.* FROM anuncioaprovacao a
                 join usuarioplano up on up.id = a.idusuarioplano
                 WHERE 1=1
-                and up.idusuario = :idUsuario";
+                and up.idusuario = :idUsuario and (a.status = 'pendenteanalise' or a.status = 'emanalise')";
         $statement = $this->conexao->prepare($sql);
         $statement->bindParam(':idUsuario', $idUsuario);
         $statement->execute();

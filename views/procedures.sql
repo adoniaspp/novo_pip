@@ -40,3 +40,35 @@ truncate table recuperasenha;
 truncate table usuarioplano;
 truncate table usuario;
 END
+
+CREATE PROCEDURE excluirPendentesAprovacaoExpirados()
+BEGIN
+
+DELETE FROM va USING  `valoraprovacao` AS va WHERE va.idanuncioaprovacao in (SELECT id FROM `anuncioaprovacao` AS aa WHERE aa.status in ("pendenteanalise", "emanalise") and EXISTS ( select 1 from `anuncio` a WHERE a.idanuncio = aa.idanuncio and a.status in ("expirado")));
+
+
+DELETE FROM mia USING  `mapaimovelaprovacao` AS mia WHERE mia.idanuncioaprovacao in (SELECT id FROM `anuncioaprovacao` AS aa WHERE aa.status in ("pendenteanalise", "emanalise") and EXISTS ( select 1 from `anuncio` a WHERE a.idanuncio = aa.idanuncio and a.status in ("expirado")));
+
+
+DELETE FROM ia USING  `imagemaprovacao` AS ia WHERE ia.idanuncioaprovacao in (SELECT id FROM `anuncioaprovacao` AS aa WHERE aa.status in ("pendenteanalise", "emanalise") and EXISTS ( select 1 from `anuncio` a WHERE a.idanuncio = aa.idanuncio and a.status in ("expirado")));
+
+
+DELETE FROM aa USING  `anuncioaprovacao` AS aa WHERE aa.status in ("pendenteanalise", "emanalise") and EXISTS ( select 1 from `anuncio` a WHERE a.idanuncio = aa.idanuncio and a.status in ("expirado"));
+
+END
+
+CREATE PROCEDURE excluirPendentesAprovacaoFinalizados()
+BEGIN
+
+DELETE FROM va USING  `valoraprovacao` AS va WHERE  va.idanuncioaprovacao in (SELECT id FROM `anuncioaprovacao` AS aa WHERE aa.status in ("pendenteanalise", "emanalise") and aa.idanuncio = anuncio and EXISTS ( select 1 from `anuncio` a WHERE a.idanuncio = aa.idanuncio and a.status in ("finalizado")));
+
+
+DELETE FROM mia USING  `mapaimovelaprovacao` AS mia WHERE mia.idanuncioaprovacao in (SELECT id FROM `anuncioaprovacao` AS aa WHERE aa.status in ("pendenteanalise", "emanalise") and aa.idanuncio = anuncio and EXISTS ( select 1 from `anuncio` a WHERE a.idanuncio = aa.idanuncio and a.status in ("finalizado")));
+
+
+DELETE FROM ia USING  `imagemaprovacao` AS ia WHERE ia.idanuncioaprovacao in (SELECT id FROM `anuncioaprovacao` AS aa WHERE aa.status in ("pendenteanalise", "emanalise") and aa.idanuncio = anuncio and EXISTS ( select 1 from `anuncio` a WHERE a.idanuncio = aa.idanuncio and a.status in ("finalizado")));
+
+
+DELETE FROM aa USING  `anuncioaprovacao` AS aa WHERE aa.status in ("pendenteanalise", "emanalise") and aa.idanuncio = anuncio and EXISTS ( select 1 from `anuncio` a WHERE a.idanuncio = aa.idanuncio and a.status in ("finalizado"));
+
+END
