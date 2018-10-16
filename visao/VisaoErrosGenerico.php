@@ -251,7 +251,7 @@ switch ($tipo) {
                             
                         }
                         
-                        if($areaSucesso ==! null || $areaSucesso > 0){ $areaImovel = "Area: ".$areaSucesso." m<sup>2</sup>";} else $areaImovel = "Área: Não Informada";
+                        if($areaSucesso ==! null || $areaSucesso > 0){ $areaImovel = "Área: ".$areaSucesso." m<sup>2</sup>";} else $areaImovel = "Área: Não Informada";
                         
                         if ($dadosImovel->getEndereco()->getNumero() != "" && $dadosImovel->getEndereco()->getComplemento() != "") {
                             $endereco = $dadosImovel->getEndereco()->getLogradouro() . ", " . $dadosImovel->getEndereco()->getNumero() . ", " . $dadosImovel->getEndereco()->getComplemento();
@@ -374,7 +374,7 @@ switch ($tipo) {
 
                             <div class="description"> <?php echo "Vaga(s) de Garagem: ".$caracPlanta->getGaragem()?></div> 
                             
-                            <div class="description"> <?php if($caracPlanta->getArea() ==! null || $caracPlanta->getArea() > 0){ echo "Area: ".$caracPlanta->getArea()." m<sup>2</sup>";} else echo "Não Informada";?></div> 
+                            <div class="description"> <?php if($caracPlanta->getArea() ==! null || $caracPlanta->getArea() > 0){ echo "Área: ".$caracPlanta->getArea()." m<sup>2</sup>";} else echo "Não Informada";?></div> 
                             
                             <div class="ui hidden divider"></div>
                             

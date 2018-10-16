@@ -588,7 +588,7 @@ function mostrarDivInfoApeCasa() {
 
 function cadastrarImovel() {
     $(document).ready(function () {
-
+        $("#txtCEP").mask("00.000-000");
         $.validator.setDefaults({
             ignore: [],
             errorClass: 'errorField',

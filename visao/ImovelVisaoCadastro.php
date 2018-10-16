@@ -8,16 +8,13 @@
 <script src="assets/libs/jquery/bootstrap-maxlength.js"></script>
 
 <script>
-
     cadastrarImovel();
     esconderCamposInicio();
-    //mascarasFormUsuario();
     cancelar("Usuario", "meuPIP"); //caso estejam os dois parametros vazios, redirecionar para o index
     acoesCEP();
     confirmarCadastroImovel();
     buscarCep();
     preco();
-
 </script>
 
 <?php
@@ -248,7 +245,7 @@ Sessao::gerarToken();
                     <div class="five wide field">
                         <div class="ui action left icon input">
                             <i class="search icon"></i>
-                            <input type="text" name="txtCEP" id="txtCEP" placeholder="Informe o CEP...">
+                            <input type="text" name="txtCEP" id="txtCEP" placeholder="Informe o CEP..." maxlength="10">
                             <div class="ui teal button" id="btnCEP">Buscar CEP</div>
                         </div>              
                     </div>
