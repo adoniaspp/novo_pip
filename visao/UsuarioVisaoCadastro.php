@@ -139,7 +139,7 @@ Sessao::gerarToken();
                         <div class="ui teal button" id="btnCEP">Buscar CEP</div>
                     </div>              
                 </div>
-                <div class="three wide field"><label>Não sabe o CEP? <a href="http://www.buscacep.correios.com.br/servicos/dnec/menuAction.do?Metodo=menuLogradouro" target="_blank">clique aqui</a></label></div>
+                <div class="three wide field"><label>Não sabe o CEP? <a href="https://www.correios.com.br/" target="_blank">clique aqui</a></label></div>
                 <div class="five wide field"><div id="msgCEP"></div> </div>
             </div>
             <div id="divCEP" class="ui">

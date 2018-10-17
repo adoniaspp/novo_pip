@@ -320,10 +320,10 @@ switch ($item['anuncio'][0]['tipo']) {
 </div>
 
 <div class="stackable column centered ui grid container" id="linkCompartilhamentos">
-    <a class="ui inverted icon" href="http://www.facebook.com/sharer.php?u=http://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>" target="_blank"><i class="big blue facebook square icon"></i></a></i>
-<a class="ui inverted icon" href="https://twitter.com/intent/tweet?text=Anúncio%20Compartilhado%20via%20PIP-OnLine%20http%3A%2F%2Fwww.pipbeta.com.br%2F<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>" target="_blank"><i class="big blue twitter icon"></i></a>
-<a class="ui inverted icon" href="https://plus.google.com/share?url=http://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>" target="_blank"><i class="big red google plus circle icon"></i></a>
-<a class="ui inverted icon compartilhar-whatsapp" href='whatsapp://send?text=http://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>'><i class="big green whatsapp icon"></i></a>
+    <a class="ui inverted icon" href="https://www.facebook.com/sharer.php?u=https://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>" target="_blank"><i class="big blue facebook square icon"></i></a></i>
+<a class="ui inverted icon" href="https://twitter.com/intent/tweet?text=Anúncio%20Compartilhado%20via%20PIP-OnLine%20https%3A%2F%2Fwww.pipbeta.com.br%2F<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>" target="_blank"><i class="big blue twitter icon"></i></a>
+<a class="ui inverted icon" href="https://plus.google.com/share?url=https://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>" target="_blank"><i class="big red google plus circle icon"></i></a>
+<a class="ui inverted icon compartilhar-whatsapp" href='whatsapp://send?text=https://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>'><i class="big green whatsapp icon"></i></a>
 </div>    
 <div class="ui hidden divider"></div>
 <div class="ui hidden divider"></div>

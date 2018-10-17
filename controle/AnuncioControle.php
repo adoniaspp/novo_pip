@@ -1241,7 +1241,7 @@ class AnuncioControle {
 
                                 <strong>PIP On-Line 2017. Todos os Direitos Reservados</strong><br>
 
-                                <a href='http://www.pipbeta.com.br' style='color:#aaaaaa'>http://www.pipbeta.com.br</a><br>
+                                <a href='https://www.pipbeta.com.br' style='color:#aaaaaa'>https://www.pipbeta.com.br</a><br>
 
                                 <br><br>
 
@@ -1949,7 +1949,7 @@ class AnuncioControle {
 
                                 <strong>PIP On-Line 2017. Todos os Direitos Reservados</strong><br>
 
-                                <a href='http://www.pipbeta.com.br' style='color:#aaaaaa'>http://www.pipbeta.com.br</a><br>
+                                <a href='https://www.pipbeta.com.br' style='color:#aaaaaa'>https://www.pipbeta.com.br</a><br>
 
                                 <br><br>
 

@@ -543,11 +543,11 @@ class UsuarioControle {
                         $dadosEmail['msg'] = "
                         <br> 
                         <h4>Você já solicitou uma troca de senha no PIP Imóveis. Desconsidere o email já enviado e clique no link abaixo para processar a troca:</h4><br>
-                        <a href=http://www.pipbeta.com.br/index.php?entidade=Usuario&acao=form&tipo=alterarsenha&id=" . $entidadeRecuperaSenha->getHash() . ">http://www.pipbeta.com.br/index.php?entidade=Usuario&acao=form&tipo=alterarsenha&id=" . $entidadeRecuperaSenha->getHash() . "</a>";
+                        <a href=https://www.pipbeta.com.br/index.php?entidade=Usuario&acao=form&tipo=alterarsenha&id=" . $entidadeRecuperaSenha->getHash() . ">https://www.pipbeta.com.br/index.php?entidade=Usuario&acao=form&tipo=alterarsenha&id=" . $entidadeRecuperaSenha->getHash() . "</a>";
                     } else {
                         $dadosEmail['msg'] = "PIP Imóveis - Clique abaixo para recuperar sua senha. Este é um email automático. Não responda.
                         <br> 
-                        <a href=http://www.pipbeta.com.br/index.php?entidade=Usuario&acao=form&tipo=alterarsenha&id=" . $entidadeRecuperaSenha->getHash() . ">http://www.pipbeta.com.br/index.php?entidade=Usuario&acao=form&tipo=alterarsenha&id=" . $entidadeRecuperaSenha->getHash() . "</a>";
+                        <a href=https://www.pipbeta.com.br/index.php?entidade=Usuario&acao=form&tipo=alterarsenha&id=" . $entidadeRecuperaSenha->getHash() . ">https://www.pipbeta.com.br/index.php?entidade=Usuario&acao=form&tipo=alterarsenha&id=" . $entidadeRecuperaSenha->getHash() . "</a>";
                     }
 
                     $dadosEmail['msg'] .= " </td>
@@ -562,7 +562,7 @@ class UsuarioControle {
 
                                 <strong>PIP On-Line 2017. Todos os Direitos Reservados</strong><br>
 
-                                <a href='http://www.pipbeta.com.br' style='color:#aaaaaa'>http://www.pipbeta.com.br</a><br>
+                                <a href='https://www.pipbeta.com.br' style='color:#aaaaaa'>https://www.pipbeta.com.br</a><br>
 
                                 <br><br>
 
