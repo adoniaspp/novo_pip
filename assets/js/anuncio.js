@@ -79,15 +79,15 @@ function cadastrarAnuncio() {
             rules: {
                 sltPlano: {
                     synchronousRemote: {
-                    url: "index.php",
+                        url: "index.php",
                         dataType: "json",
                         type: "post",
                         data: {
-                          hdnEntidade: "Anuncio",
-                          hdnAcao: "verificarPlanoGratuito",
-                          hdnToken: $("#hdnToken").val()
+                            hdnEntidade: "Anuncio",
+                            hdnAcao: "verificarPlanoGratuito",
+                            hdnToken: $("#hdnToken").val()
                         }
-                 },
+                    },
                     required: true
                 },
                 sltFinalidade: {
@@ -107,9 +107,9 @@ function cadastrarAnuncio() {
                 chkAceite: {
                     required: "A confirmação é obrigatória"
                 },
-                 sltPlano: {
-                     synchronousRemote: "Você já tem um anúncio gratuito e ativo. Você pode utilizar outro plano já adquirido ou comprar um novo plano."
-                 }
+                sltPlano: {
+                    synchronousRemote: "Você já tem um anúncio gratuito e ativo. Você pode utilizar outro plano já adquirido ou comprar um novo plano."
+                }
             },
             submitHandler: function (form) {
                 $.ajax({
@@ -306,7 +306,7 @@ function cadastrarAnuncio() {
 
 function editarAnuncio() {
     $(document).ready(function () {
-        $('.ui.dropdown').dropdown({ /*on: 'hover'*/ });
+        $('.ui.dropdown').dropdown({/*on: 'hover'*/});
         $('.ui.checkbox').checkbox();
         $('#chkMapa').parent().checkbox('set checked');
         $('#chkContato').parent().checkbox('set checked');
@@ -567,6 +567,14 @@ function editarAnuncio() {
 
 function stepsSemPlanta() {
     $(document).ready(function () {
+        var deviceAgent = navigator.userAgent.toLowerCase();
+        var agentID = deviceAgent.match(/(iphone|ipod|ipad|android|blackberry)/);
+
+        if (!agentID) {
+            var mobile = 'true';
+            $('#stepAnuncio').hide();
+            $('#stepAnuncioMobile').show();
+        }
         $("#step1").show();
         $("#step2").hide();
         $("#step3").hide();
@@ -591,7 +599,6 @@ function stepsSemPlanta() {
                 $("#divInformarValor").hide();
             }
         })
-
         $("div[id^='btnProximo']").click(function () {
             if (validarStepSemPlanta()) {
                 var atual = parseInt($("#hdnStep").val());
@@ -604,9 +611,19 @@ function stepsSemPlanta() {
                 $("#step" + atual).hide();
                 $("#step" + proximo).show();
                 $("#hdnStep").val(proximo);
+
                 $("#menuStep" + atual).removeClass();
                 $("#menuStep" + atual).addClass("completed step");
                 $("#menuStep" + proximo).addClass("active step");
+
+                if (mobile) {
+                    switch (proximo){
+                        case 2:
+                            $('#labelStep').html('Anúncio');
+                    }
+                    $('#numberStep').html(proximo + '/5');
+                }
+
                 if (proximo > 1)
                     $("div[id^='btnAnterior']").show();
                 else
@@ -634,9 +651,15 @@ function stepsSemPlanta() {
             $("#step" + anterior).show();
             $("#hdnStep").val(anterior);
             $("#menuStep" + atual).removeClass();
+
             $("#menuStep" + atual).addClass("step");
             $("#menuStep" + anterior).removeClass();
             $("#menuStep" + anterior).addClass("active step");
+
+            if (mobile) {
+                $('#numberStep').html(anterior + '/5');
+            }
+            
             $("div[id^='btnProximo']").show();
             if (anterior > 1)
                 $("div[id^='btnAnterior']").show();
@@ -654,7 +677,7 @@ function validarStepSemPlanta() {
     switch (step) {
         case 0:
         case 1:
-            setTimeout(function(){  }, 3000);
+            setTimeout(function () { }, 3000);
             validacao = $("#sltPlano").valid();
             break;
         case 2:
@@ -777,7 +800,7 @@ function validarStepComPlanta() {
         case 0:
         case 1:
             validacao = $("#sltPlano").valid();
-            setTimeout(function(){  }, 3000);
+            setTimeout(function () { }, 3000);
             break;
         case 2:
             validacao = (($("#sltFinalidade").valid() & $("#txtTitulo").valid() & $("#txtDescricao").valid() & $("#txtValor").valid()));
@@ -1152,7 +1175,7 @@ function reativar(botao) {
                 transition: "fade up",
                 observeChanges: true,
                 onDeny: function () {
-                    
+
                 },
                 onApprove: function () {
                     $("#formReativar" + botao).submit();
