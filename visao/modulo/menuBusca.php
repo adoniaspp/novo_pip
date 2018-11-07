@@ -30,7 +30,7 @@
     <div class="ui basic tab segment active" data-tab="first" id="abaBasicaMenu">
         <div class="ui stackable five column grid"> 
             <div class="column">
-                <div class="ui fluid selection dropdown">
+                <!--<div class="ui fluid selection dropdown">
                     <input type="hidden" name="sltTipoImovel" id="sltTipoImovel">
                     <div class="default text">Tipo de Imóvel</div>
                     <i class="dropdown icon"></i>
@@ -43,7 +43,16 @@
                         <div class="item" data-value="salacomercial">Sala Comercial</div>                               
                         <div class="item" data-value="terreno">Terreno</div>
                     </div>
-                </div>  
+                </div>  -->
+                    <select name="sltTipoImovel" id="sltTipoImovel">
+                        <option value=""> Todos os tipos</option>
+                        <option value="apartamento"> Apartamento</option>
+                        <option value="apartamentoplanta"> Apartamento na Planta</option>
+                        <option value="casa"> Casa</option>
+                        <option value="prediocomercial"> Prédio Comercial</option>
+                        <option value="salacomercial"> Sala Comercial</option>
+                        <option value="terreno"> Terreno</option>
+                    </select>
             </div>
             <div class="column">            
                 <div class="ui fluid selection dropdown">
