@@ -11,9 +11,8 @@ function buscarAnuncio() {
         $("#divCaracteristicas").hide();
         $("#divValor").hide();
 
-        $("input[name=sltCidade]").change(function () {
+        $("#sltCidade").change(function () {
             var cidade = $(this).val();
-            
              if (cidade === '') {
                 $("#dropBairro").html(
                 '<div class="ui fluid multiple search selection dropdown">' +
