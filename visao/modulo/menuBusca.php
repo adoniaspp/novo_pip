@@ -48,17 +48,17 @@
                 </select>
             </div>
             <div class="column">                            
-                <select name="sltCidade" id="sltCidade">
+                <select class='ui multiple search selection' name="sltCidade" id="sltCidade">
                         <option value="">Todas as cidades</option>
-                        <option value="aluguel">Belém</option>
-                        <option value="venda">Ananindeua</option>
-                        <option value="venda">Marituba</option>
-                        <option value="venda">Benevides</option>
-                        <option value="venda">Castanhal</option>
+                        <option value="1">Belém</option>
+                        <option value="2">Ananindeua</option>
+                        <option value="3">Marituba</option>
+                        <option value="4">Benevides</option>
+                        <option value="6">Castanhal</option>
                 </select>
             </div>
 
-            <div class="column" id="dropBairro">            
+            <div class="column" id="dropBairro">                           
                 <div class="ui fluid multiple search selection dropdown">
                     <input type="hidden" dropBairroname="filtroBairro[]" id="filtroBairro">
                     <span class="default text">Bairro</span>
