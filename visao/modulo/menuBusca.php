@@ -29,71 +29,46 @@
     <input type="hidden" id="paginaLinha" value="0">
     <div class="ui basic tab segment active" data-tab="first" id="abaBasicaMenu">
         <div class="ui stackable five column grid"> 
-            <div class="column">
-                <div class="ui fluid selection dropdown">
-                    <input type="hidden" name="sltTipoImovel" id="sltTipoImovel">
-                    <div class="default text">Tipo de Imóvel</div>
-                    <i class="dropdown icon"></i>
-                    <div class="menu">   
-                        <div class="item" data-value="">Todos os tipos</div>
-                        <div class="item" data-value="apartamento">Apartamento</div>
-                        <div class="item" data-value="apartamentoplanta">Apartamento na Planta</div>
-                        <div class="item" data-value="casa">Casa</div>
-                        <div class="item" data-value="prediocomercial">Prédio Comercial</div>
-                        <div class="item" data-value="salacomercial">Sala Comercial</div>                               
-                        <div class="item" data-value="terreno">Terreno</div>
-                    </div>
-                </div>  
+        <div class="column">
+                    <select name="sltTipoImovel" id="sltTipoImovel">
+                        <option value=""> Todos os tipos</option>
+                        <option value="apartamento"> Apartamento</option>
+                        <option value="apartamentoplanta"> Apartamento na Planta</option>
+                        <option value="casa"> Casa</option>
+                        <option value="prediocomercial"> Prédio Comercial</option>
+                        <option value="salacomercial"> Sala Comercial</option>
+                        <option value="terreno"> Terreno</option>
+                    </select>
             </div>
-            <div class="column">            
-                <div class="ui fluid selection dropdown">
-                    <input type="hidden" name="sltFinalidade" id="sltFinalidade">     
-                    <div class="default text">Finalidade</div>                                      
-                    <i class="dropdown icon"></i>
-                    <div class="menu">
-                        <div class="item" data-value="">Todas as finalidades</div>
-                        <div class="item" data-value="aluguel">Aluguel</div>
-                        <div class="item" data-value="venda">Venda</div>                            
-                    </div>
-                </div>
+            <div class="column">                            
+                <select name="sltFinalidade" id="sltFinalidade">
+                        <option value=""> Todas as finalidades</option>
+                        <option value="aluguel">Aluguel</option>
+                        <option value="venda">Venda</option>
+                </select>
             </div>
-            <div class="column">            
-                <div class="ui fluid selection dropdown">
-                    <input type="hidden" name="sltCidade" id="sltCidade">     
-                    <div class="default text">Cidade</div>
-                    <i class="dropdown icon"></i>
-                    <div class="menu">
-                        <div class="item" data-value="">Todas as cidades</div>
-                        <div class="item" data-value="1">Belém</div>
-                        <div class="item" data-value="2">Ananindeua</div>
-                        <div class="item" data-value="3">Marituba</div>
-                        <div class="item" data-value="4">Benevides</div>
-                        <div class="item" data-value="6">Castanhal</div>
-                    </div>                       
-                </div>
+            <div class="column">                            
+                <select name="sltCidade" id="sltCidade">
+                        <option value="">Todas as cidades</option>
+                        <option value="1">Belém</option>
+                        <option value="2">Ananindeua</option>
+                        <option value="3">Marituba</option>
+                        <option value="4">Benevides</option>
+                        <option value="6">Castanhal</option>
+                </select>
             </div>
 
-            <div class="column" id="dropBairro">            
-                <div class="ui fluid multiple search selection dropdown">
-                    <input type="hidden" dropBairroname="filtroBairro[]" id="filtroBairro">
-                    <span class="default text">Bairro</span>
-                    <i class="dropdown icon"></i>
-                    <div class="menu" id="sltBairro">
-                    </div>
-                </div>    
+            <div id="sltBairro">                                           
             </div>
 
-                        <div class="column" id="divCondicao">             
-                            <div class="ui fluid selection dropdown">
-                                <input type="hidden" name="sltCondicao" id="sltCondicao">
-                                <div class="default text">Condição</div>
-                                <i class="dropdown icon"></i>
-                                <div class="menu">
-                                    <div class="item" data-value="novo">Novo</div>
-                                    <div class="item" data-value="usado">Usado</div>
-                                </div>
-                            </div>                       
-                        </div>    
+            <div class="column" id="divCondicao">      
+                <select name="sltCidade" id="sltCidade">
+                        <option value="">Todas</option>
+                        <option value="novo">Novo</option>
+                        <option value="usado">Usado</option>
+                </select>       
+                                                 
+            </div>    
 <!--            <div class="column" id="divGaragem">  
                 <div class="ui left floated compact segment">
                     <div class="ui fitted toggle checkbox">

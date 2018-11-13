@@ -154,7 +154,7 @@ if ($item) {
     </div>
 </div>
 <div class="ui hidden divider"></div>
-<div class="ui middle aligned stackable grid container">
+<div class="ui middle aligned stackable grid container" id='botoesNavegacao'>
     <div class="row">
         <!--NAVEGAÇÃO-->
         <div class="ui basic right aligned segment" id="botaoDetalhesImovel">
@@ -190,6 +190,7 @@ if ($item) {
     <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio" />
     <input type="hidden" id="hdnAcao" name="hdnAcao" value="Cadastrar" />
     <input type="hidden" id="hdnStep" name="hdnStep" value="1" />
+    <input type="hidden" id="hdnStepMenu" name="hdnStepMenu" value="1" />
     <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
 
     <div class="ui middle aligned stackable grid container">

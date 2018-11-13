@@ -11,10 +11,11 @@ function buscarAnuncio() {
         $("#divCaracteristicas").hide();
         $("#divValor").hide();
 
-        $("input[name=sltCidade]").change(function () {
+        $("#sltCidade").change(function () {
             var cidade = $(this).val();
-            
-             if (cidade === '') {
+            $('#sltBairro').addClass('column');
+
+            if (cidade === '') {
                 $("#dropBairro").html(
                 '<div class="ui fluid multiple search selection dropdown">' +
                     '<input type="hidden" name="filtroBairro[]" id="filtroBairro">' +
@@ -27,229 +28,207 @@ function buscarAnuncio() {
             }
             
             if (cidade === '1') {
-                $("#dropBairro").html(
-                '<div class="ui fluid multiple search selection dropdown">' +
-                    '<input type="hidden" name="filtroBairro[]" id="filtroBairro">' +
-                    '<span class="default text">Bairro</span>' +
-                    '<i class="dropdown icon"></i>' +
-                    '<div class="menu" id="sltBairro">' +
-                    '<div class="item" data-value="3"> Aeroporto </div>' +
-                    '<div class="item" data-value="1"> Água Boa </div>' +
-                    '<div class="item" data-value="7"> Águas Lindas </div>' +
-                    '<div class="item" data-value="2"> Águas Negras </div>' +
-                    '<div class="item" data-value="9"> Agulha </div>' +
-                    '<div class="item" data-value="10"> Ariramba </div>' +
-                    '<div class="item" data-value="11"> Atalaia </div>' +
-                    '<div class="item" data-value="12"> Aurá </div>' +
-                    '<div class="item" data-value="13"> Baía do Sol </div>' +
-                    '<div class="item" data-value="14"> Barreiro </div>' +
-                    '<div class="item" data-value="15"> Batista Campos </div>' +
-                    '<div class="item" data-value="16"> Bengui </div>' +
-                    '<div class="item" data-value="17"> Bonfim </div>' +
-                    '<div class="item" data-value="18"> Brasília </div>' +
-                    '<div class="item" data-value="19"> Cabanagem </div>' +
-                    '<div class="item" data-value="20"> Campina </div>' +
-                    '<div class="item" data-value="21"> Campina de Icoaraci </div>' +
-                    '<div class="item" data-value="22"> Canudos </div>' +
-                    '<div class="item" data-value="23"> Carananduba </div>' +
-                    '<div class="item" data-value="24"> Caruara </div>' +
-                    '<div class="item" data-value="25"> Castanheira </div>' +
-                    '<div class="item" data-value="26"> Chapéu Virado </div>' +
-                    '<div class="item" data-value="27"> Cidade Velha </div>' +
-                    '<div class="item" data-value="29"> Coqueiro </div>' +
-                    '<div class="item" data-value="30"> Cremação </div>' +
-                    '<div class="item" data-value="31"> Cruzeiro </div>' +
-                    '<div class="item" data-value="32"> Curió-Utinga </div>' +
-                    '<div class="item" data-value="33"> Farol </div>' +
-                    '<div class="item" data-value="34"> Fátima </div>' +
-                    '<div class="item" data-value="35"> Guamá </div>' +
-                    '<div class="item" data-value="36"> Guanabara </div>' +
-                    '<div class="item" data-value="37"> Itaiteua </div>' +
-                    '<div class="item" data-value="38"> Jurunas </div>' +
-                    '<div class="item" data-value="39"> Mangueirão </div>' +
-                    '<div class="item" data-value="40"> Mangueiras </div>' +
-                    '<div class="item" data-value="41"> Maracacuera </div>' +
-                    '<div class="item" data-value="42"> Maracajá </div>' +
-                    '<div class="item" data-value="43"> Maracangalha </div>' +
-                    '<div class="item" data-value="44"> Marahu </div>' +
-                    '<div class="item" data-value="45"> Marambaia </div>' +
-                    '<div class="item" data-value="46"> Marco </div>' +
-                    '<div class="item" data-value="47"> Miramar </div>' +
-                    '<div class="item" data-value="48"> Murubira </div>' +
-                    '<div class="item" data-value="49"> Natal do Murubira </div>' +
-                    '<div class="item" data-value="50"> Nazaré </div>' +
-                    '<div class="item" data-value="51"> Outros </div>' +
-                    '<div class="item" data-value="52"> Paracuri </div>' +
-                    '<div class="item" data-value="53"> Paraíso </div>' +
-                    '<div class="item" data-value="54"> Parque Guajará </div>' +
-                    '<div class="item" data-value="55"> Parque Verde </div>' +
-                    '<div class="item" data-value="56"> Pedreira </div>' +
-                    '<div class="item" data-value="57"> Ponta Grossa </div>' +
-                    '<div class="item" data-value="58"> Porto Arthur  </div>' +
-                    '<div class="item" data-value="59"> Praia Grande  </div>' +
-                    '<div class="item" data-value="60"> Pratinha  </div>' +
-                    '<div class="item" data-value="61"> Reduto  </div>' +
-                    '<div class="item" data-value="62"> Sacramenta  </div>' +
-                    '<div class="item" data-value="63"> São Brás  </div>' +
-                    '<div class="item" data-value="64"> São Clemente  </div>' +
-                    '<div class="item" data-value="65"> São Francisco  </div>' +
-                    '<div class="item" data-value="66"> São João do Outeiro  </div>' +
-                    '<div class="item" data-value="67"> Souza  </div>' +
-                    '<div class="item" data-value="68"> Sucurijuquara  </div>' +
-                    '<div class="item" data-value="69"> Tapanã  </div>' +
-                    '<div class="item" data-value="70"> Telégrafo Sem Fio  </div>' +
-                    '<div class="item" data-value="71"> Tenoné  </div>' +
-                    '<div class="item" data-value="72"> Terra Firme  </div>' +
-                    '<div class="item" data-value="73"> Umarizal  </div>' +
-                    '<div class="item" data-value="74"> Una  </div>' +
-                    '<div class="item" data-value="75"> Universitário  </div>' +
-                    '<div class="item" data-value="76"> Val-de-Cães  </div>' +
-                    '<div class="item" data-value="77"> Vila  </div>' +
-                    '</div>' +
-                '</div>'
+                $("#sltBairro").html(
+                    '<select name="filtroBairro[]" id="filtroBairro" multiple>'+
+                    '<option value="3"> Aeroporto </option>' +
+                    '<option value="1"> Água Boa </option>' +
+                    '<option value="7"> Águas Lindas </option>' +
+                    '<option value="2"> Águas Negras </option>' +
+                    '<option value="9"> Agulha </option>' +
+                    '<option value="10"> Ariramba </option>' +
+                    '<option value="11"> Atalaia </option>' +
+                    '<option value="12"> Aurá </option>' +
+                    '<option value="13"> Baía do Sol </option>' +
+                    '<option value="14"> Barreiro </option>' +
+                    '<option value="15"> Batista Campos </option>' +
+                    '<option value="16"> Bengui </option>' +
+                    '<option value="17"> Bonfim </option>' +
+                    '<option value="18"> Brasília </option>' +
+                    '<option value="19"> Cabanagem </option>' +
+                    '<option value="20"> Campina </option>' +
+                    '<option value="21"> Campina de Icoaraci </option>' +
+                    '<option value="22"> Canudos </option>' +
+                    '<option value="23"> Carananduba </option>' +
+                    '<option value="24"> Caruara </option>' +
+                    '<option value="25"> Castanheira </option>' +
+                    '<option value="26"> Chapéu Virado </option>' +
+                    '<option value="27"> Cidade Velha </option>' +
+                    '<option value="29"> Coqueiro </option>' +
+                    '<option value="30"> Cremação </option>' +
+                    '<option value="31"> Cruzeiro </option>' +
+                    '<option value="32"> Curió-Utinga </option>' +
+                    '<option value="33"> Farol </option>' +
+                    '<option value="34"> Fátima </option>' +
+                    '<option value="35"> Guamá </option>' +
+                    '<option value="36"> Guanabara </option>' +
+                    '<option value="37"> Itaiteua </option>' +
+                    '<option value="38"> Jurunas </option>' +
+                    '<option value="39"> Mangueirão </option>' +
+                    '<option value="40"> Mangueiras </option>' +
+                    '<option value="41"> Maracacuera </option>' +
+                    '<option value="42"> Maracajá </option>' +
+                    '<option value="43"> Maracangalha </option>' +
+                    '<option value="44"> Marahu </option>' +
+                    '<option value="45"> Marambaia </option>' +
+                    '<option value="46"> Marco </option>' +
+                    '<option value="47"> Miramar </option>' +
+                    '<option value="48"> Murubira </option>' +
+                    '<option value="49"> Natal do Murubira </option>' +
+                    '<option value="50"> Nazaré </option>' +
+                    '<option value="51"> Outros </option>' +
+                    '<option value="52"> Paracuri </option>' +
+                    '<option value="53"> Paraíso </option>' +
+                    '<option value="54"> Parque Guajará </option>' +
+                    '<option value="55"> Parque Verde </option>' +
+                    '<option value="56"> Pedreira </option>' +
+                    '<option value="57"> Ponta Grossa </option>' +
+                    '<option value="58"> Porto Arthur  </option>' +
+                    '<option value="59"> Praia Grande  </option>' +
+                    '<option value="60"> Pratinha  </option>' +
+                    '<option value="61"> Reduto  </option>' +
+                    '<option value="62"> Sacramenta  </option>' +
+                    '<option value="63"> São Brás  </option>' +
+                    '<option value="64"> São Clemente  </option>' +
+                    '<option value="65"> São Francisco  </option>' +
+                    '<option value="66"> São João do Outeiro  </option>' +
+                    '<option value="67"> Souza  </option>' +
+                    '<option value="68"> Sucurijuquara  </option>' +
+                    '<option value="69"> Tapanã  </option>' +
+                    '<option value="70"> Telégrafo Sem Fio  </option>' +
+                    '<option value="71"> Tenoné  </option>' +
+                    '<option value="72"> Terra Firme  </option>' +
+                    '<option value="73"> Umarizal  </option>' +
+                    '<option value="74"> Una  </option>' +
+                    '<option value="75"> Universitário  </option>' +
+                    '<option value="76"> Val-de-Cães  </option>'  +
+                    '</select>'                 
                 );
             }
             if (cidade === '2') {
-                $("#dropBairro").html(
-                '<div class="ui fluid multiple search selection dropdown">' +
-                    '<input type="hidden" name="filtroBairro[]" id="filtroBairro">' +
-                    '<span class="default text">Bairro</span>' +
-                    '<i class="dropdown icon"></i>' +
-                    '<div class="menu" id="sltBairro">' +
-                    '<div class="item" data-value="78"> 40 horas </div>' +
-                    '<div class="item" data-value="79"> Águas Brancas </div>' +
-                    '<div class="item" data-value="81"> Atalaia </div>' +
-                    '<div class="item" data-value="82"> Aurá </div>' +
-                    '<div class="item" data-value="83"> Cajuí </div>' +
-                    '<div class="item" data-value="84"> Centro </div>' +
-                    '<div class="item" data-value="85"> Cidade Nova </div>' +
-                    '<div class="item" data-value="86"> Coqueiro </div>' +
-                    '<div class="item" data-value="87"> Curuçambá </div>' +
-                    '<div class="item" data-value="88"> Distrito Industrial </div>' +
-                    '<div class="item" data-value="89"> Dom Bosco </div>' +
-                    '<div class="item" data-value="90"> Dona Ana </div>' +
-                    '<div class="item" data-value="91"> Guajará </div>' +
-                    '<div class="item" data-value="92"> Guanabara </div>' +
-                    '<div class="item" data-value="93"> Heliolândia </div>' +
-                    '<div class="item" data-value="94"> Icuí </div>' +
-                    '<div class="item" data-value="95"> Jaderlândia </div>' +
-                    '<div class="item" data-value="96"> Jibóia Branca </div>' +
-                    '<div class="item" data-value="97"> Júlia Seffer </div>' +
-                    '<div class="item" data-value="98"> Laranjeira </div>' +
-                    '<div class="item" data-value="99"> Maguari </div>' +
-                    '<div class="item" data-value="100"> Paar </div>' +
-                    '<div class="item" data-value="101"> Providência </div>' +
-                    '<div class="item" data-value="102"> Samambaia </div>' +
-                    '<div class="item" data-value="103"> Santana do Aurá </div>' +                    
-                    '</div>' +
-                '</div>'
+                $("#sltBairro").html(
+                    '<select name="filtroBairro[]" id="filtroBairro" multiple>'+
+                    '<option value="78"> 40 horas </option>' +
+                    '<option value="79"> Águas Brancas </option>' +
+                    '<option value="81"> Atalaia </option>' +
+                    '<option value="82"> Aurá </option>' +
+                    '<option value="83"> Cajuí </option>' +
+                    '<option value="84"> Centro </option>' +
+                    '<option value="85"> Cidade Nova </option>' +
+                    '<option value="86"> Coqueiro </option>' +
+                    '<option value="87"> Curuçambá </option>' +
+                    '<option value="88"> Distrito Industrial </option>' +
+                    '<option value="89"> Dom Bosco </option>' +
+                    '<option value="90"> Dona Ana </option>' +
+                    '<option value="91"> Guajará </option>' +
+                    '<option value="92"> Guanabara </option>' +
+                    '<option value="93"> Heliolândia </option>' +
+                    '<option value="94"> Icuí </option>' +
+                    '<option value="95"> Jaderlândia </option>' +
+                    '<option value="96"> Jibóia Branca </option>' +
+                    '<option value="97"> Júlia Seffer </option>' +
+                    '<option value="98"> Laranjeira </option>' +
+                    '<option value="99"> Maguari </option>' +
+                    '<option value="100"> Paar </option>' +
+                    '<option value="101"> Providência </option>' +
+                    '<option value="102"> Samambaia </option>' +
+                    '<option value="103"> Santana do Aurá </option>' +                   
+                    '</select>'                 
                 );
             }
             
             if (cidade === '3') {
-                $("#dropBairro").html(
-                '<div class="ui fluid multiple search selection dropdown">' +
-                    '<input type="hidden" name="filtroBairro[]" id="filtroBairro">' +
-                    '<span class="default text">Bairro</span>' +
-                    '<i class="dropdown icon"></i>' +
-                    '<div class="menu" id="sltBairro">' +
-                    '<div class="item" data-value="115"> Almir Gabriel </div>' +
-                    '<div class="item" data-value="114"> Beira Rio </div>' +
-                    '<div class="item" data-value="116"> Bela Vista </div>' +
-                    '<div class="item" data-value="106"> Centro </div>' +
-                    '<div class="item" data-value="113"> Decouville </div>' +
-                    '<div class="item" data-value="109"> Dom Aristides </div>' +
-                    '<div class="item" data-value="112"> Nossa Senhora da Paz </div>' +
-                    '<div class="item" data-value="107"> Pedreirinha </div>' +
-                    '<div class="item" data-value="117"> Riacho Doce </div>' +
-                    '<div class="item" data-value="110"> São Francisco </div>' +
-                    '<div class="item" data-value="104"> São João </div>' +
-                    '<div class="item" data-value="108"> São José </div>' +
-                    '<div class="item" data-value="111"> União </div>' +
-                    '<div class="item" data-value="105"> Uriboca </div>' +
-                    '</div>' +
-                '</div>'
+                $("#sltBairro").html(
+                    '<select name="filtroBairro[]" id="filtroBairro" multiple>'+
+                    '<option value="115"> Almir Gabriel </option>' +
+                    '<option value="114"> Beira Rio </option>' +
+                    '<option value="116"> Bela Vista </option>' +
+                    '<option value="106"> Centro </option>' +
+                    '<option value="113"> Decouville </option>' +
+                    '<option value="109"> Dom Aristides </option>' +
+                    '<option value="112"> Nossa Senhora da Paz </option>' +
+                    '<option value="107"> Pedreirinha </option>' +
+                    '<option value="117"> Riacho Doce </option>' +
+                    '<option value="110"> São Francisco </option>' +
+                    '<option value="104"> São João </option>' +
+                    '<option value="108"> São José </option>' +
+                    '<option value="111"> União </option>' +
+                    '<option value="105"> Uriboca </option>' +
+                    '</select>'                 
                 );
             }
             
             if (cidade === '4') {
-                $("#dropBairro").html(
-                '<div class="ui fluid multiple search selection dropdown">' +
-                    '<input type="hidden" name="filtroBairro[]" id="filtroBairro">' +
-                    '<span class="default text">Bairro</span>' +
-                    '<i class="dropdown icon"></i>' +
-                    '<div class="menu" id="sltBairro">' +
-                    '<div class="item" data-value="121"> Campestre </div>' +
-                    '<div class="item" data-value="122"> Canutama </div>' +
-                    '<div class="item" data-value="123"> Centro </div>' +
-                    '<div class="item" data-value="124"> Cajueiro </div>' +
-                    '<div class="item" data-value="125"> Duque de Caxias </div>' +
-                    '<div class="item" data-value="126"> Flores </div>' +
-                    '<div class="item" data-value="127"> Neópolis </div>' +
-                    '<div class="item" data-value="128"> Madre Teresa </div>' +
-                    '<div class="item" data-value="129"> Presidente Médici </div>' +
-                    '<div class="item" data-value="130"> Independente </div>' +
-                    '<div class="item" data-value="131"> Santos Dumont </div>' +
-                    '<div class="item" data-value="132"> Novo Bairro </div>' +
-                    '<div class="item" data-value="133"> Santa Rosa </div>' +
-                    '<div class="item" data-value="134"> Maguari </div>' +
-                    '</div>' +
-                '</div>'
+                $("#sltBairro").html(
+                    '<select name="filtroBairro[]" id="filtroBairro" multiple>'+
+                    '<option value="121"> Campestre </option>' +
+                    '<option value="122"> Canutama </option>' +
+                    '<option value="123"> Centro </option>' +
+                    '<option value="124"> Cajueiro </option>' +
+                    '<option value="125"> Duque de Caxias </option>' +
+                    '<option value="126"> Flores </option>' +
+                    '<option value="127"> Neópolis </option>' +
+                    '<option value="128"> Madre Teresa </option>' +
+                    '<option value="129"> Presidente Médici </option>' +
+                    '<option value="130"> Independente </option>' +
+                    '<option value="131"> Santos Dumont </option>' +
+                    '<option value="132"> Novo Bairro </option>' +
+                    '<option value="133"> Santa Rosa </option>' +
+                    '<option value="134"> Maguari </option>' +
+                    '</select>'                 
                 );
             }
             
             if (cidade === '6') {
-                $("#dropBairro").html(
-                '<div class="ui fluid multiple search selection dropdown">' +
-                    '<input type="hidden" name="filtroBairro[]" id="filtroBairro">' +
-                    '<span class="default text">Bairro</span>' +
-                    '<i class="dropdown icon"></i>' +
-                    '<div class="menu" id="sltBairro">' +
-                    '<div class="item" data-value="136"> Bairro Novo </div>' +			
-                    '<div class="item" data-value="137"> Betânia </div>' +
-                    '<div class="item" data-value="138"> Bom Jesus </div>' +
-                    '<div class="item" data-value="139"> Caiçara </div>' +
-                    '<div class="item" data-value="140"> Cariri </div>' +
-                    '<div class="item" data-value="141"> Centro </div>' +
-                    '<div class="item" data-value="142"> Cohab </div>' +
-                    '<div class="item" data-value="143"> Conjuntos Ypês </div>' +
-                    '<div class="item" data-value="144"> Cristo </div>' +
-                    '<div class="item" data-value="145"> Estrela </div>' +
-                    '<div class="item" data-value="146"> Florestal </div>' +
-                    '<div class="item" data-value="147"> Fonte Boa </div>' +
-                    '<div class="item" data-value="148"> Heliolândia </div>' +
-                    '<div class="item" data-value="149"> Ianetama </div>' +			
-                    '<div class="item" data-value="150"> Imperador </div>' +
-                    '<div class="item" data-value="151"> Imperial </div>' +
-                    '<div class="item" data-value="152"> Jaderlândia </div>' +
-                    '<div class="item" data-value="153"> Jardim das Acácias </div>' +
-                    '<div class="item" data-value="154"> Jardim Castanhal </div>' +
-                    '<div class="item" data-value="155"> Jardim das Flores </div>' +
-                    '<div class="item" data-value="156"> Nova Olinda </div>' +
-                    '<div class="item" data-value="157"> Novo Caiçara </div>' +
-                    '<div class="item" data-value="158"> Novo Estrela </div>' +
-                    '<div class="item" data-value="159"> Pantanal </div>' +
-                    '<div class="item" data-value="160"> Fonte Boa </div>' +
-                    '<div class="item" data-value="161"> Pirapora </div>' +
-                    '<div class="item" data-value="162"> Propira </div>' +			
-                    '<div class="item" data-value="163"> Rouxinol </div>' +
-                    '<div class="item" data-value="164"> Sales Jardim </div>' +
-                    '<div class="item" data-value="165"> Salgadinho </div>' +
-                    '<div class="item" data-value="166"> Santa Catarina </div>' +
-                    '<div class="item" data-value="167"> Santa Helena </div>' +
-                    '<div class="item" data-value="168"> Santa Lídia </div>' +
-                    '<div class="item" data-value="169"> São José </div>' +
-                    '<div class="item" data-value="170"> Saudade I </div>' +
-                    '<div class="item" data-value="171"> Saudade II </div>' +
-                    '<div class="item" data-value="172"> Titanlândia </div>' +
-                    '<div class="item" data-value="173"> Tókio </div>' +
-                    '<div class="item" data-value="174"> Vale Do Sol </div>' +
-                    '<div class="item" data-value="175"> Vila do Apeú </div>' +
-                    '</div>' +
-                '</div>'
+                $("#sltBairro").html(
+                    '<select name="filtroBairro[]" id="filtroBairro" multiple>'+
+                    '<option value="136"> Bairro Novo </option>' +			
+                    '<option value="137"> Betânia </option>' +
+                    '<option value="138"> Bom Jesus </option>' +
+                    '<option value="139"> Caiçara </option>' +
+                    '<option value="140"> Cariri </option>' +
+                    '<option value="141"> Centro </option>' +
+                    '<option value="142"> Cohab </option>' +
+                    '<option value="143"> Conjuntos Ypês </option>' +
+                    '<option value="144"> Cristo </option>' +
+                    '<option value="145"> Estrela </option>' +
+                    '<option value="146"> Florestal </option>' +
+                    '<option value="147"> Fonte Boa </option>' +
+                    '<option value="148"> Heliolândia </option>' +
+                    '<option value="149"> Ianetama </option>' +			
+                    '<option value="150"> Imperador </option>' +
+                    '<option value="151"> Imperial </option>' +
+                    '<option value="152"> Jaderlândia </option>' +
+                    '<option value="153"> Jardim das Acácias </option>' +
+                    '<option value="154"> Jardim Castanhal </option>' +
+                    '<option value="155"> Jardim das Flores </option>' +
+                    '<option value="156"> Nova Olinda </option>' +
+                    '<option value="157"> Novo Caiçara </option>' +
+                    '<option value="158"> Novo Estrela </option>' +
+                    '<option value="159"> Pantanal </option>' +
+                    '<option value="160"> Fonte Boa </option>' +
+                    '<option value="161"> Pirapora </option>' +
+                    '<option value="162"> Propira </option>' +			
+                    '<option value="163"> Rouxinol </option>' +
+                    '<option value="164"> Sales Jardim </option>' +
+                    '<option value="165"> Salgadinho </option>' +
+                    '<option value="166"> Santa Catarina </option>' +
+                    '<option value="167"> Santa Helena </option>' +
+                    '<option value="168"> Santa Lídia </option>' +
+                    '<option value="169"> São José </option>' +
+                    '<option value="170"> Saudade I </option>' +
+                    '<option value="171"> Saudade II </option>' +
+                    '<option value="172"> Titanlândia </option>' +
+                    '<option value="173"> Tókio </option>' +
+                    '<option value="174"> Vale Do Sol </option>' +
+                    '<option value="175"> Vila do Apeú </option>' +
+                    '</select>'                 
                 );
             }
-            
+            if (!agentID) {
+                $('select').dropdown();
+                $('.ui.dropdown').addClass('fluid search');
+            }
+
             $('.ui.dropdown')
                 .dropdown({
                     //on: 'hover',
