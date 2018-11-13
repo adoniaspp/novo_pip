@@ -22,12 +22,12 @@ function cancelar(entidade, acao) {
 function cadastrarAnuncio() {
     $(document).ready(function () {
         $('.ui.dropdown')
-                .dropdown({
-                    //on: 'hover'
-                });
+            .dropdown({
+                //on: 'hover'
+            });
         $('.ui.checkbox')
-                .checkbox()
-                ;
+            .checkbox()
+            ;
         $('#chkMapa').parent().checkbox('set checked');
         $('#chkContato').parent().checkbox('set checked');
         $('#txtDescricao').maxlength({
@@ -172,7 +172,7 @@ function cadastrarAnuncio() {
         })
 
 
-// UPLOAD FOTOS CADASTRAR
+        // UPLOAD FOTOS CADASTRAR
         $('#fileupload').fileupload({
             dropZone: null,
             pasteZone: null,
@@ -298,7 +298,7 @@ function cadastrarAnuncio() {
             on: 'hover'
         });
         timeoutSessao();
-// FIM UPLOAD FOTOS
+        // FIM UPLOAD FOTOS
 
     });
 }
@@ -306,7 +306,7 @@ function cadastrarAnuncio() {
 
 function editarAnuncio() {
     $(document).ready(function () {
-        $('.ui.dropdown').dropdown({/*on: 'hover'*/});
+        $('.ui.dropdown').dropdown({/*on: 'hover'*/ });
         $('.ui.checkbox').checkbox();
         $('#chkMapa').parent().checkbox('set checked');
         $('#chkContato').parent().checkbox('set checked');
@@ -434,7 +434,7 @@ function editarAnuncio() {
             }
         })
 
-// UPLOAD FOTOS EDICAO
+        // UPLOAD FOTOS EDICAO
         $('#fileupload').fileupload({
             dropZone: null,
             pasteZone: null,
@@ -559,7 +559,7 @@ function editarAnuncio() {
             on: 'hover'
         });
         timeoutSessao();
-// FIM UPLOAD FOTOS
+        // FIM UPLOAD FOTOS
 
     });
 }
@@ -574,6 +574,14 @@ function stepsSemPlanta() {
             var mobile = 'true';
             $('#stepAnuncio').hide();
             $('#stepAnuncioMobile').show();
+            $('#stepAnuncioMobile').visibility({
+                type: 'fixed'
+            });
+            /*$('#botoesNavegacao').visibility({
+                type: 'fixed',
+                offset: 100
+            });*/            
+            //$('#botoesNavegacao').css({"background-color": "white"});
         }
         $("#step1").show();
         $("#step2").hide();
@@ -602,26 +610,41 @@ function stepsSemPlanta() {
         $("div[id^='btnProximo']").click(function () {
             if (validarStepSemPlanta()) {
                 var atual = parseInt($("#hdnStep").val());
+                var stepMenu = parseInt($("#hdnStepMenu").val());
                 var proximo;
                 if (atual == 2) {
                     proximo = atual + 2;
                 } else {
                     proximo = atual + 1;
                 }
+                stepMenu = stepMenu + 1;
                 $("#step" + atual).hide();
                 $("#step" + proximo).show();
                 $("#hdnStep").val(proximo);
+                $("#hdnStepMenu").val(stepMenu);
 
                 $("#menuStep" + atual).removeClass();
                 $("#menuStep" + atual).addClass("completed step");
                 $("#menuStep" + proximo).addClass("active step");
-
                 if (mobile) {
-                    switch (proximo){
+                    switch (stepMenu) {
+                        case 1:
+                            $('#labelStep').html('Plano');
+                            break;
                         case 2:
                             $('#labelStep').html('Anúncio');
+                            break;
+                        case 3:
+                            $('#labelStep').html('Fotos');
+                            break;
+                        case 4:
+                            $('#labelStep').html('Confirmação');
+                            break;
+                        case 5:
+                            $('#labelStep').html('Publicação');
+                            break;
                     }
-                    $('#numberStep').html(proximo + '/5');
+                    $('#numberStep').html(stepMenu + '/5');
                 }
 
                 if (proximo > 1)
@@ -634,22 +657,26 @@ function stepsSemPlanta() {
                     $("#btnCancelar").hide();
                 } else
                     $("div[id^='btnProximo']").show();
-                $("#mapaGmapsBusca").width("100%").height(300).gmap3({trigger: "resize"});
-                $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({get: "marker"}).getPosition());
+                $("#mapaGmapsBusca").width("100%").height(300).gmap3({ trigger: "resize" });
+                $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({ get: "marker" }).getPosition());
             }
         })
 
         $("div[id^='btnAnterior']").click(function () {
             var atual = parseInt($("#hdnStep").val());
+            var stepMenu = parseInt($("#hdnStepMenu").val());
             var anterior;
             if (atual == 4) {
                 anterior = atual - 2;
             } else {
                 anterior = atual - 1;
             }
+            stepMenu = stepMenu - 1;
+
             $("#step" + atual).hide();
             $("#step" + anterior).show();
             $("#hdnStep").val(anterior);
+            $("#hdnStepMenu").val(stepMenu);
             $("#menuStep" + atual).removeClass();
 
             $("#menuStep" + atual).addClass("step");
@@ -657,16 +684,33 @@ function stepsSemPlanta() {
             $("#menuStep" + anterior).addClass("active step");
 
             if (mobile) {
-                $('#numberStep').html(anterior + '/5');
+                switch (stepMenu) {
+                    case 1:
+                        $('#labelStep').html('Plano');
+                        break;
+                    case 2:
+                        $('#labelStep').html('Anúncio');
+                        break;
+                    case 3:
+                        $('#labelStep').html('Fotos');
+                        break;
+                    case 4:
+                        $('#labelStep').html('Confirmação');
+                        break;
+                    case 5:
+                        $('#labelStep').html('Publicação');
+                        break;
+                }
+                $('#numberStep').html(stepMenu + '/5');
             }
-            
+
             $("div[id^='btnProximo']").show();
             if (anterior > 1)
                 $("div[id^='btnAnterior']").show();
             else
                 $("div[id^='btnAnterior']").hide();
-            $("#mapaGmapsBusca").width("100%").height(300).gmap3({trigger: "resize"});
-            $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({get: "marker"}).getPosition());
+            $("#mapaGmapsBusca").width("100%").height(300).gmap3({ trigger: "resize" });
+            $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({ get: "marker" }).getPosition());
         })
     })
 }
@@ -706,8 +750,8 @@ function validarStepSemPlanta() {
             $("#tdTitulo").html($("#txtTitulo").val());
             $("#tdDescricao").html($("#txtDescricao").val());
             $("#tdValor").html(
-                    (typeof ($("input[name=chkValor]:checked").val()) === "undefined" ? "Não Informado" : $("#txtValor").val())
-                    );
+                (typeof ($("input[name=chkValor]:checked").val()) === "undefined" ? "Não Informado" : $("#txtValor").val())
+            );
             $("#tdMapa").html((typeof ($("input[name=chkMapa]:checked").val()) === "undefined" ? "Não" : "Sim"));
             $("#tdContato").html((typeof ($("input[name=chkContato]:checked").val()) === "undefined" ? "Não" : "Sim"));
 
@@ -766,8 +810,8 @@ function stepsComPlanta() {
                     $("#btnCancelar").hide();
                 } else
                     $("div[id^='btnProximo']").show();
-                $("#mapaGmapsBusca").width("100%").height(300).gmap3({trigger: "resize"});
-                $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({get: "marker"}).getPosition());
+                $("#mapaGmapsBusca").width("100%").height(300).gmap3({ trigger: "resize" });
+                $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({ get: "marker" }).getPosition());
             }
         })
 
@@ -786,8 +830,8 @@ function stepsComPlanta() {
                 $("div[id^='btnAnterior']").show();
             else
                 $("div[id^='btnAnterior']").hide();
-            $("#mapaGmapsBusca").width("100%").height(300).gmap3({trigger: "resize"});
-            $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({get: "marker"}).getPosition());
+            $("#mapaGmapsBusca").width("100%").height(300).gmap3({ trigger: "resize" });
+            $('#mapaGmapsBusca').gmap3('get').setCenter($("#mapaGmapsBusca").gmap3({ get: "marker" }).getPosition());
         })
     })
 }
@@ -936,10 +980,10 @@ function planta() {
             if (validacao) {
                 var tbody = "#dadosPlanta_" + ordemPlanta;
                 $(tbody).append(
-                        "<tr><td> <input type='hidden' id='hdnAndarInicial" + ordemPlanta + "[]' name='hdnAndarInicial" + ordemPlanta + "[]' value='" + $(sltAndarInicial).val() + "'>" + $(sltAndarInicial).val() + "</td>" +
-                        "<td> <input type='hidden' id='hdnAndarFinal" + ordemPlanta + "[]' name='hdnAndarFinal" + ordemPlanta + "[]' value='" + $(sltAndarFinal).val() + "'>" + $(sltAndarFinal).val() + "</td>" +
-                        "<td> <input type='hidden' id='hdnValor" + ordemPlanta + "[]' name='hdnValor" + ordemPlanta + "[]' value='" + $(txtValor).val() + "'>" + $(txtValor).val() + "</td>" +
-                        "<td class='collapsing'><div class='red ui icon button' onclick='excluirPlanta($(this))'><i class='trash icon'></i>Excluir</div></td></tr>");
+                    "<tr><td> <input type='hidden' id='hdnAndarInicial" + ordemPlanta + "[]' name='hdnAndarInicial" + ordemPlanta + "[]' value='" + $(sltAndarInicial).val() + "'>" + $(sltAndarInicial).val() + "</td>" +
+                    "<td> <input type='hidden' id='hdnAndarFinal" + ordemPlanta + "[]' name='hdnAndarFinal" + ordemPlanta + "[]' value='" + $(sltAndarFinal).val() + "'>" + $(sltAndarFinal).val() + "</td>" +
+                    "<td> <input type='hidden' id='hdnValor" + ordemPlanta + "[]' name='hdnValor" + ordemPlanta + "[]' value='" + $(txtValor).val() + "'>" + $(txtValor).val() + "</td>" +
+                    "<td class='collapsing'><div class='red ui icon button' onclick='excluirPlanta($(this))'><i class='trash icon'></i>Excluir</div></td></tr>");
                 var tabela = "#tabelaPlanta_" + ordemPlanta;
                 $(tabela).show();
             }
@@ -981,21 +1025,21 @@ function validarValor(validacao) {
                 var validacao = false;
                 if ($("#chkValor").parent().checkbox('is checked')) {
                     var valor = parseInt($("#txtValor").unmask());
-//                    switch ($('#sltFinalidade').parent().dropdown('get value')) {
-//                        case "Aluguel":
+                    //                    switch ($('#sltFinalidade').parent().dropdown('get value')) {
+                    //                        case "Aluguel":
                     if (!isNaN(valor)) {
                         if (valor > 100) {
                             validacao = true;
                         }
                     }
-//                            break;
-//                        case "Venda":
-//                            if (!isNaN(valor)) {
-//                                if (valor > 1000) {
-//                                    validacao = true;
-//                                }
-//                            }
-//                            break;
+                    //                            break;
+                    //                        case "Venda":
+                    //                            if (!isNaN(valor)) {
+                    //                                if (valor > 1000) {
+                    //                                    validacao = true;
+                    //                                }
+                    //                            }
+                    //                            break;
 
                 } else {
                     validacao = true;
@@ -1146,9 +1190,9 @@ function mudouPlano(plano) {
 function reativar(botao) {
     $(document).ready(function () {
         $('.ui.dropdown')
-                .dropdown({
-                    //on: 'hover'
-                });
+            .dropdown({
+                //on: 'hover'
+            });
 
         $('#btnReativar' + botao).click(function () {
             $("#btnFecharReativar" + botao).hide();
@@ -1284,7 +1328,7 @@ function formatarDetalhe() {
 function formatarValor(vetor) {
 
     $('.ui.checkbox')
-            .checkbox();
+        .checkbox();
 
     $("#tdValor" + vetor).priceFormat({
         prefix: 'R$ ',
@@ -1357,7 +1401,8 @@ function exibirEmailPDFListaAnuncio() {
                     $("#divEmailPDF").empty();
                 }
 
-            }}
+            }
+        }
         );
 
     })
@@ -1458,15 +1503,15 @@ function confirmarEmailPDF() {
                     captcha_code: {
                         required: true,
                         remote:
-                                {
-                                    url: "index.php",
-                                    dataType: "json",
-                                    type: "POST",
-                                    data: {
-                                        hdnEntidade: "Usuario",
-                                        hdnAcao: "validarCaptcha"
-                                    }
-                                }
+                        {
+                            url: "index.php",
+                            dataType: "json",
+                            type: "POST",
+                            data: {
+                                hdnEntidade: "Usuario",
+                                hdnAcao: "validarCaptcha"
+                            }
+                        }
                     }
                 },
                 messages: {
@@ -1753,7 +1798,7 @@ function alterarValor(valor) {
             var valorNovo = $('#txtNovoValor' + valor).val();
             return valorAntigo != valorNovo
         },
-                "O Novo Valor não pode ser igual ao Valor Atual");
+            "O Novo Valor não pode ser igual ao Valor Atual");
 
         $.validator.messages.required = 'Campo obrigatório';
 
@@ -1867,9 +1912,9 @@ function alterarStatusAnuncio(valor) {
 
     $(document).ready(function () {
         $('.ui.dropdown')
-                .dropdown({
-                    //on: 'hover'
-                });
+            .dropdown({
+                //on: 'hover'
+            });
 
         $("#sltStatusAnuncio" + valor).change(function () {
             $(this).valid();
