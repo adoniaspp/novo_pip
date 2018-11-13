@@ -745,9 +745,15 @@ class ConsultasAdHoc extends GenericoDAO {
         $statement = $this->conexao->prepare($sql);
         $statement->bindParam(':idUsuario', $idUsuario);
         $statement->execute();
-        //$resultado = $statement->fetchAll(PDO::FETCH_CLASS, "AnuncioAprovacao");
         $resultado = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $resultado;
+    }
+    
+    public function excluirAnunciosPendentesFinalizar($idanuncio){
+        $sql = "call excluirPendentesAprovacaoFinalizados(:idanuncio)";
+        $statement = $this->conexao->prepare($sql);
+        $statement->bindParam(':idanuncio', $idanuncio);
+        $statement->execute();
     }
     
 }

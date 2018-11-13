@@ -1577,7 +1577,7 @@ class AnuncioControle {
         if (Sessao::verificarSessaoUsuario()) {
 
             if (Sessao::verificarToken($parametros)) {
-
+                
                 $genericoDAO = new GenericoDAO();
                 $entidadeAnuncio = new Anuncio();
                 $selecionarAnuncio = $genericoDAO->consultar($entidadeAnuncio, false, array("id" => $parametros["hdnAnuncio"]));
@@ -1590,6 +1590,10 @@ class AnuncioControle {
                 $entidadeHistoricoAluguelVenda = $historicoAluguelVenda->cadastrar($parametros);
                 $resultadoFinalizarNegocio = $genericoDAO->cadastrar($entidadeHistoricoAluguelVenda);
                 if ($resultadoFinalizarNegocio) {
+                    
+                $adHOC = new ConsultasAdHoc();
+                $adHOC->excluirAnunciosPendentesFinalizar($entidadeAnuncio->getIdanuncio());
+                    
                     echo json_encode(array("resultado" => 1));
                 } else {
                     echo json_encode(array("resultado" => 0));
