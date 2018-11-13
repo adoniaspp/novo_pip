@@ -67,15 +67,7 @@
                         <option value="novo">Novo</option>
                         <option value="usado">Usado</option>
                 </select>       
-                            <div class="ui fluid selection dropdown">
-                                <input type="hidden" name="sltCondicao" id="sltCondicao">
-                                <div class="default text">Condição</div>
-                                <i class="dropdown icon"></i>
-                                <div class="menu">
-                                    <div class="item" data-value="novo">Novo</div>
-                                    <div class="item" data-value="usado">Usado</div>
-                                </div>
-                            </div>                       
+                                                 
             </div>    
 <!--            <div class="column" id="divGaragem">  
                 <div class="ui left floated compact segment">
