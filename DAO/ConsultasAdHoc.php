@@ -734,4 +734,20 @@ class ConsultasAdHoc extends GenericoDAO {
         return $resultado;
     }
     
+        public function consultarAnunciosAprovados($idUsuario){
+        $sql = "SELECT *, up.status as statusplano
+                FROM usuarioplano up 
+                left join anuncioaprovacao ap on ap.idusuarioplano = up.idusuario
+                join plano p on p.id = up.idplano
+                LEFT join anuncio a on a.idusuarioplano = up.id
+                WHERE 1=1
+                and up.idusuario = :idUsuario";
+        $statement = $this->conexao->prepare($sql);
+        $statement->bindParam(':idUsuario', $idUsuario);
+        $statement->execute();
+        //$resultado = $statement->fetchAll(PDO::FETCH_CLASS, "AnuncioAprovacao");
+        $resultado = $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $resultado;
+    }
+    
 }

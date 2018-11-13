@@ -163,6 +163,14 @@ class UsuarioControle {
             }
 
             if ($idEndereco && $idUsuario && $idEmpresa && $resultadoTelefone) {
+                
+                $entidadeUsuarioPlano = new UsuarioPlano();
+                
+                $entidadeUsuarioPlano->cadastrar(5);
+                $entidadeUsuarioPlano->setStatus("pago");
+                $entidadeUsuarioPlano->setIdusuario($idUsuario);
+                $genericoDAO->cadastrar($entidadeUsuarioPlano);
+                
                 $genericoDAO->commit();
                 $genericoDAO->fecharConexao();
                 $this->log("Término da Operação " . $parametros["hdnEntidade"] . ucfirst($parametros["hdnAcao"]));
@@ -672,6 +680,7 @@ class UsuarioControle {
             $usuario = $genericoDAO->consultar(new Usuario, true, array("id" => $_SESSION["idusuario"]));
             $bairroUsuario = $genericoDAO->consultar(new Bairro(), false, array("id" => $usuario[0]->getEndereco()->getIdBairro()));
             $planosUsuario = $consultasAdHoc->verificarPlanoGratuito($_SESSION["idusuario"]);
+            $dadosPlano = $consultasAdHoc->consultarAnunciosAprovados($_SESSION["idusuario"]);
             $itemMeuPIP = array();
             $itemMeuPIP["usuarioPlano"] = $listarUsuarioPlano;
             $itemMeuPIP["usuario"] = $usuario;
@@ -683,6 +692,7 @@ class UsuarioControle {
             $itemMeuPIP["mensagem"] = $genericoDAO->consultar(new Mensagem(), false, array("idusuario" => $_SESSION['idusuario']));
             $itemMeuPIP["chamados"] = $genericoDAO->consultar($chamadosPIP, true, array("idusuario" => $_SESSION['idusuario']));
             $itemMeuPIP["anuncioPendente"] = $consultasAdHoc->consultarAnunciosPendentesAprovacaoPorUsuario($_SESSION['idusuario']);
+            $itemMeuPIP["dadosPlano"] = $dadosPlano;
             $visao = new Template();
             $visao->setItem($itemMeuPIP);
             $visao->exibir('UsuarioVisaoMeuPIP.php');

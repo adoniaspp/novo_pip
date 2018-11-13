@@ -143,19 +143,7 @@ $usuarioBairro = $item["usuarioBairro"];
 $chamdos = $item["chamados"];
 $planosUsu = $item["planosUsuarioGratis"];
 $anuncioPendenteAprovacao = $item["anuncioPendente"];
-
-/*
-echo "<pre>";
-var_dump($imoveis);
-echo "</pre>";
-/*
-foreach ($anuncioPendenteAprovacao as $pendente){
-    echo $pendente->getId();
-}/*
-
-for($x = 0; $x<=16; $x++){
-    echo $anuncioPendenteAprovacao[$x]->getId()." ";
-}*/
+$dadosPlano = $item["dadosPlano"];
 
 foreach ($usuarioBairro as $bairroUsuario) {
     $bUsuario = $bairroUsuario->getNome();
@@ -1113,30 +1101,51 @@ $totalAnuncios = $totalAnuncios + $pendenteAprova;
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            foreach ($item["usuarioPlano"] as $usuarioPlano) {
-                                if ($usuarioPlano->getStatus() == "pago") {
+                            <?php                            
+                            
+                            foreach ($dadosPlano as $dPlanos) {
+    
+                                
+                                if ($dPlanos['statusplano'] == "pago" && $dPlanos['gratuito'] == 'NAO') {
                                     $statusPlano = "<h4 class='ui green header'>Pago</h4>";
                                 }
 
-                                if ($usuarioPlano->getStatus() == "utilizado") {                                    
+                                else if ($dPlanos['statusplano'] == "utilizado" && $dPlanos['gratuito'] == 'NAO') {                                    
                                     $statusPlano = "<h4 class='ui red header'>Utilizado</h4>";
                                 }                                
 
-                                if ($usuarioPlano->getStatus() == "pagamento pendente") {
+                                else if ($dPlanos['statusplano'] == "pagamento pendente" && $dPlanos['gratuito'] == 'NAO') {
                                     $statusPlano = "<h4 class='ui yellow header'>Pagamento Pendente</h4>";
                                 }
 
-                                if ($usuarioPlano->getStatus() == "expirado") {
+                                else if ($dPlanos['statusplano'] == "expirado" && $dPlanos['gratuito'] == 'NAO') {
                                     $statusPlano = "<h4 class='ui red header'>Expirado</h4>";
+                                }
+                                
+                                else if($dPlanos['statusplano'] == "pago" && $dPlanos['gratuito'] == 'SIM'){
+                                     $statusPlano = "<h4 class='ui green header'> Gratuito </h4>";;
                                 }
                    
                                 echo "<tr>";
-                                echo "<td>" . $usuarioPlano->getPlano()->getTitulo() . " (" . $usuarioPlano->getPlano()->getValidadepublicacao() . " dias)</td>";
-                                echo "<td>" . $usuarioPlano->getPlano()->getDescricao() . "</td>";
-                                echo "<td>" . date('d/m/Y H:i:s', strtotime($usuarioPlano->getDataCompra())) . "</td>";
-                                if ($usuarioPlano->getStatus() == "pagamento pendente" || $usuarioPlano->getStatus() == "pago") {
-                                    $diasRestantes = FuncoesAuxiliares::diasRestantes($usuarioPlano->getDataCompra());
+                                
+                                if($dPlanos['gratuito'] == 'SIM'){
+                                     echo "<td>" . $dPlanos['titulo'] . " </td>";
+                                }
+                                else echo "<td>" . $dPlanos['titulo'] . " (" . $dPlanos['validadeativacao'] . " dias)</td>";
+
+                                echo "<td>" . $dPlanos['descricao'] . "</td>";
+                                
+                                if($dPlanos['gratuito'] == 'SIM'){
+                                     echo "<td>" . ' -  '. "</td>";
+                                }
+                                else echo "<td>" . date('d/m/Y H:i:s', strtotime($dPlanos['datacompra'])) . "</td>";
+                                
+                                if($dPlanos['gratuito'] == 'SIM'){
+                                     echo "<td>" . ' -  '. "</td>";
+                                }
+                                
+                                else if ($dPlanos['statusplano'] == "pagamento pendente" || $dPlanos['statusplano'] == "pago") {
+                                    $diasRestantes = FuncoesAuxiliares::diasRestantes($dPlanos['datacompra']);
                                     
                                     if($diasRestantes > 6 && $diasRestantes < 1){
                                         $diasRestantesModulo = "<a class='ui small yellow header'>".$diasRestantes."</a> dias"; 
@@ -1150,20 +1159,19 @@ $totalAnuncios = $totalAnuncios + $pendenteAprova;
                                         $diasRestantesModulo = "<a class='ui small header'>".$diasRestantes."</a> dias"; 
                                     }
                                     
-                                    echo "<td>" . $usuarioPlano->DataExpiracao(60) ." - ". $diasRestantesModulo ."</td>";
+                                    $dateB = date_create_from_format("Y-m-d H:s:i", $dPlanos['datacompra']);
+                                    $dateA = $dateB->add(date_interval_create_from_date_string(60 . 'days'));
+                                    $dFinalExpiracao = date_format($dateA, "d/m/Y");
+                                    
+                                    echo "<td>" . $dFinalExpiracao ." - ". $diasRestantesModulo ."</td>";
                                 } else {
-                                    echo "<td> Já Utilizado </td>";
+                                    echo "<td> Já utilizado </td>";
                                 }
-                                echo "<td>" . $statusPlano . "</td>";                                                            
+                                echo "<td>" . $statusPlano . "</td>";  
+                                
+                                    if (($dPlanos['status']) != '') {//verifica se tem anuncios.
 
-                                foreach ($imoveis as $anuncios) {
-                                    if (count($anuncios->getAnuncio()) > 0) {//verifica se tem anuncios.
-                                        if ($anuncios->getAnuncio()->getIdUsuarioPlano() == $usuarioPlano->getId()) {
-
-                                            $idAnuncioVinculadoFormatado = $anuncios->getAnuncio()->getIdAnuncio();
-                                            $idAnuncioVinculado = $anuncios->getAnuncio()->getId();
-
-                                            switch ($anuncios->getIdTipoImovel()) {
+                                            switch ($imovelCadastrado['idtipoimovel']) {
 
                                                 case 1: $tipoImovel = "casa";
                                                     break;
@@ -1178,46 +1186,44 @@ $totalAnuncios = $totalAnuncios + $pendenteAprova;
                                                 case 6: $tipoImovel = "terreno";
                                                     break;
                                             }
-                                            $vinculado = "<form id='form' action='index.php' method='post' target='_blank'>
+                                    $vinculado = "<form id='form' action='index.php' method='post' target='_blank'>
                                     <input type='hidden' id='hdnEntidade' name='hdnEntidade' value='Anuncio' />
                                     <input type='hidden' id='hdnAcao' name='hdnAcao' value='detalhar'/>
-                                    <input type='hidden' id='hdnCodAnuncio' name='hdnCodAnuncio' value='" . $idAnuncioVinculado . "'/>
+                                    <input type='hidden' id='hdnCodAnuncio' name='hdnCodAnuncio' value='" . $dPlanos['id'] . "'/>
                                     <input type='hidden' id='hdnTipoImovel' name='hdnTipoImovel' value='" . $tipoImovel . "'/>           
                                     <button class='ui labeled icon button'>
-                                    <i class='zoom icon'></i>" . $idAnuncioVinculadoFormatado . "
+                                    <i class='zoom icon'></i>" . $dPlanos['idanuncio'] . "
                                     </button>
-                                    <input type='hidden' name='hdnCodAnuncioFormatado[]' value='" . $idAnuncioVinculadoFormatado . "'/>
-                                    </form>"; break;
-                                        } 
+                                    <input type='hidden' name='hdnCodAnuncioFormatado[]' value='" . $dPlanos['idanuncio'] . "'/>
+                                    </form>"; 
                                     }  
                                     
                                     else {
                                         
-                                        foreach ($item["anuncioPendente"] as $itemPendente){       
-                                    
-                                        if($itemPendente->getIdUsuarioPlano() == $usuarioPlano->getId() && $itemPendente->getStatus()=="pendenteanalise"){
-                                            $vinculado = "<h4 class='ui yellow header'>Pendente de Análise</h4>";
-                                        }
-                                        else if($itemPendente->getIdUsuarioPlano() == $usuarioPlano->getId() && $itemPendente->getStatus()=="emanalise"){
-                                            $vinculado = "<h4 class='ui yellow header'>Em Análise</h4>";
-                                        }
+                                        if($item["anuncioPendente"]){
                                         
-                                        else //if($itemPendente->getIdUsuarioPlano() == $usuarioPlano->getId() && $itemPendente->getStatus()=="finalizado"){
-                                            $vinculado = "<h4 class='ui yellow header'>Em Análise</h4>";
-                                        //}
-                                      }
-                                    }
-                                }
-                                    
-                                    if($usuarioPlano->getStatus()=='expirado' || $usuarioPlano->getStatus()=='finalizado'){
+                                            foreach ($item["anuncioPendente"] as $itemPendente){       
 
-                                        $vinculado = "<h4 class='ui red header'>Nenhum anúncio foi vinculado</h4>";
+                                            if($itemPendente->getIdUsuarioPlano() == $dPlanos['idusuario'] && $itemPendente->getStatus()=="pendenteanalise"){
+                                                $vinculado = "<h4 class='ui yellow header'>Pendente de Análise</h4>";
+                                            }
+                                            else if($itemPendente->getIdUsuarioPlano() == $dPlanos['idusuario'] && $itemPendente->getStatus()=="emanalise"){
+                                                $vinculado = "<h4 class='ui yellow header'>Em Análise</h4>";
+                                            }
+
+                                          }
+                                       }
+                                    }
+                                    if($dPlanos['statusplano'] == 'expirado' || $dPlanos['statusplano'] == 'finalizado' || $dPlanos['statusplano'] == 'pago'){
+
+                                        $vinculado = "<h4 class='ui red header'>Nenhum anúncio vinculado</h4>";
                                         
                                     }
 
                                 echo "<td>" . $vinculado . "</td>"
                                 . "</tr>";
-                            }
+                                }      
+                            
                             ?>
                         </tbody>
                     </table>
