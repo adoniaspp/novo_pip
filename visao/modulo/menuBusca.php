@@ -58,7 +58,7 @@
                 </select>
             </div>
 
-            <div id="sltBairro">                                           
+            <div id="sltBairro">    
             </div>
 
             <div class="column" id="divCondicao">      

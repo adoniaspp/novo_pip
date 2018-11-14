@@ -14,22 +14,12 @@ function buscarAnuncio() {
         $("#sltCidade").change(function () {
             var cidade = $(this).val();
             $('#sltBairro').addClass('column');
-
-            if (cidade === '') {
-                $("#dropBairro").html(
-                '<div class="ui fluid multiple search selection dropdown">' +
-                    '<input type="hidden" name="filtroBairro[]" id="filtroBairro">' +
-                    '<span class="default text">Bairro</span>' +
-                    '<i class="dropdown icon"></i>' +
-                    '<div class="menu" id="sltBairro">' +
-                    '</div>' +
-                '</div>'
-                );
-            }
+            
             
             if (cidade === '1') {
                 $("#sltBairro").html(
                     '<select name="filtroBairro[]" id="filtroBairro" multiple>'+
+                    '<option value=""> Todos os bairros </option>' +
                     '<option value="3"> Aeroporto </option>' +
                     '<option value="1"> Água Boa </option>' +
                     '<option value="7"> Águas Lindas </option>' +
@@ -107,6 +97,7 @@ function buscarAnuncio() {
             if (cidade === '2') {
                 $("#sltBairro").html(
                     '<select name="filtroBairro[]" id="filtroBairro" multiple>'+
+                    '<option value=""> Todos os bairros </option>' +
                     '<option value="78"> 40 horas </option>' +
                     '<option value="79"> Águas Brancas </option>' +
                     '<option value="81"> Atalaia </option>' +
@@ -139,6 +130,7 @@ function buscarAnuncio() {
             if (cidade === '3') {
                 $("#sltBairro").html(
                     '<select name="filtroBairro[]" id="filtroBairro" multiple>'+
+                    '<option value=""> Todos os bairros </option>' +
                     '<option value="115"> Almir Gabriel </option>' +
                     '<option value="114"> Beira Rio </option>' +
                     '<option value="116"> Bela Vista </option>' +
@@ -160,6 +152,7 @@ function buscarAnuncio() {
             if (cidade === '4') {
                 $("#sltBairro").html(
                     '<select name="filtroBairro[]" id="filtroBairro" multiple>'+
+                    '<option value=""> Todos os bairros </option>' +
                     '<option value="121"> Campestre </option>' +
                     '<option value="122"> Canutama </option>' +
                     '<option value="123"> Centro </option>' +
@@ -181,6 +174,7 @@ function buscarAnuncio() {
             if (cidade === '6') {
                 $("#sltBairro").html(
                     '<select name="filtroBairro[]" id="filtroBairro" multiple>'+
+                    '<option value=""> Todos os bairros </option>' +
                     '<option value="136"> Bairro Novo </option>' +			
                     '<option value="137"> Betânia </option>' +
                     '<option value="138"> Bom Jesus </option>' +
@@ -226,7 +220,7 @@ function buscarAnuncio() {
             }
             if (!agentID) {
                 $('select').dropdown();
-                $('.ui.dropdown').addClass('fluid search');
+                $('.ui.dropdown.multiple').addClass('fluid search');
             }
 
             $('.ui.dropdown')
@@ -240,18 +234,6 @@ function buscarAnuncio() {
 
         $("input[name=sltCidadeAvancado]").change(function () {
             var cidade = $(this).val();
-            
-             if (cidade === '') {
-                $("#dropBairroAvancado").html(
-                '<div class="ui fluid multiple search selection dropdown">' +
-                    '<input type="hidden" name="filtroBairro[]" id="filtroBairro">' +
-                    '<span class="default text">Bairro</span>' +
-                    '<i class="dropdown icon"></i>' +
-                    '<div class="menu" id="sltBairro">' +
-                    '</div>' +
-                '</div>'
-                );
-            }
             
             if (cidade === '1') {
                 $("#dropBairroAvancado").html(
