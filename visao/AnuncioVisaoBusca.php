@@ -44,7 +44,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
 <div class="ui hidden divider"></div>
 
 
-<form id="form" action="index.php" method="post" target='_blank'>
+<form id="formAnuncios" action="index.php" method="post" target='_blank'>
     <input type="hidden" id="hdnEntidade" name="hdnEntidade"  />
     <input type="hidden" id="hdnAcao" name="hdnAcao" />
     <input type="hidden" id="hdnCodAnuncio" name="hdnCodAnuncio" />
@@ -282,7 +282,7 @@ foreach ($item["anuncio"] as $buscaAnuncio) {
                                 <br />
                                 <div class="ui one column center aligned grid">
                                     <div class="column">
-                                        <a class='ui twitter button' href="<?php echo PIPURL; ?><?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank">+ Detalhes</a>
+                                        <a id="btnDetalhe" class='ui twitter button' href="<?php echo PIPURL; ?><?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank">+ Detalhes</a>
                                     </div>
                                 </div>       
                             </div>
