@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/dataTables.semanticui.min.css">
 <link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
 <script src="assets/libs/jquery/jquery.validate.min.js" type="text/javascript"></script>
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
@@ -145,6 +146,10 @@ $planosUsu = $item["planosUsuarioGratis"];
 $anuncioPendenteAprovacao = $item["anuncioPendente"];
 $dadosPlano = $item["dadosPlano"];
 
+echo "<pre>";
+var_dump($dadosPlano);
+echo "</pre>";
+
 foreach ($usuarioBairro as $bairroUsuario) {
     $bUsuario = $bairroUsuario->getNome();
 }
@@ -191,7 +196,7 @@ $totalAnuncios = $totalAnuncios + $pendenteAprova;
 
                 $("#divRetornoOperacao").attr("class", "ui negative message");
 
-                $("#divRetornoOperacao").html("<i class='big red remove circle outline icon'>\n\
+                $("#divRetornoOperacao").html("<i class='big red times circle outline icon'>\n\
                             </i>Erro ao processar requisição. Tente novamente em alguns minutos - 000");
 
             }
@@ -202,7 +207,7 @@ $totalAnuncios = $totalAnuncios + $pendenteAprova;
 
                 $("#divRetornoOperacao").attr("class", "ui negative message");
 
-                $("#divRetornoOperacao").html("<i class='big red remove circle outline icon'>\n\
+                $("#divRetornoOperacao").html("<i class='big red times circle outline icon'>\n\
                             </i>Tempo limite para a operação expirou. Tente novamente.");
 
             }
@@ -1169,9 +1174,13 @@ $totalAnuncios = $totalAnuncios + $pendenteAprova;
                                 }
                                 echo "<td>" . $statusPlano . "</td>";  
                                 
-                                    if (($dPlanos['status']) != '') {//verifica se tem anuncios.
-
-                                            switch ($imovelCadastrado['idtipoimovel']) {
+                                    if (($dPlanos['status']) != null) { //verificar se tem anuncios.
+                                            
+                                            foreach($imoveis as $im) {
+                                                
+                                            if($im->getId() == $dPlanos['idimovel']) {
+      
+                                            switch ($im->getIdTipoImovel()) {
 
                                                 case 1: $tipoImovel = "casa";
                                                     break;
@@ -1185,7 +1194,11 @@ $totalAnuncios = $totalAnuncios + $pendenteAprova;
                                                     break;
                                                 case 6: $tipoImovel = "terreno";
                                                     break;
+                                                
+                                                }                                                    
                                             }
+                                        }
+                                            
                                     $vinculado = "<form id='form' action='index.php' method='post' target='_blank'>
                                     <input type='hidden' id='hdnEntidade' name='hdnEntidade' value='Anuncio' />
                                     <input type='hidden' id='hdnAcao' name='hdnAcao' value='detalhar'/>
@@ -1196,6 +1209,7 @@ $totalAnuncios = $totalAnuncios + $pendenteAprova;
                                     </button>
                                     <input type='hidden' name='hdnCodAnuncioFormatado[]' value='" . $dPlanos['idanuncio'] . "'/>
                                     </form>"; 
+                                    
                                     }  
                                     
                                     else {
@@ -1325,7 +1339,7 @@ $totalAnuncios = $totalAnuncios + $pendenteAprova;
                         if ($chamados->getStatus() != "cancelado" && $chamados->getStatus() != "respondido") {
 
                             $listagemChamado .= "<td> <a class='ui circular inverted icon button' id='btnDetalhesChamado" . $chamados->getId() . "' ><i class='ui big green zoom icon'></i></a>Visualizar"
-                                    . "<a class='ui circular inverted icon button' id='btnCancelarChamado" . $chamados->getId() . "' ><i class='big red remove circle outline icon'></i></a>Cancelar"
+                                    . "<a class='ui circular inverted icon button' id='btnCancelarChamado" . $chamados->getId() . "' ><i class='big red times circle outline icon'></i></a>Cancelar"
                                     . "</td>";
                         } else {
                             $listagemChamado .= "<td> <a class='ui circular inverted icon button' id='btnDetalhesChamado" . $chamados->getId() . "' ><i class='ui big green zoom icon'></i></a>Visualizar"
@@ -1526,7 +1540,7 @@ $totalAnuncios = $totalAnuncios + $pendenteAprova;
                                     </div>
                                     <br>
                                     <div  id="botaoCancelarChamado<?php echo $chamados->getId(); ?>" class="ui red labeled icon button">
-                                        <i class='big white remove outline circle icon'></i>Cancelar Chamado
+                                        <i class='big white times outline circle icon'></i>Cancelar Chamado
                                     </div>
 
                                 <?php } ?>
