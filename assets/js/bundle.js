@@ -14,3 +14,19 @@ $(document).ready(function(){
             $('.ui.dropdown').addClass('fluid')
             }    
 })
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker
+        .register('/serviceWorker.js', {
+            scope: '/'
+        })
+        .then(function() {
+        });
+    });
+}
+
+  window.addEventListener('beforeinstallprompt', function(event) {
+    event.preventDefault();
+    deferredPrompt = event;
+    return false;
+  });

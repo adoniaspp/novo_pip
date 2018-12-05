@@ -637,9 +637,9 @@ function carregarAnuncio() { //valor = quantidade de anuncios
     $(document).ready(function () {
         var deviceAgent = navigator.userAgent.toLowerCase();
         var agentID = deviceAgent.match(/(iphone|ipod|ipad|android|blackberry)/);
-        $("#btnDetalhe").removeAttr("target");
 
         if (agentID) {
+            $("#btnDetalhe").removeAttr("target");
             $('.ui.dropdown')
                     .dropdown()
                     ;
