@@ -570,7 +570,7 @@ function stepsSemPlanta() {
         var deviceAgent = navigator.userAgent.toLowerCase();
         var agentID = deviceAgent.match(/(iphone|ipod|ipad|android|blackberry)/);
 
-        if (!agentID) {
+        if (agentID) {
             var mobile = 'true';
             $('#stepAnuncio').hide();
             $('#stepAnuncioMobile').show();
