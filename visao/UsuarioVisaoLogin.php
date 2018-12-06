@@ -31,7 +31,7 @@
 
                 $("#divRetornoOperacao").attr("class", "ui negative message");
 
-                $("#divRetornoOperacao").html("<i class='big red remove circle outline icon'>\n\
+                $("#divRetornoOperacao").html("<i class='big red times circle outline icon'>\n\
                             </i>Erro ao processar requisição. Tente novamente fazer o cadastro em alguns minutos - 000");
 
             }
@@ -42,7 +42,7 @@
 
                 $("#divRetornoOperacao").attr("class", "ui negative message");
 
-                $("#divRetornoOperacao").html("<i class='big red remove circle outline icon'>\n\
+                $("#divRetornoOperacao").html("<i class='big red times circle outline icon'>\n\
                             </i>Tempo limite para a operação expirou. Tente novamente fazer o cadastro.");
 
             }

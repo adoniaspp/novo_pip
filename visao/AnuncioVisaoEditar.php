@@ -1,5 +1,5 @@
 <?php
-Sessao::gerarToken();
+//Sessao::gerarToken();
 $item = $this->getItem();
 
 if ($item) {
@@ -11,6 +11,14 @@ if ($item) {
     $anuncio = $item["anuncio"];
 }
 
+#verificacao de edição ou reativação
+$reativarAnuncioPlano = true;
+if (count($item["usuarioPlano"]) == 1) {
+    if ($item["usuarioPlano"][0]->getStatus() == "utilizado") {
+        $reativarAnuncioPlano = false;
+    }
+}
+
 $valorAnuncio = (isset($item["novovalor"][0])) ? $item["novovalor"][0]->getNovovalor() : $anuncio->getValormin();
 ?>
 <script src="assets/libs/jquery/jquery.validate.min.js"></script>
@@ -20,7 +28,7 @@ $valorAnuncio = (isset($item["novovalor"][0])) ? $item["novovalor"][0]->getNovov
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/js/anuncio.js"></script>
 <script src="assets/js/buscaAnuncio.js"></script>
-<script async defer src="<?php echo GOOGLEMAPSURL; ?>"> </script>
+<script async defer src="<?php echo GOOGLEMAPSURL; ?>"></script>
 <script src="assets/libs/gmaps/gmap3.min.js"></script>
 <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
 <script src="assets/libs/fileupload/vendor/jquery.ui.widget.js"></script>
@@ -67,30 +75,31 @@ $valorAnuncio = (isset($item["novovalor"][0])) ? $item["novovalor"][0]->getNovov
                 <i class="right chevron icon divider"></i>
                 <i class="block layout small icon"></i><a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
                 <i class="right chevron icon divider"></i>
-                <i class="announcement small icon"></i><a href="index.php?entidade=Anuncio&acao=listarAtivo">Anúncios</a>
-                <i class="right chevron icon divider"></i>
-                <?php //if ($item["anuncio"]->getId() != "") {  ?>
-                <a class="active section">Editar Anúncios</a>
-                <?php //} else {  ?>
-                <!--<a class="active section" href="index.php?entidade=Anuncio&acao=listarCadastrar">Publicar Anúncio</a>-->
-                <?php //}  ?>
+                <?php if ($reativarAnuncioPlano) { ?>
+                <i class="refresh small icon"></i><a href="index.php?entidade=Anuncio&acao=listarReativarAluguel">Reativar Anúncios (aluguel)</a>
+                    <i class="right chevron icon divider"></i>
+                    <div class="active section">Reative</div>
+                <?php } else { ?>
+                    <i class="list small icon"></i><a href="index.php?entidade=Anuncio&acao=listarAtivo">Anúncios Ativos</a>
+                    <i class="right chevron icon divider"></i>
+                    <div class="active section">Edite</div>
+                <?php } ?>
             </div>
         </div>
     </div>
 </div>
 
-
 <div class="ui middle aligned stackable grid container">
-    <?php if ($item["existeAlteracaoNaoAprovada"]===true) { ?>
-    <div class="row">
-        <div class="column">
-            <div class="ui horizontal segments">
-                <div class="ui segment center aligned ">
-                    <i class="big orange edit icon"></i>Atenção: existe alteração registrada para esse anúncio que ainda não foi aprovada. <br>O envio de uma nova alteração não sobrescreverá as anteriores.
-                </div>
-            </div>           
+    <?php if ($item["existeAlteracaoNaoAprovada"] === true) { ?>
+        <div class="row">
+            <div class="column">
+                <div class="ui horizontal segments">
+                    <div class="ui segment center aligned ">
+                        <i class="big orange edit icon"></i>Atenção: existe alteração registrada para esse anúncio que ainda não foi aprovada. <br>O envio de uma nova alteração não sobrescreverá as anteriores.
+                    </div>
+                </div>           
+            </div>
         </div>
-    </div>
     <?php } ?>
     <div class="row">
         <div class="ui fluid small ordered steps">
@@ -190,7 +199,7 @@ $valorAnuncio = (isset($item["novovalor"][0])) ? $item["novovalor"][0]->getNovov
     <input type="hidden" id="hdnId" name="hdnId" value=""/>
     <input type="hidden" id="hdnIdImovel" name="hdnIdImovel" value="<?php echo $idImovel; ?>" />
     <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio" />
-    <input type="hidden" id="hdnAcao" name="hdnAcao" value="Editar" />
+    <input type="hidden" id="hdnAcao" name="hdnAcao" value="<?php echo $reativarAnuncioPlano?"Reativar":"Editar"; ?>" />
     <input type="hidden" id="hdnStep" name="hdnStep" value="1" />
     <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
 
@@ -198,29 +207,39 @@ $valorAnuncio = (isset($item["novovalor"][0])) ? $item["novovalor"][0]->getNovov
         <div class="row">
             <!--SELECIONE O PLANO-->
             <div class="sixteen wide column" id="step1" class="">            
-                <h3 class="ui dividing header">Plano utilizado no seu anúncio</h3>
+                <h3 class="ui dividing header">
+                    <?php
+                    if ($reativarAnuncioPlano) {
+                        echo "Escolha o plano a ser utilizado na reativação do seu anúncio";
+                    } else {
+                        echo "Plano utilizado no seu anúncio";
+                    }
+                    ?>
+                </h3>
                 <div class="ui form segment">
                     <div class="fields">
                         <div class="eight wide required field">
                             <label>Plano</label>
                             <?php
-                            foreach ($item["usuarioPlano"] as $usuarioPlano) {
-                                echo $usuarioPlano->getPlano()->getTitulo() . " (" . $usuarioPlano->getPlano()->getValidadepublicacao() . " dias) - A publicação expira em: " . $usuarioPlano->DataExpiracao($usuarioPlano->getPlano()->getValidadepublicacao());
+                            if (!$reativarAnuncioPlano) {
+                                echo $item["usuarioPlano"][0]->getPlano()->getTitulo() . " (" . $item["usuarioPlano"][0]->getPlano()->getValidadepublicacao() . " dias) - A publicação expira em: " . $item["usuarioPlano"][0]->DataExpiracao($item["usuarioPlano"][0]->getPlano()->getValidadepublicacao());
                             }
                             ?>
-                            <div class="ui selection dropdown" style="display:none">
-                                <input type="hidden" name="sltPlano" id="sltPlano" value="<?php echo $usuarioPlano->getId() ?>">
+                            <div class="ui selection dropdown" style="<?php echo!$reativarAnuncioPlano ? "display:none" : ""; ?>">
+                                <input type="hidden" name="sltPlano" id="sltPlano" value="<?php echo!$reativarAnuncioPlano ? $item["usuarioPlano"][0]->getId() : ""; ?>">
                                 <i class="dropdown icon"></i>
                                 <?php
                                 if ($item && count($item["usuarioPlano"]) > 0) {
                                     ?>
+                                    <div class="text">Escolha um plano</div>
                                     <div class="menu">                            
                                         <?php
                                         foreach ($item["usuarioPlano"] as $usuarioPlano) {
+                                             if ($usuarioPlano->getIdPlano() != 5) { //não mostrar o plano gratuito
                                             ?>
                                             <div class="item" data-value="<?php echo $usuarioPlano->getId() ?>"><?php echo $usuarioPlano->getPlano()->getTitulo() . " (" . $usuarioPlano->getPlano()->getValidadepublicacao() . " dias) - A publicação expira em: " . $usuarioPlano->DataExpiracao($usuarioPlano->getPlano()->getValidadepublicacao()); ?></div>
                                             <?php
-                                        }
+                                        } }
                                         ?>
                                     </div>
                                     <?php
@@ -259,11 +278,17 @@ $valorAnuncio = (isset($item["novovalor"][0])) ? $item["novovalor"][0]->getNovov
                                 <input name="sltFinalidade" id="sltFinalidade" type="hidden" value="<?php echo $anuncio->getFinalidade() ?>">
                                 <div class="menu">
                                     <?php
+                                    if($reativarAnuncioPlano) {
+                                        ?>
+                                        <div class="item" data-value="Aluguel">Aluguel</div>
+                                    <?php                                     
+                                } else {
                                     if ($tipoImovel != "apartamentoplanta") {
                                         ?>
                                         <div class="item" data-value="Aluguel">Aluguel</div>
-                                    <?php } ?>       
+                                    <?php } ?>
                                     <div class="item" data-value="Venda">Venda</div>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>
@@ -386,7 +411,7 @@ $valorAnuncio = (isset($item["novovalor"][0])) ? $item["novovalor"][0]->getNovov
                         <i class="ui ban icon"></i>Cancelar o envio de todas
                     </button>
                     <button type="button" class="ui red button delete">
-                        <i class="ui trash outline icon"></i>Excluir selecionadas
+                        <i class="ui trash alternate outline icon"></i>Excluir selecionadas
                     </button>
                     <!-- The global file processing state -->
                     <span class="fileupload-process"></span>
@@ -475,7 +500,7 @@ $valorAnuncio = (isset($item["novovalor"][0])) ? $item["novovalor"][0]->getNovov
                     <td style="vertical-align: middle;">
                     {% if (file.deleteUrl) { %}
                     <button type="button" class="ui red button delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
-                    <i class="ui trash outline icon"></i>Excluir
+                    <i class="ui trash alternate outline icon"></i>Excluir
                     </button>
                     {% } else { %}
                     <button type="reset" class="ui yellow button cancel">
@@ -487,7 +512,7 @@ $valorAnuncio = (isset($item["novovalor"][0])) ? $item["novovalor"][0]->getNovov
                     <td style="vertical-align: middle;">
                     <div class="ui toggle checkbox">
                     <input type="radio" name="rdbDestaque" value="{%=file.name%}">
-                    <label>Foto Destaque?</label>
+                    <label>Foto Destaque                                                                                                                                                         ?</label>
                     </div>
                     </td>
                     {% } %}

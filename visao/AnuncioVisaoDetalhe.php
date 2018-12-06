@@ -165,7 +165,7 @@ if ($item["anuncio"][0]["status"] === "ativacaonegada" && $_SESSION['login'] == 
     <div class="ui middle aligned stackable grid container">
         <div class="sixteen column">
             <div class="ui negative message">
-                <i class='big red remove circle outline icon'></i>
+                <i class='big red times circle outline icon'></i>
                 <strong>ATENÇÃO: Esse anúncio teve sua ativação negada, não podendo ser visualizado</strong>
             </div>
         </div>
@@ -185,11 +185,12 @@ if (($expirado === "SIM" ||
         <div class="ui middle aligned stackable grid container">
             <div class="sixteen column">
                 <div class="ui negative message">
-                    <i class='big red remove circle outline icon'></i>
-                    <strong>ATENÇÃO</strong>: Este anuncio não está mais ativo, não podendo mais ser visualizado por outros usuários
+                    <i class='big red times circle outline icon'></i>
+                    <strong>ATENÇÃO</strong>: Este anúncio não está mais ativo, não podendo mais ser visualizado por outros usuários
                 </div>
             </div>
         </div>
+<br>
         <?php
     }
 
@@ -214,7 +215,7 @@ if (($expirado === "SIM" ||
     <div class="ui middle aligned stackable grid container">
         <div class="sixteen column">
             <div class="ui negative message">
-                <i class='big red remove circle outline icon'></i>
+                <i class='big red times circle outline icon'></i>
                 <strong>ATENÇÃO</strong>: Este seu anuncio não está ativo, não podendo ser visualizado por outros usuários
             </div>
         </div>

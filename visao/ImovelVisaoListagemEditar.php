@@ -59,14 +59,10 @@ var_dump($this->getItem());
                 <tbody>
                     <?php
                     Sessao::gerarToken();
-                    foreach ($this->getItem() as $imovel) {
-                        
+                    foreach ($this->getItem() as $imovel) {                        
                         for($x=0; $x<=1; $x++){
-                            echo $x;//$imovel->getAnuncioAprovacao()[$x]->getStatus()." - ";
-                        }
-                        
-                        
-                        
+                            echo $x;
+                        }                                                       
                         ?>
                         <tr>        
                             <?php
@@ -88,7 +84,7 @@ var_dump($this->getItem());
                                 if (verificaAnuncioAtivo($imovel->getAnuncio())) {
                                     $mensagemAnuncio = "&nbsp;&nbsp;<div class='ui small compact negative message'>Possui Anúncio</div> <i class='big green check circle outline icon'></i>";
                                 } else {
-                                    $mensagemAnuncio = "&nbsp;&nbsp;<div class='ui small compact negative message'>Possui Anúncio</div> <i class='big red remove circle outline icon'></i>";
+                                    $mensagemAnuncio = "&nbsp;&nbsp;<div class='ui small compact negative message'>Possui Anúncio</div> <i class='big red times circle outline icon'></i>";
                                 }
                                 echo $mensagemAnuncio;
                             } else {
@@ -113,7 +109,7 @@ var_dump($this->getItem());
                         </div>
 
                         <div class="ui segment center aligned ">
-                            <i class='big red remove circle outline icon'></i>Imóvel com Anúncio <strong>Inativo ou Expirado</strong>
+                            <i class='big red times circle outline icon'></i>Imóvel com Anúncio <strong>Inativo ou Expirado</strong>
                         </div>
 
                     </div>

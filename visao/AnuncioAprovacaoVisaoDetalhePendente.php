@@ -92,7 +92,7 @@ if ($item["anuncio"]->getStatus() === "aprovacaonegada" && $_SESSION['login'] ==
     <div class="ui middle aligned stackable grid container">
         <div class="sixteen column">
             <div class="ui negative message">
-                <i class='big red remove circle outline icon'></i>
+                <i class='big red times circle outline icon'></i>
                 <strong>ATENÇÃO: Esse anúncio teve sua aprovação negada, não podendo ser visualizado</strong>
             </div>
         </div>

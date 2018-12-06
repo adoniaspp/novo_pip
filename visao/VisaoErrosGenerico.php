@@ -70,7 +70,7 @@ switch ($tipo) {
                     ?>
                     <script>
                         $(document).ready(function () {
-                            $('#divMensagemAtencao').html("<i class='big red remove circle outline icon'></i>Desculpe, não foi possível realizar a operação. Tente novamente em alguns minutos.");
+                            $('#divMensagemAtencao').html("<i class='big red times circle outline icon'></i>Desculpe, não foi possível realizar a operação. Tente novamente em alguns minutos.");
                         })
                     </script>
                     <?php
@@ -79,7 +79,7 @@ switch ($tipo) {
                     ?>
                     <script>
                         $(document).ready(function () {
-                            $('#divMensagemAtencao').html("<i class='big red remove circle outline icon'></i>Desculpe, não foi possível realizar a operação. Falha no envio de e-mail");
+                            $('#divMensagemAtencao').html("<i class='big red times circle outline icon'></i>Desculpe, não foi possível realizar a operação. Falha no envio de e-mail");
                         })
                     </script>
                     <?php
@@ -88,7 +88,7 @@ switch ($tipo) {
                     ?>
                     <script>
                         $(document).ready(function () {
-                            $('#divMensagemAtencao').html("<i class='big red remove circle outline icon'></i>Desculpe, não foi possível realizar a operação. A Senha atual está incorreta.");
+                            $('#divMensagemAtencao').html("<i class='big red times circle outline icon'></i>Desculpe, não foi possível realizar a operação. A Senha atual está incorreta.");
                         })
                     </script>
                     <?php
@@ -97,7 +97,7 @@ switch ($tipo) {
                     ?>
                     <script>
                         $(document).ready(function () {
-                            $('#divMensagemAtencao').html("<i class='big red remove circle outline icon'></i>Esse link é inválido ou já foi utilizado para troca de senha.");
+                            $('#divMensagemAtencao').html("<i class='big red times circle outline icon'></i>Esse link é inválido ou já foi utilizado para troca de senha.");
                         })
                     </script>
                     <?php
@@ -106,7 +106,7 @@ switch ($tipo) {
                     ?>
                     <script>
                         $(document).ready(function () {
-                            $('#divMensagemAtencao').html("<i class='big red remove circle outline icon'></i>Ops! Não podemos processar sua requisição. Tente novamente.");
+                            $('#divMensagemAtencao').html("<i class='big red times circle outline icon'></i>Ops! Não podemos processar sua requisição. Tente novamente.");
                         })
                     </script>
                     <?php
@@ -115,7 +115,7 @@ switch ($tipo) {
                     ?>
                     <script>
                         $(document).ready(function () {
-                            $('#divMensagemAtencao').html("<i class='big red remove circle outline icon'></i>Ops! O link desse anúncio não é válido. Tente novamente.");
+                            $('#divMensagemAtencao').html("<i class='big red times circle outline icon'></i>Ops! O link desse anúncio não é válido. Tente novamente.");
                         })
                     </script>
                     <?php
@@ -124,7 +124,7 @@ switch ($tipo) {
                     ?>
                     <script>
                         $(document).ready(function () {
-                            $('#divMensagemAtencao').html("<i class='big red remove circle outline icon'></i>Ops! Esse anúncio não é mais válido. Obrigado pelo acesso");
+                            $('#divMensagemAtencao').html("<i class='big red times circle outline icon'></i>Ops! Esse anúncio não é mais válido. Obrigado pelo acesso");
                         })
                     </script>
                     <?php
@@ -133,7 +133,7 @@ switch ($tipo) {
                     ?>
                     <script>
                         $(document).ready(function () {
-                            $('#divMensagemAtencao').html("<i class='big red remove circle outline icon'></i>E-mail não encontrado. Faça seu cadastro.");
+                            $('#divMensagemAtencao').html("<i class='big red times circle outline icon'></i>E-mail não encontrado. Faça seu cadastro.");
                         })
                     </script>
                     <?php
@@ -142,7 +142,7 @@ switch ($tipo) {
                     ?>
                     <script>
                         $(document).ready(function () {
-                            $('#divMensagemAtencao').html("<i class='big red remove circle outline icon'></i>Vendedor ou Anúncio não encontrado");
+                            $('#divMensagemAtencao').html("<i class='big red times circle outline icon'></i>Vendedor ou Anúncio não encontrado");
                         })
                     </script>
                     <?php
@@ -151,7 +151,7 @@ switch ($tipo) {
                     ?>
                     <script>
                         $(document).ready(function () {
-                            $('#divMensagemAtencao').html("<i class='big red remove circle outline icon'></i>ATENÇÃO: O usuário que você está procurando não existe em nossa base ou está desabilitado");
+                            $('#divMensagemAtencao').html("<i class='big red times circle outline icon'></i>ATENÇÃO: O usuário que você está procurando não existe em nossa base ou está desabilitado");
                         })
                     </script>
                     <?php
@@ -463,7 +463,7 @@ switch ($tipo) {
                     ?>                      
                     <script>
                         $(document).ready(function () {
-                            $('#divAnuncios').html("<div class='ui two column center aligned grid'><div class='ui compact message'><i class='big red remove circle outline icon'></i>Nenhum anúncio encontrado com os parâmetros informados. Refine sua busca</div></div>");
+                            $('#divAnuncios').html("<div class='ui two column center aligned grid'><div class='ui compact message'><i class='big red times circle outline icon'></i>Nenhum anúncio encontrado com os parâmetros informados. Refine sua busca</div></div>");
                             $("#divOrdenacao").hide();
                             $("#divColuna").parent().removeClass().addClass("ui eight wide column").parent().removeClass().addClass("ui grid center aligned");
                             $("#divBotoes").parent().parent().remove();

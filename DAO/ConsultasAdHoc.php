@@ -647,7 +647,7 @@ class ConsultasAdHoc extends GenericoDAO {
     public function ConsultarAnunciosPendentesPorUsuario($idUsuario, $administrador, $statusAnuncio = null, $codigoAnuncio = null) {
         $allow = $statusAnuncio;
 
-        $sql = "SELECT aa.*, (SELECT 1 FROM anuncio a WHERE a.idanuncio = aa.idanuncio AND a.status = 'cadastrado') as edicao"
+        $sql = "SELECT aa.*, (SELECT 1 FROM anuncio a WHERE a.idanuncio = aa.idanuncio AND a.status = 'cadastrado') as edicao, (SELECT 1 FROM anuncio a WHERE a.idanuncio = aa.idanuncio AND a.finalidade = 'Aluguel' AND (a.status = 'finalizado' OR a.status = 'expirado') ) as reativacao"
                 . " FROM anuncioaprovacao aa"
                 . " JOIN usuarioplano up ON up.id = aa.idusuarioplano"
                 . " JOIN usuario u ON up.idusuario = u.id"
@@ -656,6 +656,8 @@ class ConsultasAdHoc extends GenericoDAO {
                 . " EXISTS (SELECT 1 FROM anuncio a WHERE a.idanuncio = aa.idanuncio AND a.status = 'cadastrado') "
                 . " OR "
                 . " NOT EXISTS (SELECT 1 FROM anuncio a WHERE a.idanuncio = aa.idanuncio )"
+                . " OR "
+                . " EXISTS (SELECT 1 FROM anuncio a WHERE a.idanuncio = aa.idanuncio AND a.finalidade = 'Aluguel' AND (a.status = 'finalizado' OR a.status = 'expirado'))"
                 . " ) "
                 . ""; //desativadousuário = quando o próprio usuário se desativa
         //caso o usuário não seja Administrador do sistema, listar somente os anúncios pendentes do usuário logado

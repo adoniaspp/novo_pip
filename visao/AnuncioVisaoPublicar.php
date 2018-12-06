@@ -64,13 +64,9 @@ if ($item) {
                 <i class="right chevron icon divider"></i>
                 <i class="block layout small icon"></i><a href="index.php?entidade=Usuario&acao=meuPIP">Meu PIP</a>
                 <i class="right chevron icon divider"></i>
-                <i class="announcement small icon"></i><a href="index.php?entidade=Anuncio&acao=listarCadastrar">Anúncios</a>
+                <i class="add small icon"></i><a href="index.php?entidade=Anuncio&acao=listarCadastrar">Publicar Anúncios</a>
                 <i class="right chevron icon divider"></i>
-                <?php if ($item["anuncio"]->getId() != "") { ?>
-                    <a class="active section" href="index.php?entidade=Anuncio&acao=listarReativar">Reativar Anúncios</a>
-                <?php } else { ?>
-                    <a class="active section" href="index.php?entidade=Anuncio&acao=listarCadastrar">Publicar Anúncio</a>
-                <?php } ?>
+                <div class="active section"><i class="announcement icon"></i> Novo Anúncio</div>
             </div>
         </div>
     </div>
@@ -393,7 +389,7 @@ if ($item) {
                         <i class="ui ban icon"></i>Cancelar o envio de todas
                     </button>
                     <button type="button" class="ui red button delete">
-                        <i class="ui trash outline icon"></i>Excluir selecionadas
+                        <i class="ui trash alternate outline icon"></i>Excluir selecionadas
                     </button>
                     <!-- The global file processing state -->
                     <span class="fileupload-process"></span>
@@ -482,7 +478,7 @@ if ($item) {
                     <td style="vertical-align: middle;">
                     {% if (file.deleteUrl) { %}
                     <button type="button" class="ui red button delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
-                    <i class="ui trash outline icon"></i>Excluir
+                    <i class="ui trash alternate outline icon"></i>Excluir
                     </button>
                     {% } else { %}
                     <button type="reset" class="ui yellow button cancel">
