@@ -146,10 +146,6 @@ $planosUsu = $item["planosUsuarioGratis"];
 $anuncioPendenteAprovacao = $item["anuncioPendente"];
 $dadosPlano = $item["dadosPlano"];
 
-echo "<pre>";
-var_dump($dadosPlano);
-echo "</pre>";
-
 foreach ($usuarioBairro as $bairroUsuario) {
     $bUsuario = $bairroUsuario->getNome();
 }
