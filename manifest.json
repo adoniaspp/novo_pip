@@ -3,9 +3,9 @@
   "short_name": "PIP",
   "icons": [{
     "src": "assets/imagens/icones/tituloCasaAzulChanfleVazado.png",
-      "sizes": "300x300",
-      "type": "image/png"
-    }],
+    "sizes": "300x300",
+    "type": "image/png"
+  }],
   "start_url": "/",
   "display": "standalone",
   "background_color": "#3E4EB8",
