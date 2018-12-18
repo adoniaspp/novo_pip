@@ -13,7 +13,7 @@
 <script>
     $(document).ready(function () {
 
-        $(function () {
+        //$(function () {
             //incluso essa variavel para setar atributos do css depois
             var elemento = $('#divMiniMenu');
 
@@ -22,6 +22,12 @@
 
             if (agentID) {
                 $('#divMiniMenu').hide();// caso seja iphone|ipod|ipad|android|blackberry
+                $('#dadosUsuario').hide();
+                $('#dadosUsuario2').hide();
+                $('#listarImoveis').hide();
+                $('#tabelaQtdImoveis').hide();
+                $('#tabelaQtdAnuncios').hide();
+                $('#tabelaQtdAnuncios2').hide();
             } else {
                 //alert('você está em um computador');
                 $(window).scroll(function () {
@@ -39,7 +45,7 @@
             }
 
 
-        });
+        //});
 
         //função que ordena a data, de acordo com o formato
         $.fn.dataTable.moment('DD/MM/YYYY HH:mm:ss');
@@ -51,9 +57,10 @@
             "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
             "order": [2, "desc"],
             "stateSave": true,
-            "searching": false
+            "searching": false,
+             paging: !agentID
         });
-
+        
         $('#tabelaChamados').DataTable({
             "language": {
                 "url": "assets/libs/datatables/js/Portuguese-Brasil.json",
@@ -64,6 +71,7 @@
             "columnDefs": [
                 {"orderable": false, "targets": 6}
             ]
+            
         });
     })
 </script>
@@ -292,7 +300,7 @@ $totalAnuncios = $totalAnuncios + $pendenteAprova;
 
 <?php } ?>
 
-<div class="ui middle aligned stackable grid container">
+<div class="ui middle aligned stackable grid container" id="dadosUsuario">
     <div class="row">
         <div class="column">
             <h3 class="ui dividing header"></h3>
@@ -338,7 +346,7 @@ $totalAnuncios = $totalAnuncios + $pendenteAprova;
     ?>    
 </div>
 
-<div class="stackable two column ui grid container">
+<div class="stackable two column ui grid container" id="dadosUsuario2">
     <div class="column">
         <div class="ui segment">
             <a class="header">Usuário do PIP OnLine desde:</a>
@@ -421,7 +429,7 @@ $totalAnuncios = $totalAnuncios + $pendenteAprova;
                 <a href="index.php?entidade=Imovel&acao=listarEditar" class="item"> 
                     <i class="large edit icon"></i> Alterar Imóvel
                 </a>
-                <a href="index.php?entidade=Imovel&acao=listar" class="item"> 
+                <a href="index.php?entidade=Imovel&acao=listar" class="item" id="listarImoveis"> 
                     <i class="large list icon"></i> Meus Imóveis
                 </a>
                 <?php
@@ -558,7 +566,7 @@ $totalAnuncios = $totalAnuncios + $pendenteAprova;
                     }
                     ?>
 
-                    <table class="ui striped green celled structured fixed table">
+                    <table class="ui striped green celled structured fixed table" id="tabelaQtdImoveis">
                         <thead>
                             <tr>
                                 <th colspan="6">Você possui 
@@ -647,7 +655,7 @@ $totalAnuncios = $totalAnuncios + $pendenteAprova;
         }
     }
     ?>
-
+    <div id="linkAnuncios"></div>        
     <div class="row">
         <div class="column">
             <h3 class="ui dividing header"></h3>
@@ -788,7 +796,7 @@ $totalAnuncios = $totalAnuncios + $pendenteAprova;
 
                     <?php if ($totalAnuncios > 0) { ?>
 
-                        <div class="ui horizontal segments">       
+                    <div class="ui horizontal segments" id="tabelaQtdAnuncios">       
                             <table class="ui striped brown celled structured fixed table">
                                 <thead>
                                     <tr>                                   
@@ -930,7 +938,7 @@ $totalAnuncios = $totalAnuncios + $pendenteAprova;
             </div>
 
             <?php if ($anuncioAtivo > 0) { ?>
-                <div class="row">         
+                <div class="row" id="tabelaQtdAnuncios2">         
                     <div class="column">
                         <table class="ui striped brown celled fixed table">
                             <thead>
@@ -1042,7 +1050,7 @@ $totalAnuncios = $totalAnuncios + $pendenteAprova;
         }
     }
     ?>
-
+    <div id="linkPlanos"></div>        
     <div class="row">
         <div class="column">
             <h3 class="ui dividing header"></h3><div class="ui hidden divider"></div><div class="ui hidden divider"></div>
