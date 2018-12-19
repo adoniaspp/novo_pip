@@ -5,12 +5,7 @@
     "src": "/assets/imagens/icones/tituloCasaAzulChanfleVazado.png",
     "sizes": "300x300",
     "type": "image/png"
-  },
-    {
-      "src": "/assets/imagens/tituloCasaAzulChanfle192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    }
+  }
   ],
   "start_url": "/",
   "display": "standalone",

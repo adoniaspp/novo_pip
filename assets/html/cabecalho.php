@@ -9,7 +9,8 @@
 <script src=<?php echo PIPURL; ?>assets/js/bundle.js></script>
 <link href=<?php echo PIPURL; ?>assets/css/bundle.css rel=stylesheet type=text/css />
 <link rel="shortcut icon" href=<?php echo PIPURL; ?>assets/imagens/tituloCasaAzulChanfle.jpg type="image/x-icon"/>
-<link rel="manifest" href=<?php echo PIPURL; ?>manifest.json>
+<link rel="manifest" href="/manifest.json">
+
 
 </head>
 <body>
@@ -80,3 +81,5 @@ Desejo continuar logado!
 ATENÇÃO: Você foi deslogado por segurança devido a um longo período de inatividade
 </div>
 </div>
+
+<script src="/sw.js"></script>
