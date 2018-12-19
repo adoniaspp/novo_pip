@@ -311,9 +311,11 @@ class AnuncioControle {
         unset($parametros["tipoImovel"]);
         unset($parametros["hdnEntidade"]);
         unset($parametros["hdnAcao"]);
-        if ($parametros["idbairro"] != "") {
+
+        /*Excluído, pois o dado já chega da visão no formato de array*/
+        /*if ($parametros["idbairro"] != "") {
             $parametros["idbairro"] = explode(",", $parametros["idbairro"]); //caso mais de um bairro seja escolhido
-        }
+        }*/
 
         if ($parametros["id"] != "") {
             $parametros["id"] = explode(",", $parametros["id"]); //caso mais de um corretor seja escolhido
@@ -328,6 +330,7 @@ class AnuncioControle {
         }
         if ($page)
             $listaAnuncio["page"] = TRUE;
+
 
         $visao->setItem($listaAnuncio);
 
