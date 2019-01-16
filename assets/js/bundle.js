@@ -11,6 +11,14 @@ $(document).ready(function(){
     var agentID = deviceAgent.match(/(iphone|ipod|ipad|android|blackberry)/);
             if (!agentID) {
             $('select').dropdown();
-            $('.ui.dropdown').addClass('fluid')
-            }    
+            $('.ui.dropdown').addClass('fluid');
+            }else {
+                //$('#menuEntrada').hide();
+                //$('#menuHomePIP').hide();
+                //$('#btnMenuMobile').show();
+                //$('#menuEntrada').removeClass('float-r').addClass('float-l');
+                //$('#menuHomePIP').removeClass('float-l').addClass('float-r');
+
+                //$('.ui.labeled.icon.sidebar').sidebar('toggle');
+            }
 })

@@ -1088,10 +1088,10 @@ switch ($item['anuncio'][0]['tipo']) {
                     <?php } ?>
 
                     <div class="ui segment center aligned ">
-                        <button type="button" class="ui primary button" id="btnDuvida">
+                        <a href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=form&tipo=duvidaAnuncio" type="button" class="ui primary button">
                             Enviar Mensagem/Proposta
                             <i class="right mail outline icon"></i>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>

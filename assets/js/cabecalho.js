@@ -37,3 +37,32 @@ function timeoutSessao() {
         dialog_width: 300
     });
 }
+
+function menuCabecalhoMobile(url, imgURL) {
+    $(document).ready(function () {
+        var deviceAgent = navigator.userAgent.toLowerCase();
+        var agentID = deviceAgent.match(/(iphone|ipod|ipad|android|blackberry)/);
+        if (!agentID) {
+            $("#divMenuCabecalhoEsquerda").html("<div class='ui one column stackable center aligned grid'>\n" +
+                "            <div class='middle aligned row'>\n" +
+                "                <div class='column'>\n" +
+                "                    <h2 class='ui header'>\n" +
+                "                        <a href=" + url + ">" +
+                "                            <img src=" + imgURL + " width='60px'>\n" +
+                "                        <div class='content'>\n" +
+                "                            <a href=" + url + ">PIP - Imóveis</a>\n" +
+                "                            <div class='sub header'>Seu imóvel aqui!</div>\n" +
+                "                        </div>\n" +
+                "                    </h2>\n" +
+                "                </div>\n" +
+                "            </div>\n" +
+                "        </div>");
+        }else{
+            $("#divMenuCabecalhoEsquerda").html("<a class='icon item' id='btnMenuMobile'>\n" +
+                "            <i class='content big icon'></i>\n" +
+                "        </a>");
+            $("#divMenuCabecalhoDireita").html(" ");
+
+        }
+    });
+}

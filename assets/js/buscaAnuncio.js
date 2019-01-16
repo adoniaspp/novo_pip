@@ -734,7 +734,7 @@ function carregarAnuncio() { //valor = quantidade de anuncios
         } else {
             $("#carregarMais").hide();
             $('.ui.dropdown')
-                    .dropdown()
+                    .dropdown({clearable: true})
                     ;
             paginarAnuncio();
             ordenarAnuncio();
@@ -1368,8 +1368,6 @@ function enviarDenuncia() {
 function enviarDuvidaAnuncio() {
     $(document).ready(function () {
 
-        $("#botaoFecharDuvida").hide();
-
         $('#txtNomeDuvida').maxlength({
             alwaysShow: true,
             threshold: 50,
@@ -1401,18 +1399,12 @@ function enviarDuvidaAnuncio() {
             validate: true
         });
 
-        $('#btnDuvida').click(function () {
+        $('#botaoEnviarDuvida').click(function () {
 
-            $('#modalDuvidaAnuncio').modal({
-                closable: true,
-                transition: "fade up",
-                onDeny: function () {
-                },
-                onApprove: function () {
-                    $("#formDuvidaAnuncio").submit();
-                    return false; //deixar o modal fixo
-                }
-            }).modal('show');
+            if ($("#formDuvidaAnuncio").valid()) {
+                $("#formDuvidaAnuncio").submit();
+            }
+        });
 
             $.validator.setDefaults({
                 ignore: [],
@@ -1470,20 +1462,20 @@ function enviarDuvidaAnuncio() {
                         type: "POST",
                         data: $('#formDuvidaAnuncio').serialize(),
                         beforeSend: function () {
-                            $("#botaoEnviarDuvida").hide();
-                            $("#botaoCancelarDuvida").hide();
-                            $("#camposDuvida").hide();
+                            //$("#botaoEnviarDuvida").hide();
+                            //$("#botaoCancelarDuvida").hide();
+                            //$("#camposDuvida").hide();
                             $("#divRetorno").html("<div><div class='ui active inverted dimmer'>\n\
                         <div class='ui text loader'>Enviando mensagem. Aguarde...</div></div></div>");
                         },
                         success: function (resposta) {
                             $("#divRetorno").empty();
-                            $("#botaoCancelarDuvida").hide();
-                            $("#botaoFecharDuvida").show();
+                            //$("#botaoCancelarDuvida").hide();
+                            //$("#botaoFecharDuvida").show();
                             if (resposta.resultado == 1) {
                                 $("#divRetorno").html("<div class='ui positive message'>\n\
 <i class='big green check circle outline icon'></i>Mensagem Enviada com Sucesso</div>");
-                                $("#btnDuvida").attr("disabled", "disabled");
+                                $("#botaoEnviarDuvida").attr("disabled", "disabled");
 
                             } else {
                                 $("#divRetorno").html("<div class='ui negative message'>\n\
@@ -1496,7 +1488,6 @@ function enviarDuvidaAnuncio() {
             })
 
         })
-    })
 }
 
 

@@ -319,7 +319,7 @@ Sessao::gerarToken();
     <div class="header">
         Confirmar Dados
     </div>
-    <div class="content">
+    <div class="scrolling content">
         <div class="description">
             <div class="ui piled segment">
                 <p id="textoConfirmacao"></p>

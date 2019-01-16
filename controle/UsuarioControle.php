@@ -80,6 +80,10 @@ class UsuarioControle {
                 $visao->exibir('UsuarioVisaoFaleConosco.php');
                 break;
 
+            case "duvidaAnuncio":
+                $visao->exibir('AnuncioVisaoDuvida.php');
+                break;
+
             case "trocarsenha":
                 $visao->exibir('UsuarioVisaoTrocarSenha.php');
                 break;

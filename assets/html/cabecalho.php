@@ -10,48 +10,79 @@
 <link href=<?php echo PIPURL; ?>assets/css/bundle.css rel=stylesheet type=text/css />
 <link rel="shortcut icon" href=<?php echo PIPURL; ?>assets/imagens/tituloCasaAzulChanfle.jpg type="image/x-icon"/>
 <link rel="manifest" href="/manifest.json">
-
+    <script src=<?php echo PIPURL; ?>assets/js/cabecalho.js></script>
 
 </head>
 <body>
 <?php if (Sessao::verificarSessaoUsuario()) { ?>
 <script>$(document).ready(function(){logout()});</script>
 <?php } ?>
-<header>
-<h1 class=float-l>
-<a href=<?php echo PIPURL; ?>index.php>
-<img class="ui left floated image" src=<?php echo PIPURL; ?>assets/imagens/tituloCasaAzulChanfle.jpg width="60px"/></a>
-<a href=<?php echo PIPURL; ?>index.php>PIP - Imóveis em Belém-PA</a>
-</h1>
-<input type=checkbox id=control-nav />
-<label for=control-nav class=control-nav></label>
-<label for=control-nav class=control-nav-close></label>
-<nav class=float-r>
-<ul class=list-auto>
-<?php if (Sessao::verificarSessaoUsuario()) { ?>
-<li id=divNome>
-<span href>Seja Bem Vindo,
-<?php echo ucfirst(strtolower(explode(" ", $_SESSION['nome'])[0])); ?></span>
-</li>
-<li>
-<a href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=meuPIP">
-<i class="block layout blue icon"></i> Acessar Meu PIP </a>
-</li>
-<li>
-<a id=btnLogout href=#><i class="power red icon"></i> Sair</a>
-</li>
-<?php } else { ?>
-<li>
-<a href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=form&tipo=login">Fazer Login</a>
-</li>
-<li>
-<a href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=form&tipo=cadastro">Cadastrar-se</a>
-</li>
-<?php } ?>
-</ul>
-</nav>
-</header>
-<div class="ui hidden divider"></div>
+
+
+<div class="ui left vertical sidebar menu">
+    <a class="ui one column stackable center aligned container item" href="<?php echo PIPURL; ?>index.php">
+        <div class="column twelve wide">
+            <i class="red map marker alternate icon"></i>
+            <span class="ui blue header">PIP-Imóveis</span>
+        </div>
+    </a>
+
+    <a class="ui one column stackable center aligned item" href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=form&tipo=login">
+        <div class="column twelve wide">
+        <i class="key icon"></i>
+        <span class="ui blue header">Entrar</span>
+        </div>
+    </a>
+    <a class="ui one column stackable center aligned item" href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=form&tipo=cadastro">
+        <div class="column twelve wide">
+        <i class="pencil alternate icon"></i>
+        <span class="ui blue header">Cadastre-se</span>
+        </div>
+    </a>
+</div>
+
+<div class="pusher">
+<div class="ui top fixed huge menu">
+    <div class="ui container">
+    <div class="left menu" id="divMenuCabecalhoEsquerda">
+    </div>
+        <div class="right menu" id="divMenuCabecalhoDireita">
+            <?php if (Sessao::verificarSessaoUsuario()) { ?>
+            <div class="ui one column stackable right aligned grid">
+                    <div class="middle aligned row">
+                        <div class="column">
+                            <h4 class="ui blue header">
+                                Seja Bem Vindo!
+                                <?php echo ucfirst(strtolower(explode(" ", $_SESSION['nome'])[0])); ?></span>
+                            </h4>
+                        </div>
+                        <div class="column">
+                            <div class="ui buttons">
+                                <a class="ui primary button" href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=meuPIP"><i class="icon home"></i>Acessar Meu PIP</a>
+                                <div class="or" data-text="ou"></div>
+                                <a class="ui button" id="btnLogout" href=# ><i class="power red icon"></i>Sair</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            <?php } else { ?>
+            <div class="ui one column stackable center aligned grid">
+                <div class="middle aligned row">
+                    <div class="column">
+                        <div class="ui buttons">
+                            <a class="ui primary button" href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=form&tipo=login"><i class="icon lock"></i>Entrar</a>
+                            <div class="or" data-text="ou"></div>
+                            <a class="ui olive button" href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=form&tipo=cadastro"><i class="icon edit"></i>Cadastre-se</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php } ?>
+        </div>
+        </div>
+    </div>
+
 <div class="ui hidden divider"></div>
 <div class="ui hidden divider"></div>
 <div class="ui hidden divider"></div>
@@ -83,3 +114,18 @@ ATENÇÃO: Você foi deslogado por segurança devido a um longo período de inat
 </div>
 
 <script src="/sw.js"></script>
+
+<script>
+    var urlHome = "<?php echo PIPURL; ?>index.php";
+    var imgURL = "<?php echo PIPURL; ?>assets/imagens/tituloCasaAzulChanfle.jpg";
+    var sessao = "Sessao::verificarSessaoUsuario()";
+
+    menuCabecalhoMobile(urlHome, imgURL);
+    $(document).ready(function(){
+        $("#btnMenuMobile").on('click', function () {
+            $('.ui.sidebar')
+                .sidebar('toggle');
+        })
+    });
+
+</script>

@@ -2,11 +2,12 @@
 <script src="assets/js/util.validate.js"></script>
 <link rel="stylesheet" href="assets/libs/icones/font-awesome-4.7.0/css/font-awesome.min.css"></script>
 
+
 <script>
     validarArea(true);
 </script>
 
-<div class="ui form" id="divBusca" 
+<div class="ui form container" id="divBusca"
      
      style="background-color: #FFFFFF; border-style: solid; border-color: #9d9d9c; border-radius: 30px;
      border-bottom-width: 10px; border-top-width: 10px; border-right-width: 10px; border-left-width: 10px;">
@@ -80,11 +81,11 @@
             </div>-->
         </div>
         
-        <div class="ui stackable one column centered grid"> 
+        <div class="ui stackable four column centered grid">
             <div class="column">
-                <div class="teal ui icon button" id="btnBuscarAnuncioBasico">
+                <div class="ui twitter icon fluid button" id="btnBuscarAnuncioBasico">
                     <i class="search icon"></i> 
-                    Filtrar
+                    Procurar
                 </div>
             </div>
         </div>
