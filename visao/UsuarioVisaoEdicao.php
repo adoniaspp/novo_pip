@@ -19,7 +19,7 @@ $item = $this->getItem();
     acoesCEP();
     confirmar();
     telefone();
-    carregarBairro("<?php echo $item[0]->getEndereco()->getCidade()->getNome();?>", "<?php echo $item[0]->getEndereco()->getBairro()->getNome();?>");
+    //carregarBairro("<?php //echo $item[0]->getEndereco()->getCidade()->getNome();?>", "<?php //echo $item[0]->getEndereco()->getBairro()->getNome();?>");
 </script>
 <?php
 
@@ -60,8 +60,8 @@ if ($item) {
             <form id="form" class="ui form" action="index.php" method="post">
                 <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
                 <input type="hidden" id="hdnAcao" name="hdnAcao" value="alterar" />
-                <input type="hidden" name="txtBairro" id="txtBairro" value="<?php echo $usuario->getEndereco()->getBairro()->getNome() ?>">
-                <input type="hidden" id="hdnCEP" name="hdnCEP" value="<?php echo $usuario->getEndereco()->getCep() ?>"/>
+                <!--<input type="hidden" name="txtBairro" id="txtBairro" value="<?php //echo $usuario->getEndereco()->getBairro()->getNome() ?>">
+                <input type="hidden" id="hdnCEP" name="hdnCEP" value="<?php //echo $usuario->getEndereco()->getCep() ?>"/>-->
                 <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
                 <h3 class="ui dividing header">Informações Básicas</h3>
                 <div class="fields">
@@ -108,54 +108,54 @@ if ($item) {
                         } ?>
                     </div>                    
                 </div>
-                <div id="linhaPJ2" class="three fields">
+                <!--<div id="linhaPJ2" class="three fields">
                     <div class="required field">
                         <label>Razão Social</label>
                         <input type="text" name="txtRazaoSocial" id="txtRazaoSocial" placeholder="Informe a Razão Social da Empresa" value="<?php
-                        if ($usuario->getTipousuario() == "pj") {
-                            echo $usuario->getEmpresa()->getRazaosocial();
-                        }
+                        //if ($usuario->getTipousuario() == "pj") {
+                        //    echo $usuario->getEmpresa()->getRazaosocial();
+                        //}
                         ?>" maxlength="100">
                     </div>
                     <div class="required field">
                         <label>Responsável</label>
                         <input type="text" name="txtResponsavel" id="txtResponsavel" placeholder="Informe o Responsável da Empresa" value="<?php
-                        if ($usuario->getTipousuario() == "pj") {
-                            echo $usuario->getEmpresa()->getResponsavel();
-                        }
+                        //if ($usuario->getTipousuario() == "pj") {
+                        //    echo $usuario->getEmpresa()->getResponsavel();
+                        //}
                         ?>" maxlength="100">
                     </div>                    
                     <div class="required field">
                         <label>CPF do Responsável</label>
                         <input type="text" name="txtCPFResponsavel" id="txtCPFResponsavel" placeholder="Informe o CPF do Responsável" value="<?php
-                        if ($usuario->getTipousuario() == "pj") {
-                            echo $usuario->getEmpresa()->getCpfresponsavel();
-                        }
+                        //if ($usuario->getTipousuario() == "pj") {
+                        //    echo $usuario->getEmpresa()->getCpfresponsavel();
+                        //}
                         ?>">
                     </div>                    
-                </div>
-                <h3 class="ui dividing header">Endereço</h3>
+                </div>-->
+                <!--<h3 class="ui dividing header">Endereço</h3>
                 <div class="fields">
                 <div class="five wide field">
                     <div class="ui action left icon input">
                         <i class="search icon"></i>
                         <input type="text" name="txtCEP" id="txtCEP" placeholder="Informe o seu CEP..."
-                        value="<?php echo $usuario->getEndereco()->getCep() ?>">
+                        value="<?php //echo $usuario->getEndereco()->getCep() ?>">
                         <div class="ui teal button" id="btnCEP">Buscar CEP</div>
                     </div>              
                 </div>
                 <div class="three wide field"><label>Não sabe o CEP? <a href="http://www.buscacep.correios.com.br/servicos/dnec/menuAction.do?Metodo=menuLogradouro" target="_blank">clique aqui</a></label></div>
                 <div class="five wide field"><div id="msgCEP"></div> </div>
-                </div>
-                <div id="divCEP" class="ui">
+                </div>-->
+                <!--<div id="divCEP" class="ui">
                     <div class="three fields">
                         <div class="disabled field">
                             <label>Cidade</label>
-                            <input type="text" name="txtCidade" id="txtCidade" readonly="readonly" value="<?php echo $usuario->getEndereco()->getCidade()->getNome(); ?>">
+                            <input type="text" name="txtCidade" id="txtCidade" readonly="readonly" value="<?php //echo $usuario->getEndereco()->getCidade()->getNome(); ?>">
                         </div>
                         <div class="two wide disabled field">
                             <label>Estado</label>
-                            <input type="text" name="txtEstado" id="txtEstado" readonly="readonly" value="<?php echo $usuario->getEndereco()->getEstado()->getUf() ?>">
+                            <input type="text" name="txtEstado" id="txtEstado" readonly="readonly" value="<?php //echo $usuario->getEndereco()->getEstado()->getUf() ?>">
                         </div>
                         <div class="field" id="dropBairro">    
                             
@@ -164,21 +164,21 @@ if ($item) {
                     <div class="two fields">
                         <div class="field">
                             <label>Logradouro</label>
-                            <input type="text" name="txtLogradouro" id="txtLogradouro" value="<?php echo $usuario->getEndereco()->getLogradouro() ?>">
+                            <input type="text" name="txtLogradouro" id="txtLogradouro" value="<?php //echo $usuario->getEndereco()->getLogradouro() ?>">
                         </div>
                         <div class="three wide required field">
                             <label>Número</label>
-                            <input type="text" name="txtNumero" id="txtNumero" placeholder="Informe o nº" maxlength="6" value="<?php echo $usuario->getEndereco()->getNumero() ?>">
+                            <input type="text" name="txtNumero" id="txtNumero" placeholder="Informe o nº" maxlength="6" value="<?php //echo $usuario->getEndereco()->getNumero() ?>">
                         </div>
                         <div class="field">
                             <label>Complemento</label>
-                            <input type="text" name="txtComplemento" id="txtComplemento" placeholder="Complemento" maxlength="60" value="<?php echo $usuario->getEndereco()->getComplemento() ?>">
+                            <input type="text" name="txtComplemento" id="txtComplemento" placeholder="Complemento" maxlength="60" value="<?php //echo $usuario->getEndereco()->getComplemento() ?>">
                         </div>
                     </div>
-                </div>
+                </div>-->
                 <h3 class="ui dividing header">Telefones</h3> 
                 <div class="fields">
-                    <div class="four wide required field">
+                    <!--<div class="four wide required field">
                         <label>Tipo</label>
                         <div class="ui selection dropdown">
                             <input type="hidden" name="sltTipotelefone" id="sltTipotelefone">
@@ -189,7 +189,7 @@ if ($item) {
                                 <div class="item" data-value="Celular">Celular</div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="four wide required field">
                         <label>Operadora</label>
                         <div class="ui selection dropdown">
@@ -235,7 +235,7 @@ if ($item) {
                 <table class="ui compact celled blue table" id="tabelaTelefone">
                     <thead>
                         <tr>
-                            <th>Tipo</th>
+                            <!--<th>Tipo</th>-->
                             <th>Operadora</th>
                             <th>Número</th>
                             <th>Nº WhatsApp</th>
@@ -253,7 +253,7 @@ if ($item) {
                         foreach ($array as $telefone) {
                             ?> 
                             <tr>
-                                <td> <input type=hidden id="hdnTipoTelefone[]" name="hdnTipoTelefone[]" value="<?php echo $telefone->getTipotelefone() ?>"> <?php echo $telefone->getTipotelefone() ?> </td>
+                                <!--<td> <input type=hidden id="hdnTipoTelefone[]" name="hdnTipoTelefone[]" value="<?php //echo $telefone->getTipotelefone() ?>"> <?php //echo $telefone->getTipotelefone() ?> </td>-->
                                 <td> <input type=hidden id="hdnOperadora[]" name="hdnOperadora[]" value="<?php echo $telefone->getOperadora() ?>"> <?php echo $telefone->getOperadora() ?> </td>
                                 <td> <input type=hidden id="hdnTelefone[]" name="hdnTelefone[]" value="<?php echo $telefone->getNumero() ?>"> <?php echo $telefone->getNumero() ?> </td>
 

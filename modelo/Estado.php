@@ -31,8 +31,15 @@ class Estado {
     }
 
     function cadastrar($parametros) {
-        $estado->setUf($parametros['txtEstado']);
-        $estado->setNome($parametros['txtNome']);
+        
+        if($parametros['txtEstado'] == ""){
+            $estado->setUf("");
+        } else $estado->setUf($parametros['txtEstado']);
+        
+        if($parametros['txtNome'] == ""){
+            $estado->setNome("");
+        } else $estado->setNome($parametros['txtNome']);
+
     }
 
 }

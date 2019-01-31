@@ -334,6 +334,7 @@ $totalAnuncios = $totalAnuncios + $pendenteAprova;
     </div>
 
     <?php
+    /*
     if ($usuario[0]->getEndereco()->getNumero() != "" && $usuario[0]->getEndereco()->getComplemento() != "") {
         $endereco = $usuario[0]->getEndereco()->getLogradouro() . ", " . $usuario[0]->getEndereco()->getNumero() . ", " . $usuario[0]->getEndereco()->getComplemento() . " - " . $bUsuario;
     } elseif ($usuario[0]->getEndereco()->getNumero() != "" && $usuario[0]->getEndereco()->getComplemento() == "") {
@@ -342,8 +343,8 @@ $totalAnuncios = $totalAnuncios + $pendenteAprova;
         $endereco = $usuario[0]->getEndereco()->getLogradouro() . " - " . $bUsuario;
     } elseif ($usuario[0]->getEndereco()->getNumero() == "" && $usuario[0]->getEndereco()->getComplemento() != "") {
         $endereco = $usuario[0]->getEndereco()->getLogradouro() . ", " . $usuario[0]->getEndereco()->getComplemento() . " - " . $bUsuario;
-    }
-    ?>    
+    }*/ 
+    ?>   
 </div>
 
 <div class="stackable two column ui grid container" id="dadosUsuario2">
@@ -364,11 +365,12 @@ $totalAnuncios = $totalAnuncios + $pendenteAprova;
             <div class="description"><?php echo $usuario[0]->getNome() . " - " . $usuario[0]->getEmail(); ?></div>
         </div>
     </div>
-    <div class="column">
+    
+    <!--<div class="column">
         <div class="ui segment"><a class="header">Endereço:</a>
-            <div class="description"> <?php echo $endereco; ?></div>
+            <div class="description"> <?php //echo $endereco; ?></div>
         </div>
-    </div>    
+    </div>--> 
 
     <div class="column">
         <div class="ui segment"><a class="header">Telefone(s):</a>

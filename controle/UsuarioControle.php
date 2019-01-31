@@ -79,7 +79,7 @@ class UsuarioControle {
             case "faleconosco":
                 $visao->exibir('UsuarioVisaoFaleConosco.php');
                 break;
-
+            
             case "duvidaAnuncio":
                 $visao->exibir('AnuncioVisaoDuvida.php');
                 break;
@@ -110,7 +110,7 @@ class UsuarioControle {
             $genericoDAO = new GenericoDAO();
             $genericoDAO->iniciarTransacao();
             //consultar existencia de estado, se não existir gravar no banco
-            $estado = new Estado();
+            /*$estado = new Estado();
             $selecionarEstado = $genericoDAO->consultar($estado, false, array("uf" => $parametros['txtEstado']));
             if (!count($selecionarEstado) > 0) {
                 $entidadeEstado = $estado->cadastrar($parametros);
@@ -139,7 +139,7 @@ class UsuarioControle {
             //gravar endereço e utilizar idestado, idcdidade e idbairro
             $endereco = new Endereco();
             $entidadeEndereco = $endereco->cadastrar($parametros, $idEstado, $idCidade, $idBairro);
-            $idEndereco = $genericoDAO->cadastrar($entidadeEndereco);
+            $idEndereco = $genericoDAO->cadastrar($entidadeEndereco);*/
             //Usuário
             $usuario = new Usuario();
             $entidadeUsuario = $usuario->cadastrar($parametros, $idEndereco);
@@ -154,7 +154,7 @@ class UsuarioControle {
                 $idEmpresa = true;
             }
             //Telefone
-            $quantidadeTelefone = count($parametros['hdnTipoTelefone']);
+            $quantidadeTelefone = count($parametros['sltOperadora']);
             $resultadoTelefone = true;
             for ($indiceTelefone = 0; $indiceTelefone < $quantidadeTelefone; $indiceTelefone++) {
                 $telefone = new Telefone();
@@ -165,8 +165,9 @@ class UsuarioControle {
                     break;
                 }
             }
-
-            if ($idEndereco && $idUsuario && $idEmpresa && $resultadoTelefone) {
+            
+            //if ($idEndereco && $idUsuario && $idEmpresa && $resultadoTelefone) {
+            if ($idUsuario && $idEmpresa && $resultadoTelefone) {
                 
                 $entidadeUsuarioPlano = new UsuarioPlano();
                 
@@ -233,6 +234,7 @@ class UsuarioControle {
             $genericoDAO = new GenericoDAO();
             $genericoDAO->iniciarTransacao();
             //consultar existencia de estado, se não existir gravar no banco
+            /*
             $estado = new Estado();
             $selecionarEstado = $genericoDAO->consultar($estado, false, array("uf" => $parametros['txtEstado']));
             if (!count($selecionarEstado) > 0) {
@@ -267,6 +269,7 @@ class UsuarioControle {
             $endereco = new Endereco();
             $entidadeEndereco = $endereco->editar($parametros, $_SESSION["idendereco"], $idEstado, $idCidade, $idBairro);
             $editarEndereco = $genericoDAO->editar($entidadeEndereco);
+            */
             //telefone excluir
             $telefone = new Telefone();
             $listaTelefone = $genericoDAO->consultar($telefone, false, array("idusuario" => $_SESSION["idusuario"]));
@@ -280,7 +283,11 @@ class UsuarioControle {
                 }
             }
             //Telefone cadastrar
-            $quantidadeTelefone = count($parametros['hdnTipoTelefone']);
+            //$quantidadeTelefone = count($parametros['hdnTipoTelefone']);
+            $quantidadeTelefone = count($parametros['hdnOperadora']);  
+            
+            //var_dump($parametros['hdnOperadora']); die();
+            
             $resultadoTelefone = true;
             for ($indiceTelefone = 0; $indiceTelefone < $quantidadeTelefone; $indiceTelefone++) {
                 $telefone = new Telefone();
@@ -296,7 +303,8 @@ class UsuarioControle {
             $entidadeUsuario = $usuario->editar($parametros);
             $editarUsuario = $genericoDAO->editar($entidadeUsuario);
             //visao
-            if ($editarUsuario & $editarEndereco & $resultadoTelefoneFinalExcluir & $resultadoTelefone) {
+            //if ($editarUsuario & $editarEndereco & $resultadoTelefoneFinalExcluir & $resultadoTelefone) {
+            if ($editarUsuario & $resultadoTelefoneFinalExcluir & $resultadoTelefone) {
                 $genericoDAO->commit();
                 $genericoDAO->fecharConexao();
                 $this->log("Término da Operação " . $parametros["hdnEntidade"] . ucfirst($parametros["hdnAcao"]));
@@ -682,7 +690,7 @@ class UsuarioControle {
             $consultasAdHoc = new ConsultasAdHoc();
             $listarUsuarioPlano = $genericoDAO->consultar($usuarioPlano, true, array("idusuario" => $_SESSION["idusuario"]));
             $usuario = $genericoDAO->consultar(new Usuario, true, array("id" => $_SESSION["idusuario"]));
-            $bairroUsuario = $genericoDAO->consultar(new Bairro(), false, array("id" => $usuario[0]->getEndereco()->getIdBairro()));
+            //$bairroUsuario = $genericoDAO->consultar(new Bairro(), false, array("id" => $usuario[0]->getEndereco()->getIdBairro()));
             $planosUsuario = $consultasAdHoc->verificarPlanoGratuito($_SESSION["idusuario"]);
             $dadosPlano = $consultasAdHoc->consultarAnunciosAprovados($_SESSION["idusuario"]);
             $itemMeuPIP = array();

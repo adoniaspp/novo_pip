@@ -72,9 +72,9 @@ function cadastrarUsuario() {
                 $("#linhaPJ2").hide();
                 $("#txtNomeEmpresa").rules("remove");
                 $("#txtCNPJ").rules("remove");
-                $("#txtRazaoSocial").rules("remove");
-                $("#txtResponsavel").rules("remove");
-                $("#txtCPFResponsavel").rules("remove");
+                //$("#txtRazaoSocial").rules("remove");
+                //$("#txtResponsavel").rules("remove");
+                //$("#txtCPFResponsavel").rules("remove");
             }
         })
         /*validações*/
@@ -231,8 +231,9 @@ function cadastrarUsuario() {
 function validarTelefone() {
     var telefone = $("#txtTel");
     var tipoTelefone = $("#sltOperadora");
-    var tipoOperadora = $("#sltTipotelefone");
-    return (telefone.valid() & tipoTelefone.valid() & tipoOperadora.valid());
+    //var tipoOperadora = $("#sltTipotelefone");
+    return (telefone.valid() & tipoTelefone.valid());
+    //return (telefone.valid() & tipoTelefone.valid() & tipoOperadora.valid());
 }
 
 function excluirTelefone(element) {
@@ -247,9 +248,9 @@ function mascarasFormUsuario() {
     $(document).ready(function () {
         $("#txtCPF").mask('000.000.000-00', {reverse: false});
         $("#txtCNPJ").mask("00.000.000/0000-00");
-        $("#txtCEP").mask("00.000-000");
-        $("#txtCPFResponsavel").mask('000.000.000-00', {reverse: false});
-        $("#txtTel").mask('(00) 0000-0000');
+        //$("#txtCEP").mask("00.000-000");
+        //$("#txtCPFResponsavel").mask('000.000.000-00', {reverse: false});
+        $("#txtTel").mask('(00) 00000-0000');
 
         $('#txtEmail').maxlength({
             threshold: 50,
@@ -396,7 +397,20 @@ function confirmar() {
         $('#btnRegistrar').click(function () {
             validarTelefone();
             if ($("#form").valid()) {
-                if (typeof ($("input[name^=hdnTipoTelefone]").val()) == "undefined") {
+                
+                carregaDadosModal($("#textoConfirmacao"));
+                    $('#modalConfirmar').modal({
+                        closable: true,
+                        transition: "fade up",
+                        onDeny: function () {
+                            return true;
+                        },
+                        onApprove: function () {
+                            $("#form").submit();
+                        }
+                    }).modal('show');
+                
+                /*if (typeof ($("input[name^=hdnTipoTelefone]").val()) == "undefined") {
                     $('#modalTelefone').modal({
                         closable: true,
                         transition: "fade up",
@@ -422,7 +436,7 @@ function confirmar() {
                     var msgCEP = $("<div>", {id: "msgCEP"});
                     msgCEP.attr('class', 'alert alert-danger').html("Primeiro faça a busca do CEP").append('<button data-dismiss="alert" class="close" type="button">×</button>');
                     $("#alertCEP").append(msgCEP);
-                }
+                }*/
             } else {
                 $("#form").submit();
             }
@@ -511,25 +525,25 @@ function carregaDadosModal($div) {
 
 
         var linhas = "";
-        for (var valor = 0; valor < $("input[name^='hdnTipoTelefone']").length; valor++) {
+        for (var valor = 0; valor < $("input[name^='hdnOperadora']").length; valor++) {
 
-            var tipo = $($("input[name^='hdnTipoTelefone']")[valor]).val();
+            //var tipo = $($("input[name^='hdnTipoTelefone']")[valor]).val();
             var operadora = $($("input[name^='hdnOperadora']")[valor]).val();
             var numero = $($("input[name^='hdnTelefone']")[valor]).val();
             var whatsapp = $($("input[name^='hdnWhatsApp']")[valor]).val();
-
-            linhas = linhas + "<tr><td>" + tipo + "</td><td>" + operadora + "</td><td>" + numero + "</td><td>" + whatsapp + "</td></tr>";
+            
+            linhas = linhas + "<tr><td>" + operadora + "</td><td>" + numero + "</td><td>" + whatsapp + "</td></tr>";
+            //linhas = linhas + "<tr><td>" + tipo + "</td><td>" + operadora + "</td><td>" + numero + "</td><td>" + whatsapp + "</td></tr>";
         }
         $div.append("<table class='ui table'>\n\
                         <thead><tr>\n\
-                        <th>Tipo</th>\n\
                         <th>Operadora</th>\n\
                         <th>Número</th>\n\
                         <th>Nº WhatsApp</th>\n\
                         </tr>\n\
                         </thead>\n\
                     <tbody>" + linhas + "</tbody></table>");
-
+        /*
         var endereco;
         if ($("#txtNumero").val() !== "" && $("#txtComplemento").val() !== "") {
             endereco = $("#txtLogradouro").val() + ", " + $("#txtNumero").val() + ", " + $("#txtComplemento").val() + " - " + $("#sltBairro").parent().dropdown('get text');;
@@ -546,7 +560,7 @@ function carregaDadosModal($div) {
                                 <div class='item'>\n\
                                   <div class='content'>\n\
                                     <div class='header'>Endereço</div>" + endereco + "</div>\n\
-                     </div></div>");
+                     </div></div>");*/
 
     })
 }
@@ -1182,7 +1196,7 @@ function alterarUsuario() {
                                     hdnToken: $("#hdnToken").val()
                                 }
                             }
-                },
+                }/*,
                 txtLogradouro: {
                     required: true
                 },
@@ -1191,7 +1205,7 @@ function alterarUsuario() {
                 },
                 txtNumero: {
                     required: true
-                }
+                }*/
             },
             messages: {
                 txtEmail: {
@@ -1213,15 +1227,16 @@ function alterarUsuario() {
                 required: true,
             });
             $("#txtNomeEmpresa").rules("remove");
-            $("#txtRazaoSocial").rules("remove");
-            $("#txtResponsavel").rules("remove");
-            $("#txtCPFResponsavel").rules("remove");
+            //$("#txtRazaoSocial").rules("remove");
+            //$("#txtResponsavel").rules("remove");
+            //$("#txtCPFResponsavel").rules("remove");
         } else {
             $("#linhaPF").hide();
             $("#txtNome").rules("remove");
             $("#txtNomeEmpresa").rules("add", {
                 required: true,
             });
+            /*
             $("#txtRazaoSocial").rules("add", {
                 required: true,
             });
@@ -1231,7 +1246,7 @@ function alterarUsuario() {
             $("#txtCPFResponsavel").rules("add", {
                 required: true,
                 cpf: 'both'
-            });
+            });*/
         }
     });
 }
@@ -1239,19 +1254,19 @@ function alterarUsuario() {
 function telefone() {
     $(document).ready(function () {
         $("#btnAdicionarTelefone").click(function () {
-            $("#sltTipotelefone").rules("add", {
+            /*$("#sltTipotelefone").rules("add", {
                 required: true,
                 messages: {
                     required: "Campo obrigatório",
                 }
-            });
+            });*/
             $("#sltOperadora").rules("add", {
                 required: true,
                 messages: {
                     required: "Campo obrigatório",
                 }
             });
-            if ($("#sltTipotelefone").val() == "Fixo") {
+            /*if ($("#sltTipotelefone").val() == "Fixo") {
                 $("#txtTel").rules("add", {
                     required: true,
                     minlength: 14,
@@ -1260,7 +1275,7 @@ function telefone() {
                         minlength: "Informe todos os números do telefone"
                     }
                 });
-            } else {
+            } else {*/
                 $("#txtTel").rules("add", {
                     required: true,
                     minlength: 15,
@@ -1269,7 +1284,7 @@ function telefone() {
                         minlength: "Informe todos os números do telefone"
                     }
                 });
-            }
+            //}
             if (validarTelefone()) {
 
                 if ($("#chkWhatsApp").is(":checked")) {
@@ -1279,8 +1294,8 @@ function telefone() {
                 }
 
                 $("#dadosTelefone").append(
-                        "<tr><td> <input type='hidden' id='hdnTipoTelefone[]' name='hdnTipoTelefone[]' value='" + $("#sltTipotelefone").val() + "'>" + $("#sltTipotelefone").val() + "</td>" +
-                        "<td> <input type='hidden' id='hdnOperadora[]' name='hdnOperadora[]' value='" + $("#sltOperadora").val() + "'>" + $("#sltOperadora").val() + "</td>" +
+                        //"<tr><td> <input type='hidden' id='hdnTipoTelefone[]' name='hdnTipoTelefone[]' value='" + $("#sltTipotelefone").val() + "'>" + $("#sltTipotelefone").val() + "</td>" +
+                        "<tr><td> <input type='hidden' id='hdnOperadora[]' name='hdnOperadora[]' value='" + $("#sltOperadora").val() + "'>" + $("#sltOperadora").val() + "</td>" +
                         "<td> <input type='hidden' id='hdnTelefone[]' name='hdnTelefone[]' value='" + $("#txtTel").val() + "'>" + $("#txtTel").val() + "</td>" +
                         "<td> <input type='hidden' id='hdnWhatsApp[]' name='hdnWhatsApp[]' value='" + $("#chkWhatsApp").val() + "'>" + $("#chkWhatsApp").val() + "</td>" +
                         "<td class='collapsing'><div class='red ui icon button' onclick='excluirTelefone($(this))'><i class='trash icon'></i>Excluir</div></td></tr>");
@@ -1290,9 +1305,9 @@ function telefone() {
             }
             $("#txtTel").rules("remove");
             $("#sltOperadora").rules("remove");
-            $("#sltTipotelefone").rules("remove");
+            //$("#sltTipotelefone").rules("remove");
         });
-        $("#sltTipotelefone").change(function () {
+        /*$("#sltTipotelefone").change(function () {
             $("#txtTel").unmask();
             $("#chkWhatsApp").parent().checkbox("uncheck");
             if ($(this).val() == "Fixo") {
@@ -1302,7 +1317,7 @@ function telefone() {
                 $("#txtTel").mask('(00) 00000-0000');
                 $("#chkWhatsApp").attr("disabled", false);
             }
-        })
+        })*/
     })
 }
 

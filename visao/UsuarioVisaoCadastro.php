@@ -92,7 +92,7 @@ Sessao::gerarToken();
                     <input type="text" name="txtCNPJ" id="txtCNPJ" placeholder="Informe o CNPJ da empresa">
                 </div>                    
             </div>
-            <div id="linhaPJ2" class="three fields">
+            <!--<div id="linhaPJ2" class="three fields">
                 <div class="required field">
                     <label>Razão Social</label>
                     <input type="text" name="txtRazaoSocial" id="txtRazaoSocial" placeholder="Informe a Razão Social da Empresa" maxlength="100">
@@ -105,7 +105,7 @@ Sessao::gerarToken();
                     <label>CPF do Responsável</label>
                     <input type="text" name="txtCPFResponsavel" id="txtCPFResponsavel" placeholder="Informe o CPF do Responsável">
                 </div>                    
-            </div>
+            </div>-->
             <h3 class="ui dividing header">Informações de Acesso</h3>
             <div class="three fields">
                 <div class="required field">
@@ -130,7 +130,7 @@ Sessao::gerarToken();
                     </div>
                 </div>
             </div>
-            <h3 class="ui dividing header">Endereço</h3>
+            <!--<h3 class="ui dividing header">Endereço</h3>
             <div class="fields">
                 <div class="five wide field">
                     <div class="ui action left icon input">
@@ -169,10 +169,10 @@ Sessao::gerarToken();
                         <input type="text" name="txtComplemento" id="txtComplemento" placeholder="Complemento" maxlength="60">
                     </div>
                 </div>
-            </div>
+            </div>-->
             <h3 class="ui dividing header">Telefones</h3> 
             <div class="fields">
-                <div class="four wide required field">
+                <!--<div class="four wide required field">
                     <label>Tipo</label>
                     <div class="ui selection dropdown">
                         <input type="hidden" name="sltTipotelefone" id="sltTipotelefone">
@@ -183,7 +183,7 @@ Sessao::gerarToken();
                             <div class="item" data-value="Celular">Celular</div>
                         </div>
                     </div>
-                </div>
+                </div>-->
                 <div class="four wide required field">
                     <label>Operadora</label>
                     <div class="ui selection dropdown">
@@ -230,7 +230,7 @@ Sessao::gerarToken();
             <table class="ui compact celled blue table" id="tabelaTelefone">
                 <thead>
                     <tr>
-                        <th>Tipo</th>
+                        <!--<th>Tipo</th>-->
                         <th>Operadora</th>
                         <th>Número</th>
                         <th>Nº WhatsApp</th>
@@ -246,14 +246,14 @@ Sessao::gerarToken();
 
                     <label for="attachmentName" class="ui teal icon labeled button btn-file">
                         <i class="large file image outline icon"></i>
-                        <input type="file" id="attachmentName" name="attachmentName" style="display: none">Selecione a imagem</label>
+                        <input type="file" id="attachmentName" name="attachmentName" style="display: none" required accept="image/*">Selecione a imagem</label>
                 </div>
             </div> 
             <h3 class="ui dividing header">Confirmação de Cadastro</h3>
             <div class="field">
                 <div class="ui checkbox">
                     <input type="checkbox"  name="chkConfirmacao" id="chkConfirmacao">
-                    <label>Estou de acordo com a <a href="#">política de privacidade</a> e os <a href="#">termos de uso</a> do PIP.</label>
+                    <label>Estou de acordo com a <a href="https://www.pipbeta.com.br/index.php?entidade=Institucional&acao=politicaPrivacidade" target="_blank">política de privacidade</a> e os <a href="https://www.pipbeta.com.br/index.php?entidade=Institucional&acao=termosUso" target="_blank">termos de uso</a> do PIP.</label>
                 </div>
 
 
