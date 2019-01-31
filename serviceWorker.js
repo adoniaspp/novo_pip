@@ -1,9 +1,14 @@
+
 self.addEventListener('install', function(event) {
     console.log('[Service Worker] Installing Service Worker ...', event);
     event.waitUntil(
         caches.open('static')
             .then(function(cache) {
                 console.log('[Service Worker] Precaching App Shell');
+                cache.addAll([
+                    '/assets/bundle.css',
+                    '/assets/bundle.js',
+                ]);
             })
     )
 });
@@ -25,3 +30,4 @@ self.addEventListener('fetch', function(event) {
             })
     );
 });
+

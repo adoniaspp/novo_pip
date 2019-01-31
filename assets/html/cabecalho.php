@@ -9,7 +9,7 @@
 <script src=<?php echo PIPURL; ?>assets/js/bundle.js></script>
 <link href=<?php echo PIPURL; ?>assets/css/bundle.css rel=stylesheet type=text/css />
 <link rel="shortcut icon" href=<?php echo PIPURL; ?>assets/imagens/tituloCasaAzulChanfle.jpg type="image/x-icon"/>
-<link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="/manifest.json">
     <script src=<?php echo PIPURL; ?>assets/js/cabecalho.js></script>
 
 </head>
@@ -19,36 +19,74 @@
 <?php } ?>
 
 
-<div class="ui left vertical sidebar menu">
-    <a class="ui one column stackable center aligned container item" href="<?php echo PIPURL; ?>index.php">
-        <div class="column twelve wide">
-            <i class="red map marker alternate icon"></i>
-            <span class="ui blue header">PIP-Imóveis</span>
-        </div>
-    </a>
+    <div class="ui sidebar left vertical sidebar menu">
+        <a class="ui active one column stackable center aligned container item" href="<?php echo PIPURL; ?>index.php">
+            <div class="column twelve wide">
+                <i class="red map marker alternate icon"></i>
+                <span class="ui blue header">PIP-Imóveis</span>
+            </div>
+        </a>
 
-    <a class="ui one column stackable center aligned item" href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=form&tipo=login">
-        <div class="column twelve wide">
-        <i class="key icon"></i>
-        <span class="ui blue header">Entrar</span>
+        <a class="ui one column stackable center aligned item" href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=form&tipo=login">
+            <div class="column twelve wide">
+                <i class="key icon"></i>
+                <span class="ui blue header">Entrar</span>
+            </div>
+        </a>
+        <a class="ui one column stackable center aligned item" href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=form&tipo=cadastro">
+            <div class="column twelve wide">
+                <i class="pencil alternate icon"></i>
+                <span class="ui blue header">Cadastre-se</span>
+            </div>
+        </a>
+        <div class="ui vertical accordion menu">
+            <div class="item">
+                <a class="active title">
+                    <i class="dropdown icon"></i>
+                    Size
+                </a>
+                <div class="active content">
+                    <div class="ui form">
+                        <div class="grouped fields">
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="size" value="small">
+                                    <label>Small</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="size" value="medium">
+                                    <label>Medium</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="size" value="large">
+                                    <label>Large</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="size" value="x-large">
+                                    <label>X-Large</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </a>
-    <a class="ui one column stackable center aligned item" href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=form&tipo=cadastro">
-        <div class="column twelve wide">
-        <i class="pencil alternate icon"></i>
-        <span class="ui blue header">Cadastre-se</span>
-        </div>
-    </a>
-</div>
+    </div>
 
 <div class="pusher">
-<div class="ui top fixed huge menu">
+<div class="ui top fixed huge menu" style="background-color: #f2f0f3">
     <div class="ui container">
     <div class="left menu" id="divMenuCabecalhoEsquerda">
     </div>
         <div class="right menu" id="divMenuCabecalhoDireita">
             <?php if (Sessao::verificarSessaoUsuario()) { ?>
-            <div class="ui one column stackable right aligned grid">
+            <!--<div class="ui one column stackable right aligned grid">
                     <div class="middle aligned row">
                         <div class="column">
                             <h4 class="ui blue header">
@@ -65,9 +103,9 @@
                         </div>
                     </div>
 
-                </div>
+                </div>-->
             <?php } else { ?>
-            <div class="ui one column stackable center aligned grid">
+            <!--<div class="ui one column stackable center aligned grid">
                 <div class="middle aligned row">
                     <div class="column">
                         <div class="ui buttons">
@@ -77,7 +115,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
             <?php } ?>
         </div>
         </div>
@@ -118,9 +156,11 @@ ATENÇÃO: Você foi deslogado por segurança devido a um longo período de inat
 <script>
     var urlHome = "<?php echo PIPURL; ?>index.php";
     var imgURL = "<?php echo PIPURL; ?>assets/imagens/tituloCasaAzulChanfle.jpg";
-    var sessao = "Sessao::verificarSessaoUsuario()";
+    var sessao = "<?php echo (Sessao::verificarSessaoUsuario()); ?>";
+    var nomeUsuarioSessao =  "<?php echo ucfirst(strtolower(explode(" ", $_SESSION['nome'])[0])); ?>";
+    var PIPURL =  "<?php echo PIPURL; ?>";
 
-    menuCabecalhoMobile(urlHome, imgURL);
+    menuCabecalhoMobile(urlHome, imgURL, sessao, nomeUsuarioSessao, PIPURL);
     $(document).ready(function(){
         $("#btnMenuMobile").on('click', function () {
             $('.ui.sidebar')

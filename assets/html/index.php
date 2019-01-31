@@ -4,8 +4,6 @@
 <script src="assets/libs/swiper/swiper.min.js"></script>
 
 
-
-
 <script>
 
     inicio();
@@ -30,25 +28,26 @@ if ($item) {
     ?>
     <div class="ui hidden divider"></div>
     <div class="ui grid container">
-        <h2 class="ui header">Sugestões baseadas nos anúncios que você viu</h2>    
+        <h2 class="ui header">Sugestões baseadas nos anúncios que você viu</h2>
     </div>
     <div class="ui middle aligned one column grid container swiper-container">
         <div class="ui ten wide column">
         </div>
         <div class="swiper-wrapper">
 
-            <div class="ui stackable cards "> 
+            <div class="ui stackable cards ">
                 <?php
                 for ($crtl = 0; $crtl <= count($anuncios); $crtl++) {
                     for ($k = 0; $k <= count($anuncios[$crtl]['anuncio']); $k++) {
                         if ($anuncios[$crtl]['anuncio'][$k]) {
                             $anuncio = $anuncios[$crtl]['anuncio'][$k];
-                            ?>                            
+                            ?>
                             <script>
                                 formatarValor("<?php echo $anuncio['idanuncio'] ?>");
-                            </script>  
-                            <div class="card" style="width: 263px; border-radius: 2.285714rem; box-shadow: 0 1px 3px 0 #D4D4DD,0 0 0 1px #000000" id="cartao<?php echo $anuncio['idanuncio'] ?>">
-
+                            </script>
+                            <div class="card"
+                                 style="width: 263px; border-radius: 2.285714rem; box-shadow: 0 1px 3px 0 #D4D4DD,0 0 0 1px #000000"
+                                 id="cartao<?php echo $anuncio['idanuncio'] ?>">
 
 
                                 <div class="content">
@@ -58,15 +57,20 @@ if ($item) {
                                     } else {
                                         echo "<div class='ui green ribbon label'> Aluguel </div>";
                                     }
-                                    ?> 
+                                    ?>
                                     <!--                                <div class="left floated header">Venda</div>-->
                                     <div class="right floated meta">
-                                        <a href="https://www.facebook.com/sharer.php?u=https://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="large blue facebook square icon"></i></a>
-                                        <a href="https://twitter.com/intent/tweet?text=Anúncio%20Compartilhado%20via%20PIP-OnLine%20https%3A%2F%2Fwww.pipbeta.com.br%2F<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="large blue twitter icon"></i></a>
-                                        <a href="https://plus.google.com/share?url=https://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>" target="_blank"><i class="large red google plus circle icon"></i></a>
-                                        <a class="compartilhar-whatsapp" href='whatsapp://send?text=https://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>'><i class="large green whatsapp icon"></i></a>
+                                        <a href="https://www.facebook.com/sharer.php?u=https://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>"
+                                           target="_blank"><i class="large blue facebook square icon"></i></a>
+                                        <a href="https://twitter.com/intent/tweet?text=Anúncio%20Compartilhado%20via%20PIP-OnLine%20https%3A%2F%2Fwww.pipbeta.com.br%2F<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>"
+                                           target="_blank"><i class="large blue twitter icon"></i></a>
+                                        <a href="https://plus.google.com/share?url=https://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>"
+                                           target="_blank"><i class="large red google plus circle icon"></i></a>
+                                        <a class="compartilhar-whatsapp"
+                                           href='whatsapp://send?text=https://www.pipbeta.com.br/<?php echo $item['anuncio'][$crtl]['idanuncioformatado'] ?>'><i
+                                                    class="large green whatsapp icon"></i></a>
                                         <!--                                        <div class="ui primary button" id="copiarBotao" onclick="copiar()">Copiar Link Anúncio</div>-->
-                                    </div>                                
+                                    </div>
                                 </div>
                                 <!--                             <div class="ui divider"></div>-->
                                 <div class="ui grid">
@@ -83,7 +87,7 @@ if ($item) {
                                                 echo "Sala Comercial";
                                             } else
                                                 echo ucfirst($anuncio['tipo'])
-                                                ?>                                           
+                                            ?>
                                         </h4>
                                     </div>
                                 </div>
@@ -99,7 +103,7 @@ if ($item) {
                                             <input type="hidden" id="anuncio<?php echo $anuncio['id'] ?>"
                                                    value="<?php echo $anuncio['idanuncio'] ?>"/>
                                             <input type="hidden" id="anuncio<?php echo $anuncio['tipo'] ?>"
-                                                   value="<?php echo $anuncio['tipo'] ?>"/>                                                   
+                                                   value="<?php echo $anuncio['tipo'] ?>"/>
                                         </div>
                                         <!--                                    </div>-->
                                     </div>
@@ -108,7 +112,8 @@ if ($item) {
                                         foreach ($anuncio['imagem'] as $imagem) {
                                             if ($imagem['destaque'] == 'SIM') {
                                                 ?>
-                                                <img style="display: block; margin-left: auto; margin-right: auto; width: auto; max-height: 140px; overflow: scroll;position: relative; max-width: 165px" src="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . '/' . $imagem['nome'] ?>">
+                                                <img style="display: block; margin-left: auto; margin-right: auto; width: auto; max-height: 140px; overflow: scroll;position: relative; max-width: 165px"
+                                                     src="<?php echo PIPURL . '/fotos/imoveis/' . $imagem['diretorio'] . '/' . $imagem['nome'] ?>">
                                                 <?php
                                             }
                                         }
@@ -120,11 +125,12 @@ if ($item) {
                                 </div>
 
                                 <div class="content">
-                                    <div class="ui segment">    
+                                    <div class="ui segment">
                                         <div class="ui stackable three column centered grid">
                                             <div class="ui three wide column">
-                                                <img class="ui center image dimmable" src="../assets/imagens/icones/iconeQuartoPequeno.jpg">&nbsp;
-                                                <div style="font-size: 12px">  
+                                                <img class="ui center image dimmable"
+                                                     src="../assets/imagens/icones/iconeQuartoPequeno.jpg">&nbsp;
+                                                <div style="font-size: 12px">
                                                     <?php
                                                     if ($anuncio['tipo'] == "casa" || $$anuncio['tipo'] == "apartamento") {
                                                         echo $anuncio['quarto'];
@@ -138,7 +144,8 @@ if ($item) {
                                             </div>
 
                                             <div class="ui three wide column">
-                                                <img class="ui left image" src="../assets/imagens/icones/iconeBanheiroPequeno.jpg">&nbsp;
+                                                <img class="ui left image"
+                                                     src="../assets/imagens/icones/iconeBanheiroPequeno.jpg">&nbsp;
                                                 <div style="font-size: 12px"><?php
                                                     if ($anuncio['tipo'] == "casa" || $anuncio['tipo'] == "apartamento" || $anuncio['tipo'] == "salacomercial") {
                                                         echo $anuncio['banheiro'];
@@ -152,7 +159,8 @@ if ($item) {
                                             </div>
 
                                             <div class="ui three wide column">
-                                                <img class="ui left image " src="../assets/imagens/icones/iconeGaragemPequeno.jpg">&nbsp;
+                                                <img class="ui left image "
+                                                     src="../assets/imagens/icones/iconeGaragemPequeno.jpg">&nbsp;
                                                 <div style="font-size: 12px"><?php
                                                     if ($anuncio['tipo'] == "casa" || $anuncio['tipo'] == "apartamento" || $anuncio['tipo'] == "salacomercial") {
                                                         echo $anuncio['garagem'];
@@ -164,51 +172,58 @@ if ($item) {
                                                     ?>
                                                 </div>
                                             </div>
-                                        </div> 
+                                        </div>
                                     </div>
                                     <!--                                    <div class="ui divider"></div>-->
 
                                     <!--                                </div>-->
                                     <?php if ($anuncio['tipo'] !== "apartamentoplanta") { ?>
-                                        <div class="left floated header" id="spanValor<?php echo $anuncio['idanuncio'] ?>">       
-                                            <?php echo ($anuncio['novovalor'] != "") ? $anuncio['novovalor'] : $anuncio['valormin']; ?>                                         
+                                        <div class="left floated header"
+                                             id="spanValor<?php echo $anuncio['idanuncio'] ?>">
+                                            <?php echo ($anuncio['novovalor'] != "") ? $anuncio['novovalor'] : $anuncio['valormin']; ?>
                                         </div>
                                         <?php
                                     } else {
 
-                                        if ($anuncio['valormin'] != 0) {
-                                            ?>
+                                    if ($anuncio['valormin'] != 0) {
+                                    ?>
 
-                                            A partir de  <br>
-                                            <span class="left floated header" id="spanValor<?php echo $anuncio['idanuncio'] ?>">     
+                                    A partir de <br>
+                                    <span class="left floated header" id="spanValor<?php echo $anuncio['idanuncio'] ?>">
                                                 <?php
                                                 echo $anuncio['valormin'];
-                                            } if ($anuncio['valormin'] == 0) {
-                                                echo "Valor não informado";
-                                            }
-                                        }
-                                        ?>
+                                                }
+                                                if ($anuncio['valormin'] == 0) {
+                                                    echo "Valor não informado";
+                                                }
+                                                }
+                                                ?>
                                     </span>
-                                            <div class="right floated"> <h4> <?php echo $anuncio['bairro'] ?> </h4></div>
-                                    <div class="description"> 
+                                    <div class="right floated"><h4> <?php echo $anuncio['bairro'] ?> </h4></div>
+                                    <div class="description">
                                         <!--                                    <br />-->
-                                        <span hidden="true" class="data" id="spanData<?php echo $anuncio['idanuncio'] ?>"> 
+                                        <span hidden="true" class="data"
+                                              id="spanData<?php echo $anuncio['idanuncio'] ?>">
                                             <?php echo $anuncio['datahoracadastro']; ?> </span>
                                         <!-- CASO SEJA UM APARTAMENTO NA PLANTA, NÃO EXIBIR O VALOR-->
 
                                         <!--<br />
                                         Cod. <?php $anuncio['idanuncioformatado'] ?> -->
-                                        <input type="hidden" name="hdnCodAnuncioFormatado[]" value="<?php echo $anuncio['idanuncioformatado'] ?>" />
-                                        <input type="hidden" id="hiddenAnuncioFormatadaoCopiar" value="<?php echo $anuncio['idanuncioformatado'] ?>" />
+                                        <input type="hidden" name="hdnCodAnuncioFormatado[]"
+                                               value="<?php echo $anuncio['idanuncioformatado'] ?>"/>
+                                        <input type="hidden" id="hiddenAnuncioFormatadaoCopiar"
+                                               value="<?php echo $anuncio['idanuncioformatado'] ?>"/>
 
 
                                     </div>
-                                    <br />
+                                    <br/>
                                     <div class="ui one column centered grid">
                                         <div class="column">
-                                            <a class='ui twitter button' href="<?php echo PIPURL; ?><?php echo $anuncio['idanuncioformatado'] ?>" target="_blank">+ Detalhes</a>
+                                            <a class='ui twitter button'
+                                               href="<?php echo PIPURL; ?><?php echo $anuncio['idanuncioformatado'] ?>"
+                                               target="_blank">+ Detalhes</a>
                                         </div>
-                                    </div>       
+                                    </div>
                                 </div>
 
                                 <!--                                <div class="content">;
@@ -230,7 +245,7 @@ if ($item) {
                                     echo "Sala Comercial";
                                 } else
                                     echo ucfirst($anuncio['tipo'])
-                                    ?>
+                                ?>
                                                                         <br />
                                                                         <span hidden="true" class="data" id="spanData<?php echo $anuncio['idanuncio'] ?>"> 
                                 <?php echo $anuncio['datahoracadastro']; ?> </span>
@@ -244,7 +259,7 @@ if ($item) {
                                                                     </div>
                                                                 </div>-->
 
-                            </div> 
+                            </div>
                             <?php ?>
 
                             <?php
@@ -257,7 +272,7 @@ if ($item) {
             </div>
 
         </div>
-        <div class="ui column" ></div>
+        <div class="ui column"></div>
     </div>
     <div class="ui divider"></div>
 
@@ -268,9 +283,8 @@ if ($item) {
 
 <div class="ui hidden divider"></div>
 <div class="ui grid container">
-    <h2 class="ui header">Confira nossos anúncios</h2>    
+    <h2 class="ui header">Confira nossos anúncios</h2>
 </div>
-
 
 
 <div class="ui basic segment" id="divAnuncios"></div>
@@ -280,26 +294,87 @@ if ($item) {
 <div class="ui hidden divider"></div>
 
 <div class="ui center aligned grid">
-    <div class="column"><i class="teal big help icon"></i>COMO ANUNCIAR</div>
+    <div class="column">
+        <div class="ui pointing below large blue grey label">
+            ANUNCIE EM 3 PASSOS
+        </div>
+        <!--        <span class="ui large block header">ANUNCIE EM 3 PASSOS</span>-->
+    </div>
 </div>
 
-<div class="ui center aligned equal width grid">
-    <div class="column"><i class="teal big add user icon"></i>1 - FAÇA SEU CADASTRO
-        <br>
-        Cadastre seus dados (Nome, Endereço, Tipo de Pessoa, Telefone, Email, etc) e escolha um login
-        para ser sua identificação no PIP On-Line (Ex: www.piponline.com.br/joaosilva1980)
-    </div>
-    <div class="column"><i class="teal big edit icon"></i>2 - CADASTRE SEU IMÓVEL (Casa, Apartamentos, etc.)
-        <br>
-        Cadastre as características do imóvel (quartos, banheiros, garagens, área, etc).
-    </div>
-    <div class="column"><i class="teal big add to cart icon"></i>3 - COMPRE O ANÚNCIO
-        <br>
-        Após cadastrar o imóvel, compre o anúncio para divulgar seu produto, escolhendo o melhor
-        para sua necessidade (1 mês de divulgação no site, 2 meses, etc.)
-    </div>
-</div>  
+<div class="ui center aligned equal width stackable grid">
+    <div class="column">
+        <div class="ui large icon blue header">
+            <a class="ui pointing below basic blue large label">1º Passo</a>
+            <i class="ui add user icon"></i>
+            <p>FAÇA SEU CADASTRO</p>
 
+        </div>
+        <!--        Cadastre seus dados (Nome, Endereço, Tipo de Pessoa, Telefone, Email, etc) e escolha um login
+                para ser sua identificação no PIP On-Line (Ex: www.piponline.com.br/joaosilva1980)-->
+    </div>
+
+    <div class="column">
+        <div class="ui large icon brown header">
+            <a class="ui pointing below basic brown large label">2º Passo</a>
+            <i class="ui home icon"></i>
+            <p>CADASTRE SEU IMÓVEL</p>
+        </div>
+        <!--        Cadastre as características do imóvel (quartos, banheiros, garagens, área, etc).-->
+    </div>
+
+    <!--        Após cadastrar o imóvel, compre o anúncio para divulgar seu produto, escolhendo o melhor
+            para sua necessidade (1 mês de divulgação no site, 2 meses, etc.)-->
+    <div class="column">
+        <div class="ui large icon green header">
+            <a class="ui pointing below basic green large label">3º Passo</a>
+            <i class="ui bullhorn icon"></i>
+            <p>ANUNCIE</p>
+
+        </div>
+        <!--        Após cadastrar o imóvel, compre o anúncio para divulgar seu produto, escolhendo o melhor
+                para sua necessidade (1 mês de divulgação no site, 2 meses, etc.)-->
+    </div>
+</div>
+
+<!--<div class="ui hidden divider"></div>
+<div class="ui divider"></div>
+<div class="ui hidden divider"></div>
+<div class="ui center aligned grid">
+
+    <div class="column">
+        <div class="ui pointing below large blue grey label">
+            PIP EM NÚMEROS
+        </div>
+        <!--        <span class="ui large block header">ANUNCIE EM 3 PASSOS</span>-->
+ <!--   </div>
+</div>
+<div class="ui centered stackable grid">
+    <div class="ui large statistic">
+        <div class="value">
+            22
+        </div>
+        <div class="label">
+            Faves
+        </div>
+    </div>
+    <div class="ui large statistic">
+        <div class="value">
+            31,200
+        </div>
+        <div class="label">
+            Views
+        </div>
+    </div>
+    <div class="ui large statistic">
+        <div class="value">
+            22
+        </div>
+        <div class="label">
+            Members
+        </div>
+    </div>
+</div>-->
 <div class="ui hidden divider"></div>
 <div class="ui divider"></div>
 <div class="ui hidden divider"></div>
@@ -311,10 +386,12 @@ if ($item) {
 <div class="ui left aligned equal width grid">
     <div class="column">
         <div class="ui bulleted list">
-            <div class="item">Cadastre vários imóveis e escolha quais anunciar </div>
+            <div class="item">Cadastre vários imóveis e escolha quais anunciar</div>
             <div class="item">Enviar anuncios por e-mail</div>
             <div class="item">Envie dúvidas sobre os anúncios</div>
-            <div class="item">É vendedor? você tem sua área específica, bastando digitar seu login na barra de endereços</div>
+            <div class="item">É vendedor? você tem sua área específica, bastando digitar seu login na barra de
+                endereços
+            </div>
         </div>
     </div>
     <div class="column">
@@ -323,7 +400,7 @@ if ($item) {
             <div class="item">Reative anúncios expirados, sem necessidade de recadastrar o imóvel</div>
             <div class="item">Compatível com dispositivos móveis (celular e tablet)</div>
             <div class="item">Quer saber mais detalhes sobre mais vantagens? clique AQUI</div>
-        </div>  
+        </div>
     </div>
 </div>
 
@@ -331,7 +408,7 @@ if ($item) {
 <div class="ui divider"></div>
 <div class="ui hidden divider"></div>
 
-<script async defer src="<?php echo GOOGLEMAPSURL; ?>"> </script>
+<script async defer src="<?php echo GOOGLEMAPSURL; ?>"></script>
 
 
 
