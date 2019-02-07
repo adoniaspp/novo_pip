@@ -383,27 +383,29 @@ if ($item) {
     <div class="column"><i class="teal big list icon"></i>VANTAGENS DO PIP-ONLINE</div>
 </div>
 
+<div class="ui center aligned equal width stackable grid">
 <div class="ui left aligned equal width grid">
     <div class="column">
-        <div class="ui bulleted list">
-            <div class="item">Cadastre vários imóveis e escolha quais anunciar</div>
-            <div class="item">Enviar anuncios por e-mail</div>
-            <div class="item">Envie dúvidas sobre os anúncios</div>
-            <div class="item">É vendedor? você tem sua área específica, bastando digitar seu login na barra de
+        <!--<div class="ui bulleted list">-->
+            <div class="item"><i class="red map marker icon"></i>Cadastre vários imóveis e escolha quais anunciar</div>
+            <div class="item"><i class="red map marker icon"></i>Enviar anuncios por e-mail</div>
+            <div class="item"><i class="red map marker icon"></i>Envie dúvidas sobre os anúncios</div>
+            <div class="item"><i class="red map marker icon"></i>É vendedor? você tem sua área específica, bastando digitar seu login na barra de
                 endereços
-            </div>
+            <!--</div>-->
         </div>
     </div>
     <div class="column">
-        <div class="ui bulleted list">
-            <div class="item">Busca completa, inclusive na área do vendedor</div>
-            <div class="item">Reative anúncios expirados, sem necessidade de recadastrar o imóvel</div>
-            <div class="item">Compatível com dispositivos móveis (celular e tablet)</div>
-            <div class="item">Quer saber mais detalhes sobre mais vantagens? clique AQUI</div>
-        </div>
+        <!--<div class="ui bulleted list">-->
+            <div class="item"><i class="red map marker icon"></i>Busca completa, inclusive na área do vendedor</div>
+            <div class="item"><i class="red map marker icon"></i>Reative anúncios expirados, sem necessidade de recadastrar o imóvel</div>
+            <div class="item"><i class="red map marker icon"></i>Compatível com dispositivos móveis (celular e tablet)</div>
+            <div class="item"><i class="red map marker icon"></i>Quer saber mais detalhes sobre mais vantagens? clique AQUI</div>
+        <!--</div>-->
     </div>
 </div>
-
+</div>
+    
 <div class="ui hidden divider"></div>
 <div class="ui divider"></div>
 <div class="ui hidden divider"></div>

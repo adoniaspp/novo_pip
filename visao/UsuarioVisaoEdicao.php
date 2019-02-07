@@ -196,13 +196,20 @@ if ($item) {
                             <input type="hidden" name="sltOperadora" id="sltOperadora">
                             <div class="default text">Operadora</div>
                             <i class="dropdown icon"></i>
-                            <div class="menu">
+                            <select>
+                                <option value="Oi">Oi</option>
+                                <option value="Tim">Tim</option>
+                                <option value="Vivo">Vivo</option>
+                                <option value="Claro">Claro</option>
+                                <option value="NET">NET</option>
+                            </select>
+                            <!--<div class="menu">
                                 <div class="item" data-value="Oi">Oi</div>
                                 <div class="item" data-value="Tim">Tim</div>
                                 <div class="item" data-value="Vivo">Vivo</div>
                                 <div class="item" data-value="Claro">Claro</div>
                                 <div class="item" data-value="NET">NET</div>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                     <div class="four wide required field">
