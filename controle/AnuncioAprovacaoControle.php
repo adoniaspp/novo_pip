@@ -37,6 +37,7 @@ include_once 'modelo/NovoValorAnuncio.php';
 include_once 'modelo/MapaImovel.php';
 include_once 'modelo/MapaImovelAprovacao.php';
 include_once 'modelo/FuncoesAuxiliares.php';
+include_once 'modelo/HistoricoReativacao.php';
 
 class AnuncioAprovacaoControle {
 
@@ -445,7 +446,9 @@ class AnuncioAprovacaoControle {
         $genericoDAO = new GenericoDAO();
         $verificaExisteCadastrado = $genericoDAO->consultar(new Anuncio(), false, array("idanuncio" => $anuncio->getIdAnuncio(), "status" => "cadastrado"));
         $verificaSeNaoExiste = $genericoDAO->consultar(new Anuncio(), false, array("idanuncio" => $anuncio->getIdAnuncio()));
-        $permite = ($verificaExisteCadastrado || !$verificaSeNaoExiste);
+        $verificaAluguelExpirado = $genericoDAO->consultar(new Anuncio(), false, array("idanuncio" => $anuncio->getIdAnuncio(), "status" => "expirado", "finalidade" => "Aluguel" ));
+        $verificaAluguelFinalizado = $genericoDAO->consultar(new Anuncio(), false, array("idanuncio" => $anuncio->getIdAnuncio(), "status" => "finalizado", "finalidade" => "Aluguel"));        
+        $permite = ($verificaExisteCadastrado || !$verificaSeNaoExiste || $verificaAluguelExpirado || $verificaAluguelFinalizado);
         return $permite;
     }
 
@@ -493,9 +496,26 @@ class AnuncioAprovacaoControle {
         //echo "<pre>";        print_r($anuncioAprovacao);        die();
         //verifica se existe anuncio cadastrado com o mesmo codigo de anuncio
         $novoAnuncio = true;
-        $verificaAnuncio = $genericoDAO->consultar(new Anuncio(), true, array("idanuncio" => $anuncioAprovacao->getIdAnuncio(), "status" => "cadastrado"));
-        if ($verificaAnuncio != null) {
+        $reativarAnuncio = false;
+        
+        $verificaAnuncioEditado = $genericoDAO->consultar(new Anuncio(), true, array("idanuncio" => $anuncioAprovacao->getIdAnuncio(), "status" => "cadastrado"));
+        if ($verificaAnuncioEditado != null) {
             $novoAnuncio = false;
+            $anuncioEditado = $verificaAnuncioEditado[0];
+        } else {
+            $selecionarAnuncioExpirado = $genericoDAO->consultar(new Anuncio(), true, array("idanuncio" => $anuncioAprovacao->getIdAnuncio(), "status" => "expirado", "finalidade" => "Aluguel"));
+            if($selecionarAnuncioExpirado != null){
+                $novoAnuncio = false;
+                $reativarAnuncio = true;
+                $anuncioEditado = $selecionarAnuncioExpirado[0];
+            } else {
+                $selecionarAnuncioFinalizado = $genericoDAO->consultar(new Anuncio(), true, array("idanuncio" => $anuncioAprovacao->getIdAnuncio(), "status" => "finalizado", "finalidade" => "Aluguel"));    
+                if($selecionarAnuncioFinalizado != null){
+                    $novoAnuncio = false;
+                    $reativarAnuncio = true;    
+                    $anuncioEditado = $selecionarAnuncioFinalizado[0];
+                } 
+            }
         }
         //verifica se eh APARTAMENTO NA PLANTA
         $apartamentoNaPlanta = false;
@@ -508,8 +528,28 @@ class AnuncioAprovacaoControle {
             $anuncioAprovado = $anuncioAprovacao->anuncioAprovado(new Anuncio());
             $idAnuncio = $genericoDAO->cadastrar($anuncioAprovado);
         } else {
-            $anuncioEditado = $verificaAnuncio[0];
+            $anuncioEditadoStatus = $anuncioEditado->getStatus();
+            $anuncioEditadoDatahoracadastro = $anuncioEditado->getDatahoracadastro();
+            if($anuncioEditadoStatus=="finalizado"){
+            $anuncioEditadoDatahoradesativacao = $anuncioEditado->getDatahoraalteracao();
+            } else {
+            $anuncioEditadoDatahoradesativacao = $anuncioEditado->getDatahoradesativacao();                
+            }
             $anuncioAprovadoEdicao = $anuncioAprovacao->anuncioAprovadoEdicao($anuncioEditado);
+            if($reativarAnuncio){
+               $anuncioAprovadoEdicao->setStatus('cadastrado');
+               $anuncioAprovadoEdicao->setDatahoraalteracao('');               
+               $anuncioAprovadoEdicao->setDatahoradesativacao('');               
+               $anuncioAprovadoEdicao->setDatahoracadastro(date("Y/m/d H:i:s"));
+               $historicoReativacao = new HistoricoReativacao();
+               $historicoReativacao->setIdanuncio($anuncioEditado->getIdanuncio());
+               $historicoReativacao->setIdusuarioplano($anuncioEditado->getIdusuarioplano());
+               $historicoReativacao->setStatus($anuncioEditadoStatus);
+               $historicoReativacao->setDatacadastro($anuncioEditadoDatahoracadastro);
+               $historicoReativacao->setDataexpiracaofinalizacao($anuncioEditadoDatahoradesativacao);
+               $historicoReativacao->setDatareativacao(date("Y/m/d H:i:s"));
+               $genericoDAO->cadastrar($historicoReativacao);
+            }
             $genericoDAO->editar($anuncioAprovadoEdicao);
             $idAnuncio = $anuncioAprovadoEdicao->getId();
             //EXCLUI todas as FOTOS, se houver

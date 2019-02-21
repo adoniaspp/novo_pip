@@ -949,7 +949,7 @@ class AnuncioControle {
                     //BUSCA O MESMO IDANUNCIO
                     $selecionarAnuncioExpirado = $genericoDAO->consultar(new Anuncio(), true, array("idimovel" => $_SESSION["anuncio"]["idimovel"], "status" => "expirado", "finalidade" => "Aluguel"));
                     $idAnuncioReativar = 0;
-                    if($selecionarAnuncioExpirado[0]->getIdanuncio() != null){
+                    if($selecionarAnuncioExpirado!= null){
                         $idAnuncioReativar = $selecionarAnuncioExpirado[0]->getIdanuncio();
                     } else {
                         $selecionarAnuncioFinalizado = $genericoDAO->consultar(new Anuncio(), true, array("idimovel" => $_SESSION["anuncio"]["idimovel"], "status" => "finalizado", "finalidade" => "Aluguel"));    
@@ -1731,7 +1731,7 @@ class AnuncioControle {
                 $selecionarAnuncio = $genericoDAO->consultar($entidadeAnuncio, false, array("id" => $parametros["hdnAnuncio"]));
                 $entidadeAnuncio = $selecionarAnuncio[0];
                 $entidadeAnuncio->setStatus('finalizado');
-                $entidadeAnuncio->setDatahoraalteracao(date('d/m/Y H:i:s'));
+                $entidadeAnuncio->setDatahoraalteracao(date("Y/m/d H:i:s"));
                 $genericoDAO->editar($entidadeAnuncio);
 
                 $historicoAluguelVenda = new HistoricoAluguelVenda();
@@ -1778,82 +1778,6 @@ class AnuncioControle {
 
                 $this->detalhar(array("hdnTipoImovel" => $tipo, "hdnCodAnuncio" => $verificarAtivo[0]->getId()));
             }
-        }
-    }
-
-    function alterarValor($parametros) {
-
-        if (Sessao::verificarSessaoUsuario()) {
-
-            //var_dump($parametros); die();
-
-            if (Sessao::verificarToken($parametros)) {
-
-                $genericoDAO = new GenericoDAO();
-
-                $novoValor = new NovoValorAnuncio();
-                //setar os valores do objeto para edição
-                $consultarValorInativar = $genericoDAO->consultar($novoValor, false, array("idanuncio" => $parametros["hdnAnuncio"]));
-                //transformar de array para um único valor
-
-                if ($consultarValorInativar != null) { //setar a classe ValorNovo apenas se já existir valor
-                    if ($parametros['txtNovoValor'] != "") {
-
-                        $consultarValorInativar = $consultarValorInativar[0];
-                        //setar apenas os campos que se quer editar
-                        $setarInativacao = $novoValor->inativarValor($consultarValorInativar);
-
-                        $genericoDAO->iniciarTransacao();
-                        //passar o objeto para edição
-                        $inativar = $genericoDAO->editar($setarInativacao);
-                    } else {
-                        $genericoDAO->iniciarTransacao();
-                        $inativar = true;
-                    } {
-                        
-                    }
-                } else { //caso não exista um valor novo já cadastrado
-                    $genericoDAO->iniciarTransacao();
-
-                    $inativar = true;
-                }
-
-                if ($parametros['txtNovoValor'] != "") {
-
-                    //echo "Entrou"; die();
-
-                    $entidade = $novoValor->cadastrar($parametros);
-
-                    $resultadoNovoValor = $genericoDAO->cadastrar($entidade);
-                } else {
-                    $resultadoNovoValor = true;
-                    //echo "Não Entrou"; die();
-                }
-
-                $anuncio = new Anuncio();
-
-                $entidadeAnuncio = $anuncio->editar($parametros);
-                $idAnuncio = $genericoDAO->editar($entidadeAnuncio);
-
-                if ($inativar && $resultadoNovoValor && $idAnuncio) {
-
-                    $genericoDAO->commit();
-
-                    echo json_encode(array("resultado" => 1, "novoValor" => $parametros["txtNovoValor"]));
-                } else {
-
-                    echo json_encode(array("resultado" => 0));
-
-                    $genericoDAO->rollback();
-                }
-
-                $genericoDAO->fecharConexao();
-            } else {
-
-                echo json_encode(array("resultado" => 2)); //erro de token
-            }
-        } else { //caso o usuário não esteja logado
-            echo json_encode(array("resultado" => 3));
         }
     }
 

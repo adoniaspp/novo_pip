@@ -73,7 +73,7 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
                         <div>   
                             <label for="attachmentName" class="ui teal icon labeled button btn-file">
                                 <i class="large file image outline icon"></i>                        
-                                <input id="attachmentName" type="file" name="attachmentName" style="display: none"/>Selecionar</label>
+                                <input id="attachmentName" type="file" name="attachmentName" style="display: none" required accept="image/*"/>Selecionar</label>
                         </div>  
                     </div>
                 </div>

@@ -1143,18 +1143,22 @@ function confirmarCadastroImovel() {
         $('#btnCadastrar').click(function () {
             if ($("#form").valid()) {
                 if ($("#hdnCEP").val() != "") {
-
-                    carregaDadosModalImovel($("#textoConfirmacao"));
-                    $('#modalConfirmar').modal({
-                        closable: true,
-                        transition: "fade up",
-                        onDeny: function () {
-                            return true;
-                        },
-                        onApprove: function () {
-                            $("#form").submit();
-                        }
-                    }).modal('show');
+                    if ($("#itensBairro").val() != "" && $("#txtNumero").val() != "") {
+                        carregaDadosModalImovel($("#textoConfirmacao"));
+                        $('#modalConfirmar').modal({
+                            closable: true,
+                            transition: "fade up",
+                            onDeny: function () {
+                                return true;
+                            },
+                            onApprove: function () {
+                                $("#form").submit();
+                            }
+                        }).modal('show');
+                    } else {
+                        $("#msgCEP").html(criarAlerta("red", "<i class=\"red warning sign icon\"></i> \n\
+                       Informe o bairro e o número do endereço"));
+                    }
                 } else {
                     $("#msgCEP").html(criarAlerta("red", "<i class=\"red warning sign icon\"></i> \n\
                    Primeiro fa&ccedil;a a busca do CEP"));

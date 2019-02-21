@@ -44,7 +44,7 @@ class RespostaMensagem{
         $respostaMensagem = new RespostaMensagem();
         $respostaMensagem->setIdMensagem($_SESSION["mensagem"][$parametros["hdnMensagem"]]);
         $respostaMensagem->setResposta($parametros["txtResposta"]);
-        $respostaMensagem->setDatahora(date('d/m/Y H:i:s'));
+        $respostaMensagem->setDatahora(date("Y/m/d H:i:s"));
         return $respostaMensagem;
     }
 

@@ -130,7 +130,7 @@ class Mensagem {
         $mensagem->setMensagem($parametros['txtMsgDuvida']);
         $mensagem->setProposta($parametros['txtProposta']);
         $mensagem->setStatus("NOVA");
-        $mensagem->setDatahora(date('d/m/Y H:i:s'));
+        $mensagem->setDatahora(date("Y/m/d H:i:s"));
         $mensagem->setIdanuncio($parametros['hdnAnuncio']);
         $mensagem->setIdusuario($parametros['hdnUsuario']);
 
