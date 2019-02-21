@@ -1,4 +1,3 @@
-
 self.addEventListener('install', function(event) {
     console.log('[Service Worker] Installing Service Worker ...', event);
     event.waitUntil(
@@ -24,10 +23,14 @@ self.addEventListener('fetch', function(event) {
             .then(function(response) {
                 if (response) {
                     return response;
-                } else {
-                    return fetch(event.request);
+                }
+                else {
+                    if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') return;
+                    //console.log(event.request);
+                    return fetch(event.request).then(res =>{
+                        return res.clone();
+                    }).catch(err=>console.error(event.request.url));
                 }
             })
     );
 });
-
