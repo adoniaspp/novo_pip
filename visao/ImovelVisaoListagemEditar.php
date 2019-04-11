@@ -5,20 +5,18 @@
 <script src="assets/libs/jquery/jquery.mask.min.js"></script>
 <script src="assets/js/util.validate.js"></script>
 <script src="assets/libs/jquery/jquery.price_format.min.js"></script>
-<link rel="stylesheet" type="text/css" href="assets/libs/datatables/css/jquery.dataTables.min.css">
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="assets/libs/datatables/js/jquery.dataTables.min.js"></script>
 <script src="assets/libs/datatables/js/dataTables.semanticui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
 
 <!-- os dois scripts abaixo realizam a formatação de data para ordenação-->
 <script src="assets/libs/datatables/js/moment.min.js"></script>
 <script src="assets/libs/datatables/js/datetime-moment.js"></script>
 
 
-<?php 
-
-var_dump($this->getItem());
-
-?>
 
 <div class="ui middle aligned stackable grid container">
     <div class="row">
@@ -61,7 +59,7 @@ var_dump($this->getItem());
                     Sessao::gerarToken();
                     foreach ($this->getItem() as $imovel) {                        
                         for($x=0; $x<=1; $x++){
-                            echo $x;
+
                         }                                                       
                         ?>
                         <tr>        
