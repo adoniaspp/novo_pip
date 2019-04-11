@@ -40,6 +40,8 @@ function timeoutSessao() {
 
 function menuCabecalhoMobile(url, imgURL, sessao, nomeUsuarioSessao, PIPURL) {
     $(document).ready(function () {
+        $('.ui.accordion')
+            .accordion();
         var deviceAgent = navigator.userAgent.toLowerCase();
         var agentID = deviceAgent.match(/(iphone|ipod|ipad|android|blackberry)/);
         if (!agentID) {

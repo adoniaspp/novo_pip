@@ -671,7 +671,7 @@ $totalAnuncios = $totalAnuncios + $pendenteAprova;
 <div class="ui middle aligned stackable grid container">
     <div class="row">
         <h2 class="ui header">
-            <i class="announcement icon"></i>
+            <i class="dd"></i>
             <div class="content">
                 Meus Anúncios
                 <div class="sub header">Gerencie seus anúncios. Você pode cadastrar, visualizar, finalizar ou reativar anúncios, além de ler suas mensagens </div>

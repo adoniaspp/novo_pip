@@ -7,7 +7,7 @@
 <meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
 <?php echo $this->getTag_cabecalho(); ?>
 <script src=<?php echo PIPURL; ?>assets/js/bundle.js></script>
-<link href=<?php echo PIPURL; ?>assets/css/bundle.css rel=stylesheet type=text/css />
+<link href=<?php echo PIPURL; ?>assets/css/bundle.css rel="stylesheet" type="text/css" >
 <link rel="shortcut icon" href=<?php echo PIPURL; ?>assets/imagens/tituloCasaAzulChanfle.jpg type="image/x-icon"/>
     <link rel="manifest" href="/manifest.json">
     <script src=<?php echo PIPURL; ?>assets/js/cabecalho.js></script>
@@ -18,8 +18,13 @@
 <script>$(document).ready(function(){logout()});</script>
 <?php } ?>
 
+<?php
+//$item = $this->getItem();
 
-    <div class="ui sidebar left vertical sidebar menu">
+?>
+
+<div class="ui sidebar left vertical sidebar menu">
+<?php if (!Sessao::verificarSessaoUsuario()) { ?>
         <a class="ui active one column stackable center aligned container item" href="<?php echo PIPURL; ?>index.php">
             <div class="column twelve wide">
                 <i class="red map marker alternate icon"></i>
@@ -39,45 +44,198 @@
                 <span class="ui blue header">Cadastre-se</span>
             </div>
         </a>
-        <div class="ui vertical accordion menu">
-            <div class="item">
-                <a class="active title">
-                    <i class="dropdown icon"></i>
-                    Size
-                </a>
-                <div class="active content">
-                    <div class="ui form">
-                        <div class="grouped fields">
-                            <div class="field">
-                                <div class="ui radio checkbox">
-                                    <input type="radio" name="size" value="small">
-                                    <label>Small</label>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <div class="ui radio checkbox">
-                                    <input type="radio" name="size" value="medium">
-                                    <label>Medium</label>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <div class="ui radio checkbox">
-                                    <input type="radio" name="size" value="large">
-                                    <label>Large</label>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <div class="ui radio checkbox">
-                                    <input type="radio" name="size" value="x-large">
-                                    <label>X-Large</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <?php } else { ?>
+    <a class="ui active one column stackable center aligned container item" href="<?php echo PIPURL; ?>index.php">
+        <div class="column twelve wide">
+            <i class="red map marker alternate icon"></i>
+            <span class="ui blue header">Meu PIP</span>
+        </div>
+    </a>
+        <div class="ui vertical accordion item">
+        <a class="title">
+            <i class="dropdown icon"></i>
+            <i class="user icon"></i>
+            <span class="ui blue header">Meus Dados</span>
+        </a>
+        <div class="content">
+            <div class="ui vertical item">
             </div>
+            <a class="ui one column stackable center aligned item" href="index.php?entidade=Usuario&acao=selecionar">
+                <div class="column twelve wide">
+                    <i class="edit icon"></i>
+                    <span class="ui blue header">Atualizar Cadastro</span>
+                </div>
+            </a>
+            <a class="ui one column stackable center aligned item" href="index.php?entidade=Usuario&acao=form&tipo=trocarsenha">
+                <div class="column twelve wide">
+                    <i class="lock icon"></i>
+                    <span class="ui blue header">Trocar Senha</span>
+                </div>
+            </a>
+            <a class="ui one column stackable center aligned item" href="index.php?entidade=Usuario&acao=form&tipo=trocarimagem">
+                <div class="column twelve wide">
+                    <i class="file image outline icon"></i>
+                    <span class="ui blue header">Alterar Foto</span>
+                </div>
+            </a>
+            <a class="ui one column stackable center aligned item" href="index.php?entidade=Usuario&acao=Configuracoes">
+                <div class="column twelve wide">
+                    <i class="configure icon"></i>
+                    <span class="ui blue header">Configurações</span>
+                </div>
+            </a>
+            <a class="ui one column stackable center aligned item" href="index.php?entidade=Anuncio&acao=buscarAnuncioCorretor&login=<?php echo $_SESSION["login"] ?>" class="item">
+                <div class="column twelve wide">
+                    <i class="newspaper icon"></i>
+                    <span class="ui blue header">Vizualizar Minha Página</span>
+                </div>
+            </a>
         </div>
     </div>
+    <div class="ui vertical accordion item">
+        <a class="title">
+            <i class="dropdown icon"></i>
+            <i class="home icon"></i>
+            <span class="ui blue header">Meus Imóveis</span>
+        </a>
+        <div class="content">
+            <div class="ui vertical item">
+            </div>
+            <a class="ui one column stackable center aligned item" href="index.php?entidade=Imovel&acao=form">
+                <div class="column twelve wide">
+                    <i class="add icon"></i>
+                    <span class="ui blue header">Cadastrar Imóvel</span>
+                </div>
+            </a>
+                    <a class="ui one column stackable center aligned item" href="index.php?entidade=Imovel&acao=listarEditar">
+                        <div class="column twelve wide">
+                            <i class="edit icon"></i>
+                            <span class="ui blue header">Alterar Imóvel</span>
+                        </div>
+                    </a>
+                    <a class="ui one column stackable center aligned item" href="index.php?entidade=Imovel&acao=listar" id="listarImoveis">
+                        <div class="column twelve wide">
+                            <i class="list icon"></i>
+                            <span class="ui blue header">Meus Imóveis</span>
+                        </div>
+                    </a>
+
+        </div>
+    </div>
+
+    <div class="ui vertical accordion item">
+        <a class="title">
+            <i class="dropdown icon"></i>
+            <i class="announcement icon"></i>
+            <span class="ui blue header">Meus Anúncios</span>
+        </a>
+        <div class="content">
+            <div class="ui vertical item">
+            </div>
+            <a class="ui one column stackable center aligned item" href="index.php?entidade=Anuncio&acao=listarCadastrar">
+                <div class="column twelve wide">
+                    <i class="add icon"></i>
+                    <span class="ui blue header">Publicar Anúncio</span>
+                </div>
+            </a>
+            <a class="ui one column stackable center aligned item" href="index.php?entidade=Anuncio&acao=listarReativarAluguel">
+                <div class="column twelve wide">
+                    <i class="refresh icon"></i>
+                    <span class="ui blue header">Reativar Anúncios (aluguel)</span>
+                </div>
+            </a>
+            <a class="ui one column stackable center aligned item" href="index.php?entidade=Anuncio&acao=listarAtivo" id="listarImoveis">
+                <div class="column twelve wide">
+                    <i class="list icon"></i>
+                    <span class="ui blue header">Anúncios Ativos</span>
+                </div>
+            </a>
+            <a class="ui one column stackable center aligned item" href="index.php?entidade=AnuncioAprovacao&acao=listarPendente" id="listarImoveis">
+                <div class="column twelve wide">
+                    <i class="warning icon"></i>
+                    <span class="ui blue header">Pendentes de Aprovação</span>
+                </div>
+            </a>
+            <a class="ui one column stackable center aligned item" href="index.php?entidade=Anuncio&acao=listarFinalizado" id="listarImoveis">
+                <div class="column twelve wide">
+                    <i class="thumbs outline up icon"></i>
+                    <span class="ui blue header">Anúncios Não Ativos</span>
+                </div>
+            </a>
+            <a class="ui one column stackable center aligned item" href="index.php?entidade=Usuario&acao=listarMensagem" id="listarImoveis">
+                <div class="column twelve wide">
+                    <i class="mail outline icon"></i>
+                    <span class="ui blue header">Mensagens</span>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+    <div class="ui vertical accordion item">
+        <a class="title">
+            <i class="dropdown icon"></i>
+            <i class="shop icon"></i>
+            <span class="ui blue header">Meus Planos</span>
+        </a>
+        <div class="content">
+            <div class="ui vertical item">
+            </div>
+            <a class="ui one column stackable center aligned item" href="index.php?entidade=UsuarioPlano&acao=listar">
+                <div class="column twelve wide">
+                    <i class="add icon"></i>
+                    <span class="ui blue header">Comprar</span>
+                </div>
+            </a>
+
+
+        </div>
+    </div>
+
+    <div class="ui vertical accordion item">
+        <a class="title">
+            <i class="dropdown icon"></i>
+            <i class="info circle icon"></i>
+            <span class="ui blue header">Central de Ajuda</span>
+        </a>
+        <div class="content">
+            <div class="ui vertical item">
+            </div>
+            <a class="ui one column stackable center aligned item" href="index.php?entidade=Usuario&acao=AbrirChamado">
+                <div class="column twelve wide">
+                    <i class="comment outline icon"></i>
+                    <span class="ui blue header">Fale Com o PIP Online</span>
+                </div>
+            </a>
+            <a class="ui one column stackable center aligned item" href="index.php?entidade=Institucional&acao=duvidasFrequentes">
+                <div class="column twelve wide">
+                    <i class="book icon"></i>
+                    <span class="ui blue header">Dúvidas Mais Frequentes</span>
+                </div>
+            </a>
+
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="ui vertical item">
+    </div>
+    <br>
+    <div class="ui centered column stackable grid">
+            <a class="title" id='btnLogout' href=# >
+                <i class="power red icon"></i>
+                <span class="ui blue header">Sair</span>
+            </a>
+    </div>
+
+<?php } ?>
+
+</div>
 
 <div class="pusher">
 <div class="ui top fixed huge menu" style="background-color: #f2f0f3">
@@ -85,38 +243,6 @@
     <div class="left menu" id="divMenuCabecalhoEsquerda">
     </div>
         <div class="right menu" id="divMenuCabecalhoDireita">
-            <?php if (Sessao::verificarSessaoUsuario()) { ?>
-            <!--<div class="ui one column stackable right aligned grid">
-                    <div class="middle aligned row">
-                        <div class="column">
-                            <h4 class="ui blue header">
-                                Seja Bem Vindo!
-                                <?php echo ucfirst(strtolower(explode(" ", $_SESSION['nome'])[0])); ?></span>
-                            </h4>
-                        </div>
-                        <div class="column">
-                            <div class="ui buttons">
-                                <a class="ui primary button" href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=meuPIP"><i class="icon home"></i>Acessar Meu PIP</a>
-                                <div class="or" data-text="ou"></div>
-                                <a class="ui button" id="btnLogout" href=# ><i class="power red icon"></i>Sair</a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>-->
-            <?php } else { ?>
-            <!--<div class="ui one column stackable center aligned grid">
-                <div class="middle aligned row">
-                    <div class="column">
-                        <div class="ui buttons">
-                            <a class="ui primary button" href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=form&tipo=login"><i class="icon lock"></i>Entrar</a>
-                            <div class="or" data-text="ou"></div>
-                            <a class="ui olive button" href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=form&tipo=cadastro"><i class="icon edit"></i>Cadastre-se</a>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
-            <?php } ?>
         </div>
         </div>
     </div>

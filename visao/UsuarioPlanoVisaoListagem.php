@@ -47,17 +47,7 @@ Sessao::gerarToken();
                             <th width="15%">Preço (R$)</th>
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr class="active">
-                            <td colspan="3"><h4 class="ui header aligned right">Total:</h4></td>
-                            <td><input readonly class="ui input" id="txtTotalQtd" name="txtTotalQtd"/></td>
-                            <td><input readonly class="ui input" id="txtTotalPreco" name="txtTotalPreco" /></td>
-                        </tr>
-                        <tr class="">
-                            <td colspan="4"><h4 class="ui header aligned right"></h4></td>
-                            <td> <button class="ui orange button" id="btnComprar"><i class="shop icon"></i> Comprar!</button></td>
-                        </tr>
-                    </tfoot>                    
+
                     <tbody>                       
                         <?php
                         $item = $this->getItem();
@@ -75,6 +65,17 @@ Sessao::gerarToken();
                         }
                         ?>  
                     </tbody>
+                    <tfoot>
+                    <tr class="active">
+                        <td colspan="3"><h4 class="ui header aligned right">Total:</h4></td>
+                        <td><input readonly class="ui input" id="txtTotalQtd" name="txtTotalQtd"/></td>
+                        <td><input readonly class="ui input" id="txtTotalPreco" name="txtTotalPreco" /></td>
+                    </tr>
+                    <tr class="">
+                        <td colspan="4"><h4 class="ui header aligned right"></h4></td>
+                        <td> <button class="ui orange button" id="btnComprar"><i class="shop icon"></i> Comprar!</button></td>
+                    </tr>
+                    </tfoot>
                 </table> 
         </div>
     </div>
