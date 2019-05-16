@@ -1366,6 +1366,19 @@ function formatarValorUnico(valor) {
     })
 }
 
+function formatarValorForm() {
+    $(document).ready(function () {
+        $("#txtProposta").priceFormat({
+            prefix: 'R$ ',
+            centsSeparator: ',',
+            centsLimit: 0,
+            limit: 8,
+            thousandsSeparator: '.'
+        })
+
+    })
+}
+
 function exibirEmailPDFListaAnuncio() {
 
     $(document).ready(function () {

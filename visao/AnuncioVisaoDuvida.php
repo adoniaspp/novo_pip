@@ -7,7 +7,25 @@
 <script>
 cancelar("", "");
 enviarDuvidaAnuncio();
+formatarValorForm();
 </script>
+
+<?php 
+
+$item = $this->getItem();
+$leitura = false;
+
+foreach ($item as $anuncio) {
+    $finalidade = $anuncio->getFinalidade();   
+    $idAnuncio = $anuncio->getId();   
+}
+
+if(isset($_SESSION)){    
+    $idUsuario = $_SESSION['idusuario'];  
+    $leitura = true;
+}
+
+?>
 
 <div class="ui column doubling grid container">
     <div class="column">
@@ -18,27 +36,30 @@ enviarDuvidaAnuncio();
         <form class="ui form" id="formDuvidaAnuncio" action="index.php" method="post">
             <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio"  />
             <input type="hidden" id="hdnAcao" name="hdnAcao" value="enviarDuvidaAnuncio" />
-            <input type="hidden" id="hdnUsuario" name="hdnUsuario" value="<?php echo $item['anuncio'][0]['id'] ?>" />
-            <input type="hidden" id="hdnAnuncio" name="hdnAnuncio" value="<?php echo $item['anuncio'][0]['idanuncio'] ?>" />
+            <input type="hidden" id="hdnUsuario" name="hdnUsuario" value="<?php echo $idUsuario ?>" />
+            <input type="hidden" id="hdnAnuncio" name="hdnAnuncio" value="<?php echo $idAnuncio ?>" />
 
             <div class="field">
                 <label>Seu Nome</label>
-                <input name="txtNomeDuvida" id="txtNomeDuvida" placeholder="Digite seu Nome" type="text" maxlength="50">
+                <input name="txtNomeDuvida" id="txtNomeDuvida" placeholder="Digite seu Nome" type="text" maxlength="50" readonly="<?php echo $leitura ?>" value="<?php if ($leitura){ echo $_SESSION['nome'];}?>">
             </div>
-            <div class="field">
+            
+            
+            <div class="field" <?php if($leitura) { echo "style='display: none'";} ?>>
                 <label>E-mail para contato</label>
                 <input name="txtEmailDuvida"  id="txtEmailDuvida" placeholder="Digite seu email" type="text" maxlength="50">
             </div>
+            
             <div class="field">
                 <label>Proposta de <?php
-                    if ($item['anuncio'][0]['finalidade'] == "Venda") {
+                    if ($finalidade == "Venda") {
                         echo "Compra";
                     } else
                         echo "aluguel"
                     ?> R$ (Digite o valor se quiser fazer uma proposta ao vendedor)</label>
                 <input type="hidden" value="<?php echo $item['anuncio'][0]['finalidade'] ?>" id="hdnFinalidade" name="hdnFinalidade">
-                <div class="three wide field" id="divProposta">
-                    <input name="txtProposta" id="txtProposta" type="text" maxlength="12" size="12">
+                <div class="three wide field">
+                    <input name="txtProposta" id="txtProposta" type="text" placeholder="Valor da proposta">
                 </div>
             </div>
 

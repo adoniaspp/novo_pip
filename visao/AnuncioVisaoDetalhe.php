@@ -201,7 +201,7 @@ if (($expirado === "SIM" ||
             <div class="sixteen column">
                 <div class="ui warning message">
                     <i class='big yellow warning circle icon'></i>
-                    <strong>ATENÇÃO</strong>: Este anuncio ainda está pendente de ativação, não podendo ainda ser visualizado por outros usuários
+                    <strong>ATENÇÃO</strong>: Este anúncio ainda está pendente de ativação, não podendo ainda ser visualizado por outros usuários
                 </div>
             </div>
         </div>
@@ -216,7 +216,7 @@ if (($expirado === "SIM" ||
         <div class="sixteen column">
             <div class="ui negative message">
                 <i class='big red times circle outline icon'></i>
-                <strong>ATENÇÃO</strong>: Este seu anuncio não está ativo, não podendo ser visualizado por outros usuários
+                <strong>ATENÇÃO</strong>: Este seu anúncio não está ativo, não podendo ser visualizado por outros usuários
             </div>
         </div>
     </div>                                              
@@ -1083,12 +1083,12 @@ switch ($item['anuncio'][0]['tipo']) {
                                 </div>
                                 <?php
                             }
-                            ?>
+                            ?>   <?php echo $item['anuncio'][0]['idanuncio']?>
                         </div>
                     <?php } ?>
 
                     <div class="ui segment center aligned ">
-                        <a href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=form&tipo=duvidaAnuncio" type="button" class="ui primary button">
+                        <a href="<?php echo PIPURL; ?>index.php?entidade=Usuario&acao=form&tipo=duvidaAnuncio&idAnuncio=<?php echo $item['anuncio'][0]['idanuncio']?>" type="button" class="ui primary button">
                             Enviar Mensagem/Proposta
                             <i class="right mail outline icon"></i>
                         </a>

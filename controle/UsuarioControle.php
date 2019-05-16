@@ -46,6 +46,7 @@ class UsuarioControle {
     use Log;
 
     function form($parametros) {
+
         $visao = new Template();
         switch ($parametros['tipo']) {
             case "cadastro":
@@ -81,6 +82,12 @@ class UsuarioControle {
                 break;
             
             case "duvidaAnuncio":
+                
+                $genericoDAO = new GenericoDAO();                
+                
+                $anuncio = $genericoDAO->consultar(new Anuncio(), false, array("id" => $parametros["idAnuncio"]));
+                
+                $visao->setItem($anuncio);
                 $visao->exibir('AnuncioVisaoDuvida.php');
                 break;
 
