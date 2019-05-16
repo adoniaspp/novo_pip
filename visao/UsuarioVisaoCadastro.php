@@ -14,6 +14,7 @@
     cancelar("", ""); //caso estejam os dois parametros vazios, redirecionar para o index
     confirmar();
     telefone();
+    testMobile();
 </script>
 <?php
 Sessao::gerarToken();

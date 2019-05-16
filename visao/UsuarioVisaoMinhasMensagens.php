@@ -87,7 +87,7 @@ if ($totalMensagem < 1 && !is_array($item)) {
                     </ul>
                 </div>
 
-                <div class="row">
+                <div class="row" id="btnCancelar">
                     <a href="index.php?entidade=Usuario&acao=meuPIP">
                         <button class="ui orange button">Voltar</button>
                     </a>

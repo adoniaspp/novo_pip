@@ -67,7 +67,7 @@ if ($totalAnunciosFinalizados < 1 && $totalAnunciosExpirados < 1) {
                         Você não possui anúncios do tipo aluguel expirados. Clique em voltar para retornar ao MEUPIP
                     </ul>
                 </div>
-                <div class="row">
+                <div class="row" id="btnCancelar">
                     <a href="index.php?entidade=Usuario&acao=meuPIP">
                         <button class="ui orange button">Voltar</button>
                     </a>

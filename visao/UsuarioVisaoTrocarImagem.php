@@ -105,7 +105,7 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
                     <a class="ui circular inverted disabled icon button" id="btnAlterarImagem" ><i class='big blue edit icon'></i></a>Alterar Imagem
                 </div>
                 
-                <div class="ui segment center aligned ">
+                <div class="ui segment center aligned " id="btnCancelarUsuarioTrocarImagem">
                     <a class="ui circular inverted icon button" id="btnCancelar"><i class='big orange remove icon'></i></a>Cancelar
                 </div>
                 

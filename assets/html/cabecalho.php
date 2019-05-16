@@ -113,12 +113,12 @@
                             <span class="ui blue header">Alterar Imóvel</span>
                         </div>
                     </a>
-                    <a class="ui one column stackable center aligned item" href="index.php?entidade=Imovel&acao=listar" id="listarImoveis">
+                    <!--<a class="ui one column stackable center aligned item" href="index.php?entidade=Imovel&acao=listar" id="listarImoveis">
                         <div class="column twelve wide">
                             <i class="list icon"></i>
                             <span class="ui blue header">Meus Imóveis</span>
                         </div>
-                    </a>
+                    </a>-->
 
         </div>
     </div>
@@ -150,18 +150,18 @@
                     <span class="ui blue header">Anúncios Ativos</span>
                 </div>
             </a>
-            <a class="ui one column stackable center aligned item" href="index.php?entidade=AnuncioAprovacao&acao=listarPendente" id="listarImoveis">
+            <!--<a class="ui one column stackable center aligned item" href="index.php?entidade=AnuncioAprovacao&acao=listarPendente" id="listarImoveis">
                 <div class="column twelve wide">
                     <i class="warning icon"></i>
                     <span class="ui blue header">Pendentes de Aprovação</span>
                 </div>
-            </a>
-            <a class="ui one column stackable center aligned item" href="index.php?entidade=Anuncio&acao=listarFinalizado" id="listarImoveis">
+            </a>-->
+            <!--<a class="ui one column stackable center aligned item" href="index.php?entidade=Anuncio&acao=listarFinalizado" id="listarImoveis">
                 <div class="column twelve wide">
                     <i class="thumbs outline up icon"></i>
                     <span class="ui blue header">Anúncios Não Ativos</span>
                 </div>
-            </a>
+            </a>-->
             <a class="ui one column stackable center aligned item" href="index.php?entidade=Usuario&acao=listarMensagem" id="listarImoveis">
                 <div class="column twelve wide">
                     <i class="mail outline icon"></i>

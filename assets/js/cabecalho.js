@@ -1,24 +1,3 @@
-function logout() {
-    $(document).ready(function () {
-        $("#btnLogout").click(function () {
-            $.ajax({
-                url: "index.php",
-                dataType: "json",
-                type: "POST",
-                data: {
-                    hdnEntidade: "Usuario",
-                    hdnAcao: "logout"
-                },
-                success: function (resposta) {
-                    if (resposta.resultado == 1) {
-                        location.href = 'index.php';
-                    }
-                }
-            })
-        })
-    })
-}
-
 function timeoutSessao() {
     $.timeoutDialog({
         timeout: 540,//9MINUTOS
@@ -42,8 +21,9 @@ function menuCabecalhoMobile(url, imgURL, sessao, nomeUsuarioSessao, PIPURL) {
     $(document).ready(function () {
         $('.ui.accordion')
             .accordion();
-        var deviceAgent = navigator.userAgent.toLowerCase();
-        var agentID = deviceAgent.match(/(iphone|ipod|ipad|android|blackberry)/);
+        //var deviceAgent = navigator.userAgent.toLowerCase();
+        //var agentID = deviceAgent.match(/(iphone|ipod|ipad|android|blackberry)/);
+        var agentID = testMobile();
         if (!agentID) {
             $("#divMenuCabecalhoEsquerda").html("<div class='ui one column stackable center aligned grid'>\n" +
                 "            <div class='middle aligned row'>\n" +
