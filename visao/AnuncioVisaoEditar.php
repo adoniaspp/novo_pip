@@ -67,7 +67,7 @@ $valorAnuncio = (isset($item["novovalor"][0])) ? $item["novovalor"][0]->getNovov
     mudouPlano(<?php echo $item["usuarioPlano"][0]->getId(); ?>);
 </script>
 
-<div class="ui column doubling grid container">
+<div class="ui column doubling grid container" id="breadcrumb">
     <div class="column">
         <div class="ui large breadcrumb">
             <div class="ui large breadcrumb">

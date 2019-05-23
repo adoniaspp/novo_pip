@@ -12,7 +12,7 @@
 $item = $this->getItem();
 ?>     
 <div class="ui middle aligned stackable grid container">
-    <div class="row">
+    <div class="row" id="breadcrumb">
         <div class="column">
             <div class="ui large breadcrumb">
                 <a class="section" href="index.php">Início</a>

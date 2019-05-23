@@ -17,7 +17,7 @@ $enderecoImagem = PIPURL . "/fotos/usuarios/" . $this->getItem()->getFoto();
 ?>
 
 <div class="ui middle aligned stackable grid container">
-    <div class="row">
+    <div class="row" id="breadcrumb">
         <div class="column">
             <div class="ui large breadcrumb">
                 <div class="ui large breadcrumb">
