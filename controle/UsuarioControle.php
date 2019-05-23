@@ -82,11 +82,8 @@ class UsuarioControle {
                 break;
             
             case "duvidaAnuncio":
-                
-                $genericoDAO = new GenericoDAO();                
-                
+                $genericoDAO = new GenericoDAO();
                 $anuncio = $genericoDAO->consultar(new Anuncio(), false, array("id" => $parametros["idAnuncio"]));
-                
                 $visao->setItem($anuncio);
                 $visao->exibir('AnuncioVisaoDuvida.php');
                 break;
@@ -862,13 +859,12 @@ class UsuarioControle {
         $selecionarUsuario = $genericoDAO->consultar(new Usuario, false, array("id" => $_SESSION["idusuario"]));
         $usuario = $selecionarUsuario[0];
         //excluir foto antiga se houver
+        $deletar = true;
         if ($usuario->getFoto() != "") {
             $fotoAntiga = PIPROOT . '/fotos/usuarios/' . $usuario->getFoto();
             if (is_file($fotoAntiga)) {
                 $deletar = unlink($fotoAntiga);
             }
-        } else {
-            $deletar = true;
         }
         $usuario->setFoto("");
         //se nao for exclusao de foto
@@ -884,7 +880,8 @@ class UsuarioControle {
             }
         }
         $resultado = $genericoDAO->editar($usuario);
-        if ($deletar & $resultado) {
+
+        if ($deletar && $resultado) {
             $genericoDAO->commit();
             $genericoDAO->fecharConexao();
             $_SESSION["confirmarOperacao"] = "sucesso";

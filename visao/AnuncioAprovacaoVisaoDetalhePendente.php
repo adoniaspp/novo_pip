@@ -56,7 +56,6 @@ if ($item["mapaImovel"]) {
         }
     })
 
-    enviarDuvidaAnuncio();
     formatarDetalhe();
 
 <?php if ($item['anuncio']->getPublicarmapa() == "SIM") { ?>

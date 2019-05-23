@@ -1693,6 +1693,9 @@ class AnuncioControle {
         $mensagem = new Mensagem();
 
         $entidadeMensagem = $mensagem->cadastrar($parametros);
+        if(isset($_SESSION["idusuario"])) {
+            $entidadeMensagem->setIdusuario($_SESSION["idusuario"]);
+        }
 
         $resultadoMensagem = $genericoDAO->cadastrar($entidadeMensagem);
 
