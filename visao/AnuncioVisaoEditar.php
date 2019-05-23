@@ -102,7 +102,17 @@ $valorAnuncio = (isset($item["novovalor"][0])) ? $item["novovalor"][0]->getNovov
         </div>
     <?php } ?>
     <div class="row">
-        <div class="ui fluid small ordered steps">
+        <div class="ui fluid steps" id='stepAnuncioMobile' style="display: none">
+            <div class="step">
+                <div class="content">
+                    <h1 class="ui center aligned header">
+                        <span id='numberStep'>1/5</span>
+                        <div class="sub header" id="labelStep">Plano</div>
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div class="ui fluid small ordered steps" id="stepAnuncio">
             <?php if ($tipoImovel == "apartamentoplanta") { ?>
                 <div id="menuStep1" class="active step">
                     <div class="content">
@@ -201,6 +211,7 @@ $valorAnuncio = (isset($item["novovalor"][0])) ? $item["novovalor"][0]->getNovov
     <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Anuncio" />
     <input type="hidden" id="hdnAcao" name="hdnAcao" value="<?php echo $reativarAnuncioPlano?"Reativar":"Editar"; ?>" />
     <input type="hidden" id="hdnStep" name="hdnStep" value="1" />
+    <input type="hidden" id="hdnStepMenu" name="hdnStepMenu" value="1" />
     <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />
 
     <div class="ui middle aligned stackable grid container">

@@ -812,12 +812,20 @@ function trocarSenha() { //alterar a senha esquecida
                         if (resposta.resultado == 0) {
                             $("#divCamposTrocaSenha").hide();
                             $("#divBotoesTrocarSenha").hide();
-                            location.href = "index.php?entidade=Usuario&acao=MeuPIP";
+                            if(testMobile()){
+                                location.href = "index.php";
+                            }else{
+                                location.href = "index.php?entidade=Usuario&acao=MeuPIP";
+                            }
 
                         } else if (resposta.resultado == 1) {
                             $("#divCamposTrocaSenha").hide();
                             $("#divBotoesTrocarSenha").hide();
-                            location.href = "index.php?entidade=Usuario&acao=MeuPIP";
+                            if(testMobile()){
+                                location.href = "index.php";
+                            }else{
+                                location.href = "index.php?entidade=Usuario&acao=MeuPIP";
+                            }
 
                         } else if (resposta.resultado == 2) {
                             $("#divRetorno").html("<div class='ui negative message'>\n\
@@ -825,7 +833,11 @@ function trocarSenha() { //alterar a senha esquecida
                             </i>A senha atual está incorreta. Tente novamente.");
 
                         } else if (resposta.resultado == 3) { //erro de token
-                            location.href = "index.php?entidade=Usuario&acao=MeuPIP";
+                            if(testMobile()){
+                                location.href = "index.php";
+                            }else{
+                                location.href = "index.php?entidade=Usuario&acao=MeuPIP";
+                            }
                             $("#divRetorno").html('<div class="ui inverted red center aligned segment">\n\
     <p>Erro ao processar requisição - 005</p>');
                         }
