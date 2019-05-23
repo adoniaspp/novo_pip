@@ -20,7 +20,7 @@ function testMobile(){
     var agentID = deviceAgent.match(/(iphone|ipod|ipad|android|blackberry)/);
     if (!agentID) {
         $('select').dropdown();
-        $('.ui.dropdown').addClass('fluid');dd
+        $('.ui.dropdown').addClass('fluid');
     }else{
         $('#breadcrumb').remove();
         $('#btnCancelar').remove();

@@ -40,7 +40,7 @@ if(($_SESSION['idusuario'])){
 
             <div class="field">
                 <label>Seu Nome</label>
-                <input name="txtNomeDuvida" id="txtNomeDuvida" placeholder="Digite seu Nome" type="text" maxlength="50" readonly="<?php echo $leitura ?>" value="<?php if ($leitura){ echo $_SESSION['nome'];}?>">
+                <input name="txtNomeDuvida" id="txtNomeDuvida" placeholder="Digite seu Nome" type="text" maxlength="50" <?php if ($leitura == "sim" ){ echo 'readonly="readonly"';} ?> value="<?php if ($leitura){ echo $_SESSION['nome'];}?>">
             </div>
             
             
