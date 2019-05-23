@@ -13,17 +13,16 @@ formatarValorForm();
 <?php 
 
 $item = $this->getItem();
-$leitura = false;
 
 foreach ($item as $anuncio) {
     $finalidade = $anuncio->getFinalidade();   
     $idAnuncio = $anuncio->getId();   
 }
 
-if(isset($_SESSION)){    
+if(($_SESSION['idusuario'])){    
     $idUsuario = $_SESSION['idusuario'];  
-    $leitura = true;
-}
+    $leitura = "sim";
+} else $leitura = "nao";
 
 ?>
 
@@ -45,7 +44,7 @@ if(isset($_SESSION)){
             </div>
             
             
-            <div class="field" <?php if($leitura) { echo "style='display: none'";} ?>>
+            <div class="field" <?php if($leitura == "sim") { echo "style='display: none'";} ?>>
                 <label>E-mail para contato</label>
                 <input name="txtEmailDuvida"  id="txtEmailDuvida" placeholder="Digite seu email" type="text" maxlength="50">
             </div>

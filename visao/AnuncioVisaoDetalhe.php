@@ -1083,7 +1083,7 @@ switch ($item['anuncio'][0]['tipo']) {
                                 </div>
                                 <?php
                             }
-                            ?>   <?php echo $item['anuncio'][0]['idanuncio']?>
+                            ?>   
                         </div>
                     <?php } ?>
 
