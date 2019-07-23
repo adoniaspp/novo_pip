@@ -46,7 +46,6 @@ Sessao::gerarToken();
 </div>
 
 
-
 <div class="ui middle aligned stackable grid container">
     <div class="column">
         <form id="form" class="ui form" action="index.php" method="post" enctype="multipart/form-data">
@@ -58,15 +57,11 @@ Sessao::gerarToken();
             <div class="fields">
                 <div class="four wide required field">
                     <label>Tipo de Pessoa</label>
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="sltTipoUsuario" id="sltTipoUsuario">
-                        <div class="default text">Física ou Jurídica</div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <div class="item" data-value="pf">Pessoa Física</div>
-                            <div class="item" data-value="pj">Pessoa Jurídica</div>
-                        </div>
-                    </div>
+                    <select name="sltTipoUsuario" id="sltTipoUsuario">
+                        <option value="" disabled>Física ou Jurídica</option>
+                        <option value="pf">Pessoa Física</option>
+                        <option value="pj">Pessoa Jurídica</option>
+                    </select>
                 </div>
                 <div class="twelve wide required field">
                     <label>E-mail</label>
@@ -187,11 +182,11 @@ Sessao::gerarToken();
                 </div>-->
                 <div class="four wide required field">
                     <label>Operadora</label>
-                    <div class="ui selection dropdown">
-                            <input type="hidden" name="sltOperadora" id="sltOperadora">
+                    <!--<div class="ui selection dropdown">
+                            <input type="hidden">
                             <div class="default text">Operadora</div>
-                            <i class="dropdown icon"></i>
-                            <select>
+                            <i class="dropdown icon"></i>-->
+                            <select name="sltOperadora" id="sltOperadora">
                                 <option value="Oi">Oi</option>
                                 <option value="Tim">Tim</option>
                                 <option value="Vivo">Vivo</option>
@@ -204,8 +199,8 @@ Sessao::gerarToken();
                                 <div class="item" data-value="Vivo">Vivo</div>
                                 <div class="item" data-value="Claro">Claro</div>
                                 <div class="item" data-value="NET">NET</div>
-                            </div>-->
-                        </div>
+                            </div>
+                        </div>-->
                 </div>
                 <div class="four wide required field">
                     <label>(DDD) Número</label>

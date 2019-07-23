@@ -63,49 +63,36 @@ Sessao::gerarToken();
             <div class="fields">
                 <div class="four wide required field">
                     <label>Tipo de Imóvel</label>
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="sltTipo" id="sltTipo">
-                        <div class="default text">Escolha o Imóvel</div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <div class="item" data-value="1">Casa</div>
-                            <div class="item" data-value="2">Apartamento na Planta</div>
-                            <div class="item" data-value="3">Apartamento</div>
-                            <div class="item" data-value="4">Sala Comercial</div>
-                            <div class="item" data-value="5">Prédio Comercial</div>
-                            <div class="item" data-value="6">Terreno</div>
-                        </div>
-                    </div>
+                        <select name="sltTipo" id="sltTipo">
+                            <option value="">Escolha o Imóvel</option>
+                            <option value="1">Casa</option>
+                            <option value="2">Apartamento na Planta</option>
+                            <option value="3">Apartamento</option>
+                            <option value="4">Sala Comercial</option>
+                            <option value="5">Prédio Comercial</option>
+                            <option value="6">Terreno</option>
+                        </select>
                 </div>
 
                 <div class="four wide required field" id="divCondicao">
                     <label>Condição</label>
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="sltCondicao" id="sltCondicao">
-                        <div class="default text">Condição</div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <div class="item" data-value="novo">Novo</div>
-                            <div class="item" data-value="usado">Usado</div>
-                        </div>
-                    </div>
+                    <select name="sltCondicao" id="sltCondicao">
+                        <option value="">Condição</option>
+                        <option value="novo">Novo</option>
+                        <option value="usado">Usado</option>
+                    </select>
                 </div>   
 
                 <div class="three wide required field" id="divNumeroPlantas">
                     <label>Número de Plantas</label>
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="sltNumeroPlantas" id="sltNumeroPlantas">
-                        <div class="default text">Número de Plantas</div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <?php
-                            for ($plantas = 1; $plantas <= 6; $plantas++) {
-                                echo "<div class='item' data-value='$plantas'>" . $plantas . "</div>";
-                            }
-                            ?>
-                        </div>
-                    </div>
-
+                    <select name="sltNumeroPlantas" id="sltNumeroPlantas">
+                        <option value="">Número de Plantas</option>
+                        <?php
+                        for ($plantas = 1; $plantas <= 6; $plantas++) {
+                            echo "<option value='$plantas'>" . $plantas . "</option>";
+                        }
+                        ?>
+                    </select>
                 </div>
 
                 <div id="divArea" class="three wide field">
@@ -147,68 +134,51 @@ Sessao::gerarToken();
 
                 <div class="two required field" id="divAndares">
                     <label>Nº de Andares do Prédio</label>
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="sltAndares" id="sltAndares">
-                        <div class="default text">Andares</div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <?php
-                            for ($andares = 1; $andares <= 40; $andares++) {
-                                echo "<div class='item' data-value='" . $andares . "'>" . $andares . "</div>";
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </div> 
-
+                    <select name="sltAndares" id="sltAndares">
+                        <option value="">Número de Andares</option>
+                        <?php
+                        for ($andares = 1; $andares <= 40; $andares++) {
+                            echo "<option value='" . $andares . "'>" . $andares . "</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
 
                 <div class="two field" id="divUnidadesAndar">
                     <label>Unidades por Andar</label>
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="sltUnidadesAndar" id="sltUnidadesAndar">
-                        <div class="default text">Número de Aptos</div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu" id="sltUnidadesAndar">
+                    <select name="sltUnidadesAndar" id="sltUnidadesAndar">
+                        <option value="">Número de Aptos</option>
                             <?php
                             for ($unidadesAndar = 1; $unidadesAndar <= 10; $unidadesAndar++) {
-                                echo "<div class='item' data-value='" . $unidadesAndar . "'>" . $unidadesAndar . "</div>";
+                                echo "<option value='" . $unidadesAndar . "'>" . $unidadesAndar . "</option>";
                             }
                             ?>
-                        </div>
-                    </div>
-                </div>                    
+                    </select>
+                </div>
 
                 <div class="two field" id="divNumeroTorres">
                     <label>Nº de Torres</label>
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="sltNumeroTorres" id="sltNumeroTorres">
-                        <div class="default text">Torres</div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu" id="sltNumeroTorres">
+                    <select name="sltNumeroTorres" id="sltNumeroTorres">
+                        <option value="">Torres</option>
                             <?php
                             for ($torres = 1; $torres <= 10; $torres++) {
-                                echo "<div class='item' data-value='" . $torres . "'>" . $torres . "</div>";
+                                echo "<option value='" . $torres . "'>" . $torres . "</option>";
                             }
                             ?>
-                        </div>
-                    </div>
-                </div>   
+                    </select>
+                </div>
 
                 <div class="two field" id="divAndar">
                     <label>Andar do Apartamento</label>
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="sltAndar" id="sltAndar">
-                        <div class="default text">Andar</div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu" id="sltAndar">
+                    <select name="sltAndar" id="sltAndar">
+                        <option value="">Andar</option>
                             <?php
                             for ($andar = 1; $andar <= 40; $andar++) {
-                                echo "<div class='item' data-value='" . $andar . "'>" . $andar . "</div>";
+                                echo "<option value='" . $andar . "'>" . $andar . "</div>";
                             }
                             ?>
-                        </div>
-                    </div>
-                </div> 
+                    </select>
+                </div>
 
                 <div class="three wide field" id="divUnidadesTotal">
                     <div class="field">
