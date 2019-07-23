@@ -17,25 +17,46 @@
     $(document).ready(function () {
 
         //função que ordena a data, de acordo com o formato
-        $.fn.dataTable.moment('DD/MM/YYYY HH:mm:ss');
-        $('#tabela').DataTable({
-        "language": {
-        "url": "assets/libs/datatables/js/Portuguese-Brasil.json",
-        },
-                "lengthMenu": [[5, 10, 25, 50, - 1], [5, 10, 25, 50, "Todos"]],
+
+        //função que ordena a data, de acordo com o formato
+        if (testMobile()) {
+            $.fn.dataTable.moment('DD/MM/YYYY HH:mm:ss');
+
+            $('#tabela').DataTable({
+                "paging":   false,
+                "info":     false,
+                "searching": false,
+                "language": {
+                    "url": "assets/libs/datatables/js/Portuguese-Brasil.json",
+                },
+                "stateSave": true,
+                "order": [[2, "desc"]],
+                "columnDefs": [
+                    {"orderable": false, "targets": 3}
+                ]
+            });
+        }else {
+
+            $.fn.dataTable.moment('DD/MM/YYYY HH:mm:ss');
+            $('#tabela').DataTable({
+                "language": {
+                    "url": "assets/libs/datatables/js/Portuguese-Brasil.json",
+                },
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
                 "stateSave": true,
                 "order": [[4, "desc"]]
 
-<?php
-if ($_SESSION['login'] === 'pipdiministrador') {
-    ?>
-            , "columnDefs": [
-            {"orderable": false, "targets": 7}
-            ]
-    <?php
-}
-?>
-    });
+                <?php
+                if ($_SESSION['login'] === 'pipdiministrador') {
+                ?>
+                , "columnDefs": [
+                    {"orderable": false, "targets": 7}
+                ]
+                <?php
+                }
+                ?>
+            });
+        }
     })
 
 </script>
