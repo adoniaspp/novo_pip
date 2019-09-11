@@ -55,12 +55,20 @@ function menuCabecalhoMobile(url, imgURL, sessao, nomeUsuarioSessao, PIPURL) {
             $("#divMenuCabecalhoEsquerda").html("<a class='icon item' id='btnMenuMobile'>\n" +
                 "            <i class='content big icon'></i>\n" +
                 "        </a>");
-            $("#divMenuCabecalhoDireita").html(" ");
+            $("#divMenuCabecalhoDireita").html("<a class='icon item' id='btnSearchMobile'>\n" +
+                "            <i class='search big icon'></i>\n" +
+                "        </a>");
 
                 $("#btnMenuMobile").on('click', function () {
                     $('.ui.sidebar')
                         .sidebar('toggle');
                 })
+
+            $("#btnSearchMobile").on('click', function () {
+                $('.overlay.fullscreen.modal')
+                    .modal('show')
+                ;
+            })
 
         }else if (sessao){
             $(".pusher").before("");

@@ -295,3 +295,22 @@ ATENÇÃO: Você foi deslogado por segurança devido a um longo período de inat
     });
 
 </script>
+
+        <div class="ui overlay fullscreen modal">
+            <i class="close icon"></i>
+            <div class="header">
+                Busca de Anúcios
+            </div>
+            <div class="scrolling content">
+
+            </div>
+            <div class="actions">
+               <div class="ui black deny button">
+                    Nope
+                </div>
+                <div class="ui positive right labeled icon button">
+                    Yep, that's me
+                    <i class="checkmark icon"></i>
+                </div>
+            </div>
+        </div>
