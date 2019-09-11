@@ -1342,6 +1342,19 @@ switch ($item['anuncio'][0]['tipo']) {
     </div>
 </div>
 
+<div class="ui horizontal labeled icon bottom fixed menu">
+    <a class="item">
+        <i class="home icon">
+        </i>
+        Detalhes</a>
+    <a class="item"> <i class="map icon">
+        </i>
+        Endereço</a></a>
+    <a class="item"><i class="phone icon">
+        </i>
+        Contato</a></a>
+</div>
+
 
 <div class="ui standart modal" id="modalDuvidaAnuncio">
     <i class="close icon"></i>

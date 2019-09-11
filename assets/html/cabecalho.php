@@ -15,7 +15,8 @@
 </head>
 <body>
 <?php if (Sessao::verificarSessaoUsuario()) { ?>
-<script>$(document).ready(function(){logout()});</script>
+<script>$(document).ready(function(){logout()});
+</script>
 <?php } ?>
 
 <?php
@@ -302,9 +303,73 @@ ATENÇÃO: Você foi deslogado por segurança devido a um longo período de inat
                 Busca de Anúcios
             </div>
             <div class="scrolling content">
+                <div class="ui form container">
+                    <div class="ui stackable six column grid">
+                        <div class="column"></div>
+                        <div class="column">
+                            <select name="sltTipoImovel" id="sltTipoImovel">
+                                <option value=""> Todos os tipos</option>
+                                <option value="apartamento"> Apartamento</option>
+                                <option value="apartamentoplanta"> Apartamento na Planta</option>
+                                <option value="casa"> Casa</option>
+                                <option value="prediocomercial"> Prédio Comercial</option>
+                                <option value="salacomercial"> Sala Comercial</option>
+                                <option value="terreno"> Terreno</option>
+                            </select>
+                        </div>
+                        <div class="column">
+                            <select name="sltFinalidade" id="sltFinalidade">
+                                <option value=""> Todas as finalidades</option>
+                                <option value="aluguel">Aluguel</option>
+                                <option value="venda">Venda</option>
+                            </select>
+                        </div>
+                        <div class="column">
+                            <select name="sltCidade" id="sltCidade">
+                                <option value="">Todas as cidades</option>
+                                <option value="1">Belém</option>
+                                <option value="2">Ananindeua</option>
+                                <option value="3">Marituba</option>
+                                <option value="4">Benevides</option>
+                                <option value="6">Castanhal</option>
+                            </select>
+                        </div>
 
+                        <div id="sltBairro">
+                        </div>
+
+                        <div class="column" id="divCondicao">
+                            <select name="sltCidade" id="sltCidade">
+                                <option value="">Todas</option>
+                                <option value="novo">Novo</option>
+                                <option value="usado">Usado</option>
+                            </select>
+
+                        </div>
+                        <!--            <div class="column" id="divGaragem">
+                                        <div class="ui left floated compact segment">
+                                            <div class="ui fitted toggle checkbox">
+                                                <input type="checkbox" name="checkgaragem" id="checkgaragem">
+
+                                            </div>
+                                            <label>Garagem</label>
+                                        </div>
+                                    </div>-->
+                    </div>
+
+                    <div class="ui stackable four column centered grid">
+                        <div class="column">
+                            <div class="ui twitter icon fluid button" id="btnBuscarAnuncioBasico">
+                                <i class="search icon"></i>
+                                Procurar
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-            <div class="actions">
+
+            <!--<div class="actions">
                <div class="ui black deny button">
                     Nope
                 </div>
@@ -312,5 +377,5 @@ ATENÇÃO: Você foi deslogado por segurança devido a um longo período de inat
                     Yep, that's me
                     <i class="checkmark icon"></i>
                 </div>
-            </div>
+            </div>-->
         </div>

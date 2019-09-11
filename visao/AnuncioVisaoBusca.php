@@ -82,7 +82,8 @@
 
                     </div>
                 </div>-->
-                <div class="right floated five wide column" id="divOrdenacao">
+                    <div class="ui form container">
+                    <div class="right floated five wide column" id="divOrdenacao">
                     <select name="sltOrdenacao" id="sltOrdenacao">
                         <option value="">Ordenar por</option>
                         <option value="mnvalor">Menor Valor</option>
@@ -91,6 +92,7 @@
                         <option value="antigo">Mais Antigo</option>
                     </select>
                 </div>
+                    </div>
                 <div class="one wide column">
                 </div>
                 </div>
