@@ -180,24 +180,15 @@ $valorAnuncio = (isset($item["novovalor"][0])) ? $item["novovalor"][0]->getNovov
         <!--NAVEGAÇÃO-->
         <div class="ui basic right aligned segment" id="botaoDetalhesImovel">
 
-            <div class="ui animated fade green button" id="detalhes<?php echo $idImovel; ?>">
-                <div class="visible content"><i class="home icon"></i> <?php echo ucfirst($tipoImovelDescricao); ?></div>
-                <div class="hidden content">
-                    Ver detalhes
-                </div>
+            <div class="ui green button" id="detalhes<?php echo $idImovel; ?>">
+                <i class="home icon"></i> Detalhes do im&oacute;vel
             </div>
 
-            <div class="ui animated fade brown button" id="btnAnterior1">
-                <div class="visible content"><i class="arrow left icon"></i></div>
-                <div class="hidden content">
-                    Anterior
-                </div>
+            <div class="ui brown button" id="btnAnterior1">
+                <i class="arrow left icon"></i> Anterior
             </div>
-            <div class="ui animated fade blue button" id="btnProximo1">
-                <div class="visible content"><i class="arrow right icon"></i></div>
-                <div class="hidden content">
-                    Próximo
-                </div>
+            <div class="ui blue button" id="btnProximo1">
+                Próximo <i class="arrow right icon"></i>
             </div>
         </div>
     </div>
@@ -283,25 +274,20 @@ $valorAnuncio = (isset($item["novovalor"][0])) ? $item["novovalor"][0]->getNovov
                     <div class="fields">
                         <div class="four wide required field">
                             <label>Finalidade</label>
-                            <div class="ui selection dropdown">
-                                <div class="default text">Aluguel ou Venda</div>
-                                <i class="dropdown icon"></i>
-                                <input name="sltFinalidade" id="sltFinalidade" type="hidden" value="<?php echo $anuncio->getFinalidade() ?>">
-                                <div class="menu">
+                            <select name="sltFinalidade" id="sltFinalidade" class="ui selection dropdown" >
                                     <?php
                                     if($reativarAnuncioPlano) {
                                         ?>
-                                        <div class="item" data-value="Aluguel">Aluguel</div>
+                                        <option class="item" value="Aluguel" <?php echo ($anuncio->getFinalidade() == "Aluguel") ? "Selected" : "" ?> >Aluguel</option>
                                     <?php                                     
                                 } else {
                                     if ($tipoImovel != "apartamentoplanta") {
                                         ?>
-                                        <div class="item" data-value="Aluguel">Aluguel</div>
+                                        <option class="item" value="Aluguel" <?php echo ($anuncio->getFinalidade() == "Aluguel") ? "Selected" : "" ?>>Aluguel</option>
                                     <?php } ?>
-                                    <div class="item" data-value="Venda">Venda</div>
+                                    <option class="item" value="Venda" <?php echo ($anuncio->getFinalidade() == "Venda") ? "Selected" : "" ?>>Venda</option>
                                     <?php } ?>
-                                </div>
-                            </div>
+                            </select>
                         </div>
                         <div class="twelve wide required field">
                             <label>Título do Anúncio</label>
@@ -410,10 +396,20 @@ $valorAnuncio = (isset($item["novovalor"][0])) ? $item["novovalor"][0]->getNovov
                 <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
                 <div class="fileupload-buttonbar">
                     <!-- The fileinput-button span is used to style the file input field as button -->
+
+                    <div class="ui right labeled button" tabindex="0">
+                        <a class="ui icon green button">
+                            <i class="large add icon"></i>
+                        </a>
+                        <div class="ui basic green label">
+                            <input type="file" id="arquivo" name="files[]" multiple style="display: none">Adicionar fotos
+                        </div>
+                    </div>
+
                     <div class="ui action input">
-                        <label class="ui green icon labeled button fileinput-button">
+                        <div class="ui green icon labeled button fileinput-button">
                             <i class="ui large add icon"></i>
-                            <input type="file" id="arquivo" name="files[]" multiple style="display: none">Adicionar fotos</label>
+                            </div>
                     </div>
                     <button type="submit" class="ui blue button start">
                         <i class="ui upload icon"></i>Enviar todas
@@ -637,7 +633,7 @@ include_once "modal/ImovelListagemModal.php";
 
 <?php
 $listaFotos = array();
-$destaque;
+$destaque = "";
 $foto = array();
 if (is_array($anuncio->getImagem())) {
     foreach ($anuncio->getImagem() as $imagem) {
