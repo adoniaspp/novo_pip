@@ -155,24 +155,15 @@ if ($item) {
         <!--NAVEGAÇÃO-->
         <div class="ui basic right aligned segment" id="botaoDetalhesImovel">
 
-            <div class="ui animated fade green button" id="detalhes<?php echo $idImovel; ?>">
-                <div class="visible content"><i class="home icon"></i> <?php echo ucfirst($tipoImovelDescricao); ?></div>
-                <div class="hidden content">
-                    Ver detalhes
-                </div>
+            <div class="ui green button" id="detalhes<?php echo $idImovel; ?>">
+                <i class="home icon"></i> Detalhes do im&oacute;vel
             </div>
 
-            <div class="ui animated fade brown button" id="btnAnterior1">
-                <div class="visible content"><i class="arrow left icon"></i></div>
-                <div class="hidden content">
-                    Anterior
-                </div>
+            <div class="ui brown button" id="btnAnterior1">
+                <i class="arrow left icon"></i> Anterior
             </div>
-            <div class="ui animated fade blue button" id="btnProximo1">
-                <div class="visible content"><i class="arrow right icon"></i></div>
-                <div class="hidden content">
-                    Próximo
-                </div>
+            <div class="ui blue button" id="btnProximo1">
+                Próximo <i class="arrow right icon"></i>
             </div>
         </div>
     </div>
@@ -256,6 +247,7 @@ if ($item) {
                     <div class="fields">
                         <div class="four wide required field">
                             <label>Finalidade</label>
+
                             <div class="ui selection dropdown">
                                 <div class="default text">Aluguel ou Venda</div>
                                 <i class="dropdown icon"></i>
