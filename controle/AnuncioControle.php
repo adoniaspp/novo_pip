@@ -312,6 +312,10 @@ class AnuncioControle {
         unset($parametros["hdnEntidade"]);
         unset($parametros["hdnAcao"]);
 
+        if($parametros["mobile"] == true){
+            $typeDevice = true;
+        }
+        unset($parametros["mobile"]);
         /*Excluído, pois o dado já chega da visão no formato de array*/
         /*if ($parametros["idbairro"] != "") {
             $parametros["idbairro"] = explode(",", $parametros["idbairro"]); //caso mais de um bairro seja escolhido
@@ -324,26 +328,30 @@ class AnuncioControle {
 
         $listaAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
 
-        if (count($listaAnuncio['anuncio']) == 0) {
-            $visao->setItem("errosemresultadobusca");
-            $visao->exibir('VisaoErrosGenerico.php');
-        }
-        if ($page)
-            $listaAnuncio["page"] = TRUE;
-
-
-        $visao->setItem($listaAnuncio);
-
-        if ($parametros["mobile"] == 'true') {            
-            if ($parametros["paginaInicial"] == 'true') {
-                $visao->exibir('AnuncioVisaoBusca.php');
-            } else {
-                //include_once 'visao/AnuncioVisaoCards.php';            
-                $visao->exibir('AnuncioVisaoCards.php');
-            }
+        if($typeDevice){
+            echo json_encode($listaAnuncio);
         }else{
-            $visao->exibir('AnuncioVisaoBusca.php');
-        }           
+            if (count($listaAnuncio['anuncio']) == 0) {
+                $visao->setItem("errosemresultadobusca");
+                $visao->exibir('VisaoErrosGenerico.php');
+            }
+            if ($page)
+                $listaAnuncio["page"] = TRUE;
+
+
+            $visao->setItem($listaAnuncio);
+
+            if ($parametros["mobile"] == 'true') {
+                if ($parametros["paginaInicial"] == 'true') {
+                    $visao->exibir('AnuncioVisaoBusca.php');
+                } else {
+                    //include_once 'visao/AnuncioVisaoCards.php';
+                    $visao->exibir('AnuncioVisaoCards.php');
+                }
+            }else{
+                $visao->exibir('AnuncioVisaoBusca.php');
+            }
+        }
     }
 
     function detalhar($parametros) {
