@@ -312,10 +312,10 @@ class AnuncioControle {
         unset($parametros["hdnEntidade"]);
         unset($parametros["hdnAcao"]);
 
-        if($parametros["mobile"] == true){
+        if($parametros["mobileDevice"] == true){
             $typeDevice = true;
         }
-        unset($parametros["mobile"]);
+        unset($parametros["mobileDevice"]);
         /*Excluído, pois o dado já chega da visão no formato de array*/
         /*if ($parametros["idbairro"] != "") {
             $parametros["idbairro"] = explode(",", $parametros["idbairro"]); //caso mais de um bairro seja escolhido
