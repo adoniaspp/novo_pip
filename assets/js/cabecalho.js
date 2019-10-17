@@ -2,8 +2,6 @@ function menuCabecalhoMobile(url, imgURL, sessao, nomeUsuarioSessao, PIPURL) {
     $(document).ready(function () {
         $('.ui.accordion')
             .accordion();
-        //var deviceAgent = navigator.userAgent.toLowerCase();
-        //var agentID = deviceAgent.match(/(iphone|ipod|ipad|android|blackberry)/);
         var agentID = testMobile();
         if (!agentID) {
             $("#divMenuCabecalhoEsquerda").html("<div class='ui one column stackable center aligned grid'>\n" +
@@ -52,31 +50,13 @@ function menuCabecalhoMobile(url, imgURL, sessao, nomeUsuarioSessao, PIPURL) {
                     "            </div>");
             }
         }else if(!sessao){
-            $("#divMenuCabecalhoEsquerda").html("<a class='icon item' id='btnMenuMobile'>\n" +
-                "            <i class='content big icon'></i>\n" +
-                "        </a>");
-            $("#divMenuCabecalhoDireita").html("<a class='icon item' id='btnSearchMobile'>\n" +
-                "            <i class='search big icon'></i>\n" +
-                "        </a>");
-
+            $("#cabecalhoMenu").remove();
                 $("#btnMenuMobile").on('click', function () {
                     $('.ui.sidebar')
                         .sidebar('toggle');
                 })
-
-            $("#btnSearchMobile").on('click', function () {
-                $('.overlay.fullscreen.modal')
-                    .modal('show')
-                ;
-            })
-
         }else if (sessao){
-            $(".pusher").before("");
-            $("#divMenuCabecalhoEsquerda").html("<a class='icon item' id='btnMenuMobile'>\n" +
-                "            <i class='content big icon'></i>\n" +
-                "        </a>");
-            $("#divMenuCabecalhoDireita").html(" ");
-
+        /*    $(".pusher").before("");*/
             $("#btnMenuMobile").on('click', function () {
                 $('.ui.sidebar')
                     .sidebar('toggle');

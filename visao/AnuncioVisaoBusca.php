@@ -13,6 +13,21 @@
 
 
 <script>
+
+    if(!testMobile()){
+        $('#divOrdenacaoNoMobile').html(
+            '<div class="right floated three wide column" id="divOrdenacao">\n' +
+            '                    <select name="sltOrdenacao" id="sltOrdenacao">\n' +
+            '                        <option value="">Ordenar por</option>\n' +
+            '                        <option value="mnvalor">Menor Valor</option>\n' +
+            '                        <option value="mrvalor">Maior Valor</option>\n' +
+            '                        <option value="recente">Mais Recente</option>\n' +
+            '                        <option value="antigo">Mais Antigo</option>\n' +
+            '                    </select>\n' +
+            '                </div>'
+        );
+    }
+
     carregarAnuncio();
     //    paginarAnuncio();
     enviarEmail();
@@ -60,41 +75,12 @@
     <input type="hidden" id="hdnTotalAnuncios" name="hdnTotalAnuncios" value="<?php echo $item['total'] ?>"/>
     <div class="ui middle aligned one column grid container" id="lista">
         <?php if (count($item['anuncio']) > 0) { ?>
-                <div class="four column row">
-                <div id="paginador" class="left floted column">
+                <div class="ui grid two column row">
+                <div id="paginador" class="left floated six wide column">
                     <div class="holder"></div>
                 </div>
-
-                <!--<div class="center aligned four wide column">
-                    <div class="ui right aligned container" id="divOrdenacao">
-                        <div class="ui right aligned selection dropdown">
-                            <input type="hidden" name="sltOrdenacao" id="sltOrdenacao">
-                            <i class="dropdown icon"></i>
-                            <div class="default text">Ordenar</div>
-                            <div class="menu">
-                                <div class="item" data-value="">Escolha Ordenação</div>
-                                <div class="item" data-value="mnvalor">Menor Valor</div>
-                                <div class="item" data-value="mrvalor">Maior Valor</div>
-                                <div class="item" data-value="recente">Mais Recente</div>
-                                <div class="item" data-value="antigo">Mais Antigo</div>
-                            </div>
-                        </div>
-
+                    <div class="ui right floated six wide column" id="divOrdenacaoNoMobile">
                     </div>
-                </div>-->
-                    <div class="ui form container">
-                    <div class="right floated five wide column" id="divOrdenacao">
-                    <select name="sltOrdenacao" id="sltOrdenacao">
-                        <option value="">Ordenar por</option>
-                        <option value="mnvalor">Menor Valor</option>
-                        <option value="mrvalor">Maior Valor</option>
-                        <option value="recente">Mais Recente</option>
-                        <option value="antigo">Mais Antigo</option>
-                    </select>
-                </div>
-                    </div>
-                <div class="one wide column">
-                </div>
                 </div>
 
             <?php
@@ -117,7 +103,9 @@
 
             ?>
 
-            <!--<div class="ui stackable special cards list">-->
+            <!--<div class="ui stackable special cards list">
+            style="width: 263px; border-radius: 2.285714rem; box-shadow: 0 1px 3px 0 #D4D4DD,0 0 0 1px #000000"
+            -->
             <div class="ui stackable column grid">
                 <div id="itemContainer" class="ui stackable cards list">
 
@@ -128,8 +116,8 @@
 //                        echo '</pre>';
                         ?>
                         <div data-valor="<?php echo $item['anuncio'][$crtl]['valormin'] ?>"
-                             ordem="<?php echo $item['anuncio'][$crtl]['ordem'] ?>" class="card list-item"
-                             style="width: 263px; border-radius: 2.285714rem; box-shadow: 0 1px 3px 0 #D4D4DD,0 0 0 1px #000000"
+                             ordem="<?php echo $item['anuncio'][$crtl]['ordem'] ?>" class="centered card list-item"
+                             style="width: 263px; box-shadow: 0 1px 3px 0 #D4D4DD,0 0 0 1px #000000"
                              id="cartao<?php echo $item['anuncio'][$crtl]['idanuncio'] ?>"
                              data-cadastro="<?php echo $item['anuncio'][$crtl]['datahoracadastro'] ?>">
                             <!--                            <div class="content">

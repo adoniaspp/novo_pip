@@ -11,13 +11,54 @@
     buscarAnuncio();
     carregarCarrosselPreferencias();
     carregarDiferencial();
+    ordenarAnuncio();
+
+    $(document).ready(function () {
+
+        if(testMobile())
+        {
+            $('#menuMobile').html(
+                '<a class="icon item" id="btnMenuMobile">\n' +
+                '        <i class="content large icon">\n' +
+                '        </i></a>\n' +
+                '    <a class="item" id="btnPesquisaMobile">\n' +
+                '        <i class="search icon">\n' +
+                '        </i>\n' +
+                '    Buscar Anúncio</a>\n' +
+                '    <a class="item" id="btnOrdencacaoMobile">\n' +
+                '        <i class="sort icon">\n' +
+                '        </i>\n' +
+                '    Ordenar</a>'
+            )
+        }
+
+        $("#btnPesquisaMobile").on('click', function () {
+            $('.overlay.fullscreen.modal')
+                .modal('show')
+            ;
+        })
+
+        $("#btnOrdencacaoMobile").on('click', function () {
+            $("#modalOrdenacao")
+                .modal('show')
+            ;
+        })
+
+        $("#btnMenuMobile").on('click', function () {
+            $('.ui.sidebar')
+                .sidebar('toggle');
+        })
+
+
+    });
+
 
 </script>
 
 
 <?php
 $menuCorretor = true;
-include_once "visao/modulo/menuBusca.php";
+//include_once "visao/modulo/menuBusca.php";
 ?>
 
 
@@ -26,7 +67,7 @@ $item = $this->getItem();
 if ($item) {
     $anuncios = $item;
     ?>
-    <div class="ui hidden divider"></div>
+    <!--<div class="ui hidden divider"></div>-->
     <div class="ui grid container">
         <h2 class="ui header">Sugestões baseadas nos anúncios que você viu</h2>
     </div>
@@ -298,7 +339,6 @@ if ($item) {
         <div class="ui pointing below large blue grey label">
             ANUNCIE EM 3 PASSOS
         </div>
-        <!--        <span class="ui large block header">ANUNCIE EM 3 PASSOS</span>-->
     </div>
 </div>
 
@@ -310,8 +350,7 @@ if ($item) {
             <p>FAÇA SEU CADASTRO</p>
 
         </div>
-        <!--        Cadastre seus dados (Nome, Endereço, Tipo de Pessoa, Telefone, Email, etc) e escolha um login
-                para ser sua identificação no PIP On-Line (Ex: www.piponline.com.br/joaosilva1980)-->
+
     </div>
 
     <div class="column">
@@ -320,11 +359,8 @@ if ($item) {
             <i class="ui home icon"></i>
             <p>CADASTRE SEU IMÓVEL</p>
         </div>
-        <!--        Cadastre as características do imóvel (quartos, banheiros, garagens, área, etc).-->
     </div>
 
-    <!--        Após cadastrar o imóvel, compre o anúncio para divulgar seu produto, escolhendo o melhor
-            para sua necessidade (1 mês de divulgação no site, 2 meses, etc.)-->
     <div class="column">
         <div class="ui large icon green header">
             <a class="ui pointing below basic green large label">3º Passo</a>
@@ -332,11 +368,113 @@ if ($item) {
             <p>ANUNCIE</p>
 
         </div>
-        <!--        Após cadastrar o imóvel, compre o anúncio para divulgar seu produto, escolhendo o melhor
-                para sua necessidade (1 mês de divulgação no site, 2 meses, etc.)-->
     </div>
 </div>
 
+
+    <div class="ui horizontal labeled icon bottom fixed fluid three item mini menu" id="menuMobile">
+
+    </div>
+
+
+
+<div class="ui modal" id="modalOrdenacao">
+    <div class="content">
+        <a id="menorValor"><h2 class="ui header">Maior Valor</h2></a>
+        <div class="ui divider"></div>
+        <h2 class="ui header">Menor Valor</h2>
+        <div class="ui divider"></div>
+        <h2 class="ui header">Mais Recente</h2>
+        <div class="ui divider"></div>
+        <h2 class="ui header">Mais Antigo</h2>
+    </div>
+</div>
+
+
+<div class="ui overlay fullscreen modal" id="modalBuscaAnuncio">
+    <i class="close icon"></i>
+    <div class="header">
+        Busca de Anúcios
+    </div>
+    <div class="scrolling content">
+        <div class="ui large form">
+            <div class="ui stackable six column grid">
+                <div class="column"></div>
+                <div class="column">
+                    <select name="sltTipoImovel" id="sltTipoImovel">
+                        <option value=""> Todos os tipos</option>
+                        <option value="apartamento"> Apartamento</option>
+                        <option value="apartamentoplanta"> Apartamento na Planta</option>
+                        <option value="casa"> Casa</option>
+                        <option value="prediocomercial"> Prédio Comercial</option>
+                        <option value="salacomercial"> Sala Comercial</option>
+                        <option value="terreno"> Terreno</option>
+                    </select>
+                </div>
+                <div class="column">
+                    <select name="sltFinalidade" id="sltFinalidade">
+                        <option value=""> Todas as finalidades</option>
+                        <option value="aluguel">Aluguel</option>
+                        <option value="venda">Venda</option>
+                    </select>
+                </div>
+                <div class="column">
+                    <select name="sltCidade" id="sltCidade">
+                        <option value="">Todas as cidades</option>
+                        <option value="1">Belém</option>
+                        <option value="2">Ananindeua</option>
+                        <option value="3">Marituba</option>
+                        <option value="4">Benevides</option>
+                        <option value="6">Castanhal</option>
+                    </select>
+                </div>
+
+                <div id="sltBairro">
+                </div>
+
+                <!--<div class="column" id="divCondicao">
+                    <select name="sltCidade" id="sltCidade">
+                        <option value="">Todas</option>
+                        <option value="novo">Novo</option>
+                        <option value="usado">Usado</option>
+                    </select>
+
+                </div>-->
+
+                          <!--<div class="column" id="divGaragem">
+                                <div class="ui left floated compact segment">
+                                    <div class="ui fitted toggle checkbox">
+                                        <input type="checkbox" name="checkgaragem" id="checkgaragem">
+
+                                    </div>
+                                    <label>Garagem</label>
+                                </div>
+                            </div>-->
+
+            </div>
+
+            <div class="ui stackable four column centered grid">
+                <div class="column">
+                    <div class="ui twitter icon fluid button" id="btnBuscarAnuncioBasico">
+                        <i class="search icon"></i>
+                        Procurar
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--<div class="actions">
+       <div class="ui black deny button">
+            Nope
+        </div>
+        <div class="ui positive right labeled icon button">
+            Yep, that's me
+            <i class="checkmark icon"></i>
+        </div>
+    </div>-->
+</div>
 <!--<div class="ui hidden divider"></div>
 <div class="ui divider"></div>
 <div class="ui hidden divider"></div>
@@ -346,7 +484,7 @@ if ($item) {
         <div class="ui pointing below large blue grey label">
             PIP EM NÚMEROS
         </div>
-        <!--        <span class="ui large block header">ANUNCIE EM 3 PASSOS</span>-->
+              <span class="ui large block header">ANUNCIE EM 3 PASSOS</span>-->
  <!--   </div>
 </div>
 <div class="ui centered stackable grid">

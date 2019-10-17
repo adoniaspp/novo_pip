@@ -19,7 +19,7 @@ Sessao::gerarToken();
 </div>
 <div class="ui doubling stackable grid container">
     <div class="column">
-        <form id="form" class="ui form" action="index.php" method="post" enctype="multipart/form-data">
+        <form id="form" class="ui large form" action="index.php" method="post" enctype="multipart/form-data">
             <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
             <input type="hidden" id="hdnAcao" name="hdnAcao" value="esquecersenha" />
             <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />

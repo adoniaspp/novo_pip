@@ -523,6 +523,8 @@ function buscarAnuncio() {
         $("#btnBuscarAnuncioBasico").on('click', function () {
             $("#divOrdenacao").show(); //mostrar a ordenação, caso esteja oculta quando a buscar não retornar nada
 
+            $("#modalBuscaAnuncio").modal('hide');
+
             $("#load").addClass('ui active inverted dimmer');
             if ($('#sltTipoImovel').val() == "") {
                 tipoimovel = "todos"
@@ -754,6 +756,12 @@ function carregarAnuncio() { //valor = quantidade de anuncios
 }
 
 function ordenarAnuncio() {
+
+    $("#menorValor").click(function () {
+        $("#modalOrdenacao").modal('hide');
+    });
+
+
     $("#sltOrdenacao").change(function () {
         if ($(this).val() == "mnvalor") {
             var $valor = $('#itemContainer'),

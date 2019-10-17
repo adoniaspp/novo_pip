@@ -53,92 +53,94 @@ if ($item["anuncio"][0]["status"] == "finalizado" || $item["anuncio"][0]["status
 } else
     $expirado = "NAO";
 ?>
-
 <script>
-    $(document).ready(function () {
+    function dadosDetalhe() {
+        $(document).ready(function () {
 
 
-        $(function () {
-            //incluso essa variavel para setar atributos do css depois
-            var elemento = $('#divMiniMenu');
+            $(function () {
+                //incluso essa variavel para setar atributos do css depois
+                var elemento = $('#divMiniMenu');
 
-            var deviceAgent = navigator.userAgent.toLowerCase();
-            var agentID = deviceAgent.match(/(iphone|ipod|ipad|android|blackberry)/);
+                var deviceAgent = navigator.userAgent.toLowerCase();
+                var agentID = deviceAgent.match(/(iphone|ipod|ipad|android|blackberry)/);
 
-            if (agentID) {
-                $('#divMiniMenu').hide();// caso seja iphone|ipod|ipad|android|blackberry
-                $('#textoCompartilhar').hide();
-            } else {
-                //alert('você está em um computador');
-                $(window).scroll(function () {
-                    //distancia que o scroll devera rolar para aparecer o box da div
-                    if ($(this).scrollTop() > 0) {
-                        //bloco incluso para setar o css
-                        elemento.css({
-                            'position': 'fixed',
-                            'bottom': '30%'
-                        });
+                if (agentID) {
+                    $('#divMiniMenu').hide();// caso seja iphone|ipod|ipad|android|blackberry
+                    $('#textoCompartilhar').hide();
+                } else {
+                    //alert('você está em um computador');
+                    $(window).scroll(function () {
+                        //distancia que o scroll devera rolar para aparecer o box da div
+                        if ($(this).scrollTop() > 0) {
+                            //bloco incluso para setar o css
+                            elemento.css({
+                                'position': 'fixed',
+                                'bottom': '30%'
+                            });
 
-                        $('#divMiniMenu').fadeIn();
-                    }
-                });
+                            $('#divMiniMenu').fadeIn();
+                        }
+                    });
+                }
+
+
+            });
+
+            if ('<?php echo $expirado ?>' === 'SIM'
+                || '<?php echo $item["anuncio"][0]["status"] ?>' === 'pendenteativacao'
+                || '<?php echo $item["anuncio"][0]["status"] ?>' === 'ativacaonegada') {
+                $('#btnDuvida').attr("disabled", "disabled");
             }
 
 
-        });
+            var tipoAnuncio = "<?php echo $item['anuncio'][0]['tipo'] ?>";
 
-        if ('<?php echo $expirado ?>' === 'SIM'
-                || '<?php echo $item["anuncio"][0]["status"] ?>' === 'pendenteativacao'
-                || '<?php echo $item["anuncio"][0]["status"] ?>' === 'ativacaonegada') {
-            $('#btnDuvida').attr("disabled", "disabled");
-        }
+            switch (tipoAnuncio) {
 
+                case "apartamento":
+                    $("#textoEspecifico").html("Características do Apartamento");
+                    $("#txtDiferencialAnuncio").html("Diferenciais do Apartamento");
+                    break;
+                case "casa":
+                    $("#textoEspecifico").html("Características da Casa");
+                    $("#txtDiferencialAnuncio").html("Diferenciais da Casa");
+                    break;
+                case "apartamentoplanta":
+                    $("#textoEspecifico").html("Informações das Plantas");
+                    $("#txtDiferencialAnuncio").html("Diferenciais Comuns do Apartamento na Planta");
+                    break;
+                case "salacomercial":
+                    $("#textoEspecifico").html("Características da Sala Comercial");
+                    $("#txtDiferencialAnuncio").html("Diferenciais da Sala Comercial");
+                    break;
+                case "prediocomercial":
+                    $("#textoEspecifico").html("Características do Prédio Comercial");
+                    $("#txtDiferencialAnuncio").html("Diferenciais do Prédio Comercial");
+                    break;
+                case "terreno":
+                    $("#textoEspecifico").html("Características do Terreno");
+                    $("#txtDiferencialAnuncio").html("Diferenciais do Terreno");
+                    break;
+            }
+        })
 
-        var tipoAnuncio = "<?php echo $item['anuncio'][0]['tipo'] ?>";
+        enviarDuvidaAnuncio();
+        enviarDenuncia();
+        formatarDetalhe();
 
-        switch (tipoAnuncio) {
-
-            case "apartamento":
-                $("#textoEspecifico").html("Características do Apartamento");
-                $("#txtDiferencialAnuncio").html("Diferenciais do Apartamento");
-                break;
-            case "casa":
-                $("#textoEspecifico").html("Características da Casa");
-                $("#txtDiferencialAnuncio").html("Diferenciais da Casa");
-                break;
-            case "apartamentoplanta":
-                $("#textoEspecifico").html("Informações das Plantas");
-                $("#txtDiferencialAnuncio").html("Diferenciais Comuns do Apartamento na Planta");
-                break;
-            case "salacomercial":
-                $("#textoEspecifico").html("Características da Sala Comercial");
-                $("#txtDiferencialAnuncio").html("Diferenciais da Sala Comercial");
-                break;
-            case "prediocomercial":
-                $("#textoEspecifico").html("Características do Prédio Comercial");
-                $("#txtDiferencialAnuncio").html("Diferenciais do Prédio Comercial");
-                break;
-            case "terreno":
-                $("#textoEspecifico").html("Características do Terreno");
-                $("#txtDiferencialAnuncio").html("Diferenciais do Terreno");
-                break;
-        }
-    })
-
-    enviarDuvidaAnuncio();
-    enviarDenuncia();
-    formatarDetalhe();
-
-<?php if ($item['anuncio'][0]['publicarmapa'] == "SIM") { ?>
+        <?php if ($item['anuncio'][0]['publicarmapa'] == "SIM") { ?>
 
         marcarMapaIndividual("<?php echo $item["anuncio"][0]["logradouro"] ?>", "<?php echo $item["anuncio"][0]["numero"] ?>",
-                "<?php echo $item["anuncio"][0]["bairro"] ?>", "<?php echo $item["anuncio"][0]["cidade"] ?>",
-                "<?php echo $item["anuncio"][0]["estado"] ?>", "<?php echo $item["anuncio"][0]["tituloanuncio"] ?>",
-                "<?php echo $item["anuncio"][0]["valormin"] ?>", "<?php echo $item["anuncio"][0]["finalidade"] ?>",
-                "<?php echo $latitude ?>", "<?php echo $longitude ?>", "100%", "300", 16);
+            "<?php echo $item["anuncio"][0]["bairro"] ?>", "<?php echo $item["anuncio"][0]["cidade"] ?>",
+            "<?php echo $item["anuncio"][0]["estado"] ?>", "<?php echo $item["anuncio"][0]["tituloanuncio"] ?>",
+            "<?php echo $item["anuncio"][0]["valormin"] ?>", "<?php echo $item["anuncio"][0]["finalidade"] ?>",
+            "<?php echo $latitude ?>", "<?php echo $longitude ?>", "100%", "300", 16);
 
-<?php } ?>
-
+        <?php } ?>
+    }
+    dadosDetalhe();
+    menu();
 </script>
 
 <div class="ui hidden divider"></div>
@@ -320,14 +322,19 @@ switch ($item['anuncio'][0]['tipo']) {
     <div class="miniMenu5"><a href="#linkContatos">Contato</a></div>
 </div>
 
-<div class="stackable column centered ui grid container" id="linkCompartilhamentos">
+<!--<div class="stackable column centered ui grid container" id="linkCompartilhamentos">
     <a class="ui inverted icon" href="https://www.facebook.com/sharer.php?u=https://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>" target="_blank"><i class="big blue facebook square icon"></i></a></i>
 <a class="ui inverted icon" href="https://twitter.com/intent/tweet?text=Anúncio%20Compartilhado%20via%20PIP-OnLine%20https%3A%2F%2Fwww.pipbeta.com.br%2F<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>" target="_blank"><i class="big blue twitter icon"></i></a>
 <a class="ui inverted icon" href="https://plus.google.com/share?url=https://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>" target="_blank"><i class="big red google plus circle icon"></i></a>
 <a class="ui inverted icon compartilhar-whatsapp" href='whatsapp://send?text=https://www.pipbeta.com.br/<?php echo $item['anuncio'][0]['idanuncioformatado'] ?>'><i class="big green whatsapp icon"></i></a>
 </div>    
 <div class="ui hidden divider"></div>
-<div class="ui hidden divider"></div>
+<div class="ui hidden divider"></div>-->
+
+
+<!--Inicio Fotos-->
+
+<div id="itemFotos">
 <div class="stackable two column ui grid container" id="headerFotos">
 
     <div id="linkFotos"></div>
@@ -366,13 +373,26 @@ switch ($item['anuncio'][0]['tipo']) {
     </div>
 
 </div>
-                   <div id="linkValor"></div>    
+
+
+                   <div id="linkValor"></div>
 <div class="stackable one column ui grid container">
     <div class="column">
         <div class="ui divider"></div>    
     </div>
 </div>
 
+</div>
+
+<!--Fim das fotos-->
+
+
+
+
+<!--Inicio dos dados-->
+
+
+<div id="itemDados">
 
 <div class="stackable two column ui grid container">
     <div class="four wide column">
@@ -392,7 +412,7 @@ switch ($item['anuncio'][0]['tipo']) {
     <div class="column">
             <?php
             if ($item['anuncio'][0]['tipo'] != "apartamentoplanta") {
-                echo "<div id='linkEndereco'></div>";
+                echo "<div id='linkInfo'></div>";
             }
             ?>
             <?php
@@ -525,7 +545,6 @@ switch ($item['anuncio'][0]['tipo']) {
 
 </div>
 
-
 <div class="stackable one column ui grid container">
     <div class="column">
         <div class="ui divider"></div>    
@@ -533,7 +552,7 @@ switch ($item['anuncio'][0]['tipo']) {
 </div>
 
     
-<div class="stackable two column ui grid container" id="linkInfo">
+<div class="stackable two column ui grid container">
 
     <div class="row">
         <h2 class="ui header">
@@ -575,7 +594,7 @@ switch ($item['anuncio'][0]['tipo']) {
 <div class="stackable one column ui grid container">
 
     <div class="column">
-        <form id="form" class="ui form">
+        <div id="form" class="ui form">
 
             <div class="fields">          
 
@@ -956,9 +975,8 @@ switch ($item['anuncio'][0]['tipo']) {
                         }
                     }//caso o número de diferenciais seja maior que 7
                     else {
-                        ?> 
-
-                        <div class="ui stackable four column grid"> 
+                        ?>
+                        <div class="ui stackable four column grid">
                             <?php
                             $contadorDif = 1;
 
@@ -996,19 +1014,32 @@ switch ($item['anuncio'][0]['tipo']) {
                     }
                     ?>                            
 
-                </div>    
+                </div>
                 <div class="ui hidden divider"></div>
             <?php } ?>
-
             <div class="ui divider"></div>
+            <div id="linkEndereco"></div>
 
-            
             <?php
             if ($item['anuncio'][0]['tipo'] == 'apartamentoplanta') {
-                echo '<div id="linkEndereco"></div>';
+                echo '<div id="linkInfo"></div>';
             }
-            ?>         
+            ?>
             <div class="ui hidden divider"></div>
+
+
+        </div>
+    </div>
+
+</div>
+</div>
+
+<!--Fim dos dados-->
+
+
+        <!--Inicio do Endereço-->
+
+        <div id="itemEndereco">
 
             <div class="row">
                 <h2 class="ui header">
@@ -1019,7 +1050,6 @@ switch ($item['anuncio'][0]['tipo']) {
                     </div>
                 </h2>
             </div>
-
             <div class="fields">
                 <div id="mapaGmapsBusca"></div>
             </div>
@@ -1051,7 +1081,17 @@ switch ($item['anuncio'][0]['tipo']) {
             <div id="linkContatos"></div>
             <div class="ui hidden divider"></div>
 
-            <div class="row">
+        </div>
+
+        <!--Fim do Endereço-->
+
+
+        <!--Inicio do Contato-->
+
+
+        <div id="itemContato">
+
+        <div class="row">
                 <h2 class="ui header">
                     <i class="volume control red phone icon"></i>
                     <div class="content">
@@ -1060,7 +1100,6 @@ switch ($item['anuncio'][0]['tipo']) {
                     </div>
                 </h2>
             </div>
-
             <div class="column">
 
                 <div class="ui horizontal segments">
@@ -1342,18 +1381,14 @@ switch ($item['anuncio'][0]['tipo']) {
     </div>
 </div>
 
-<div class="ui horizontal labeled icon bottom fixed menu">
-    <a class="item">
-        <i class="home icon">
-        </i>
-        Detalhes</a>
-    <a class="item"> <i class="map icon">
-        </i>
-        Endereço</a></a>
-    <a class="item"><i class="phone icon">
-        </i>
-        Contato</a></a>
 </div>
+
+    <!--Fim do Contato-->
+
+
+    <div class="ui horizontal labeled icon bottom fixed fluid four item menu" id="menuDetalhesMobile">
+        </div>
+
 
 
 <div class="ui standart modal" id="modalDuvidaAnuncio">

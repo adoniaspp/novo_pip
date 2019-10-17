@@ -362,6 +362,11 @@ class AnuncioControle {
         $parametros["tabela"] = $parametros["hdnTipoImovel"];
         unset($parametros["hdnTipoImovel"]);
 
+        if($parametros["mobileDevice"] == true){
+            $typeDevice = true;
+        }
+        unset($parametros["mobileDevice"]);
+
         $visao = new Template();
         $consultasAdHoc = new ConsultasAdHoc();
 
@@ -485,9 +490,15 @@ class AnuncioControle {
             <meta itemprop="image" content="' . PIPURL . 'fotos/imoveis/' . $imagemPrincipalDiretorio . '/' . $imagemPrincipalNome . '">
 
             ');
-            $visao->setItem($listarAnuncio);
 
-            $visao->exibir('AnuncioVisaoDetalhe.php');
+            if($typeDevice){
+                echo json_encode($listarAnuncio);
+            }else {
+
+                $visao->setItem($listarAnuncio);
+
+                $visao->exibir('AnuncioVisaoDetalhe.php');
+            }
         }
     }
 

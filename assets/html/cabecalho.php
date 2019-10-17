@@ -23,7 +23,7 @@
 //$item = $this->getItem();
 
 ?>
-
+<input type="hidden" id="paginaLinha" value="0">
 <div class="ui sidebar left vertical sidebar menu">
 <?php if (!Sessao::verificarSessaoUsuario()) { ?>
         <a class="ui active one column stackable center aligned container item" href="<?php echo PIPURL; ?>index.php">
@@ -238,20 +238,20 @@
 
 </div>
 
-<div class="pusher">
-<div class="ui top fixed huge menu" style="background-color: #f2f0f3">
-    <div class="ui container">
-    <div class="left menu" id="divMenuCabecalhoEsquerda">
-    </div>
-        <div class="right menu" id="divMenuCabecalhoDireita">
-        </div>
-        </div>
-    </div>
+    <div class="pusher">
+            <div id="cabecalhoMenu" class="ui top fixed huge menu" style="background-color: #f2f0f3">
+            <div class="ui container">
+            <div class="left menu" id="divMenuCabecalhoEsquerda">
+            </div>
+            <div class="right menu" id="divMenuCabecalhoDireita">
+            </div>
+            </div>
+            </div>
 
+<!--<div class="ui hidden divider"></div>
 <div class="ui hidden divider"></div>
 <div class="ui hidden divider"></div>
-<div class="ui hidden divider"></div>
-<div class="ui hidden divider"></div>
+<div class="ui hidden divider"></div>-->
 <div id=modalAlertaSessao class="ui basic test small modal">
 <div class="ui icon header">
 <i class="warning sign icon"></i>
@@ -288,16 +288,10 @@ ATENÇÃO: Você foi deslogado por segurança devido a um longo período de inat
     var PIPURL =  "<?php echo PIPURL; ?>";
 
     menuCabecalhoMobile(urlHome, imgURL, sessao, nomeUsuarioSessao, PIPURL);
-    $(document).ready(function(){
-        $("#btnMenuMobile").on('click', function () {
-            $('.ui.sidebar')
-                .sidebar('toggle');
-        })
-    });
 
 </script>
 
-        <div class="ui overlay fullscreen modal">
+        <!--<div class="ui overlay fullscreen modal">
             <i class="close icon"></i>
             <div class="header">
                 Busca de Anúcios
@@ -346,7 +340,7 @@ ATENÇÃO: Você foi deslogado por segurança devido a um longo período de inat
                             </select>
 
                         </div>
-                        <!--            <div class="column" id="divGaragem">
+                                    <div class="column" id="divGaragem">
                                         <div class="ui left floated compact segment">
                                             <div class="ui fitted toggle checkbox">
                                                 <input type="checkbox" name="checkgaragem" id="checkgaragem">
@@ -354,7 +348,7 @@ ATENÇÃO: Você foi deslogado por segurança devido a um longo período de inat
                                             </div>
                                             <label>Garagem</label>
                                         </div>
-                                    </div>-->
+                                    </div>
                     </div>
 
                     <div class="ui stackable four column centered grid">
@@ -367,7 +361,7 @@ ATENÇÃO: Você foi deslogado por segurança devido a um longo período de inat
                     </div>
 
                 </div>
-            </div>
+            </div>-->
 
             <!--<div class="actions">
                <div class="ui black deny button">
@@ -377,5 +371,5 @@ ATENÇÃO: Você foi deslogado por segurança devido a um longo período de inat
                     Yep, that's me
                     <i class="checkmark icon"></i>
                 </div>
-            </div>-->
-        </div>
+            </div>
+        </div>-->
