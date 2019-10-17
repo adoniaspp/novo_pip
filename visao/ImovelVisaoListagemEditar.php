@@ -173,15 +173,14 @@ function verificaAnuncioAtivo($listaAnuncios) {
 
 <script>
     $(document).ready(function () {
-
         //função que ordena a data, de acordo com o formato
-        if(testMobile()){
+        if (testMobile()) {
             $.fn.dataTable.moment('DD/MM/YYYY HH:mm:ss');
 
             $('#tabela').DataTable({
                 "paging":   false,
                 "info":     false,
-                "searching": false
+                "searching": false,
                 "language": {
                     "url": "assets/libs/datatables/js/Portuguese-Brasil.json",
                 },

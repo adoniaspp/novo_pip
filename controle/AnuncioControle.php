@@ -312,6 +312,10 @@ class AnuncioControle {
         unset($parametros["hdnEntidade"]);
         unset($parametros["hdnAcao"]);
 
+        if($parametros["mobileDevice"] == true){
+            $typeDevice = true;
+        }
+        unset($parametros["mobileDevice"]);
         /*Excluído, pois o dado já chega da visão no formato de array*/
         /*if ($parametros["idbairro"] != "") {
             $parametros["idbairro"] = explode(",", $parametros["idbairro"]); //caso mais de um bairro seja escolhido
@@ -324,26 +328,30 @@ class AnuncioControle {
 
         $listaAnuncio = $consultasAdHoc->buscaAnuncios($parametros);
 
-        if (count($listaAnuncio['anuncio']) == 0) {
-            $visao->setItem("errosemresultadobusca");
-            $visao->exibir('VisaoErrosGenerico.php');
-        }
-        if ($page)
-            $listaAnuncio["page"] = TRUE;
-
-
-        $visao->setItem($listaAnuncio);
-
-        if ($parametros["mobile"] == 'true') {            
-            if ($parametros["paginaInicial"] == 'true') {
-                $visao->exibir('AnuncioVisaoBusca.php');
-            } else {
-                //include_once 'visao/AnuncioVisaoCards.php';            
-                $visao->exibir('AnuncioVisaoCards.php');
-            }
+        if($typeDevice){
+            echo json_encode($listaAnuncio);
         }else{
-            $visao->exibir('AnuncioVisaoBusca.php');
-        }           
+            if (count($listaAnuncio['anuncio']) == 0) {
+                $visao->setItem("errosemresultadobusca");
+                $visao->exibir('VisaoErrosGenerico.php');
+            }
+            if ($page)
+                $listaAnuncio["page"] = TRUE;
+
+
+            $visao->setItem($listaAnuncio);
+
+            if ($parametros["mobile"] == 'true') {
+                if ($parametros["paginaInicial"] == 'true') {
+                    $visao->exibir('AnuncioVisaoBusca.php');
+                } else {
+                    //include_once 'visao/AnuncioVisaoCards.php';
+                    $visao->exibir('AnuncioVisaoCards.php');
+                }
+            }else{
+                $visao->exibir('AnuncioVisaoBusca.php');
+            }
+        }
     }
 
     function detalhar($parametros) {
@@ -353,6 +361,11 @@ class AnuncioControle {
         unset($parametros["hdnCodAnuncio"]);
         $parametros["tabela"] = $parametros["hdnTipoImovel"];
         unset($parametros["hdnTipoImovel"]);
+
+        if($parametros["mobileDevice"] == true){
+            $typeDevice = true;
+        }
+        unset($parametros["mobileDevice"]);
 
         $visao = new Template();
         $consultasAdHoc = new ConsultasAdHoc();
@@ -477,9 +490,15 @@ class AnuncioControle {
             <meta itemprop="image" content="' . PIPURL . 'fotos/imoveis/' . $imagemPrincipalDiretorio . '/' . $imagemPrincipalNome . '">
 
             ');
-            $visao->setItem($listarAnuncio);
 
-            $visao->exibir('AnuncioVisaoDetalhe.php');
+            if($typeDevice){
+                echo json_encode($listarAnuncio);
+            }else {
+
+                $visao->setItem($listarAnuncio);
+
+                $visao->exibir('AnuncioVisaoDetalhe.php');
+            }
         }
     }
 

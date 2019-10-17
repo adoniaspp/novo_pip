@@ -66,7 +66,7 @@
 
 <div class="ui column doubling stackable grid container">
     <div class="column">
-        <form id="form" class="ui form" action="index.php" method="post">
+        <form id="form" class="ui large form" action="index.php" method="post">
             <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
             <input type="hidden" id="hdnAcao" name="hdnAcao" value="autenticar" />
             <input type="hidden" id="hdnToken" name="hdnToken" value="<?php echo $_SESSION['token']; ?>" />

@@ -1,17 +1,17 @@
 function cadastrarUsuario() {
     $(document).ready(function () {
         /*inicialização da página*/
-        $("#sltTipoUsuario").val(''); //limpar o valor do tipo de usuario que foi submetido
+        $("#sltTipoUser").val(''); //limpar o valor do tipo de usuario que foi submetido
         $("#linhaPF").hide();
         $("#linhaPJ1").hide();
         $("#linhaPJ2").hide();
         $("#divCEP").hide();
         $("#tabelaTelefone").hide();
         $('.ui.dropdown').dropdown();
-        $("#sltTipoUsuario").parent().dropdown('restore defaults');
+        $("#sltTipoUser").parent().dropdown('restore defaults');
         $('.ui.checkbox').checkbox();
         /*eventos e acoes*/
-        $("#sltTipoUsuario").change(function () {
+        $("#sltTipoUser").change(function () {
             $(this).valid();
             if ($(this).val() == "pj") {
                 $("#linhaPF").hide();
@@ -109,7 +109,7 @@ function cadastrarUsuario() {
             onkeyup: false,
             focusInvalid: true,
             rules: {
-                sltTipoUsuario: {
+                sltTipoUser: {
                     required: true
                 },
                 txtLogin: {
@@ -458,7 +458,7 @@ function carregaDadosModal($div) {
             inseriLogin = ""; //é edição, ou seja, não deve aparecer o login no modal
         //fim do verificar se é cadastro ou edição do usuário
 
-        if ($("#sltTipoUsuario").val() === "pf")
+        if ($("#sltTipoUser").val() === "pf")
         {
             $div.append("<div class='ui horizontal list'>\n\
                                 <div class='item'>\n\
@@ -1232,7 +1232,7 @@ function alterarUsuario() {
         /*inicialização da página*/
         $('.ui.dropdown')
                 .dropdown();
-        if ($('#sltTipoUsuario').val() === "pf") {
+        if ($('#sltTipoUser').val() === "pf") {
             $("#linhaPJ1").hide();
             $("#linhaPJ2").hide();
             $("#txtNome").rules("add", {

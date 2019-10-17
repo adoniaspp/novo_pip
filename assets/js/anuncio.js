@@ -2119,3 +2119,59 @@ function alterarStatusAnuncio(valor) {
      })*/
 }
 
+function menu(){
+        $(document).ready(function () {
+            if(testMobile()){
+
+                $('#menuDetalhesMobile').html(
+                    ' <a class="item" id="menuFotos">\n' +
+                    '            <i class="photo icon">\n' +
+                    '            </i>\n' +
+                    '        Fotos</a>\n' +
+                    '        <a class="item" id="menuInfo">\n' +
+                    '            <i class="home icon">\n' +
+                    '            </i>\n' +
+                    '        Detalhes</a>\n' +
+                    '        <a class="item" id="menuEndereco">\n' +
+                    '            <i class="map icon">\n' +
+                    '            </i>\n' +
+                    '        Endereço</a>\n' +
+                    '        <a class="item" id="menuContato">\n' +
+                    '            <i class="phone icon">\n' +
+                    '            </i>\n' +
+                    '        Contato</a>'
+                );
+
+                $('#itemFotos').show();
+                $('#itemDados').hide();
+                $('#itemEndereco').hide();
+                $('#itemContato').hide();
+
+                $('#menuFotos').click(function () {
+                    $('#itemFotos').show();
+                    $('#itemDados').hide();
+                    $('#itemEndereco').hide();
+                    $('#itemContato').hide();
+                });
+                $('#menuInfo').click(function () {
+                    $('#itemFotos').hide();
+                    $('#itemDados').show();
+                    $('#itemEndereco').hide();
+                    $('#itemContato').hide();
+                });
+                $('#menuEndereco').click(function () {
+                    $('#itemFotos').hide();
+                    $('#itemDados').hide();
+                    $('#itemEndereco').show();
+                    $('#itemContato').hide();
+                    dadosDetalhe();
+                });
+                $('#menuContato').click(function () {
+                    $('#itemFotos').hide();
+                    $('#itemDados').hide();
+                    $('#itemEndereco').hide();
+                    $('#itemContato').show();
+                });
+            }
+        });
+}

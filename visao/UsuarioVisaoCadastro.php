@@ -46,10 +46,9 @@ Sessao::gerarToken();
 </div>
 
 
-
 <div class="ui middle aligned stackable grid container">
     <div class="column">
-        <form id="form" class="ui form" action="index.php" method="post" enctype="multipart/form-data">
+        <form id="form" class="ui large form" action="index.php" method="post" enctype="multipart/form-data">
             <input type="hidden" id="hdnEntidade" name="hdnEntidade" value="Usuario"  />
             <input type="hidden" id="hdnAcao" name="hdnAcao" value="cadastrar" />
             <input type="hidden" id="hdnCEP" name="hdnCEP" />
@@ -58,15 +57,10 @@ Sessao::gerarToken();
             <div class="fields">
                 <div class="four wide required field">
                     <label>Tipo de Pessoa</label>
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="sltTipoUsuario" id="sltTipoUsuario">
-                        <div class="default text">Física ou Jurídica</div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <div class="item" data-value="pf">Pessoa Física</div>
-                            <div class="item" data-value="pj">Pessoa Jurídica</div>
-                        </div>
-                    </div>
+                    <select name="sltTipoUser" id="sltTipoUser">
+                        <option value="pf">Pessoa Física</option>
+                        <option value="pj">Pessoa Jurídica</option>
+                    </select>
                 </div>
                 <div class="twelve wide required field">
                     <label>E-mail</label>
@@ -93,20 +87,7 @@ Sessao::gerarToken();
                     <input type="text" name="txtCNPJ" id="txtCNPJ" placeholder="Informe o CNPJ da empresa">
                 </div>                    
             </div>
-            <!--<div id="linhaPJ2" class="three fields">
-                <div class="required field">
-                    <label>Razão Social</label>
-                    <input type="text" name="txtRazaoSocial" id="txtRazaoSocial" placeholder="Informe a Razão Social da Empresa" maxlength="100">
-                </div>
-                <div class="required field">
-                    <label>Responsável</label>
-                    <input type="text" name="txtResponsavel" id="txtResponsavel" placeholder="Informe o Responsável da Empresa" maxlength="100">
-                </div>                    
-                <div class="required field">
-                    <label>CPF do Responsável</label>
-                    <input type="text" name="txtCPFResponsavel" id="txtCPFResponsavel" placeholder="Informe o CPF do Responsável">
-                </div>                    
-            </div>-->
+
             <h3 class="ui dividing header">Informações de Acesso</h3>
             <div class="three fields">
                 <div class="required field">
@@ -131,81 +112,21 @@ Sessao::gerarToken();
                     </div>
                 </div>
             </div>
-            <!--<h3 class="ui dividing header">Endereço</h3>
-            <div class="fields">
-                <div class="five wide field">
-                    <div class="ui action left icon input">
-                        <i class="search icon"></i>
-                        <input type="text" name="txtCEP" id="txtCEP" placeholder="Informe o seu CEP...">
-                        <div class="ui teal button" id="btnCEP">Buscar CEP</div>
-                    </div>              
-                </div>
-                <div class="three wide field"><label>Não sabe o CEP? <a href="https://www.correios.com.br/" target="_blank">clique aqui</a></label></div>
-                <div class="five wide field"><div id="msgCEP"></div> </div>
-            </div>
-            <div id="divCEP" class="ui">
-                <div class="three fields">
-                    <div class="disabled field">
-                        <label>Cidade</label>
-                        <input type="text" name="txtCidade" id="txtCidade" readonly="readonly">
-                    </div>
-                    <div class="two wide disabled field">
-                        <label>Estado</label>
-                        <input type="text" name="txtEstado" id="txtEstado" readonly="readonly">
-                    </div>
-                    <div class="field" id="dropBairro">
-                    </div>
-                </div>
-                <div class="two fields">
-                    <div class="field">
-                        <label>Logradouro</label>
-                        <input type="text" name="txtLogradouro" id="txtLogradouro">
-                    </div>
-                    <div class="three wide required field">
-                        <label>Número </label>
-                        <input type="text" name="txtNumero" id="txtNumero" placeholder="Informe o nº" maxlength="6">
-                    </div>
-                    <div class="field">
-                        <label>Complemento</label>
-                        <input type="text" name="txtComplemento" id="txtComplemento" placeholder="Complemento" maxlength="60">
-                    </div>
-                </div>
-            </div>-->
+
             <h3 class="ui dividing header">Telefones</h3> 
             <div class="fields">
-                <!--<div class="four wide required field">
-                    <label>Tipo</label>
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="sltTipotelefone" id="sltTipotelefone">
-                        <div class="default text">Tipo do telefone</div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <div class="item" data-value="Fixo">Fixo</div>
-                            <div class="item" data-value="Celular">Celular</div>
-                        </div>
-                    </div>
-                </div>-->
+
                 <div class="four wide required field">
                     <label>Operadora</label>
-                    <div class="ui selection dropdown">
-                            <input type="hidden" name="sltOperadora" id="sltOperadora">
-                            <div class="default text">Operadora</div>
-                            <i class="dropdown icon"></i>
-                            <select>
+
+                            <select name="sltOperadora" id="sltOperadora">
                                 <option value="Oi">Oi</option>
                                 <option value="Tim">Tim</option>
                                 <option value="Vivo">Vivo</option>
                                 <option value="Claro">Claro</option>
                                 <option value="NET">NET</option>
                             </select>
-                            <!--<div class="menu">
-                                <div class="item" data-value="Oi">Oi</div>
-                                <div class="item" data-value="Tim">Tim</div>
-                                <div class="item" data-value="Vivo">Vivo</div>
-                                <div class="item" data-value="Claro">Claro</div>
-                                <div class="item" data-value="NET">NET</div>
-                            </div>-->
-                        </div>
+
                 </div>
                 <div class="four wide required field">
                     <label>(DDD) Número</label>
